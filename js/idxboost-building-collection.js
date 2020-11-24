@@ -7,6 +7,11 @@ var initial_title;
 var initial_href;
 var item_for_data_layer=[];
 
+/*tags*/
+var IB_SEARCH_FILTER_PAGE = true;
+var IB_SEARCH_FILTER_PAGE_TITLE = '';
+/*tags*/
+
 (function($) {
 
 function ib_change_view_object_device(object,tabbuil,object_val){
@@ -50,25 +55,34 @@ function ib_change_view(view,tab){
         $('.filter-text').text('For Sale');
         $('#sale-count-uni-cons').addClass('active');
         $('#flex_filter_sort').val('sale');        
-        $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_for_sale);
+        if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") ) {
+          console.log(idxboostCollecBuil);
+          $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_for_sale);
+        }
       }else if(property_type=='rent') {
         builhash='#!for-rent';
         $('.filter-text').text('For Rent');
         $('#rent-count-uni-cons').addClass('active');
         $('#flex_filter_sort').val('rent');
-        $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_for_rent);
+        if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") ) {
+          $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_for_rent);
+        }
       }else if(property_type=='sold') {
         builhash='#!sold';
         $('.filter-text').text('Sold');
         $('#sold-count-uni-cons').addClass('active');
         $('#flex_filter_sort').val('sold');
-        $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_sold);
+        if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") ) {
+          $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_sold);
+        }
       }else if(property_type=='pending') {
         builhash='#!pending';
         $('.filter-text').text('Pending');
         $('#pending-count-uni-cons').addClass('active');
         $('#flex_filter_sort').val('pending');
-        $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_pending);
+        if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") ) {
+          $('.js-title-building-pre-construction').text(idxboostCollecBuil.payload.building_name+' '+word_translate.condos_pending);
+        }
       }
       
       var boolcaracter=idxboost_collection_params.wpsite.substr(idxboost_collection_params.wpsite.length-1,idxboost_collection_params.wpsite.length);
@@ -76,7 +90,7 @@ function ib_change_view(view,tab){
       if (boolcaracter=='/'){
         web_page=idxboost_collection_params.wpsite.slice(0,-1);
       }
-      if (idxboostCollecBuil.payload.type_building != "1" && ib_call_object_change>0) {
+      if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") && idxboostCollecBuil.payload.type_building != "1" && ib_call_object_change>0) {
         web_page=web_page+builhash;
         history.pushState(null, '', web_page );
       }
@@ -245,6 +259,46 @@ function ib_init_script(){
 
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
 
+                  //
+                  if ( response.payload.modo_view == "1" ) {
+                    
+                    if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("list");
+                    }else{
+                      $('.idxboost_collection_filterviews .list').click();
+                    }
+                    
+                  }else{
+                    if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("grid");
+                    }else{
+                      $('.idxboost_collection_filterviews .grid').click();
+                    }
+                    
+                  }
+
+                  if (__flex_g_settings.is_mobile =="1" ) {
+                    $('.idxboost_collection_filterviews select').change();
+                  }
+                  //
+
+                  $('.js-bedroom').html( response.payload.bed_building);
+                  $('.js-year').html( response.payload.year_building);
+                  $('.js-floor_building').html( response.payload.floor_building);
+                  $('.js-city_building_name').html( response.payload.name_city);
+                  $('.js-unit_building').html( response.payload.unit);
+                  $('.ib_building_unit').val(response.payload.unit);
+                  /*TAGS*/
+
+                  IB_SEARCH_FILTER_PAGE_TITLE = response.payload.building_name;
+                  jQuery(function() {
+                    if (true === IB_SEARCH_FILTER_PAGE) {
+                      jQuery('#formRegister').append('<input type="hidden" name="source_registration_title" value="'+IB_SEARCH_FILTER_PAGE_TITLE+'">');
+                      jQuery('#formRegister').append('<input type="hidden" name="source_registration_url" value="'+location.href+'">');
+                    }
+                  });
+                  /*TAGS*/
+
                   tot_sale=response.payload.properties.sale.count;
                   tot_rent=response.payload.properties.rent.count;
                   tot_pending=response.payload.properties.pending.count;
@@ -252,6 +306,14 @@ function ib_init_script(){
                   tot_porc=jQuery('.item-list-units-un').text();
                   tot_rest= parseInt(tot_porc)-tot_sale-tot_rent;
                   tot_porc_label=tot_porc;
+
+                  console.log(tot_sale);
+                  console.log( tot_rent);
+                  console.log(tot_sold);
+
+                  if (tot_sale>0 || tot_rent>0 || tot_sold>0){
+                    $('.js-block-detail-building').show();
+                  }
 
                   if ( (tot_sale>0 || tot_rent>0 || tot_sold>0)  && 
 
@@ -362,6 +424,7 @@ function ib_init_script(){
                   $('.condo-statics .ib_inventory_sale').html( idx_porc_sale +'%' );
                   $('.condo-statics .ib_inventory_rent').html( idx_porc_rent +'%' );
                   $('.ib_inventory_avg_price').html( '$'+_.formatShortPrice(Math.round(response.payload.meta.avg_price_sqft)) );
+
                   $('.condo-statics .ib_inventory_previous').html( idx_porc_sold +'%' );
                   
                   
@@ -451,7 +514,7 @@ $(function() {
              });
          });
 
-        var countClickAnonymous = 0;
+         var countClickAnonymous = 0;
 
         $('.idxboost_collection_tab_sale, .idxboost_collection_tab_rent, .idxboost_collection_tab_sold').on("click", ".flex-slider-prev", function(event) {
             event.stopPropagation();
@@ -529,6 +592,8 @@ $(function() {
 
 
         });
+
+
 
     $(document).ready(function(){
       myLazyLoad = new LazyLoad();

@@ -40,6 +40,92 @@ if (!function_exists('idxboost_quick_search_sc'))
     add_shortcode("idxboost_quick_search", "idxboost_quick_search_sc");
 }
 
+if (!function_exists('idxboost_building_inventory_expand_sc')) {
+    function idxboost_building_inventory_expand_sc($atts)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+
+        $access_token          = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+
+        $atts = shortcode_atts(array(
+            'building_id' => '',
+            'type'        => 'all',
+            'title'        => '',
+            'sub_title'        => '',
+            'button_title' => 'show',
+            'mode'        => 'default',
+            'load'        => 'default',
+            'limit'        => 'default',
+            'view'        => 'grid',
+        ), $atts);
+
+        $type_view=$atts['type'];
+        $type_view_default=$atts['view'];
+
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+        $wp_request     = $wp->request;
+        $wp_request_exp = explode('/', $wp_request);
+
+        $sendParams = array(
+            'filter_id'        => $atts['building_id'],
+            'access_token'     => $access_token,
+            'limit'        => $atts['limit'],
+            'mode_view'        => $atts['mode'],
+            'flex_credentials' => $flex_lead_credentials
+        );
+
+        if ($atts['button_title']=='hide') {
+            $text_button_style='style="display: none;"';
+        }
+
+        wp_enqueue_style('flex-idx-filter-pages-css');
+
+        wp_localize_script('flex-idx-building-inventory-js', 'ib_building_inventory', ['param'=>$sendParams,'load_item'=> "ajax"] );
+
+        add_action('wp_footer', 'ib_tables_building_collection');
+
+        /*only show in no script*/
+        $result_data_collection_get=get_feed_file_building_history_building_xhr_fn($atts['building_id']);
+        if (!empty($result_data_collection_get)) {
+            $result_data_collection=json_decode($result_data_collection_get,true);
+        }
+        /*only show in no script*/
+
+        $search_params = $flex_idx_info['search'];
+
+        $agent_info_name  = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
+        $agent_last_name  = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
+        $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
+        $agent_info_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? $flex_idx_info['agent']['agent_contact_phone_number'] : '';
+        $agent_info_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? $flex_idx_info['agent']['agent_contact_email_address'] : '';
+
+        ob_start();
+
+            if($atts['mode']=='thumb'){
+                include FLEX_IDX_PATH . '/views/shortcode/idxboost_building_collection_v2.php';
+            }else{
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_building_collection_v2.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_building_collection_v2.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_building_collection_v2.php';
+                }
+            }
+
+
+
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('building_inventory_expand', 'idxboost_building_inventory_expand_sc');
+}
+
+
 if (!function_exists('ib_search_box_sc')) {
     function ib_search_box_sc($atts, $content = null) {
         global $flex_idx_info;
