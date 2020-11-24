@@ -17,8 +17,7 @@ defined('ABSPATH') or exit;
 define('FLEX_IDX_PATH', plugin_dir_path(__FILE__));
 define('FLEX_IDX_URI', plugin_dir_url(__FILE__));
 define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
-define('IDXBOOST_GITHUB_USERNAME', 'dgtalliance');
-define('IDXBOOST_GITHUB_ACCESS_TOKEN', 'YzBhNTQxYjI3ZWNlZmE4NmEyNGZmMzdjM2YxOTRjZTczMDUwZDIyMw==');
+define('IDXBOOST_GITHUB_USERNAME', 'idxboost');
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
 
 
@@ -208,5 +207,4 @@ add_action('after_switch_theme', 'flex_idx_on_activation');
 $IDXBoostUpdater = new IDXBoostUpdater(__FILE__);
 $IDXBoostUpdater->set_username(IDXBOOST_GITHUB_USERNAME);
 $IDXBoostUpdater->set_repository('idxboost');
-$IDXBoostUpdater->authorize(IDXBOOST_GITHUB_ACCESS_TOKEN);
 $IDXBoostUpdater->initialize();
