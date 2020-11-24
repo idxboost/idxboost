@@ -633,9 +633,6 @@
           $agent_info_photo = $flex_idx_info['agent']['agent_contact_photo_profile'];
         ?>
 
-
-
-
           <div class="avatar-content">
             <div class="content-avatar-image">
               <img src="<?php echo $agent_info_photo; ?>" alt="<?php echo $agent_info_name." ".$agent_last_name; ?>">

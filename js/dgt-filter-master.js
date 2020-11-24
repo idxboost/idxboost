@@ -7,6 +7,10 @@ var textprueba = '',
 var idxboost_filter_countacti = false,
     idxboostcondition = '';
     filter_metadata =JSON.parse(filter_metadata);
+    if ( (typeof filter_metadata) && filter_metadata.hasOwnProperty("condition") ) {
+        idxboostcondition = filter_metadata.condition;
+    }
+    
 (function($) {
     var ajax_request_filter;
     var idxboost_filter_forms;
