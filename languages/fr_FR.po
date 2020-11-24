@@ -1,0 +1,4701 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: masterelite-theme-frances\n"
+"POT-Creation-Date: 2019-04-11 15:20-0500\n"
+"PO-Revision-Date: 2019-04-11 15:22-0500\n"
+"Last-Translator: \n"
+"Language-Team: dgt <zuly@dgtalliance.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: assets\n"
+"X-Poedit-SearchPathExcluded-2: assets-home\n"
+"X-Poedit-SearchPathExcluded-3: css\n"
+"X-Poedit-SearchPathExcluded-4: fonts\n"
+"X-Poedit-SearchPathExcluded-5: images\n"
+"X-Poedit-SearchPathExcluded-6: js\n"
+
+#: inc/helpers_fn.php:50
+msgid "Colors"
+msgstr "Couleurs"
+
+#: inc/helpers_fn.php:53
+msgid "Search Bar Title"
+msgstr "Nom de recherche"
+
+#: inc/helpers_fn.php:58
+msgid "Search Bar Text"
+msgstr "Nom de recherche"
+
+#: inc/helpers_fn.php:62
+msgid "Has button ?"
+msgstr "A bouton?"
+
+#: inc/helpers_fn.php:66
+msgid "Firts Button"
+msgstr "Premier bouton"
+
+#: inc/helpers_fn.php:70
+msgid "Second Button"
+msgstr "Deuxième bouton"
+
+#: inc/helpers_fn.php:75
+msgid "Firts link Button"
+msgstr "Bouton Premier lien"
+
+#: inc/helpers_fn.php:79
+msgid "Second Link Button"
+msgstr "Deuxième bouton de liaison"
+
+#: inc/helpers_fn.php:246
+#: views/shortcode/flex_idx_property_modal_detail.php:296
+#: views/shortcode/idx_off_market_listing_detail.php:301
+msgid "Schools for"
+msgstr "Écoles publiques pour "
+
+#: inc/helpers_fn.php:249
+#: views/shortcode/flex_idx_property_modal_detail.php:299
+#: views/shortcode/idx_off_market_listing_detail.php:304
+msgid "All Schools"
+msgstr "Toutes les écoles publiques"
+
+#: inc/helpers_fn.php:252
+#: views/shortcode/flex_idx_property_modal_detail.php:302
+#: views/shortcode/idx_off_market_listing_detail.php:307
+msgid "Elementary"
+msgstr "Primaire"
+
+#: inc/helpers_fn.php:255
+#: views/shortcode/flex_idx_property_modal_detail.php:305
+#: views/shortcode/idx_off_market_listing_detail.php:310
+msgid "Middle"
+msgstr "Collège"
+
+#: inc/helpers_fn.php:258
+#: views/shortcode/flex_idx_property_modal_detail.php:308
+#: views/shortcode/idx_off_market_listing_detail.php:313
+msgid "High"
+msgstr "Lycée"
+
+#: inc/helpers_fn.php:262
+#: views/shortcode/flex_idx_property_modal_detail.php:312
+#: views/shortcode/idx_off_market_listing_detail.php:317
+msgid "School"
+msgstr "École publique"
+
+#: inc/helpers_fn.php:263
+#: views/shortcode/flex_idx_property_modal_detail.php:313
+#: views/shortcode/idx_off_market_listing_detail.php:318
+msgid "Rating"
+msgstr "Évaluation"
+
+#: inc/helpers_fn.php:264
+#: views/shortcode/flex_idx_property_modal_detail.php:314
+#: views/shortcode/idx_off_market_listing_detail.php:319
+msgid "Grades"
+msgstr "Niveau"
+
+#: inc/helpers_fn.php:265
+#: views/shortcode/flex_idx_property_modal_detail.php:315
+#: views/shortcode/idx_off_market_listing_detail.php:320
+msgid "Safety"
+msgstr "Sécurité"
+
+#: inc/helpers_fn.php:266
+#: views/shortcode/flex_idx_property_modal_detail.php:316
+#: views/shortcode/idx_off_market_listing_detail.php:321
+msgid "Distance"
+msgstr "Distance"
+
+#: inc/helpers_fn.php:267 inc/helpers_fn.php:4435
+#: views/shortcode/flex_idx_commercial_search.php:413
+#: views/shortcode/flex_idx_commercial_search.php:455
+#: views/shortcode/flex_idx_commercial_search.php:806
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:130
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:439
+#: views/shortcode/flex_idx_filter.php:289
+#: views/shortcode/flex_idx_filter_agent_office.php:265
+#: views/shortcode/flex_idx_filter_grid.php:76
+#: views/shortcode/flex_idx_filter_grid.php:152
+#: views/shortcode/flex_idx_filter_minimal.php:207
+#: views/shortcode/flex_idx_filter_minimal.php:288
+#: views/shortcode/flex_idx_property_detail.php:260
+#: views/shortcode/flex_idx_property_detail.php:315
+#: views/shortcode/flex_idx_property_modal_detail.php:226
+#: views/shortcode/flex_idx_property_modal_detail.php:317
+#: views/shortcode/flex_idx_search.php:404
+#: views/shortcode/flex_idx_search.php:446
+#: views/shortcode/flex_idx_search.php:793
+#: views/shortcode/flex_idx_search_commercial_filter.php:370
+#: views/shortcode/flex_idx_search_commercial_filter.php:412
+#: views/shortcode/flex_idx_search_commercial_filter.php:753
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:147
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:412
+#: views/shortcode/flex_idx_search_filter.php:356
+#: views/shortcode/flex_idx_search_filter.php:398
+#: views/shortcode/flex_idx_search_filter.php:733
+#: views/shortcode/flex_idx_search_filter_bar.php:255
+#: views/shortcode/flex_idx_search_filter_bar.php:342
+#: views/shortcode/flex_idx_search_results.php:208
+#: views/shortcode/idx_off_market_listing_detail.php:228
+#: views/shortcode/idx_off_market_listing_detail.php:322
+#: views/shortcode/idxboost_modals_filter.php:228
+#: views/shortcode/idxboost_modals_filter.php:428
+#: views/shortcode/idxboost_quick_search.php:47
+msgid "Type"
+msgstr "Type"
+
+#: inc/helpers_fn.php:309
+#: views/shortcode/flex_idx_property_modal_detail.php:359
+#: views/shortcode/idx_off_market_listing_detail.php:364
+msgid "Miles"
+msgstr "Miles"
+
+#: inc/helpers_fn.php:316 inc/helpers_fn.php:4447
+#: views/shortcode/flex_idx_property_modal_detail.php:366
+#: views/shortcode/idx_off_market_listing_detail.php:371
+msgid "more schools"
+msgstr "écoles supplémentaires "
+
+#: inc/helpers_fn.php:317
+#: views/shortcode/flex_idx_property_modal_detail.php:367
+#: views/shortcode/idx_off_market_listing_detail.php:372
+msgid "Expand"
+msgstr "Développer"
+
+#: inc/helpers_fn.php:322
+#: views/shortcode/flex_idx_property_modal_detail.php:372
+#: views/shortcode/idx_off_market_listing_detail.php:377
+msgid "K12 School Data"
+msgstr "K12 Données de l'école"
+
+#: inc/helpers_fn.php:324
+#: views/shortcode/flex_idx_property_modal_detail.php:374
+#: views/shortcode/idx_off_market_listing_detail.php:379
+msgid "provided by"
+msgstr "fourni par"
+
+#: inc/helpers_fn.php:334
+#: views/shortcode/flex_idx_property_modal_detail.php:384
+#: views/shortcode/idx_off_market_listing_detail.php:389
+msgid "School data provided as-is by"
+msgstr "Données scolaires fournies telles quelles par"
+
+#: inc/helpers_fn.php:337
+#: views/shortcode/flex_idx_property_modal_detail.php:387
+#: views/shortcode/idx_off_market_listing_detail.php:392
+msgid ""
+"a third party. It is the responsibility of the user to evaluate all sources "
+"of information. Users should visit all school district web sites and visit "
+"all the schools in person to verify and consider all data, including "
+"eligibility."
+msgstr ""
+"une troisième fête. Il est de la responsabilité de l'utilisateur d'évaluer "
+"toutes les sources d'information. Les utilisateurs devraient visiter tous "
+"les sites Web des districts scolaires et visiter toutes les écoles en "
+"personne pour vérifier et prendre en compte toutes les données, y compris "
+"l'admissibilité."
+
+#: inc/helpers_fn.php:1762 inc/helpers_fn.php:1890 inc/helpers_fn.php:4581
+#: views/shortcode/flex_idx_accounts_links.php:19
+#: views/shortcode/idxboost-menu-dynamic.php:15
+msgid "Welcome"
+msgstr "Bienvenue"
+
+#: inc/helpers_fn.php:1769 inc/helpers_fn.php:1897 inc/helpers_fn.php:4586
+#: views/shortcode/flex_idx_accounts_links.php:27
+#: views/shortcode/idxboost-menu-dynamic.php:21
+msgid "Logout"
+msgstr "Me déconnecter"
+
+#: inc/helpers_fn.php:4432 inc/helpers_fn.php:4560
+#: views/shortcode/flex_idx_commercial_search.php:129
+#: views/shortcode/flex_idx_profile.php:105
+#: views/shortcode/flex_idx_search.php:120
+#: views/shortcode/flex_idx_search_commercial_filter.php:116
+#: views/shortcode/flex_idx_search_filter.php:102
+msgid "Cancel"
+msgstr "Annuler"
+
+#: inc/helpers_fn.php:4436 views/shortcode/flex_idx_building.php:297
+#: views/shortcode/flex_idx_building.php:673
+#: views/shortcode/flex_idx_filter_minimal.php:445
+#: views/shortcode/flex_idx_profile.php:88
+msgid "City"
+msgstr "Ville"
+
+#: inc/helpers_fn.php:4437 views/form/modals.php:22 views/form/modals.php:38
+#: views/form/modals.php:341 views/form/modals.php:439
+#: views/form/modals.php:531 views/form/modals.php:548
+#: views/form/modals.php:625 views/form/modals.php:731
+#: views/form/modals.php:830 views/form/modals.php:846
+#: views/form/modals.php:863 views/notification/SwitchEmailFrequency.php:88
+#: views/shortcode/flex_idx_commercial_search.php:248
+#: views/shortcode/flex_idx_commercial_search.php:287
+#: views/shortcode/flex_idx_commercial_search.php:295
+#: views/shortcode/flex_idx_commercial_search.php:346
+#: views/shortcode/flex_idx_commercial_search.php:365
+#: views/shortcode/flex_idx_commercial_search.php:692
+#: views/shortcode/flex_idx_filter.php:702
+#: views/shortcode/flex_idx_filter_agent_office.php:642
+#: views/shortcode/flex_idx_filter_minimal.php:603
+#: views/shortcode/flex_idx_search.php:239
+#: views/shortcode/flex_idx_search.php:278
+#: views/shortcode/flex_idx_search.php:286
+#: views/shortcode/flex_idx_search.php:337
+#: views/shortcode/flex_idx_search.php:356
+#: views/shortcode/flex_idx_search.php:685
+#: views/shortcode/flex_idx_search_commercial_filter.php:208
+#: views/shortcode/flex_idx_search_commercial_filter.php:245
+#: views/shortcode/flex_idx_search_commercial_filter.php:253
+#: views/shortcode/flex_idx_search_commercial_filter.php:304
+#: views/shortcode/flex_idx_search_commercial_filter.php:323
+#: views/shortcode/flex_idx_search_commercial_filter.php:651
+#: views/shortcode/flex_idx_search_filter.php:194
+#: views/shortcode/flex_idx_search_filter.php:231
+#: views/shortcode/flex_idx_search_filter.php:239
+#: views/shortcode/flex_idx_search_filter.php:290
+#: views/shortcode/flex_idx_search_filter.php:309
+#: views/shortcode/flex_idx_search_filter.php:639
+#: views/shortcode/flex_idx_search_results.php:468
+#: views/shortcode/idxboost_exclusive_listing.php:313
+#: views/shortcode/idxboost_modals_filter.php:60
+#: views/shortcode/idxboost_modals_filter.php:98
+#: views/shortcode/idxboost_modals_filter.php:106
+#: views/shortcode/idxboost_modals_filter.php:154
+#: views/shortcode/idxboost_modals_filter.php:169
+#: views/shortcode/idxboost_modals_filter.php:338
+#: views/shortcode/off_market_listing_collection.php:144
+msgid "Close"
+msgstr "Fermer"
+
+#: inc/helpers_fn.php:4438 views/shortcode/flex_idx_saved_searches.php:138
+msgid "Any Size"
+msgstr "Toutes les tailles"
+
+#: inc/helpers_fn.php:4439 views/shortcode/flex_idx_filter.php:146
+#: views/shortcode/flex_idx_filter_agent_office.php:131
+#: views/shortcode/flex_idx_quick_search.php:57
+#: views/shortcode/flex_idx_saved_searches.php:128
+#: views/shortcode/flex_idx_search_results.php:88
+#: views/shortcode/off_market_listing_collection.php:68
+msgid "Any Bed"
+msgstr "Chambres"
+
+#: inc/helpers_fn.php:4440 views/shortcode/flex_idx_search_filter_bar.php:63
+msgid "Any Bed(s)"
+msgstr "Chambres"
+
+#: inc/helpers_fn.php:4441 views/shortcode/flex_idx_filter.php:149
+#: views/shortcode/flex_idx_filter_agent_office.php:134
+#: views/shortcode/flex_idx_quick_search.php:65
+#: views/shortcode/flex_idx_saved_searches.php:133
+#: views/shortcode/flex_idx_search_results.php:91
+#: views/shortcode/off_market_listing_collection.php:71
+msgid "Any Bath"
+msgstr "Salles de bains"
+
+#: inc/helpers_fn.php:4442 views/shortcode/flex_idx_search_filter_bar.php:83
+msgid "Any Bath(s)"
+msgstr "Salles de bains"
+
+#: inc/helpers_fn.php:4443 inc/helpers_fn.php:4445
+#: views/shortcode/flex_idx_commercial_search.php:617
+#: views/shortcode/flex_idx_favorites.php:75
+#: views/shortcode/flex_idx_favorites.php:114
+#: views/shortcode/flex_idx_favorites.php:116
+#: views/shortcode/flex_idx_property_detail.php:630
+#: views/shortcode/flex_idx_property_detail.php:632
+#: views/shortcode/flex_idx_search.php:608
+#: views/shortcode/flex_idx_search.php:652
+#: views/shortcode/flex_idx_search_commercial_filter.php:574
+#: views/shortcode/flex_idx_search_filter.php:560
+#: views/shortcode/flex_idx_search_filter.php:604
+#: views/shortcode/idxboost_modals_filter.php:602
+msgid "Bed(s)"
+msgstr "Chambre(s)"
+
+#: inc/helpers_fn.php:4444 inc/helpers_fn.php:4457
+#: views/shortcode/flex_idx_commercial_search.php:618
+#: views/shortcode/flex_idx_favorites.php:76
+#: views/shortcode/flex_idx_favorites.php:123
+#: views/shortcode/flex_idx_favorites.php:125
+#: views/shortcode/flex_idx_search.php:609
+#: views/shortcode/flex_idx_search.php:653
+#: views/shortcode/flex_idx_search_commercial_filter.php:575
+#: views/shortcode/flex_idx_search_filter.php:561
+#: views/shortcode/flex_idx_search_filter.php:605
+#: views/shortcode/idxboost_modals_filter.php:603
+msgid "Bath(s)"
+msgstr "Salle de bain(s)"
+
+#: inc/helpers_fn.php:4446
+msgid "Unit"
+msgstr "Unités"
+
+#: inc/helpers_fn.php:4448 views/shortcode/flex_idx_commercial_search.php:476
+#: views/shortcode/flex_idx_property_detail.php:344
+#: views/shortcode/flex_idx_property_modal_detail.php:243
+#: views/shortcode/flex_idx_search.php:467
+#: views/shortcode/flex_idx_search_commercial_filter.php:433
+#: views/shortcode/flex_idx_search_filter.php:419
+#: views/shortcode/idx_off_market_listing_detail.php:245
+#: views/shortcode/idxboost_modals_filter.php:449
+msgid "Days on Market"
+msgstr "Jours sur le marché"
+
+#: inc/helpers_fn.php:4449
+msgid "Sold Date"
+msgstr "Date de vente"
+
+#: inc/helpers_fn.php:4450
+msgid "Sold Price"
+msgstr "prix vendu"
+
+#: inc/helpers_fn.php:4451 views/shortcode/flex_idx_filter.php:529
+#: views/shortcode/flex_idx_filter_agent_office.php:491
+#: views/shortcode/flex_idx_filter_minimal.php:485
+#: views/shortcode/flex_idx_saved_searches.php:79
+#: views/shortcode/flex_idx_search.php:809
+#: views/shortcode/flex_idx_search_filter.php:749
+#: views/shortcode/flex_idx_search_filter_bar.php:178
+#: views/shortcode/flex_idx_search_filter_bar.php:348
+#: views/shortcode/flex_idx_search_results.php:442
+#: views/shortcode/idxboost_exclusive_listing.php:134
+#: views/shortcode/idxboost_modals_filter.php:244
+#: views/shortcode/off_market_listing_collection.php:133
+msgid "Living Size"
+msgstr "Superficie intérieure"
+
+#: inc/helpers_fn.php:4452
+msgid "Asking price"
+msgstr "Prix "
+
+#: inc/helpers_fn.php:4453 views/shortcode/flex_idx_filter.php:525
+#: views/shortcode/flex_idx_filter.php:530
+#: views/shortcode/flex_idx_filter_agent_office.php:487
+#: views/shortcode/flex_idx_filter_agent_office.php:492
+#: views/shortcode/flex_idx_filter_minimal.php:413
+#: views/shortcode/flex_idx_filter_minimal.php:416
+#: views/shortcode/flex_idx_filter_minimal.php:481
+#: views/shortcode/flex_idx_filter_minimal.php:486
+#: views/shortcode/idxboost_exclusive_listing.php:130
+#: views/shortcode/idxboost_exclusive_listing.php:135
+#: views/shortcode/off_market_listing_collection.php:129
+#: views/shortcode/off_market_listing_collection.php:134
+msgid "Price"
+msgstr "Prix"
+
+#: inc/helpers_fn.php:4454 views/shortcode/flex_idx_commercial_search.php:978
+#: views/shortcode/flex_idx_filter.php:474
+#: views/shortcode/flex_idx_filter_agent_office.php:436
+#: views/shortcode/flex_idx_search.php:883
+#: views/shortcode/flex_idx_search_commercial_filter.php:938
+#: views/shortcode/flex_idx_search_filter.php:823
+#: views/shortcode/idxboost_modals_filter.php:318
+msgid "View"
+msgstr "  "
+
+#: inc/helpers_fn.php:4455 views/shortcode/flex_idx_filter.php:474
+#: views/shortcode/flex_idx_filter_agent_office.php:436
+#: views/shortcode/flex_idx_filter_grid.php:259
+#: views/shortcode/flex_idx_filter_minimal.php:398
+#: views/shortcode/flex_idx_search_results.php:379
+msgid "Listings"
+msgstr "résultats "
+
+#: inc/helpers_fn.php:4456
+msgid "Thank you"
+msgstr "Merci!"
+
+#: inc/helpers_fn.php:4458
+msgid "Your info has been saved"
+msgstr "Votre information a été sauvegardée"
+
+#: inc/helpers_fn.php:4459
+msgid "Enter you new Password"
+msgstr "Entrer le mot de passe"
+
+#: inc/helpers_fn.php:4460
+msgid "invalid email address"
+msgstr "Adresse e-mail invalide"
+
+#: inc/helpers_fn.php:4461
+msgid "Please fill the fields"
+msgstr "S'il vous plaît remplir les champs"
+
+#: inc/helpers_fn.php:4462
+#, php-format
+msgid "Show %d to %d of %s results"
+msgstr "Propriétés %d à %d sur %s "
+
+#: inc/helpers_fn.php:4463 views/form/modals.php:61 views/form/modals.php:62
+msgid "Reset Password"
+msgstr "Changer son mot de passe"
+
+#: inc/helpers_fn.php:4464
+msgid "Invalid credentials, try again."
+msgstr "Informations d'identification non valides, réessayez."
+
+#: inc/helpers_fn.php:4465
+msgid "Logged in succesfully."
+msgstr "Bienvenue sur votre compte"
+
+#: inc/helpers_fn.php:4466
+msgid "Your account has been created successfully."
+msgstr "Votre compte a été créé avec succès."
+
+#: inc/helpers_fn.php:4467
+msgid "The user already exists, try another email address."
+msgstr "L'utilisateur existe déjà, essayez une autre adresse e-mail."
+
+#: inc/helpers_fn.php:4468 views/shortcode/flex_idx_filter.php:542
+#: views/shortcode/flex_idx_filter_agent_office.php:504
+#: views/shortcode/flex_idx_filter_minimal.php:496
+#: views/shortcode/flex_idx_filter_thumbs.php:16
+#: views/shortcode/idx_only_filter_thumb.php:15
+#: views/shortcode/idxboost_exclusive_listing.php:146
+msgid "rented"
+msgstr "loué"
+
+#: inc/helpers_fn.php:4469 views/shortcode/flex_idx_property_detail.php:277
+#: views/shortcode/flex_idx_property_modal_detail.php:188
+msgid "save favorite"
+msgstr "sauvegarder en favori"
+
+#: inc/helpers_fn.php:4470
+msgid "Register for details"
+msgstr "Renseignez-vous pour les détails"
+
+#: inc/helpers_fn.php:4471
+msgid "remove favorite"
+msgstr "Supprimer le favori"
+
+#: inc/helpers_fn.php:4472 views/shortcode/flex_idx_filter.php:715
+#: views/shortcode/flex_idx_filter_agent_office.php:655
+#: views/shortcode/flex_idx_filter_minimal.php:614
+#: views/shortcode/flex_idx_filter_minimal.php:617
+#: views/shortcode/idxboost_exclusive_listing.php:326
+msgid "First page"
+msgstr "Première page"
+
+#: inc/helpers_fn.php:4473 views/shortcode/flex_idx_filter_minimal.php:635
+#: views/shortcode/flex_idx_filter_minimal.php:638
+msgid "Last page"
+msgstr "Dernière page"
+
+#: inc/helpers_fn.php:4474 views/shortcode/flex_idx_filter.php:514
+#: views/shortcode/flex_idx_filter_agent_office.php:476
+#: views/shortcode/flex_idx_filter_minimal.php:469
+#: views/shortcode/idxboost_exclusive_listing.php:119
+#: views/shortcode/off_market_listing_collection.php:118
+msgid "Showing"
+msgstr "Propriétés"
+
+#: inc/helpers_fn.php:4475 views/shortcode/idxboost_exclusive_listing.php:321
+msgid "Page"
+msgstr "Page"
+
+#: inc/helpers_fn.php:4476
+msgid "Edit"
+msgstr "modifier"
+
+#: inc/helpers_fn.php:4477 inc/posttypes_fn.php:1339
+#: views/shortcode/flex_idx_buildings.php:97
+#: views/shortcode/flex_idx_buildings.php:108
+#: views/shortcode/flex_idx_commercial_search.php:118
+#: views/shortcode/flex_idx_favorites.php:104
+#: views/shortcode/flex_idx_favorites.php:135
+#: views/shortcode/flex_idx_property_detail.php:273
+#: views/shortcode/flex_idx_property_modal_detail.php:184
+#: views/shortcode/flex_idx_saved_searches.php:115
+#: views/shortcode/flex_idx_saved_searches.php:179
+#: views/shortcode/flex_idx_search.php:109
+#: views/shortcode/flex_idx_search_commercial_filter.php:105
+#: views/shortcode/flex_idx_search_filter.php:91
+msgid "Remove"
+msgstr "Retirer"
+
+#: inc/helpers_fn.php:4478 views/form/modals.php:851
+#: views/shortcode/flex_idx_commercial_search.php:294
+#: views/shortcode/flex_idx_search.php:285
+#: views/shortcode/flex_idx_search_commercial_filter.php:252
+#: views/shortcode/flex_idx_search_filter.php:238
+msgid "Email Sent!"
+msgstr "Email envoyé!"
+
+#: inc/helpers_fn.php:4479 views/form/modals.php:852
+#: views/shortcode/flex_idx_commercial_search.php:294
+#: views/shortcode/flex_idx_search.php:285
+#: views/shortcode/flex_idx_search_commercial_filter.php:252
+#: views/shortcode/flex_idx_search_filter.php:238
+#: views/shortcode/idxboost_modals_filter.php:105
+msgid "Your email was sent succesfully"
+msgstr "Votre E-mail a été envoyé avec succès"
+
+#: inc/helpers_fn.php:4480 views/shortcode/flex_idx_building.php:201
+#: views/shortcode/flex_idx_building_group.php:137
+#: views/shortcode/flex_idx_commercial_search.php:738
+#: views/shortcode/flex_idx_commercial_search.php:758
+#: views/shortcode/flex_idx_commercial_search.php:832
+#: views/shortcode/flex_idx_commercial_search.php:851
+#: views/shortcode/flex_idx_commercial_search.php:870
+#: views/shortcode/flex_idx_commercial_search.php:900
+#: views/shortcode/flex_idx_commercial_search.php:925
+#: views/shortcode/flex_idx_commercial_search.php:958
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:40
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:52
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:162
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:174
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:191
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:206
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:224
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:271
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:302
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:344
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:381
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:392
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:448
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:460
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:494
+#: views/shortcode/flex_idx_filter.php:231
+#: views/shortcode/flex_idx_filter.php:240
+#: views/shortcode/flex_idx_filter.php:328
+#: views/shortcode/flex_idx_filter.php:342
+#: views/shortcode/flex_idx_filter.php:407
+#: views/shortcode/flex_idx_filter.php:514
+#: views/shortcode/flex_idx_filter_agent_office.php:207
+#: views/shortcode/flex_idx_filter_agent_office.php:216
+#: views/shortcode/flex_idx_filter_agent_office.php:298
+#: views/shortcode/flex_idx_filter_agent_office.php:312
+#: views/shortcode/flex_idx_filter_agent_office.php:377
+#: views/shortcode/flex_idx_filter_agent_office.php:476
+#: views/shortcode/flex_idx_filter_grid.php:93
+#: views/shortcode/flex_idx_filter_grid.php:172
+#: views/shortcode/flex_idx_filter_grid.php:186
+#: views/shortcode/flex_idx_filter_grid.php:230
+#: views/shortcode/flex_idx_filter_minimal.php:229
+#: views/shortcode/flex_idx_filter_minimal.php:238
+#: views/shortcode/flex_idx_filter_minimal.php:308
+#: views/shortcode/flex_idx_filter_minimal.php:322
+#: views/shortcode/flex_idx_filter_minimal.php:366
+#: views/shortcode/flex_idx_filter_minimal.php:469
+#: views/shortcode/flex_idx_search.php:730
+#: views/shortcode/flex_idx_search.php:748
+#: views/shortcode/flex_idx_search.php:766
+#: views/shortcode/flex_idx_search.php:783
+#: views/shortcode/flex_idx_search.php:816
+#: views/shortcode/flex_idx_search.php:833
+#: views/shortcode/flex_idx_search.php:850
+#: views/shortcode/flex_idx_search_commercial_filter.php:684
+#: views/shortcode/flex_idx_search_commercial_filter.php:704
+#: views/shortcode/flex_idx_search_commercial_filter.php:797
+#: views/shortcode/flex_idx_search_commercial_filter.php:816
+#: views/shortcode/flex_idx_search_commercial_filter.php:835
+#: views/shortcode/flex_idx_search_commercial_filter.php:855
+#: views/shortcode/flex_idx_search_commercial_filter.php:874
+#: views/shortcode/flex_idx_search_commercial_filter.php:917
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:40
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:52
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:165
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:177
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:192
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:206
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:220
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:248
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:277
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:320
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:354
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:365
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:421
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:433
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:468
+#: views/shortcode/flex_idx_search_filter.php:670
+#: views/shortcode/flex_idx_search_filter.php:688
+#: views/shortcode/flex_idx_search_filter.php:706
+#: views/shortcode/flex_idx_search_filter.php:723
+#: views/shortcode/flex_idx_search_filter.php:756
+#: views/shortcode/flex_idx_search_filter.php:773
+#: views/shortcode/flex_idx_search_filter.php:790
+#: views/shortcode/flex_idx_search_filter_bar.php:40
+#: views/shortcode/flex_idx_search_filter_bar.php:51
+#: views/shortcode/flex_idx_search_filter_bar.php:140
+#: views/shortcode/flex_idx_search_filter_bar.php:151
+#: views/shortcode/flex_idx_search_filter_bar.php:181
+#: views/shortcode/flex_idx_search_filter_bar.php:205
+#: views/shortcode/flex_idx_search_filter_bar.php:234
+#: views/shortcode/flex_idx_search_filter_bar.php:286
+#: views/shortcode/flex_idx_search_filter_bar.php:297
+#: views/shortcode/flex_idx_search_filter_bar.php:351
+#: views/shortcode/flex_idx_search_filter_bar.php:363
+#: views/shortcode/flex_idx_search_filter_bar.php:395
+#: views/shortcode/flex_idx_search_results.php:150
+#: views/shortcode/flex_idx_search_results.php:239
+#: views/shortcode/flex_idx_search_results.php:253
+#: views/shortcode/flex_idx_search_results.php:319
+#: views/shortcode/idxboost_exclusive_listing.php:119
+#: views/shortcode/idxboost_modals_filter.php:183
+#: views/shortcode/idxboost_modals_filter.php:201
+#: views/shortcode/idxboost_modals_filter.php:218
+#: views/shortcode/idxboost_modals_filter.php:251
+#: views/shortcode/idxboost_modals_filter.php:268
+#: views/shortcode/idxboost_modals_filter.php:285
+#: views/shortcode/off_market_listing_collection.php:118
+msgid "to"
+msgstr "à"
+
+#: inc/helpers_fn.php:4481 views/form/modals.php:24
+#: views/shortcode/flex_idx_filter.php:514
+#: views/shortcode/flex_idx_filter.php:710
+#: views/shortcode/flex_idx_filter_agent_office.php:476
+#: views/shortcode/flex_idx_filter_agent_office.php:650
+#: views/shortcode/flex_idx_filter_minimal.php:469
+#: views/shortcode/idxboost_exclusive_listing.php:119
+#: views/shortcode/idxboost_exclusive_listing.php:321
+#: views/shortcode/off_market_listing_collection.php:118
+msgid "of"
+msgstr "sur"
+
+#: inc/helpers_fn.php:4482
+msgid "pag"
+msgstr "Page"
+
+#: inc/helpers_fn.php:4483 views/shortcode/flex_idx_filter.php:166
+#: views/shortcode/flex_idx_filter.php:178
+#: views/shortcode/flex_idx_filter.php:300
+#: views/shortcode/flex_idx_filter_agent_office.php:151
+#: views/shortcode/flex_idx_filter_agent_office.php:163
+#: views/shortcode/flex_idx_filter_agent_office.php:276
+#: views/shortcode/flex_idx_search_results.php:218
+msgid "Homes"
+msgstr "Maisons"
+
+#: inc/helpers_fn.php:4484
+msgid "Similar Properties For Rent"
+msgstr " Propriétés similaires"
+
+#: inc/helpers_fn.php:4485
+msgid "Similar Properties For Sale"
+msgstr " Propriétés similaires"
+
+#: inc/helpers_fn.php:4486
+msgid "All Neighborhoods"
+msgstr "Quartiers"
+
+#: inc/helpers_fn.php:4487
+msgid "by Name"
+msgstr "Nommément"
+
+#: inc/helpers_fn.php:4488
+msgid "show more"
+msgstr "Montre plus"
+
+#: inc/helpers_fn.php:4489 views/shortcode/flex_idx_building.php:202
+#: views/shortcode/flex_idx_building.php:205
+#: views/shortcode/flex_idx_building.php:652
+msgid "Today's Prices"
+msgstr "Les prix d'aujourd'hui"
+
+#: inc/helpers_fn.php:4490 views/shortcode/flex_idx_filter.php:569
+#: views/shortcode/flex_idx_property_detail.php:233
+#: views/shortcode/flex_idx_property_modal_detail.php:154
+#: views/shortcode/idxboost_exclusive_listing.php:173
+msgid "month"
+msgstr "mois"
+
+#: inc/helpers_fn.php:4491
+msgid "Searching"
+msgstr "Recherche..."
+
+#: inc/helpers_fn.php:4492 views/shortcode/flex_idx_filter.php:170
+#: views/shortcode/flex_idx_filter.php:302
+#: views/shortcode/flex_idx_filter_agent_office.php:155
+#: views/shortcode/flex_idx_filter_agent_office.php:278
+#: views/shortcode/flex_idx_quick_search.php:76
+#: views/shortcode/flex_idx_search_results.php:220
+#: views/shortcode/idxboost_quick_search.php:57
+msgid "Condominiums"
+msgstr "Appartements"
+
+#: inc/helpers_fn.php:4493 views/shortcode/flex_idx_filter.php:174
+#: views/shortcode/flex_idx_filter.php:304
+#: views/shortcode/flex_idx_filter_agent_office.php:159
+#: views/shortcode/flex_idx_filter_agent_office.php:280
+#: views/shortcode/flex_idx_search_results.php:222
+#: views/shortcode/idxboost_quick_search.php:60
+msgid "Townhouses"
+msgstr "Townhouses"
+
+#: inc/helpers_fn.php:4494 views/shortcode/flex_idx_filter.php:186
+#: views/shortcode/flex_idx_filter.php:308
+#: views/shortcode/idxboost_quick_search.php:63
+msgid "Multi-Family"
+msgstr "Multi-Family"
+
+#: inc/helpers_fn.php:4495 views/shortcode/flex_idx_filter.php:182
+#: views/shortcode/flex_idx_filter.php:310
+#: views/shortcode/idxboost_quick_search.php:66
+msgid "Vacant Land"
+msgstr "Terrain vacant"
+
+#: inc/helpers_fn.php:4496 views/shortcode/flex_idx_filter.php:306
+#: views/shortcode/flex_idx_filter_agent_office.php:282
+#: views/shortcode/flex_idx_quick_search.php:75
+#: views/shortcode/flex_idx_search_results.php:224
+#: views/shortcode/idxboost_quick_search.php:54
+msgid "Single Family Homes"
+msgstr "Maisons"
+
+#: inc/helpers_fn.php:4497 views/shortcode/flex_idx_filter.php:378
+#: views/shortcode/flex_idx_filter_agent_office.php:348
+#: views/shortcode/flex_idx_search_results.php:291
+msgid "River Front"
+msgstr "Front de rivière"
+
+#: inc/helpers_fn.php:4498 views/shortcode/flex_idx_filter.php:376
+#: views/shortcode/flex_idx_filter_agent_office.php:346
+#: views/shortcode/flex_idx_search_results.php:289
+msgid "Point Lot"
+msgstr "Point Lot"
+
+#: inc/helpers_fn.php:4499 views/shortcode/flex_idx_filter.php:374
+#: views/shortcode/flex_idx_filter_agent_office.php:344
+#: views/shortcode/flex_idx_search_results.php:287
+msgid "Ocean Front"
+msgstr "Front de mer"
+
+#: inc/helpers_fn.php:4500 views/shortcode/flex_idx_filter.php:362
+#: views/shortcode/flex_idx_filter_agent_office.php:332
+#: views/shortcode/flex_idx_search_results.php:275
+msgid "Bay Front"
+msgstr "Bay Front"
+
+#: inc/helpers_fn.php:4501 views/shortcode/flex_idx_filter.php:364
+#: views/shortcode/flex_idx_filter_agent_office.php:334
+#: views/shortcode/flex_idx_search_results.php:277
+msgid "Canal"
+msgstr "Canal"
+
+#: inc/helpers_fn.php:4502 views/shortcode/flex_idx_filter.php:366
+#: views/shortcode/flex_idx_filter_agent_office.php:336
+#: views/shortcode/flex_idx_search_results.php:279
+msgid "Fixed Bridge"
+msgstr "Pont fixe"
+
+#: inc/helpers_fn.php:4503 views/shortcode/flex_idx_filter.php:368
+#: views/shortcode/flex_idx_filter_agent_office.php:338
+#: views/shortcode/flex_idx_search_results.php:281
+msgid "Intracoastal"
+msgstr "Intracoastal"
+
+#: inc/helpers_fn.php:4504 views/shortcode/flex_idx_filter.php:370
+#: views/shortcode/flex_idx_filter_agent_office.php:340
+#: views/shortcode/flex_idx_search_results.php:283
+msgid "Lake Front"
+msgstr "Front de lac"
+
+#: inc/helpers_fn.php:4505 views/shortcode/flex_idx_filter.php:453
+#: views/shortcode/flex_idx_filter_agent_office.php:423
+#: views/shortcode/flex_idx_search_results.php:363
+msgid "Equestrian"
+msgstr "Équestre"
+
+#: inc/helpers_fn.php:4506 views/shortcode/flex_idx_filter.php:449
+#: views/shortcode/flex_idx_filter_agent_office.php:419
+#: views/shortcode/flex_idx_search_results.php:359
+msgid "Pets"
+msgstr "Animaux domestiques"
+
+#: inc/helpers_fn.php:4507 views/shortcode/flex_idx_filter.php:447
+#: views/shortcode/flex_idx_filter_agent_office.php:417
+#: views/shortcode/flex_idx_search_results.php:357
+msgid "Waterfront"
+msgstr "Bord de l'eau"
+
+#: inc/helpers_fn.php:4508 views/shortcode/flex_idx_filter.php:461
+#: views/shortcode/flex_idx_filter.php:666
+#: views/shortcode/flex_idx_property_detail.php:205
+#: views/shortcode/idxboost_exclusive_listing.php:278
+#: views/shortcode/idxboost_modals_filter.php:370
+msgid "Open House"
+msgstr "Journée portes ouvertes"
+
+#: inc/helpers_fn.php:4509 views/shortcode/flex_idx_filter.php:445
+#: views/shortcode/flex_idx_filter_agent_office.php:415
+#: views/shortcode/flex_idx_search_results.php:355
+msgid "Penthouse"
+msgstr "Penthouse"
+
+#: inc/helpers_fn.php:4510 views/shortcode/flex_idx_filter.php:443
+#: views/shortcode/flex_idx_filter_agent_office.php:413
+#: views/shortcode/flex_idx_search_results.php:353
+msgid "Lofts"
+msgstr "Lofts"
+
+#: inc/helpers_fn.php:4511 views/shortcode/flex_idx_filter.php:441
+#: views/shortcode/flex_idx_filter_agent_office.php:411
+#: views/shortcode/flex_idx_search_results.php:351
+msgid "Gated Community"
+msgstr "Communauté fermée"
+
+#: inc/helpers_fn.php:4512 views/shortcode/flex_idx_filter.php:439
+#: views/shortcode/flex_idx_filter_agent_office.php:409
+#: views/shortcode/flex_idx_search_results.php:349
+msgid "Tennis Courts"
+msgstr "Terrain de tennis"
+
+#: inc/helpers_fn.php:4513 views/shortcode/flex_idx_filter.php:437
+#: views/shortcode/flex_idx_filter_agent_office.php:407
+#: views/shortcode/flex_idx_search_results.php:347
+msgid "Golf Course"
+msgstr "Terrain de golf"
+
+#: inc/helpers_fn.php:4514 views/shortcode/flex_idx_commercial_search.php:474
+#: views/shortcode/flex_idx_filter.php:435
+#: views/shortcode/flex_idx_filter_agent_office.php:405
+#: views/shortcode/flex_idx_property_detail.php:342
+#: views/shortcode/flex_idx_property_modal_detail.php:242
+#: views/shortcode/flex_idx_search.php:465
+#: views/shortcode/flex_idx_search_commercial_filter.php:431
+#: views/shortcode/flex_idx_search_filter.php:417
+#: views/shortcode/flex_idx_search_results.php:345
+#: views/shortcode/idx_off_market_listing_detail.php:244
+#: views/shortcode/idxboost_modals_filter.php:447
+msgid "Swimming Pool"
+msgstr "Piscine"
+
+#: inc/helpers_fn.php:4515 views/shortcode/flex_idx_commercial_search.php:480
+#: views/shortcode/flex_idx_filter.php:451
+#: views/shortcode/flex_idx_filter_agent_office.php:421
+#: views/shortcode/flex_idx_property_detail.php:348
+#: views/shortcode/flex_idx_property_modal_detail.php:247
+#: views/shortcode/flex_idx_search.php:471
+#: views/shortcode/flex_idx_search_commercial_filter.php:437
+#: views/shortcode/flex_idx_search_filter.php:423
+#: views/shortcode/flex_idx_search_results.php:361
+#: views/shortcode/idx_off_market_listing_detail.php:249
+#: views/shortcode/idxboost_modals_filter.php:453
+msgid "Furnished"
+msgstr "Meublé"
+
+#: inc/helpers_fn.php:4516 views/shortcode/flex_idx_filter.php:372
+#: views/shortcode/flex_idx_filter_agent_office.php:342
+#: views/shortcode/flex_idx_search_results.php:285
+msgid "Ocean Access"
+msgstr "Accès à l'océan"
+
+#: inc/helpers_fn.php:4517
+msgid "Homes, Condominiums, Townhouses"
+msgstr "Maisons, Appartements, Townhouses"
+
+#: inc/helpers_fn.php:4518
+msgid "Homes, Condominiums"
+msgstr "Maisons, Appartements"
+
+#: inc/helpers_fn.php:4519
+msgid "Condominiums, Townhouses"
+msgstr "Appartements, Townhouses"
+
+#: inc/helpers_fn.php:4520
+msgid "Next page"
+msgstr "Page suivante"
+
+#: inc/helpers_fn.php:4521
+msgid "Previous Page"
+msgstr "Page précédente"
+
+#: inc/helpers_fn.php:4522
+msgid "Your message has been sent!"
+msgstr "Votre message a été envoyé!"
+
+#: inc/helpers_fn.php:4523
+msgid "Price range"
+msgstr "Budget"
+
+#: inc/helpers_fn.php:4524
+msgid "from"
+msgstr "de"
+
+#: inc/helpers_fn.php:4525 views/shortcode/flex_idx_commercial_search.php:978
+#: views/shortcode/flex_idx_filter.php:514
+#: views/shortcode/flex_idx_filter_agent_office.php:476
+#: views/shortcode/flex_idx_filter_minimal.php:469
+#: views/shortcode/flex_idx_search.php:883
+#: views/shortcode/flex_idx_search_commercial_filter.php:938
+#: views/shortcode/flex_idx_search_filter.php:823
+#: views/shortcode/flex_idx_search_results.php:104
+#: views/shortcode/idxboost_exclusive_listing.php:119
+#: views/shortcode/idxboost_modals_filter.php:318
+#: views/shortcode/off_market_listing_collection.php:118
+msgid "Properties"
+msgstr " Propriétés"
+
+#: inc/helpers_fn.php:4526
+msgid "Loading Properties..."
+msgstr "Patientez…"
+
+#: inc/helpers_fn.php:4527 views/form/modals.php:319
+msgid "and"
+msgstr "et"
+
+#: inc/helpers_fn.php:4528
+msgid "in"
+msgstr "in"
+
+#: inc/helpers_fn.php:4529 views/shortcode/flex_idx_filter.php:548
+#: views/shortcode/flex_idx_filter_agent_office.php:512
+#: views/shortcode/flex_idx_filter_minimal.php:502
+#: views/shortcode/flex_idx_filter_thumbs.php:22
+#: views/shortcode/idx_only_filter_thumb.php:21
+#: views/shortcode/idxboost_exclusive_listing.php:152
+msgid "new listing"
+msgstr "Nouveauté"
+
+#: inc/helpers_fn.php:4530 views/shortcode/flex_idx_filter.php:546
+#: views/shortcode/flex_idx_filter_agent_office.php:508
+#: views/shortcode/flex_idx_filter_thumbs.php:20
+#: views/shortcode/idx_only_filter_thumb.php:19
+#: views/shortcode/idxboost_exclusive_listing.php:150
+msgid "pending"
+msgstr "en attente"
+
+#: inc/helpers_fn.php:4531 views/shortcode/flex_idx_filter.php:455
+#: views/shortcode/flex_idx_filter_agent_office.php:425
+msgid "Boat Dock"
+msgstr "Embarcadère"
+
+#: inc/helpers_fn.php:4532 views/shortcode/flex_idx_filter.php:457
+msgid "Short Sales"
+msgstr "Vente flash"
+
+#: inc/helpers_fn.php:4533 views/shortcode/flex_idx_filter.php:459
+msgid "Foreclosures"
+msgstr "Forclusions"
+
+#: inc/helpers_fn.php:4534 views/shortcode/flex_idx_filter.php:357
+#: views/shortcode/flex_idx_filter.php:393
+#: views/shortcode/flex_idx_filter_agent_office.php:327
+#: views/shortcode/flex_idx_filter_agent_office.php:363
+#: views/shortcode/flex_idx_filter_grid.php:201
+#: views/shortcode/flex_idx_filter_grid.php:216
+#: views/shortcode/flex_idx_filter_minimal.php:337
+#: views/shortcode/flex_idx_filter_minimal.php:352
+#: views/shortcode/flex_idx_search_filter_bar.php:196
+#: views/shortcode/flex_idx_search_filter_bar.php:249
+#: views/shortcode/flex_idx_search_results.php:268
+#: views/shortcode/flex_idx_search_results.php:305
+msgid "Any"
+msgstr "Toutes"
+
+#: inc/helpers_fn.php:4535
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:32
+#: views/shortcode/flex_idx_filter.php:143
+#: views/shortcode/flex_idx_filter_agent_office.php:128
+#: views/shortcode/flex_idx_quick_search.php:41
+#: views/shortcode/flex_idx_quick_search.php:49
+#: views/shortcode/flex_idx_saved_searches.php:123
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:32
+#: views/shortcode/flex_idx_search_filter_bar.php:32
+#: views/shortcode/flex_idx_search_results.php:85
+#: views/shortcode/idxboost_quick_search.php:34
+#: views/shortcode/off_market_listing_collection.php:65
+msgid "Any Price"
+msgstr "Budget"
+
+#: inc/helpers_fn.php:4536
+msgid "Any price"
+msgstr "Max"
+
+#: inc/helpers_fn.php:4537 views/shortcode/flex_idx_filter.php:199
+#: views/shortcode/flex_idx_filter.php:204
+msgid "Any type"
+msgstr "Type"
+
+#: inc/helpers_fn.php:4538
+msgid "up to"
+msgstr "jusqu'à"
+
+#: inc/helpers_fn.php:4539 views/shortcode/flex_idx_building_group.php:97
+#: views/shortcode/idx_filter_multi_slider.php:59
+#: views/shortcode/idx_filter_multi_slider.php:101
+#: views/shortcode/thumb_idxboost_building_collection.php:89
+#: views/shortcode/thumb_idxboost_building_collection.php:133
+#: views/shortcode/thumb_idxboost_building_collection.php:172
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:89
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:133
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:172
+msgid "View detail"
+msgstr "voir les détails"
+
+#: inc/helpers_fn.php:4540 views/shortcode/flex_idx_autocomplete.php:28
+#: views/shortcode/flex_idx_building.php:208
+#: views/shortcode/flex_idx_building.php:540
+#: views/shortcode/flex_idx_building_group.php:138
+#: views/shortcode/flex_idx_commercial_search.php:718
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:123
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:124
+#: views/shortcode/flex_idx_search_filter_bar.php:120
+#: views/shortcode/flex_search_mini.php:7
+#: views/shortcode/flex_search_mini.php:31
+#: views/shortcode/idxboost_building_collection_ajax.php:97
+#: views/shortcode/idxboost_building_collection_ajax.php:114
+#: views/shortcode/idxboost_building_collection_ajax.php:116
+#: views/shortcode/idxboost_quick_search.php:17
+msgid "For Sale"
+msgstr "Acheter"
+
+#: inc/helpers_fn.php:4541 views/shortcode/flex_idx_autocomplete.php:29
+#: views/shortcode/flex_idx_building.php:209
+#: views/shortcode/flex_idx_building.php:543
+#: views/shortcode/flex_idx_building_group.php:139
+#: views/shortcode/flex_idx_search_results.php:120
+#: views/shortcode/flex_search_mini.php:11
+#: views/shortcode/flex_search_mini.php:35
+#: views/shortcode/history_building_file_count.php:13
+#: views/shortcode/idxboost_building_collection_ajax.php:98
+#: views/shortcode/idxboost_building_collection_ajax.php:117
+msgid "For Rent"
+msgstr "À louer"
+
+#: inc/helpers_fn.php:4542
+msgid "For Sold"
+msgstr "Vendus"
+
+#: inc/helpers_fn.php:4543 views/shortcode/flex_idx_building.php:211
+#: views/shortcode/flex_idx_building.php:549
+#: views/shortcode/flex_idx_building_group.php:140
+#: views/shortcode/history_building_file_count.php:16
+#: views/shortcode/idxboost_building_collection_ajax.php:100
+#: views/shortcode/idxboost_building_collection_ajax.php:119
+msgid "Sold"
+msgstr "vendus"
+
+#: inc/helpers_fn.php:4544 views/shortcode/flex_idx_buildings.php:74
+msgid "Building Name"
+msgstr "Nom du bâtiment"
+
+#: inc/helpers_fn.php:4545 views/shortcode/flex_idx_building.php:696
+#: views/shortcode/flex_idx_commercial_search.php:730
+#: views/shortcode/flex_idx_commercial_search.php:750
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:34
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:157
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:375
+#: views/shortcode/flex_idx_filter.php:228
+#: views/shortcode/flex_idx_filter_agent_office.php:204
+#: views/shortcode/flex_idx_filter_grid.php:67
+#: views/shortcode/flex_idx_filter_grid.php:89
+#: views/shortcode/flex_idx_filter_minimal.php:198
+#: views/shortcode/flex_idx_filter_minimal.php:225
+#: views/shortcode/flex_idx_saved_searches.php:76
+#: views/shortcode/flex_idx_search.php:723
+#: views/shortcode/flex_idx_search.php:741
+#: views/shortcode/flex_idx_search_commercial_filter.php:676
+#: views/shortcode/flex_idx_search_commercial_filter.php:696
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:34
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:160
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:348
+#: views/shortcode/flex_idx_search_filter.php:663
+#: views/shortcode/flex_idx_search_filter.php:681
+#: views/shortcode/flex_idx_search_filter_bar.php:34
+#: views/shortcode/flex_idx_search_filter_bar.php:135
+#: views/shortcode/flex_idx_search_filter_bar.php:280
+#: views/shortcode/flex_idx_search_results.php:147
+#: views/shortcode/idxboost_modals_filter.php:176
+msgid "Price Range"
+msgstr "Budget"
+
+#: inc/helpers_fn.php:4546
+msgid "Bedrooms Units"
+msgstr "Chambre(s)"
+
+#: inc/helpers_fn.php:4547 views/shortcode/flex_idx_building.php:286
+#: views/shortcode/flex_idx_building.php:663
+msgid "Units"
+msgstr "Unités"
+
+#: inc/helpers_fn.php:4548
+msgid "Floors"
+msgstr "Étage"
+
+#: inc/helpers_fn.php:4549 views/shortcode/flex_idx_favorites.php:73
+#: views/shortcode/flex_idx_filter.php:524
+#: views/shortcode/flex_idx_filter_agent_office.php:486
+#: views/shortcode/flex_idx_filter_minimal.php:480
+#: views/shortcode/flex_idx_profile.php:87
+#: views/shortcode/flex_idx_saved_searches.php:75
+#: views/shortcode/flex_idx_search_results.php:437
+#: views/shortcode/idxboost_exclusive_listing.php:129
+#: views/shortcode/off_market_listing_collection.php:128
+msgid "Address"
+msgstr "Adresse"
+
+#: inc/helpers_fn.php:4550 views/shortcode/flex_idx_building.php:670
+#: views/shortcode/flex_idx_commercial_search.php:619
+#: views/shortcode/flex_idx_commercial_search.php:620
+#: views/shortcode/flex_idx_filter_thumbs.php:52
+#: views/shortcode/flex_idx_filter_thumbs.php:53
+#: views/shortcode/flex_idx_search.php:610
+#: views/shortcode/flex_idx_search.php:611
+#: views/shortcode/flex_idx_search.php:654
+#: views/shortcode/flex_idx_search_commercial_filter.php:576
+#: views/shortcode/flex_idx_search_commercial_filter.php:577
+#: views/shortcode/flex_idx_search_filter.php:562
+#: views/shortcode/flex_idx_search_filter.php:563
+#: views/shortcode/flex_idx_search_filter.php:606
+#: views/shortcode/idx_filter_multi_slider.php:36
+#: views/shortcode/idx_filter_multi_slider.php:37
+#: views/shortcode/idx_filter_multi_slider.php:78
+#: views/shortcode/idx_filter_multi_slider.php:79
+#: views/shortcode/idx_only_filter_thumb.php:51
+#: views/shortcode/idx_only_filter_thumb.php:52
+#: views/shortcode/idxboost_modals_filter.php:604
+#: views/shortcode/idxboost_modals_filter.php:605
+#: views/shortcode/idxboost_modals_filter.php:639
+#: views/shortcode/thumb_idxboost_building_collection.php:66
+#: views/shortcode/thumb_idxboost_building_collection.php:67
+#: views/shortcode/thumb_idxboost_building_collection.php:110
+#: views/shortcode/thumb_idxboost_building_collection.php:111
+#: views/shortcode/thumb_idxboost_building_collection.php:154
+#: views/shortcode/thumb_idxboost_building_collection.php:155
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:66
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:67
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:110
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:111
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:154
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:155
+msgid "Sq.Ft."
+msgstr "Sq.Ft."
+
+#: inc/helpers_fn.php:4551
+msgid "Check your mailbox"
+msgstr "Vérifiez votre messagerie"
+
+#: inc/helpers_fn.php:4552
+msgid "Password Change"
+msgstr "Mot de passe modifié"
+
+#: inc/helpers_fn.php:4553
+msgid "Deleted!"
+msgstr "Supprimé !"
+
+#: inc/helpers_fn.php:4554
+msgid "Yes, delete it!"
+msgstr "Oui, la supprimer"
+
+#: inc/helpers_fn.php:4555
+msgid "New Construction"
+msgstr "Nouvelle construction"
+
+#: inc/helpers_fn.php:4556
+msgid "Preconstruction"
+msgstr "Programmes neufs"
+
+#: inc/helpers_fn.php:4557
+msgid "Neighborhood"
+msgstr "Quartiers"
+
+#: inc/helpers_fn.php:4558
+msgid "Good job!"
+msgstr "Félicitations!"
+
+#: inc/helpers_fn.php:4559
+msgid "Congratulations"
+msgstr "Félicitations!"
+
+#: inc/helpers_fn.php:4561
+msgid "Search Saved!"
+msgstr "Recherche sauvegardée"
+
+#: inc/helpers_fn.php:4562
+msgid "DRAW YOUR MAP"
+msgstr "Dessinez votre carte"
+
+#: inc/helpers_fn.php:4563
+msgid "current value must be less than or equal to"
+msgstr "la valeur actuelle doit être inférieure ou égale à tô"
+
+#: inc/helpers_fn.php:4564
+msgid "Are you sure you want to remove this property?"
+msgstr "Êtes-vous sûr(e) de vouloir retirer cette propriété ?"
+
+#: inc/helpers_fn.php:4565
+msgid "Your search has been saved successfuly"
+msgstr "Votre recherche a été enregistrée avec succès."
+
+#: inc/helpers_fn.php:4566
+msgid "You cannot save a search with more than 500 properties."
+msgstr ""
+"Vous ne pouvez pas créer une alerte sur une recherche de plus de 500 "
+"propriétés"
+
+#: inc/helpers_fn.php:4567
+msgid "You must select at least one checkbox from below."
+msgstr "Vous devez sélectionner au moins une case à cocher ci-dessous."
+
+#: inc/helpers_fn.php:4568
+msgid "Your search has been saved successfully."
+msgstr "Votre recherche a été enregistrée avec succès."
+
+#: inc/helpers_fn.php:4569
+msgid "You must provide a name for this search."
+msgstr "Vous devez fournir un nom pour cette recherche."
+
+#: inc/helpers_fn.php:4570
+msgid "The saved search has been removed from your alerts"
+msgstr "La recherche enregistrée a été supprimée de vos alertes"
+
+#: inc/helpers_fn.php:4571
+msgid "Are you sure?"
+msgstr "Êtes-vous sûr(e) ?"
+
+#: inc/helpers_fn.php:4572
+msgid "The building has been removed from your favorites."
+msgstr "Le immeuble a été retiré de vos favoris."
+
+#: inc/helpers_fn.php:4573
+msgid "Are you sure you want to remove this building?"
+msgstr "Êtes-vous sûrs de vouloir retirer cette immeuble?"
+
+#: inc/helpers_fn.php:4574
+msgid "The property has been removed from your favorites."
+msgstr "La propriété a été retirée de vos favoris. "
+
+#: inc/helpers_fn.php:4575
+msgid "Are you sure you want to remove this saved search?"
+msgstr "Êtes-vous sûr(e) de vouloir supprimer cette recherche sauvegardée?"
+
+#: inc/helpers_fn.php:4576
+msgid "Please wait your account is being created..."
+msgstr "Patientez pendant la finalisation de votre compte..."
+
+#: inc/helpers_fn.php:4577
+msgid "Your account is being created"
+msgstr "Nous créons votre compte ! "
+
+#: inc/helpers_fn.php:4578
+msgid "This might take a while. Do not reload the page."
+msgstr "Cela pourrait prendre un certain temps. Ne rechargez pas la page."
+
+#: inc/helpers_fn.php:4579
+msgid "Inquire for details"
+msgstr "Renseignez-vous pour les détails"
+
+#: inc/helpers_fn.php:4580 views/form/modals.php:44 views/form/modals.php:51
+msgid "Welcome Back"
+msgstr "Bienvenue dans votre espace personnel"
+
+#: inc/helpers_fn.php:4582
+msgid "Sign in below"
+msgstr "Se connecter"
+
+#: inc/helpers_fn.php:4583
+msgid "Oops..."
+msgstr "Oups..."
+
+#: inc/helpers_fn.php:4584
+msgid "Join to save listings and receive updates"
+msgstr ""
+"Inscrivez-vous pour sauvegarder les annonces et recevoir les mises à jour"
+
+#: inc/helpers_fn.php:4585 views/form/modals.php:57
+#: views/shortcode/flex_idx_accounts_links.php:10
+#: views/shortcode/idxboost-menu-dynamic.php:6
+msgid "Register"
+msgstr "S’enregistrer"
+
+#: inc/helpers_fn.php:4587 views/shortcode/flex_idx_filter_minimal.php:431
+#: views/shortcode/flex_idx_filter_minimal.php:434
+msgid "Year"
+msgstr "Année"
+
+#: inc/posttypes_fn.php:490
+msgid "Style Plugin"
+msgstr "Plugin de style"
+
+#: inc/posttypes_fn.php:1034
+msgid "Style Theme"
+msgstr "Thème de style"
+
+#: inc/posttypes_fn.php:1300
+msgid "Slider Complements"
+msgstr "Compléments de curseur"
+
+#: views/form/modals.php:52
+msgid "Log in"
+msgstr "S'identifier"
+
+#: views/form/modals.php:56
+msgid "Register for a personalized experience"
+msgstr "Inscrivez-vous pour une expérience personnalisée"
+
+#: views/form/modals.php:69
+msgid "Not registered yet?"
+msgstr "Pas encore inscrit?"
+
+#: views/form/modals.php:69
+msgid "Register now"
+msgstr "S’enregistrer"
+
+#: views/form/modals.php:78
+msgid "Enter email"
+msgstr "Entrer un email"
+
+#: views/form/modals.php:81
+msgid "Enter password"
+msgstr "Entrer le mot de passe"
+
+#: views/form/modals.php:85
+msgid "Continue with email"
+msgstr "Continuer avec email"
+
+#: views/form/modals.php:108
+msgid "Register with your email address"
+msgstr "Inscrivez-vous avec votre adresse email"
+
+#: views/form/modals.php:110
+msgid ""
+"Looks like you already have an account with us.. Try logging in or resetting "
+"your password."
+msgstr ""
+"On dirait que vous avez déjà un compte avec nous.. Essayez de vous connecter "
+"ou de réinitialiser votre mot de passe."
+
+#: views/form/modals.php:113
+msgid "Continue With Email"
+msgstr "Continuer avec email"
+
+#: views/form/modals.php:118
+msgid "Enter name and password"
+msgstr "Entrez le nom et le mot de passe"
+
+#: views/form/modals.php:119 views/form/modals.php:145
+#: views/form/modals.php:170 views/form/modals.php:195
+msgid "Just a few more details so we can help you."
+msgstr ""
+"Juste quelques détails supplémentaires pour que nous puissions vous aider"
+
+#: views/form/modals.php:124 views/form/modals.php:125
+#: views/form/modals.php:570 views/shortcode/flex_idx_building.php:479
+#: views/shortcode/flex_idx_building.php:484
+#: views/shortcode/flex_idx_building.php:486
+#: views/shortcode/flex_idx_building.php:491
+#: views/shortcode/flex_idx_building.php:493
+#: views/shortcode/flex_idx_building.php:590
+#: views/shortcode/flex_idx_building.php:597
+#: views/shortcode/flex_idx_building.php:602
+#: views/shortcode/flex_idx_building.php:604
+#: views/shortcode/flex_idx_building.php:609
+#: views/shortcode/flex_idx_building.php:611
+#: views/shortcode/flex_idx_contact_form.php:20
+#: views/shortcode/flex_idx_contact_form.php:30
+#: views/shortcode/flex_idx_property_detail.php:560
+#: views/shortcode/flex_idx_property_detail.php:565
+#: views/shortcode/flex_idx_property_detail.php:567
+#: views/shortcode/flex_idx_property_detail.php:572
+#: views/shortcode/flex_idx_property_detail.php:574
+#: views/shortcode/flex_idx_property_modal_detail.php:448
+#: views/shortcode/flex_idx_property_modal_detail.php:453
+#: views/shortcode/flex_idx_property_modal_detail.php:455
+#: views/shortcode/flex_idx_property_modal_detail.php:460
+#: views/shortcode/flex_idx_property_modal_detail.php:462
+#: views/shortcode/idx_off_market_listing_detail.php:457
+#: views/shortcode/idx_off_market_listing_detail.php:462
+#: views/shortcode/idx_off_market_listing_detail.php:464
+#: views/shortcode/idx_off_market_listing_detail.php:469
+#: views/shortcode/idx_off_market_listing_detail.php:471
+#: views/shortcode/idxboost_modals_filter.php:554
+msgid "First Name"
+msgstr "Prénom"
+
+#: views/form/modals.php:128 views/form/modals.php:129
+#: views/form/modals.php:575 views/shortcode/flex_idx_building.php:499
+#: views/shortcode/flex_idx_building.php:501
+#: views/shortcode/flex_idx_building.php:616
+#: views/shortcode/flex_idx_building.php:618
+#: views/shortcode/flex_idx_contact_form.php:35
+#: views/shortcode/flex_idx_profile.php:84
+#: views/shortcode/flex_idx_property_detail.php:579
+#: views/shortcode/flex_idx_property_detail.php:581
+#: views/shortcode/flex_idx_property_modal_detail.php:467
+#: views/shortcode/flex_idx_property_modal_detail.php:469
+#: views/shortcode/idx_off_market_listing_detail.php:476
+#: views/shortcode/idx_off_market_listing_detail.php:478
+#: views/shortcode/idxboost_modals_filter.php:557
+msgid "Last Name"
+msgstr "Nom de famille"
+
+#: views/form/modals.php:134 views/form/modals.php:269
+msgid "Use phone number as password"
+msgstr "Utilisé comme mot de passe"
+
+#: views/form/modals.php:135 views/form/modals.php:270
+#: views/form/modals.php:1599
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+#: views/form/modals.php:137 views/form/modals.php:1605
+msgid "I'm finished"
+msgstr "J'ai terminé"
+
+#: views/form/modals.php:143 views/form/modals.php:168
+#: views/form/modals.php:193 views/form/modals.php:1612
+#: views/form/modals.php:1640 views/form/modals.php:1668
+msgid "Thank You For Registering"
+msgstr "Merci de votre inscription"
+
+#: views/form/modals.php:146 views/form/modals.php:171
+#: views/form/modals.php:196 views/form/modals.php:1615
+#: views/form/modals.php:1643 views/form/modals.php:1671
+msgid "(All fields are required)"
+msgstr "(Tous les champs sont requis)"
+
+#: views/form/modals.php:149 views/form/modals.php:1618
+msgid "When are you looking to purchase?"
+msgstr "Quand cherchez-vous à acheter?"
+
+#: views/form/modals.php:154 views/form/modals.php:1623
+msgid "Within 1-3 months"
+msgstr "Dans les 1-3 mois"
+
+#: views/form/modals.php:158 views/form/modals.php:1627
+msgid "Within 3-6 months"
+msgstr "Dans les 3-6 mois"
+
+#: views/form/modals.php:162 views/form/modals.php:1631
+msgid "More than 6 months"
+msgstr "Plus de 6 mois"
+
+#: views/form/modals.php:174 views/form/modals.php:1646
+msgid "Need assistance with financing?"
+msgstr "Besoin d'aide pour le financement?"
+
+#: views/form/modals.php:179 views/form/modals.php:1651
+msgid "I am pre-approved"
+msgstr "Je suis pré-approuvé"
+
+#: views/form/modals.php:183 views/form/modals.php:1655
+msgid "Not pre-approved yet"
+msgstr "Pas encore pré-approuvé"
+
+#: views/form/modals.php:187 views/form/modals.php:1659
+msgid "I prefer to buy with cash"
+msgstr "Je préfère acheter avec de l'argent"
+
+#: views/form/modals.php:199 views/form/modals.php:1674
+msgid "Need to also sell your property?"
+msgstr "Vous devez également vendre votre propriété?"
+
+#: views/form/modals.php:204 views/form/modals.php:1679
+msgid "Looking to sell too"
+msgstr "Vous cherchez à vendre aussi"
+
+#: views/form/modals.php:208 views/form/modals.php:1683
+msgid "Not looking to sell"
+msgstr "Ne cherche pas à vendre"
+
+#: views/form/modals.php:212 views/form/modals.php:1687
+msgid "Not sure yet"
+msgstr "Pas encore sûr"
+
+#: views/form/modals.php:259
+msgid ""
+"Enter your email address and we'll send you a link to be able to change your "
+"password"
+msgstr ""
+"Entrez votre adresse email et nous vous enverrons un lien pour pouvoir "
+"changer votre mot de passe"
+
+#: views/form/modals.php:261
+msgid "Enter your new password"
+msgstr "Nouveau mot de passe"
+
+#: views/form/modals.php:265 views/form/modals.php:580
+msgid "Email Address"
+msgstr "Adresse e-mail"
+
+#: views/form/modals.php:266
+msgid "Enter E-mail"
+msgstr "Entrer E-mail"
+
+#: views/form/modals.php:276
+msgid "Send"
+msgstr "Envoyer"
+
+#: views/form/modals.php:290 views/form/modals.php:306
+msgid "or"
+msgstr "ou"
+
+#: views/form/modals.php:296
+msgid "Login with Facebook"
+msgstr "Connectez-vous avec Facebook"
+
+#: views/form/modals.php:299 views/form/modals.php:310
+#: views/form/modals.php:332
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié?"
+
+#: views/form/modals.php:300 views/form/modals.php:311
+#: views/form/modals.php:333
+msgid "Reset now"
+msgstr "Réinitialiser maintenant"
+
+#: views/form/modals.php:319
+msgid "In agreement with our"
+msgstr "En accord avec notre"
+
+#: views/form/modals.php:319
+msgid "Terms of Use"
+msgstr "Conditions d'utilisation"
+
+#: views/form/modals.php:319 views/shortcode/idxboost-terms-of-service.php:26
+#: views/shortcode/idxboost-terms-of-service.php:89
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: views/form/modals.php:327
+msgid "Already registered?"
+msgstr "Déjà inscrit?"
+
+#: views/form/modals.php:328
+msgid "Log in "
+msgstr "Se connecter"
+
+#: views/form/modals.php:345
+msgid "Save This Search"
+msgstr "Enregistrer cette recherche"
+
+#: views/form/modals.php:358 views/form/modals.php:451
+#: views/notification/SwitchEmailFrequency.php:114
+#: views/shortcode/flex_idx_commercial_search.php:309
+#: views/shortcode/flex_idx_search.php:300
+#: views/shortcode/flex_idx_search_commercial_filter.php:267
+#: views/shortcode/flex_idx_search_filter.php:253
+#: views/shortcode/idxboost_modals_filter.php:119
+msgid "Search Name(*)"
+msgstr "Nom de la recherche (*)"
+
+#: views/form/modals.php:361 views/form/modals.php:453
+msgid "Search Name"
+msgstr "Nom de recherche"
+
+#: views/form/modals.php:370 views/form/modals.php:458
+#: views/notification/SwitchEmailFrequency.php:118
+#: views/shortcode/flex_idx_commercial_search.php:314
+#: views/shortcode/flex_idx_search.php:305
+#: views/shortcode/flex_idx_search_commercial_filter.php:272
+#: views/shortcode/flex_idx_search_filter.php:258
+#: views/shortcode/idxboost_modals_filter.php:124
+msgid "Email Updates"
+msgstr "Mises à jour par email "
+
+#: views/form/modals.php:375 views/form/modals.php:461
+#: views/notification/SwitchEmailFrequency.php:121
+#: views/shortcode/flex_idx_commercial_search.php:317
+#: views/shortcode/flex_idx_search.php:308
+#: views/shortcode/flex_idx_search_commercial_filter.php:275
+#: views/shortcode/flex_idx_search_filter.php:261
+#: views/shortcode/idxboost_modals_filter.php:127
+msgid "No Alert"
+msgstr "Aucune alerte"
+
+#: views/form/modals.php:378 views/form/modals.php:462
+#: views/shortcode/flex_idx_commercial_search.php:318
+#: views/shortcode/flex_idx_search.php:309
+#: views/shortcode/flex_idx_search_commercial_filter.php:276
+#: views/shortcode/flex_idx_search_filter.php:262
+#: views/shortcode/idxboost_modals_filter.php:128
+msgid "Daily"
+msgstr "Quotidienne"
+
+#: views/form/modals.php:381 views/form/modals.php:463
+#: views/notification/SwitchEmailFrequency.php:123
+#: views/shortcode/flex_idx_commercial_search.php:319
+#: views/shortcode/flex_idx_search.php:310
+#: views/shortcode/flex_idx_search_commercial_filter.php:277
+#: views/shortcode/flex_idx_search_filter.php:263
+#: views/shortcode/idxboost_modals_filter.php:129
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+#: views/form/modals.php:384 views/form/modals.php:464
+#: views/notification/SwitchEmailFrequency.php:124
+#: views/shortcode/flex_idx_commercial_search.php:320
+#: views/shortcode/flex_idx_search.php:311
+#: views/shortcode/flex_idx_search_commercial_filter.php:278
+#: views/shortcode/flex_idx_search_filter.php:264
+#: views/shortcode/idxboost_modals_filter.php:130
+msgid "Monthly"
+msgstr "Mensuel"
+
+#: views/form/modals.php:394 views/form/modals.php:470
+#: views/notification/SwitchEmailFrequency.php:129
+msgid "Only Update Me On"
+msgstr "Ne me mettre à jour que sur"
+
+#: views/form/modals.php:401 views/form/modals.php:476
+#: views/notification/SwitchEmailFrequency.php:62
+#: views/notification/SwitchEmailFrequency.php:133
+#: views/shortcode/flex_idx_commercial_search.php:328
+#: views/shortcode/flex_idx_search.php:319
+#: views/shortcode/flex_idx_search_commercial_filter.php:286
+#: views/shortcode/flex_idx_search_filter.php:272
+#: views/shortcode/idxboost_modals_filter.php:138
+msgid "New Listing (Always)"
+msgstr "Nouveauté"
+
+#: views/form/modals.php:408 views/form/modals.php:483
+#: views/shortcode/flex_idx_commercial_search.php:332
+#: views/shortcode/flex_idx_search.php:323
+#: views/shortcode/flex_idx_search_commercial_filter.php:290
+#: views/shortcode/flex_idx_search_filter.php:276
+#: views/shortcode/idxboost_modals_filter.php:142
+msgid "Price Change"
+msgstr "Changement de prix"
+
+#: views/form/modals.php:415 views/form/modals.php:490
+#: views/shortcode/flex_idx_commercial_search.php:336
+#: views/shortcode/flex_idx_search.php:327
+#: views/shortcode/flex_idx_search_commercial_filter.php:294
+#: views/shortcode/flex_idx_search_filter.php:280
+#: views/shortcode/idxboost_modals_filter.php:146
+msgid "Status Change"
+msgstr "Changement de statut"
+
+#: views/form/modals.php:424 views/shortcode/flex_idx_commercial_search.php:311
+#: views/shortcode/flex_idx_commercial_search.php:341
+#: views/shortcode/flex_idx_filter.php:219
+#: views/shortcode/flex_idx_filter_agent_office.php:195
+#: views/shortcode/flex_idx_filter_grid.php:82
+#: views/shortcode/flex_idx_filter_minimal.php:216
+#: views/shortcode/flex_idx_search.php:302
+#: views/shortcode/flex_idx_search.php:332
+#: views/shortcode/flex_idx_search_commercial_filter.php:269
+#: views/shortcode/flex_idx_search_commercial_filter.php:299
+#: views/shortcode/flex_idx_search_filter.php:255
+#: views/shortcode/flex_idx_search_filter.php:285
+#: views/shortcode/flex_idx_search_results.php:69
+#: views/shortcode/idxboost_modals_filter.php:121
+#: views/shortcode/idxboost_modals_filter.php:151
+msgid "Save Search"
+msgstr "Enregistrer la recherche"
+
+#: views/form/modals.php:442
+msgid "Saved Search"
+msgstr "Enregistrer cette recherche"
+
+#: views/form/modals.php:499
+msgid "Update Saved Search"
+msgstr "Enregistrer cette recherche"
+
+#: views/form/modals.php:519
+msgid "Property added to favorites"
+msgstr "Propriété ajoutée aux favoris!"
+
+#: views/form/modals.php:520
+msgid "You can see your saved properties"
+msgstr "Vous pouvez voir vos propriétés enregistrées"
+
+#: views/form/modals.php:520
+msgid "under your account"
+msgstr "sous votre compte"
+
+#: views/form/modals.php:536
+msgid "Your changes have been saved successfully"
+msgstr "Vos modifications ont été enregistrées avec succès"
+
+#: views/form/modals.php:552
+msgid "Schedule a Consultation"
+msgstr "Organiser une visite"
+
+#: views/form/modals.php:556
+msgid ""
+"Please provide your contact information and one of our real estate "
+"professionals will be in touch."
+msgstr ""
+"S'il vous plaît fournir vos informations de contact et l'un de nos "
+"professionnels de l'immobilier sera en contact."
+
+#: views/form/modals.php:559
+msgid "CALL US"
+msgstr "APPELEZ-NOUS"
+
+#: views/form/modals.php:585
+msgid "Phone Number"
+msgstr "Numéro de téléphone"
+
+#: views/form/modals.php:590 views/form/modals.php:708
+#: views/form/modals.php:710 views/shortcode/flex_idx_building.php:517
+#: views/shortcode/flex_idx_building.php:634
+#: views/shortcode/flex_idx_building.php:636
+#: views/shortcode/flex_idx_commercial_search.php:592
+#: views/shortcode/flex_idx_contact_form.php:38
+#: views/shortcode/flex_idx_property_detail.php:597
+#: views/shortcode/flex_idx_property_detail.php:599
+#: views/shortcode/flex_idx_property_modal_detail.php:485
+#: views/shortcode/flex_idx_property_modal_detail.php:487
+#: views/shortcode/flex_idx_search.php:583
+#: views/shortcode/flex_idx_search_commercial_filter.php:549
+#: views/shortcode/flex_idx_search_filter.php:535
+#: views/shortcode/idx_off_market_listing_detail.php:494
+#: views/shortcode/idx_off_market_listing_detail.php:496
+#: views/shortcode/idxboost_buyers_form.php:120
+#: views/shortcode/idxboost_modals_filter.php:90
+#: views/shortcode/idxboost_modals_filter.php:566
+#: views/shortcode/idxboost_rentals_form.php:121
+#: views/shortcode/idxboost_sellers_form.php:91
+msgid "Comments"
+msgstr "Commentaires"
+
+#: views/form/modals.php:593
+msgid "Prefered Time and Date"
+msgstr "Heure et date préférées"
+
+#: views/form/modals.php:597
+msgid "Morning"
+msgstr "Matin"
+
+#: views/form/modals.php:598
+msgid "Afternoon"
+msgstr "Après midi"
+
+#: views/form/modals.php:599
+msgid "Evening"
+msgstr "Soir"
+
+#: views/form/modals.php:605
+msgid "Choose Date"
+msgstr "Choisissez la date"
+
+#: views/form/modals.php:610 views/form/modals.php:716
+#: views/shortcode/flex_idx_commercial_search.php:283
+#: views/shortcode/flex_idx_commercial_search.php:598
+#: views/shortcode/flex_idx_contact_form.php:47
+#: views/shortcode/flex_idx_search.php:274
+#: views/shortcode/flex_idx_search.php:589
+#: views/shortcode/flex_idx_search_commercial_filter.php:241
+#: views/shortcode/flex_idx_search_commercial_filter.php:555
+#: views/shortcode/flex_idx_search_filter.php:227
+#: views/shortcode/flex_idx_search_filter.php:541
+#: views/shortcode/idxboost_buyers_form.php:131
+#: views/shortcode/idxboost_modals_filter.php:94
+#: views/shortcode/idxboost_modals_filter.php:572
+#: views/shortcode/idxboost_rentals_form.php:132
+#: views/shortcode/idxboost_sellers_form.php:99
+msgid "Submit"
+msgstr "Envoyer"
+
+#: views/form/modals.php:629 views/shortcode/flex_idx_building.php:137
+#: views/shortcode/flex_idx_commercial_search.php:256
+#: views/shortcode/flex_idx_commercial_search.php:438
+#: views/shortcode/flex_idx_property_detail.php:151
+#: views/shortcode/flex_idx_search.php:247
+#: views/shortcode/flex_idx_search.php:429
+#: views/shortcode/flex_idx_search_commercial_filter.php:216
+#: views/shortcode/flex_idx_search_commercial_filter.php:395
+#: views/shortcode/flex_idx_search_filter.php:202
+#: views/shortcode/flex_idx_search_filter.php:381
+#: views/shortcode/idx_off_market_listing_detail.php:116
+#: views/shortcode/idxboost_modals_filter.php:69
+#: views/shortcode/idxboost_modals_filter.php:411
+msgid "Email to a friend"
+msgstr "Envoyer à un ami"
+
+#: views/form/modals.php:634
+msgid "Recomend this to a friend, just enter their email below"
+msgstr "Recommandez ceci à un ami, entrez simplement son email ci-dessous"
+
+#: views/form/modals.php:680 views/shortcode/flex_idx_commercial_search.php:263
+#: views/shortcode/flex_idx_search.php:254
+#: views/shortcode/flex_idx_search_commercial_filter.php:221
+#: views/shortcode/flex_idx_search_filter.php:207
+#: views/shortcode/idxboost_modals_filter.php:74
+msgid "Friend&#039s Information"
+msgstr "Informations sur les amis"
+
+#: views/form/modals.php:683
+msgid "Friend&#039s email"
+msgstr "Email d'un ami"
+
+#: views/form/modals.php:685 views/shortcode/idxboost_modals_filter.php:76
+msgid "Friend&#039s Email"
+msgstr "Email d'un ami"
+
+#: views/form/modals.php:689
+msgid "Friend name"
+msgstr "Nom de l'ami"
+
+#: views/form/modals.php:691 views/shortcode/idxboost_modals_filter.php:79
+msgid "Friend&#039s Name"
+msgstr "Nom de l'ami"
+
+#: views/form/modals.php:694 views/shortcode/flex_idx_commercial_search.php:271
+#: views/shortcode/flex_idx_search.php:262
+#: views/shortcode/flex_idx_search_commercial_filter.php:229
+#: views/shortcode/flex_idx_search_filter.php:215
+#: views/shortcode/idxboost_modals_filter.php:82
+msgid "Your Information"
+msgstr "Vos informations"
+
+#: views/form/modals.php:696 views/form/modals.php:698
+#: views/shortcode/idxboost_modals_filter.php:84
+msgid "Your Name"
+msgstr "Votre nom"
+
+#: views/form/modals.php:702 views/form/modals.php:704
+#: views/shortcode/idxboost_modals_filter.php:87
+msgid "Your Email"
+msgstr "Votre email"
+
+#: views/form/modals.php:713 views/shortcode/flex_idx_building.php:523
+#: views/shortcode/flex_idx_building.php:639
+#: views/shortcode/flex_idx_property_detail.php:602
+#: views/shortcode/flex_idx_property_modal_detail.php:490
+#: views/shortcode/idx_off_market_listing_detail.php:499
+msgid "Required Fields"
+msgstr "Champs obligatoires"
+
+#: views/form/modals.php:735 views/shortcode/idxboost_modals_filter.php:13
+msgid "Mortgage calculator"
+msgstr "Calculer votre emprunt immobiler"
+
+#: views/form/modals.php:740
+msgid "Let’s us know the best time for showing."
+msgstr "Découvrez les mensualités de remboursement"
+
+#: views/form/modals.php:762 views/shortcode/flex_idx_commercial_search.php:208
+#: views/shortcode/flex_idx_search.php:199
+#: views/shortcode/flex_idx_search_commercial_filter.php:168
+#: views/shortcode/flex_idx_search_filter.php:154
+#: views/shortcode/idxboost_modals_filter.php:20
+msgid "Purchase Price"
+msgstr "Prix du bien"
+
+#: views/form/modals.php:771
+msgid "Down Payment"
+msgstr "de l’apport"
+
+#: views/form/modals.php:780 views/shortcode/flex_idx_commercial_search.php:218
+#: views/shortcode/flex_idx_search.php:209
+#: views/shortcode/flex_idx_search_commercial_filter.php:178
+#: views/shortcode/flex_idx_search_filter.php:164
+#: views/shortcode/idxboost_modals_filter.php:30
+msgid "Term"
+msgstr "Durée du prêt"
+
+#: views/form/modals.php:785 views/form/modals.php:788
+msgid "Years"
+msgstr "Années"
+
+#: views/form/modals.php:795 views/shortcode/flex_idx_commercial_search.php:226
+#: views/shortcode/flex_idx_search.php:217
+#: views/shortcode/flex_idx_search_commercial_filter.php:186
+#: views/shortcode/flex_idx_search_filter.php:172
+#: views/shortcode/idxboost_modals_filter.php:38
+msgid "Interest Rate"
+msgstr "Taux d'intérêt"
+
+#: views/form/modals.php:804 views/shortcode/flex_idx_commercial_search.php:232
+#: views/shortcode/flex_idx_search.php:223
+#: views/shortcode/flex_idx_search_commercial_filter.php:192
+#: views/shortcode/flex_idx_search_filter.php:178
+#: views/shortcode/idxboost_modals_filter.php:44
+msgid "Calculate"
+msgstr "Calculer"
+
+#: views/form/modals.php:813
+#: views/shortcode/flex_idx_search_commercial_filter.php:196
+#: views/shortcode/flex_idx_search_filter.php:182
+#: views/shortcode/idxboost_modals_filter.php:48
+msgid "Mortgage breakdown"
+msgstr "Vos mensualités"
+
+#: views/form/modals.php:815 views/shortcode/flex_idx_commercial_search.php:238
+#: views/shortcode/flex_idx_search.php:229
+#: views/shortcode/flex_idx_search_commercial_filter.php:198
+#: views/shortcode/flex_idx_search_filter.php:184
+#: views/shortcode/idxboost_modals_filter.php:50
+msgid "Mortgage Amount"
+msgstr "Montant du prêt"
+
+#: views/form/modals.php:816 views/shortcode/flex_idx_commercial_search.php:239
+#: views/shortcode/flex_idx_search.php:230
+#: views/shortcode/flex_idx_search_commercial_filter.php:199
+#: views/shortcode/flex_idx_search_filter.php:185
+#: views/shortcode/idxboost_modals_filter.php:51
+msgid "Down Payment Amount"
+msgstr "Montant de l’apport"
+
+#: views/form/modals.php:817 views/shortcode/flex_idx_commercial_search.php:240
+#: views/shortcode/flex_idx_search.php:231
+#: views/shortcode/flex_idx_search_commercial_filter.php:200
+#: views/shortcode/flex_idx_search_filter.php:186
+#: views/shortcode/idxboost_modals_filter.php:52
+msgid "Monthly Amount"
+msgstr "Montant mensuel"
+
+#: views/form/modals.php:818 views/shortcode/flex_idx_commercial_search.php:242
+#: views/shortcode/flex_idx_search.php:233
+#: views/shortcode/flex_idx_search_commercial_filter.php:202
+#: views/shortcode/flex_idx_search_filter.php:188
+#: views/shortcode/idxboost_modals_filter.php:54
+msgid "Total Monthly Amount"
+msgstr "Montant mensuel total"
+
+#: views/form/modals.php:818
+msgid "(Principal & Interest, and PMI)"
+msgstr "(Principal et intérêt, et PMI)"
+
+#: views/form/modals.php:835
+msgid "Information has been updated!"
+msgstr "L'information a été mise à jour!"
+
+#: views/form/modals.php:868
+msgid "Search Saved"
+msgstr "Recherche sauvegardée"
+
+#: views/form/modals.php:869
+msgid "Your search has been saved successfuly."
+msgstr "Votre recherche a été enregistrée avec succès."
+
+#: views/form/modals.php:1592
+msgid "Thank you for registering!"
+msgstr "Merci pour votre inscription!"
+
+#: views/form/modals.php:1593
+msgid "Use Phone Number For Password"
+msgstr "Utiliser le numéro de téléphone pour le mot de passe"
+
+#: views/form/modals.php:1600
+msgid "Used as password"
+msgstr "Utilisé comme mot de passe"
+
+#: views/form/modals.php:1614 views/form/modals.php:1642
+#: views/form/modals.php:1670
+msgid "Just a few more details so we can help you"
+msgstr ""
+"Juste quelques détails supplémentaires pour que nous puissions vous aider"
+
+#: views/notification/SwitchEmailFrequency.php:50
+msgid "UNSUBSCRIBE ALERT"
+msgstr "Se désabonner"
+
+#: views/notification/SwitchEmailFrequency.php:53
+msgid "You’ve been unsubscribed from My Saved Search."
+msgstr "Vous avez été désabonné de votre recherche enregistrée."
+
+#: views/notification/SwitchEmailFrequency.php:54
+msgid "You’ll still receive other "
+msgstr "Vous recevrez toujours ("
+
+#: views/notification/SwitchEmailFrequency.php:54
+msgid "emails that you have subscribed to."
+msgstr ") les emails des autres listes auxquelles vous êtes inscrit."
+
+#: views/notification/SwitchEmailFrequency.php:64
+#: views/notification/SwitchEmailFrequency.php:136
+msgid "Price Changes"
+msgstr "Changement de prix"
+
+#: views/notification/SwitchEmailFrequency.php:66
+#: views/notification/SwitchEmailFrequency.php:139
+msgid "status changes"
+msgstr "Changement de statut"
+
+#: views/notification/SwitchEmailFrequency.php:75
+msgid "Oops, was it a mistake? "
+msgstr "Oups, était-ce une erreur?"
+
+#: views/notification/SwitchEmailFrequency.php:76
+msgid "Resubscribe"
+msgstr "Inscrivez-vous à nouveau"
+
+#: views/notification/SwitchEmailFrequency.php:79
+msgid "Hooray! You have resubscribed."
+msgstr "Hourra! Vous avez désabonné."
+
+#: views/notification/SwitchEmailFrequency.php:80
+#: views/notification/SwitchEmailFrequency.php:157
+msgid "Thanks for staying with us."
+msgstr "Merci de rester avec nous."
+
+#: views/notification/SwitchEmailFrequency.php:92
+msgid "SUBSCRIBE ALERT"
+msgstr "Souscrire à une alerte"
+
+#: views/notification/SwitchEmailFrequency.php:93
+msgid "Hooray! You have resubscribied. Thanks for staying with us."
+msgstr "Hourra! Vous êtes abonné Merci de rester avec nous."
+
+#: views/notification/SwitchEmailFrequency.php:94
+msgid "Continue searching for homes"
+msgstr "Continuer à chercher des maisons"
+
+#: views/notification/SwitchEmailFrequency.php:105
+msgid "EDIT ALERT"
+msgstr "EDITER UNE ALERTE"
+
+#: views/notification/SwitchEmailFrequency.php:122
+msgid "Daily (each morning)"
+msgstr "Quotidien (chaque matin)"
+
+#: views/notification/SwitchEmailFrequency.php:142
+msgid "Update Search"
+msgstr "Mettre à jour la recherche"
+
+#: views/notification/SwitchEmailFrequency.php:156
+msgid "Your alert "
+msgstr "Votre alerte"
+
+#: views/notification/SwitchEmailFrequency.php:156
+msgid "is updated."
+msgstr "est mis à jour."
+
+#: views/shortcode/flex_idx_accounts_links.php:5
+#: views/shortcode/idxboost-menu-dynamic.php:5
+msgid "Sign In"
+msgstr "Se connecter"
+
+#: views/shortcode/flex_idx_autocomplete.php:33
+msgid "Enter an address, city, zip code or MLS number"
+msgstr "Entrez adresse, ville, zip ou MLS"
+
+#: views/shortcode/flex_idx_autocomplete.php:43
+#: views/shortcode/flex_idx_autocomplete.php:44
+msgid "Advanced search options"
+msgstr "Options de recherche avancée"
+
+#: views/shortcode/flex_idx_building.php:87
+msgid "The building you requested is not available."
+msgstr "Le bâtiment que vous avez demandé n'est pas disponible"
+
+#: views/shortcode/flex_idx_building.php:124
+#: views/shortcode/flex_idx_building.php:140
+msgid "INQUIRE"
+msgstr "RENSEIGNER"
+
+#: views/shortcode/flex_idx_building.php:153
+#: views/shortcode/flex_idx_property_detail.php:163
+#: views/shortcode/flex_idx_property_modal_detail.php:112
+#: views/shortcode/idx_off_market_listing_detail.php:123
+msgid "Call me"
+msgstr "Appellez-moi"
+
+#: views/shortcode/flex_idx_building.php:169
+#: views/shortcode/flex_idx_property_detail.php:179
+#: views/shortcode/flex_idx_property_modal_detail.php:128
+#: views/shortcode/idx_off_market_listing_detail.php:144
+msgid "photos"
+msgstr "Photos"
+
+#: views/shortcode/flex_idx_building.php:173
+#: views/shortcode/flex_idx_building.php:178
+#: views/shortcode/flex_idx_property_detail.php:182
+#: views/shortcode/flex_idx_property_modal_detail.php:131
+#: views/shortcode/idx_off_market_listing_detail.php:147
+msgid "map view"
+msgstr "vue de la carte"
+
+#: views/shortcode/flex_idx_building.php:210
+#: views/shortcode/flex_idx_building.php:546
+#: views/shortcode/idxboost_building_collection_ajax.php:99
+#: views/shortcode/idxboost_building_collection_ajax.php:118
+msgid "Pending"
+msgstr "En attendant"
+
+#: views/shortcode/flex_idx_building.php:215
+#: views/shortcode/flex_idx_building.php:261
+msgid "Remove Favorite"
+msgstr "Supprimer le favori"
+
+#: views/shortcode/flex_idx_building.php:217
+#: views/shortcode/flex_idx_building.php:263
+msgid "Save Favorite"
+msgstr "Enregistrer Favori"
+
+#: views/shortcode/flex_idx_building.php:240
+#: views/shortcode/flex_idx_property_detail.php:287
+#: views/shortcode/flex_idx_property_modal_detail.php:198
+#: views/shortcode/idx_off_market_listing_detail.php:199
+msgid "share"
+msgstr "Partager"
+
+#: views/shortcode/flex_idx_building.php:250
+msgid "Faceboook"
+msgstr "Faceboook"
+
+#: views/shortcode/flex_idx_building.php:251
+msgid "Twitter"
+msgstr "Twitter"
+
+#: views/shortcode/flex_idx_building.php:255
+#: views/shortcode/flex_idx_property_detail.php:295
+#: views/shortcode/flex_idx_property_modal_detail.php:206
+#: views/shortcode/idx_off_market_listing_detail.php:212
+msgid "email to a friend"
+msgstr "Envoyer à un ami"
+
+#: views/shortcode/flex_idx_building.php:256
+#: views/shortcode/flex_idx_property_detail.php:296
+#: views/shortcode/flex_idx_property_modal_detail.php:207
+#: views/shortcode/idx_off_market_listing_detail.php:213
+#: views/shortcode/idxboost_modals_filter.php:414
+msgid "print"
+msgstr "Imprimer"
+
+#: views/shortcode/flex_idx_building.php:278
+#: views/shortcode/flex_idx_building.php:655
+#: views/shortcode/flex_idx_filter.php:270
+#: views/shortcode/flex_idx_filter_agent_office.php:246
+#: views/shortcode/flex_idx_filter_grid.php:133
+#: views/shortcode/flex_idx_filter_minimal.php:269
+#: views/shortcode/flex_idx_property_modal_detail.php:175
+#: views/shortcode/flex_idx_saved_searches.php:77
+#: views/shortcode/flex_idx_search.php:759
+#: views/shortcode/flex_idx_search_filter.php:699
+#: views/shortcode/flex_idx_search_filter_bar.php:65
+#: views/shortcode/flex_idx_search_filter_bar.php:161
+#: views/shortcode/flex_idx_search_filter_bar.php:308
+#: views/shortcode/flex_idx_search_results.php:189
+#: views/shortcode/idx_off_market_listing_detail.php:190
+#: views/shortcode/idxboost_modals_filter.php:194
+msgid "Bedrooms"
+msgstr "Chambre(s)"
+
+#: views/shortcode/flex_idx_building.php:282
+#: views/shortcode/flex_idx_building.php:659
+#: views/shortcode/flex_idx_buildings.php:76
+#: views/shortcode/flex_idx_commercial_search.php:477
+#: views/shortcode/flex_idx_commercial_search.php:917
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:292
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:457
+#: views/shortcode/flex_idx_filter.php:339
+#: views/shortcode/flex_idx_filter_agent_office.php:309
+#: views/shortcode/flex_idx_filter_grid.php:183
+#: views/shortcode/flex_idx_filter_minimal.php:319
+#: views/shortcode/flex_idx_property_detail.php:345
+#: views/shortcode/flex_idx_property_modal_detail.php:244
+#: views/shortcode/flex_idx_search.php:468
+#: views/shortcode/flex_idx_search.php:843
+#: views/shortcode/flex_idx_search_commercial_filter.php:434
+#: views/shortcode/flex_idx_search_commercial_filter.php:867
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:267
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:430
+#: views/shortcode/flex_idx_search_filter.php:420
+#: views/shortcode/flex_idx_search_filter.php:783
+#: views/shortcode/flex_idx_search_filter_bar.php:202
+#: views/shortcode/flex_idx_search_filter_bar.php:360
+#: views/shortcode/flex_idx_search_results.php:250
+#: views/shortcode/idx_off_market_listing_detail.php:246
+#: views/shortcode/idxboost_modals_filter.php:278
+#: views/shortcode/idxboost_modals_filter.php:450
+msgid "Year Built"
+msgstr "Année de construction"
+
+#: views/shortcode/flex_idx_building.php:290
+#: views/shortcode/flex_idx_building.php:667
+msgid "Stories"
+msgstr "Étages"
+
+#: views/shortcode/flex_idx_building.php:294
+msgid "Average Price SqFt"
+msgstr "Prix moyen SqFt"
+
+#: views/shortcode/flex_idx_building.php:295
+#: views/shortcode/flex_idx_building.php:671
+msgid "Average Days on Market"
+msgstr "Jours moyens sur le marché"
+
+#: views/shortcode/flex_idx_building.php:302
+#: views/shortcode/flex_idx_commercial_search.php:500
+#: views/shortcode/flex_idx_property_detail.php:373
+#: views/shortcode/flex_idx_property_modal_detail.php:265
+#: views/shortcode/flex_idx_search.php:491
+#: views/shortcode/flex_idx_search_commercial_filter.php:457
+#: views/shortcode/flex_idx_search_filter.php:443
+#: views/shortcode/idx_off_market_listing_detail.php:268
+#: views/shortcode/idxboost_modals_filter.php:497
+msgid "Amenities"
+msgstr "Équipements"
+
+#: views/shortcode/flex_idx_building.php:358
+msgid "FLOORPLANS"
+msgstr "Étages"
+
+#: views/shortcode/flex_idx_building.php:370
+msgid "Model"
+msgstr "Modèle"
+
+#: views/shortcode/flex_idx_building.php:371
+msgid "Line"
+msgstr "Étages"
+
+#: views/shortcode/flex_idx_building.php:373
+msgid "B/B/H"
+msgstr "B/B/H"
+
+#: views/shortcode/flex_idx_building.php:374
+msgid "Beds/Baths/Half Bath"
+msgstr "Lits/Bains/Demi Bain"
+
+#: views/shortcode/flex_idx_building.php:376
+msgid "Sqft"
+msgstr "Sqft"
+
+#: views/shortcode/flex_idx_building.php:377
+msgid "Sqft m2"
+msgstr "Sqft m2"
+
+#: views/shortcode/flex_idx_building.php:378
+msgid "Floorplans"
+msgstr "Étage"
+
+#: views/shortcode/flex_idx_building.php:425
+msgid "Download"
+msgstr "Télécharger"
+
+#: views/shortcode/flex_idx_building.php:457
+#: views/shortcode/flex_idx_building.php:575
+#: views/shortcode/idxboost_modals_filter.php:546
+msgid "Call to"
+msgstr "Appellez-moi"
+
+#: views/shortcode/flex_idx_building.php:457
+#: views/shortcode/flex_idx_building.php:575
+#: views/shortcode/flex_idx_property_detail.php:534
+#: views/shortcode/flex_idx_property_modal_detail.php:422
+#: views/shortcode/idx_off_market_listing_detail.php:429
+#: views/shortcode/idxboost_modals_filter.php:546
+msgid "Ph"
+msgstr "Téléphone"
+
+#: views/shortcode/flex_idx_building.php:472
+#: views/shortcode/flex_idx_property_detail.php:553
+#: views/shortcode/flex_idx_property_modal_detail.php:441
+#: views/shortcode/idx_off_market_listing_detail.php:450
+msgid "Gender"
+msgstr "genre"
+
+#: views/shortcode/flex_idx_building.php:475
+#: views/shortcode/flex_idx_building.php:593
+#: views/shortcode/flex_idx_contact_form.php:23
+#: views/shortcode/flex_idx_property_detail.php:556
+#: views/shortcode/flex_idx_property_modal_detail.php:444
+#: views/shortcode/idx_off_market_listing_detail.php:453
+msgid "Mr."
+msgstr "Monsieur"
+
+#: views/shortcode/flex_idx_building.php:476
+#: views/shortcode/flex_idx_building.php:594
+#: views/shortcode/flex_idx_contact_form.php:24
+#: views/shortcode/flex_idx_property_detail.php:557
+#: views/shortcode/flex_idx_property_modal_detail.php:445
+#: views/shortcode/idx_off_market_listing_detail.php:454
+msgid "Mrs."
+msgstr "Madame"
+
+#: views/shortcode/flex_idx_building.php:477
+#: views/shortcode/flex_idx_building.php:595
+#: views/shortcode/flex_idx_contact_form.php:25
+#: views/shortcode/flex_idx_property_detail.php:558
+#: views/shortcode/flex_idx_property_modal_detail.php:446
+#: views/shortcode/idx_off_market_listing_detail.php:455
+msgid "Miss"
+msgstr "Mlle"
+
+#: views/shortcode/flex_idx_building.php:505
+#: views/shortcode/flex_idx_building.php:507
+#: views/shortcode/flex_idx_building.php:622
+#: views/shortcode/flex_idx_building.php:624
+#: views/shortcode/flex_idx_contact_form.php:36
+#: views/shortcode/flex_idx_profile.php:85
+#: views/shortcode/flex_idx_property_detail.php:585
+#: views/shortcode/flex_idx_property_detail.php:587
+#: views/shortcode/flex_idx_property_modal_detail.php:473
+#: views/shortcode/flex_idx_property_modal_detail.php:475
+#: views/shortcode/idx_off_market_listing_detail.php:482
+#: views/shortcode/idx_off_market_listing_detail.php:484
+#: views/shortcode/idxboost_modals_filter.php:560
+msgid "Email"
+msgstr "Email"
+
+#: views/shortcode/flex_idx_building.php:511
+#: views/shortcode/flex_idx_building.php:513
+#: views/shortcode/flex_idx_building.php:628
+#: views/shortcode/flex_idx_building.php:630
+#: views/shortcode/flex_idx_contact_form.php:37
+#: views/shortcode/flex_idx_profile.php:86
+#: views/shortcode/flex_idx_property_detail.php:591
+#: views/shortcode/flex_idx_property_detail.php:593
+#: views/shortcode/flex_idx_property_modal_detail.php:479
+#: views/shortcode/flex_idx_property_modal_detail.php:481
+#: views/shortcode/idx_off_market_listing_detail.php:488
+#: views/shortcode/idx_off_market_listing_detail.php:490
+#: views/shortcode/idxboost_modals_filter.php:563
+msgid "Phone"
+msgstr "Téléphone"
+
+#: views/shortcode/flex_idx_building.php:519
+#: views/shortcode/flex_idx_building.php:636
+#: views/shortcode/flex_idx_property_detail.php:599
+#: views/shortcode/flex_idx_property_modal_detail.php:487
+#: views/shortcode/idx_off_market_listing_detail.php:496
+#: views/shortcode/idxboost_modals_filter.php:566
+msgid "I am interested in"
+msgstr "Je suis intéressé(e) par"
+
+#: views/shortcode/flex_idx_building.php:525
+#: views/shortcode/flex_idx_property_detail.php:154
+#: views/shortcode/flex_idx_property_detail.php:604
+#: views/shortcode/idx_off_market_listing_detail.php:501
+msgid "Request Information"
+msgstr "Demande d’informations"
+
+#: views/shortcode/flex_idx_building.php:641
+#: views/shortcode/flex_idx_commercial_search.php:599
+#: views/shortcode/flex_idx_commercial_search.php:647
+#: views/shortcode/flex_idx_property_detail.php:126
+#: views/shortcode/flex_idx_property_modal_detail.php:492
+#: views/shortcode/flex_idx_search.php:590
+#: views/shortcode/flex_idx_search.php:638
+#: views/shortcode/flex_idx_search_commercial_filter.php:556
+#: views/shortcode/flex_idx_search_commercial_filter.php:605
+#: views/shortcode/flex_idx_search_filter.php:542
+#: views/shortcode/flex_idx_search_filter.php:591
+#: views/shortcode/idx_off_market_listing_detail.php:110
+#: views/shortcode/idxboost_modals_filter.php:573
+#: views/shortcode/idxboost_modals_filter.php:623
+msgid "Request information"
+msgstr "Demande d’informations"
+
+#: views/shortcode/flex_idx_building.php:670
+msgid "Average Price"
+msgstr "Prix moyen"
+
+#: views/shortcode/flex_idx_building.php:677
+#: views/shortcode/flex_idx_building.php:680
+msgid "Inventory"
+msgstr "Inventaire"
+
+#: views/shortcode/flex_idx_building.php:678
+msgid "FusionCharts will render here"
+msgstr "FusionCharts rendra ici"
+
+#: views/shortcode/flex_idx_building.php:684
+#: views/shortcode/flex_idx_quick_search.php:33
+#: views/shortcode/flex_idx_search.php:711
+#: views/shortcode/flex_idx_search_commercial_filter.php:663
+#: views/shortcode/flex_idx_search_filter.php:651
+#: views/shortcode/flex_idx_search_results.php:117
+#: views/shortcode/history_building_file_count.php:10
+msgid "For sale"
+msgstr "Acheter"
+
+#: views/shortcode/flex_idx_building.php:688
+#: views/shortcode/flex_idx_quick_search.php:34
+msgid "For rent"
+msgstr "À louer"
+
+#: views/shortcode/flex_idx_building.php:694
+msgid "Condo Statistics"
+msgstr "Statistique de l’immeuble"
+
+#: views/shortcode/flex_idx_building.php:697
+msgid "avg price"
+msgstr "Prix de vente"
+
+#: views/shortcode/flex_idx_building.php:698
+msgid "avg days on market"
+msgstr "Jours moyens sur le marché"
+
+#: views/shortcode/flex_idx_building.php:699
+msgid "of building is for sale"
+msgstr "Pourcentage de l’immeuble à vendre"
+
+#: views/shortcode/flex_idx_building.php:700
+msgid "of building is for rent"
+msgstr "Pourcentage de l’immeuble à louer"
+
+#: views/shortcode/flex_idx_building.php:701
+msgid "of building sold in previous 12 months"
+msgstr "Pourcentage de l’immeuble vendu au cours des 12 derniers mois"
+
+#: views/shortcode/flex_idx_building.php:711
+#: views/shortcode/flex_idx_building_group.php:110
+#: views/shortcode/flex_idx_commercial_search.php:681
+#: views/shortcode/flex_idx_property_detail.php:652
+#: views/shortcode/flex_idx_property_modal_detail.php:550
+#: views/shortcode/flex_idx_search.php:674
+#: views/shortcode/flex_idx_search_commercial_filter.php:640
+#: views/shortcode/flex_idx_search_filter.php:628
+#: views/shortcode/idx_off_market_listing_detail.php:511
+msgid "Please wait while we create your document"
+msgstr "Veuillez patienter pendant que nous créons votre document"
+
+#: views/shortcode/flex_idx_building_group.php:38
+msgid "The building Group you requested is not available."
+msgstr "Le groupe de bâtiments que vous avez demandé n'est pas disponible"
+
+#: views/shortcode/flex_idx_buildings.php:4
+#: views/shortcode/flex_idx_favorites.php:4
+#: views/shortcode/flex_idx_profile.php:20
+#: views/shortcode/flex_idx_saved_searches.php:4
+msgid "You need to"
+msgstr "Vous devez vous "
+
+#: views/shortcode/flex_idx_buildings.php:4
+#: views/shortcode/flex_idx_favorites.php:4
+#: views/shortcode/flex_idx_profile.php:20
+#: views/shortcode/flex_idx_saved_searches.php:4
+msgid "login"
+msgstr "identifier"
+
+#: views/shortcode/flex_idx_buildings.php:4
+#: views/shortcode/flex_idx_favorites.php:4
+#: views/shortcode/flex_idx_saved_searches.php:4
+msgid "to view this page"
+msgstr "pour voir cette page"
+
+#: views/shortcode/flex_idx_buildings.php:31
+#: views/shortcode/flex_idx_favorites.php:31
+#: views/shortcode/flex_idx_filter.php:520
+#: views/shortcode/flex_idx_filter_agent_office.php:482
+#: views/shortcode/flex_idx_filter_minimal.php:476
+#: views/shortcode/flex_idx_profile.php:45
+#: views/shortcode/flex_idx_saved_searches.php:31
+#: views/shortcode/flex_idx_search_results.php:433
+#: views/shortcode/idxboost_exclusive_listing.php:125
+#: views/shortcode/off_market_listing_collection.php:124
+msgid "Search results"
+msgstr "Résultats de la recherche"
+
+#: views/shortcode/flex_idx_buildings.php:62
+msgid "My Saved Buildings"
+msgstr "Mes immeubles sauvegardés"
+
+#: views/shortcode/flex_idx_buildings.php:68
+msgid "You don't have any saved building."
+msgstr "Vous n’avez aucun immeuble enregistré"
+
+#: views/shortcode/flex_idx_buildings.php:75
+msgid "Building Address"
+msgstr "Adresse du bâtiment"
+
+#: views/shortcode/flex_idx_buildings.php:77
+msgid "Total Units"
+msgstr "Unités totales"
+
+#: views/shortcode/flex_idx_buildings.php:78
+#: views/shortcode/flex_idx_favorites.php:79
+#: views/shortcode/flex_idx_saved_searches.php:80
+msgid "Date Saved"
+msgstr "Date de sauvegarde"
+
+#: views/shortcode/flex_idx_buildings.php:79
+#: views/shortcode/flex_idx_favorites.php:80
+#: views/shortcode/flex_idx_saved_searches.php:81
+msgid "Action"
+msgstr "Actes"
+
+#: views/shortcode/flex_idx_buildings.php:96
+#: views/shortcode/flex_idx_favorites.php:100
+#: views/shortcode/flex_idx_saved_searches.php:113
+msgid "View more"
+msgstr "Afficher plus"
+
+#: views/shortcode/flex_idx_buildings.php:96
+#: views/shortcode/flex_idx_favorites.php:101
+#: views/shortcode/flex_idx_saved_searches.php:113
+msgid "Less"
+msgstr "Moins"
+
+#: views/shortcode/flex_idx_commercial_search.php:106
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:26
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:369
+#: views/shortcode/flex_idx_filter.php:753
+#: views/shortcode/flex_idx_search.php:97
+#: views/shortcode/flex_idx_search_commercial_filter.php:93
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:26
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:342
+#: views/shortcode/flex_idx_search_filter.php:79
+#: views/shortcode/flex_idx_search_filter_bar.php:26
+#: views/shortcode/flex_idx_search_filter_bar.php:274
+#: views/shortcode/flex_idx_search_results.php:106
+#: views/shortcode/off_market_listing_collection.php:155
+msgid "Save"
+msgstr "sauvegarder"
+
+#: views/shortcode/flex_idx_commercial_search.php:110
+#: views/shortcode/flex_idx_filter.php:503
+#: views/shortcode/flex_idx_filter.php:757
+#: views/shortcode/flex_idx_filter_agent_office.php:465
+#: views/shortcode/flex_idx_filter_agent_office.php:693
+#: views/shortcode/flex_idx_filter_minimal.php:458
+#: views/shortcode/flex_idx_search.php:101
+#: views/shortcode/flex_idx_search_commercial_filter.php:97
+#: views/shortcode/flex_idx_search_filter.php:83
+#: views/shortcode/flex_idx_search_results.php:415
+#: views/shortcode/idxboost_exclusive_listing.php:108
+#: views/shortcode/off_market_listing_collection.php:107
+#: views/shortcode/off_market_listing_collection.php:159
+msgid "Grid"
+msgstr "Grille"
+
+#: views/shortcode/flex_idx_commercial_search.php:114
+#: views/shortcode/flex_idx_filter.php:505
+#: views/shortcode/flex_idx_filter.php:765
+#: views/shortcode/flex_idx_filter_agent_office.php:467
+#: views/shortcode/flex_idx_filter_agent_office.php:701
+#: views/shortcode/flex_idx_filter_minimal.php:460
+#: views/shortcode/flex_idx_search.php:105
+#: views/shortcode/flex_idx_search_commercial_filter.php:101
+#: views/shortcode/flex_idx_search_filter.php:87
+#: views/shortcode/flex_idx_search_results.php:417
+#: views/shortcode/idxboost_exclusive_listing.php:110
+#: views/shortcode/off_market_listing_collection.php:109
+#: views/shortcode/off_market_listing_collection.php:167
+msgid "Map"
+msgstr "Carte"
+
+#: views/shortcode/flex_idx_commercial_search.php:118
+#: views/shortcode/flex_idx_search.php:109
+#: views/shortcode/flex_idx_search_commercial_filter.php:105
+#: views/shortcode/flex_idx_search_filter.php:91
+msgid "Boundaries"
+msgstr "Limites"
+
+#: views/shortcode/flex_idx_commercial_search.php:126
+#: views/shortcode/flex_idx_search.php:117
+#: views/shortcode/flex_idx_search_commercial_filter.php:113
+#: views/shortcode/flex_idx_search_filter.php:99
+msgid "Draw a shape around the region(s) you would like to live in"
+msgstr ""
+"Dessinez une forme autour de la (des) région (s) dans laquelle vous aimeriez "
+"vivre"
+
+#: views/shortcode/flex_idx_commercial_search.php:130
+#: views/shortcode/flex_idx_search.php:121
+#: views/shortcode/flex_idx_search_commercial_filter.php:117
+#: views/shortcode/flex_idx_search_filter.php:103
+msgid "Apply"
+msgstr "Appliquer"
+
+#: views/shortcode/flex_idx_commercial_search.php:165
+#: views/shortcode/flex_idx_filter.php:492
+#: views/shortcode/flex_idx_filter.php:494
+#: views/shortcode/flex_idx_filter_agent_office.php:454
+#: views/shortcode/flex_idx_filter_agent_office.php:456
+#: views/shortcode/flex_idx_filter_grid.php:273
+#: views/shortcode/flex_idx_search.php:156
+#: views/shortcode/flex_idx_search_commercial_filter.php:129
+#: views/shortcode/flex_idx_search_filter.php:115
+#: views/shortcode/flex_idx_search_results.php:398
+#: views/shortcode/idxboost_exclusive_listing.php:97
+#: views/shortcode/idxboost_exclusive_listing.php:99
+#: views/shortcode/off_market_listing_collection.php:96
+#: views/shortcode/off_market_listing_collection.php:98
+msgid "Newest Listings"
+msgstr "Nouveauté"
+
+#: views/shortcode/flex_idx_commercial_search.php:166
+#: views/shortcode/flex_idx_filter.php:495
+#: views/shortcode/flex_idx_filter_agent_office.php:457
+#: views/shortcode/flex_idx_filter_grid.php:274
+#: views/shortcode/flex_idx_search.php:157
+#: views/shortcode/flex_idx_search_commercial_filter.php:130
+#: views/shortcode/flex_idx_search_filter.php:116
+#: views/shortcode/flex_idx_search_results.php:395
+#: views/shortcode/flex_idx_search_results.php:399
+#: views/shortcode/idxboost_exclusive_listing.php:100
+#: views/shortcode/off_market_listing_collection.php:99
+msgid "Highest Price"
+msgstr "Le prix le plus élevé"
+
+#: views/shortcode/flex_idx_commercial_search.php:167
+#: views/shortcode/flex_idx_filter.php:496
+#: views/shortcode/flex_idx_filter_agent_office.php:458
+#: views/shortcode/flex_idx_filter_grid.php:275
+#: views/shortcode/flex_idx_search.php:158
+#: views/shortcode/flex_idx_search_commercial_filter.php:131
+#: views/shortcode/flex_idx_search_filter.php:117
+#: views/shortcode/flex_idx_search_results.php:400
+#: views/shortcode/idxboost_exclusive_listing.php:101
+#: views/shortcode/off_market_listing_collection.php:100
+msgid "Lowest Price"
+msgstr "Prix le plus bas"
+
+#: views/shortcode/flex_idx_commercial_search.php:168
+#: views/shortcode/flex_idx_filter.php:497
+#: views/shortcode/flex_idx_filter_agent_office.php:459
+#: views/shortcode/flex_idx_filter_grid.php:276
+#: views/shortcode/flex_idx_search.php:159
+#: views/shortcode/flex_idx_search_commercial_filter.php:132
+#: views/shortcode/flex_idx_search_filter.php:118
+#: views/shortcode/flex_idx_search_results.php:403
+#: views/shortcode/idxboost_exclusive_listing.php:102
+#: views/shortcode/off_market_listing_collection.php:101
+msgid "Highest Sq.Ft"
+msgstr "Le plus grand Sq Ft"
+
+#: views/shortcode/flex_idx_commercial_search.php:169
+#: views/shortcode/flex_idx_filter.php:498
+#: views/shortcode/flex_idx_filter_agent_office.php:460
+#: views/shortcode/flex_idx_filter_grid.php:277
+#: views/shortcode/flex_idx_search.php:160
+#: views/shortcode/flex_idx_search_commercial_filter.php:133
+#: views/shortcode/flex_idx_search_filter.php:119
+#: views/shortcode/flex_idx_search_results.php:404
+#: views/shortcode/idxboost_exclusive_listing.php:103
+#: views/shortcode/off_market_listing_collection.php:102
+msgid "Lowest Sq.Ft"
+msgstr "Le plus bas Sq Ft"
+
+#: views/shortcode/flex_idx_commercial_search.php:200
+#: views/shortcode/flex_idx_search.php:191
+#: views/shortcode/flex_idx_search_commercial_filter.php:162
+#: views/shortcode/flex_idx_search_filter.php:148
+msgid "Mortgage Calculator"
+msgstr "Calculer votre emprunt immobiler"
+
+#: views/shortcode/flex_idx_commercial_search.php:213
+#: views/shortcode/flex_idx_search.php:204
+#: views/shortcode/flex_idx_search_commercial_filter.php:173
+#: views/shortcode/flex_idx_search_filter.php:159
+#: views/shortcode/idxboost_modals_filter.php:25
+msgid "% Down Payment"
+msgstr "% de l’apport"
+
+#: views/shortcode/flex_idx_commercial_search.php:221
+#: views/shortcode/flex_idx_search.php:212
+#: views/shortcode/flex_idx_search_commercial_filter.php:181
+#: views/shortcode/flex_idx_search_filter.php:167
+#: views/shortcode/idxboost_modals_filter.php:33
+msgid "30 Years"
+msgstr "30 Années"
+
+#: views/shortcode/flex_idx_commercial_search.php:222
+#: views/shortcode/flex_idx_search.php:213
+#: views/shortcode/flex_idx_search_commercial_filter.php:182
+#: views/shortcode/flex_idx_search_filter.php:168
+#: views/shortcode/idxboost_modals_filter.php:34
+msgid "15 Years"
+msgstr "15 Années"
+
+#: views/shortcode/flex_idx_commercial_search.php:236
+#: views/shortcode/flex_idx_search.php:227
+msgid "Mortgage Breakdown"
+msgstr "Vos mensualités"
+
+#: views/shortcode/flex_idx_commercial_search.php:242
+#: views/shortcode/flex_idx_search.php:233
+#: views/shortcode/flex_idx_search_commercial_filter.php:202
+#: views/shortcode/flex_idx_search_filter.php:188
+#: views/shortcode/idxboost_modals_filter.php:54
+msgid "(Principal &amp; Interest, and PMI)"
+msgstr "(Principal et intérêt, et PMI)"
+
+#: views/shortcode/flex_idx_commercial_search.php:262
+#: views/shortcode/flex_idx_search.php:253
+#: views/shortcode/flex_idx_search_commercial_filter.php:220
+#: views/shortcode/flex_idx_search_filter.php:206
+msgid "Recommend this to a friend, just enter their email below."
+msgstr "Recommandez ceci à un ami, entrez simplement son email ci-dessous"
+
+#: views/shortcode/flex_idx_commercial_search.php:265
+#: views/shortcode/flex_idx_search.php:256
+#: views/shortcode/flex_idx_search_commercial_filter.php:223
+#: views/shortcode/flex_idx_search_filter.php:209
+msgid "Friend&#039s Email*"
+msgstr "Email d'un ami*"
+
+#: views/shortcode/flex_idx_commercial_search.php:268
+#: views/shortcode/flex_idx_search.php:259
+#: views/shortcode/flex_idx_search_commercial_filter.php:226
+#: views/shortcode/flex_idx_search_filter.php:212
+msgid "Friend&#039s Name*"
+msgstr "Nom de l'ami*"
+
+#: views/shortcode/flex_idx_commercial_search.php:273
+#: views/shortcode/flex_idx_search.php:264
+#: views/shortcode/flex_idx_search_commercial_filter.php:231
+#: views/shortcode/flex_idx_search_filter.php:217
+msgid "Your Name*"
+msgstr "Votre nom*"
+
+#: views/shortcode/flex_idx_commercial_search.php:276
+#: views/shortcode/flex_idx_search.php:267
+#: views/shortcode/flex_idx_search_commercial_filter.php:234
+#: views/shortcode/flex_idx_search_filter.php:220
+msgid "Your Email*"
+msgstr "Votre email*"
+
+#: views/shortcode/flex_idx_commercial_search.php:279
+#: views/shortcode/flex_idx_search.php:270
+#: views/shortcode/flex_idx_search_commercial_filter.php:237
+#: views/shortcode/flex_idx_search_filter.php:223
+msgid "Comments*"
+msgstr "Commentaires*"
+
+#: views/shortcode/flex_idx_commercial_search.php:282
+#: views/shortcode/flex_idx_commercial_search.php:595
+#: views/shortcode/flex_idx_search.php:273
+#: views/shortcode/flex_idx_search.php:586
+#: views/shortcode/flex_idx_search_commercial_filter.php:240
+#: views/shortcode/flex_idx_search_commercial_filter.php:552
+#: views/shortcode/flex_idx_search_filter.php:226
+#: views/shortcode/flex_idx_search_filter.php:538
+msgid "* Required fields"
+msgstr "* Champs obligatoires"
+
+#: views/shortcode/flex_idx_commercial_search.php:304
+#: views/shortcode/flex_idx_search.php:295
+#: views/shortcode/flex_idx_search_commercial_filter.php:262
+#: views/shortcode/flex_idx_search_filter.php:248
+#: views/shortcode/idxboost_modals_filter.php:115
+msgid "Save this search"
+msgstr "Enregistrer cette recherche"
+
+#: views/shortcode/flex_idx_commercial_search.php:324
+#: views/shortcode/flex_idx_search.php:315
+#: views/shortcode/flex_idx_search_commercial_filter.php:282
+#: views/shortcode/flex_idx_search_filter.php:268
+#: views/shortcode/idxboost_modals_filter.php:134
+msgid "Only Update me On"
+msgstr "Ne me mettre à jour que sur"
+
+#: views/shortcode/flex_idx_commercial_search.php:362
+#: views/shortcode/flex_idx_search.php:353
+#: views/shortcode/flex_idx_search_commercial_filter.php:320
+#: views/shortcode/flex_idx_search_filter.php:306
+#: views/shortcode/idxboost_modals_filter.php:335
+msgid "Call Us"
+msgstr "Appellez-moi"
+
+#: views/shortcode/flex_idx_commercial_search.php:363
+#: views/shortcode/flex_idx_search.php:354
+#: views/shortcode/flex_idx_search_commercial_filter.php:321
+#: views/shortcode/flex_idx_search_filter.php:307
+#: views/shortcode/idxboost_modals_filter.php:336
+msgid "Inquire"
+msgstr "Informations"
+
+#: views/shortcode/flex_idx_commercial_search.php:364
+#: views/shortcode/flex_idx_filter.php:701
+#: views/shortcode/flex_idx_filter_agent_office.php:641
+#: views/shortcode/flex_idx_filter_minimal.php:602
+#: views/shortcode/flex_idx_search.php:355
+#: views/shortcode/flex_idx_search_commercial_filter.php:322
+#: views/shortcode/flex_idx_search_filter.php:308
+#: views/shortcode/flex_idx_search_results.php:469
+#: views/shortcode/idxboost_exclusive_listing.php:312
+#: views/shortcode/idxboost_modals_filter.php:337
+#: views/shortcode/off_market_listing_collection.php:143
+msgid "Open"
+msgstr "Ouvrir"
+
+#: views/shortcode/flex_idx_commercial_search.php:380
+#: views/shortcode/flex_idx_search.php:371
+#: views/shortcode/flex_idx_search_commercial_filter.php:337
+#: views/shortcode/flex_idx_search_filter.php:323
+#: views/shortcode/idxboost_modals_filter.php:347
+msgid "Photos"
+msgstr "Photos"
+
+#: views/shortcode/flex_idx_commercial_search.php:381
+#: views/shortcode/flex_idx_search.php:372
+#: views/shortcode/flex_idx_search_commercial_filter.php:338
+#: views/shortcode/flex_idx_search_filter.php:324
+#: views/shortcode/idxboost_modals_filter.php:348
+msgid "Map View"
+msgstr "Vue de la carte"
+
+#: views/shortcode/flex_idx_commercial_search.php:384
+#: views/shortcode/flex_idx_search.php:375
+#: views/shortcode/flex_idx_search_commercial_filter.php:341
+#: views/shortcode/flex_idx_search_filter.php:327
+#: views/shortcode/idxboost_modals_filter.php:351
+msgid "Video"
+msgstr "vidéo"
+
+#: views/shortcode/flex_idx_commercial_search.php:408
+#: views/shortcode/flex_idx_favorites.php:74
+#: views/shortcode/flex_idx_search.php:399
+#: views/shortcode/flex_idx_search_commercial_filter.php:365
+#: views/shortcode/flex_idx_search_filter.php:351
+#: views/shortcode/flex_idx_search_results.php:438
+#: views/shortcode/idxboost_modals_filter.php:386
+msgid "Asking Price"
+msgstr "Prix "
+
+#: views/shortcode/flex_idx_commercial_search.php:414
+#: views/shortcode/flex_idx_search.php:405
+#: views/shortcode/flex_idx_search_commercial_filter.php:371
+#: views/shortcode/flex_idx_search_filter.php:357
+msgid "APPROX LOT SIZE."
+msgstr "La taille du lot"
+
+#: views/shortcode/flex_idx_commercial_search.php:416
+#: views/shortcode/flex_idx_property_detail.php:256
+#: views/shortcode/flex_idx_search.php:407
+#: views/shortcode/flex_idx_search_commercial_filter.php:373
+#: views/shortcode/flex_idx_search_filter.php:359
+#: views/shortcode/idxboost_modals_filter.php:390
+msgid "Bedroom(s)"
+msgstr "Chambre(s)"
+
+#: views/shortcode/flex_idx_commercial_search.php:417
+#: views/shortcode/flex_idx_property_detail.php:257
+#: views/shortcode/flex_idx_search.php:408
+#: views/shortcode/flex_idx_search_commercial_filter.php:374
+#: views/shortcode/flex_idx_search_filter.php:360
+#: views/shortcode/idxboost_modals_filter.php:391
+msgid "Bathroom(s)"
+msgstr "Salles de bains"
+
+#: views/shortcode/flex_idx_commercial_search.php:418
+#: views/shortcode/flex_idx_search.php:409
+#: views/shortcode/flex_idx_search_commercial_filter.php:375
+#: views/shortcode/flex_idx_search_filter.php:361
+#: views/shortcode/idxboost_modals_filter.php:392
+msgid "Half Bath(s)"
+msgstr "Salles d’eau"
+
+#: views/shortcode/flex_idx_commercial_search.php:419
+#: views/shortcode/flex_idx_search.php:410
+#: views/shortcode/flex_idx_search_commercial_filter.php:376
+#: views/shortcode/flex_idx_search_filter.php:362
+#: views/shortcode/idxboost_modals_filter.php:393
+msgid "Size sq.ft."
+msgstr "Superficie Sq.Ft."
+
+#: views/shortcode/flex_idx_commercial_search.php:428
+#: views/shortcode/flex_idx_search.php:419
+#: views/shortcode/flex_idx_search_commercial_filter.php:385
+#: views/shortcode/flex_idx_search_filter.php:371
+#: views/shortcode/idxboost_modals_filter.php:401
+msgid "Share"
+msgstr "Partager"
+
+#: views/shortcode/flex_idx_commercial_search.php:435
+#: views/shortcode/flex_idx_search.php:426
+#: views/shortcode/flex_idx_search_commercial_filter.php:392
+#: views/shortcode/flex_idx_search_filter.php:378
+#: views/shortcode/idxboost_modals_filter.php:408
+msgid "Mortgage"
+msgstr "Hypothèque"
+
+#: views/shortcode/flex_idx_commercial_search.php:441
+#: views/shortcode/flex_idx_search.php:432
+#: views/shortcode/flex_idx_search_commercial_filter.php:398
+#: views/shortcode/flex_idx_search_filter.php:384
+msgid "Print"
+msgstr "Imprimer"
+
+#: views/shortcode/flex_idx_commercial_search.php:451
+#: views/shortcode/flex_idx_property_detail.php:312
+#: views/shortcode/flex_idx_property_modal_detail.php:223
+#: views/shortcode/flex_idx_search.php:442
+#: views/shortcode/flex_idx_search_commercial_filter.php:408
+#: views/shortcode/flex_idx_search_filter.php:394
+#: views/shortcode/idx_off_market_listing_detail.php:225
+#: views/shortcode/idxboost_modals_filter.php:424
+msgid "Property Details"
+msgstr "Détails de la propriété"
+
+#: views/shortcode/flex_idx_commercial_search.php:454
+#: views/shortcode/flex_idx_search.php:445
+#: views/shortcode/flex_idx_search_commercial_filter.php:411
+#: views/shortcode/flex_idx_search_filter.php:397
+#: views/shortcode/idxboost_modals_filter.php:427
+msgid "MLS #"
+msgstr "MLS #"
+
+#: views/shortcode/flex_idx_commercial_search.php:456
+#: views/shortcode/flex_idx_property_detail.php:317
+#: views/shortcode/flex_idx_property_detail.php:319
+#: views/shortcode/flex_idx_property_detail.php:321
+#: views/shortcode/flex_idx_property_modal_detail.php:228
+#: views/shortcode/flex_idx_property_modal_detail.php:230
+#: views/shortcode/flex_idx_property_modal_detail.php:232
+#: views/shortcode/flex_idx_search.php:447
+#: views/shortcode/flex_idx_search_commercial_filter.php:413
+#: views/shortcode/flex_idx_search_filter.php:399
+#: views/shortcode/idx_off_market_listing_detail.php:230
+#: views/shortcode/idx_off_market_listing_detail.php:232
+#: views/shortcode/idx_off_market_listing_detail.php:234
+#: views/shortcode/idxboost_modals_filter.php:429
+msgid "Status"
+msgstr "Statut"
+
+#: views/shortcode/flex_idx_commercial_search.php:457
+#: views/shortcode/flex_idx_filter.php:531
+#: views/shortcode/flex_idx_filter_agent_office.php:493
+#: views/shortcode/flex_idx_filter_minimal.php:487
+#: views/shortcode/flex_idx_property_detail.php:323
+#: views/shortcode/flex_idx_property_modal_detail.php:234
+#: views/shortcode/flex_idx_search.php:448
+#: views/shortcode/flex_idx_search_commercial_filter.php:414
+#: views/shortcode/flex_idx_search_filter.php:400
+#: views/shortcode/idx_off_market_listing_detail.php:236
+#: views/shortcode/idxboost_exclusive_listing.php:136
+#: views/shortcode/idxboost_modals_filter.php:430
+#: views/shortcode/off_market_listing_collection.php:135
+msgid "Development"
+msgstr "Développement"
+
+#: views/shortcode/flex_idx_commercial_search.php:458
+#: views/shortcode/flex_idx_filter.php:531
+#: views/shortcode/flex_idx_filter_agent_office.php:493
+#: views/shortcode/flex_idx_filter_minimal.php:487
+#: views/shortcode/flex_idx_property_detail.php:324
+#: views/shortcode/flex_idx_property_modal_detail.php:235
+#: views/shortcode/flex_idx_search.php:449
+#: views/shortcode/flex_idx_search_commercial_filter.php:415
+#: views/shortcode/flex_idx_search_filter.php:401
+#: views/shortcode/idx_off_market_listing_detail.php:237
+#: views/shortcode/idxboost_exclusive_listing.php:136
+#: views/shortcode/idxboost_modals_filter.php:431
+#: views/shortcode/off_market_listing_collection.php:135
+msgid "Subdivision"
+msgstr "Subdivision"
+
+#: views/shortcode/flex_idx_commercial_search.php:459
+#: views/shortcode/flex_idx_property_detail.php:326
+#: views/shortcode/flex_idx_property_modal_detail.php:237
+#: views/shortcode/flex_idx_search.php:450
+#: views/shortcode/flex_idx_search_commercial_filter.php:416
+#: views/shortcode/flex_idx_search_filter.php:402
+#: views/shortcode/idx_off_market_listing_detail.php:239
+#: views/shortcode/idxboost_modals_filter.php:432
+msgid "Sale Type"
+msgstr "Type de vente"
+
+#: views/shortcode/flex_idx_commercial_search.php:461
+#: views/shortcode/flex_idx_property_detail.php:264
+#: views/shortcode/flex_idx_property_detail.php:329
+#: views/shortcode/flex_idx_search.php:452
+#: views/shortcode/flex_idx_search_commercial_filter.php:418
+#: views/shortcode/flex_idx_search_filter.php:404
+#: views/shortcode/idxboost_modals_filter.php:434
+msgid "Approx Lot Size"
+msgstr "La taille du lot"
+
+#: views/shortcode/flex_idx_commercial_search.php:463
+#: views/shortcode/flex_idx_commercial_search.php:661
+#: views/shortcode/flex_idx_property_detail.php:331
+#: views/shortcode/flex_idx_property_modal_detail.php:239
+#: views/shortcode/flex_idx_search.php:454
+#: views/shortcode/flex_idx_search_commercial_filter.php:420
+#: views/shortcode/flex_idx_search_commercial_filter.php:619
+#: views/shortcode/flex_idx_search_filter.php:406
+#: views/shortcode/idx_off_market_listing_detail.php:241
+#: views/shortcode/idxboost_modals_filter.php:436
+msgid "Lot Size"
+msgstr "La taille du lot"
+
+#: views/shortcode/flex_idx_commercial_search.php:466
+#: views/shortcode/flex_idx_property_detail.php:334
+#: views/shortcode/flex_idx_property_modal_detail.php:240
+#: views/shortcode/flex_idx_search.php:457
+#: views/shortcode/flex_idx_search_commercial_filter.php:423
+#: views/shortcode/flex_idx_search_filter.php:409
+#: views/shortcode/idx_off_market_listing_detail.php:242
+#: views/shortcode/idxboost_modals_filter.php:439
+msgid "Price / Sq.Ft."
+msgstr "Prix  / Sq.Ft."
+
+#: views/shortcode/flex_idx_commercial_search.php:469
+#: views/shortcode/flex_idx_property_detail.php:337
+#: views/shortcode/flex_idx_search.php:460
+#: views/shortcode/flex_idx_search_commercial_filter.php:426
+#: views/shortcode/flex_idx_search_filter.php:412
+#: views/shortcode/idxboost_modals_filter.php:442
+msgid "Parking"
+msgstr "Places de parking"
+
+#: views/shortcode/flex_idx_commercial_search.php:471
+#: views/shortcode/flex_idx_property_detail.php:339
+#: views/shortcode/flex_idx_property_modal_detail.php:241
+#: views/shortcode/flex_idx_search.php:462
+#: views/shortcode/flex_idx_search.php:802
+#: views/shortcode/flex_idx_search_commercial_filter.php:428
+#: views/shortcode/flex_idx_search_filter.php:414
+#: views/shortcode/flex_idx_search_filter.php:742
+#: views/shortcode/flex_idx_search_filter_bar.php:192
+#: views/shortcode/flex_idx_search_filter_bar.php:382
+#: views/shortcode/idx_off_market_listing_detail.php:243
+#: views/shortcode/idxboost_modals_filter.php:237
+#: views/shortcode/idxboost_modals_filter.php:444
+msgid "Parking Spaces"
+msgstr "Places de parking"
+
+#: views/shortcode/flex_idx_commercial_search.php:478
+#: views/shortcode/flex_idx_property_detail.php:346
+#: views/shortcode/flex_idx_property_modal_detail.php:245
+#: views/shortcode/flex_idx_search.php:469
+#: views/shortcode/flex_idx_search_commercial_filter.php:435
+#: views/shortcode/flex_idx_search_filter.php:421
+#: views/shortcode/idx_off_market_listing_detail.php:247
+#: views/shortcode/idxboost_modals_filter.php:451
+msgid "Style"
+msgstr "Style"
+
+#: views/shortcode/flex_idx_commercial_search.php:479
+#: views/shortcode/flex_idx_property_detail.php:347
+#: views/shortcode/flex_idx_property_modal_detail.php:246
+#: views/shortcode/flex_idx_search.php:470
+#: views/shortcode/flex_idx_search_commercial_filter.php:436
+#: views/shortcode/flex_idx_search_filter.php:422
+#: views/shortcode/idx_off_market_listing_detail.php:248
+#: views/shortcode/idxboost_modals_filter.php:452
+msgid "Waterfront"
+msgstr "Bord de l'eau"
+
+#: views/shortcode/flex_idx_commercial_search.php:481
+#: views/shortcode/flex_idx_property_detail.php:349
+#: views/shortcode/flex_idx_property_modal_detail.php:248
+#: views/shortcode/flex_idx_search.php:472
+#: views/shortcode/flex_idx_search_commercial_filter.php:438
+#: views/shortcode/flex_idx_search_filter.php:424
+#: views/shortcode/idx_off_market_listing_detail.php:250
+#: views/shortcode/idxboost_modals_filter.php:454
+msgid "Flooring Type"
+msgstr "Type de plancher"
+
+#: views/shortcode/flex_idx_commercial_search.php:482
+#: views/shortcode/flex_idx_property_detail.php:355
+#: views/shortcode/flex_idx_property_modal_detail.php:254
+#: views/shortcode/flex_idx_search.php:473
+#: views/shortcode/flex_idx_search_commercial_filter.php:439
+#: views/shortcode/flex_idx_search_filter.php:425
+#: views/shortcode/idx_off_market_listing_detail.php:257
+#: views/shortcode/idxboost_modals_filter.php:455
+msgid "Date Listed"
+msgstr "Date d'inscription"
+
+#: views/shortcode/flex_idx_commercial_search.php:484
+#: views/shortcode/flex_idx_property_detail.php:358
+#: views/shortcode/flex_idx_property_modal_detail.php:256
+#: views/shortcode/flex_idx_search.php:475
+#: views/shortcode/flex_idx_search_commercial_filter.php:441
+#: views/shortcode/flex_idx_search_filter.php:427
+#: views/shortcode/idx_off_market_listing_detail.php:259
+#: views/shortcode/idxboost_modals_filter.php:457
+msgid "HOA Fees"
+msgstr "Frais HOA"
+
+#: views/shortcode/flex_idx_commercial_search.php:487
+#: views/shortcode/flex_idx_property_detail.php:361
+#: views/shortcode/flex_idx_search.php:478
+#: views/shortcode/flex_idx_search_commercial_filter.php:444
+#: views/shortcode/flex_idx_search_filter.php:430
+#: views/shortcode/idxboost_modals_filter.php:460
+msgid "Cooling"
+msgstr "Refroidissement"
+
+#: views/shortcode/flex_idx_commercial_search.php:488
+#: views/shortcode/flex_idx_property_detail.php:362
+#: views/shortcode/flex_idx_search.php:479
+#: views/shortcode/flex_idx_search_commercial_filter.php:445
+#: views/shortcode/flex_idx_search_filter.php:431
+#: views/shortcode/idxboost_modals_filter.php:461
+msgid "Heating"
+msgstr "Chauffage"
+
+#: views/shortcode/flex_idx_commercial_search.php:490
+#: views/shortcode/flex_idx_property_detail.php:364
+#: views/shortcode/flex_idx_property_modal_detail.php:257
+#: views/shortcode/flex_idx_search.php:481
+#: views/shortcode/flex_idx_search_commercial_filter.php:447
+#: views/shortcode/flex_idx_search_filter.php:433
+#: views/shortcode/idx_off_market_listing_detail.php:260
+#: views/shortcode/idxboost_modals_filter.php:463
+msgid "Cooling Type"
+msgstr "Type de refroidissement"
+
+#: views/shortcode/flex_idx_commercial_search.php:491
+#: views/shortcode/flex_idx_property_detail.php:365
+#: views/shortcode/flex_idx_property_modal_detail.php:258
+#: views/shortcode/flex_idx_search.php:482
+#: views/shortcode/flex_idx_search_commercial_filter.php:448
+#: views/shortcode/flex_idx_search_filter.php:434
+#: views/shortcode/idx_off_market_listing_detail.php:261
+#: views/shortcode/idxboost_modals_filter.php:464
+msgid "Heating Type"
+msgstr "Type de chauffage"
+
+#: views/shortcode/flex_idx_commercial_search.php:493
+#: views/shortcode/flex_idx_property_detail.php:367
+#: views/shortcode/flex_idx_property_modal_detail.php:259
+#: views/shortcode/flex_idx_search.php:484
+#: views/shortcode/flex_idx_search_commercial_filter.php:450
+#: views/shortcode/flex_idx_search_filter.php:436
+#: views/shortcode/idx_off_market_listing_detail.php:262
+#: views/shortcode/idxboost_modals_filter.php:466
+msgid "Taxes Year"
+msgstr "Année des taxes"
+
+#: views/shortcode/flex_idx_commercial_search.php:494
+#: views/shortcode/flex_idx_property_detail.php:368
+#: views/shortcode/flex_idx_property_modal_detail.php:260
+#: views/shortcode/flex_idx_search.php:485
+#: views/shortcode/flex_idx_search_commercial_filter.php:451
+#: views/shortcode/flex_idx_search_filter.php:437
+#: views/shortcode/idx_off_market_listing_detail.php:263
+#: views/shortcode/idxboost_modals_filter.php:467
+msgid "Taxes"
+msgstr "impôt"
+
+#: views/shortcode/flex_idx_commercial_search.php:512
+#: views/shortcode/flex_idx_filter.php:419
+#: views/shortcode/flex_idx_filter_agent_office.php:389
+#: views/shortcode/flex_idx_filter_grid.php:242
+#: views/shortcode/flex_idx_filter_minimal.php:378
+#: views/shortcode/flex_idx_search.php:503
+#: views/shortcode/flex_idx_search.php:871
+#: views/shortcode/flex_idx_search_commercial_filter.php:469
+#: views/shortcode/flex_idx_search_filter.php:455
+#: views/shortcode/flex_idx_search_filter.php:811
+#: views/shortcode/flex_idx_search_filter_bar.php:261
+#: views/shortcode/flex_idx_search_filter_bar.php:404
+#: views/shortcode/flex_idx_search_results.php:331
+#: views/shortcode/idxboost_modals_filter.php:306
+#: views/shortcode/idxboost_modals_filter.php:509
+msgid "Features"
+msgstr "Caractéristiques"
+
+#: views/shortcode/flex_idx_commercial_search.php:524
+#: views/shortcode/flex_idx_property_detail.php:398
+#: views/shortcode/flex_idx_property_modal_detail.php:285
+#: views/shortcode/flex_idx_search.php:515
+#: views/shortcode/flex_idx_search_commercial_filter.php:481
+#: views/shortcode/flex_idx_search_filter.php:467
+#: views/shortcode/idx_off_market_listing_detail.php:288
+#: views/shortcode/idxboost_modals_filter.php:521
+msgid "Exterior Features"
+msgstr "Caractéristiques extérieures"
+
+#: views/shortcode/flex_idx_commercial_search.php:536
+#: views/shortcode/flex_idx_search.php:527
+#: views/shortcode/flex_idx_search_commercial_filter.php:493
+#: views/shortcode/flex_idx_search_filter.php:479
+msgid "Location"
+msgstr "Carte"
+
+#: views/shortcode/flex_idx_commercial_search.php:570
+#: views/shortcode/flex_idx_search.php:561
+#: views/shortcode/flex_idx_search_commercial_filter.php:527
+#: views/shortcode/flex_idx_search_filter.php:513
+msgid "Ph."
+msgstr "Telephone."
+
+#: views/shortcode/flex_idx_commercial_search.php:580
+#: views/shortcode/flex_idx_search.php:571
+#: views/shortcode/flex_idx_search_commercial_filter.php:537
+#: views/shortcode/flex_idx_search_filter.php:523
+msgid "First Name*"
+msgstr "Prénom*"
+
+#: views/shortcode/flex_idx_commercial_search.php:583
+#: views/shortcode/flex_idx_search.php:574
+#: views/shortcode/flex_idx_search_commercial_filter.php:540
+#: views/shortcode/flex_idx_search_filter.php:526
+msgid "Last Name*"
+msgstr "Nom de famille*"
+
+#: views/shortcode/flex_idx_commercial_search.php:586
+#: views/shortcode/flex_idx_search.php:577
+#: views/shortcode/flex_idx_search_commercial_filter.php:543
+#: views/shortcode/flex_idx_search_filter.php:529
+#: views/shortcode/idxboost_buyers_form.php:111
+#: views/shortcode/idxboost_rentals_form.php:112
+#: views/shortcode/idxboost_sellers_form.php:82
+msgid "Email*"
+msgstr "Email*"
+
+#: views/shortcode/flex_idx_commercial_search.php:589
+#: views/shortcode/flex_idx_search.php:580
+#: views/shortcode/flex_idx_search_commercial_filter.php:546
+#: views/shortcode/flex_idx_search_filter.php:532
+#: views/shortcode/idxboost_buyers_form.php:117
+#: views/shortcode/idxboost_rentals_form.php:118
+#: views/shortcode/idxboost_sellers_form.php:88
+msgid "Phone*"
+msgstr "Telephone*"
+
+#: views/shortcode/flex_idx_commercial_search.php:592
+#: views/shortcode/flex_idx_search.php:583
+msgid "I&#039d like to schedule a viewing for "
+msgstr "J'aimerais planifier une visite pour "
+
+#: views/shortcode/flex_idx_commercial_search.php:592
+#: views/shortcode/flex_idx_search.php:583
+#: views/shortcode/flex_idx_search_commercial_filter.php:549
+#: views/shortcode/flex_idx_search_filter.php:535
+msgid "Please contact me with more information!"
+msgstr "s'il vous plaît contactez-moi avec plus d'informations!"
+
+#: views/shortcode/flex_idx_commercial_search.php:626
+#: views/shortcode/flex_idx_commercial_search.php:627
+#: views/shortcode/flex_idx_search.php:617
+#: views/shortcode/flex_idx_search.php:618
+#: views/shortcode/flex_idx_search_commercial_filter.php:583
+#: views/shortcode/flex_idx_search_commercial_filter.php:584
+#: views/shortcode/flex_idx_search_filter.php:569
+#: views/shortcode/flex_idx_search_filter.php:570
+#: views/shortcode/idxboost_modals_filter.php:611
+#: views/shortcode/idxboost_modals_filter.php:612
+msgid "Details of"
+msgstr "Les détails de"
+
+#: views/shortcode/flex_idx_commercial_search.php:676
+#: views/shortcode/flex_idx_search.php:669
+#: views/shortcode/flex_idx_search_commercial_filter.php:634
+#: views/shortcode/flex_idx_search_filter.php:622
+#: views/shortcode/idxboost_modals_filter.php:652
+msgid "View Detail of"
+msgstr "voir les détails"
+
+#: views/shortcode/flex_idx_commercial_search.php:691
+#: views/shortcode/flex_idx_filter.php:214
+#: views/shortcode/flex_idx_filter_agent_office.php:190
+#: views/shortcode/flex_idx_search.php:684
+#: views/shortcode/flex_idx_search_commercial_filter.php:650
+#: views/shortcode/flex_idx_search_filter.php:638
+#: views/shortcode/flex_idx_search_results.php:100
+#: views/shortcode/idxboost_modals_filter.php:168
+#: views/shortcode/off_market_listing_collection.php:83
+msgid "Filters"
+msgstr "Appliquer les filtres"
+
+#: views/shortcode/flex_idx_commercial_search.php:722
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:124
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:125
+msgid "For Lease "
+msgstr "Acheter"
+
+#: views/shortcode/flex_idx_commercial_search.php:736
+#: views/shortcode/flex_idx_commercial_search.php:756
+#: views/shortcode/flex_idx_commercial_search.php:830
+#: views/shortcode/flex_idx_commercial_search.php:849
+#: views/shortcode/flex_idx_commercial_search.php:868
+#: views/shortcode/flex_idx_commercial_search.php:898
+#: views/shortcode/flex_idx_commercial_search.php:923
+#: views/shortcode/flex_idx_commercial_search.php:956
+#: views/shortcode/flex_idx_search.php:728
+#: views/shortcode/flex_idx_search.php:746
+#: views/shortcode/flex_idx_search.php:764
+#: views/shortcode/flex_idx_search.php:781
+#: views/shortcode/flex_idx_search.php:814
+#: views/shortcode/flex_idx_search.php:831
+#: views/shortcode/flex_idx_search.php:848
+#: views/shortcode/flex_idx_search_commercial_filter.php:682
+#: views/shortcode/flex_idx_search_commercial_filter.php:702
+#: views/shortcode/flex_idx_search_commercial_filter.php:795
+#: views/shortcode/flex_idx_search_commercial_filter.php:814
+#: views/shortcode/flex_idx_search_commercial_filter.php:833
+#: views/shortcode/flex_idx_search_commercial_filter.php:853
+#: views/shortcode/flex_idx_search_commercial_filter.php:872
+#: views/shortcode/flex_idx_search_commercial_filter.php:915
+#: views/shortcode/flex_idx_search_filter.php:668
+#: views/shortcode/flex_idx_search_filter.php:686
+#: views/shortcode/flex_idx_search_filter.php:704
+#: views/shortcode/flex_idx_search_filter.php:721
+#: views/shortcode/flex_idx_search_filter.php:754
+#: views/shortcode/flex_idx_search_filter.php:788
+msgid "Minimum"
+msgstr "Minimum"
+
+#: views/shortcode/flex_idx_commercial_search.php:742
+#: views/shortcode/flex_idx_commercial_search.php:762
+#: views/shortcode/flex_idx_commercial_search.php:836
+#: views/shortcode/flex_idx_commercial_search.php:855
+#: views/shortcode/flex_idx_commercial_search.php:874
+#: views/shortcode/flex_idx_commercial_search.php:904
+#: views/shortcode/flex_idx_commercial_search.php:929
+#: views/shortcode/flex_idx_commercial_search.php:962
+#: views/shortcode/flex_idx_search.php:733
+#: views/shortcode/flex_idx_search.php:751
+#: views/shortcode/flex_idx_search.php:769
+#: views/shortcode/flex_idx_search.php:786
+#: views/shortcode/flex_idx_search.php:819
+#: views/shortcode/flex_idx_search.php:836
+#: views/shortcode/flex_idx_search.php:853
+#: views/shortcode/flex_idx_search_commercial_filter.php:688
+#: views/shortcode/flex_idx_search_commercial_filter.php:708
+#: views/shortcode/flex_idx_search_commercial_filter.php:801
+#: views/shortcode/flex_idx_search_commercial_filter.php:820
+#: views/shortcode/flex_idx_search_commercial_filter.php:839
+#: views/shortcode/flex_idx_search_commercial_filter.php:859
+#: views/shortcode/flex_idx_search_commercial_filter.php:877
+#: views/shortcode/flex_idx_search_commercial_filter.php:921
+#: views/shortcode/flex_idx_search_filter.php:673
+#: views/shortcode/flex_idx_search_filter.php:691
+#: views/shortcode/flex_idx_search_filter.php:709
+#: views/shortcode/flex_idx_search_filter.php:726
+#: views/shortcode/flex_idx_search_filter.php:759
+#: views/shortcode/flex_idx_search_filter.php:793
+msgid "Maximum"
+msgstr "Maximum"
+
+#: views/shortcode/flex_idx_commercial_search.php:824
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:187
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:445
+#: views/shortcode/flex_idx_search_commercial_filter.php:789
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:188
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:418
+msgid "Space Size (SF)"
+msgstr "Taille de l'espace (SF)"
+
+#: views/shortcode/flex_idx_commercial_search.php:843
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:202
+#: views/shortcode/flex_idx_search_commercial_filter.php:808
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:202
+msgid "Total Building Size (SF)"
+msgstr "Taille totale du bâtiment (SF)"
+
+#: views/shortcode/flex_idx_commercial_search.php:862
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:220
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:491
+#: views/shortcode/flex_idx_search_commercial_filter.php:827
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:216
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:465
+msgid "Total Lot Size Range"
+msgstr "Taille totale du lot"
+
+#: views/shortcode/flex_idx_commercial_search.php:892
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:266
+#: views/shortcode/flex_idx_search_commercial_filter.php:847
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:244
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:376
+msgid "Units / Beds Range"
+msgstr "Unités / Chambres"
+
+#: views/shortcode/flex_idx_commercial_search.php:937
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:315
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:503
+#: views/shortcode/flex_idx_search_commercial_filter.php:896
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:309
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:477
+msgid "Property Status"
+msgstr "Etat de la propriété"
+
+#: views/shortcode/flex_idx_commercial_search.php:947
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:341
+#: views/shortcode/flex_idx_search_commercial_filter.php:906
+msgid "Cap Rate Range (%). ?"
+msgstr "Plage de taux plafond (%). ?"
+
+#: views/shortcode/flex_idx_commercial_search.php:977
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:25
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:368
+#: views/shortcode/flex_idx_search.php:882
+#: views/shortcode/flex_idx_search_commercial_filter.php:937
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:25
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:341
+#: views/shortcode/flex_idx_search_filter.php:822
+#: views/shortcode/flex_idx_search_filter_bar.php:25
+#: views/shortcode/flex_idx_search_filter_bar.php:273
+#: views/shortcode/flex_idx_search_results.php:105
+#: views/shortcode/idxboost_modals_filter.php:317
+msgid "Clear"
+msgstr "Restaurer"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:11
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:11
+#: views/shortcode/flex_idx_search_filter_bar.php:11
+msgid "Enter Address, City, Zip Code, Subdivision"
+msgstr "Entrez adresse, ville, zip ou MLS"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:12
+#: views/shortcode/flex_idx_quick_search.php:80
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:12
+#: views/shortcode/flex_idx_search_filter_bar.php:12
+#: views/shortcode/flex_search_mini.php:22
+#: views/shortcode/flex_search_mini.php:46
+msgid "Search"
+msgstr "Recherche"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:20
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:20
+#: views/shortcode/flex_idx_search_filter_bar.php:20
+msgid "More"
+msgstr "Plus"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:21
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:21
+#: views/shortcode/flex_idx_search_filter_bar.php:21
+#: views/shortcode/flex_idx_search_results.php:72
+msgid "Filter"
+msgstr "Appliquer les filtres"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:106
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:108
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:107
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:109
+#: views/shortcode/flex_idx_search_filter_bar.php:103
+#: views/shortcode/flex_idx_search_filter_bar.php:105
+msgid "Any Type"
+msgstr "Type"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:115
+#: views/shortcode/flex_idx_filter.php:213
+#: views/shortcode/flex_idx_filter_agent_office.php:189
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:116
+#: views/shortcode/flex_idx_search_filter_bar.php:112
+#: views/shortcode/flex_idx_search_results.php:99
+#: views/shortcode/off_market_listing_collection.php:82
+msgid "More Filters"
+msgstr "Appliquer les filtres"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:120
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:121
+#: views/shortcode/flex_idx_search_filter_bar.php:117
+msgid "Property Search"
+msgstr "Recherche de propriété"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:337
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:313
+#: views/shortcode/flex_idx_search_filter_bar.php:265
+msgid "Searching..."
+msgstr "Recherche..."
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:469
+#: views/shortcode/flex_idx_search.php:861
+#: views/shortcode/flex_idx_search_filter.php:801
+#: views/shortcode/flex_idx_search_filter_bar.php:245
+#: views/shortcode/flex_idx_search_filter_bar.php:372
+#: views/shortcode/idxboost_modals_filter.php:296
+msgid "Waterfront Description"
+msgstr "Description: Bord de l'eau"
+
+#: views/shortcode/flex_idx_commercial_search_filter_bar.php:509
+#: views/shortcode/flex_idx_filter.php:476
+#: views/shortcode/flex_idx_filter_agent_office.php:438
+#: views/shortcode/flex_idx_filter_grid.php:261
+#: views/shortcode/flex_idx_filter_minimal.php:400
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:483
+#: views/shortcode/flex_idx_search_filter_bar.php:410
+#: views/shortcode/flex_idx_search_results.php:381
+msgid "Apply Filters"
+msgstr "Appliquer les filtres"
+
+#: views/shortcode/flex_idx_contact_form.php:3
+msgid "Email Us"
+msgstr "Envoyer un email"
+
+#: views/shortcode/flex_idx_contact_form.php:39
+msgid "Best Time to Reach You"
+msgstr "Quel est le meilleur moment pour vous appeler"
+
+#: views/shortcode/flex_idx_contact_form.php:41
+msgid "am"
+msgstr "matin"
+
+#: views/shortcode/flex_idx_contact_form.php:42
+msgid "pm"
+msgstr "après-midi"
+
+#: views/shortcode/flex_idx_contact_form.php:43
+msgid "Receive Newsletter"
+msgstr "Recevoir la newsletter"
+
+#: views/shortcode/flex_idx_contact_form.php:43
+msgid "Yes, I would like to receive your Newsletter"
+msgstr "Oui, j'aimerais recevoir votre newsletter"
+
+#: views/shortcode/flex_idx_favorites.php:62
+msgid "My Saved Properties"
+msgstr "Mes propriétés sauvegardées"
+
+#: views/shortcode/flex_idx_favorites.php:67
+msgid "You don't have any saved property."
+msgstr "Vous n'avez pas de propriétés favorites"
+
+#: views/shortcode/flex_idx_favorites.php:78
+#: views/shortcode/flex_idx_property_detail.php:314
+#: views/shortcode/flex_idx_property_modal_detail.php:225
+#: views/shortcode/idx_off_market_listing_detail.php:227
+msgid "MLS"
+msgstr "MLS"
+
+#: views/shortcode/flex_idx_filter.php:134
+#: views/shortcode/flex_idx_filter_agent_office.php:119
+#: views/shortcode/flex_idx_search_results.php:61
+#: views/shortcode/off_market_listing_collection.php:56
+msgid "Call us"
+msgstr "Appellez-moi"
+
+#: views/shortcode/flex_idx_filter.php:251
+#: views/shortcode/flex_idx_filter_agent_office.php:227
+#: views/shortcode/flex_idx_filter_grid.php:114
+#: views/shortcode/flex_idx_filter_minimal.php:250
+#: views/shortcode/flex_idx_property_modal_detail.php:176
+#: views/shortcode/flex_idx_saved_searches.php:78
+#: views/shortcode/flex_idx_search.php:776
+#: views/shortcode/flex_idx_search_filter.php:716
+#: views/shortcode/flex_idx_search_filter_bar.php:85
+#: views/shortcode/flex_idx_search_filter_bar.php:214
+#: views/shortcode/flex_idx_search_filter_bar.php:325
+#: views/shortcode/flex_idx_search_results.php:170
+#: views/shortcode/idx_off_market_listing_detail.php:191
+#: views/shortcode/idxboost_modals_filter.php:211
+msgid "Bathrooms"
+msgstr "Salles de bains"
+
+#: views/shortcode/flex_idx_filter.php:325
+#: views/shortcode/flex_idx_filter_agent_office.php:295
+#: views/shortcode/flex_idx_filter_grid.php:169
+#: views/shortcode/flex_idx_filter_minimal.php:305
+#: views/shortcode/flex_idx_search_results.php:236
+msgid "Living size"
+msgstr "Superficie intérieure"
+
+#: views/shortcode/flex_idx_filter.php:353
+#: views/shortcode/flex_idx_filter_agent_office.php:323
+#: views/shortcode/flex_idx_filter_grid.php:197
+#: views/shortcode/flex_idx_filter_minimal.php:333
+#: views/shortcode/flex_idx_search_results.php:264
+msgid "Waterfront description"
+msgstr "Description: Bord de l'eau"
+
+#: views/shortcode/flex_idx_filter.php:389
+#: views/shortcode/flex_idx_filter_agent_office.php:359
+#: views/shortcode/flex_idx_filter_grid.php:212
+#: views/shortcode/flex_idx_filter_minimal.php:348
+#: views/shortcode/flex_idx_search_results.php:301
+msgid "Parking spaces"
+msgstr "Places de parking"
+
+#: views/shortcode/flex_idx_filter.php:404
+#: views/shortcode/flex_idx_filter_agent_office.php:374
+#: views/shortcode/flex_idx_filter_grid.php:227
+#: views/shortcode/flex_idx_filter_minimal.php:363
+#: views/shortcode/flex_idx_search_results.php:316
+msgid "Land size"
+msgstr "Taille du terrain"
+
+#: views/shortcode/flex_idx_filter.php:486
+#: views/shortcode/flex_idx_filter_agent_office.php:448
+#: views/shortcode/idxboost_exclusive_listing.php:91
+msgid "My Saved Listings"
+msgstr "Mes listes sauvegardées"
+
+#: views/shortcode/flex_idx_filter.php:488
+#: views/shortcode/flex_idx_filter_agent_office.php:450
+#: views/shortcode/flex_idx_filter_grid.php:270
+#: views/shortcode/flex_idx_filter_minimal.php:409
+#: views/shortcode/idxboost_exclusive_listing.php:93
+msgid "Favorites"
+msgstr "Favoris"
+
+#: views/shortcode/flex_idx_filter.php:504
+#: views/shortcode/flex_idx_filter.php:761
+#: views/shortcode/flex_idx_filter_agent_office.php:466
+#: views/shortcode/flex_idx_filter_agent_office.php:697
+#: views/shortcode/flex_idx_filter_minimal.php:459
+#: views/shortcode/flex_idx_search_results.php:416
+#: views/shortcode/idxboost_exclusive_listing.php:109
+#: views/shortcode/off_market_listing_collection.php:108
+#: views/shortcode/off_market_listing_collection.php:163
+msgid "List"
+msgstr "Liste"
+
+#: views/shortcode/flex_idx_filter.php:527
+#: views/shortcode/flex_idx_filter.php:583
+#: views/shortcode/flex_idx_filter_agent_office.php:489
+#: views/shortcode/flex_idx_filter_agent_office.php:540
+#: views/shortcode/flex_idx_filter_grid.php:70
+#: views/shortcode/flex_idx_filter_minimal.php:201
+#: views/shortcode/flex_idx_filter_minimal.php:419
+#: views/shortcode/flex_idx_filter_minimal.php:422
+#: views/shortcode/flex_idx_filter_minimal.php:483
+#: views/shortcode/flex_idx_filter_minimal.php:525
+#: views/shortcode/flex_idx_filter_thumbs.php:40
+#: views/shortcode/flex_idx_property_modal_detail.php:528
+#: views/shortcode/flex_idx_search_results.php:440
+#: views/shortcode/idx_filter_multi_slider.php:34
+#: views/shortcode/idx_filter_multi_slider.php:76
+#: views/shortcode/idx_only_filter_thumb.php:39
+#: views/shortcode/idxboost_exclusive_listing.php:132
+#: views/shortcode/idxboost_exclusive_listing.php:186
+#: views/shortcode/off_market_listing_collection.php:131
+#: views/shortcode/thumb_idxboost_building_collection.php:64
+#: views/shortcode/thumb_idxboost_building_collection.php:108
+#: views/shortcode/thumb_idxboost_building_collection.php:152
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:64
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:108
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:152
+msgid "Beds"
+msgstr "Chambres"
+
+#: views/shortcode/flex_idx_filter.php:528
+#: views/shortcode/flex_idx_filter.php:592
+#: views/shortcode/flex_idx_filter_agent_office.php:490
+#: views/shortcode/flex_idx_filter_agent_office.php:549
+#: views/shortcode/flex_idx_filter_grid.php:73
+#: views/shortcode/flex_idx_filter_minimal.php:204
+#: views/shortcode/flex_idx_filter_minimal.php:484
+#: views/shortcode/flex_idx_filter_minimal.php:533
+#: views/shortcode/flex_idx_filter_thumbs.php:49
+#: views/shortcode/flex_idx_property_detail.php:636
+#: views/shortcode/flex_idx_property_modal_detail.php:534
+#: views/shortcode/flex_idx_search_results.php:441
+#: views/shortcode/idx_filter_multi_slider.php:35
+#: views/shortcode/idx_filter_multi_slider.php:77
+#: views/shortcode/idx_only_filter_thumb.php:48
+#: views/shortcode/idxboost_exclusive_listing.php:133
+#: views/shortcode/idxboost_exclusive_listing.php:195
+#: views/shortcode/off_market_listing_collection.php:132
+#: views/shortcode/thumb_idxboost_building_collection.php:65
+#: views/shortcode/thumb_idxboost_building_collection.php:109
+#: views/shortcode/thumb_idxboost_building_collection.php:153
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:65
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:109
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:153
+msgid "Baths"
+msgstr "Salle de bains"
+
+#: views/shortcode/flex_idx_filter.php:544
+#: views/shortcode/flex_idx_filter_agent_office.php:506
+#: views/shortcode/flex_idx_filter_minimal.php:498
+#: views/shortcode/flex_idx_filter_thumbs.php:18
+#: views/shortcode/idx_only_filter_thumb.php:17
+#: views/shortcode/idxboost_exclusive_listing.php:148
+msgid "sold"
+msgstr "vendus"
+
+#: views/shortcode/flex_idx_filter.php:585
+#: views/shortcode/flex_idx_filter_agent_office.php:542
+#: views/shortcode/flex_idx_filter_minimal.php:527
+#: views/shortcode/flex_idx_filter_thumbs.php:42
+#: views/shortcode/flex_idx_property_modal_detail.php:530
+#: views/shortcode/idx_only_filter_thumb.php:41
+#: views/shortcode/idxboost_exclusive_listing.php:188
+msgid "Bed"
+msgstr "Chambre"
+
+#: views/shortcode/flex_idx_filter.php:594
+#: views/shortcode/flex_idx_filter_agent_office.php:551
+#: views/shortcode/flex_idx_filter_minimal.php:535
+#: views/shortcode/flex_idx_filter_thumbs.php:47
+#: views/shortcode/idx_only_filter_thumb.php:46
+#: views/shortcode/idxboost_exclusive_listing.php:197
+msgid "Bath"
+msgstr "Salles de bains"
+
+#: views/shortcode/flex_idx_filter.php:710
+#: views/shortcode/flex_idx_filter_agent_office.php:650
+#: views/shortcode/flex_idx_filter_minimal.php:612
+msgid "Pag"
+msgstr "Page"
+
+#: views/shortcode/flex_idx_filter.php:712
+#: views/shortcode/flex_idx_filter_agent_office.php:652
+#: views/shortcode/idxboost_exclusive_listing.php:323
+msgid "First Page"
+msgstr "Première page"
+
+#: views/shortcode/flex_idx_filter.php:719
+#: views/shortcode/flex_idx_filter_agent_office.php:659
+#: views/shortcode/idxboost_exclusive_listing.php:330
+msgid "Prev Page"
+msgstr "Page précédente"
+
+#: views/shortcode/flex_idx_filter.php:719
+#: views/shortcode/flex_idx_filter_agent_office.php:659
+#: views/shortcode/flex_idx_filter_minimal.php:621
+#: views/shortcode/idxboost_exclusive_listing.php:330
+msgid "Previous page"
+msgstr "Page précédente"
+
+#: views/shortcode/flex_idx_filter.php:729
+#: views/shortcode/flex_idx_filter_agent_office.php:669
+#: views/shortcode/idxboost_exclusive_listing.php:340
+msgid "Next Page"
+msgstr "Page suivante"
+
+#: views/shortcode/flex_idx_filter.php:732
+#: views/shortcode/flex_idx_filter.php:735
+#: views/shortcode/flex_idx_filter_agent_office.php:672
+#: views/shortcode/flex_idx_filter_agent_office.php:675
+#: views/shortcode/idxboost_exclusive_listing.php:343
+#: views/shortcode/idxboost_exclusive_listing.php:346
+msgid "Last Page"
+msgstr "Dernière page"
+
+#: views/shortcode/flex_idx_filter_agent_office.php:55
+msgid "MY LISTINGS"
+msgstr "Mes mandats"
+
+#: views/shortcode/flex_idx_filter_agent_office.php:175
+#: views/shortcode/flex_idx_filter_agent_office.php:180
+msgid "Any type(s)"
+msgstr "Type"
+
+#: views/shortcode/flex_idx_filter_grid.php:79
+#: views/shortcode/flex_idx_filter_minimal.php:210
+msgid "Advanced"
+msgstr "Plus d’options"
+
+#: views/shortcode/flex_idx_filter_grid.php:259
+#: views/shortcode/flex_idx_filter_minimal.php:398
+#: views/shortcode/flex_idx_search_results.php:379
+msgid "Matching"
+msgstr "Correspondant à"
+
+#: views/shortcode/flex_idx_filter_minimal.php:413
+#: views/shortcode/flex_idx_filter_minimal.php:419
+#: views/shortcode/flex_idx_filter_minimal.php:425
+#: views/shortcode/flex_idx_filter_minimal.php:431
+#: views/shortcode/flex_idx_filter_minimal.php:438
+msgid "High to Low"
+msgstr "Nombre de chambres décroissant"
+
+#: views/shortcode/flex_idx_filter_minimal.php:416
+#: views/shortcode/flex_idx_filter_minimal.php:422
+#: views/shortcode/flex_idx_filter_minimal.php:428
+#: views/shortcode/flex_idx_filter_minimal.php:434
+#: views/shortcode/flex_idx_filter_minimal.php:441
+msgid "Low to High"
+msgstr "Nombre de chambres croissant"
+
+#: views/shortcode/flex_idx_filter_minimal.php:425
+#: views/shortcode/flex_idx_filter_minimal.php:428
+msgid "Size"
+msgstr "Toutes les tailles"
+
+#: views/shortcode/flex_idx_filter_minimal.php:438
+#: views/shortcode/flex_idx_filter_minimal.php:441
+msgid "Listing Date"
+msgstr "listage"
+
+#: views/shortcode/flex_idx_filter_minimal.php:450
+#: views/shortcode/flex_idx_property_detail.php:353
+#: views/shortcode/flex_idx_property_modal_detail.php:252
+#: views/shortcode/idx_off_market_listing_detail.php:255
+msgid "Date Sold"
+msgstr "Date de vente"
+
+#: views/shortcode/flex_idx_filter_minimal.php:467
+#: views/shortcode/flex_idx_filter_minimal.php:469
+msgid "Scroll down for more"
+msgstr "Faites défiler vers le bas pour plus."
+
+#: views/shortcode/flex_idx_filter_minimal.php:574
+#: views/shortcode/flex_idx_filter_minimal.php:576
+msgid "View details"
+msgstr "Voir les détails"
+
+#: views/shortcode/flex_idx_filter_minimal.php:612
+msgid "Of"
+msgstr "de"
+
+#: views/shortcode/flex_idx_filter_thumbs.php:107
+#: views/shortcode/idx_only_filter_thumb.php:105
+msgid ""
+"Please update your Filter ID key on your IDX Boost Dashboard to display live "
+"MLS data on your website."
+msgstr ""
+"Veuillez mettre à jour votre clé ID filtre sur votre tableau de bord IDX "
+"Boost pour afficher"
+
+#: views/shortcode/flex_idx_filter_thumbs.php:107
+#: views/shortcode/idx_only_filter_thumb.php:105
+msgid "Click here to update"
+msgstr "Cliquez ici pour mettre à jour"
+
+#: views/shortcode/flex_idx_profile.php:20
+msgid "to view this page."
+msgstr "pour voir cette page."
+
+#: views/shortcode/flex_idx_profile.php:77
+msgid "My Profile"
+msgstr "Mon profil"
+
+#: views/shortcode/flex_idx_profile.php:83
+msgid "Name"
+msgstr "Prénom"
+
+#: views/shortcode/flex_idx_profile.php:89
+msgid "State"
+msgstr "État"
+
+#: views/shortcode/flex_idx_profile.php:90
+msgid "Zip Code"
+msgstr "Code postal"
+
+#: views/shortcode/flex_idx_profile.php:95
+msgid "Change Password"
+msgstr "Changer son mot de passe"
+
+#: views/shortcode/flex_idx_profile.php:98
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
+#: views/shortcode/flex_idx_profile.php:99
+msgid "Confirm Password"
+msgstr "Confirmez le mot de passe"
+
+#: views/shortcode/flex_idx_profile.php:103
+msgid ""
+"Required fields. Your personal information is strictly confidential and will "
+"not be shared with any outside organizations."
+msgstr ""
+"Champs obligatoires. Vos informations personnelles sont strictement "
+"confidentielles et ne seront pas partagées avec des organisations "
+"extérieures."
+
+#: views/shortcode/flex_idx_profile.php:106
+msgid "Save profile"
+msgstr "Enregistrer le profil"
+
+#: views/shortcode/flex_idx_property_detail.php:122
+#: views/shortcode/flex_idx_property_detail.php:148
+#: views/shortcode/idx_off_market_listing_detail.php:108
+#: views/shortcode/idx_off_market_listing_detail.php:115
+msgid "Back to results"
+msgstr "Retour aux résultats"
+
+#: views/shortcode/flex_idx_property_detail.php:134
+#: views/shortcode/idx_off_market_listing_detail.php:111
+msgid "New Search"
+msgstr "Nouvelle recherche"
+
+#: views/shortcode/flex_idx_property_detail.php:186
+#: views/shortcode/flex_idx_property_modal_detail.php:135
+#: views/shortcode/idx_off_market_listing_detail.php:151
+msgid "video"
+msgstr "vidéo"
+
+#: views/shortcode/flex_idx_property_detail.php:193
+#: views/shortcode/flex_idx_property_modal_detail.php:139
+#: views/shortcode/idx_off_market_listing_detail.php:158
+msgid "Full screen"
+msgstr "Plein écran"
+
+#: views/shortcode/flex_idx_property_detail.php:225
+#: views/shortcode/flex_idx_property_modal_detail.php:146
+#: views/shortcode/idx_off_market_listing_detail.php:165
+msgid "Property details information"
+msgstr "Informations sur la propriété"
+
+#: views/shortcode/flex_idx_property_detail.php:237
+#: views/shortcode/flex_idx_property_modal_detail.php:157
+#: views/shortcode/idx_off_market_listing_detail.php:172
+msgid "rented price"
+msgstr "prix de location"
+
+#: views/shortcode/flex_idx_property_detail.php:239
+#: views/shortcode/flex_idx_property_modal_detail.php:159
+#: views/shortcode/idx_off_market_listing_detail.php:174
+msgid "sold price"
+msgstr "Prix vendu"
+
+#: views/shortcode/flex_idx_property_detail.php:241
+#: views/shortcode/flex_idx_property_modal_detail.php:161
+#: views/shortcode/idx_off_market_listing_detail.php:176
+msgid "pending price"
+msgstr "Prix en attente"
+
+#: views/shortcode/flex_idx_property_detail.php:243
+#: views/shortcode/flex_idx_property_modal_detail.php:163
+#: views/shortcode/idx_off_market_listing_detail.php:178
+msgid "asking price"
+msgstr "Prix"
+
+#: views/shortcode/flex_idx_property_detail.php:258
+#: views/shortcode/flex_idx_property_modal_detail.php:177
+#: views/shortcode/idx_off_market_listing_detail.php:192
+msgid "Half Baths"
+msgstr "Salles d’eau"
+
+#: views/shortcode/flex_idx_property_detail.php:258
+#: views/shortcode/flex_idx_property_modal_detail.php:177
+#: views/shortcode/idx_off_market_listing_detail.php:192
+msgid "Half Bath"
+msgstr "Salles d’eau"
+
+#: views/shortcode/flex_idx_property_detail.php:266
+#: views/shortcode/flex_idx_property_modal_detail.php:178
+#: views/shortcode/idx_off_market_listing_detail.php:193
+msgid "size sq.ft"
+msgstr "Superficie Sq.Ft."
+
+#: views/shortcode/flex_idx_property_detail.php:284
+#: views/shortcode/flex_idx_property_modal_detail.php:195
+#: views/shortcode/idx_off_market_listing_detail.php:196
+msgid "Schedule a showing now"
+msgstr "Programmer une projection maintenant"
+
+#: views/shortcode/flex_idx_property_detail.php:294
+#: views/shortcode/flex_idx_property_modal_detail.php:205
+msgid "mortgage"
+msgstr "Hypothèque"
+
+#: views/shortcode/flex_idx_property_detail.php:317
+#: views/shortcode/flex_idx_property_modal_detail.php:228
+#: views/shortcode/idx_off_market_listing_detail.php:230
+msgid "Rented"
+msgstr "Loué"
+
+#: views/shortcode/flex_idx_property_detail.php:319
+#: views/shortcode/flex_idx_property_modal_detail.php:230
+#: views/shortcode/idx_off_market_listing_detail.php:232
+msgid "Closed"
+msgstr "Fermé"
+
+#: views/shortcode/flex_idx_property_detail.php:321
+#: views/shortcode/flex_idx_property_modal_detail.php:232
+#: views/shortcode/idx_off_market_listing_detail.php:234
+msgid "Active"
+msgstr "Actif"
+
+#: views/shortcode/flex_idx_property_detail.php:351
+#: views/shortcode/flex_idx_property_modal_detail.php:250
+#: views/shortcode/idx_off_market_listing_detail.php:253
+msgid "Date Rented"
+msgstr "Date de location"
+
+#: views/shortcode/flex_idx_property_detail.php:383
+#: views/shortcode/flex_idx_property_modal_detail.php:275
+#: views/shortcode/idx_off_market_listing_detail.php:278
+msgid "Interior Features"
+msgstr "Caractéristiques intérieures"
+
+#: views/shortcode/flex_idx_property_detail.php:396
+msgid "Miscellaneous Information"
+msgstr "Vos informations"
+
+#: views/shortcode/flex_idx_property_detail.php:612
+#: views/shortcode/flex_idx_property_modal_detail.php:510
+msgid "Similar Properties For"
+msgstr " Propriétés similaires"
+
+#: views/shortcode/flex_idx_property_detail.php:612
+msgid "Rent"
+msgstr "  "
+
+#: views/shortcode/flex_idx_property_detail.php:612
+msgid "Sale"
+msgstr "    "
+
+#: views/shortcode/flex_idx_property_detail.php:637
+#: views/shortcode/flex_idx_property_modal_detail.php:535
+msgid "Sq.Ft"
+msgstr "Sq.Ft."
+
+#: views/shortcode/flex_idx_property_modal_detail.php:175
+#: views/shortcode/idx_off_market_listing_detail.php:190
+msgid "Bedroom"
+msgstr "Chambre"
+
+#: views/shortcode/flex_idx_property_modal_detail.php:176
+#: views/shortcode/idx_off_market_listing_detail.php:191
+msgid "Bathroom"
+msgstr "Salles de bains"
+
+#: views/shortcode/flex_idx_property_modal_detail.php:257
+msgid "Central"
+msgstr "Central"
+
+#: views/shortcode/flex_idx_property_modal_detail.php:258
+msgid "None"
+msgstr "Aucun"
+
+#: views/shortcode/flex_idx_property_modal_detail.php:294
+#: views/shortcode/idx_off_market_listing_detail.php:299
+msgid "School Information"
+msgstr "Informations sur les écoles publiques à proximité"
+
+#: views/shortcode/flex_idx_property_modal_detail.php:404
+#: views/shortcode/idx_off_market_listing_detail.php:413
+#: views/shortcode/idxboost_modals_filter.php:587
+msgid "Real Estate IDX Powered by:"
+msgstr "Real Estate IDX Powered by:"
+
+#: views/shortcode/flex_idx_quick_search.php:74
+msgid "Property Type"
+msgstr "Recherche de propriété"
+
+#: views/shortcode/flex_idx_quick_search.php:84
+msgid "Advanced Search Options"
+msgstr "Options de recherche avancée"
+
+#: views/shortcode/flex_idx_saved_searches.php:64
+msgid "My Saved Searches"
+msgstr "Mes recherches enregistrées"
+
+#: views/shortcode/flex_idx_saved_searches.php:70
+msgid "You don't have any saved search."
+msgstr "Vous n'avez pas de recherche favorites"
+
+#: views/shortcode/flex_idx_saved_searches.php:92
+msgid "Listing"
+msgstr "listage"
+
+#: views/shortcode/flex_idx_saved_searches.php:99
+msgid "Notifications"
+msgstr "Les notifications"
+
+#: views/shortcode/flex_idx_saved_searches.php:103
+msgid "On"
+msgstr "Ouvrir"
+
+#: views/shortcode/flex_idx_saved_searches.php:107
+msgid "Off"
+msgstr "fermer"
+
+#: views/shortcode/flex_idx_search.php:715
+#: views/shortcode/flex_idx_search_commercial_filter.php:667
+#: views/shortcode/flex_idx_search_filter.php:655
+#: views/shortcode/flex_idx_search_filter_bar.php:121
+#: views/shortcode/idxboost_quick_search.php:18
+msgid "For Rent "
+msgstr "Louer "
+
+#: views/shortcode/flex_idx_search.php:826
+#: views/shortcode/flex_idx_search_filter.php:766
+#: views/shortcode/flex_idx_search_filter_bar.php:231
+#: views/shortcode/flex_idx_search_filter_bar.php:392
+#: views/shortcode/idxboost_modals_filter.php:261
+msgid "Land Size"
+msgstr "Taille du terrain"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:148
+#: views/shortcode/flex_idx_search_filter.php:134
+msgid "No matching results..."
+msgstr "Patientez…"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:149
+msgid "Modify your"
+msgstr "Modifier votre"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:149
+#: views/shortcode/flex_idx_search_filter.php:135
+msgid "filter"
+msgstr "Appliquer les filtres"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:149
+#: views/shortcode/flex_idx_search_filter.php:135
+msgid "preferences to get new results or"
+msgstr "préférences pour obtenir de nouveaux résultats ou"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:149
+#: views/shortcode/flex_idx_search_filter.php:135
+msgid "clear"
+msgstr "Rafraichir"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:149
+#: views/shortcode/flex_idx_search_filter.php:135
+msgid "your search."
+msgstr "Recherche de propriété"
+
+#: views/shortcode/flex_idx_search_commercial_filter.php:549
+#: views/shortcode/flex_idx_search_filter.php:535
+msgid "I&#039d like to schedule a viewing for  "
+msgstr "J'aimerais planifier une visite pour "
+
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:316
+msgid "Cap Rate Range (%).?"
+msgstr "Plage de taux maximum (%).?"
+
+#: views/shortcode/flex_idx_search_commercial_filter_bar.php:381
+#: views/shortcode/flex_idx_search_filter_bar.php:70
+#: views/shortcode/flex_idx_search_filter_bar.php:166
+#: views/shortcode/flex_idx_search_filter_bar.php:313
+msgid "Studio"
+msgstr "Studio"
+
+#: views/shortcode/flex_idx_search_filter.php:135
+msgid "or modify your"
+msgstr "ou modifier votre"
+
+#: views/shortcode/flex_idx_search_filter.php:771
+#: views/shortcode/idxboost_modals_filter.php:249
+#: views/shortcode/idxboost_modals_filter.php:266
+msgid "Min Size"
+msgstr "Toutes les tailles"
+
+#: views/shortcode/flex_idx_search_filter.php:776
+#: views/shortcode/idxboost_modals_filter.php:254
+#: views/shortcode/idxboost_modals_filter.php:271
+msgid "Max Size"
+msgstr "Taille du terrain"
+
+#: views/shortcode/flex_idx_search_results.php:62
+msgid "Save this Search"
+msgstr "Enregistrer cette recherche"
+
+#: views/shortcode/flex_idx_search_results.php:77
+msgid "Enter address, city, zip or MLS"
+msgstr "Entrez adresse, ville, zip ou MLS"
+
+#: views/shortcode/flex_idx_search_results.php:113
+msgid "Property search"
+msgstr "Recherche de propriété"
+
+#: views/shortcode/flex_idx_search_results.php:443
+msgid "Price / SF"
+msgstr "Prix / SF"
+
+#: views/shortcode/flex_idx_search_results.php:444
+msgid "Development / Subdivision"
+msgstr "Développement / Subdivision"
+
+#: views/shortcode/flex_search_mini.php:3
+msgid "Search Condos"
+msgstr "Rechercher des condos"
+
+#: views/shortcode/flex_search_mini.php:15
+#: views/shortcode/flex_search_mini.php:39
+msgid "Search by City"
+msgstr "Recherche par ville"
+
+#: views/shortcode/flex_search_mini.php:27
+msgid "Search Homes"
+msgstr "Recherche de maisons"
+
+#: views/shortcode/idx_filter_multi_slider.php:19
+#: views/shortcode/thumb_idxboost_building_collection.php:42
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:42
+msgid "Available Sales"
+msgstr "Ventes disponibles"
+
+#: views/shortcode/idx_filter_multi_slider.php:20
+#: views/shortcode/thumb_idxboost_building_collection.php:45
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:45
+msgid "Available Rentals"
+msgstr "Locations disponibles"
+
+#: views/shortcode/idx_filter_multi_slider.php:38
+#: views/shortcode/idx_filter_multi_slider.php:80
+#: views/shortcode/thumb_idxboost_building_collection.php:68
+#: views/shortcode/thumb_idxboost_building_collection.php:112
+#: views/shortcode/thumb_idxboost_building_collection.php:156
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:68
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:112
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:156
+msgid "Built"
+msgstr "Construit"
+
+#: views/shortcode/idx_filter_multi_slider.php:64
+#: views/shortcode/idx_filter_multi_slider_ajax.php:23
+#: views/shortcode/thumb_idxboost_building_collection.php:94
+#: views/shortcode/thumb_idxboost_building_collection.php:177
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:94
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:177
+msgid "View all listings"
+msgstr "Voir toutes"
+
+#: views/shortcode/idx_off_market_listing_detail.php:207
+msgid "Download brochure"
+msgstr "Télécharger la brochure"
+
+#: views/shortcode/idx_off_market_listing_detail.php:210
+msgid "mortgage calculator"
+msgstr "Calculez votre emprunt immobilier"
+
+#: views/shortcode/idxboost-terms-of-service.php:22
+msgid "TERMS AND CONDITIONS"
+msgstr "Conditions d'utilisation"
+
+#: views/shortcode/idxboost-terms-of-service.php:25
+#: views/shortcode/idxboost-terms-of-service.php:30
+msgid "Terms of Service"
+msgstr "Conditions d'utilisation"
+
+#: views/shortcode/idxboost-terms-of-service.php:85
+#: views/shortcode/idxboost-terms-of-service.php:111
+msgid "Back to top"
+msgstr "Retour à"
+
+#: views/shortcode/idxboost_buyers_form.php:7
+msgid "What are you looking to buy?"
+msgstr "Que souhaitez vous acheter ?"
+
+#: views/shortcode/idxboost_buyers_form.php:11
+#: views/shortcode/idxboost_rentals_form.php:12
+msgid "Condo"
+msgstr "Appartement"
+
+#: views/shortcode/idxboost_buyers_form.php:15
+#: views/shortcode/idxboost_rentals_form.php:16
+msgid "Single Family Home"
+msgstr "Maisons"
+
+#: views/shortcode/idxboost_buyers_form.php:19
+#: views/shortcode/idxboost_rentals_form.php:20
+msgid "Townhouse"
+msgstr "Townhouse"
+
+#: views/shortcode/idxboost_buyers_form.php:23
+#: views/shortcode/idxboost_rentals_form.php:24
+msgid "Investment Property"
+msgstr "Propriété d'investissement"
+
+#: views/shortcode/idxboost_buyers_form.php:28
+msgid "What's your price range?"
+msgstr "Quelle est votre gamme de prix?"
+
+#: views/shortcode/idxboost_buyers_form.php:32
+msgid "Below $1M"
+msgstr "Moins de $1M"
+
+#: views/shortcode/idxboost_buyers_form.php:36
+msgid "$1M to $2M"
+msgstr "De $1M à $2M"
+
+#: views/shortcode/idxboost_buyers_form.php:40
+msgid "$3M to $5M"
+msgstr "De $3M à $5M"
+
+#: views/shortcode/idxboost_buyers_form.php:44
+msgid "$5M+"
+msgstr "$5M+"
+
+#: views/shortcode/idxboost_buyers_form.php:49
+#: views/shortcode/idxboost_rentals_form.php:50
+#: views/shortcode/idxboost_sellers_form.php:16
+msgid "How many bedrooms?"
+msgstr "Combien de chambres?"
+
+#: views/shortcode/idxboost_buyers_form.php:70
+#: views/shortcode/idxboost_rentals_form.php:71
+#: views/shortcode/idxboost_sellers_form.php:37
+msgid "How many bathrooms?"
+msgstr "Combien de salles de bain?"
+
+#: views/shortcode/idxboost_buyers_form.php:91
+msgid "Timeline to purchase"
+msgstr "Sous combien de temps souhaitez vous conclure votre projet?"
+
+#: views/shortcode/idxboost_buyers_form.php:95
+#: views/shortcode/idxboost_rentals_form.php:96
+msgid "Now"
+msgstr "Immédiatement"
+
+#: views/shortcode/idxboost_buyers_form.php:99
+#: views/shortcode/idxboost_rentals_form.php:100
+msgid "Soon"
+msgstr "Bientôt"
+
+#: views/shortcode/idxboost_buyers_form.php:103
+#: views/shortcode/idxboost_rentals_form.php:104
+msgid "Later"
+msgstr "Postérieur"
+
+#: views/shortcode/idxboost_buyers_form.php:108
+#: views/shortcode/idxboost_rentals_form.php:109
+#: views/shortcode/idxboost_sellers_form.php:79
+msgid "Contact Information"
+msgstr "Vos informations"
+
+#: views/shortcode/idxboost_buyers_form.php:108
+#: views/shortcode/idxboost_rentals_form.php:109
+#: views/shortcode/idxboost_sellers_form.php:79
+msgid ""
+"Please provide your contact information below and we will be in touch very "
+"soon!"
+msgstr ""
+"Veuillez fournir vos coordonnées ci-dessous et nous vous contacterons très "
+"bientôt!"
+
+#: views/shortcode/idxboost_buyers_form.php:114
+#: views/shortcode/idxboost_rentals_form.php:115
+#: views/shortcode/idxboost_sellers_form.php:85
+msgid "Name*"
+msgstr "Prénom*"
+
+#: views/shortcode/idxboost_buyers_form.php:128
+#: views/shortcode/idxboost_rentals_form.php:129
+msgid "Continue"
+msgstr "Suivant"
+
+#: views/shortcode/idxboost_buyers_form.php:129
+#: views/shortcode/idxboost_rentals_form.php:130
+#: views/shortcode/idxboost_sellers_form.php:97
+msgid "Back"
+msgstr "Retour"
+
+#: views/shortcode/idxboost_buyers_form.php:130
+#: views/shortcode/idxboost_rentals_form.php:131
+#: views/shortcode/idxboost_sellers_form.php:98
+msgid "Next"
+msgstr "Prochain"
+
+#: views/shortcode/idxboost_modals_filter.php:15
+msgid "Let's us know the best time for showing."
+msgstr "Découvrez les mensualités de remboursement"
+
+#: views/shortcode/idxboost_modals_filter.php:73
+msgid "Recommend this to a friend, just enter their email bellow"
+msgstr "Recommandez ceci à un ami, entrez simplement son email ci-dessous"
+
+#: views/shortcode/idxboost_modals_filter.php:93
+#: views/shortcode/idxboost_modals_filter.php:569
+msgid "Required fields"
+msgstr "Champs obligatoires"
+
+#: views/shortcode/idxboost_modals_filter.php:105
+msgid "Email Sent"
+msgstr "Email envoyé!"
+
+#: views/shortcode/idxboost_modals_filter.php:181
+msgid "Min Price"
+msgstr "Budget"
+
+#: views/shortcode/idxboost_modals_filter.php:186
+msgid "Max Price"
+msgstr "Prix"
+
+#: views/shortcode/idxboost_modals_filter.php:199
+msgid "Min Beds"
+msgstr "Chambres"
+
+#: views/shortcode/idxboost_modals_filter.php:204
+msgid "Max Beds"
+msgstr "Chambres"
+
+#: views/shortcode/idxboost_modals_filter.php:216
+msgid "Min Baths"
+msgstr "Salle de bains"
+
+#: views/shortcode/idxboost_modals_filter.php:221
+msgid "Max Baths"
+msgstr "Salles de bains"
+
+#: views/shortcode/idxboost_modals_filter.php:283
+msgid "Min Year"
+msgstr "Année"
+
+#: views/shortcode/idxboost_modals_filter.php:288
+msgid "Max Year"
+msgstr "Année des taxes"
+
+#: views/shortcode/idxboost_modals_filter.php:580
+msgid ""
+"The multiple listing information is provided by the {{board_name}} from a "
+"copyrighted compilation of listings. \n"
+"                      The compilation of listings and each individual "
+"listing are ©<?php echo date('Y'); ?>-present {{board_name}}\n"
+"                      All Rights Reserved. The information provided is for "
+"consumers' personal, noncommercial use and may not be used for any purpose \n"
+"                      other than to identify prospective properties "
+"consumers may be interested in purchasing. All properties are subject to "
+"prior sale \n"
+"                      or withdrawal. All information provided is deemed "
+"reliable but is not guaranteed accurate, and should be independently "
+"verified. \n"
+"                      Listing courtesy of:"
+msgstr ""
+
+#: views/shortcode/idxboost_modals_filter.php:593
+msgid "Similar Properties For sale"
+msgstr " Propriétés similaires"
+
+#: views/shortcode/idxboost_modals_filter.php:637
+msgid "bed(s)"
+msgstr "chambre(s)"
+
+#: views/shortcode/idxboost_modals_filter.php:638
+msgid "bath(s)"
+msgstr "Bain(s)"
+
+#: views/shortcode/idxboost_quick_search.php:3
+msgid "sale"
+msgstr "Acheter"
+
+#: views/shortcode/idxboost_quick_search.php:4
+msgid "rent"
+msgstr "Louer"
+
+#: views/shortcode/idxboost_quick_search.php:25
+msgid "Select a City"
+msgstr "Ville"
+
+#: views/shortcode/idxboost_quick_search.php:83
+msgid "View Properties"
+msgstr "Rechercher"
+
+#: views/shortcode/idxboost_quick_search.php:88
+msgid "Min."
+msgstr "Min."
+
+#: views/shortcode/idxboost_quick_search.php:89
+msgid "Max."
+msgstr "Max."
+
+#: views/shortcode/idxboost_rentals_form.php:8
+msgid "What are you looking to rent?"
+msgstr "Que souhaitez vous louer ?"
+
+#: views/shortcode/idxboost_rentals_form.php:29
+msgid "What’s your price range?"
+msgstr "Estimation de votre budget"
+
+#: views/shortcode/idxboost_rentals_form.php:33
+msgid "Bellow $5K"
+msgstr "Moins de $5K"
+
+#: views/shortcode/idxboost_rentals_form.php:37
+msgid "$5K to $10k"
+msgstr "De $5K à $10K"
+
+#: views/shortcode/idxboost_rentals_form.php:41
+msgid "$10K to $15K"
+msgstr "De $10K à $15K"
+
+#: views/shortcode/idxboost_rentals_form.php:45
+msgid "$15K+"
+msgstr "$15K+"
+
+#: views/shortcode/idxboost_rentals_form.php:92
+msgid "Timeline to rent"
+msgstr "Sous combien de temps souhaitez vous conclure votre projet?"
+
+#: views/shortcode/idxboost_sellers_form.php:8
+msgid "What's Your Home Worth?"
+msgstr "Recevez une estimation de votre bien immobilier à Miami"
+
+#: views/shortcode/idxboost_sellers_form.php:9
+msgid "Please fill out your address below to receive a"
+msgstr "Veuillez compléter votre adresse ci-dessous pour recevoir une "
+
+#: views/shortcode/idxboost_sellers_form.php:9
+msgid "complimentary market analysis from one of our experts!"
+msgstr "analyse de marché gratuite de l'un de nos experts!"
+
+#: views/shortcode/idxboost_sellers_form.php:11
+msgid "Enter your address here"
+msgstr "Veuillez entrer votre adresse"
+
+#: views/shortcode/idxboost_sellers_form.php:12
+msgid "Find out now"
+msgstr "Trouver"
+
+#: views/shortcode/idxboost_sellers_form.php:58
+#: views/shortcode/idxboost_sellers_form.php:74
+msgid "Planning Stages"
+msgstr "Sous combien de temps souhaitez vous vendre votre propriété ?"
+
+#: views/shortcode/idxboost_sellers_form.php:62
+msgid "I&#039m Ready"
+msgstr "Je suis prêt"
+
+#: views/shortcode/idxboost_sellers_form.php:66
+msgid "Almost There"
+msgstr "Presque là"
+
+#: views/shortcode/idxboost_sellers_form.php:70
+msgid "Flexible"
+msgstr "Flexible"
+
+#: views/shortcode/single-flex-filter-pages.php:20
+#: views/shortcode/single-flex-landing-pages.php:10
+msgid "Home"
+msgstr "Page d’accueil"
+
+#: views/shortcode/thumb_idxboost_building_collection.php:48
+#: views/shortcode/thumb_idxboost_building_collection_ajax.php:48
+msgid "Available Sold"
+msgstr "Date de vente"
+
+#~ msgid "B/B"
+#~ msgstr "B/B"
+
+#~ msgid "Bed(s)/Bath(s)"
+#~ msgstr "Chambres/Bains"
+
+#~ msgid "Already pre-approved for financing?"
+#~ msgstr "Déjà pré-approuvé pour le financement?"
+
+#~ msgid "Are you also looking to sell your home?"
+#~ msgstr "Cherchez-vous aussi à vendre votre maison?"
+
+#~ msgid "Sign in"
+#~ msgstr "Se connecter"
+
+#~ msgid "Would you like to see the details of this property?"
+#~ msgstr "Voulez-vous voir les détails de cette propriété?"
+
+#~ msgid "(Must be valid)"
+#~ msgstr "(Doit être valide)"
+
+#~ msgid "Email Registration?"
+#~ msgstr "Inscription par courriel"
+
+#~ msgid "Continue with Google+"
+#~ msgstr "Connectez-vous avec Google+"
+
+#~ msgid "What&#039ds your price range?"
+#~ msgstr "Estimation de votre budget"
+
+#~ msgid "Request info"
+#~ msgstr "Informations requises"
+
+#~ msgid "Save Favorites"
+#~ msgstr "Enregistrer Favori"
+
+#~ msgid "unit"
+#~ msgstr "unité"
+
+#~ msgid "Star Island Corr"
+#~ msgstr "Star Island Corr"
+
+#~ msgid "Condo For Sale"
+#~ msgstr "Condo à vendre"
+
+#~ msgid "Condo For Sold"
+#~ msgstr "Condo Pour Vendu"
+
+#~ msgid "Choose Time"
+#~ msgstr "Choisissez l'heure"
+
+#~ msgid "Request <br>Information"
+#~ msgstr "Demande <br> d’informations"
+
+#~ msgid "FOR SALE"
+#~ msgstr " "
+
+#~ msgid "FOR RENT"
+#~ msgstr " "
+
+#~ msgid "email to a firend"
+#~ msgstr "email à un ami*"
+
+#~ msgid "Scroll down for more."
+#~ msgstr "Faites défiler vers le bas pour plus."
+
+#~ msgid "properties"
+#~ msgstr " "
+
+#~ msgid "Friend information"
+#~ msgstr "Informations sur les amis"
+
+#~ msgid "Your information"
+#~ msgstr "Vos informations"
+
+#~ msgid "beds"
+#~ msgstr "chambres"
+
+#~ msgid "bed"
+#~ msgstr "chambre"
+
+#~ msgid "bath"
+#~ msgstr "salles de bains"
+
+#~ msgid "cancel"
+#~ msgstr "Annuler"
+
+#~ msgid "Welcome back"
+#~ msgstr "Bienvenue dans votre espace personnel"
+
+#~ msgid "Want to Compare Homes?"
+#~ msgstr "Voulez-vous comparer les maisons?"
+
+#~ msgid "Full Name"
+#~ msgstr "Nom complet"
+
+#~ msgid "(First &amp; Last)"
+#~ msgstr "(Premier et dernier)"
+
+#~ msgid " Status Change"
+#~ msgstr "Changement de statut"
+
+#~ msgid "Saved Search Name(*)"
+#~ msgstr "Nom de recherche enregistré (*)"
+
+#~ msgid "Email to"
+#~ msgstr "Envoyer à"
+
+#~ msgid "a friend"
+#~ msgstr "un ami"
+
+#~ msgid "Average Price Sq.Ft."
+#~ msgstr "Prix moyen Sq.Ft."
+
+#~ msgid "avg price / Sq.Ft."
+#~ msgstr "prix moyen / Sq.Ft."
+
+#~ msgid "request showing"
+#~ msgstr "demande d'affichage"
+
+#~ msgid "Price / Sq.Ft"
+#~ msgstr "Prix  / Sq.Ft."
+
+#~ msgid "Price (High to Low)"
+#~ msgstr "Prix décroissant"
+
+#~ msgid "Price (Low to High)"
+#~ msgstr "Prix croissant"
+
+#~ msgid "Size (High to Low)"
+#~ msgstr "Superficie décroissante"
+
+#~ msgid "Size (Low to High)"
+#~ msgstr "Superficie croissante"
+
+#~ msgid "Year (High to Low)"
+#~ msgstr "Année décroissante"
+
+#~ msgid "Year (Low to High)"
+#~ msgstr "Année croissante"
+
+#~ msgid "Listing Date (High to Low)"
+#~ msgstr "Nouveautés décroissante"
+
+#~ msgid "Listing Date (Low to High)"
+#~ msgstr "Nouveautés croissante"
+
+#~ msgid "new listing!"
+#~ msgstr "Nouveauté"
+
+#~ msgid "live MLS data on your website."
+#~ msgstr "Live MLS données sur votre site Web."
+
+#~ msgid "remove"
+#~ msgstr "retirer"
+
+#~ msgid "results"
+#~ msgstr "résultats"
+
+#~ msgid "Regular Sale"
+#~ msgstr "Vente régulière"
+
+#~ msgid "Yes"
+#~ msgstr "Oui"
+
+#~ msgid "Get email alerts for new properties matching this search"
+#~ msgstr ""
+#~ "Recevez des alertes email pour toutes les propriétés qui correspondent à "
+#~ "cette recherche   "
+
+#~ msgid "Create Alert"
+#~ msgstr "CRÉER UNE ALERTE"
+
+#~ msgid "Save search"
+#~ msgstr "Enregistrer la recherche"
+
+#~ msgid " to "
+#~ msgstr " à "
+
+#~ msgid "Comments</label"
+#~ msgstr "Commentaires"
+
+#~ msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+#~ msgstr "Isso é um pouco embaraçoso, não é?"
+
+#~ msgid ""
+#~ "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+#~ "searching can help."
+#~ msgstr ""
+#~ "Parece que não podemos encontrar o que você está procurando. Talvez a "
+#~ "pesquisa possa ajudar."

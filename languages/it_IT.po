@@ -1,0 +1,733 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: masterelite-theme-italiano\n"
+"POT-Creation-Date: 2017-08-16 10:37-0500\n"
+"PO-Revision-Date: 2017-08-16 10:48-0500\n"
+"Last-Translator: \n"
+"Language-Team: dgt <zuly@dgtalliance.com>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets-home\n"
+"X-Poedit-SearchPathExcluded-1: css\n"
+"X-Poedit-SearchPathExcluded-2: fonts\n"
+"X-Poedit-SearchPathExcluded-3: images\n"
+"X-Poedit-SearchPathExcluded-4: assets\n"
+
+#: 404.php:8
+msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+msgstr ""
+
+#: 404.php:9
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: email/tpl.building.php:17
+msgid "This Project is currently in"
+msgstr ""
+
+#: email/tpl.building.php:17
+msgid "PRE-CONSTRUCTION"
+msgstr ""
+
+#: email/tpl.building.php:25
+msgid "FOR SALE"
+msgstr ""
+
+#: email/tpl.building.php:31
+msgid "FOR RENT"
+msgstr ""
+
+#: email/tpl.building.php:37
+msgid "SOLD"
+msgstr ""
+
+#: email/tpl.building.php:46 pt-building/single.php:124
+msgid "Price Range"
+msgstr "Fascia di prezzo"
+
+#: email/tpl.building.php:50 pt-building/single.php:125
+msgid "Bedrooms"
+msgstr "Camere da letto"
+
+#: email/tpl.building.php:54 email/tpl.pocket.php:41 email/tpl.property.php:38
+#: pt-building/single.php:126
+msgid "Year Built"
+msgstr ""
+
+#: email/tpl.building.php:58 pt-building/single.php:127
+msgid "Number of units"
+msgstr ""
+
+#: email/tpl.building.php:62 pt-building/single.php:128
+msgid "Stories"
+msgstr ""
+
+#: email/tpl.building.php:66 pt-building/single.php:129
+msgid "SF Range"
+msgstr ""
+
+#: email/tpl.building.php:70 pt-building/single.php:130
+msgid "Average Price / Sq.Ft"
+msgstr ""
+
+#: email/tpl.building.php:74 pt-building/single.php:131
+msgid "Average DOM"
+msgstr ""
+
+#: email/tpl.building.php:81 email/tpl.pocket.php:68 email/tpl.property.php:69
+msgid "View Detail"
+msgstr ""
+
+#: email/tpl.confirmation.php:6
+msgid ""
+"Thank you for contacting us! We will review your message and a "
+"representative will contact you promptly."
+msgstr ""
+
+#: email/tpl.new.user.php:13
+#, php-format
+msgid "New user registration on your site %s:"
+msgstr ""
+
+#: email/tpl.new.user.php:25
+msgid "Email"
+msgstr ""
+
+#: email/tpl.new.user.php:29 login/dgt-config-login.php:47
+msgid "Phone"
+msgstr ""
+
+#: email/tpl.pocket.php:33 email/tpl.property.php:30
+msgid "property type"
+msgstr ""
+
+#: email/tpl.pocket.php:37
+msgid "garage"
+msgstr ""
+
+#: email/tpl.pocket.php:45
+msgid "lot square footage"
+msgstr ""
+
+#: email/tpl.pocket.php:49
+msgid "pool"
+msgstr ""
+
+#: email/tpl.pocket.php:53
+msgid "association"
+msgstr ""
+
+#: email/tpl.pocket.php:57
+msgid "monthly fees"
+msgstr ""
+
+#: email/tpl.pocket.php:61
+msgid "taxes"
+msgstr ""
+
+#: email/tpl.property.php:21
+#, php-format
+msgid "%s Baths"
+msgstr ""
+
+#: email/tpl.property.php:34
+msgid "lot size / development"
+msgstr ""
+
+#: email/tpl.property.php:42
+msgid "waterfront"
+msgstr ""
+
+#: email/tpl.property.php:46
+msgid "style"
+msgstr ""
+
+#: email/tpl.property.php:50
+msgid "parking"
+msgstr ""
+
+#: email/tpl.property.php:54
+msgid "swimming pool"
+msgstr ""
+
+#: email/tpl.property.php:58
+msgid "status"
+msgstr ""
+
+#: email/tpl.property.php:62
+msgid "mls"
+msgstr ""
+
+#: email/tpl.registration.php:13
+msgid "Hi, "
+msgstr ""
+
+#: email/tpl.registration.php:16
+#, php-format
+msgid "Welcome to %s! Here's how to log in:"
+msgstr ""
+
+#: email/tpl.registration.php:28 email/tpl.reset.password.php:28
+msgid "E-mail"
+msgstr ""
+
+#: email/tpl.registration.php:32
+msgid "Phone number"
+msgstr ""
+
+#: email/tpl.registration.php:36
+msgid "Password"
+msgstr ""
+
+#: email/tpl.registration.php:50
+#, php-format
+msgid "Visit our website  %s"
+msgstr ""
+
+#: email/tpl.registration.php:53
+#, php-format
+msgid "If you have any problems, please contact me at %s."
+msgstr ""
+
+#: email/tpl.registration.php:56
+msgid "Thanks!"
+msgstr ""
+
+#: email/tpl.reset.password.php:13
+msgid "Someone requested that the password be reset for the following account:"
+msgstr ""
+
+#: email/tpl.reset.password.php:41
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr ""
+
+#: email/tpl.reset.password.php:44
+msgid "To reset your password, visit the following address:"
+msgstr ""
+
+#: functions/fn_login.php:20 functions/fn_login.php:56
+#: functions/fn_login.php:117
+msgid "An unexpected error occurred, please try again later."
+msgstr ""
+
+#: functions/fn_login.php:36
+msgid "Wrong username or password."
+msgstr ""
+
+#: functions/fn_login.php:43 functions/fn_login.php:108
+msgid "Login sucessful, redirecting..."
+msgstr ""
+
+#: functions/fn_login.php:89
+msgid "Please enter a valid password"
+msgstr ""
+
+#: functions/fn_login.php:125
+msgid "Enter a username or e-mail address"
+msgstr ""
+
+#: functions/fn_login.php:131
+msgid "There is no user registered with that email address."
+msgstr ""
+
+#: functions/fn_login.php:140
+msgid "Invalid username or e-mail."
+msgstr ""
+
+#: functions/fn_login.php:163
+#, php-format
+msgid "[%s] Password Reset"
+msgstr ""
+
+#: functions/fn_login.php:169
+msgid "Check your e-mail for the confirmation link."
+msgstr ""
+
+#: functions/fn_login.php:171
+msgid "The e-mail could not be sent."
+msgstr ""
+
+#: functions/fn_login.php:171
+msgid "Possible reason: your host may have disabled the mail() function."
+msgstr ""
+
+#: header.php:43
+msgid "My Profile"
+msgstr "il mio profilo"
+
+#: header.php:44
+msgid "My Buildings"
+msgstr ""
+
+#: header.php:45
+msgid "My Properties"
+msgstr ""
+
+#: header.php:46
+msgid "My Save Search"
+msgstr "La mia Salva la ricerca"
+
+#: header.php:47
+msgid "Logout"
+msgstr "Logout"
+
+#: header.php:52
+msgid "Welcome"
+msgstr ""
+
+#: header.php:54
+msgid ""
+"From here you can <span>access</span> your favorite <span>properties. "
+"condos</span> and <span>saved searches.</span>"
+msgstr ""
+
+#: header.php:55
+msgid "Got it thanks"
+msgstr ""
+
+#: login/block-dgt-login.php:28 login/block-dgt-login.php:47
+#: pages-idx/modal/login.php:38
+msgid "Sign in"
+msgstr ""
+
+#: login/block-dgt-login.php:29 login/block-dgt-login.php:65
+#: pages-idx/modal/login.php:58
+msgid "Register"
+msgstr ""
+
+#: login/block-dgt-login.php:30
+msgid "Reset Password"
+msgstr ""
+
+#: login/block-dgt-login.php:60 pages-idx/modal/login.php:53
+msgid "The password must be greater than 8 characters"
+msgstr ""
+
+#: login/block-dgt-login.php:80 pages-idx/modal/login.php:75
+msgid "Send"
+msgstr ""
+
+#: login/block-dgt-login.php:88
+msgid "I accept"
+msgstr ""
+
+#: login/block-dgt-login.php:89
+msgid "Terms of use"
+msgstr ""
+
+#: login/block-dgt-login.php:92
+msgid "Forgot password?"
+msgstr ""
+
+#: login/block-dgt-login.php:92
+msgid "Reset here"
+msgstr ""
+
+#: login/block-dgt-login.php:96 pages-idx/modal/login.php:85
+msgid "Or sign in with"
+msgstr ""
+
+#: login/dgt-config-login.php:19
+#, php-format
+msgid "[%s] New User Registration"
+msgstr ""
+
+#: login/dgt-config-login.php:27
+#, php-format
+msgid "[%s] Your username and password"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:9
+msgid "Mortgage calculator"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:12
+msgid "Let’s us know the best time for showing."
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:25
+msgid "Purchase Price"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:31
+msgid "Down Payment"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:37
+msgid "Term"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:40
+#: pages-idx/modal/mortgage-calculator.php:41
+msgid "Years"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:46
+msgid "Interest Rate"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:60
+msgid "Mortgage breakdown"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:62
+msgid "Mortgage Amount"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:63
+msgid "Down Payment Amount"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:64
+msgid "Monthly Amount"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:65
+msgid "Total Monthly Amount"
+msgstr ""
+
+#: pages-idx/modal/mortgage-calculator.php:65
+msgid "(Principal & Interest, and PMI)"
+msgstr ""
+
+#: pages-idx/modal/property.php:127 pages-idx/page-detail.php:128
+msgid "MLS"
+msgstr ""
+
+#: pages-idx/modal/property.php:129 pages-idx/page-detail.php:130
+msgid "Status"
+msgstr ""
+
+#: pages-idx/modal/property.php:131 pages-idx/page-detail.php:132
+msgid "Property Type"
+msgstr ""
+
+#: pages-idx/modal/property.php:132 pages-idx/page-detail.php:136
+msgid "Listing Price"
+msgstr ""
+
+#: pages-idx/modal/property.php:134 pages-idx/page-detail.php:138
+msgid "Price Change"
+msgstr ""
+
+#: pages-idx/modal/property.php:136 pages-idx/page-detail.php:144
+msgid "Living Size SF"
+msgstr ""
+
+#: pages-idx/modal/property.php:137 pages-idx/page-detail.php:145
+msgid "Price m&sup2;"
+msgstr ""
+
+#: pages-idx/modal/property.php:137 pages-idx/page-detail.php:145
+msgid "Price SF"
+msgstr ""
+
+#: pages-idx/modal/property.php:161 pages-idx/page-detail.php:168
+msgid "Date Sold"
+msgstr ""
+
+#: pages-idx/modal/property.php:163 pages-idx/page-detail.php:166
+msgid "Date Listed"
+msgstr ""
+
+#: pages-idx/modal/property.php:165 pages-idx/page-detail.php:170
+msgid "Day(s) on Market"
+msgstr ""
+
+#: pages-idx/modal/property.php:217 pages-idx/modal/property.php:226
+#: pages-idx/page-detail.php:353 pages-idx/page-detail.php:388
+#, php-format
+msgid ""
+"&copy; The data relating to real estate for sale/lease on this web site come "
+"in part from a cooperative data exchange program of the multiple listing "
+"service (MLS) in which this real estate firm (Broker) participates. The "
+"properties displayed may not be all of the properties in the MLS's database, "
+"or all of the properties listed with Brokers participating in the "
+"cooperative data exchange program. Properties listed by Brokers other than "
+"this Broker are marked with either the listing Broker's logo or name or the "
+"MLS name or a logo provided by the MLS. Detailed information about such "
+"properties includes the name of the listing Brokers. Information provided is "
+"thought to be reliable but is not guaranteed to be accurate; you are advised "
+"to verify facts that are important to you. No warranties, expressed or "
+"implied, are provided for the data herein, or for their use or "
+"interpretation by the user. The Florida Association of Realtors and its "
+"cooperating MLSs do not create, control or review the property data "
+"displayed herein and take no responsibility for the content of such records. "
+"Federal law prohibits discrimination on the basis of race, color, religion, "
+"sex, handicap, familial status or national origin in the sale, rental or "
+"financing of housing. Listing courtesy of : %s"
+msgstr ""
+
+#: pages-idx/page-detail.php:134
+msgid "Sold Price"
+msgstr ""
+
+#: pages-idx/page-detail.php:136
+msgid "Listed Price"
+msgstr ""
+
+#~ msgid "Selected Listings"
+#~ msgstr "Annunci selezionati"
+
+#~ msgid "to exisiting list"
+#~ msgstr "alla lista exisiting"
+
+#~ msgid "new list"
+#~ msgstr "visualizzazione elenco"
+
+#~ msgid "to friend"
+#~ msgstr "ad un amico"
+
+#~ msgid "to agent"
+#~ msgstr "per l'agente"
+
+#~ msgid "Want more details?"
+#~ msgstr "Vuoi maggiori informazioni?"
+
+#~ msgid "Contact us today"
+#~ msgstr "Contattaci oggi"
+
+#~ msgid ""
+#~ "- well reach you back promptly with detailed information about your "
+#~ "inquiry"
+#~ msgstr ""
+#~ "- Raggiungeremo indietro prontamente con informazioni dettagliate sulla "
+#~ "richiesta"
+
+#~ msgid "Call us at:"
+#~ msgstr "Chiamaci al numero:"
+
+#~ msgid "or email us below at"
+#~ msgstr "o e-mail qui sotto a"
+
+#~ msgid "Map"
+#~ msgstr "mappa"
+
+#~ msgid "CLOSE"
+#~ msgstr "VICINO"
+
+#~ msgid "to"
+#~ msgstr "a"
+
+#~ msgid "Living Size"
+#~ msgstr "Size living"
+
+#~ msgid "Featured"
+#~ msgstr "Immobili"
+
+#~ msgid "Waterfront"
+#~ msgstr "Lungomare"
+
+#~ msgid "Ocean Access"
+#~ msgstr "Accesso Ocean"
+
+#~ msgid "Ocean views"
+#~ msgstr "Visto Ocean"
+
+#~ msgid "Tennis Courts"
+#~ msgstr "Campi da tennis"
+
+#~ msgid "Swimming Pool"
+#~ msgstr "Piscina"
+
+#~ msgid "Golf Course"
+#~ msgstr "Corso di golf"
+
+#~ msgid "Guest House"
+#~ msgstr "Pensione"
+
+#~ msgid "Boat Dock"
+#~ msgstr "Posto Barca"
+
+#~ msgid "All Filters"
+#~ msgstr "tutti i filtri"
+
+#~ msgid "Condominiums"
+#~ msgstr "condomini"
+
+#~ msgid "living size"
+#~ msgstr "Size living"
+
+#~ msgid "listing"
+#~ msgstr "listato"
+
+#~ msgid "View"
+#~ msgstr "vista"
+
+#~ msgid "Select"
+#~ msgstr "Selezionare"
+
+#~ msgid "Beds"
+#~ msgstr "camere"
+
+#~ msgid "Baths"
+#~ msgstr " bagni"
+
+#~ msgid "Living size"
+#~ msgstr "Size living"
+
+#~ msgid "Looking for a Miami Property that suits Your Needs..."
+#~ msgstr "Cercando un immobile MIAMI adatta alle proprie esigenze ..."
+
+#~ msgid "Have \"Zorro\" Fetch it for you!"
+#~ msgstr "Hanno \"ZORRO\" fetch per voi!"
+
+#~ msgid "Close"
+#~ msgstr "vicino"
+
+#~ msgid "Sales"
+#~ msgstr "i saldi"
+
+#~ msgid "Leases"
+#~ msgstr "I contratti di locazione"
+
+#~ msgid "Select Area or Enter City, Zip, Condo Name or Keyword"
+#~ msgstr "Selezionare Area o Invio City, Zip, Nome Condominio o parola chiave"
+
+#~ msgid "price range"
+#~ msgstr "Fascia di prezzo"
+
+#~ msgid "bedrooms"
+#~ msgstr "Camere da letto"
+
+#~ msgid "Amenities"
+#~ msgstr "Servizi"
+
+#~ msgid "Tennis courts"
+#~ msgstr "Campi da tennis"
+
+#~ msgid "matching "
+#~ msgstr "accoppiamento"
+
+#~ msgid "listings"
+#~ msgstr "annunci"
+
+#~ msgid "View Listings"
+#~ msgstr "Visualizza il Link"
+
+#~ msgid "Languages"
+#~ msgstr "Le lingue"
+
+#~ msgid "Call me:"
+#~ msgstr "Chiamami:"
+
+#~ msgid "My properties"
+#~ msgstr "Le mie proprietà"
+
+#~ msgid "My Condos"
+#~ msgstr "I miei Condos"
+
+#~ msgid "register"
+#~ msgstr "Registrare"
+
+#~ msgid "Make favorite"
+#~ msgstr "Fare preferito"
+
+#~ msgid "Built"
+#~ msgstr " costruito nel"
+
+#~ msgid "Featured Projects"
+#~ msgstr "Visione dei progetti"
+
+#~ msgid "visit"
+#~ msgstr "visita"
+
+#~ msgid "Neighborhoods"
+#~ msgstr "Quartieri "
+
+#~ msgid "Explore"
+#~ msgstr "Immobili nel "
+
+#~ msgid "View all news"
+#~ msgstr "visualizzare tutte le news"
+
+#~ msgid "Exclusive Listings"
+#~ msgstr "Immobile Esclusivo"
+
+#~ msgid "View Details"
+#~ msgstr "VISIONA I DETTAGLI"
+
+#~ msgid "View all listings"
+#~ msgstr "IMMOBILI IN VENDITA"
+
+#~ msgid "CALL US:"
+#~ msgstr "Chiamaci:"
+
+#~ msgid "luxury paradise"
+#~ msgstr "PARADISO DI LUSSO "
+
+#~ msgid "Select an Area or Enter Address, Zip Codo, Condo Name or Keyword"
+#~ msgstr "Selezionare una zona o un indirizzo, C.A.P. , Nome del progetto"
+
+#~ msgid "Search Property"
+#~ msgstr "Ricerca di immobili"
+
+#~ msgid "Search by Building"
+#~ msgstr "Ricerca Edificio"
+
+#~ msgid "Search by Neighborhood"
+#~ msgstr "Ricerca per quartiere"
+
+#~ msgid "Search by Map"
+#~ msgstr "MAPPA"
+
+#~ msgid "Explore more"
+#~ msgstr "esplorare più"
+
+#~ msgid "WELCOME HOME"
+#~ msgstr "Home"
+
+#~ msgid ""
+#~ "Greater Miami and the Beaches offers residents a luxurious lifestyle "
+#~ "beyond compare.  Whether you choose to live in a waterfront home or a "
+#~ "luxury condo, here at GP Group, we can help you find the ideal property "
+#~ "to suit your lifestyle and needs."
+#~ msgstr ""
+#~ "La citta` di Miami e le sue spiagge offrono ai suoi residenti uno stile "
+#~ "di vita di lusso che non ha eguali. Sia che decidiate risiedere in una "
+#~ "casa o un appartamento di lusso fronte mare, a GP Group possiamo aiutarvi "
+#~ "a trovare la propieta` dei vostri sogni e sopra a tutto quella a voi piu` "
+#~ "congeniale allo stile di vita da voi prescelto."
+
+#~ msgid "learn more about gp group"
+#~ msgstr "CHI SIAMO AL GP GROUP"
+
+#~ msgid "Lifestyle"
+#~ msgstr "Stile di vita"
+
+#~ msgid "boat dock"
+#~ msgstr "Posto Barca"
+
+#~ msgid "View miami’s top yachting friendly homes"
+#~ msgstr "Propieta` con posto barca/yacht a Miami "
+
+#~ msgid "Penthouses"
+#~ msgstr "Attici"
+
+#~ msgid "waterfront homes"
+#~ msgstr "FRONTE MARE CASE E VILLE"
+
+#~ msgid "View miami’s waterfront houses"
+#~ msgstr "IMMOBILI FRONTE MARE"
+
+#~ msgid "Luxury Condos"
+#~ msgstr "IMMOBILI DI LUSSO APPARTAMENTI IN CONDOMINIO"
+
+#~ msgid "View miami’s condo listings"
+#~ msgstr "IMMOBILI IN CONDOMINIO"
+
+#~ msgid "MEET US"
+#~ msgstr "Incontriamoci"
+
+#~ msgid "CONTACT US"
+#~ msgstr "LET,SCHAT"

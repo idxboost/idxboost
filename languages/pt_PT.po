@@ -1,0 +1,2333 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: masterelite-theme-portuguez\n"
+"POT-Creation-Date: 2017-09-13 14:59-0500\n"
+"PO-Revision-Date: 2017-09-13 15:00-0500\n"
+"Last-Translator: \n"
+"Language-Team: dgt <zuly@dgtalliance.com>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: themes/a17elite\n"
+"X-Poedit-SearchPath-1: plugins/dgt-core\n"
+"X-Poedit-SearchPathExcluded-0: themes/a17elite/.git\n"
+"X-Poedit-SearchPathExcluded-1: themes/a17elite/assets\n"
+"X-Poedit-SearchPathExcluded-2: themes/a17elite/assets-home\n"
+"X-Poedit-SearchPathExcluded-3: themes/a17elite/css\n"
+"X-Poedit-SearchPathExcluded-4: themes/a17elite/fonts\n"
+"X-Poedit-SearchPathExcluded-5: themes/a17elite/images\n"
+"X-Poedit-SearchPathExcluded-6: themes/a17elite/js\n"
+
+#: plugins/dgt-core/front/fn_general.php:260
+#: plugins/dgt-core/front/fn_general.php:479
+#: themes/a17elite/functions/fn_script.php:178
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:7
+#, php-format
+msgid "Show %d to %d of %s results"
+msgstr "Mostrar %d para %d de %s resultados"
+
+#: plugins/dgt-core/front/fn_general.php:262
+#: plugins/dgt-core/front/fn_general.php:481
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:9
+#, php-format
+msgid "Show %d to %d results"
+msgstr "Mostrar %d para %d resultados"
+
+#: plugins/dgt-core/inc/helpers_fn.php:164
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:133
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:210
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:223
+msgid "to"
+msgstr "a"
+
+#: plugins/dgt-core/inc/idx_fn.php:469
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:175
+#: themes/a17elite/pt-building/parts/inventary-table.php:14
+msgid "Studio"
+msgstr "Estúdio"
+
+#: plugins/dgt-core/inc/idx_fn.php:469
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: plugins/dgt-core/inc/idx_fn.php:669
+msgid "rent"
+msgstr "Aluguel"
+
+#: plugins/dgt-core/inc/idx_fn.php:669
+msgid "sale"
+msgstr "Venda"
+
+#: plugins/dgt-core/inc/idx_fn.php:671
+#, php-format
+msgid "Home For %s"
+msgstr "Casas Para %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:672
+#, php-format
+msgid "Condo For %s"
+msgstr "Condo Para %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:673
+#, php-format
+msgid "Vacant Land For %s"
+msgstr "Terreno vazio para %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:796
+#, php-format
+msgid "Residential %s"
+msgstr "Residencial %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:831
+#, php-format
+msgid "from Price $%s to $%s"
+msgstr "de Preço $ %s para $ %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:835
+#, php-format
+msgid "Price $%s +"
+msgstr "Preço $%s +"
+
+#: plugins/dgt-core/inc/idx_fn.php:839
+#, php-format
+msgid "Price Up to $%s"
+msgstr "Preço até $%s"
+
+#: plugins/dgt-core/inc/idx_fn.php:848
+#, php-format
+msgid "Beds %s"
+msgstr "Dormitórios %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:848
+#, php-format
+msgid "Beds %s to %d"
+msgstr "Dormitórios %s a %d"
+
+#: plugins/dgt-core/inc/idx_fn.php:852
+#, php-format
+msgid "Bed %s more"
+msgstr "Dormitórios  %s mais"
+
+#: plugins/dgt-core/inc/idx_fn.php:856
+#, php-format
+msgid "Bed max %s"
+msgstr "Dormitórios max %s "
+
+#: plugins/dgt-core/inc/idx_fn.php:864
+#, php-format
+msgid "Baths %s to %s"
+msgstr "Banheiros %s para %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:868
+#, php-format
+msgid "Bath %s more"
+msgstr "Banheiros %s mais"
+
+#: plugins/dgt-core/inc/idx_fn.php:872
+#, php-format
+msgid "Bath max %s"
+msgstr "Banhos max%s"
+
+#: plugins/dgt-core/inc/idx_fn.php:908
+#, php-format
+msgid "Year %s to %d"
+msgstr "Ano %s para %d"
+
+#: plugins/dgt-core/inc/idx_fn.php:911
+#, php-format
+msgid "Year %s more"
+msgstr "Ano %s mais"
+
+#: plugins/dgt-core/inc/idx_fn.php:914
+#, php-format
+msgid "Year max %s"
+msgstr "Ano máximo %s"
+
+#: plugins/dgt-core/inc/idx_fn.php:981 plugins/dgt-core/inc/idx_fn.php:982
+#: plugins/dgt-core/inc/idx_fn.php:1056 plugins/dgt-core/inc/idx_fn.php:1057
+#: plugins/dgt-core/inc/idx_fn.php:1077 plugins/dgt-core/inc/idx_fn.php:1078
+#: plugins/dgt-core/inc/idx_fn.php:1103 plugins/dgt-core/inc/idx_fn.php:1104
+msgid " to "
+msgstr "a"
+
+#: plugins/dgt-core/inc/idx_fn.php:986
+msgid " day(s)"
+msgstr "Dia(s)"
+
+#: plugins/dgt-core/inc/tools_fn.php:102 plugins/dgt-core/inc/tools_fn.php:144
+#: plugins/dgt-core/inc/tools_fn.php:186
+#, php-format
+msgid "%d to %d of %s results"
+msgstr "%d a %d de %s resultados"
+
+#: plugins/dgt-core/inc/tools_fn.php:104
+msgid "First page"
+msgstr "Primeira página"
+
+#: plugins/dgt-core/inc/tools_fn.php:109
+msgid "Last page"
+msgstr "Última página"
+
+#: plugins/dgt-core/inc/tools_fn.php:367 plugins/dgt-core/inc/tools_fn.php:380
+#: plugins/dgt-core/inc/tools_fn.php:393 plugins/dgt-core/inc/tools_fn.php:407
+#: plugins/dgt-core/inc/tools_fn.php:420
+#: themes/a17elite/functions/fn_script.php:181
+msgid "up to"
+msgstr "Até"
+
+#: plugins/dgt-core/inc/tools_fn.php:376 plugins/dgt-core/inc/tools_fn.php:378
+#: plugins/dgt-core/inc/tools_fn.php:380
+#: themes/a17elite/functions/fn_script.php:176
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:37
+msgid "beds"
+msgstr "Dormitório"
+
+#: plugins/dgt-core/inc/tools_fn.php:389 plugins/dgt-core/inc/tools_fn.php:391
+#: plugins/dgt-core/inc/tools_fn.php:393
+#: themes/a17elite/functions/fn_script.php:177
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:38
+msgid "baths"
+msgstr "Banhos"
+
+#: plugins/dgt-core/modules/module.agents.php:26
+#: plugins/dgt-core/modules/module.buildings.php:21
+#: plugins/dgt-core/modules/module.community.php:21
+#: plugins/dgt-core/modules/module.filters.php:21
+#: plugins/dgt-core/modules/module.neighborhoods.php:21
+#: plugins/dgt-core/modules/module.pocket.php:21
+#: plugins/dgt-core/modules/module.schema.php:21
+#: plugins/dgt-core/modules/module.silo.php:20
+#: plugins/dgt-core/modules/module.testimonials.php:21
+msgid "Add New "
+msgstr "Adicionar novo"
+
+#: plugins/dgt-core/modules/module.agents.php:27
+#: plugins/dgt-core/modules/module.buildings.php:22
+#: plugins/dgt-core/modules/module.community.php:22
+#: plugins/dgt-core/modules/module.filters.php:22
+#: plugins/dgt-core/modules/module.neighborhoods.php:22
+#: plugins/dgt-core/modules/module.pocket.php:22
+#: plugins/dgt-core/modules/module.schema.php:22
+#: plugins/dgt-core/modules/module.silo.php:21
+#: plugins/dgt-core/modules/module.testimonials.php:22
+msgid "Edit "
+msgstr "Editar"
+
+#: plugins/dgt-core/modules/module.agents.php:28
+#: plugins/dgt-core/modules/module.buildings.php:23
+#: plugins/dgt-core/modules/module.community.php:23
+#: plugins/dgt-core/modules/module.filters.php:23
+#: plugins/dgt-core/modules/module.neighborhoods.php:23
+#: plugins/dgt-core/modules/module.pocket.php:23
+#: plugins/dgt-core/modules/module.schema.php:23
+#: plugins/dgt-core/modules/module.silo.php:22
+#: plugins/dgt-core/modules/module.testimonials.php:23
+msgid "New "
+msgstr "Novo"
+
+#: plugins/dgt-core/modules/module.agents.php:29
+#: plugins/dgt-core/modules/module.buildings.php:24
+#: plugins/dgt-core/modules/module.community.php:24
+#: plugins/dgt-core/modules/module.filters.php:24
+#: plugins/dgt-core/modules/module.neighborhoods.php:24
+#: plugins/dgt-core/modules/module.pocket.php:24
+#: plugins/dgt-core/modules/module.schema.php:24
+#: plugins/dgt-core/modules/module.silo.php:23
+#: plugins/dgt-core/modules/module.testimonials.php:24
+msgid "View "
+msgstr "Visão"
+
+#: plugins/dgt-core/modules/module.agents.php:30
+#: plugins/dgt-core/modules/module.buildings.php:25
+#: plugins/dgt-core/modules/module.community.php:25
+#: plugins/dgt-core/modules/module.filters.php:25
+#: plugins/dgt-core/modules/module.neighborhoods.php:25
+#: plugins/dgt-core/modules/module.pocket.php:25
+#: plugins/dgt-core/modules/module.schema.php:25
+#: plugins/dgt-core/modules/module.silo.php:24
+#: plugins/dgt-core/modules/module.testimonials.php:25
+msgid "Search "
+msgstr "Busca"
+
+#: plugins/dgt-core/modules/module.agents.php:293
+#: plugins/dgt-core/modules/module.agents.php:295
+msgid "No Office"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:339
+#: plugins/dgt-core/modules/module.pocket.php:609
+msgid "Search Amenities"
+msgstr "Busca Amenidade"
+
+#: plugins/dgt-core/modules/module.buildings.php:340
+#: plugins/dgt-core/modules/module.pocket.php:610
+msgid "All Amenities"
+msgstr "Todas as comodidades"
+
+#: plugins/dgt-core/modules/module.buildings.php:341
+#: plugins/dgt-core/modules/module.pocket.php:611
+msgid "Parent Amenity"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:342
+#: plugins/dgt-core/modules/module.pocket.php:612
+msgid "Parent Amenity:"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:343
+#: plugins/dgt-core/modules/module.pocket.php:613
+msgid "Edit Amenity"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:344
+#: plugins/dgt-core/modules/module.pocket.php:614
+msgid "Update Amenity"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:345
+#: plugins/dgt-core/modules/module.pocket.php:615
+msgid "Add New Amenity"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:346
+#: plugins/dgt-core/modules/module.pocket.php:616
+msgid "New Amenity Name"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.buildings.php:347
+#: plugins/dgt-core/modules/module.pocket.php:617
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:80
+msgid "Amenities"
+msgstr "Facilidades"
+
+#: plugins/dgt-core/modules/module.pocket.php:630
+msgid "Search Interior Features"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:631
+msgid "All Interior Features"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:632
+msgid "Parent Interior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:633
+msgid "Parent Interior Feature:"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:634
+msgid "Edit Interior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:635
+msgid "Update Interior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:636
+msgid "Add New Interior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:637
+msgid "New Interior Feature Name"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:638
+msgid "Interior Features"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:651
+msgid "Search Exterior Features"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:652
+msgid "All Exterior Features"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:653
+msgid "Parent Exterior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:654
+msgid "Parent Exterior Feature:"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:655
+msgid "Edit Exterior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:656
+msgid "Update Exterior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:657
+msgid "Add New Exterior Feature"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:658
+msgid "New Exterior Feature Name"
+msgstr ""
+
+#: plugins/dgt-core/modules/module.pocket.php:659
+msgid "Exterior Features"
+msgstr ""
+
+#: themes/a17elite/404.php:4
+msgid "page not found"
+msgstr "Página não encontrada"
+
+#: themes/a17elite/email/tpl.building.php:17
+#: themes/a17elite/pt-building/single.php:92
+msgid "This Project is currently in"
+msgstr "Este projeto está atualmente em"
+
+#: themes/a17elite/email/tpl.building.php:17
+#: themes/a17elite/email/tpl.buildings.php:15
+#: themes/a17elite/pt-building/single.php:93
+msgid "PRE-CONSTRUCTION"
+msgstr "PRE-CONSTRUÇÃO"
+
+#: themes/a17elite/email/tpl.building.php:25
+msgid "FOR SALE"
+msgstr "VENDA"
+
+#: themes/a17elite/email/tpl.building.php:31
+msgid "FOR RENT"
+msgstr "ALUGUEL"
+
+#: themes/a17elite/email/tpl.building.php:37
+msgid "SOLD"
+msgstr "VENDIDO"
+
+#: themes/a17elite/email/tpl.building.php:46
+#: themes/a17elite/functions/fn_script.php:187
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:129
+#: themes/a17elite/pages-idx/page-profile.php:261
+#: themes/a17elite/pages-idx/page-profile.php:277
+#: themes/a17elite/pt-building/luxury-condos.php:112
+#: themes/a17elite/pt-building/single.php:124
+msgid "Price Range"
+msgstr "Faixa de preço"
+
+#: themes/a17elite/email/tpl.building.php:50
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:168
+#: themes/a17elite/pages-idx/modal/property.php:69
+#: themes/a17elite/pages-idx/page-detail.php:99
+#: themes/a17elite/pages-idx/page-profile.php:262
+#: themes/a17elite/pages-idx/page-profile.php:278
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:22
+#: themes/a17elite/pt-building/single.php:125
+msgid "Bedrooms"
+msgstr "Dormitório"
+
+#: themes/a17elite/email/tpl.building.php:54
+#: themes/a17elite/email/tpl.pocket.php:41
+#: themes/a17elite/email/tpl.property.php:38
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:220
+#: themes/a17elite/pt-building/single.php:126
+msgid "Year Built"
+msgstr "Ano de construção"
+
+#: themes/a17elite/email/tpl.building.php:58
+#: themes/a17elite/pt-building/single.php:127
+msgid "Number of units"
+msgstr "Número de unidades"
+
+#: themes/a17elite/email/tpl.building.php:62
+#: themes/a17elite/pt-building/single.php:128
+msgid "Stories"
+msgstr "Histórias"
+
+#: themes/a17elite/email/tpl.building.php:66
+#: themes/a17elite/pt-building/single.php:129
+msgid "SF Range"
+msgstr "SF Faixa"
+
+#: themes/a17elite/email/tpl.building.php:70
+#: themes/a17elite/pt-building/single.php:130
+msgid "Average Price / Sq.Ft"
+msgstr "Preço médio  Sq.Ft"
+
+#: themes/a17elite/email/tpl.building.php:74
+#: themes/a17elite/pt-building/single.php:131
+msgid "Average DOM"
+msgstr "DOM médio"
+
+#: themes/a17elite/email/tpl.building.php:81
+#: themes/a17elite/email/tpl.buildings.php:27
+#: themes/a17elite/email/tpl.pocket.php:68
+#: themes/a17elite/email/tpl.properties.php:28
+#: themes/a17elite/email/tpl.property.php:69 themes/a17elite/single.php:66
+msgid "View Detail"
+msgstr "Ver Detalhes"
+
+#: themes/a17elite/email/tpl.buildings.php:23
+#: themes/a17elite/functions/fn_script.php:183
+#: themes/a17elite/pages-idx/page-profile.php:206
+#: themes/a17elite/pages-idx/page-profile.php:223
+#: themes/a17elite/pt-agent/single.php:89
+#: themes/a17elite/pt-building/luxury-condos.php:149
+#: themes/a17elite/pt-building/single.php:86
+#: themes/a17elite/pt-neighborhood/sidebar.php:32
+msgid "For Sale"
+msgstr "Venda"
+
+#: themes/a17elite/email/tpl.buildings.php:23
+#: themes/a17elite/functions/fn_script.php:184
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:102
+#: themes/a17elite/pages-idx/page-profile.php:207
+#: themes/a17elite/pages-idx/page-profile.php:224
+#: themes/a17elite/pt-agent/single.php:90
+#: themes/a17elite/pt-building/luxury-condos.php:150
+#: themes/a17elite/pt-building/single.php:87
+#: themes/a17elite/pt-building/single.php:138
+#: themes/a17elite/pt-neighborhood/sidebar.php:33
+msgid "For Rent"
+msgstr "Aluguel"
+
+#: themes/a17elite/email/tpl.buildings.php:23
+#: themes/a17elite/functions/fn_script.php:185
+#: themes/a17elite/pages-idx/header-properties.php:3
+#: themes/a17elite/pages-idx/page-detail.php:97
+#: themes/a17elite/pages-idx/page-profile.php:208
+#: themes/a17elite/pages-idx/page-profile.php:225
+#: themes/a17elite/pt-building/luxury-condos.php:120
+#: themes/a17elite/pt-building/luxury-condos.php:151
+#: themes/a17elite/pt-building/single.php:88
+#: themes/a17elite/pt-building/single.php:139
+#: themes/a17elite/pt-neighborhood/sidebar.php:34
+msgid "Sold"
+msgstr "Vendido"
+
+#: themes/a17elite/email/tpl.confirmation.php:6
+msgid ""
+"Thank you for contacting us! We will review your message and a "
+"representative will contact you promptly."
+msgstr ""
+"Obrigado por nos contatar! Vamos rever sua mensagem e um representante "
+"entrará em contato com você prontamente."
+
+#: themes/a17elite/email/tpl.new.user.php:13
+#, php-format
+msgid "New user registration on your site %s:"
+msgstr "Novo registro de usuário em seu site %s:"
+
+#: themes/a17elite/email/tpl.new.user.php:25
+#: themes/a17elite/pages-idx/page-profile.php:92
+#: themes/a17elite/pt-building/parts/form.php:17
+#: themes/a17elite/pt-building/parts/form.php:18
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:20
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:21
+msgid "Email"
+msgstr "O email"
+
+#: themes/a17elite/email/tpl.new.user.php:29
+#: themes/a17elite/login/dgt-config-login.php:47
+#: themes/a17elite/pages-idx/page-profile.php:96
+#: themes/a17elite/pt-building/parts/form.php:21
+#: themes/a17elite/pt-building/parts/form.php:22
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:24
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:25
+msgid "Phone"
+msgstr "Telefone"
+
+#: themes/a17elite/email/tpl.pocket.php:33
+#: themes/a17elite/email/tpl.property.php:30
+msgid "property type"
+msgstr "Tipo de Propriedade"
+
+#: themes/a17elite/email/tpl.pocket.php:37
+msgid "garage"
+msgstr "garagem"
+
+#: themes/a17elite/email/tpl.pocket.php:45
+msgid "lot square footage"
+msgstr "Loto quadrado"
+
+#: themes/a17elite/email/tpl.pocket.php:49
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:47
+msgid "pool"
+msgstr "piscina"
+
+#: themes/a17elite/email/tpl.pocket.php:53
+msgid "association"
+msgstr "Associação"
+
+#: themes/a17elite/email/tpl.pocket.php:57
+msgid "monthly fees"
+msgstr "Taxas mensais"
+
+#: themes/a17elite/email/tpl.pocket.php:61
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:57
+msgid "taxes"
+msgstr "Impostos"
+
+#: themes/a17elite/email/tpl.property.php:21
+#, php-format
+msgid "%s Baths"
+msgstr "%s Banhos"
+
+#: themes/a17elite/email/tpl.property.php:34
+msgid "lot size / development"
+msgstr "Tamanho do lote / desenvolvimento"
+
+#: themes/a17elite/email/tpl.property.php:42
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:42
+msgid "waterfront"
+msgstr "Beira-mar"
+
+#: themes/a17elite/email/tpl.property.php:46
+msgid "style"
+msgstr "Estilo"
+
+#: themes/a17elite/email/tpl.property.php:50
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:67
+msgid "parking"
+msgstr "Estacionamento"
+
+#: themes/a17elite/email/tpl.property.php:54
+msgid "swimming pool"
+msgstr "piscina"
+
+#: themes/a17elite/email/tpl.property.php:58
+msgid "status"
+msgstr "Status"
+
+#: themes/a17elite/email/tpl.property.php:62
+msgid "mls"
+msgstr "mls"
+
+#: themes/a17elite/email/tpl.registration.php:13
+msgid "Hi, "
+msgstr "Oi,"
+
+#: themes/a17elite/email/tpl.registration.php:16
+#, php-format
+msgid "Welcome to %s! Here's how to log in:"
+msgstr "Bem-vindo ao %s! Veja como fazer login"
+
+#: themes/a17elite/email/tpl.registration.php:28
+#: themes/a17elite/email/tpl.reset.password.php:28
+msgid "E-mail"
+msgstr "O email"
+
+#: themes/a17elite/email/tpl.registration.php:32
+#: themes/a17elite/pages-idx/modal/login.php:51
+msgid "Phone number"
+msgstr "Telefone"
+
+#: themes/a17elite/email/tpl.registration.php:36
+msgid "Password"
+msgstr "Senha"
+
+#: themes/a17elite/email/tpl.registration.php:50
+#, php-format
+msgid "Visit our website  %s"
+msgstr "Visite o nosso site %s"
+
+#: themes/a17elite/email/tpl.registration.php:53
+#, php-format
+msgid "If you have any problems, please contact me at %s."
+msgstr "Se você tiver algum problema, entre em contato comigo no %s."
+
+#: themes/a17elite/email/tpl.registration.php:56
+msgid "Thanks!"
+msgstr "Obrigado!"
+
+#: themes/a17elite/email/tpl.reset.password.php:13
+msgid "Someone requested that the password be reset for the following account:"
+msgstr "Alguém pediu que a senha fosse redefinida para a seguinte conta:"
+
+#: themes/a17elite/email/tpl.reset.password.php:41
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr "Se isso foi um erro, ignore este e-mail e nada acontecerá."
+
+#: themes/a17elite/email/tpl.reset.password.php:44
+msgid "To reset your password, visit the following address:"
+msgstr "Para redefinir sua senha, visite o seguinte endereço:"
+
+#: themes/a17elite/footer.php:20 themes/a17elite/pages-idx/page-detail.php:310
+#: themes/a17elite/pt-building/single.php:191
+msgid "Please wait while we create your document"
+msgstr "Aguarde enquanto criamos seu documento"
+
+#: themes/a17elite/footer.php:34
+msgid "Off Market:"
+msgstr "Off Market:"
+
+#: themes/a17elite/footer.php:34
+#, php-format
+msgid "% beds"
+msgstr "% dormitório"
+
+#: themes/a17elite/footer.php:34
+#, php-format
+msgid " % baths"
+msgstr "% banhos"
+
+#: themes/a17elite/footer.php:34
+#, php-format
+msgid "% sqft"
+msgstr "% sqft"
+
+#: themes/a17elite/footer.php:40
+msgid "of"
+msgstr "do"
+
+#: themes/a17elite/functions/fn_login.php:23
+#: themes/a17elite/functions/fn_login.php:59
+#: themes/a17elite/functions/fn_login.php:120
+msgid "An unexpected error occurred, please try again later."
+msgstr "Ocorreu um erro inesperado, tente novamente mais tarde."
+
+#: themes/a17elite/functions/fn_login.php:39
+msgid "Wrong username or password."
+msgstr "Nome de usuário ou senha incorretos."
+
+#: themes/a17elite/functions/fn_login.php:46
+#: themes/a17elite/functions/fn_login.php:111
+msgid "Login sucessful, redirecting..."
+msgstr "Login bem sucedido, redirecionando ..."
+
+#: themes/a17elite/functions/fn_login.php:92
+msgid "Please enter a valid password"
+msgstr "por favor coloque uma senha válida"
+
+#: themes/a17elite/functions/fn_login.php:128
+msgid "Enter a username or e-mail address"
+msgstr "Digite um nome de usuário ou endereço de e-mail"
+
+#: themes/a17elite/functions/fn_login.php:134
+msgid "There is no user registered with that email address."
+msgstr "Não há nenhum usuário registrado com esse endereço de e-mail."
+
+#: themes/a17elite/functions/fn_login.php:143
+msgid "Invalid username or e-mail."
+msgstr "Nome de usuário ou email inválido."
+
+#: themes/a17elite/functions/fn_login.php:170
+#, php-format
+msgid "[%s] Password Reset"
+msgstr "[%s] Resetar a senha"
+
+#: themes/a17elite/functions/fn_login.php:176
+msgid "Check your e-mail for the confirmation link."
+msgstr "Verifique o seu e-mail para o link de confirmação."
+
+#: themes/a17elite/functions/fn_login.php:178
+msgid "The e-mail could not be sent."
+msgstr "O e-mail não pode ser enviado."
+
+#: themes/a17elite/functions/fn_login.php:178
+msgid "Possible reason: your host may have disabled the mail() function."
+msgstr "Possível motivo: seu host pode ter desativado a função mail ()."
+
+#: themes/a17elite/functions/fn_script.php:179
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:150
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:174
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:211
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:224
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:237
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:258
+msgid "Any"
+msgstr "Qualquer"
+
+#: themes/a17elite/functions/fn_script.php:180
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:53
+msgid "Any Price"
+msgstr "Qualquer preço"
+
+#: themes/a17elite/functions/fn_script.php:182
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:43
+#: themes/a17elite/pages-idx/listing-properties.php:47
+#: themes/a17elite/pages-idx/page-profile.php:184
+#: themes/a17elite/pages-idx/page-profile.php:240
+#: themes/a17elite/pages-idx/page-profile.php:307
+#: themes/a17elite/pt-building/parts/inventary-thumb.php:45
+#: themes/a17elite/pt-building/pre-construction.php:125
+msgid "View detail"
+msgstr "Ver detalhes"
+
+#: themes/a17elite/functions/fn_script.php:186
+#: themes/a17elite/pt-building/luxury-condos.php:111
+#: themes/a17elite/pt-building/pre-construction.php:97
+msgid "Building Name"
+msgstr "Nome do Edifício"
+
+#: themes/a17elite/functions/fn_script.php:188
+#: themes/a17elite/pt-building/luxury-condos.php:113
+#: themes/a17elite/pt-building/parts/inventary-table.php:14
+#: themes/a17elite/pt-building/pre-construction.php:99
+msgid "Units"
+msgstr "Apto"
+
+#: themes/a17elite/functions/fn_script.php:189
+#: themes/a17elite/pt-building/luxury-condos.php:114
+msgid "Floors"
+msgstr "Pisos"
+
+#: themes/a17elite/functions/fn_script.php:190
+#: themes/a17elite/pages-idx/header-properties.php:2
+#: themes/a17elite/pages-idx/page-profile.php:100
+#: themes/a17elite/pages-idx/page-profile.php:143
+#: themes/a17elite/pages-idx/page-profile.php:205
+#: themes/a17elite/pages-idx/page-profile.php:260
+#: themes/a17elite/pt-building/luxury-condos.php:122
+#: themes/a17elite/pt-building/pre-construction.php:98
+msgid "Address"
+msgstr "Direção"
+
+#: themes/a17elite/functions/fn_script.php:191 themes/a17elite/header.php:151
+#: themes/a17elite/header.php:192
+#: themes/a17elite/pt-building/pre-construction.php:112
+#: themes/a17elite/pt-building/single.php:39
+msgid "New Construction"
+msgstr "Nova construção"
+
+#: themes/a17elite/functions/fn_script.php:192
+#: themes/a17elite/pt-building/luxury-condos.php:71
+#: themes/a17elite/pt-building/luxury-condos.php:116
+#: themes/a17elite/pt-building/luxury-condos.php:134
+#: themes/a17elite/pt-building/luxury-condos.php:147
+msgid "Preconstruction"
+msgstr "Pré construção"
+
+#: themes/a17elite/functions/fn_script.php:193
+#: themes/a17elite/pages-idx/page-profile.php:209
+#: themes/a17elite/pages-idx/page-profile.php:226
+#: themes/a17elite/pt-building/pre-construction.php:102
+msgid "Neighborhood"
+msgstr "Bairro"
+
+#: themes/a17elite/functions/fn_script.php:194
+#: themes/a17elite/pt-building/luxury-condos.php:131
+#: themes/a17elite/pt-building/luxury-condos.php:140
+msgid "Inquire for details"
+msgstr "Inquira para detalhes"
+
+#: themes/a17elite/functions/fn_script.php:195
+#: themes/a17elite/pages-idx/page-detail.php:202
+#: themes/a17elite/pt-building/pre-construction.php:100
+msgid "Year"
+msgstr "Ano"
+
+#: themes/a17elite/header.php:68 themes/a17elite/pages-idx/page-profile.php:63
+#: themes/a17elite/pages-idx/page-profile.php:78
+msgid "My Profile"
+msgstr "Meu perfil"
+
+#: themes/a17elite/header.php:69
+msgid "My Buildings"
+msgstr "Meus edifícios"
+
+#: themes/a17elite/header.php:70
+msgid "My Properties"
+msgstr "Minhas Propriedades"
+
+#: themes/a17elite/header.php:71
+msgid "My Save Search"
+msgstr "Minha Pesquisa Salva"
+
+#: themes/a17elite/header.php:72
+msgid "Logout"
+msgstr "Sair"
+
+#: themes/a17elite/header.php:77
+msgid "Welcome"
+msgstr "Bem-vindo"
+
+#: themes/a17elite/header.php:79
+msgid ""
+"From here you can <span>access</span> your favorite <span>properties. "
+"condos</span> and <span>saved searches.</span>"
+msgstr ""
+"A partir daqui você pode <span>acessar</span> suas propiedades "
+"<span>favoritas. Condos </span> e <span>pesquisas salvas.</span>"
+
+#: themes/a17elite/header.php:80
+msgid "Got it thanks"
+msgstr "Obrigado"
+
+#: themes/a17elite/header.php:86 themes/a17elite/login/block-dgt-login.php:28
+#: themes/a17elite/login/block-dgt-login.php:47
+#: themes/a17elite/pages-idx/modal/login.php:18
+#: themes/a17elite/pages-idx/modal/login.php:38
+msgid "Sign in"
+msgstr "Iniciar sessão"
+
+#: themes/a17elite/header.php:87 themes/a17elite/login/block-dgt-login.php:29
+#: themes/a17elite/login/block-dgt-login.php:65
+#: themes/a17elite/pages-idx/modal/login.php:19
+#: themes/a17elite/pages-idx/modal/login.php:58
+msgid "Register"
+msgstr "Registre-se"
+
+#: themes/a17elite/header.php:123
+msgid "Call Us"
+msgstr "Nos ligue"
+
+#: themes/a17elite/header.php:131 themes/a17elite/header.php:172
+msgid "Search"
+msgstr "Busca"
+
+#: themes/a17elite/header.php:133 themes/a17elite/header.php:174
+#: themes/a17elite/pt-neighborhood/neighborhoods.php:20
+msgid "Neighborhoods"
+msgstr "Bairros"
+
+#: themes/a17elite/header.php:135 themes/a17elite/header.php:176
+msgid "All Neighborhoods"
+msgstr "Todos os bairros"
+
+#: themes/a17elite/header.php:142 themes/a17elite/header.php:183
+msgid "Buildings"
+msgstr "Edifícios"
+
+#: themes/a17elite/header.php:144 themes/a17elite/header.php:153
+#: themes/a17elite/header.php:185 themes/a17elite/header.php:194
+#: themes/a17elite/pt-building/luxury-condos.php:69
+msgid "All Buildings"
+msgstr "Todos os Edifícios"
+
+#: themes/a17elite/header.php:159 themes/a17elite/header.php:200
+msgid "My Listings"
+msgstr "Minhas Ofertas"
+
+#: themes/a17elite/header.php:160 themes/a17elite/pt-agent/single.php:71
+msgid "Agents"
+msgstr "Agentes"
+
+#: themes/a17elite/header.php:161 themes/a17elite/header.php:202
+msgid "News"
+msgstr "Notícia"
+
+#: themes/a17elite/header.php:162 themes/a17elite/header.php:203
+msgid "Testimonials"
+msgstr "Depoimentos"
+
+#: themes/a17elite/header.php:163 themes/a17elite/header.php:204
+msgid "Contact"
+msgstr "Contato"
+
+#: themes/a17elite/header.php:166 themes/a17elite/header.php:170
+msgid "Menu responsive"
+msgstr "Menu responsivo"
+
+#: themes/a17elite/header.php:201
+msgid "About"
+msgstr "Sobre"
+
+#: themes/a17elite/login/block-dgt-login.php:30
+#: themes/a17elite/pages-idx/modal/login.php:20
+msgid "Reset Password"
+msgstr "Trocar a senha"
+
+#: themes/a17elite/login/block-dgt-login.php:60
+#: themes/a17elite/pages-idx/modal/login.php:53
+msgid "The password must be greater than 8 characters"
+msgstr "A senha deve ter mais de 8 caracteres"
+
+#: themes/a17elite/login/block-dgt-login.php:80
+#: themes/a17elite/pages-idx/modal/login.php:75
+msgid "Send"
+msgstr "Enviar"
+
+#: themes/a17elite/login/block-dgt-login.php:88
+#: themes/a17elite/pages-idx/modal/login.php:81
+msgid "I accept"
+msgstr "Eu aceito"
+
+#: themes/a17elite/login/block-dgt-login.php:89
+#: themes/a17elite/pages-idx/modal/login.php:81
+msgid "Terms of use"
+msgstr "Termos de uso"
+
+#: themes/a17elite/login/block-dgt-login.php:92
+msgid "Forgot password?"
+msgstr "Esqueceu a senha?"
+
+#: themes/a17elite/login/block-dgt-login.php:92
+msgid "Reset here"
+msgstr "Reinicie aqui"
+
+#: themes/a17elite/login/block-dgt-login.php:96
+#: themes/a17elite/pages-idx/modal/login.php:85
+msgid "Or sign in with"
+msgstr "Ou faça o login com"
+
+#: themes/a17elite/login/dgt-config-login.php:19
+#, php-format
+msgid "[%s] New User Registration"
+msgstr "[%s] Novo registro de usuário"
+
+#: themes/a17elite/login/dgt-config-login.php:27
+#, php-format
+msgid "[%s] Your username and password"
+msgstr "[%s] Seu nome de usuário e senha"
+
+#: themes/a17elite/page-news.php:3
+msgid "Blog"
+msgstr "Blog"
+
+#: themes/a17elite/page-news.php:23
+msgid "Read more"
+msgstr "Mais Informações"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:6
+msgid "Property Details"
+msgstr "Detalhes da Propriedade"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:11
+msgid "Complex"
+msgstr "Complexo"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:14
+msgid "Subdivision"
+msgstr "Subdivisão"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:17
+msgid "MLS"
+msgstr "MLS"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:19
+msgid "Status"
+msgstr "Estado"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:21
+msgid "Property Type"
+msgstr "Tipo de Propriedade"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:23
+msgid "Sold Price"
+msgstr "Preço de Venda"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:25
+msgid "Listed Price"
+msgstr "Preço listado"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:25
+msgid "Listing Price"
+msgstr "Preço da lista"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:27
+msgid "Price Change"
+msgstr "Mudança de preço"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:32
+msgid "Living Size SF"
+msgstr "Tamanho vivo SF"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:33
+msgid "Price m&sup2;"
+msgstr "Preço m2"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:33
+msgid "Price SF"
+msgstr "Preço SF"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:35
+msgid "living size"
+msgstr "Espaço vital"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:36
+#: themes/a17elite/pages-idx/page-detail.php:97
+msgid "price"
+msgstr "Preço"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:39
+msgid "Half baths"
+msgstr "Meio banheiro"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:41
+msgid "view"
+msgstr "Visão"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:44
+msgid "Boat Dock"
+msgstr "Doca do barco"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:48
+msgid "flooring"
+msgstr "Piso"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:50
+msgid "Date Listed"
+msgstr "Data Listada"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:52
+msgid "Date Sold"
+msgstr "Data Vendida"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:54
+msgid "Day(s) on Market"
+msgstr "Dia(s) no mercado"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:58
+msgid "tax year"
+msgstr "ano fiscal"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:60
+msgid "city"
+msgstr "cidade"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:61
+msgid "state"
+msgstr "Estado"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:62
+msgid "zip"
+msgstr "CEP"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:63
+msgid "year built"
+msgstr "Ano de construção"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:65
+msgid "pets allowed?"
+msgstr "Animais permitidos?"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:66
+msgid "pets restriction?"
+msgstr "Restrição de animais?"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:68
+msgid "parking spaces"
+msgstr "Estacionamento"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:71
+msgid "Waterfront Desc"
+msgstr "Descrição da beira do rio"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:73
+msgid "foreclosure"
+msgstr "Encerramento"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:74
+msgid "short sale"
+msgstr "Venda curta"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:75
+msgid "Furnished"
+msgstr "Furnished"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:88
+msgid "Feature Exterior"
+msgstr "Destaques Exteriores"
+
+#: themes/a17elite/pages-idx/blocks/block-information-property.php:96
+msgid "Feature Interior"
+msgstr "Destaques Interiores"
+
+#: themes/a17elite/pages-idx/blocks/property/related-slaider.php:5
+msgid "More near by properties"
+msgstr "Propriedades mais próximas"
+
+#: themes/a17elite/pages-idx/blocks/property/related-slaider.php:22
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:23
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:54
+#: themes/a17elite/pages-idx/header-properties.php:5
+#: themes/a17elite/pages-idx/listing-properties.php:19
+#: themes/a17elite/pages-idx/page-detail.php:290
+#: themes/a17elite/pages-idx/page-profile.php:145
+#: themes/a17elite/pages-idx/page-profile.php:162
+#: themes/a17elite/pt-building/parts/inventary-thumb.php:20
+msgid "Beds"
+msgstr "Dormitório"
+
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:7
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:59
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:138
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:162
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:183
+#: themes/a17elite/pt-neighborhood/single.php:87 themes/a17elite/single.php:75
+msgid "Properties"
+msgstr "Propriedades"
+
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:24
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:55
+#: themes/a17elite/pages-idx/header-properties.php:6
+#: themes/a17elite/pages-idx/listing-properties.php:20
+#: themes/a17elite/pages-idx/page-detail.php:291
+#: themes/a17elite/pages-idx/page-profile.php:146
+#: themes/a17elite/pages-idx/page-profile.php:163
+#: themes/a17elite/pt-building/parts/inventary-thumb.php:21
+msgid "Baths"
+msgstr "Banhos"
+
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:28
+#: themes/a17elite/pages-idx/listing-properties.php:24
+#: themes/a17elite/pt-building/parts/inventary-thumb.php:25
+msgid "Built"
+msgstr "Construído"
+
+#: themes/a17elite/pages-idx/blocks/property/related-thumb.php:53
+#: themes/a17elite/pages-idx/page-detail.php:298
+msgid "view more properties"
+msgstr "Veja mais propriedades"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:48
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:105
+msgid "Select Area or Enter City, Zip, Condo Name or Keyword"
+msgstr "Selecione a Área ou Insira a Cidade, Zip, Condomínio ou Palavra-chave"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:56
+msgid "Type"
+msgstr "Tipo"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:57
+msgid "All filters"
+msgstr "Filtros"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:63
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:65
+#: themes/a17elite/pages-idx/btn-save-search.php:1
+msgid "Save search"
+msgstr "Salvar busca"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:98
+msgid "Property search"
+msgstr "Pesquisa de propriedade"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:101
+#: themes/a17elite/pt-building/parts/statistic.php:21
+msgid "For sale"
+msgstr "VENDA"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:106
+#: themes/a17elite/pt-building/luxury-condos.php:79
+#: themes/a17elite/pt-building/pre-construction.php:65
+msgid "Submit"
+msgstr "Enviar"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:114
+msgid "Choose cities"
+msgstr "Escolha cidades"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:144
+#: themes/a17elite/pages-idx/modal/property.php:70
+#: themes/a17elite/pages-idx/page-detail.php:100
+#: themes/a17elite/pages-idx/page-profile.php:263
+#: themes/a17elite/pages-idx/page-profile.php:279
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:23
+msgid "Bathrooms"
+msgstr "Banheiros"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:190
+msgid "Property type"
+msgstr "Tipo de Propriedade"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:207
+#: themes/a17elite/pages-idx/page-profile.php:280
+msgid "Living size"
+msgstr "Tamanho de vida"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:233
+msgid "Waterfront description"
+msgstr "Descrição de Waterfront"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:238
+msgid "Bay Front"
+msgstr "Em frente à baía"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:239
+msgid "Canal"
+msgstr "Canal"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:240
+msgid "Fixed Bridge"
+msgstr "Ponte Fixa"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:241
+msgid "Intracoastal"
+msgstr ""
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:242
+msgid "Lake Front"
+msgstr "Frente do Lago"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:243
+msgid "Ocean Access"
+msgstr "Acesso ao oceano"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:244
+msgid "Ocean Front"
+msgstr "Ocean Front"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:245
+msgid "Point Lot"
+msgstr "Ponto Lot"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:246
+msgid "River Front"
+msgstr "Frente ao rio"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:254
+msgid "Parking spaces"
+msgstr "Estacionamento"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:270
+msgid "Land size"
+msgstr "Tamanho da terra"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:283
+msgid "Features"
+msgstr "Características"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:283
+msgid "Lifestyle"
+msgstr "Estilo de vida"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:303
+msgid "Matching"
+msgstr "Coincidindo"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:303
+#: themes/a17elite/pages-idx/page-profile.php:297
+msgid "Listings"
+msgstr "Listagens"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-filter.php:304
+msgid "Apply Filters"
+msgstr "Aplicar filtros"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:26
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:28
+#: themes/a17elite/pt-building/parts/sidebar-view.php:15
+#: themes/a17elite/pt-building/parts/sidebar-view.php:17
+msgid "Favorites"
+msgstr "Favoritos"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:33
+msgid "Highest Price"
+msgstr "Preço mais alto"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:34
+msgid "Lowest Price"
+msgstr "Menor preço"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:35
+msgid "Newest Listed"
+msgstr "Mais novo listado"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:36
+msgid "Oldest Listed"
+msgstr "Lista mais antiga"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:41
+#: themes/a17elite/pt-building/parts/sidebar-view.php:22
+#: themes/a17elite/pt-building/single.php:147
+msgid "Grid"
+msgstr "Grade"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:42
+#: themes/a17elite/pt-building/parts/sidebar-view.php:23
+#: themes/a17elite/pt-building/single.php:148
+msgid "List"
+msgstr "Lista"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:43
+#: themes/a17elite/pt-building/parts/sidebar-view.php:24
+msgid "Map"
+msgstr "Mapa"
+
+#: themes/a17elite/pages-idx/blocks/sidebar-view.php:47
+msgid "Scroll down for more."
+msgstr "Role para baixo por mais."
+
+#: themes/a17elite/pages-idx/btn-save-search.php:2
+msgid "Make Favorite Property"
+msgstr "Faça uma propriedade favorita"
+
+#: themes/a17elite/pages-idx/btn-save-search.php:3
+msgid "To add this property as a permanent favorite. Are you sure?"
+msgstr ""
+"Para adicionar esta propriedade como um favorito permanente. Você tem "
+"certeza?"
+
+#: themes/a17elite/pages-idx/btn-save-search.php:5
+msgid "Remove Favorite Property"
+msgstr "Remover Propriedade Favorita"
+
+#: themes/a17elite/pages-idx/btn-save-search.php:6
+msgid "To Remove this property as a permanent favorite. Are you sure?"
+msgstr ""
+"Para remover esta propriedade como um favorito permanente. Você tem certeza?"
+
+#: themes/a17elite/pages-idx/header-properties.php:3
+msgid "Asking"
+msgstr "Perguntar"
+
+#: themes/a17elite/pages-idx/header-properties.php:3
+#: themes/a17elite/pages-idx/page-detail.php:145
+#: themes/a17elite/pages-idx/page-detail.php:155
+#: themes/a17elite/pages-idx/page-detail.php:169
+#: themes/a17elite/pages-idx/page-detail.php:183
+#: themes/a17elite/pages-idx/page-profile.php:147
+#: themes/a17elite/pages-idx/page-profile.php:161
+#: themes/a17elite/pt-building/parts/inventary-table.php:24
+msgid "Price"
+msgstr "Preço"
+
+#: themes/a17elite/pages-idx/header-properties.php:7
+#: themes/a17elite/pages-idx/page-profile.php:264
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:24
+#: themes/a17elite/pt-building/parts/inventary-table.php:23
+msgid "Living Size"
+msgstr "Espaço vital"
+
+#: themes/a17elite/pages-idx/header-properties.php:8
+msgid "Price / SF"
+msgstr "Preço / SF"
+
+#: themes/a17elite/pages-idx/header-properties.php:9
+msgid "Year built"
+msgstr "Ano de construção"
+
+#: themes/a17elite/pages-idx/header-properties.php:10
+msgid "Development / Subdivision"
+msgstr "Desenvolvimento / Subdivisão"
+
+#: themes/a17elite/pages-idx/map-properties.php:5
+msgid "Only showing 500 homes."
+msgstr "Exibindo apenas 500 casas."
+
+#: themes/a17elite/pages-idx/map-properties.php:5
+msgid "Zoom in, or use filters to narrow your search."
+msgstr "Amplie ou use filtros para restringir sua pesquisa."
+
+#: themes/a17elite/pages-idx/map-properties.php:9
+#: themes/a17elite/pages-idx/map-properties.php:18
+#: themes/a17elite/pages-idx/modal/email-to-friend-multiple.php:6
+#: themes/a17elite/pages-idx/modal/email-to-friend.php:6
+#: themes/a17elite/pages-idx/modal/login.php:6
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:6
+#: themes/a17elite/pages-idx/modal/property.php:16
+#: themes/a17elite/pages-idx/modal/save-search.php:3
+#: themes/a17elite/pages-idx/modal/save-search.php:69
+#: themes/a17elite/pt-building/parts/map-buildings.php:6
+msgid "Close"
+msgstr "Fechar"
+
+#: themes/a17elite/pages-idx/map-properties.php:10
+#: themes/a17elite/pages-idx/modal/property.php:13
+#: themes/a17elite/pt-building/parts/map-buildings.php:7
+msgid "Open"
+msgstr "Aberto"
+
+#: themes/a17elite/pages-idx/map-properties.php:16
+msgid "Draw a area"
+msgstr "Desenhe uma área"
+
+#: themes/a17elite/pages-idx/map-properties.php:16
+msgid "around the area you would like to live in"
+msgstr "Em torno da área em que você gostaria de viver"
+
+#: themes/a17elite/pages-idx/map-properties.php:19
+msgid "Apply"
+msgstr "Aplique"
+
+#: themes/a17elite/pages-idx/map-properties.php:27
+msgid "Remove area"
+msgstr "Remover área"
+
+#: themes/a17elite/pages-idx/modal/email-to-friend-multiple.php:7
+#: themes/a17elite/pages-idx/modal/email-to-friend.php:7
+msgid "Email to a friend"
+msgstr "Compartilhe por e-mail"
+
+#: themes/a17elite/pages-idx/modal/login.php:9
+msgid "Welcome back"
+msgstr "Bem vindo de volta"
+
+#: themes/a17elite/pages-idx/modal/login.php:12
+msgid "Sign in below"
+msgstr "Faça o login abaixo"
+
+#: themes/a17elite/pages-idx/modal/login.php:28
+#: themes/a17elite/pages-idx/modal/login.php:49
+msgid "Enter email"
+msgstr "Digite e-mail"
+
+#: themes/a17elite/pages-idx/modal/login.php:31
+msgid "Enter password"
+msgstr "Digite e-mail"
+
+#: themes/a17elite/pages-idx/modal/login.php:34
+#: themes/a17elite/pages-idx/modal/login.php:54
+#: themes/a17elite/pages-idx/modal/login.php:71
+msgid "Enter something special"
+msgstr "Entre algo especial"
+
+#: themes/a17elite/pages-idx/modal/login.php:50
+#: themes/a17elite/pages-idx/page-profile.php:84
+#: themes/a17elite/pt-building/parts/form.php:13
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:16
+msgid "Name"
+msgstr "Nome"
+
+#: themes/a17elite/pages-idx/modal/login.php:52
+msgid "Create password"
+msgstr "Criar senha"
+
+#: themes/a17elite/pages-idx/modal/login.php:67
+msgid "Enter you email address and we'll send you a link to your password."
+msgstr ""
+"Digite seu endereço de e-mail e nós lhe enviaremos um link para sua senha."
+
+#: themes/a17elite/pages-idx/modal/login.php:70
+msgid "Enter E-mail"
+msgstr "Digite e-mail"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:9
+msgid "Mortgage calculator"
+msgstr "Calculadora de hipoteca"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:12
+msgid "Let’s us know the best time for showing."
+msgstr "Deixe-nos conhecer o melhor momento para mostrar."
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:25
+msgid "Purchase Price"
+msgstr "Preço de compra"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:31
+msgid "Down Payment"
+msgstr "Pagamento inicial"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:37
+msgid "Term"
+msgstr "Prazo"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:40
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:41
+msgid "Years"
+msgstr "Anos"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:46
+msgid "Interest Rate"
+msgstr "Taxa de juro"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:60
+msgid "Mortgage breakdown"
+msgstr "Repartição da hipoteca"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:62
+msgid "Mortgage Amount"
+msgstr "Montante da hipoteca"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:63
+msgid "Down Payment Amount"
+msgstr "Montante de adiantamento"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:64
+msgid "Monthly Amount"
+msgstr "Quantidade Mensal"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:65
+msgid "Total Monthly Amount"
+msgstr "Montante mensal total"
+
+#: themes/a17elite/pages-idx/modal/mortgage-calculator.php:65
+msgid "(Principal & Interest, and PMI)"
+msgstr "(Principal e Interesse e PMI)"
+
+#: themes/a17elite/pages-idx/modal/property.php:24
+#: themes/a17elite/pages-idx/page-detail.php:53
+#: themes/a17elite/pt-building/single.php:51
+msgid "Call me:"
+msgstr "Me liga:"
+
+#: themes/a17elite/pages-idx/modal/property.php:41
+#: themes/a17elite/pages-idx/page-detail.php:75
+#: themes/a17elite/pt-building/single.php:67
+msgid "photos"
+msgstr "Fotos"
+
+#: themes/a17elite/pages-idx/modal/property.php:42
+#: themes/a17elite/pages-idx/page-detail.php:76
+#: themes/a17elite/pt-building/single.php:68
+#: themes/a17elite/pt-neighborhood/single.php:76
+msgid "map view"
+msgstr "visão do mapa"
+
+#: themes/a17elite/pages-idx/modal/property.php:44
+#: themes/a17elite/pages-idx/page-detail.php:78
+msgid "video"
+msgstr "vídeo"
+
+#: themes/a17elite/pages-idx/modal/property.php:50
+#: themes/a17elite/pages-idx/page-detail.php:84
+#: themes/a17elite/pt-building/single.php:73
+msgid "Full screen"
+msgstr "Tela cheia"
+
+#: themes/a17elite/pages-idx/modal/property.php:57
+#: themes/a17elite/pages-idx/page-detail.php:91
+#: themes/a17elite/pt-building/single.php:80
+msgid "Property details information"
+msgstr "Informações sobre os detalhes da propriedade"
+
+#: themes/a17elite/pages-idx/modal/property.php:63
+#: themes/a17elite/pt-building/single.php:85
+msgid "listing price"
+msgstr "Preço da lista"
+
+#: themes/a17elite/pages-idx/modal/property.php:71
+#: themes/a17elite/pages-idx/page-detail.php:101
+msgid "Half Baths"
+msgstr "Meio Banheiro"
+
+#: themes/a17elite/pages-idx/modal/property.php:74
+#: themes/a17elite/pages-idx/page-detail.php:104
+#: themes/a17elite/pt-building/single.php:98
+msgid "save favorite"
+msgstr "Salvar Favorito"
+
+#: themes/a17elite/pages-idx/modal/property.php:79
+#: themes/a17elite/pages-idx/modal/property.php:80
+#: themes/a17elite/pages-idx/page-detail.php:108
+#: themes/a17elite/pt-building/single.php:102
+msgid "Schedule a showing now"
+msgstr "Agende uma exibição agora"
+
+#: themes/a17elite/pages-idx/modal/property.php:83
+#: themes/a17elite/pages-idx/page-detail.php:111
+#: themes/a17elite/pt-building/single.php:105
+msgid "share"
+msgstr "compartilhar"
+
+#: themes/a17elite/pages-idx/modal/property.php:90
+#: themes/a17elite/pages-idx/page-detail.php:119
+msgid "mortgage calculator"
+msgstr "calculadora de hipoteca"
+
+#: themes/a17elite/pages-idx/modal/property.php:91
+#: themes/a17elite/pages-idx/page-detail.php:120
+#: themes/a17elite/pt-building/single.php:112
+msgid "email to a friend"
+msgstr "e-mail para um amigo"
+
+#: themes/a17elite/pages-idx/modal/property.php:92
+#: themes/a17elite/pages-idx/page-detail.php:121
+#: themes/a17elite/pt-building/single.php:113
+msgid "print"
+msgstr "impressão"
+
+#: themes/a17elite/pages-idx/modal/property.php:100
+#: themes/a17elite/pages-idx/modal/property.php:115
+#: themes/a17elite/pages-idx/page-detail.php:261
+#: themes/a17elite/pages-idx/page-detail.php:302
+#, php-format
+msgid ""
+"The data relating to real estate for sale/lease on this web site come in "
+"part from a cooperative data exchange program of the multiple listing "
+"service (MLS) in which this real estate firm (Broker) participates. The "
+"properties displayed may not be all of the properties in the MLS's database, "
+"or all of the properties listed with Brokers participating in the "
+"cooperative data exchange program. Properties listed by Brokers other than "
+"this Broker are marked with either the listing Broker's logo or name or the "
+"MLS name or a logo provided by the MLS. Detailed information about such "
+"properties includes the name of the listing Brokers. Information provided is "
+"thought to be reliable but is not guaranteed to be accurate; you are advised "
+"to verify facts that are important to you. No warranties, expressed or "
+"implied, are provided for the data herein, or for their use or "
+"interpretation by the user. The Florida Association of Realtors and its "
+"cooperating MLSs do not create, control or review the property data "
+"displayed herein and take no responsibility for the content of such records. "
+"Federal law prohibits discrimination on the basis of race, color, religion, "
+"sex, handicap, familial status or national origin in the sale, rental or "
+"financing of housing. Listing courtesy of : %s"
+msgstr ""
+
+#: themes/a17elite/pages-idx/modal/save-search.php:6
+msgid "Save This Search"
+msgstr "Salve esta pesquisa"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:17
+#: themes/a17elite/pages-idx/modal/save-search.php:19
+msgid "Search Name(*)"
+msgstr "Nome da Pesquisa (*)"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:21
+msgid "Search Name"
+msgstr "Nome da Pesquisa"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:24
+#: themes/a17elite/pages-idx/modal/save-search.php:26
+msgid "Email Updates"
+msgstr "Atualizações de e-mail"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:29
+msgid "No Alert"
+msgstr "Sem alerta"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:30
+msgid "Daily"
+msgstr "Diariamente"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:31
+msgid "Weekly"
+msgstr "Semanal"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:35
+msgid "Only Update Me On"
+msgstr "Somente atualize-me"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:42
+msgid "New Listing (Always)"
+msgstr "Novo Listado (Sempre)"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:46
+msgid "Price Changes"
+msgstr "Mudanças de preço"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:50
+msgid "Status Changes"
+msgstr "Alterações de status"
+
+#: themes/a17elite/pages-idx/modal/save-search.php:72
+msgid "Save Search successfully!"
+msgstr "Salvar pesquisa com sucesso!"
+
+#: themes/a17elite/pages-idx/page-contact.php:35
+msgid "Contact us"
+msgstr "Contate-Nos"
+
+#: themes/a17elite/pages-idx/page-detail.php:37
+#: themes/a17elite/pt-building/single.php:34
+msgid "call us"
+msgstr "Nos ligue"
+
+#: themes/a17elite/pages-idx/page-detail.php:97
+msgid "Listing"
+msgstr "Listado"
+
+#: themes/a17elite/pages-idx/page-detail.php:102
+msgid "size sq.ft."
+msgstr "Tamanho Sq.Ft."
+
+#: themes/a17elite/pages-idx/page-detail.php:139
+msgid "Price History"
+msgstr "Histórico de preços"
+
+#: themes/a17elite/pages-idx/page-detail.php:143
+msgid "Date"
+msgstr "Data"
+
+#: themes/a17elite/pages-idx/page-detail.php:144
+msgid "Event"
+msgstr "Acontecimento"
+
+#: themes/a17elite/pages-idx/page-detail.php:147
+#: themes/a17elite/pages-idx/page-detail.php:161
+#: themes/a17elite/pages-idx/page-detail.php:175
+#: themes/a17elite/pages-idx/page-detail.php:189
+msgid "Source"
+msgstr "Fonte"
+
+#: themes/a17elite/pages-idx/page-detail.php:153
+#: themes/a17elite/pages-idx/page-detail.php:167
+#: themes/a17elite/pages-idx/page-detail.php:181
+msgid "Listed for sale"
+msgstr "Listado para venda"
+
+#: themes/a17elite/pages-idx/page-detail.php:197
+msgid "Tax History"
+msgstr "História fiscal"
+
+#: themes/a17elite/pages-idx/page-detail.php:198
+msgid "Find assessor information on the"
+msgstr "Encontre informações do avaliador sobre o"
+
+#: themes/a17elite/pages-idx/page-detail.php:198
+msgid "country website"
+msgstr "Site do país"
+
+#: themes/a17elite/pages-idx/page-detail.php:203
+msgid "Property Taxes"
+msgstr "Impostos sobre a propriedade"
+
+#: themes/a17elite/pages-idx/page-detail.php:204
+#: themes/a17elite/pages-idx/page-detail.php:206
+#: themes/a17elite/pages-idx/page-detail.php:214
+#: themes/a17elite/pages-idx/page-detail.php:220
+#: themes/a17elite/pages-idx/page-detail.php:227
+#: themes/a17elite/pages-idx/page-detail.php:233
+#: themes/a17elite/pages-idx/page-detail.php:240
+#: themes/a17elite/pages-idx/page-detail.php:246
+msgid "Change"
+msgstr "mudança"
+
+#: themes/a17elite/pages-idx/page-detail.php:205
+#: themes/a17elite/pages-idx/page-detail.php:217
+#: themes/a17elite/pages-idx/page-detail.php:230
+#: themes/a17elite/pages-idx/page-detail.php:243
+msgid "Tax Assessment"
+msgstr "Auto de infração"
+
+#: themes/a17elite/pages-idx/page-detail.php:250
+msgid "More"
+msgstr "Mais"
+
+#: themes/a17elite/pages-idx/page-detail.php:278
+msgid "Similar Properties Sales"
+msgstr "Propriedades similares de vendas"
+
+#: themes/a17elite/pages-idx/page-profile.php:65
+#: themes/a17elite/pages-idx/page-profile.php:138
+msgid "My Favorite Properties"
+msgstr "Propriedades Favoritas"
+
+#: themes/a17elite/pages-idx/page-profile.php:66
+#: themes/a17elite/pages-idx/page-profile.php:200
+msgid "My Favorite Buildings"
+msgstr "Edifícios Favoritos"
+
+#: themes/a17elite/pages-idx/page-profile.php:67
+msgid "My Saved Search"
+msgstr "Minha Pesquisa Salva"
+
+#: themes/a17elite/pages-idx/page-profile.php:68
+msgid "Contact Us"
+msgstr "Contate-Nos"
+
+#: themes/a17elite/pages-idx/page-profile.php:88
+msgid "Last Name"
+msgstr "Sobrenome"
+
+#: themes/a17elite/pages-idx/page-profile.php:104
+msgid "City"
+msgstr "cidade"
+
+#: themes/a17elite/pages-idx/page-profile.php:108
+msgid "State"
+msgstr "Estado"
+
+#: themes/a17elite/pages-idx/page-profile.php:112
+msgid "Zip Code"
+msgstr "CEP"
+
+#: themes/a17elite/pages-idx/page-profile.php:117
+msgid "Change Password"
+msgstr "Mudar senha"
+
+#: themes/a17elite/pages-idx/page-profile.php:121
+msgid "New Password"
+msgstr "Nova senha"
+
+#: themes/a17elite/pages-idx/page-profile.php:125
+msgid "Confirm Password"
+msgstr "Confirme a Senha"
+
+#: themes/a17elite/pages-idx/page-profile.php:129
+msgid ""
+"Required fields. Your personal information is strictly confidential and will "
+"not be shared with any outside organizations"
+msgstr ""
+"Os campos obrigatórios. Suas informações pessoais são estritamente "
+"confidenciais e não serão compartilhadas com nenhuma organização externa"
+
+#: themes/a17elite/pages-idx/page-profile.php:130
+msgid ""
+"By submitting this form with your telephone number you are consenting for "
+"Peter Park and authorized representatives to contact you even if your name "
+"is on the Federal \"Do-not-call List"
+msgstr ""
+"Ao enviar este formulário com o seu número de telefone, você concorda que "
+"Peter Park e os representantes autorizados possam contatá-lo, mesmo que o "
+"seu nome esteja na lista federal \"Do-not-call\""
+
+#: themes/a17elite/pages-idx/page-profile.php:131
+msgid "Save Profile"
+msgstr "Salvar perfil"
+
+#: themes/a17elite/pages-idx/page-profile.php:139
+#: themes/a17elite/pages-idx/page-profile.php:201
+msgid "Select All"
+msgstr "Selecionar tudo"
+
+#: themes/a17elite/pages-idx/page-profile.php:140
+msgid "Email Properties"
+msgstr "Propriedades de Email"
+
+#: themes/a17elite/pages-idx/page-profile.php:144
+msgid "Asking Price"
+msgstr "Perguntar o preço"
+
+#: themes/a17elite/pages-idx/page-profile.php:148
+#: themes/a17elite/pages-idx/page-profile.php:165
+msgid "Code"
+msgstr "Código"
+
+#: themes/a17elite/pages-idx/page-profile.php:167
+#: themes/a17elite/pages-idx/page-profile.php:228
+msgid "request showing"
+msgstr "Solicitação mostrando"
+
+#: themes/a17elite/pages-idx/page-profile.php:180
+#: themes/a17elite/pages-idx/page-profile.php:237
+#: themes/a17elite/pages-idx/page-profile.php:302
+msgid "View more"
+msgstr "Veja mais"
+
+#: themes/a17elite/pages-idx/page-profile.php:180
+#: themes/a17elite/pages-idx/page-profile.php:237
+#: themes/a17elite/pages-idx/page-profile.php:303
+msgid "Less"
+msgstr "Menos"
+
+#: themes/a17elite/pages-idx/page-profile.php:181
+#: themes/a17elite/pages-idx/page-profile.php:238
+#: themes/a17elite/pages-idx/page-profile.php:305
+msgid "Remove"
+msgstr "Remover"
+
+#: themes/a17elite/pages-idx/page-profile.php:188
+#, fuzzy
+#| msgid "My Properties"
+msgid "No properties found"
+msgstr "Minhas Propriedades"
+
+#: themes/a17elite/pages-idx/page-profile.php:202
+#, fuzzy
+#| msgid "All Buildings"
+msgid "Email Buildings"
+msgstr "Todos os Edifícios"
+
+#: themes/a17elite/pages-idx/page-profile.php:244
+#, fuzzy
+#| msgid "of building is for rent"
+msgid "No buildings found"
+msgstr "De construção é para alugar"
+
+#: themes/a17elite/pages-idx/page-profile.php:257
+msgid "My Saved Searches"
+msgstr "Minhas pesquisas salvas"
+
+#: themes/a17elite/pages-idx/page-profile.php:285
+#, fuzzy
+#| msgid "Update Alert Preferences"
+msgid "Update Alert"
+msgstr "Atualizar Preferências de Alerta"
+
+#: themes/a17elite/pt-agent/parts/directory.php:9
+msgid "View all"
+msgstr "Ver Tudo"
+
+#: themes/a17elite/pt-agent/parts/directory.php:9
+msgid "agents"
+msgstr "Agentes"
+
+#: themes/a17elite/pt-agent/parts/directory.php:14
+msgid "Search for an associate..."
+msgstr "Procure um associado ..."
+
+#: themes/a17elite/pt-agent/single.php:66
+#: themes/a17elite/pt-neighborhood/neighborhoods.php:15
+#: themes/a17elite/pt-neighborhood/single.php:30
+msgid "Request more information"
+msgstr "Solicite mais informações"
+
+#: themes/a17elite/pt-agent/single.php:70
+#: themes/a17elite/pt-building/single.php:36
+#: themes/a17elite/pt-neighborhood/neighborhoods.php:19
+msgid "Home"
+msgstr "Início"
+
+#: themes/a17elite/pt-agent/single.php:87
+msgid "Agent Properties"
+msgstr "Propriedades do Agente"
+
+#: themes/a17elite/pt-building/luxury-condos.php:48
+msgid "Filters"
+msgstr "Filtros"
+
+#: themes/a17elite/pt-building/luxury-condos.php:53
+msgid "Luxury Condos by Name"
+msgstr "Condomínios de Luxo por Nome"
+
+#: themes/a17elite/pt-building/luxury-condos.php:61
+msgid "Luxury Condos by Neighborhood"
+msgstr "Condomínios de Luxo por Bairro"
+
+#: themes/a17elite/pt-building/luxury-condos.php:70
+msgid "Existings Buildings"
+msgstr "Edifícios existentes"
+
+#: themes/a17elite/pt-building/luxury-condos.php:78
+#: themes/a17elite/pt-building/pre-construction.php:64
+msgid "Enter Condo Name"
+msgstr "Digite o nome do condomínio"
+
+#: themes/a17elite/pt-building/luxury-condos.php:82
+msgid "Looking to Buy or Sell a Condo?"
+msgstr "Comprar ou vender um condomínio?"
+
+#: themes/a17elite/pt-building/luxury-condos.php:99
+#: themes/a17elite/pt-building/pre-construction.php:85
+msgid "Search results"
+msgstr "Buscar Resultados"
+
+#: themes/a17elite/pt-building/luxury-condos.php:118
+msgid "<span>For </span>Sale"
+msgstr "Venda"
+
+#: themes/a17elite/pt-building/luxury-condos.php:119
+msgid "<span>For </span>Rent"
+msgstr "Alugar"
+
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:15
+#: themes/a17elite/pt-building/parts/floor-plans-thumbs.php:4
+msgid "Floor Plans"
+msgstr "Planos de Andar"
+
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:21
+msgid "Line"
+msgstr "Linha"
+
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:25
+msgid "Living Size m2"
+msgstr "Espaço vital m2"
+
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:26
+msgid "Floorplans"
+msgstr "Planos de Andar"
+
+#: themes/a17elite/pt-building/parts/floor-plans-grid.php:36
+msgid "View"
+msgstr "Visão"
+
+#: themes/a17elite/pt-building/parts/form.php:6
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:6
+msgid "More Information"
+msgstr "Mais Informações"
+
+#: themes/a17elite/pt-building/parts/form.php:14
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:17
+msgid "Full Name"
+msgstr "Nome completo"
+
+#: themes/a17elite/pt-building/parts/form.php:25
+#: themes/a17elite/pt-building/parts/form.php:26
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:28
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:29
+msgid "Comments"
+msgstr "Comentários"
+
+#: themes/a17elite/pt-building/parts/form.php:28
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:31
+msgid "Required Fields"
+msgstr "Campos Obrigatórios"
+
+#: themes/a17elite/pt-building/parts/form.php:29
+msgid "Request info"
+msgstr "Pedir informação"
+
+#: themes/a17elite/pt-building/parts/inventary-table.php:14
+msgid " Bedrooms"
+msgstr " Dormitório"
+
+#: themes/a17elite/pt-building/parts/inventary-table.php:19
+msgid "Unit"
+msgstr "Apto"
+
+#: themes/a17elite/pt-building/parts/inventary-table.php:20
+msgid "Asking price"
+msgstr "Perguntar o preço"
+
+#: themes/a17elite/pt-building/parts/inventary-table.php:22
+msgid "Beds / Baths"
+msgstr "Dormitório / Baths"
+
+#: themes/a17elite/pt-building/parts/inventary-table.php:25
+msgid "Days on Market"
+msgstr "Dias no mercado"
+
+#: themes/a17elite/pt-building/parts/statistic.php:14
+#: themes/a17elite/pt-building/parts/statistic.php:17
+#: themes/a17elite/pt-building/single.php:135
+msgid "Inventory"
+msgstr "Inventário"
+
+#: themes/a17elite/pt-building/parts/statistic.php:15
+msgid "Fusion Charts will render here"
+msgstr "Gráficos Fusion renderizarão aqui"
+
+#: themes/a17elite/pt-building/parts/statistic.php:25
+msgid "For rent"
+msgstr "Aluguel"
+
+#: themes/a17elite/pt-building/parts/statistic.php:31
+msgid "Condo Statistics"
+msgstr "Estatísticas do condomínio"
+
+#: themes/a17elite/pt-building/parts/statistic.php:34
+msgid "avg price"
+msgstr "Preço médio"
+
+#: themes/a17elite/pt-building/parts/statistic.php:35
+msgid "avg days on market"
+msgstr "Dias médios no mercado"
+
+#: themes/a17elite/pt-building/parts/statistic.php:36
+msgid "of building is for sale"
+msgstr "De construção está à venda"
+
+#: themes/a17elite/pt-building/parts/statistic.php:37
+msgid "of building is for rent"
+msgstr "De construção é para alugar"
+
+#: themes/a17elite/pt-building/parts/statistic.php:38
+msgid "of building sold in previous 12 months"
+msgstr "vendida nos últimos 12 meses"
+
+#: themes/a17elite/pt-building/pre-construction.php:48
+msgid "New Construction by Name"
+msgstr "Construção Nova por Nome"
+
+#: themes/a17elite/pt-building/pre-construction.php:56
+msgid "New Construction by Neighborhood"
+msgstr "Construção Nova por Bairro"
+
+#: themes/a17elite/pt-building/pre-construction.php:101
+msgid "New construsction"
+msgstr "Nova construção"
+
+#: themes/a17elite/pt-building/single.php:39
+#: themes/a17elite/pt-neighborhood/sidebar.php:22
+msgid "Luxury Condos"
+msgstr "Condomínios de Luxo"
+
+#: themes/a17elite/pt-building/single.php:122
+msgid "Building Details"
+msgstr "Detalhes do Edifício"
+
+#: themes/a17elite/pt-building/single.php:137
+msgid "for sale"
+msgstr "À Venda"
+
+#: themes/a17elite/pt-building/single.php:167
+#: themes/a17elite/pt-building/single.php:184
+msgid ""
+"Want to know if is the right time to sell your unit at Continuum South Beach?"
+msgstr ""
+"Quer saber se é o momento certo para vender sua unidade no Continuum South "
+"Beach?"
+
+#: themes/a17elite/pt-building/single.php:168
+#: themes/a17elite/pt-building/single.php:185
+msgid "Get a FREE Home Evaluation"
+msgstr "Obtenha uma Avaliação Home GRATUITA"
+
+#: themes/a17elite/pt-neighborhood/neighborhoods.php:13
+msgid "Miami Featured Neighborhoods"
+msgstr "Miami Bairros Destacados"
+
+#: themes/a17elite/pt-neighborhood/neighborhoods.php:27
+msgid "Miami Beach Properties"
+msgstr "Miami Beach Propriedades"
+
+#: themes/a17elite/pt-neighborhood/parts/block-buildings.php:4
+msgid "Profiled Buildings"
+msgstr "Edifícios perfilados"
+
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:4
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:5
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:6
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:7
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:8
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:9
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:10
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:11
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:12
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:13
+#: themes/a17elite/pt-neighborhood/parts/block-communities.php:14
+msgid "Avg Sales Price"
+msgstr "Preço médio de vendas"
+
+#: themes/a17elite/pt-neighborhood/parts/block-contact-form.php:12
+msgid "Contact us for more details about"
+msgstr "Entre em contato para mais detalhes sobre"
+
+#: themes/a17elite/pt-neighborhood/parts/block-disclaimer.php:2
+msgid "Your"
+msgstr "Seu"
+
+#: themes/a17elite/pt-neighborhood/parts/block-disclaimer.php:2
+msgid "real estate experts"
+msgstr "Especialistas imobiliários"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:2
+msgid "Latest News About"
+msgstr "Últimas notícias sobre"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:2
+#: themes/a17elite/pt-neighborhood/single.php:29
+msgid "Real Estate"
+msgstr "Imobiliária"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:5
+msgid "Miami Beach Top Restaurant Venues"
+msgstr "Miami Beach Top Restaurante Locais"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:6
+msgid "Top Restaurant Venues"
+msgstr "Melhores locais de restaurantes"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:9
+msgid "Miami Beach neighborhoods when moving from ouf of state"
+msgstr "Bairros de Miami Beach quando se deslocam de fora do estado"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:10
+msgid "Neighborhoods when moving from ouf of state"
+msgstr "Bairros quando se deslocam de fora do estado"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:13
+msgid "Best Miami Beach Luxury condos under 3 million"
+msgstr "Melhores condomínios de luxo Miami Beach de menos de 3 milhões"
+
+#: themes/a17elite/pt-neighborhood/parts/block-news.php:14
+msgid "Luxury condos under 3 million"
+msgstr "Condomínios de luxo com menos de 3 milhões"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:7
+msgid "Statistics"
+msgstr "Estatisticas"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:10
+msgid "Available Sales"
+msgstr "Vendas Disponíveis"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:13
+msgid "Avg Listing Price"
+msgstr "Preço médio de listagem"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:15
+msgid "Sales Price Range"
+msgstr "Faixa de preços de vendas"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:20
+msgid "Available Rentals"
+msgstr "Locais disponíveis"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:23
+msgid "Avg Rental Price"
+msgstr "Preço de aluguel médio"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:25
+msgid "Rental Price Range"
+msgstr "Faixa de preço do aluguel"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:30
+msgid "Sales History"
+msgstr "Histórico de vendas"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:33
+msgid "Avg Sold Price"
+msgstr "Preço médio vendido"
+
+#: themes/a17elite/pt-neighborhood/parts/block-statistic.php:35
+msgid "Sold Price Range"
+msgstr "Faixa de preços vendida"
+
+#: themes/a17elite/pt-neighborhood/parts/block-yelp.php:2
+msgid "Neighborhood Guide"
+msgstr "Guia de vizinhança"
+
+#: themes/a17elite/pt-neighborhood/parts/block-yelp.php:4
+msgid "Schools"
+msgstr "Escolas"
+
+#: themes/a17elite/pt-neighborhood/parts/block-yelp.php:5
+msgid "Restaurants"
+msgstr "Restaurantes"
+
+#: themes/a17elite/pt-neighborhood/parts/block-yelp.php:6
+msgid "Shopping"
+msgstr "Compras"
+
+#: themes/a17elite/pt-neighborhood/parts/block-yelp.php:7
+msgid "Activities"
+msgstr "actividades"
+
+#: themes/a17elite/pt-neighborhood/parts/block-zip.php:3
+#: themes/a17elite/pt-neighborhood/sidebar.php:48
+msgid "Zip Codes"
+msgstr "CEP"
+
+#: themes/a17elite/pt-neighborhood/sidebar.php:39
+msgid "Casuarina Concorse"
+msgstr ""
+
+#: themes/a17elite/pt-neighborhood/sidebar.php:42
+msgid "view more"
+msgstr "Veja mais"
+
+#: themes/a17elite/pt-neighborhood/single.php:75
+#, fuzzy
+#| msgid "photos"
+msgid "photo"
+msgstr "Fotos"
+
+#: themes/a17elite/pt-neighborhood/single.php:92 themes/a17elite/single.php:81
+msgid "View more listings"
+msgstr "Veja mais propriedades"
+
+#: themes/a17elite/sidebar.php:23
+msgid "Search News"
+msgstr "Buscar Notícias "
+
+#: themes/a17elite/sidebar.php:24
+msgid "Search articles"
+msgstr "Buscar artigos"
+
+#: themes/a17elite/sidebar.php:27
+msgid "Recent Articles"
+msgstr "Artigos recentes"
+
+#: themes/a17elite/sidebar.php:35
+msgid "Categories"
+msgstr "Categorias"
+
+#: themes/a17elite/sidebar.php:43
+msgid "Archives"
+msgstr "Arquivos"
+
+#: themes/a17elite/single.php:53
+#, php-format
+msgid "%s Relate News"
+msgstr "%s Notícias relacionadas"
+
+#~ msgid "yes"
+#~ msgstr "Sim"
+
+#~ msgid "lot size"
+#~ msgstr "Tamanho do lote"
+
+#~ msgid "Yes"
+#~ msgstr "Sim"
+
+#~ msgid "Halfs Baths"
+#~ msgstr "Meio banheiro"
+
+#~ msgid "Welcome to"
+#~ msgstr "Bem-vindo"
+
+#~ msgid "% baths"
+#~ msgstr "% Banhos"
+
+#~ msgid "(% beds, % baths, % sqft)"
+#~ msgstr "(% Dormitório, % Banhos, % sqft)"
+
+#~ msgid "neighborhoods when moving from ouf of state"
+#~ msgstr "Bairros quando se deslocam de fora do estado"
+
+#~ msgid "Asking price 1"
+#~ msgstr "ASDASDASD"
