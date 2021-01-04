@@ -311,7 +311,7 @@ function ib_init_script(){
                   console.log( tot_rent);
                   console.log(tot_sold);
 
-                  if (tot_sale>0 || tot_rent>0 || tot_sold>0){
+                  if (tot_sale>0 || tot_rent>0 ){
                     $('.js-block-detail-building').show();
                   }
 
