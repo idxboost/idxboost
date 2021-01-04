@@ -1118,9 +1118,9 @@ function idxboostListCollectionForSold(element,ibstatus){
           }
 
           if (aux==0) {
-        elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+        elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+pathImage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
       }else{
-        elementgallery +='<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+        elementgallery +='<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+pathImage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
       }
         });
 

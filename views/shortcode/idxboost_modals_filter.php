@@ -618,7 +618,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                         </ul>
                       </div>
                       <div class="ib-spipb">
-                          <img class="ib-spimg" src="{{ idxRelatedImage this }}">
+                          <img class="ib-spimg" src="{{ thumbnail }}">
                       </div>
                       <a class="ib-splink" href="#" title="<?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}">
                           <span class="ib-spltxt"><?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</span>
