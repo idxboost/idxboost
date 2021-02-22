@@ -78,7 +78,8 @@
                     <div class="flex-table-row-item text-center"><?php echo __('Date Saved', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     <div class="flex-table-row-item select-action text-center"><?php echo __('Action', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   </div>
-                  <?php foreach ($response['items'] as $property):
+                  <?php
+                   foreach ($response['items'] as $property):
                     $property_address = unserialize($property['address']);
                     $property_address = isset($property_address[0]) ? $property_address[0] : '';
                   ?>
@@ -102,7 +103,7 @@
                     <div class="flex-table-row-item text-center"><?php echo $property_address; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $property['year']; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $property['unitBuilding']; ?></div>
-                    <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($property['created_at']['date'])); ?></div>
+                    <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($property['created_at'])); ?></div>
                     <div class="flex-table-row-item select-action text-center">
                       <button data-building-id="<?php echo $property['codBuilding']; ?>" class="clidxboost-btn-remove dgt-remove-favorite">
                         <span><?php echo __('Remove', IDXBOOST_DOMAIN_THEME_LANG); ?></span>

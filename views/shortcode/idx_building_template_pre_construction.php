@@ -468,7 +468,7 @@
                       <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
                       <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                       <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                      <input type="hidden" name="building_price_range" value="$0">
+                      <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
                       <div class="gform_body">
                         <ul class="gform_fields">
 
@@ -591,7 +591,7 @@
                   <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
                   <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                   <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                  <input type="hidden" name="building_price_range" value="$0">
+                  <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
                   <div class="gform_body">
                     <ul class="gform_fields">
 

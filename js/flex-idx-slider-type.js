@@ -63,13 +63,14 @@ function idxboostTypeIcon() {
 }
 
 function get_data_info(){
-idx_ajax_param_slider.forEach(function(item_request){
+idx_ajax_param_slider["type"].forEach(function(item_request){
 	$.ajax({
 		url: idx_param_slider.ajaxUrl,
 		method: "POST",
 		data: {
 			action: "idxboost_get_data_slider",
-			type: item_request
+			type: item_request,
+            limit: idx_ajax_param_slider["limit"]
 		},
 		dataType: "json",
 		success: function(response) {

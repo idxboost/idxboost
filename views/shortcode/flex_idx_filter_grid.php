@@ -284,6 +284,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                     <option <?php selected($response['order'], 'sqft-asc'); ?> value="sqft-asc">Size Low  to High </option>
                     <option <?php selected($response['order'], 'year-desc'); ?> value="year-desc">Year Newest</option>
                     <option <?php selected($response['order'], 'year-asc'); ?> value="year-asc">Year Oldest</option>
+                    */ ?>
                     <?php if ($filter_type_fl != 1): ?>
                     <option <?php selected($response['order'], 'list_date-desc'); ?> value="list_date-desc"><?php echo __('Newest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <option <?php selected($response['order'], 'list_date-asc'); ?> value="list_date-asc"><?php echo __('Oldest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>

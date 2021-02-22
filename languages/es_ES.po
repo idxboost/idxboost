@@ -5470,7 +5470,7 @@ msgid "Adjusted Size Sqft"
 msgstr "Tamaño ajustado Sqft"
 
 #: views/shortcode/idxboost-accesibility.php:14
-msgid "Accesibility"
+msgid "Accessibility"
 msgstr "Accesibilidad"
 
 #: views/shortcode/idxboost-accesibility.php:16

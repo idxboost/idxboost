@@ -230,6 +230,7 @@ function ib_generate_struct(response){
       building_avg_days=response.payload.meta.building_avg_days;
       $('.property-information .price').html(label_price+"<span>"+word_translate.todays_prices+"</span>" );
       $('.ib_inventory_min_max_price').html(label_price );
+      $('.js-building-price-range').val(label_price);
     }
 
     $('.ib_inventory_listing_price').html(label_price );

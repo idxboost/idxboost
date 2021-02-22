@@ -313,32 +313,54 @@
 
 <?php
 //FLOOR PLAN THUMBS
-  if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='1') {
+                if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='1') {
 
-    if (array_key_exists('floor_plan_view_thumbs', $response['payload']) && !empty($response['payload']['floor_plan_view_thumbs']) ) {
-      
-      $floor_plan_view_thumbs= json_decode($response['payload']['floor_plan_view_thumbs']);
+                  if (array_key_exists('floor_plan_view_thumbs', $response['payload']) && !empty($response['payload']['floor_plan_view_thumbs']) ) {
+                    
+                    $floor_plan_view_thumbs= json_decode($response['payload']['floor_plan_view_thumbs'],true);
 
-     if( is_array($floor_plan_view_thumbs) && count($floor_plan_view_thumbs)>0 ) { ?>
+                   if( is_array($floor_plan_view_thumbs) && count($floor_plan_view_thumbs)>0 ) { ?>
 
-        <ul class="ib-wrap-floors">
-          <?php foreach ($floor_plan_view_thumbs as $value_thumbs) { ?>
-          <li class="ib-item">
-            <a href="javascript:void(0)" class="ib-item-fp fp-btn">
-              <img src="<?php echo $value_thumbs[0]; ?>" class="img-bz" alt="<?php echo $value_thumbs[1]; ?>" title="<?php echo $value_thumbs[2]; ?>">
-              <?php  if (!empty($value_thumbs[2])) {
-                echo '<h3 class="ib-fp-caption">'.$value_thumbs[2].'</h3>';
+                      <h2 class="title-thumbs"><?php echo $response['payload']['name_building']; ?> Floorplans</h2>
+                      <ul class="ib-wrap-floors">
+                        <?php
+                         foreach ($floor_plan_view_thumbs as $value_thumbs) {
+                          $url_img_floorplan ="";
+                          if (array_key_exists('url', $value_thumbs)) {
+                            $url_img_floorplan = $value_thumbs["url"];
+                          }else{
+                            $url_img_floorplan = $value_thumbs[0];
+                          }
+
+                          $title_floorplan ="";
+                          if (array_key_exists('title', $value_thumbs)) {
+                            $title_floorplan = $value_thumbs["title"];
+                          }else{
+                            $title_floorplan = $value_thumbs[1];
+                          }
+
+                          $tag_floorplan ="";
+                          if (array_key_exists('tag', $value_thumbs)) {
+                            $tag_floorplan = $value_thumbs["tag"];
+                          }else{
+                            $tag_floorplan = $value_thumbs[2];
+                          }
+                          ?>
+                        <li class="ib-item">
+                          <a href="javascript:void(0)" class="ib-item-fp fp-btn">
+                            <img src="<?php echo $url_img_floorplan; ?>" class="img-bz" alt="<?php echo $tag_floorplan; ?>" title="<?php echo $title_floorplan; ?>">
+                            <?php  if (!empty($title_floorplan )) {
+                              echo '<h3 class="ib-fp-caption">'.$title_floorplan.'</h3>';
+                            }
+                            ?>              
+                          </a>
+                        </li>    
+                        <?php } ?>  
+                      </ul>
+                   <?php 
+                  }
+                }
               }
-              ?>              
-            </a>
-          </li>    
-          <?php } ?>  
-        </ul>
-     <?php 
-    }
-  }
-}
-
   if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='2') {
 
     if (array_key_exists('floor_plan_view_grid', $response['payload']) && !empty($response['payload']['floor_plan_view_grid']) ) {
@@ -530,7 +552,7 @@
                       <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
                       <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                       <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                      <input type="hidden" name="building_price_range" value="$0">
+                      <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
                       <div class="gform_body">
                         <ul class="gform_fields">
 
@@ -652,7 +674,7 @@
                   <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
                   <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                   <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                  <input type="hidden" name="building_price_range" value="$0">
+                  <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
                   <div class="gform_body">
                     <ul class="gform_fields">
 

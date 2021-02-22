@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 3.6.7
+ * Version: 3.6.8
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -16,7 +16,6 @@ defined('ABSPATH') or exit;
  */
 define('FLEX_IDX_PATH', plugin_dir_path(__FILE__));
 define('FLEX_IDX_URI', plugin_dir_url(__FILE__));
-define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
 
 
@@ -31,15 +30,36 @@ if (
   define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
   define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
   define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.com');
+  define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
+  define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
+  define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
+  define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
+  define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
+  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-singleproperty.idxboost.dev');
+  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-spw-builder.idxboost.dev');
+
 } else {
   define('FLEX_IDX_BASE_URL', 'http://api.idxboost.l');
   define('FLEX_IDX_CPANEL_URL', 'http://cpanel.idxboost.l');
   define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'http://backoffice.idxboost.l');
+  define('FLEX_IDX_ALERTS_SUBSCRIBE', 'http://alerts.idxboost.local/consumer/subscribe');
+  define('FLEX_IDX_ALERTS_REGISTER', 'http://alerts.idxboost.local/alert/register');
+  define('FLEX_IDX_ALERTS_UPDATE', 'http://alerts.idxboost.local/alert/update_alert_parameters');
+  define('FLEX_IDX_ALERTS_UNREGISTER', 'http://alerts.idxboost.local/alert/unregister');
+  define('IDX_BOOTS_NICHE', 'http://alerts.idxboost.local/niche/filter/parameters');
+  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-spw-builder.idxboost.dev');
+  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-singleproperty.idxboost.dev');  
 }
 
 /**
  * API endpoints
  */
+
+define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://suggestions.idxboost.com');
+
+define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL.'/api/property-site-setting-get');
+define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
+define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details/idProperty');
 define('FLEX_IDX_BASE_STATISTICS', FLEX_IDX_BASE_URL . '/listings/recentsales/filter');
 define('FLEX_IDX_BASE_TICKET', FLEX_IDX_BASE_URL . '/ticket_new');
 define('FLEX_IDX_API_VERIFY_CREDENTIALS', FLEX_IDX_BASE_URL . '/account/verify_credentials');
@@ -106,12 +126,6 @@ define('FLEX_IDX_API_LEADS_RESET_PASSWORD', FLEX_IDX_BASE_URL . '/reset_password
 define('FLEX_IDX_API_LEADS_GET_RESET_PASSWORD', FLEX_IDX_BASE_URL . '/get_reset_password');
 define('FLEX_IDX_API_FETCH_LISTINGS', FLEX_IDX_BASE_URL . '/notifications/listings');
 define('FLEX_IDX_API_SHARE_TO_FRIEND', FLEX_IDX_BASE_URL . '/share_to_friend');
-define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
-define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
-define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
-define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
-define('FLEX_IDX_ALERTS_API_KEY', '6a14740ad4bb7afe4e097327d079');
-define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://suggestions.idxboost.com');
 define('FLEX_IDX_API_LEAD_SUBMISSION_BUY', FLEX_IDX_BASE_URL . '/leads/submissions/buy');
 define('FLEX_IDX_API_LEAD_SUBMISSION_RENT', FLEX_IDX_BASE_URL . '/leads/submissions/rent');
 define('FLEX_IDX_API_LEAD_SUBMISSION_SELL', FLEX_IDX_BASE_URL . '/leads/submissions/sell');
@@ -120,6 +134,8 @@ define('FLEX_IDX_API_TRACK_PROPERTY_VIEW', FLEX_IDX_BASE_URL . '/track/property/
 define('FLEX_IDX_API_LEAD_FETCH_ACTIVITIES', FLEX_IDX_BASE_URL . '/leads/fetch_activities');
 define('FLEX_IDX_API_LEAD_HIDE_TOOLTIP', FLEX_IDX_BASE_URL . '/leads/hide/tooltip');
 
+define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-info-agent');
+define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-team');
 /**
  * Import Third Partie Libraries
  */

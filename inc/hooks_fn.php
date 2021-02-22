@@ -252,3 +252,5 @@ add_action('wp_head', 'iboost_print_analytics_script');
 add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script',0);
 
 add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script',0);
+
+add_action('wp_head', 'idx_boost_cms_assets_style', 100);

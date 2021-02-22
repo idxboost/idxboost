@@ -525,7 +525,10 @@ function loadPropertyInModal(mlsNumber) {
 
                 if (response.hasOwnProperty("oh") && response.oh=="1" && response.hasOwnProperty("oh_info") ) {
                     var oh_info=JSON.parse(response.oh_info);
-                    if (typeof(oh_info) === "object" && oh_info.hasOwnProperty("date") && oh_info.hasOwnProperty("timer") ) {
+                    if ((oh_info != null || oh_info != undefined) &&
+                     typeof(oh_info) === "object" && 
+                     oh_info.hasOwnProperty("date") && 
+                     oh_info.hasOwnProperty("timer") ) {
                         //listingHTML.push('<div class="flex-property-new-listing">'++' '+oh_info.timer+'</div>');
                         response.oh_info_parce_date=oh_info.date;
                         response.oh_info_parce_timer=oh_info.timer;

@@ -11,7 +11,7 @@ $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address'
 
 
 <div class="ms-access-content-terms">
-    <h1><?php echo __('Accesibility', IDXBOOST_DOMAIN_THEME_LANG); ?></h1>
+    <h1><?php echo __('Accessibility', IDXBOOST_DOMAIN_THEME_LANG); ?></h1>
     <p>
       <strong><?php echo $companyName; ?></strong><?php echo __(' is committed to providing an accessible website. If you have difficulty accessing content, have difficulty viewing a file on the website, or notice any accessibility problems, please contact us to ', IDXBOOST_DOMAIN_THEME_LANG); ?><strong>( <a href="mailto:<?php echo $idx_contact_email; ?>"><?php echo $idx_contact_email; ?></a> <a href="tel:<?php echo $idx_contact_phone; ?>"><?php echo $idx_contact_phone; ?></a> )</strong>
         <?php echo __('to specify the nature of the accessibility issue and any assistive technology you use. NAR will strive to provide the content you need in the format you require.', IDXBOOST_DOMAIN_THEME_LANG); ?>

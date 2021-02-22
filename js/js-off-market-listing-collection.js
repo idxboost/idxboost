@@ -1197,7 +1197,7 @@ var yDown = null;
                         } else {
                             listingHTML.push('<li class="baths">' + item.full_bathrooms + ' <span>' + textbath + ' </span></li>');
                         }
-                        listingHTML.push('<li class="living-size"> ' + _.formatPrice(item.living_area) + ' '+word_translate.sqft+'</li>');
+                        listingHTML.push('<li class="living-size"> ' + _.formatPrice(item.sqft) + ' '+word_translate.sqft+'</li>');
                         listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'</li>');
                         if (item.development !== '') {
                             listingHTML.push('<li class="development"><span>' + item.development + '</span></li>');
@@ -1224,8 +1224,8 @@ var yDown = null;
                         }
                         listingHTML.push('</ul>');
                         if (item.gallery.length > 1) {
-                            listingHTML.push('<button class="prev flex-slider-prev" aria-label="Prev"><span class="clidxboost-icon-arrow-select"></span></button>');
-                            listingHTML.push('<button class="next flex-slider-next" aria-label="Next"><span class="clidxboost-icon-arrow-select"></span></button>');
+                            listingHTML.push('<div class="prev flex-slider-prev" aria-label="Prev" style="cursor:pointer"><span class="clidxboost-icon-arrow-select"></span></div>');
+                            listingHTML.push('<div class="next flex-slider-next" aria-label="Next" style="cursor:pointer"><span class="clidxboost-icon-arrow-select"></span></div>');
                         }
 
                         if (!item.hasOwnProperty("status")) {

@@ -1,0 +1,94 @@
+<?php get_header(); ?>
+
+<?php
+global $flex_idx_info;
+
+
+$data = array(
+    'registration_key' => get_option('idxboost_registration_key'),
+    "page_type" => 'home'
+);
+
+$payload = json_encode($data);
+// Prepare new cURL resource
+$ch = curl_init(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-template');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+// Set HTTP Header for POST request
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($payload))
+);
+
+$result = @json_decode(curl_exec($ch), true);
+
+$type_slider = "";
+if ($result["sections"]["listings"]["type"] == "property-sites" ) {
+    $type_slider = "property-sites";
+} else {
+    if ( in_array($result["sections"]["listings"]["idxFilters"], ["exclusive-listings","map-search-filter","display-filter"] ) ) {
+        $type_slider = $result["sections"]["listings"]["idxFilters"]; 
+    }
+}
+
+$variable_listings_property_sites = "";
+$variable_listings_exclusive = "";
+
+if ($type_slider == "property-sites") {
+    $variable_listings_property_sites = do_shortcode('[list_property_collection column="two" mode="slider"]');
+} else if ($type_slider == "exclusive-listings") {
+    $variable_listings_exclusive = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
+}
+
+$variable = do_shortcode("[idxboost_dinamic_menu]");
+$variable_autocomplete = do_shortcode("[flex_autocomplete]");
+$variable_idxboost_social_network_dinamic_header = do_shortcode('[idxboost_social_network_dinamic_header]');
+$variable_idxboost_social_network_dinamic_footer = do_shortcode('[idxboost_social_network_dinamic_footer]');
+$idxboost_dinamic_credential_lead_dinamic = do_shortcode('[idxboost_dinamic_credential_lead_dinamic]');
+$idxboost_dinamic_menu_mobile = do_shortcode('[idxboost_dinamic_menu_mobile]');
+
+$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+// Close cURL session handle
+curl_close($ch);
+if ($httpcode == 200) {
+    echo '<div class="flex_ix_home_page">';
+
+    $result['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['content']);
+    $result['content'] = str_replace("[idxboost_dinamic_menu_mobile]", $idxboost_dinamic_menu_mobile, $result['content']);
+    $result['content'] = str_replace("[idxboost_dinamic_autocompleted]", $variable_autocomplete, $result['content']);
+    $result['content'] = str_replace('[idxboost_dinamic_listings type="property-sites"]', $variable_listings_property_sites, $result['content']);
+    $result['content'] = str_replace('[idxboost_dinamic_listings type="exclusive-listings"]', $variable_listings_exclusive, $result['content']);
+    $result['content'] = str_replace('[idxboost_dinamic_social_network type="header"]', $variable_idxboost_social_network_dinamic_header, $result['content']);
+    $result['content'] = str_replace('[idxboost_dinamic_social_network type="footer"]', $variable_idxboost_social_network_dinamic_footer, $result['content']);
+    $result['content'] = str_replace('[idxboost_dinamic_credential_lead]', $idxboost_dinamic_credential_lead_dinamic, $result['content']);
+
+    if ($type_slider == "display-filter") {
+        $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
+        if (preg_match($pattern, $result['content'], $match)) {
+            $variable_flex_idx_filter = do_shortcode($match[0]);
+            $result['content'] = str_replace($match[0], $variable_flex_idx_filter, $result['content']);
+        }
+    } else if ($type_slider == "map-search-filter") {
+        $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
+        if (preg_match($pattern, $result['content'], $match)) {
+            $variable_map_search_filter = do_shortcode($match[0]);
+            $result['content'] = str_replace($match[0], $variable_map_search_filter, $result['content']);
+        }
+    }
+
+    echo $result['content'];
+    echo '</div>';
+} else {
+    status_header(404);
+    nocache_headers();
+    include(get_query_template('404'));
+    die();
+}
+
+?>
+
+<?php get_footer(); ?>

@@ -49,7 +49,7 @@ if (!function_exists('flex_idx_setup_pages_fn')) {
                 'post_title'   => 'My Saved Buildings',
                 'post_name'    => 'my-saved-buildings',
                 //'post_content' => '[flex_idx_buildings]',
-                'post_content' => '[idxboost_building]',
+                'post_content' => '[flex_idx_buildings]',
                 'post_status'  => $post_status,
                 'post_author'  => $current_user_id,
                 'post_type'    => $post_type,
@@ -75,6 +75,55 @@ if (!function_exists('flex_idx_setup_pages_fn')) {
             )
         );
 
+
+        if (false == get_option('idxboost_dinamic_pages')) {
+
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'About Page',
+                'post_name' => 'about',
+                'post_content' => '[idxboost_about_page]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_about');
+
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'Contact Page',
+                'post_name' => 'contact',
+                'post_content' => '[idxboost_contact_page]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_contact');
+
+
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'Team Page',
+                'post_name' => 'team',
+                'post_content' => '[idxboost_team_page]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_team');
+
+
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'Our Properties',
+                'post_name' => 'our-properties',
+                'post_content' => '[list_property_collection column="two"]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_our_property_collection');
+
+            add_option('idxboost_dinamic_pages', 'yes');
+
+        }
+
         if (false == get_option('idxboost_import_initial_pages')) {
             foreach ($flex_idx_pages as $flex_idx_page) {
                 $wp_flex_page = wp_insert_post(array(
@@ -96,8 +145,8 @@ if (!function_exists('flex_idx_setup_pages_fn')) {
         if (false == get_option('idxboost_accesibility_initial_pages')) {
             
                 $wp_flex_page = wp_insert_post(array(
-                    'post_title'   => 'Accesibility',
-                    'post_name'    => 'accesibility',
+                    'post_title'   => 'Accessibility',
+                    'post_name'    => 'accessibility',
                     'post_content' => '[idxboost_accesibility]',
                     'post_status'  => $post_status,
                     'post_author'  => $current_user_id,

@@ -399,6 +399,8 @@ function ib_init_script(){
                     $('.aside .property-information .price').show();
                     label_price='$'+_.formatShortPrice(response.payload.meta.sale_min_max_price.min)+' '+word_translate.to+' '+'$'+_.formatShortPrice(response.payload.meta.sale_min_max_price.max);
                     $('.property-information .price').html(label_price+"<span>"+word_translate.todays_prices+"</span>" );
+                    $('.js-building-price-range').val(label_price);
+
                     $('.ib_inventory_min_max_price').html(label_price );                    
                   }
 

@@ -7,9 +7,10 @@ class IDXBoostUpdater
 	protected $active;
 	private $username;
 	private $repository;
+	private $authorize_token;
 	private $github_response;
 
-	public function __construct($file)
+	public function __construct( $file )
 	{
 		$this->file = $file;
 		add_action('admin_init', [$this, 'set_plugin_properties']);
@@ -32,15 +33,28 @@ class IDXBoostUpdater
 		$this->repository = $repository;
 	}
 
+	public function authorize($token)
+	{
+		$this->authorize_token = base64_decode($token);
+	}
+
 	private function get_repository_info()
 	{
 		if (is_null($this->github_response)) {
 			$request_uri = sprintf('https://api.github.com/repos/%s/%s/releases', $this->username, $this->repository);
 
+			if ($this->authorize_token) {
+				$request_uri = add_query_arg('access_token', $this->authorize_token, $request_uri);
+			}
+
 			$response = json_decode(wp_remote_retrieve_body(wp_remote_get($request_uri)), true);
 
 			if (is_array($response)) {
 				$response = current($response);
+			}
+
+			if ($this->authorize_token) {
+				$response['zipball_url'] = add_query_arg('access_token', $this->authorize_token, $response['zipball_url']);
 			}
 
 			$this->github_response = $response;
