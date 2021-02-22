@@ -679,35 +679,42 @@ if (!function_exists('idx_boots_main_css')) {
 if (!function_exists('idx_boost_cms_assets_style')) {
     function idx_boost_cms_assets_style()
     {
+        global $flex_idx_info;
 
-        wp_register_style('idx_boost_style_base', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/base.css');
-        wp_enqueue_style('idx_boost_style_base');
+        if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
 
-        if (is_home() || is_front_page()) {
-            wp_enqueue_style('idx_boost_style_home', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/home.css');
-        }
-        $page_slug = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
+            wp_register_style('idx_boost_style_base', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/base.css');
+            wp_enqueue_style('idx_boost_style_base');
 
-        if ($page_slug[count($page_slug) - 1] == "about") {
-            wp_enqueue_style('idx_boost_style_about', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/about.css');
-        }
-
-        if ($page_slug[count($page_slug) - 1] == "team") {
-            wp_enqueue_style('idx_boost_style_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/team.css');
-        }
-
-        if ($page_slug[count($page_slug) - 1] == "contact") {
-            wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/contact.css');
-        }
-        global $post, $wp;
-        if ($post->post_type == 'idx-agents') {
-            $wp_request = $wp->request;
-            $wp_request_exp = explode('/', $wp_request);
-
-            if (1 == count($wp_request_exp)) {
-                wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/agent.css');
+            if (is_home() || is_front_page()) {
+                wp_enqueue_style('idx_boost_style_home', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/home.css');
             }
+            $page_slug = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
+
+            if ($page_slug[count($page_slug) - 1] == "about") {
+                wp_enqueue_style('idx_boost_style_about', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/about.css');
+            }
+
+            if ($page_slug[count($page_slug) - 1] == "team") {
+                wp_enqueue_style('idx_boost_style_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/team.css');
+            }
+
+            if ($page_slug[count($page_slug) - 1] == "contact") {
+                wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/contact.css');
+            }
+            global $post, $wp;
+            if ($post->post_type == 'idx-agents') {
+                $wp_request = $wp->request;
+                $wp_request_exp = explode('/', $wp_request);
+
+                if (1 == count($wp_request_exp)) {
+                    wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/agent.css');
+                }
+            }
+            
+
         }
+
     }
 }
 
@@ -1579,6 +1586,7 @@ if (!function_exists('flex_idx_get_info')) {
         $output['agent']['agent_contact_email_address'] = isset($idxboost_agent_info['contact_email_address']) ? $idxboost_agent_info['contact_email_address'] : '';
         $output['agent']['agent_contact_phone_number'] = isset($idxboost_agent_info['contact_phone_number']) ? $idxboost_agent_info['contact_phone_number'] : '';
         $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
+        $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
         $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";        
         $output['agent']['agent_logo_file'] = isset($idxboost_agent_info['agent_logo_file']) ? $idxboost_agent_info['agent_logo_file'] : '';
         $output['agent']['broker_logo_file'] = isset($idxboost_agent_info['broker_logo_file']) ? $idxboost_agent_info['broker_logo_file'] : '';
@@ -6896,19 +6904,25 @@ if (!function_exists('idxboost_language_default_plugin')) {
 }
 
 if (!function_exists('idxboost_front_page_template')) {
-    function idxboost_front_page_template($template)
-    {
-        if (is_front_page()) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php')) {
-                return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php';
-            } else {
-                return FLEX_IDX_PATH . '/views/shortcode/idxboost_home_page.php';
+    global $flex_idx_info;
+    if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+
+        function idxboost_front_page_template($template)
+        {
+            if (is_front_page()) {
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php')) {
+                    return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php';
+                } else {
+                    return FLEX_IDX_PATH . '/views/shortcode/idxboost_home_page.php';
+                }
             }
+            return $template;
         }
-        return $template;
+
+        add_filter('template_include', 'idxboost_front_page_template');
+
     }
 
-    //add_filter('template_include', 'idxboost_front_page_template');
 }
 
 
