@@ -40,7 +40,71 @@ if (!function_exists('idxboost_quick_search_sc'))
     add_shortcode("idxboost_quick_search", "idxboost_quick_search_sc");
 }
 
+if (!function_exists('ib_crm_listings_collection_sc')) {
+    function ib_crm_listings_collection_sc($atts)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+        $user_account_id  = isset($flex_idx_info['agent']['user_id']) ? $flex_idx_info['agent']['user_id'] : '0';
 
+        $atts = shortcode_atts(array(
+            'order'   => 'price-asc',
+            'tag'     => 'default',
+            'limit'     => 'default',
+            'limit'     => '20',
+            'column'     => 'two',
+            'mode' => 'default',
+            "slider_item" => "4",
+            "slider_play" => "0",
+            "slider_speed" => "5000",            
+            'title'   => ''
+        ), $atts);
+        
+        $idxboost_registration_key = get_option('idxboost_registration_key');
+        
+        wp_localize_script('flex-idx-single-property-collection-js', 'ib_property_collection',
+            [
+                'order' => $atts['order'],
+                'tag' => $atts['tag'],
+                'limit' => $atts['limit'],
+                'mode' => $atts['mode'],
+                'ajaxlist' => FLEX_IDX_SINGLE_PROPERTY_COLLECTION,
+                'ajaxUrl'        => admin_url('admin-ajax.php'),
+                'ajaxgetProperty' => FLEX_IDX_GET_SINGLE_PROPERTY,
+                'ajaxSetting' => FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING,
+                'rg' => $idxboost_registration_key
+            ]
+        );
+
+
+        $access_token          = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data.</div>';
+        }
+        wp_enqueue_script('flex-idx-single-property-collection-js');
+        wp_enqueue_style('flex-idx-single-property-collection-css');
+        ob_start();
+
+        if($atts['mode'] == 'slider'){
+            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/slider_single_property_collection.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/slider_single_property_collection.php';
+            } else {
+                include FLEX_IDX_PATH . '/views/shortcode/slider_single_property_collection.php';
+            }
+        }else{
+            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/page_single_property_collection.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/page_single_property_collection.php';
+            } else {
+                include FLEX_IDX_PATH . '/views/shortcode/page_single_property_collection.php';
+            }            
+        }
+
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('list_property_collection', 'ib_crm_listings_collection_sc');
+}
 
 if (!function_exists("idxboost_dinamic_menu_sc")) {
     function idxboost_dinamic_menu_sc($atts, $content = null)

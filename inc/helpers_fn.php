@@ -5871,8 +5871,34 @@ if (!function_exists('flex_idx_register_assets')) {
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-sub-area-collection.js"));
 
-        wp_localize_script('flex-idx-building-inventory-js', 'word_translate', $translation_array );
+        wp_register_script('flex-idx-single-property-collection-js', FLEX_IDX_URI . 'js/idxboost-single-property-collection.js', array(
+            'underscore-mixins',
+            'underscore',
+            'flex-idx-filter-handler',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-idx-master',
+            'flex-propertiesbuilding-plugin',
+            'flex-lazyload-plugin',
+            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+            //'flex-idx-slider',
+        ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
 
+
+        wp_register_script('slider-single-property-collection-js', FLEX_IDX_URI . 'js/flex-slider-single-property.js', array(
+            'underscore-mixins',
+            'underscore',
+            'flex-idx-filter-handler',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-idx-master',
+            'flex-propertiesbuilding-plugin',
+            'flex-lazyload-plugin'
+            //'flex-idx-slider',
+        ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
+
+
+        wp_localize_script('flex-idx-building-inventory-js', 'word_translate', $translation_array );
         wp_localize_script('flex-idx-building-inventory-js', 'idxboost_collection_params', array(
             'ajaxUrl'                 => admin_url('admin-ajax.php'),
             'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
@@ -6950,20 +6976,27 @@ if (!function_exists('idxboost_get_header_dinamic')) {
 }
 
 if (!function_exists('idxboost_footer_header_dinamic')) {
-    function idxboost_footer_header_dinamic($name)
-    {
+        global $flex_idx_info;
 
-        if (!is_front_page()) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
+        if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+
+            function idxboost_footer_header_dinamic($name)
+            {
+
+                if (!is_front_page()) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
+                    }
+
+                }
             }
 
-        }
-    }
+            add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
 
-    add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
+        }
+
 }
 
 
