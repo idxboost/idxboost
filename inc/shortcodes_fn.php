@@ -106,6 +106,47 @@ if (!function_exists('ib_crm_listings_collection_sc')) {
     add_shortcode('list_property_collection', 'ib_crm_listings_collection_sc');
 }
 
+if (!function_exists('ib_crm_listings_collection_slider_sc')) {
+    function ib_crm_listings_collection_slider_sc($atts)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+        $atts = shortcode_atts(array(
+            'order'   => 'list',
+            'limit'     => 'default',
+            'column'     => 'four',
+            'link_more' => '',
+            'title'   => ''
+        ), $atts);
+        
+        wp_localize_script('slider-single-property-collection-js', 'ib_property_collection_slider',
+            [
+                'order' => $atts['order'],
+                'limit' => $atts['limit'],
+                'ajaxlist' => FLEX_IDX_SINGLE_PROPERTY_COLLECTION,
+            ]
+        );
+
+
+        $access_token          = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data.</div>';
+        }
+        wp_enqueue_script('flex-idx-single-property-collection-js');
+        wp_enqueue_style('flex-idx-single-property-collection-css');
+        ob_start();
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/slider_single_property_collection.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/slider_single_property_collection.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/slider_single_property_collection.php';
+        }
+        return ob_get_clean();
+    }
+
+    add_shortcode('slider_property_collection', 'ib_crm_listings_collection_slider_sc');
+}
+
 if (!function_exists("idxboost_dinamic_menu_sc")) {
     function idxboost_dinamic_menu_sc($atts, $content = null)
     {

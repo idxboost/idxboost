@@ -1,26 +1,29 @@
-<?php
-	$class_filter = 'js-slider-single-property';
-?>
+<?php $class_filter = 'js-slider-single-property'; ?>
 
-<section data-item="<?php echo $atts['slider_item']; ?>" auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>" class="flex-block-description mtop-60 ib-filter-slider ib-filter-slider-<?php echo $class_filter; ?>" data-filter="<?php echo $class_filter; ?>" id="featured-section">
+<section class="flex-block-description mtop-60 ib-filter-slider ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
+  data-item="<?php echo $atts['slider_item']; ?>" data-filter="<?php echo $class_filter; ?>"
+  auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>">
 
-  <?php  if (!empty($atts['title'])) { ?>
+  <?php  if (! empty( $atts['title'] )) { ?>
   	<h2 class="title-block single idx_txt_text_tit_property_front"><?php echo $atts['title']; ?></h2>
   <?php } ?>
   
   <div class="wrap-result view-grid">
     <div class="gs-container-slider ib-properties-slider js-ib-sp-list"></div>
+  </div>
 
-</div>
-	<?php  if (!empty($atts['link'])) { ?>
-	<a class="clidxboost-btn-link idx_txt_text_property_front" href="<?php echo $atts['link']; ?>" title="<?php echo $atts['name_button']; ?>"> <span><?php echo $atts['name_button']; ?></span></a>
-	<?php } ?>
+	<?php  if (! empty( $atts['link'] )) { ?>
+    <a class="clidxboost-btn-link idx_txt_text_property_front" 
+      href="<?php echo $atts['link']; ?>" 
+      title="<?php echo $atts['name_button']; ?>"> 
+      <span><?php echo $atts['name_button']; ?></span>
+    </a>
+  <?php } ?>
 
-<input type="hidden" class="ib_type_filter" value="<?php echo $atts['type']; ?>">
-<input type="hidden" class="ib_id_filter" value="<?php echo $atts['id']; ?>">
+  <input type="hidden" class="ib_type_filter" value="<?php echo $atts['type']; ?>">
+  <input type="hidden" class="ib_id_filter" value="<?php echo $atts['id']; ?>">
+
 </section>
-
-
 
 <div class="js-ib-sp-modals" id="ib-sp-modals"></div><!-- js-ib-sp-modals -->
 
@@ -51,8 +54,8 @@
                   <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}">Call Us</a>
                 {{/if}}
                 <div class="ib-requestinfo ib-phbtn sfm">{{stylesInput.headerSection.button.text}}</div>
-                {{#if websiteSlugname}}
-                  <div class="ib-pbtnopen ib-phbtn" data-permalink="https://{{websiteSlugname}}.idxboost.io">Open</div>
+                {{#if websiteSlugnameDomain}}
+                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}">Open</div>
                 {{/if}}
                 <div class="ib-pbtnclose ib-phbtn">Close</div>
               </div>
@@ -151,7 +154,7 @@
                   
                     <li>
                       {{#if propertyLivingSize}}
-                        {{propertyLivingSize}}
+                        {{formatSqft propertyLivingSize}}
                       {{else}}
                         0
                       {{/if}}
@@ -375,7 +378,7 @@
                       <form class="js-ib-sp-contact-form" method="post" id="contact-us-form">
                         <fieldset>
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                          <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteTitle}}">
+                          <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                           <input type="hidden" name="action" value="idxboost_contact_inquiry">
                           <ul>
                             <li>
@@ -476,7 +479,7 @@
               <form class="js-ib-sp-contact-form" method="post" id="request-details-form">
                 <fieldset>
                   <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                  <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteTitle}}">
+                  <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <div class="sp-input-form">
                     <label for="inputName">Enter your Name</label>

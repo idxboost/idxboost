@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 3.7.0
+ * Version: 3.7.1
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -35,8 +35,8 @@ if (
   define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
   define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
   define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
-  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-singleproperty.idxboost.dev');
-  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-spw-builder.idxboost.dev');
+  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
+  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.dev');
 
 } else {
   define('FLEX_IDX_BASE_URL', 'http://api.idxboost.l');
@@ -47,8 +47,8 @@ if (
   define('FLEX_IDX_ALERTS_UPDATE', 'http://alerts.idxboost.local/alert/update_alert_parameters');
   define('FLEX_IDX_ALERTS_UNREGISTER', 'http://alerts.idxboost.local/alert/unregister');
   define('IDX_BOOTS_NICHE', 'http://alerts.idxboost.local/niche/filter/parameters');
-  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-spw-builder.idxboost.dev');
-  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-singleproperty.idxboost.dev');  
+  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.dev');
+  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.dev');
 }
 
 /**
@@ -59,7 +59,7 @@ define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://suggestions.idxboost.com');
 
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL.'/api/property-site-setting-get');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
-define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details/idProperty');
+define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details');
 define('FLEX_IDX_BASE_STATISTICS', FLEX_IDX_BASE_URL . '/listings/recentsales/filter');
 define('FLEX_IDX_BASE_TICKET', FLEX_IDX_BASE_URL . '/ticket_new');
 define('FLEX_IDX_API_VERIFY_CREDENTIALS', FLEX_IDX_BASE_URL . '/account/verify_credentials');

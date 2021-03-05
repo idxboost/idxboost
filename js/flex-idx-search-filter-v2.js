@@ -2458,25 +2458,13 @@ function buildSearchFilterForm() {
 
                     // if ($(".register").length) {
                         // $(".register").click();
-                        $("#modal_login").addClass("active_modal")
-                        .find('[data-tab]').removeClass('active');
-                    
-                        $("#modal_login").addClass("active_modal")
-                            .find('[data-tab]:eq(1)')
-                            .addClass('active');
-                        
-                        $("#modal_login")
-                            .find(".item_tab")
-                            .removeClass("active");
-                        
-                        $("#tabRegister")
-                        .addClass("active");
-
+                        $("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+                        $("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+                        $("#modal_login").find(".item_tab").removeClass("active");
+                        $("#tabRegister").addClass("active");
                         $("#modal_login #msRst").empty().html($("#mstextRst").html());
                         $("button.close-modal").addClass("ib-close-mproperty");
                         $(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-
-
                         /*TEXTO LOGIN*/
                         var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
                         $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
@@ -2669,10 +2657,13 @@ function buildSearchFilterForm() {
             var clickedOption = this.value;
             var checkedOption = this.checked;
 
-            IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+            // IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
 
-            var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+            //var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+            var chk_amt = jQuery(this).parent().parent().find(':checked');
             var chk_list = [];
+
+            IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
             chk_amt.each(function (index, node) {
                 if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -2797,14 +2788,18 @@ function buildSearchFilterForm() {
             IB_LB_TYPES_OPTIONS.eq(index).append(IB_DOCFRAG);
         });
 
-        IB_LB_TYPES_OPTIONS.on("change", "input", function() {
+        IB_LB_TYPES_OPTIONS.on("change", "input", function(e) {
             var clickedOption = this.value;
             var checkedOption = this.checked;
 
-            IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+            //IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+            //IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
 
-            var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+            //var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+            var chk_amt = jQuery(this).parent().parent().find(':checked');
             var chk_list = [];
+
+            IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
             chk_amt.each(function (index, node) {
                 if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -4540,23 +4535,16 @@ $(function () {
             if ("yes" === __flex_g_settings.anonymous) {
                 // if ($(".register").length) {
                     // $(".register").click();
-                    $("#modal_login").addClass("active_modal")
-                    .find('[data-tab]').removeClass('active');
-                
-                    $("#modal_login").addClass("active_modal")
-                        .find('[data-tab]:eq(1)')
-                        .addClass('active');
-                    
-                    $("#modal_login")
-                        .find(".item_tab")
-                        .removeClass("active");
-                    
-                    $("#tabRegister")
-                    .addClass("active");
-
+                    $("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+                    $("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+                    $("#modal_login").find(".item_tab").removeClass("active");
+                    $("#tabRegister").addClass("active");
                     $("#modal_login #msRst").empty().html($("#mstextRst").html());
                     $("button.close-modal").addClass("ib-close-mproperty");
                     $(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+                    /*TEXTO LOGIN*/
+                    var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+                    $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
                 // }
             
                 return;

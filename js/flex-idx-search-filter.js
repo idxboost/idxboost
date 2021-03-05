@@ -2802,10 +2802,13 @@ function buildSearchFilterForm() {
             var clickedOption = this.value;
             var checkedOption = this.checked;
 
-            IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
-
-            var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+            // IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+            
+            //var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+            var chk_amt = jQuery(this).parent().parent().find(':checked');
             var chk_list = [];
+
+            IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
             chk_amt.each(function (index, node) {
                 if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -2864,10 +2867,13 @@ function buildSearchFilterForm() {
             var clickedOption = this.value;
             var checkedOption = this.checked;
 
-            IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+            //IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
 
-            var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+            // var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+            var chk_amt = jQuery(this).parent().parent().find(':checked');
             var chk_list = [];
+
+            IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
             chk_amt.each(function (index, node) {
                 if ( -1 === $.inArray(node.value, chk_list) ) {

@@ -43,7 +43,7 @@
       <input id="for_user_email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium" name="email" type="email" value="" required>
     </li>
     <li class="form-item pt-phone">
-      <label class="ms-hidden" for="for_user_phone"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+      <label class="ms-hidden" for="for_user_phone"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?> *</label>
       <input id="for_user_phone" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium" name="phone" type="" value="" required>
     </li>
     <li class="form-item full-item">

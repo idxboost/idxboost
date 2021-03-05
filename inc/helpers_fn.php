@@ -5358,8 +5358,8 @@ if (!function_exists('flex_idx_register_assets')) {
         'foreclosures'  => __('Foreclosures', IDXBOOST_DOMAIN_THEME_LANG),
         'any' => __('Any', IDXBOOST_DOMAIN_THEME_LANG),
         'any_price' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_price_max' => __('Any price', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_type' => __('Any type', IDXBOOST_DOMAIN_THEME_LANG),
+        'any_price_max' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
+        'any_type' => __('Any Type', IDXBOOST_DOMAIN_THEME_LANG),
         'up_to' => __('up to', IDXBOOST_DOMAIN_THEME_LANG),
         'details' => __('View detail', IDXBOOST_DOMAIN_THEME_LANG),
         'for_sale' => __('For Sale', IDXBOOST_DOMAIN_THEME_LANG),
@@ -5720,6 +5720,9 @@ if (!function_exists('flex_idx_register_assets')) {
             'underscore',
         ), iboost_get_mod_time("js/flex-idx-single-autocomplete.js"));
         // flex autocomplete [end]
+
+        wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.css', array(), iboost_get_mod_time("css/main.css"));
+        
         /*wp_register_script('greatslider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array('jquery'));
         wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery'));
         wp_register_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery', 'greatslider'));*/
@@ -5870,6 +5873,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-lazyload-plugin'
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-sub-area-collection.js"));
+        
+        wp_register_script('get-video-id-js', FLEX_IDX_URI . 'js/get-video-id.min.js', '', iboost_get_mod_time("js/get-video-id.min.js"));
 
         wp_register_script('flex-idx-single-property-collection-js', FLEX_IDX_URI . 'js/idxboost-single-property-collection.js', array(
             'underscore-mixins',
@@ -5881,6 +5886,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-propertiesbuilding-plugin',
             'flex-lazyload-plugin',
             'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+            'get-video-id-js'
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
 
@@ -5893,7 +5899,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-idx-filter-jquery-ui-touch',
             'flex-idx-master',
             'flex-propertiesbuilding-plugin',
-            'flex-lazyload-plugin'
+            'flex-lazyload-plugin',
+            'get-video-id-js'
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
 
@@ -6363,10 +6370,10 @@ if (!function_exists('flex_idx_create_admin_root_menu')) {
         $flex_idx_page = add_menu_page('IDX Boost - Settings', 'IDX Boost', 'administrator', 'flex-idx', 'flex_idx_admin_render_default_page', FLEX_IDX_URI.'images/rocket.svg');
         add_action('admin_print_scripts-' . $flex_idx_page, 'flex_idx_admin_enqueue_assets');
         if (get_option('idxboost_client_status') == 'active') {
-            $flex_idx_registration_launch = get_option('flex_idx_registration_launch');
-            if ($flex_idx_registration_launch==false) {
-                $flex_idx_pages_admin_launch = add_submenu_page('flex-idx', 'IDX Boost - Launch', 'Launch My Site', 'administrator', 'flex-idx-launch', 'flex_idx_admin_render_launch_page');
-            }
+            // $flex_idx_registration_launch = get_option('flex_idx_registration_launch');
+            // if ($flex_idx_registration_launch==false) {
+            //     $flex_idx_pages_admin_launch = add_submenu_page('flex-idx', 'IDX Boost - Launch', 'Launch My Site', 'administrator', 'flex-idx-launch', 'flex_idx_admin_render_launch_page');
+            // }
             add_submenu_page('flex-idx', 'My IDX Pages - FlexIDX', 'My IDX Pages', 'administrator', 'edit.php?post_type=flex-idx-pages', null);
             add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
             add_submenu_page('flex-idx', 'My Buildings - FlexIDX', 'My IDX Buildings', 'administrator', 'edit.php?post_type=flex-idx-building', null);

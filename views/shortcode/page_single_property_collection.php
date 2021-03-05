@@ -79,8 +79,8 @@
                   <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}">Call Us</a>
                 {{/if}}
                 <div class="ib-requestinfo ib-phbtn sfm">{{stylesInput.headerSection.button.text}}</div>
-                {{#if websiteSlugname}}
-                  <div class="ib-pbtnopen ib-phbtn" data-permalink="https://{{websiteSlugname}}.idxboost.io">Open</div>
+                {{#if websiteSlugnameDomain}}
+                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}">Open</div>
                 {{/if}}
                 <div class="ib-pbtnclose ib-phbtn">Close</div>
               </div>
@@ -179,7 +179,7 @@
                   
                     <li>
                       {{#if propertyLivingSize}}
-                        {{propertyLivingSize}}
+                        {{formatSqft propertyLivingSize}}
                       {{else}}
                         0
                       {{/if}}
@@ -403,7 +403,7 @@
                       <form class="js-ib-sp-contact-form" method="post" id="contact-us-form">
                         <fieldset>
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                          <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteTitle}}">
+                          <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                           <input type="hidden" name="action" value="idxboost_contact_inquiry">
                           <ul>
                             <li>
@@ -504,7 +504,7 @@
               <form class="js-ib-sp-contact-form" method="post" id="request-details-form">
                 <fieldset>
                   <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                  <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteTitle}}">
+                  <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <div class="sp-input-form">
                     <label for="inputName">Enter your Name</label>
