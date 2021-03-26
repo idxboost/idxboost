@@ -146,28 +146,35 @@
     </div>
     <div id="imagen-print"></div>
 
-      <?php if (count($response['payload']['gallery_building']) > 0) { ?>
-        <div id="full-slider">
-          <div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
-            <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
-              <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
-            <?php } ?>
+        <div id="full-slider" class="show-slider-psl">
+
+        <!-- NUEVA ESTRUCTURA SLIDER -->
+          <div class="ms-slider-buildings">
+            <div class="wrap-result view-grid ms-sm-grid">
+              <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
+                <div class="wrap-result view-grid">
+                  <div class="gs-container-slider ib-properties-slider"></div>
+                </div>
+              </div>
+            </div>
           </div>
+        <!-- NUEVA ESTRUCTURA SLIDER -->
+
           <div class="moptions">
             <ul class="slider-option">
               <li>
-                <button class="option-switch" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                <button class="option-switch js-option-building js-option-building-photo active" type="photo" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
               </li>
               <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
                 <li>
-                  <button class="option-switch" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                  <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 </li>
               <?php else : ?>
                 <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
                   $response['payload']['lat_building'] = $latAlternative;
                   $response['payload']['lng_building'] = $lngAlternative; ?>
                   <li>
-                    <button class="option-switch" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                   </li>
                 <?php } ?>
               <?php endif; ?>
@@ -179,7 +186,6 @@
             <div id="map-result" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"></div>
           </div>
         </div>
-      <?php } ?>
 
       <section class="main">
         <div class="temporal-content-bl"></div>
@@ -530,6 +536,9 @@
 
 
 
+
+
+
               <?php
               if (shortcode_exists('sc_news_to_building'))
                 echo do_shortcode('[sc_news_to_building id_building="' . get_the_ID() . '"]'); ?>
@@ -826,6 +835,14 @@
     <button class="fp-close-fp" aria-label="Close">
       <span></span>
     </button>
+  </div>
+
+  <div class="ms-bs-modal-sp-slider fade">
+    <div id="ms-bs-modal-sp-slider">
+      <div class="ms-bs-wrap-slider" id="ms-bs-gen-slider"></div>
+    </div>
+    <button class="ms-bs-close">Close</button>
+    <button class="ms-btn-detail">View detail</button>
   </div>
 
 <script type="text/javascript">
