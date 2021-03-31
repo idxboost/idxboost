@@ -3650,6 +3650,7 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
         $search_query      = isset($_POST['search_query']) ? trim($_POST['search_query']) : '';
         $search_name       = isset($_POST['name']) ? trim(strip_tags($_POST['name'])) : '';
         $type              = isset($_POST['type']) ? trim(strip_tags($_POST['type'])) : '';
+        $search_params              = isset($_POST['search_params']) ? trim(strip_tags($_POST['search_params'])) : '';
         $object_id         = isset($_POST['id']) ? (int) $_POST['id'] : 0;
         $token_alert       = isset($_POST['token_alert']) ? trim(strip_tags($_POST['token_alert'])) : null;
         $notification_day  = isset($_POST['notification_day']) ? $_POST['notification_day'] : '--';
@@ -3663,6 +3664,7 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
         $sendParams = array(
             'access_token'     => $access_token,
             'flex_credentials' => $flex_lead_credentials,
+            'search_params'  => $search_params,
             'data'             => array(
                 'search_board'  =>$board_id,
                 'search_type'  => 'filter',
@@ -3718,6 +3720,7 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
                         $sendParams   = array(
                             'access_token'     => $access_token,
                             'flex_credentials' => $flex_lead_credentials,
+                            'search_params'  => $search_params,
                             'data'             => array(
                                 'search_board'  =>$board_id,
                                 'search_name'  => $search_name,

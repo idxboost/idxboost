@@ -6,10 +6,17 @@ var textprueba = '',
     inifil_default = 4;
 var idxboost_filter_countacti = false,
     idxboostcondition = '';
+var dataAlert;
+
     filter_metadata =JSON.parse(filter_metadata);
     if ( (typeof filter_metadata) && filter_metadata.hasOwnProperty("condition") ) {
         idxboostcondition = filter_metadata.condition;
     }
+
+    if ( (typeof filter_metadata) && filter_metadata.hasOwnProperty("params") ) {
+        dataAlert = filter_metadata.params;
+    }
+
     
 (function($) {
     var ajax_request_filter;
@@ -1961,7 +1968,7 @@ function fillValuesMobileForm(response,method=true) {
     // types
     var property_type=[];
     if (params.tab != undefined && params.tab != null && params.tab != '')
-        property_type= params.tab.split('|');
+        property_type= params.tab;
 
     if (property_type.length == 0){
         property_type= infodata.property_type.split('|');
@@ -2037,7 +2044,7 @@ function fillValuesMobileForm(response,method=true) {
     // features
     var feature_amenities=[];
     if (params.features != undefined && params.features != null && params.features != '')
-        feature_amenities= params.features.split('|');
+        feature_amenities= params.features;
 
         ib_m_features.find(":input").each(function(index, item) {
             item.checked = false;
@@ -2401,7 +2408,7 @@ function getLandSizeValues(min, max) {
                    var feature_amenities=[];
                    IB_RG_AMENITIES.each(function(index,item){
                         item.checked = false;
-                        feature_amenities= params.features.split('|');
+                        feature_amenities= params.features;
                         if (-1 !== $.inArray(item.value, feature_amenities) ) {
                             $(item).click();
                         }
@@ -2410,7 +2417,7 @@ function getLandSizeValues(min, max) {
                    var property_type=[];
                    IB_RG_PROPERTY_TYPE.each(function(index,item){
                         item.checked = false;
-                        property_type= params.tab.split('|');
+                        property_type= params.tab;
                         if (-1 !== $.inArray(item.value, property_type) ) {
                             $(item).click();
                         }
@@ -2595,10 +2602,14 @@ function getLandSizeValues(min, max) {
                     var idx_param_url=[];
 
                     if (filter_metadata.info.rental_type==0) {
+                        console.log ( ( ($('#idx_min_price').val() != null || $('#idx_max_price').val() != null) && ($('#idx_min_price').val() != '--' || $('#idx_max_price').val() != '--') && ($('#idx_min_price').val() != '0' || $('#idx_max_price').val() != '100000000') ) );
+                        console.log($('#idx_min_price').val());
+                        console.log($('#idx_max_price').val());
+
                         if ( ($('#idx_min_price').val() != null || $('#idx_max_price').val() != null) && ($('#idx_min_price').val() != '--' || $('#idx_max_price').val() != '--') && ($('#idx_min_price').val() != '0' || $('#idx_max_price').val() != '100000000') )
                                 idx_param_url.push('price='+$('#idx_min_price').val()+'~'+$('#idx_max_price').val());
                     }else{
-                        if ( ($('#idx_min_rent_price').val() != null || $('#idx_max_rent_price').val() != null) && ($('#idx_min_rent_price').val() != '--' || $('#idx_max_rent_price').val() != '--') && ($('#idx_min_rent_price').val() != '0' || $('#idx_max_rent_price').val() != '100000000') )
+                        if ( ($('#idx_min_rent_price').val() != null || $('#idx_max_rent_price').val() != null) && ($('#idx_min_rent_price').val() != '--' || $('#idx_max_rent_price').val() != '--') && ($('#idx_min_rent_price').val() != '0' || $('#idx_max_rent_price').val() != '100000') )
                             idx_param_url.push('price_rent='+$('#idx_min_rent_price').val()+'~'+$('#idx_max_rent_price').val());                        
                     }
 
@@ -2652,6 +2663,8 @@ function getLandSizeValues(min, max) {
 
                     $("#search_count").val(response.counter);
                     idxboostcondition = response.condition;
+                    dataAlert = response.params;
+
                     $(idxboost_filter_class + " #flex-idx-search-form").data('save_count', response.counter);
                     $(idxboost_filter_class + " #flex-idx-search-form").data('next_page', response.pagination.has_next_page);
                     $(idxboost_filter_class + " #flex-idx-search-form").data('current_page', response.pagination.current_page_number);
