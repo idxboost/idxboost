@@ -31,6 +31,7 @@ if (is_array($result) && count($result)> 0) {
 
         if (is_array($value['child']) && count($value['child'])>0) {
             foreach ($value['child'] as $key => $menu) {
+
                 $has_class = '';
                 $submenu_toggle = '';
                 if (array_key_exists('subItems', $menu) && is_array($menu['subItems']) && count($menu['subItems']) > 0) {
@@ -39,8 +40,8 @@ if (is_array($result) && count($result)> 0) {
                 }
 
                 $is_external_link = '';
-				if (array_key_exists('type', $menu) && $menu['type'] === 'property-site') {
-					$is_external_link = 'target="_blank"';
+				if (array_key_exists('target', $menu) && $menu['target'] != '') {
+					$is_external_link = 'target="'. $menu['target'] .'"';
 				}
 
                 $htmlmenu[] = '<li class="ip-menu-item'. $has_class .'">';
@@ -52,8 +53,8 @@ if (is_array($result) && count($result)> 0) {
                     $htmlmenu[] = '<ul class="ip-submenu js-submenu">';
                     foreach ($menu['subItems'] as $key => $submenu) {
                         $is_external_link_two = '';
-						if (array_key_exists('type', $submenu) && $submenu['type'] === 'property-site') {
-							$is_external_link_two = 'target="_blank"';
+						if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
+							$is_external_link_two = 'target="'. $menu['target'] .'"';
                         }
                         
                         $htmlmenu[] = '<li class="ip-menu-item">';
@@ -63,6 +64,7 @@ if (is_array($result) && count($result)> 0) {
                     $htmlmenu[] = "</ul>";
                 }
                 $htmlmenu[] = '</li>';
+
             }
         }
     }

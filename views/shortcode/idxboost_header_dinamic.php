@@ -53,6 +53,15 @@ if (is_array($result) && count($result) > 0) {
     ?>
 
     document.body.classList.add('ip');
+    <?php
+    if ( !empty($GLOBALS) && is_array($GLOBALS) &&  array_key_exists("crm_theme_setting", $GLOBALS) && is_array($GLOBALS['crm_theme_setting']) && count($GLOBALS['crm_theme_setting']) >0 ) {
+        if ( array_key_exists("style", $GLOBALS['crm_theme_setting'])) {
+            echo 'document.body.style = "'.trim($GLOBALS['crm_theme_setting']["style"]).'";';
+        }
+    }
+    ?>
+    
+
     <?php  if (is_numeric($is_compass)) {
         echo "document.body.classList.add('ip-theme-compass');";
     }  ?>

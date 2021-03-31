@@ -679,39 +679,75 @@ if (!function_exists('idx_boots_main_css')) {
 if (!function_exists('idx_boost_cms_assets_style')) {
     function idx_boost_cms_assets_style()
     {
-        global $flex_idx_info;
+        global $flex_idx_info, $post, $wp;
 
         if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+            
+            $GLOBALS["crm_theme_setting"] = [];
 
-            wp_register_style('idx_boost_style_base', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/base.css');
-            wp_enqueue_style('idx_boost_style_base');
+            $data_service = array(
+                'registration_key' => get_option('idxboost_registration_key')
+            );
 
-            if (is_home() || is_front_page()) {
-                wp_enqueue_style('idx_boost_style_home', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/home.css');
-            }
-            $page_slug = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
+            $payload_json = json_encode($data_service);
 
-            if ($page_slug[count($page_slug) - 1] == "about") {
-                wp_enqueue_style('idx_boost_style_about', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/about.css');
-            }
+            $curl_service = curl_init();
+            curl_setopt_array($curl_service, array(
+              CURLOPT_URL => IDX_BOOST_SPW_BUILDER_SERVICE.'/api/theme-settings',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS =>$payload_json,
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: text/plain'
+              ),
+            ));
 
-            if ($page_slug[count($page_slug) - 1] == "team") {
-                wp_enqueue_style('idx_boost_style_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/team.css');
-            }
+            $response_service = curl_exec($curl_service);
+            curl_close($curl_service);
 
-            if ($page_slug[count($page_slug) - 1] == "contact") {
-                wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/contact.css');
-            }
-            global $post, $wp;
-            if ($post->post_type == 'idx-agents') {
-                $wp_request = $wp->request;
-                $wp_request_exp = explode('/', $wp_request);
+            $head_json = @json_decode($response_service,true);
 
-                if (1 == count($wp_request_exp)) {
-                    wp_enqueue_style('idx_boost_style_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/agent.css');
+            if (is_array($head_json) && count($head_json)> 0) {
+                $GLOBALS["crm_theme_setting"] = $head_json;
+                if (array_key_exists("font", $head_json)) {
+                    echo '<link rel="stylesheet" href="'.trim($head_json['font']).'">';
                 }
             }
-            
+
+            echo '<link rel="stylesheet" id="idx_boost_style_base-css" href="'.IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/base.css'.'" type="text/css" media="all">';
+
+            if (is_home() || is_front_page()) {
+                echo '<link rel="stylesheet" id="idx_boost_style_home-css" href="'.IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/home.css'.'" type="text/css" media="all">';
+            }
+
+
+            if ($post->post_type == 'flex-idx-pages') {
+                $type_filter=get_post_meta($post->ID,'_flex_id_page',true);
+
+
+                  if ( $type_filter == "flex_idx_page_about") {
+                      echo '<link rel="stylesheet" id="idx_boost_style_about-css" href="'.IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/about.css'.'" type="text/css" media="all">';
+                  }
+
+                  if ( $type_filter == "flex_idx_page_contact") {
+                      echo '<link rel="stylesheet" id="idx_boost_style_contact-css" href="'.IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/contact.css'.'" type="text/css" media="all">';
+                  }
+
+                  if ( $type_filter == "flex_idx_page_team") {
+                    echo '<link rel="stylesheet" id="idx_boost_style_team-css" href="'.IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/team.css'.'" type="text/css" media="all">';
+                  }
+            }
+
+
+            if ($post->post_type == 'idx-agents') {
+                    wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/agent.js', array(), false, true);
+            }
+
 
         }
 
@@ -6259,6 +6295,22 @@ if (!function_exists('greatsliderLoad')){
     wp_register_script('greatslider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array("jquery"), iboost_get_mod_time("js/greatslider.jquery.min.js"));
     wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.js', array("jquery"), iboost_get_mod_time("js/greatslider-main.js"));
     wp_enqueue_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery', 'greatslider'), iboost_get_mod_time("js/greatslider-main.js"), true );
+
+    global $flex_idx_info;
+
+    if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+        
+        wp_enqueue_script('idx_boost_js_base', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/base.js', array('jquery'), false, true);
+        wp_enqueue_script('get-video-id-js');
+
+
+        if (is_home() || is_front_page()) {
+            wp_enqueue_script('idx_boost_js_home', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/home.js', array(), false, true);
+        }
+        $page_slug = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
+
+    }
+
     //wp_enqueue_script('modal-properties', FLEX_IDX_URI . 'js/modal-properties.js');
   }
 }
@@ -6960,73 +7012,92 @@ if (!function_exists('idxboost_language_default_plugin')) {
 }
 
 if (!function_exists('idxboost_front_page_template')) {
-    global $flex_idx_info;
-    if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
 
         function idxboost_front_page_template($template)
         {
-            if (is_front_page()) {
-                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php')) {
-                    return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php';
-                } else {
-                    return FLEX_IDX_PATH . '/views/shortcode/idxboost_home_page.php';
+            global $flex_idx_info;
+
+            if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+                if (is_front_page()) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php')) {
+                        return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php';
+                    } else {
+                        return FLEX_IDX_PATH . '/views/shortcode/idxboost_home_page.php';
+                    }
                 }
             }
+
             return $template;
         }
 
         add_filter('template_include', 'idxboost_front_page_template');
 
-    }
-
 }
 
 
 if (!function_exists('idxboost_get_header_dinamic')) {
-    function idxboost_get_header_dinamic($name)
-    {
 
-        if (is_front_page()) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic_frontpage.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic_frontpage.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idxboost_header_dinamic_frontpage.php';
-            }
-        } else {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idxboost_header_dinamic.php';
-            }
+        function idxboost_get_header_dinamic($name)
+        {
+            global $flex_idx_info;
 
-        }
-    }
+            if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
 
-    add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
-}
-
-if (!function_exists('idxboost_footer_header_dinamic')) {
-        global $flex_idx_info;
-
-        if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
-
-            function idxboost_footer_header_dinamic($name)
-            {
-
-                if (!is_front_page()) {
-                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
-                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
+                if (is_front_page()) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic_frontpage.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic_frontpage.php';
                     } else {
-                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_header_dinamic_frontpage.php';
+                    }
+                } else {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_header_dinamic.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_header_dinamic.php';
                     }
 
                 }
             }
 
-            add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
+        }
+
+        add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
+
+}
+
+if (!function_exists('idxboost_footer_header_dinamic')) {
+        function idxboost_footer_header_dinamic($name)
+        {
+            global $flex_idx_info, $post;
+
+            if ( !empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
+
+                $show_footer = true;
+
+                if ( in_array($post->post_type, ["flex-idx-pages","flex-landing-pages" ]) || is_front_page()   ) {
+                    $type_filter=get_post_meta($post->ID,'_flex_id_page',true);
+                    $show_footer = false;
+
+                    if ( !empty($type_filter) &&  !in_array($type_filter, ["flex_idx_search"])) {
+                        $show_footer = true;                                            
+                    }
+                }
+
+                if ( $show_footer ) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
+                    }
+                }
+
+
+      
+            }
 
         }
 
+    add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
 }
 
 

@@ -26,10 +26,34 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $result = @json_decode(curl_exec($ch), true);
 
 $type_slider = "";
-if ($result["sections"]["listings"]["type"] == "property-sites" ) {
+if (
+
+    (
+        is_array($result["sections"]) && 
+        array_key_exists("listings", $result["sections"]) 
+    ) &&
+
+    (
+        is_array($result["sections"]["listings"]) && 
+        array_key_exists("type", $result["sections"]["listings"])        
+    ) &&
+
+    !empty($result["sections"]["listings"]["type"]) &&
+
+    $result["sections"]["listings"]["type"] == "property-sites" ) {
     $type_slider = "property-sites";
 } else {
-    if ( in_array($result["sections"]["listings"]["idxFilters"], ["exclusive-listings","map-search-filter","display-filter"] ) ) {
+    if (
+        (
+            is_array($result["sections"]) && 
+            array_key_exists("listings", $result["sections"]) 
+        ) &&
+        (
+            is_array($result["sections"]["listings"]) && 
+            array_key_exists("idxFilters", $result["sections"]["listings"])        
+        ) &&
+        in_array($result["sections"]["listings"]["idxFilters"], ["exclusive-listings","map-search-filter","display-filter"] ) 
+    ) {
         $type_slider = $result["sections"]["listings"]["idxFilters"]; 
     }
 }

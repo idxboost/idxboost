@@ -515,8 +515,20 @@
 	}
 
 	function setSPFontFamily(fontFamily) {
+		
 		if ( fontFamily == "compass-sans-and-serif") {
+			document.querySelector(IB_SP_PAGE).classList.add('CompassSansSerif');
 			fontFamily = '"Compass Sans", Helvetica, Arial, sans-serif';
+			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+				item.style.setProperty('--sp-font-family', fontFamily);
+			});
+		} else if ( fontFamily == "'Compass Sans', Helvetica, Arial, sans-serif" ) {
+			fontFamily = '"Compass Sans", Helvetica, Arial, sans-serif';
+			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+				item.style.setProperty('--sp-font-family', fontFamily);
+			});
+		} else if ( fontFamily == "'Compass Serif', Times, 'Times New Roman', serif" ) {
+			fontFamily = '"Compass Serif", Times, "Times New Roman", serif';
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
 				item.style.setProperty('--sp-font-family', fontFamily);
 			});
@@ -538,6 +550,7 @@
 				},
 			});
 		}
+
 	}
 
 	function setSPButtonColors(buttonColors) {

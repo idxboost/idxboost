@@ -251,6 +251,8 @@ if (!function_exists('idxboost_about_page_sc'))
     function idxboost_about_page_sc($atts, $content = null) {
         global $flex_idx_info;
 
+        wp_enqueue_script('idx_boost_js_about', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/about.js', array(), false, true);
+
         ob_start();
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_about_page.php')) {
@@ -270,6 +272,7 @@ if (!function_exists('idxboost_team_page_sc'))
 {
     function idxboost_team_page_sc($atts, $content = null) {
         global $flex_idx_info;
+        wp_enqueue_script('idx_boost_js_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/team.js', array(), false, true);
 
         ob_start();
 
@@ -290,6 +293,8 @@ if (!function_exists('idxboost_contact_page_sc'))
 {
     function idxboost_contact_page_sc($atts, $content = null) {
         global $flex_idx_info;
+
+        wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/contact.js', array(), false, true);
 
         ob_start();
 

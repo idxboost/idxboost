@@ -44,8 +44,8 @@ if (is_array($result) && count($result)> 0) {
 				}
 
 				$is_external_link = '';
-				if (array_key_exists('type', $menu) && $menu['type'] === 'property-site') {
-					$is_external_link = 'target="_blank"';
+				if (array_key_exists('target', $menu) && $menu['target'] != '') {
+					$is_external_link = 'target="'. $menu['target'] .'"';
 				}
 
 				$htmlmenu[] = '<li class="ip-menu-item '. $active .' '. $has_class .'">';
@@ -55,8 +55,8 @@ if (is_array($result) && count($result)> 0) {
 					foreach ($menu['subItems'] as $key => $submenu) {
 						$htmlmenu[] = '<li class="ip-menu-item">';
 						$is_external_link_two = '';
-						if (array_key_exists('type', $submenu) && $submenu['type'] === 'property-site') {
-							$is_external_link_two = 'target="_blank"';
+						if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
+							$is_external_link_two = 'target="'. $menu['target'] .'"';
 						}
 						$htmlmenu[] = '<a class="ip-menu-link" href="'.$submenu['link'].'" '. $is_external_link_two .'>'.$submenu['label'].'</a>';
 						$htmlmenu[] = '</li>';

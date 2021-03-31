@@ -36,7 +36,7 @@ if (
   define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
   define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
   define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
-  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.dev');
+  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
 
 } else {
   define('FLEX_IDX_BASE_URL', 'http://api.idxboost.l');
