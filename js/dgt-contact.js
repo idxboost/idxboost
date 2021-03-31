@@ -37,40 +37,42 @@
         }
     });
 
-    // map
-    google.maps.event.addDomListener(window, "load", function() {
-        
-        var style_map=[];
+    if($("#map").length){
+        // map
+        google.maps.event.addDomListener(window, "load", function() {
+            
+            var style_map=[];
 
-        if(style_map_idxboost != undefined && style_map_idxboost != '') {
-            style_map=JSON.parse(style_map_idxboost);
-        }
-
-
-        var flex_map_mini_view = $("#map");
-        if (flex_map_mini_view.length) {
-
-            var idx_zoom=16;
-            if(flex_map_mini_view.data('zoom') != '' && flex_map_mini_view.data('zoom') != undefined){
-                idx_zoom=flex_map_mini_view.data('zoom');
+            if(style_map_idxboost != undefined && style_map_idxboost != '') {
+                style_map=JSON.parse(style_map_idxboost);
             }
-            console.log(idx_zoom);
 
-            var myLatLng2 = {
-                lat: parseFloat(flex_map_mini_view.data('lat')),
-                lng: parseFloat(flex_map_mini_view.data('lng'))
-            };
-            var miniMap = new google.maps.Map(document.getElementById('map'), {
-                zoom: idx_zoom,
-                styles: style_map,
-                center: myLatLng2
-            });
-            var marker = new google.maps.Marker({
-                position: myLatLng2,
-                map: miniMap,
-                icon: flex_idx_contact.idxboost_uri+'images/marker.png'
-            });
-            $("#map").removeAttr("data-lat").removeAttr("data-lng");
-        }
-    });
+
+            var flex_map_mini_view = $("#map");
+            if (flex_map_mini_view.length) {
+
+                var idx_zoom=16;
+                if(flex_map_mini_view.data('zoom') != '' && flex_map_mini_view.data('zoom') != undefined){
+                    idx_zoom=flex_map_mini_view.data('zoom');
+                }
+                console.log(idx_zoom);
+
+                var myLatLng2 = {
+                    lat: parseFloat(flex_map_mini_view.data('lat')),
+                    lng: parseFloat(flex_map_mini_view.data('lng'))
+                };
+                var miniMap = new google.maps.Map(document.getElementById('map'), {
+                    zoom: idx_zoom,
+                    styles: style_map,
+                    center: myLatLng2
+                });
+                var marker = new google.maps.Marker({
+                    position: myLatLng2,
+                    map: miniMap,
+                    icon: flex_idx_contact.idxboost_uri+'images/marker.png'
+                });
+                $("#map").removeAttr("data-lat").removeAttr("data-lng");
+            }
+        });
+    }
 })(jQuery);

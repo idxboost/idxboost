@@ -496,10 +496,19 @@
           </div>
         </li>
         <li class="ib-fitem">
-          <div class="ib-fititle"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+      <?php
+      $c_search_settings = get_option("idxboost_search_settings");
+      
+      $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+      if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+        $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+      }
+      ?>
+
+          <div class="ib-fititle"><?php echo $label_waterfront_description; ?></div>
           <div class="ib-ficontent">
             <div class="ib-wselect ib-icon-darrow">
-            <label class="ms-hidden" for="ib-waterfront-options-b"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+            <label class="ms-hidden" for="ib-waterfront-options-b"><?php echo $label_waterfront_description; ?></label>
             <select class="ib-fselect ib-waterfront-options" id="ib-waterfront-options-b">
 		<option value="--">Any</option>
               </select>

@@ -3,6 +3,14 @@
 
 <?php 
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
+
+                $c_search_settings = get_option("idxboost_search_settings");
+                
+                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }
+
 ?>
 
 <!-- modal actions -->
@@ -293,7 +301,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 
             <!--WATERFRONT DESCRIPTION-->
             <div class="ib-item-collapse">
-                <h2 class="ib-header-collapse"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                <h2 class="ib-header-collapse"><?php echo $label_waterfront_description; ?></h2>
                 <div class="ib-body-collpase">
                     <div class="ib-wrap-fm">
                         <div class="ib-item-wrap-fm ib-wrap-content-select">
@@ -456,7 +464,13 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                                 {{/unless}}
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{days_market}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{year}}</span></li>
-                                                <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Style', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{style}}</span></li>
+
+                                                <?php if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){ ?>
+                                                  <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('View Description', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{wv}}</span></li>
+                                                <?php }else{ ?>
+                                                  <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Style', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{style}}</span></li>
+                                                <?php } ?>
+
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Waterfront', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{water_front}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Furnished', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{furnished}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Flooring Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{floor}}</span></li>

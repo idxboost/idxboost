@@ -6921,6 +6921,12 @@ $(function () {
             $('.ib-cffitem:first-child input').focus();
         //});
     });
+
+    var wmaxWidth = $(window).width();
+    console.log(wmaxWidth);
+    if(wmaxWidth>1023){
+        $("body").addClass("ms-hidden-ovf");
+    }
 }(jQuery));
 
 (function($) {

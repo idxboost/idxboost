@@ -108,107 +108,113 @@
                 </section>
               {{/if}}
 
-              {{#if (ifVisibility visibilityRegions.propertyInformation)}}
+              {{#if (ifCondOR sections.details.showHeading sections.details.showDescription) }}
                 <section class="sp-section" id="sp-details">
-                  {{#if propertyMainDescription}}
-                    <h2 class="sp-section-title">{{propertyMainDescription}}</h2>
-                  {{/if}}
 
-                  <ul class="sp-list">
-                    <li>
-                      {{#if propertyPrice}}
-                        {{formatPrice propertyPrice}} 
-                      {{else}}
-                        $0
-                      {{/if}}
-                      <span>
-                        {{#if stylesInput.propertyInformation.priceLabel}}
-                          {{#if stylesInput.propertyInformation.customLabel}}
-                            {{stylesInput.propertyInformation.customLabel}}
-                          {{else}}
-                            {{replaceDashBySpace stylesInput.propertyInformation.priceLabel}}
-                          {{/if}}
+                  {{#if (ifVisibility sections.details.showHeading) }}
+                    {{#if propertyMainDescription}}
+                      <h2 class="sp-section-title">{{propertyMainDescription}}</h2>
+                    {{/if}}
+
+                    <ul class="sp-list">
+                      <li>
+                        {{#if propertyPrice}}
+                          {{formatPrice propertyPrice}} 
                         {{else}}
-                          Price
+                          $0
                         {{/if}}
-                      </span>
-                    </li>
+                        <span>
+                          {{#if stylesInput.propertyInformation.priceLabel}}
+                            {{#if stylesInput.propertyInformation.customLabel}}
+                              {{stylesInput.propertyInformation.customLabel}}
+                            {{else}}
+                              {{replaceDashBySpace stylesInput.propertyInformation.priceLabel}}
+                            {{/if}}
+                          {{else}}
+                            Price
+                          {{/if}}
+                        </span>
+                      </li>
 
-                    <li>
-                      {{#if propertyBeds}}
-                        {{propertyBeds}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Beds</span>
-                    </li>
+                      <li>
+                        {{#if propertyBeds}}
+                          {{propertyBeds}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Beds</span>
+                      </li>
 
-                    <li>
-                      {{#if propertyBaths}}
-                        {{propertyBaths}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Baths</span>
-                    </li>
-                  
-                    <li>
-                      {{#if propertyLivingSize}}
-                        {{formatSqft propertyLivingSize}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Living Size</span>
-                    </li>
-                  </ul>
-
-                  {{#if propertySecondaryDescription}}
-                    {{#each propertySecondaryDescription.blocks}}
-
-                      {{#ifequals this.type "header"}}
-                        {{#ifequals this.level 2}}
-                          <h2 class="sps-h2">{{ this.data.text }}</h2>
-                        {{/ifequals}}
-
-                        {{#ifequals this.level 3}}
-                          <h3 class="sps-h3">{{ block.data.text }}</h3>
-                        {{/ifequals}}
-
-                        {{#ifequals this.level 4}}
-                          <h4 class="sps-h4">{{ block.data.text }}</h4>
-                        {{/ifequals}}
-
-                        {{#ifequals this.level 5}}
-                          <h5 class="sps-h5">{{ block.data.text }}</h5>
-                        {{/ifequals}}
-                      {{/ifequals}}
-
-                      {{#ifequals this.type "paragraph"}}
-                        <div class="sps-paragraph">
-                          <p>{{{this.data.text}}}</p>
-                        </div>
-                      {{/ifequals}}
-
-                      {{#ifequals this.type "list"}}
-                        {{#ifequals this.data.style "ordered"}}
-                          <ol class="sps-olist">
-                            {{#each this.data.items}}
-                              <li>{{{this}}}</li>
-                            {{/each}}
-                          </ol>
-                        {{/ifequals}}
-
-                        {{#ifequals this.data.style "unordered"}}
-                          <ul class="sps-ulist">
-                            {{#each this.data.items}}
-                              <li>{{{this}}}</li>
-                            {{/each}}
-                          </ul>
-                        {{/ifequals}}
-                      {{/ifequals}}
-
-                    {{/each}}
+                      <li>
+                        {{#if propertyBaths}}
+                          {{propertyBaths}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Baths</span>
+                      </li>
+                    
+                      <li>
+                        {{#if propertyLivingSize}}
+                          {{formatSqft propertyLivingSize}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Living Size</span>
+                      </li>
+                    </ul>
                   {{/if}}
+
+                  {{#if (ifVisibility sections.details.showDescription) }}
+                    {{#if propertySecondaryDescription}}
+                      {{#each propertySecondaryDescription.blocks}}
+
+                        {{#ifequals this.type "header"}}
+                          {{#ifequals this.level 2}}
+                            <h2 class="sps-h2">{{ this.data.text }}</h2>
+                          {{/ifequals}}
+
+                          {{#ifequals this.level 3}}
+                            <h3 class="sps-h3">{{ block.data.text }}</h3>
+                          {{/ifequals}}
+
+                          {{#ifequals this.level 4}}
+                            <h4 class="sps-h4">{{ block.data.text }}</h4>
+                          {{/ifequals}}
+
+                          {{#ifequals this.level 5}}
+                            <h5 class="sps-h5">{{ block.data.text }}</h5>
+                          {{/ifequals}}
+                        {{/ifequals}}
+
+                        {{#ifequals this.type "paragraph"}}
+                          <div class="sps-paragraph">
+                            <p>{{{this.data.text}}}</p>
+                          </div>
+                        {{/ifequals}}
+
+                        {{#ifequals this.type "list"}}
+                          {{#ifequals this.data.style "ordered"}}
+                            <ol class="sps-olist">
+                              {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                              {{/each}}
+                            </ol>
+                          {{/ifequals}}
+
+                          {{#ifequals this.data.style "unordered"}}
+                            <ul class="sps-ulist">
+                              {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                              {{/each}}
+                            </ul>
+                          {{/ifequals}}
+                        {{/ifequals}}
+
+                      {{/each}}
+                    {{/if}}
+                  {{/if}}
+
                 </section>
               {{/if}}
 

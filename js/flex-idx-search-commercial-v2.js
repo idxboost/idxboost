@@ -4134,7 +4134,7 @@ function saveFilterSearchForLead() {
                 search_count: search_count,
                 search_condition: search_condition,
                 search_name: search_name,
-                search_params: search_filter_params
+                search_params: JSON.stringify(dataAlert.params)
             },
             success: function(response) {
                 // console.log("The search filter has been saved successfully.");
@@ -4185,6 +4185,7 @@ function handleFilterSearchLookup(event) {
         },
         success: function(response) {
             ib_xhr_running = false;
+            dataAlert=response;
 
             // dataLayer Tracking Collection
             if (typeof dataLayer !== "undefined") {
@@ -5475,7 +5476,7 @@ $(function () {
             var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
             var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
             var formData = $(this).serialize();
-            formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+search_filter_params+'&search_filter_ID='+search_filter_ID;
+            formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID;
 
             var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
             if ("no" === __flex_g_settings.anonymous) {
@@ -6033,6 +6034,12 @@ $(function () {
     $('body').on('click', '.ib-requestinfo',()=>{
         $('.ib-cffitem:first-child input').focus();
     });
+
+    var wmaxWidth = $(window).width();
+    console.log(wmaxWidth);
+    if(wmaxWidth>1023){
+        $("body").addClass("ms-hidden-ovf");
+    }
 }(jQuery));
 
 (function($) {

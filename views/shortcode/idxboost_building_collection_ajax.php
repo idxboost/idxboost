@@ -310,10 +310,18 @@ $(document).on("click", '.flex-favorite-btn', function(event) {
               _self.attr("data-alert-token",data.token_alert);
           }
       });
+
+      /*SETTING ALL MLS IN PAGE*/
+      $('.js-flex-favorite-btn').each(function(){
+        if($(this).parent().attr("data-mls") == mls_num ){
+          $(this).addClass("active");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/
     } else {
       // remove
       _self.removeClass('flex-active-fav');
-      _self.find('span').removeClass('active');
+      _self.find('span').removeClass('active flex-active-fav');
 
       var token_alert = _self.attr("data-alert-token");
 
@@ -331,10 +339,16 @@ $(document).on("click", '.flex-favorite-btn', function(event) {
               _self.removeAttr('data-alert-token');
           }
       });
+      /*SETTING ALL MLS IN PAGE*/
+      $('.js-flex-favorite-btn').each(function(){
+        if($(this).parent().attr("data-mls") == mls_num ){
+          $(this).removeClass("active flex-active-fav");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/      
     }
   }
 });
-
 });
 
 })(jQuery);

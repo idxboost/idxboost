@@ -1,5 +1,6 @@
 var initial_title;
 var initial_href;
+var dataAlert;
 
 if (typeof originalPositionY === "undefined") {
     var originalPositionY;
@@ -1914,10 +1915,49 @@ function buildMobileForm() {
                 text_caracteristics=word_translate.point_lot;
             }else if ( option.name=="River Front"){
                 text_caracteristics=word_translate.river_front;
-            }else{
-                text_caracteristics=option.name;
+            }else if (option.name=="Mountains"){
+                text_caracteristics=word_translate.mountains;
+            }else if (option.name=="River"){
+                text_caracteristics=word_translate.river;
+            }else if (option.name=="Lagoon"){
+                text_caracteristics=word_translate.lagoon;
+            }else if (option.name=="City"){
+                text_caracteristics=word_translate.city;
+            }else if (option.name=="Ocean"){
+                text_caracteristics=word_translate.ocean;
+            }else if (option.name=="Garden"){
+                text_caracteristics=word_translate.garden;
+            }else if (option.name=="Tennis Court"){
+                text_caracteristics=word_translate.tennis_court;
+            }else if (option.name=="Water"){
+                text_caracteristics=word_translate.water;
+            }else if (option.name=="Pool"){
+                text_caracteristics=word_translate.pool;
+            }else if (option.name=="Golf Course"){
+                text_caracteristics=word_translate.golf_course;          
             }
 
+            else if (option.name=="Park Greenbelt"){
+                text_caracteristics=word_translate.park_greenbelt;
+            }else if (option.name=="Strip View"){
+                text_caracteristics=word_translate.strip_view;
+            }else if (option.name=="City"){
+                text_caracteristics=word_translate.city;
+            }else if (option.name=="Golf"){
+                text_caracteristics=word_translate.golf;
+            }else if (option.name=="Court yard"){
+                text_caracteristics=word_translate.court_yard;          
+            }else if (option.name=="Pool"){
+                text_caracteristics=word_translate.pool;
+            }else if (option.name=="Mountain"){
+                text_caracteristics=word_translate.mountain;          
+            }else if (option.name=="Lake"){
+                text_caracteristics=word_translate.lake;          
+            }
+
+            else{
+                text_caracteristics=option.name;
+            }
 
             ib_search_filter_frag.push('<option value="'+option.code+'">'+text_caracteristics+'</option>');
         }
@@ -2547,6 +2587,51 @@ function buildSearchFilterForm() {
                 text_label_trans=word_translate.point_lot;
             else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="River Front")
                 text_label_trans=word_translate.river_front;
+
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Park Greenbelt")
+                text_label_trans=word_translate.park_greenbelt;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Mountains")
+                text_label_trans=word_translate.mountains;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Strip View")
+                text_label_trans=word_translate.strip_view;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="River")
+                text_label_trans=word_translate.river;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Lagoon")
+                text_label_trans=word_translate.lagoon;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="City")
+                text_label_trans=word_translate.city;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Ocean")
+                text_label_trans=word_translate.ocean;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Garden")
+                text_label_trans=word_translate.garden;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Tennis Court")
+                text_label_trans=word_translate.tennis_court;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Water")
+                text_label_trans=word_translate.water;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Pool")
+                text_label_trans=word_translate.pool;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Golf Course")
+                text_label_trans=word_translate.golf_course;          
+
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Park Greenbelt")
+                text_label_trans=word_translate.park_greenbelt;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Strip View")
+                text_label_trans=word_translate.strip_view;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="City")
+                text_label_trans=word_translate.city;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Golf")
+               text_label_trans=word_translate.golf;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Court yard")
+                text_label_trans=word_translate.court_yard;          
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Pool")
+                text_label_trans=word_translate.pool;
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Mountain")
+                text_label_trans=word_translate.mountain;          
+            else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Lake")
+                text_label_trans=word_translate.lake;          
+            
+
+
             option.innerHTML = text_label_trans;
             option.setAttribute('value', __flex_idx_search_filter_v2.search.waterfront_options[i].code);
             IB_DOCFRAG.appendChild(option);
@@ -2607,6 +2692,7 @@ function buildSearchFilterForm() {
                 label.setAttribute("for", "ib-amt-"+node.getAttribute('data-type')+"_" + i);
 
             var text_label_trans='';
+
             if(__flex_idx_search_filter_v2.search.amenities[i].name=='Swimming Pool')
                 text_label_trans=word_translate.swimming_pool;
             else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Golf Course')
@@ -2639,6 +2725,8 @@ function buildSearchFilterForm() {
                 text_label_trans=word_translate.occupied;
             else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Vacant")
                 text_label_trans=word_translate.vacant;
+            
+
 
             else
                 text_label_trans=__flex_idx_search_filter_v2.search.amenities[i].name;            
@@ -3295,7 +3383,7 @@ function saveFilterSearchForLead() {
                 search_count: search_count,
                 search_condition: search_condition,
                 search_name: search_name,
-                search_params: search_filter_params
+                search_params: JSON.stringify(dataAlert.params)
             },
             success: function(response) {
                 // console.log("The search filter has been saved successfully.");
@@ -3352,6 +3440,7 @@ function handleFilterSearchLookup(event) {
             $("#ib-apply-filters-btn").html(word_translate.searching+'...');
         },
         success: function(response) {
+            dataAlert=response;
             ib_xhr_running = false;
 
             // dataLayer Tracking Collection
@@ -4614,7 +4703,7 @@ $(function () {
             var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
             var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
             var formData = $(this).serialize();
-            formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+search_filter_params+'&search_filter_ID='+search_filter_ID;
+            formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID;
 
             var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
             if ("no" === __flex_g_settings.anonymous) {
@@ -5284,6 +5373,12 @@ $(function () {
             $('.ib-cffitem:first-child input').focus();
         //});
     });
+
+    var wmaxWidth = $(window).width();
+    console.log(wmaxWidth);
+    if(wmaxWidth>1023){
+        $("body").addClass("ms-hidden-ovf");
+    }
 }(jQuery));
 
 (function($) {

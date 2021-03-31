@@ -194,7 +194,16 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
           </li>
           <li class="waterfront">
             <div class="gwr">
-              <h4 class="clidxboost-icon-arrow-select"><?php echo __('Waterfront description', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                <?php
+                $c_search_settings = get_option("idxboost_search_settings");
+                
+                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }
+                ?>
+                
+              <h4 class="clidxboost-icon-arrow-select"><?php echo $label_waterfront_description; ?></h4>
               <div class="wrap-item">
                 <div class="wrap-select clidxboost-icon-arrow-select">
                 <select id="flex_waterfront_switch">

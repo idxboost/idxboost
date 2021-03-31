@@ -358,7 +358,16 @@
             </li>
             <li class="waterfront">
               <div class="gwr">
-                <h4 class="clidxboost-icon-arrow-select"><?php echo __("Waterfront description", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+              <?php
+              $c_search_settings = get_option("idxboost_search_settings");
+              
+              $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+              if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+                $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+              }
+              ?>
+
+                <h4 class="clidxboost-icon-arrow-select"><?php echo $label_waterfront_description; ?></h4>
                 <div class="wrap-item">
                   <div class="wrap-select clidxboost-icon-arrow-select">
                     <label class="ms-hidden" for="flex_waterfront_switch">Waterfront options</label>
@@ -385,6 +394,34 @@
                           $text_label_trans=__("Point Lot", IDXBOOST_DOMAIN_THEME_LANG);
                       else if ($waterfront_option['name']=="River Front")
                           $text_label_trans=__("River Front", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Park Greenbelt")
+                          $text_label_trans=__("Park Greenbelt", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Mountains")
+                          $text_label_trans=__("Mountains", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Strip View")
+                          $text_label_trans=__("Strip View", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="River")
+                          $text_label_trans=__("River", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Lagoon")
+                          $text_label_trans=__("Lagoon", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="City")
+                          $text_label_trans=__("City", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Ocean")
+                         $text_label_trans=__("Ocean", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Garden")
+                          $text_label_trans=__("Garden", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Tennis Court")
+                          $text_label_trans=__("Tennis Court", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Water")
+                         $text_label_trans=__("Water", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Pool")
+                          $text_label_trans=__("Pool", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Golf Course")
+                          $text_label_trans=__("Golf Course", IDXBOOST_DOMAIN_THEME_LANG);
+            
+
+
                       echo $text_label_trans; 
                       ?></option>
                       <?php endforeach; ?>

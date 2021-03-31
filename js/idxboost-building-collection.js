@@ -1478,6 +1478,21 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
               _self.attr("data-alert-token",data.token_alert);
           }
       });
+      console.log(mls_num);
+      /*SETTING ALL MLS IN PAGE*/
+      $('.flex-favorite-btn').each(function(){
+        if ($(this).parent().data("mls")!= undefined){
+          var mls_num_extra = $(this).parent().data("mls");
+        }else{
+          var mls_num_extra = $(this).parent().parent().data("mls");
+        }
+        if(mls_num_extra == mls_num ){
+          console.log("igual add");
+          $(this).find("span").addClass("active flex-active-fav");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/
+
     } else {
       // remove
       _self.removeClass('flex-active-fav active');
@@ -1498,6 +1513,20 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
               _self.removeAttr('data-alert-token');
           }
       });
+      /*SETTING ALL MLS IN PAGE*/
+      $('.flex-favorite-btn').each(function(){
+        if ($(this).parent().data("mls")!= undefined){
+          var mls_num_extra = $(this).parent().data("mls");
+        }else{
+          var mls_num_extra = $(this).parent().parent().data("mls");
+        }
+        console.log(mls_num);
+        if(mls_num_extra == mls_num ){
+          console.log("igual remove");
+          $(this).find("span").removeClass("active flex-active-fav");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/      
     }
   }
 });

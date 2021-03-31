@@ -474,6 +474,10 @@
 		return (a && b) ? options.fn(this) : options.inverse(this);
 	});
 
+	Handlebars.registerHelper('ifCondOR', function (a, b, options) {
+		return a || b;
+	});
+
 	/**
 	 * 
 	 */
@@ -511,22 +515,29 @@
 	}
 
 	function setSPFontFamily(fontFamily) {
-		WebFont.load({
-			google: {
-				families: [`${fontFamily}:400,500,600,700`]
-			},
-
-			/* 
-				Called when each requested web font has finished loading.
-				The fontFamily parameter is the name of the font family, 
-				and fontDescription represents the style and weight of the font. 
-			*/
-			fontactive: function(fontFamily, fontDescription) {
-				document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-					item.style.setProperty('--sp-font-family', fontFamily);
-				});
-    	},
-		});
+		if ( fontFamily == "compass-sans-and-serif") {
+			fontFamily = '"Compass Sans", Helvetica, Arial, sans-serif';
+			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+				item.style.setProperty('--sp-font-family', fontFamily);
+			});
+		} else {
+			WebFont.load({
+				google: {
+					families: [`${fontFamily}:400,500,600,700`]
+				},
+	
+				/* 
+					Called when each requested web font has finished loading.
+					The fontFamily parameter is the name of the font family, 
+					and fontDescription represents the style and weight of the font. 
+				*/
+				fontactive: function(fontFamily, fontDescription) {
+					document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+						item.style.setProperty('--sp-font-family', fontFamily);
+					});
+				},
+			});
+		}
 	}
 
 	function setSPButtonColors(buttonColors) {

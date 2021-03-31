@@ -242,7 +242,13 @@
             <li><span><?php echo __("Swimming Pool", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['pool'] == 1 ? 'Yes' : 'No'; ?></span></li>
             <li><span><?php echo __("Days on Market", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['days_market']; ?></span></li>
             <li><span><?php echo __("Year Built", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['year']; ?></span></li>
-            <li><span><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['style']; ?></span></li>
+            
+            <?php  if ($flex_idx_info["board_id"] == 11 ) { ?>
+              <li><span><?php echo __("View Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['wv']; ?></span></li>
+            <?php }else{ ?>
+              <li><span><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['style']; ?></span></li>
+            <?php } ?>            
+
             <li> <span><?php echo __("Waterfront", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['water_front'] == 1 ? 'Yes' : 'No'; ?></span></li>
             <li><span><?php echo __("Furnished", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['furnished'] >= 1 ? 'Yes' : 'No'; ?></span></li>
             <li><span><?php echo __("Flooring Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['floor']; ?></span></li>

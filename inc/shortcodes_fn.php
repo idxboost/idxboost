@@ -594,6 +594,13 @@ if (!function_exists('ib_search_filter_sc')) {
             wp_enqueue_script('flex-idx-search-filter');
 
             if ('slider' == $atts['mode']) {
+                // Permite validar si el shortcode se ejecuta en modo slider, 
+                // para no agregar la clase ms-hidden-ovf en el body
+                wp_localize_script('flex-idx-search-filter', 'ib_search_filter_extra', [
+                    'mode' => "slider"
+                    ]
+                );
+
                 if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_slider.php')) {
                     include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_slider.php';
                 } else {
@@ -1928,6 +1935,7 @@ if (!function_exists('flex_idx_contact_form_sc')) {
     {
         $atts = shortcode_atts(array(
             'id_form'   => 'flex_idx_contact_form',
+            "map" => "show"
         ), $atts);
 
         $access_token          = flex_idx_get_access_token();
@@ -1935,7 +1943,10 @@ if (!function_exists('flex_idx_contact_form_sc')) {
         if (get_option('idxboost_client_status') != 'active') {
             return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
         }
-        wp_enqueue_script('google-maps-api');
+
+        if ($atts["map"] == "show") {
+            wp_enqueue_script('google-maps-api');
+        }    
         wp_enqueue_script('idxboost-contact', FLEX_IDX_URI. 'js/dgt-contact.js',  array(), iboost_get_mod_time("js/dgt-contact.js") );
 
         wp_localize_script('idxboost-contact', 'flex_idx_contact', array(

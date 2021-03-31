@@ -2920,6 +2920,10 @@ if (!function_exists('flex_idx_connect_fn')) {
     {
         global $wpdb, $flex_idx_info;
         $current_user_id = get_current_user_id();
+
+        if ($current_user_id == 0) {
+            $current_user_id = 1;
+        }
         $api_registration_key = isset($_POST['idxboost_registration_key']) ? sanitize_text_field($_POST['idxboost_registration_key']) : '';
         $sendParams = array(
             'registration_key' => $api_registration_key,
@@ -3516,6 +3520,7 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
         $search_query      = isset($_POST['search_query']) ? trim(urldecode($_POST['search_query'])) : '';
         $search_name       = isset($_POST['search_name']) ? trim(strip_tags($_POST['search_name'])) : '';
         $type              = isset($_POST['type']) ? trim(strip_tags($_POST['type'])) : '';
+        $more_params              = isset($_POST['more_params']) ? trim(strip_tags($_POST['more_params'])) : '';
         $object_id         = isset($_POST['id']) ? (int) $_POST['id'] : 0;
         $token_alert       = isset($_POST['token_alert']) ? trim(strip_tags($_POST['token_alert'])) : null;
         $notification_day  = isset($_POST['notification_day']) ? $_POST['notification_day'] : '--';
@@ -5319,18 +5324,36 @@ if (!function_exists('flex_idx_register_assets')) {
         'point_lot' => __('Point Lot', IDXBOOST_DOMAIN_THEME_LANG),
         'ocean_front' => __('Ocean Front', IDXBOOST_DOMAIN_THEME_LANG),
         'bay_front' => __('Bay Front', IDXBOOST_DOMAIN_THEME_LANG),
+        'bay_front' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
         'canal' => __('Canal', IDXBOOST_DOMAIN_THEME_LANG),
         'fixed_bridge' => __('Fixed Bridge', IDXBOOST_DOMAIN_THEME_LANG),
         'intracoastal' => __('Intracoastal', IDXBOOST_DOMAIN_THEME_LANG),
+
+        'garden' => __('Garden', IDXBOOST_DOMAIN_THEME_LANG),
+        'ocean' => __('Ocean', IDXBOOST_DOMAIN_THEME_LANG),
+        'City' => __('city', IDXBOOST_DOMAIN_THEME_LANG),
+        'lagoon' => __('Lagoon', IDXBOOST_DOMAIN_THEME_LANG),
+        'river' => __('River', IDXBOOST_DOMAIN_THEME_LANG),
+        'strip_view' => __('Strip View', IDXBOOST_DOMAIN_THEME_LANG),
+        'mountain' => __('Mountain', IDXBOOST_DOMAIN_THEME_LANG),
+        'park_greenbelt' => __('Park Greenbelt', IDXBOOST_DOMAIN_THEME_LANG),
+        'court_yard' => __('Court yard', IDXBOOST_DOMAIN_THEME_LANG),
+        'golf' => __('Golf', IDXBOOST_DOMAIN_THEME_LANG),
+        'lake' => __('Lake', IDXBOOST_DOMAIN_THEME_LANG),
+        
+        
         'lake_front' => __('Lake Front', IDXBOOST_DOMAIN_THEME_LANG),
         'equestrian' => __('Equestrian', IDXBOOST_DOMAIN_THEME_LANG),
         'pets' => __('Pets', IDXBOOST_DOMAIN_THEME_LANG),
+        'pool' => __('Pool', IDXBOOST_DOMAIN_THEME_LANG),
         'water_front' => __('Waterfront', IDXBOOST_DOMAIN_THEME_LANG),
+        'water' => __('Water', IDXBOOST_DOMAIN_THEME_LANG),
         // 'open_house' => __('Open House', IDXBOOST_DOMAIN_THEME_LANG),
         'penthouse' => __('Penthouse', IDXBOOST_DOMAIN_THEME_LANG),
         'lofts' => __('Lofts', IDXBOOST_DOMAIN_THEME_LANG),
         'gated_community' => __('Gated Community', IDXBOOST_DOMAIN_THEME_LANG),
         'tennis_courts' => __('Tennis Courts', IDXBOOST_DOMAIN_THEME_LANG),
+        'tennis_court' => __('Tennis Court', IDXBOOST_DOMAIN_THEME_LANG),
         'golf_course' => __('Golf Course', IDXBOOST_DOMAIN_THEME_LANG),
         'swimming_pool' => __('Swimming Pool', IDXBOOST_DOMAIN_THEME_LANG),
         'furnished' => __('Furnished', IDXBOOST_DOMAIN_THEME_LANG),
@@ -5789,7 +5812,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-idx-filter-jquery-ui',
             'flex-idx-filter-jquery-ui-touch',
             'flex-lazyload-plugin',
-            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+            //'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
         ), iboost_get_mod_time("js/ib-slider-filter.js"));
 
         wp_register_script('idxboost_exclusive_listing', FLEX_IDX_URI . 'js/idxboost_exclusive_listing.js', array(
@@ -5812,7 +5835,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-idx-filter-jquery-ui',
             'flex-idx-filter-jquery-ui-touch',
             'flex-lazyload-plugin',
-            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+            //'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
         ), iboost_get_mod_time("js/flex-idx-slider-type.js"));
 
         $translation_array = $custom_strings;

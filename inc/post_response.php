@@ -33,6 +33,10 @@ if (!empty($item_building_cod)) {
 }
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/respuesta.txt', $item_building_cod);
 die();
+}else if ($params['action']=='sync_cpanel_wp') {
+  $sync_data =flex_idx_connect_fn();
+  echo $sync_data;
+  exit;
 }else if ( isset($params['action'])) {  
   $sale_price   =  ($params['purchase_price']); 
   $down_percent = ($params['down_payment']);

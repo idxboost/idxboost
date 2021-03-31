@@ -403,6 +403,7 @@ var moreFilterHidden = {};
                     $("#idx_view").val("list");
                     break
                 case 'map':
+                    initMap();
                     $viewFilter.removeClass('list grid').addClass('map');
                     $wrapResult.removeClass('view-list view-grid').addClass('view-map');
                     $cuerpo.removeClass('view-list').addClass('view-map');
@@ -1168,17 +1169,8 @@ var moreFilterHidden = {};
     var move;
     var properties = [];
 
-    function initialize() {
-        var style_map=[];
-        myLazyLoad = new LazyLoad({
-            elements_selector: ".flex-lazy-image",
-            callback_load: function() {},
-            callback_error: function(element){
-              $(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
-              $(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
-            }
-        });
-    
+    function initMap(){
+
         if(style_map_idxboost != undefined && style_map_idxboost != '') {
           style_map=JSON.parse(style_map_idxboost);
         }
@@ -1199,7 +1191,19 @@ var moreFilterHidden = {};
         });
         google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls);
         setupMarkers(filter_metadata.map_items);
+    }
 
+    function initialize() {
+        var style_map=[];
+        myLazyLoad = new LazyLoad({
+            elements_selector: ".flex-lazy-image",
+            callback_load: function() {},
+            callback_error: function(element){
+              $(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
+              $(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
+            }
+        });
+    
         /**DATA LAYER */
         var filter_price_min=0;
         var filter_price_max=0;        
@@ -1788,7 +1792,43 @@ function buildMobileForm() {
                 text_caracteristics=word_translate.point_lot;
             }else if ( option.name=="River Front"){
                 text_caracteristics=word_translate.river_front;
-            }else{
+            }
+            else if (option.name=="Mountains"){
+                text_caracteristics=word_translate.mountains;
+            }else if (option.name=="River"){
+                text_caracteristics=word_translate.river;
+            }else if (option.name=="Lagoon"){
+                text_caracteristics=word_translate.lagoon;
+            }else if (option.name=="Ocean"){
+                text_caracteristics=word_translate.ocean;
+            }else if (option.name=="Garden"){
+                text_caracteristics=word_translate.garden;
+            }else if (option.name=="Tennis Court"){
+                text_caracteristics=word_translate.tennis_court;
+            }else if (option.name=="Water"){
+                text_caracteristics=word_translate.water;
+            }else if (option.name=="Golf Course"){
+                text_caracteristics=word_translate.golf_course;          
+            }
+
+            else if (option.name=="Park Greenbelt"){
+                text_caracteristics=word_translate.park_greenbelt;
+            }else if (option.name=="Strip View"){
+                text_caracteristics=word_translate.strip_view;
+            }else if (option.name=="City"){
+                text_caracteristics=word_translate.city;
+            }else if (option.name=="Golf"){
+                text_caracteristics=word_translate.golf;
+            }else if (option.name=="Court yard"){
+                text_caracteristics=word_translate.court_yard;          
+            }else if (option.name=="Pool"){
+                text_caracteristics=word_translate.pool;
+            }else if (option.name=="Mountain"){
+                text_caracteristics=word_translate.mountain;          
+            }else if (option.name=="Lake"){
+                text_caracteristics=word_translate.lake;          
+            }
+            else{
                 text_caracteristics=option.name;
             }
             
@@ -2900,6 +2940,7 @@ function getLandSizeValues(min, max) {
     $(function() {
         $("#filter-views").on("click", "li", function() {
             if ($(this).hasClass("map")) {
+                initMap();
                 mapIsVisible = true;
                 setTimeout(function() {
                     var map_center = map.getCenter();

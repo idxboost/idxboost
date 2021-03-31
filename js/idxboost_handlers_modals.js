@@ -374,6 +374,30 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
 
             if ("modal" === from) {
                 if ("add" === response.type) {
+
+                              /*SETTING ALL MLS IN PAGE FROM BUILDNG*/
+                              $('.ib-filter-slider-building .js-flex-favorite-btn').each(function(){
+                                console.log($(this).parent().attr("data-mls")+"--"+mlsNumber);
+                                if($(this).parent().attr("data-mls") == mlsNumber ){
+                                    console.log("ingreso add 1");
+                                  $(this).addClass("active");
+                                }
+                              });
+
+                              $('.ib_content_views_building .flex-favorite-btn').each(function(){
+                                if ($(this).parent().data("mls")!= undefined){
+                                  var mls_num_extra = $(this).parent().data("mls");
+                                }else{
+                                  var mls_num_extra = $(this).parent().parent().data("mls");
+                                }
+                                if(mls_num_extra == mlsNumber ){
+                                  console.log("ingreso add 2");
+                                  $(this).find("span").addClass("active flex-active-fav");
+                                }
+                              });
+                              /*SETTING ALL MLS IN PAGE*/                            
+
+
                     IB_LISTINGS_CT.find(".ib-pfavorite").each(function () {
                         var mlsData = $(this).data("mls");
 
@@ -392,6 +416,27 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
                     });
                     
                 } else {
+
+                          /*SETTING ALL MLS IN PAGE*/
+                          $('.ib_content_views_building .flex-favorite-btn').each(function(){
+                            if ($(this).parent().data("mls")!= undefined){
+                              var mls_num_extra = $(this).parent().data("mls");
+                            }else{
+                              var mls_num_extra = $(this).parent().parent().data("mls");
+                            }
+                            if(mls_num_extra == mlsNumber ){
+                              $(this).find("span").removeClass("active flex-active-fav");
+                            }
+                          });
+
+                          $('.ib-filter-slider-building .js-flex-favorite-btn').each(function(){
+                            if($(this).parent().attr("data-mls") == mlsNumber ){
+                              $(this).removeClass("active flex-active-fav");
+                            }
+                          });
+                          /*SETTING ALL MLS IN PAGE*/      
+
+
                     IB_LISTINGS_CT.find(".ib-pfavorite").each(function () {
                         var mlsData = $(this).data("mls");
 

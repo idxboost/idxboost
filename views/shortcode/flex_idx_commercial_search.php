@@ -45,6 +45,14 @@
 </style>-->
 <?php 
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
+
+                $c_search_settings = get_option("idxboost_search_settings");
+                
+                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }
+                
 ?>
 
 <form id="flex_idx_search_filter_form" method="post">
@@ -497,7 +505,13 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                                 {{/unless}}
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{days_market}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{year}}</span></li>
+                                                
+                                              <?php if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){ ?>
+                                                <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('View Description', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{wv}}</span></li>
+                                                <?php }else{ ?>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Style', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{style}}</span></li>
+                                              <?php } ?>
+
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Waterfront', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{water_front}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Furnished', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{furnished}}</span></li>
                                                 <li class="ib-plditem"><span class="ib-pltxta"><?php echo __('Flooring Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-pltxtb">{{floor}}</span></li>

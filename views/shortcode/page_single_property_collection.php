@@ -1,52 +1,67 @@
+<main id="flex-filters-theme">
+  <div class="gwr gwr-breadcrumb">
+    <div class="flex-breadcrumb">
+      <ol>
+        <li><a href="<?php echo $flex_idx_info["website_url"]; ?>" title="Home"><?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+        <li><?php echo __(the_title(), IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+      </ol>
+    </div>
+  </div>
 
-<div class="ib-single-property-collection js-ib-sp">
-  <div class="ib-gheader">
-    <div class="ib-ghpa">
-      <span class="ib-ghtypes js-ib-sp-total">...</span>
+  <section id="wrap-result" class="wrap-result">
+    <h2 class="title"><?php echo __(the_title(), IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+    <div class="gwr">
+      <div class="ib-single-property-collection js-ib-sp">
+        <div class="ib-gheader">
+          <div class="ib-ghpa">
+            <span class="ib-ghtypes js-ib-sp-total">...</span>
 
-      <div class="ib-gmfilters">
-        <div class="ib-gwsort">
-          <label class="ms-hidden" for="ib-gsort-b">Select option</label>
-          <select class="ib-gsort ib-sort-ctrl" id="ib-gsort-b">
-            <option value="list_date-desc">Newest Listings</option>
-            <option value="price-desc">Highest Price</option>
-            <option value="price-asc">Lowest Price</option>
-            <option value="sqft-desc">Highest Sq.Ft</option>
-            <option value="sqft-asc">Lowest Sq.Ft</option>
-          </select>
+            <div class="ib-gmfilters">
+              <div class="ib-gwsort">
+                <label class="ms-hidden" for="ib-gsort-b">Select option</label>
+                <select class="ib-gsort ib-sort-ctrl" id="ib-gsort-b">
+                  <option value="list_date-desc">Newest Listings</option>
+                  <option value="price-desc">Highest Price</option>
+                  <option value="price-asc">Lowest Price</option>
+                  <option value="sqft-desc">Highest Sq.Ft</option>
+                  <option value="sqft-asc">Lowest Sq.Ft</option>
+                </select>
+              </div>
+
+              <!--<div class="ib-gwsort">
+                <label class="ms-hidden" for="ib-columns-filter">Select view</label>
+                <select class="ib-gsort js-ib-sp-columns-filter" id="ib-columns-filter">
+                  <option value="columns-one">One columns</option>
+                  <option value="columns-two">Two columns</option>
+                  <option value="columns-three">Three columns</option>
+                  <option value="columns-four" selected>Four columns</option>
+                  <option value="columns-five">Five columns</option>
+                </select>
+              </div>-->
+            </div>
+          </div>
         </div>
 
-        <!--<div class="ib-gwsort">
-          <label class="ms-hidden" for="ib-columns-filter">Select view</label>
-          <select class="ib-gsort js-ib-sp-columns-filter" id="ib-columns-filter">
-            <option value="columns-one">One columns</option>
-            <option value="columns-two">Two columns</option>
-            <option value="columns-three">Three columns</option>
-            <option value="columns-four" selected>Four columns</option>
-            <option value="columns-five">Five columns</option>
-          </select>
-        </div>-->
+        <div class="ib-cproperties">
+          <div class="ib-wproperties">
+            <ul class="ib-lproperties js-ib-sp-list"></ul>
+          </div>
+
+          <div class="ib-cpagination">
+            <nav class="ib-wpagination js-ib-sp-pagination"></nav>
+          </div>
+        </div>
+
+        <div class="ib-gnopro">
+          <span class="ib-gnpno">No matching results...</span>
+          Modify your <span class="ib-gnpoall">filter</span> 
+          preferences to get new results or 
+          <span class="ib-gnpclear">clear</span> your search.
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="ib-cproperties">
-    <div class="ib-wproperties">
-      <ul class="ib-lproperties js-ib-sp-list"></ul>
-    </div>
-
-    <div class="ib-cpagination">
-      <nav class="ib-wpagination js-ib-sp-pagination"></nav>
-    </div>
-  </div>
-
-  <div class="ib-gnopro">
-    <span class="ib-gnpno">No matching results...</span>
-    Modify your <span class="ib-gnpoall">filter</span> 
-    preferences to get new results or 
-    <span class="ib-gnpclear">clear</span> your search.
-  </div>
-</div>
+  </section>
+</main>
 
 <!--<div class="ib-sp-modal js-ib-spc-modal" id="ib-spc-modal"></div> #ib-spc-modal -->
 
@@ -133,106 +148,111 @@
                 </section>
               {{/if}}
 
-              {{#if (ifVisibility visibilityRegions.propertyInformation)}}
+              {{#if (ifCondOR sections.details.showHeading sections.details.showDescription) }}
                 <section class="sp-section" id="sp-details">
-                  {{#if propertyMainDescription}}
-                    <h2 class="sp-section-title">{{propertyMainDescription}}</h2>
+
+                  {{#if (ifVisibility sections.details.showHeading) }}
+                    {{#if propertyMainDescription}}
+                      <h2 class="sp-section-title">{{propertyMainDescription}}</h2>
+                    {{/if}}
+
+                    <ul class="sp-list">
+                      <li>
+                        {{#if propertyPrice}}
+                          {{formatPrice propertyPrice}} 
+                        {{else}}
+                          $0
+                        {{/if}}
+                        <span>
+                          {{#if stylesInput.propertyInformation.priceLabel}}
+                            {{#if stylesInput.propertyInformation.customLabel}}
+                              {{stylesInput.propertyInformation.customLabel}}
+                            {{else}}
+                              {{replaceDashBySpace stylesInput.propertyInformation.priceLabel}}
+                            {{/if}}
+                          {{else}}
+                            Price
+                          {{/if}}
+                        </span>
+                      </li>
+
+                      <li>
+                        {{#if propertyBeds}}
+                          {{propertyBeds}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Beds</span>
+                      </li>
+
+                      <li>
+                        {{#if propertyBaths}}
+                          {{propertyBaths}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Baths</span>
+                      </li>
+                    
+                      <li>
+                        {{#if propertyLivingSize}}
+                          {{formatSqft propertyLivingSize}}
+                        {{else}}
+                          0
+                        {{/if}}
+                        <span>Living Size</span>
+                      </li>
+                    </ul>
                   {{/if}}
 
-                  <ul class="sp-list">
-                    <li>
-                      {{#if propertyPrice}}
-                        {{formatPrice propertyPrice}} 
-                      {{else}}
-                        $0
-                      {{/if}}
-                      <span>
-                        {{#if stylesInput.propertyInformation.priceLabel}}
-                          {{#if stylesInput.propertyInformation.customLabel}}
-                            {{stylesInput.propertyInformation.customLabel}}
-                          {{else}}
-                            {{replaceDashBySpace stylesInput.propertyInformation.priceLabel}}
-                          {{/if}}
-                        {{else}}
-                          Price
-                        {{/if}}
-                      </span>
-                    </li>
+                  {{#if (ifVisibility sections.details.showDescription) }}
+                    {{#if propertySecondaryDescription}}
+                      {{#each propertySecondaryDescription.blocks}}
 
-                    <li>
-                      {{#if propertyBeds}}
-                        {{propertyBeds}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Beds</span>
-                    </li>
+                        {{#ifequals this.type "header"}}
+                          {{#ifequals this.level 2}}
+                            <h2 class="sps-h2">{{ this.data.text }}</h2>
+                          {{/ifequals}}
 
-                    <li>
-                      {{#if propertyBaths}}
-                        {{propertyBaths}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Baths</span>
-                    </li>
-                  
-                    <li>
-                      {{#if propertyLivingSize}}
-                        {{formatSqft propertyLivingSize}}
-                      {{else}}
-                        0
-                      {{/if}}
-                      <span>Living Size</span>
-                    </li>
-                  </ul>
+                          {{#ifequals this.level 3}}
+                            <h3 class="sps-h3">{{ block.data.text }}</h3>
+                          {{/ifequals}}
 
-                  {{#if propertySecondaryDescription}}
-                    {{#each propertySecondaryDescription.blocks}}
+                          {{#ifequals this.level 4}}
+                            <h4 class="sps-h4">{{ block.data.text }}</h4>
+                          {{/ifequals}}
 
-                      {{#ifequals this.type "header"}}
-                        {{#ifequals this.level 2}}
-                          <h2 class="sps-h2">{{ this.data.text }}</h2>
+                          {{#ifequals this.level 5}}
+                            <h5 class="sps-h5">{{ block.data.text }}</h5>
+                          {{/ifequals}}
                         {{/ifequals}}
 
-                        {{#ifequals this.level 3}}
-                          <h3 class="sps-h3">{{ block.data.text }}</h3>
+                        {{#ifequals this.type "paragraph"}}
+                          <div class="sps-paragraph">
+                            <p>{{{this.data.text}}}</p>
+                          </div>
                         {{/ifequals}}
 
-                        {{#ifequals this.level 4}}
-                          <h4 class="sps-h4">{{ block.data.text }}</h4>
+                        {{#ifequals this.type "list"}}
+                          {{#ifequals this.data.style "ordered"}}
+                            <ol class="sps-olist">
+                              {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                              {{/each}}
+                            </ol>
+                          {{/ifequals}}
+
+                          {{#ifequals this.data.style "unordered"}}
+                            <ul class="sps-ulist">
+                              {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                              {{/each}}
+                            </ul>
+                          {{/ifequals}}
                         {{/ifequals}}
 
-                        {{#ifequals this.level 5}}
-                          <h5 class="sps-h5">{{ block.data.text }}</h5>
-                        {{/ifequals}}
-                      {{/ifequals}}
-
-                      {{#ifequals this.type "paragraph"}}
-                        <div class="sps-paragraph">
-                          <p>{{{this.data.text}}}</p>
-                        </div>
-                      {{/ifequals}}
-
-                      {{#ifequals this.type "list"}}
-                        {{#ifequals this.data.style "ordered"}}
-                          <ol class="sps-olist">
-                            {{#each this.data.items}}
-                              <li>{{{this}}}</li>
-                            {{/each}}
-                          </ol>
-                        {{/ifequals}}
-
-                        {{#ifequals this.data.style "unordered"}}
-                          <ul class="sps-ulist">
-                            {{#each this.data.items}}
-                              <li>{{{this}}}</li>
-                            {{/each}}
-                          </ul>
-                        {{/ifequals}}
-                      {{/ifequals}}
-
-                    {{/each}}
+                      {{/each}}
+                    {{/if}}
                   {{/if}}
                 </section>
               {{/if}}
