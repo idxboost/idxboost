@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 3.7.4
+ * Version: 3.7.5
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -55,7 +55,7 @@ if (
  * API endpoints
  */
 
-define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://suggestions.idxboost.com');
+define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL.'/api/property-site-setting-get');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
@@ -133,7 +133,7 @@ define('FLEX_IDX_API_LEAD_SUBMISSION_CONSULTATION', FLEX_IDX_BASE_URL . '/leads/
 define('FLEX_IDX_API_TRACK_PROPERTY_VIEW', FLEX_IDX_BASE_URL . '/track/property/view');
 define('FLEX_IDX_API_LEAD_FETCH_ACTIVITIES', FLEX_IDX_BASE_URL . '/leads/fetch_activities');
 define('FLEX_IDX_API_LEAD_HIDE_TOOLTIP', FLEX_IDX_BASE_URL . '/leads/hide/tooltip');
-
+define('FLEX_IDX_API_AGENT_FETCH_CUSTOM_SETTINGS', FLEX_IDX_BASE_URL . '/crm/agents/settings');
 define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-info-agent');
 define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-team');
 /**

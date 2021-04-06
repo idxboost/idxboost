@@ -4,8 +4,6 @@ var IS_SEARCH_FILTER_CARROUSEL = true;
 <style>
     .flex-breadcrumb { margin-bottom: 0 !important; }
 
-    #footer { display: none !important; }
-
     .gwr {max-width: 100% !important;}
 
     .js-info-bubble-close { width: 30px; height: 30px; opacity: 0 !important; }
@@ -28,6 +26,12 @@ var IS_SEARCH_FILTER_CARROUSEL = true;
         .flex-map-controls-ct { display: none !important; }
     }
 </style>
+
+<?php if ( 'slider' != $atts['mode'] ) { ?> 
+	<style>
+		#footer { display: none !important; }
+	</style>
+<?php } ?>
 
 <?php 
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';

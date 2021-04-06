@@ -8,7 +8,6 @@ var idxboost_filter_countacti = false,
     idxboostcondition = '';
 var dataAlert;
 
-    filter_metadata =JSON.parse(filter_metadata);
     if ( (typeof filter_metadata) && filter_metadata.hasOwnProperty("condition") ) {
         idxboostcondition = filter_metadata.condition;
     }

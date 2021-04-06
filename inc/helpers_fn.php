@@ -5379,7 +5379,16 @@ if (!function_exists('flex_idx_register_assets')) {
         'court_yard' => __('Court yard', IDXBOOST_DOMAIN_THEME_LANG),
         'golf' => __('Golf', IDXBOOST_DOMAIN_THEME_LANG),
         'lake' => __('Lake', IDXBOOST_DOMAIN_THEME_LANG),
-        
+
+        'bay' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
+        'gulf' => __('Gulf', IDXBOOST_DOMAIN_THEME_LANG),
+        'creek' => __('Creek', IDXBOOST_DOMAIN_THEME_LANG),
+        'mangrove' => __('Mangrove', IDXBOOST_DOMAIN_THEME_LANG),
+        'navigable' => __('Navigable', IDXBOOST_DOMAIN_THEME_LANG),
+        'river_frontage' => __('River Frontage', IDXBOOST_DOMAIN_THEME_LANG),
+        'basin' => __('Basin', IDXBOOST_DOMAIN_THEME_LANG),
+        'seawall' => __('Seawall', IDXBOOST_DOMAIN_THEME_LANG), 
+
         
         'lake_front' => __('Lake Front', IDXBOOST_DOMAIN_THEME_LANG),
         'equestrian' => __('Equestrian', IDXBOOST_DOMAIN_THEME_LANG),

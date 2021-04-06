@@ -2295,8 +2295,8 @@ if (!function_exists('flex_idx_filter_sc')) {
             if(array_key_exists('price_rent', $_GET)){
             $param_url['min_rent_price']='--';
             $param_url['max_rent_price']='--';
-                if (!empty($_GET['price'])) {
-                    $temparray_price_rent=explode('~',$_GET['price']);
+                if (!empty($_GET['price_rent'])) {
+                    $temparray_price_rent=explode('~',$_GET['price_rent']);
                     if (is_array($temparray_price_rent)) {
                         if (array_key_exists(0,$temparray_price_rent))
                             $param_url['min_rent_price']=$temparray_price_rent[0];
@@ -2468,7 +2468,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                 if ($atts['type']=='2' || $atts['type']=='1') {
                     wp_localize_script('idxboost_exclusive_listing', 'filter_metadata', json_encode($response) );
                 }else{
-                    wp_localize_script('flex-idx-filter-js', 'filter_metadata', json_encode($response) );
+                    wp_localize_script('flex-idx-filter-js', 'filter_metadata', $response );
                 }
 
                 if (isset($response['info']['property_type'])) {

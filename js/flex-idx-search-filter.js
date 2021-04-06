@@ -2123,8 +2123,28 @@ function buildMobileForm() {
                 text_caracteristics=word_translate.mountain;          
             else if (option.name=="Lake")
                 text_caracteristics=word_translate.lake;          
+
+            else if (option.name=="Bay")
+                text_caracteristics=word_translate.bay;
+            else if (option.name=="Gulf")
+                text_caracteristics=word_translate.gulf;
+            else if (option.name=="Creek")
+                text_caracteristics=word_translate.creek;
+            else if (option.name=="Mangrove")
+                text_caracteristics=word_translate.mangrove;          
+            else if (option.name=="Navigable")
+                text_caracteristics=word_translate.navigable;
+            else if (option.name=="River Frontage")
+                text_caracteristics=word_translate.river_frontage;
+            else if (option.name=="Basin")
+                text_caracteristics=word_translate.basin;
+            else if (option.name=="Seawall")
+                text_caracteristics=word_translate.seawall;
+            else if (option.name=="Lake")
+                text_caracteristics=word_translate.lake;
             else
                 text_caracteristics=option.name;
+
 
 
             ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input class="ib-m-features-checkboxes" type="checkbox" value="'+option.code+'" id="s_amenity_'+option.code+'"><label for="s_amenity_'+option.code+'">'+text_caracteristics+'</label></li>');
@@ -2755,7 +2775,25 @@ function buildSearchFilterForm() {
                 text_label_trans=word_translate.pool;
             else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Golf Course")
                 text_label_trans=word_translate.golf_course;          
-            
+
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Lake")
+                text_label_trans=word_translate.lake;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Bay")
+                text_label_trans=word_translate.bay;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Gulf")
+                text_label_trans=word_translate.gulf;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Creek")
+                text_label_trans=word_translate.creek;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Mangrove")
+                text_label_trans=word_translate.mangrove;          
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Navigable")
+                text_label_trans=word_translate.navigable;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="River Frontage")
+                text_label_trans=word_translate.river_frontage;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Basin")
+                text_label_trans=word_translate.basin;
+            else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Seawall")
+                text_label_trans=word_translate.seawall;
 
             option.innerHTML = text_label_trans;
             option.setAttribute('value', __flex_idx_search_filter.search.waterfront_options[i].code);

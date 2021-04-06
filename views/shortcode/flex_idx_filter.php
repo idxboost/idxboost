@@ -56,7 +56,7 @@
   }
 ?>
 <script>
-  var filter_metadata = <?php echo trim(json_encode($response)); ?>;
+  //var filter_metadata = <?php echo json_encode($response); ?>;
   var ib_filter_metadata = <?php echo json_encode($response); ?>;
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
@@ -419,8 +419,32 @@
                           $text_label_trans=__("Pool", IDXBOOST_DOMAIN_THEME_LANG);
                       else if ($waterfront_option['name']=="Golf Course")
                           $text_label_trans=__("Golf Course", IDXBOOST_DOMAIN_THEME_LANG);
-            
 
+                      else if ($waterfront_option['name']=="Bay")
+                          $text_label_trans=__("Bay", IDXBOOST_DOMAIN_THEME_LANG);
+                      else if ($waterfront_option['name']=="Gulf")
+                          $text_label_trans=__("Gulf", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Creek")
+                          $text_label_trans=__("Creek", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Lake")
+                          $text_label_trans=__("Lake", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Mangrove")
+                          $text_label_trans=__("Mangrove", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Navigable")
+                          $text_label_trans=__("Navigable", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="River Frontage")
+                          $text_label_trans=__("River Frontage", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Basin")
+                          $text_label_trans=__("Basin", IDXBOOST_DOMAIN_THEME_LANG);
+
+                      else if ($waterfront_option['name']=="Seawall")
+                          $text_label_trans=__("Seawall", IDXBOOST_DOMAIN_THEME_LANG);
 
                       echo $text_label_trans; 
                       ?></option>

@@ -145,21 +145,33 @@
       </ul>
     </div>
     <div id="imagen-print"></div>
-
-        <div id="full-slider" class="show-slider-psl">
-
-        <!-- NUEVA ESTRUCTURA SLIDER -->
-          <div class="ms-slider-buildings">
-            <div class="wrap-result view-grid ms-sm-grid">
-              <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
-                <div class="wrap-result view-grid">
-                  <div class="gs-container-slider ib-properties-slider"></div>
+    
+        <div id="full-slider" class="show-slider-psl js-gallery-building">
+          <?php
+          if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
+            if ($response['payload']["type_gallery"]== "2") {
+               if (count($response['payload']['gallery_building']) > 0) { ?>
+								<div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
+								<?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
+									<img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
+								<?php } ?>
+								</div>
+              <?php }
+            }elseif ($response['payload']["type_gallery"]=="1") { ?>
+              <!-- NUEVA ESTRUCTURA SLIDER -->
+                <div class="ms-slider-buildings">
+                  <div class="wrap-result view-grid ms-sm-grid">
+                    <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
+                      <div class="wrap-result view-grid">
+                        <div class="gs-container-slider ib-properties-slider"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        <!-- NUEVA ESTRUCTURA SLIDER -->
-
+              <!-- NUEVA ESTRUCTURA SLIDER -->
+              <?php
+            }            
+          } ?>
           <div class="moptions">
             <ul class="slider-option">
               <li>

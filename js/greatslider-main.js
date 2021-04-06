@@ -295,7 +295,6 @@
 			touch: false,
 			layout: {
 				arrowDefaultStyles: false,
-
 				arrowPrevContent: 'Prev',
 				arrowNextContent: 'Next',
 			},
@@ -304,7 +303,7 @@
 		        items: 2
 		      },
 		      1360: {
-		        items: 3
+		        items: 3,
 		      }
 		    },
 		    onInited: function(){
@@ -314,6 +313,19 @@
 					$fullSlider.find('.gs-item-slider').on('click', function(){
 						$fsSlider.fullscreen('in', $(this).index() + 1);
 					});
+
+					var windowSize = $(window).width()
+					var cantElement = $(".clidxboost-full-slider").find('.gs-item-slider').length;
+
+					if(windowSize < 640 && cantElement < 2){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else if(windowSize > 639 && windowSize < 1360 && cantElement < 3){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else if(windowSize > 1359 && cantElement < 4){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else{
+						$(".clidxboost-full-slider").removeClass("-control-nav");
+					}
 
 					var $a = 0;
 		    	var $bulletBtn = $fullSlider.find(".gs-bullet");
@@ -333,6 +345,18 @@
 							$(this).text('View Slide '+$a);
 						});
 					}
+
+					var windowSize = $(window).width()
+					var cantElement = $(".clidxboost-full-slider").find('.gs-item-slider').length;
+					if(windowSize < 640 && cantElement < 2){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else if(windowSize > 639 && windowSize < 1360 && cantElement < 3){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else if(windowSize > 1359 && cantElement < 4){
+						$(".clidxboost-full-slider").addClass("-control-nav");
+					}else{
+						$(".clidxboost-full-slider").removeClass("-control-nav");
+					}
 				},
 		    onFullscreenIn: ()=> {
 				// creando el título en FS
@@ -340,6 +364,11 @@
 				if (!$ibmpTitle.length) {
 					$fullSlider.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.title-page').text() + '</span>');
 				}
+
+				if($fullSlider.find(".gs-item-slider").length < 2){
+					$fullSlider.find(".gs-container-navs").css({"display":"none"});
+				}
+
 				// Creando la numeración en FS
 				const $ibmpNumbers = $fullSlider.find('.ib-pvsinumber');
 				if (!$ibmpNumbers.length) {

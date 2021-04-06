@@ -261,35 +261,51 @@ function ib_init_script(){
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
                   /* NEW SLIDER*/
                   /* NEW SLIDER*/
-                  if (idxboostCollecBuil.payload.properties.sale.items.length > 0 || idxboostCollecBuil.payload.properties.rent.items.length > 0 ) {
-                    if (idxboostCollecBuil.payload.properties.sale.items.length > 0) {
-                      idxboostCollecBuil.payload.properties.sale.items.slice(0,15).forEach(function(element) {
-                        html_slider_building.push(idx_slider_building_html(element) );
-                      });
-                    }else if (idxboostCollecBuil.payload.properties.rent.items.length > 0) {
-                      idxboostCollecBuil.payload.properties.rent.items.slice(0,15).forEach(function(element) {
-                        html_slider_building.push(idx_slider_building_html(element) );
-                      });
-                    }
-                  }else{
-                    $('.js-option-building').each(function(){
-                      if ( $(this).attr("type") == "map" ) {
-                        $(this).show();
-                        $(this).click();
-                        //$("#map-view").addClass("active");
-                      }else if($(this).attr("type") == "photo") {
-                        $(this).hide();
+                  if (idxboostCollecBuil.payload.type_gallery == "1") {
+                    console.log("gallery for properties");
+                      if (idxboostCollecBuil.payload.properties.sale.items.length > 0 || idxboostCollecBuil.payload.properties.rent.items.length > 0 ) {
+                        if (idxboostCollecBuil.payload.properties.sale.items.length > 0) {
+                          idxboostCollecBuil.payload.properties.sale.items.slice(0,15).forEach(function(element) {
+                            html_slider_building.push(idx_slider_building_html(element) );
+                          });
+                        }else if (idxboostCollecBuil.payload.properties.rent.items.length > 0) {
+                          idxboostCollecBuil.payload.properties.rent.items.slice(0,15).forEach(function(element) {
+                            html_slider_building.push(idx_slider_building_html(element) );
+                          });
+                        }
+                      }else{
+                        $('.js-option-building').each(function(){
+                          if ( $(this).attr("type") == "map" ) {
+                            $(this).show();
+                            $(this).click();
+                            //$("#map-view").addClass("active");
+                          }else if($(this).attr("type") == "photo") {
+                            $(this).hide();
+                          }
+                        });
                       }
-                    });
-                  }
-                  
 
-                  if (html_slider_building.length>0){
-                    $(".ib-filter-slider-building").html(html_slider_building.join(' ')).ready(function(){ idxboostTypeIcon(); });
+                    if (html_slider_building.length>0){
+                      $(".ib-filter-slider-building").html(html_slider_building.join(' ')).ready(function(){ idxboostTypeIcon(); });
 
-                    genMultiSliderBuilding(".ib-filter-slider-building");
-                    $(".ib-filter-slider-building").addClass('clidxboost-properties-slider');
-                    myLazyLoad.update();
+                      genMultiSliderBuilding(".ib-filter-slider-building");
+                      $(".ib-filter-slider-building").addClass('clidxboost-properties-slider');
+                      myLazyLoad.update();
+                    }
+
+                  }else if (idxboostCollecBuil.payload.type_gallery == "2") {
+                    console.log("gallery for properties");
+                    if ($(".js-gallery-building").length == 0) {
+                        $('.js-option-building').each(function(){
+                          if ( $(this).attr("type") == "map" ) {
+                            $(this).show();
+                            $(this).click();
+                            //$("#map-view").addClass("active");
+                          }else if($(this).attr("type") == "photo") {
+                            $(this).hide();
+                          }
+                        });
+                    }
                   }
                   /* NEW SLIDER*/
                   /* NEW SLIDER*/
