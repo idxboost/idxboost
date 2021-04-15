@@ -13,13 +13,13 @@
       <ul class="result-search idx_color_primary">
         <li data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
             <?php if ($property['status'] == 5): ?>
-            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php elseif($property['status'] == 2): ?>
-            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php elseif($property['status'] != 1): ?>
-            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php elseif(isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
-            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php endif; ?>        	
         	<?php $arraytemp = str_replace(' , ', ', ', $property["address_large"]); $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>"; ?>
         	<h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>">

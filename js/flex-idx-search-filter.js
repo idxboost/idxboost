@@ -216,7 +216,7 @@ Handlebars.registerHelper('formatBathsHalf', function(baths_half) {
 
 Handlebars.registerHelper('handleStatusProperty', function(property) {
     if ("yes" === property.recently_listed) {
-        return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'!</li>';
+        return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
     } else if (1 != property.status) {
         return '<li class="ib-piitem ib-pstatus">'+word_translate.pending+'</li>';
     }
@@ -519,7 +519,7 @@ function handleLookupAutocomplete(request, response) {
     }
 
     $.ajax({
-        url: "https://autocomplete.idxboost.com",
+        url: __flex_g_settings.suggestions.service_url,
         dataType: "json",
         data: {
             term: request.term,
@@ -3558,13 +3558,13 @@ function handleFilterSearchLookup(event) {
                     html_response.push('<ul class="result-search slider-generator">');
                     html_response.push('<li class="propertie" data-address="'+info_item.full_address+'"  data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
                     if (info_item.status=='5') {
-                        html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+                        html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
                     }else if (info_item.status=='2') {
-                        html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+                        html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                     }else if (info_item.status !='1') {
-                        html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
+                        html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
                     }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-                        html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                        html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                     }
                       html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
                       html_response.push('<ul class="features">');

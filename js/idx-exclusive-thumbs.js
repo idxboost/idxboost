@@ -34,13 +34,13 @@ $('.propertie').on('click',function(event){
 	                        listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="'+item.address_short+'" class="propertie">');
 	                        if (item.hasOwnProperty("status")) {
 	                            if (item.status == "5") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
 	                            } else if (item.status == "2") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
 	                            }
 	                        } else {
 	                            if (item.recently_listed === "yes") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 	                            }
 	                        }
 	                        if (view_grid_type=='1'){

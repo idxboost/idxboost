@@ -172,7 +172,7 @@ Handlebars.registerHelper('formatBathsHalf', function(baths_half) {
 
 Handlebars.registerHelper('handleStatusProperty', function(property) {
     if ("yes" === property.recently_listed) {
-        return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'!</li>';
+        return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
     } else if (1 != property.status) {
         return '<li class="ib-piitem ib-pstatus">'+word_translate.pending+'</li>';
     }
@@ -465,7 +465,7 @@ function handleLookupAutocomplete(request, response) {
     }
 
     $.ajax({
-        url: "https://autocomplete.idxboost.com",
+        url: __flex_g_settings.suggestions.service_url,
         dataType: "json",
         data: {
             term: request.term,

@@ -56,7 +56,7 @@
         }
 
         $.ajax({
-            url: "https://autocomplete.idxboost.com",
+            url: __flex_g_settings.suggestions.service_url,
             dataType: "json",
             data: {
                 term: request.term,

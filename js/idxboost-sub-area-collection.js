@@ -1085,13 +1085,13 @@ function idxboostListCollectionForSold(element,ibstatus){
       
       if (element['status']!=null || element['status']!=undefined ){
           if(element['status'] == 5){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.rented+'!</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.rented+'</div>';
           }else if(element['status']== 2){
-             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'!</div>';
+             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'</div>';
           }else if(element['status'] != 1){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.pending+'!</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.pending+'</div>';
           }else if(element['recently_listed'] == 'yes'){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
           }
       }
     htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'"><span>'+element['address_short'].replace('# ','#')+'</span></h2>';

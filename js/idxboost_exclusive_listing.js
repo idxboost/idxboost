@@ -1618,15 +1618,15 @@ var yDown = null;
 
                             if (item.hasOwnProperty("status")) {
                                 if (item.status == "5") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
                                 } else if (item.status == "2") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                                 }else if(item.status != "1"){
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
                                 }                           
                             } else {
                                 if (item.recently_listed === "yes") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                                 }
                             }
                         //}
@@ -2020,7 +2020,7 @@ var yDown = null;
 
                 var _self = $(this);
                 var mlsNum = _self.data("mls");
-
+/*
                 if (__flex_g_settings.anonymous === 'yes') {
                     //active_modal($('#modal_login'));
                     $("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
@@ -2031,7 +2031,6 @@ var yDown = null;
                     $(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
                     $("#modal_login h2").html(
                     $("#modal_login").find("[data-tab]:eq(1)").data("text-force"));
-                    /*Asigamos el texto personalizado*/
                     var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
                     $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
 
@@ -2039,7 +2038,10 @@ var yDown = null;
                     localStorage.setItem("ib_anon_mls", mlsNum);
                     return;
                 }
+*/
+                loadPropertyInModal(mlsNum);
 
+                /*
                 $('html').addClass('modal_mobile');
                 $('#modal_property_detail').addClass('active_modal');
                 $("#modal_property_detail .detail-modal").html('<span class="ib-modal-property-loading">Loading property details...</span>');
@@ -2059,6 +2061,8 @@ var yDown = null;
                       loadFullSlider(".clidxboost-full-slider");
                     }
                 });
+                */
+
             });
         });
 

@@ -295,7 +295,7 @@ var yDown = null;
 
                     listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="' + item.address_short + '" class="propertie">');
                     if (item.status == 1 && item.recently_listed === "yes") {
-                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                     }
                     if (item.status == 6) {
                         listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');

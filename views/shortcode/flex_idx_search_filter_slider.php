@@ -176,6 +176,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 				<h4 class="ib-mghtitle"><?php echo __('Mortgage Calculator', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
 			</div>
 			<div class="ib-mgcontent">
+				<?php echo __("Let's us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>" title="Call Us <?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?>"><?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?></a>
 				<div class="mb-mcform">
 					<form method="post" class="ib-property-mortgage-f">
 						<ul class="ib-mcinputs">
@@ -211,7 +212,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 					</form>
 				</div>
 				<div class="mb-mcdata">
-					<h5 class="ib-mcsubtitle"><?php echo __('Mortgage breakdown', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
+					<h5 class="ib-mcsubtitle"><?php echo __('Mortgage Breakdown', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
 					<ul class="ib-mcdlist">
 						<li class="ib-mcditem"><span class="ib-mcditxt"><?php echo __('Mortgage Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-mcdinumbers ib-calc-mc-mortgage"></span></li>
 						<li class="ib-mcditem"><span class="ib-mcditxt"><?php echo __('Down Payment Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib-mcdinumbers ib-calc-mc-down-payment"></span></li>

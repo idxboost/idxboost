@@ -2460,13 +2460,13 @@ function getLandSizeValues(min, max) {
                         
                         //if (idx_oh=="0" ) {
                             if (item.status == "5") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
                             } else if (item.status == "2") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                             }else if(item.status != "1"){
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
                             }else if(item.recently_listed === "yes") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                             }
                         //}
                             

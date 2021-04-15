@@ -560,6 +560,10 @@ function loadPropertyInModal(mlsNumber) {
                 }, 3000);
             };
 
+            if (response.hasOwnProperty("development") && response.development == "" && response.hasOwnProperty("complex") ) {
+                response.development = response.complex;
+            }
+
             if (IB_MODAL_WRAPPER.length && IB_MODAL_TPL.length) {
                 var template = Handlebars.compile(IB_MODAL_TPL.html());
 
@@ -702,7 +706,7 @@ function loadPropertyInModal(mlsNumber) {
                   (__flex_g_settings.hasOwnProperty("force_registration") &&
                     1 == __flex_g_settings.force_registration) ||
                   (typeof idxboost_force_registration != false &&
-                    idxboost_force_registration != false)
+                    idxboost_force_registration != undefined) 
                 ) {
                   // console.log("is foced registration");
                   // if ($(".register").length) {

@@ -58,13 +58,13 @@
             <ul class="result-search slider-generator">
               <li class="propertie" data-id="<?php echo $value['mls_num']; ?>" data-mls="<?php echo $value['mls_num']; ?>" data-counter="<?php echo $count_item; ?>">
                 <?php if ($value['status'] == 5): ?>
-                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php elseif($value['status'] == 2): ?>
-                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php elseif($value['status'] != 1): ?>
-                <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>   
+                <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?></div>   
                 <?php elseif(isset($value['recently_listed']) && $value['recently_listed'] === 'yes'): ?>
-                <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php endif; ?>                
                 <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><span><?php echo str_replace('# ', '#', $value['address_short']); ?></span></h2>
                 <ul class="features">
@@ -114,13 +114,13 @@
           <ul class="result-search slider-generator">
             <li class="propertie" data-id="<?php echo $value['mls_num']; ?>" data-mls="<?php echo $value['mls_num']; ?>" data-counter="<?php echo $count_item; ?>">
                 <?php if ($value['status'] == 5): ?>
-                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php elseif($value['status'] == 2): ?>
-                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php elseif($value['status'] != 1): ?>
-                <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>   
+                <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?></div>   
                 <?php elseif(isset($value['recently_listed']) && $value['recently_listed'] === 'yes'): ?>
-                <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 <?php endif; ?>
 
               <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><span><?php echo str_replace('# ', '#', $value['address_short']); ?></span></h2>
@@ -170,7 +170,7 @@
                $count_item=$count_item+1; ?>  
           <ul class="result-search slider-generator">
             <li class="propertie" data-id="<?php echo $value['mls_num']; ?>" data-mls="<?php echo $value['mls_num']; ?>" data-counter="<?php echo $count_item; ?>">
-              <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+              <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
               <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><span><?php echo str_replace('# ', '#', $value['address_short']); ?></span></h2>
               <ul class="features">
                 <li class="address"><?php echo $value['address_large']; ?></li>

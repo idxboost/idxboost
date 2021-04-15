@@ -1157,13 +1157,13 @@ var yDown = null;
                         listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="'+item.address+'" class="propertie">');
                         if (item.hasOwnProperty("status")) {
                             if (item.status == "5") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
                             } else if (item.status == "2") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                             }
                         } else {
                             if (item.recently_listed === "yes") {
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                             }
                         }
                         listingHTML.push('<h2 title="' + item.address + '"><span>' + item.address + '</span></h2>');

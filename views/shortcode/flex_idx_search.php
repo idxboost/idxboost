@@ -202,8 +202,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 				<h4 class="ib-mghtitle"><?php echo __('Mortgage Calculator', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
 			</div>
 			<div class="ib-mgcontent">
-				<?php /*<?php echo __("Let's us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG);
-	<a href="tel:<?php echo preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>" title="<?php echo __('Call Us', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?>"><?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?></a> ?>*/ ?>
+				<?php echo __("Let's us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>" title="Call Us <?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?>"><?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?></a>
 				<div class="mb-mcform">
 					<form method="post" class="ib-property-mortgage-f">
 						<ul class="ib-mcinputs">

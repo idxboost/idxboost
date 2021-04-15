@@ -776,25 +776,11 @@ global $flex_idx_info, $flex_idx_lead;
         </div>
         <div class="body_md">
           <p>
-            <?php echo __("Let’s us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            <?php echo __("Let’s us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]+/', '', $flex_idx_info['agent']['agent_contact_phone_number']) ?>"><?php echo $flex_idx_info['agent']['agent_contact_phone_number']; ?></a>
           </p>
-          <ul class="contact-opt">
-            <li>
-              <a href="tel:<?php echo preg_replace('/[^\d]+/', '', $flex_idx_info['agent']['agent_contact_phone_number']) ?>">
-              <?php echo $flex_idx_info['agent']['agent_contact_phone_number']; ?>
-              </a>
-            </li>
-            <?php if (false !== $flex_idx_lead) {?>
-            <li>
-              <a href="mailto:<?php echo isset($flex_idx_lead['lead_info']['agent_contact_email_address']) ? esc_attr($flex_idx_lead['lead_info']['agent_contact_email_address']) : ""; ?>" class="mail_login">
-              <?php echo isset($flex_idx_lead['lead_info']['agent_contact_email_address']) ? esc_attr($flex_idx_lead['lead_info']['agent_contact_email_address']) : ""; ?>
-              </a>
-            </li>
-            <?php } ?>
-          </ul>
           <div class="form_content">
             <form id="form-calculator">
-		<fieldset>
+		          <fieldset>
                 <legend><?php echo __('Mortgage calculator', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
               <div class="gform_body">
                 <ul class="gform_fields">
@@ -849,7 +835,7 @@ global $flex_idx_info, $flex_idx_lead;
             </form>
           </div>
           <div class="detail-mortgage">
-            <span class="ms-md-calc-title"><?php echo __("Mortgage breakdown", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            <span class="ms-md-calc-title"><?php echo __("Mortgage Breakdown", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <ul>
               <li><span><?php echo __("Mortgage Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span id="mortgage-amount" class="text-bold mortgage_mount_txt"></span></li>
               <li><span><?php echo __("Down Payment Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span id="down-payment" class="text-bold down_paymentamount_txt"></span></li>
