@@ -5423,6 +5423,7 @@ if (!function_exists('flex_idx_register_assets')) {
         'and' => __('and', IDXBOOST_DOMAIN_THEME_LANG),
         'in' => __('in', IDXBOOST_DOMAIN_THEME_LANG),
         'new_listing' => __('new listing', IDXBOOST_DOMAIN_THEME_LANG),
+        'active_under_contract' => __('Active Under Contract', IDXBOOST_DOMAIN_THEME_LANG),
         'pending'  => __('pending', IDXBOOST_DOMAIN_THEME_LANG),
         'boat_dock'  => __('Boat Dock', IDXBOOST_DOMAIN_THEME_LANG),
         'short_sales'  => __('Short Sales', IDXBOOST_DOMAIN_THEME_LANG),

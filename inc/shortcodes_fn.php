@@ -193,24 +193,6 @@ if (!function_exists("idxboost_dinamic_menu_mobile_sc")) {
     add_shortcode("idxboost_dinamic_menu_mobile", "idxboost_dinamic_menu_mobile_sc");
 }
 
-
-if (!function_exists("idxboost_social_network_dinamic_header_sc")) {
-    function idxboost_social_network_dinamic_header_sc($atts, $content = null)
-    {
-        ob_start();
-
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_social_network_dinamic_header.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_social_network_dinamic_header.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/idxboost_social_network_dinamic_header.php';
-        }
-
-        return ob_get_clean();
-    }
-
-    add_shortcode("idxboost_social_network_dinamic_header", "idxboost_social_network_dinamic_header_sc");
-}
-
 if (!function_exists("idxboost_dinamic_credential_lead_dinamic_sc")) {
     function idxboost_dinamic_credential_lead_dinamic_sc($atts, $content = null)
     {
@@ -227,24 +209,6 @@ if (!function_exists("idxboost_dinamic_credential_lead_dinamic_sc")) {
 
     add_shortcode("idxboost_dinamic_credential_lead_dinamic", "idxboost_dinamic_credential_lead_dinamic_sc");
 }
-
-if (!function_exists("idxboost_social_network_dinamic_footer_sc")) {
-    function idxboost_social_network_dinamic_footer_sc($atts, $content = null)
-    {
-        ob_start();
-
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_social_network_dinamic_footer.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_social_network_dinamic_footer.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/idxboost_social_network_dinamic_footer.php';
-        }
-
-        return ob_get_clean();
-    }
-
-    add_shortcode("idxboost_social_network_dinamic_footer", "idxboost_social_network_dinamic_footer_sc");
-}
-
 
 if (!function_exists('idxboost_about_page_sc'))
 {

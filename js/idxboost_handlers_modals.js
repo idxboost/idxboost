@@ -647,6 +647,31 @@ function loadPropertyInModal(mlsNumber) {
                     });
                 }
 
+                // default map view [outside]
+                if ($("#ib-modal-property-map").length) {
+                    var myLatLng2 = { lat: parseFloat(response.lat), lng: parseFloat(response.lng) };
+
+                    var map2 = new google.maps.Map(document.getElementById("ib-modal-property-map"), {
+                        disableDoubleClickZoom: true,
+                        scrollwheel: false,
+                        streetViewControl: false,
+                        panControl: false,
+                        zoom: 15,
+                        center: myLatLng2,
+                        styles: style_map,
+                        gestureHandling: 'cooperative',
+                        zoomControl: true,
+                        zoomControlOptions: {
+                            position: google.maps.ControlPosition.RIGHT_TOP
+                        }
+                    });
+                
+                    var marker2 = new google.maps.Marker({
+                        position: myLatLng2,
+                        map: map2
+                    });
+                }
+
                 // Web Share API
                 if ('share' in navigator) { // for mobile
                     document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;

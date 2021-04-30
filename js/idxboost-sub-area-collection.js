@@ -1089,7 +1089,7 @@ function idxboostListCollectionForSold(element,ibstatus){
           }else if(element['status']== 2){
              htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'</div>';
           }else if(element['status'] != 1){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.pending+'</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+element.status_name+'</div>';
           }else if(element['recently_listed'] == 'yes'){
             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
           }

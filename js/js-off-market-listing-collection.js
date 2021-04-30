@@ -1500,8 +1500,8 @@ var yDown = null;
                 }
                 infobox_content.push('<li class="beds"><b>' + property.item.bedrooms + '</b> <span> ' + textpropertyitembed + '</span></li>');
                 infobox_content.push('<li class="baths"><b>' + property.item.full_bathrooms + '</b> <span> ' + textpropertyitembath + '</span></li>');
-                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> SF<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
-                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ SF<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
                 infobox_content.push('</ul>');
                 infobox_content.push('<div class="mapviwe-img">');
                 infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');

@@ -30,15 +30,12 @@ if (!empty($GLOBALS) && array_key_exists('idx_header_footer', $GLOBALS) && !empt
 
 
 $variable = do_shortcode("[idxboost_dinamic_menu]");
-$variable_idxboost_social_network_dinamic_footer = do_shortcode('[idxboost_social_network_dinamic_footer]');
-
 
 // Close cURL session handle
 
 if (is_array($result) && count($result) > 0) {
     if (array_key_exists('data', $result) && array_key_exists('footer', $result['data']) && !empty($result['data']['footer']['content'])) {
         $result['data']['footer']['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['data']['footer']['content']);
-        $result['data']['footer']['content'] = str_replace('[idxboost_dinamic_social_network type="footer"]', $variable_idxboost_social_network_dinamic_footer, $result['data']['footer']['content']);
     }
     echo $result['data']['footer']['content'];
 }

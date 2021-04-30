@@ -301,27 +301,34 @@ global $flex_idx_info, $flex_idx_lead;
             </div>
           </div>
           
-          <?php if (
-              (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]) ||
-          (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"])
-          ): ?>
+          <?php if ((isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]) || (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"])): ?>
 
-          <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+            <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
 
-          <ul class="social_login">
-            <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
-            <li>
-                <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
-                  <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                </a>
+              <ul class="social_login">
+                <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
+                  <li>
+                    <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
+                      <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </a>
+                  </li>
+                <?php endif; ?>
+                <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
+                <li>
+                  <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
+                    <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
+                </li>
+                <?php endif; ?>
+                <li>
                 <span class="ms-label" id="msRst">
                   <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-                </span>
-            </li>
-            <?php endif; ?>
-          </ul>
+                    <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                  </span>
+                </li>
+              </ul>
           <?php else: ?>
+
           <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
           <ul class="social_login">
             <li>
@@ -1387,7 +1394,7 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
         });
   }
 
-  // startApp();
+   startApp();
   </script>
 <?php endif; ?>
 

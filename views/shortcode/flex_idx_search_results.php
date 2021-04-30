@@ -449,7 +449,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 				<li class="beds"><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
 				<li class="baths"><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
 				<li class="living-size"><?php echo __("Living Size", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-				<li class="price-sf"><?php echo __("Price / SF", IDXBOOST_DOMAIN_THEME_LANG); ?> </li>
+				<li class="price-sf"><?php echo __("Price", IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft.</li>
 				<li class="development"><?php echo __("Development / Subdivision", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
 			</ul>
 			<ul id="result-search" class="slider-generator"></ul>

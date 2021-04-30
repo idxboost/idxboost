@@ -30,7 +30,6 @@ if (!empty($GLOBALS) && array_key_exists('idx_header_footer', $GLOBALS) && !empt
 }
 
 $variable = do_shortcode("[idxboost_dinamic_menu]");
-$variable_idxboost_social_network_dinamic_header = do_shortcode('[idxboost_social_network_dinamic_header]');
 $idxboost_dinamic_credential_lead_dinamic = do_shortcode('[idxboost_dinamic_credential_lead_dinamic]');
 $idxboost_dinamic_menu_mobile = do_shortcode('[idxboost_dinamic_menu_mobile]');
 
@@ -40,7 +39,6 @@ if (is_array($result) && count($result) > 0) {
     if (array_key_exists('data', $result) && array_key_exists('header', $result['data']) && !empty($result['data']['header']['content'])) {
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['data']['header']['content']);
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_menu_mobile]", $idxboost_dinamic_menu_mobile, $result['data']['header']['content']);
-        $result['data']['header']['content'] = str_replace('[idxboost_dinamic_social_network type="header"]', $variable_idxboost_social_network_dinamic_header, $result['data']['header']['content']);
         $result['data']['header']['content'] = str_replace('[idxboost_dinamic_credential_lead]', $idxboost_dinamic_credential_lead_dinamic, $result['data']['header']['content']);
     }
     echo $result['data']['header']['content'];
@@ -50,6 +48,7 @@ if (is_array($result) && count($result) > 0) {
 <script>
     <?php
     $is_compass = strpos($template_id, "compass");
+    $is_resf = strpos($template_id, "resf");
     ?>
 
     document.body.classList.add('ip');
@@ -57,12 +56,23 @@ if (is_array($result) && count($result) > 0) {
     if ( !empty($GLOBALS) && is_array($GLOBALS) &&  array_key_exists("crm_theme_setting", $GLOBALS) && is_array($GLOBALS['crm_theme_setting']) && count($GLOBALS['crm_theme_setting']) >0 ) {
         if ( array_key_exists("style", $GLOBALS['crm_theme_setting'])) {
             echo 'document.body.style = "'.trim($GLOBALS['crm_theme_setting']["style"]).'";';
+            
+            if ( 
+                array_key_exists("fontFamily", $GLOBALS['crm_theme_setting']) &&
+                $GLOBALS['crm_theme_setting']["fontFamily"] == "compass-sans-and-serif"
+                ) {
+                echo "document.body.classList.add('compass-sans-and-serif');";
+            }
         }
     }
     ?>
     
 
-    <?php  if (is_numeric($is_compass)) {
-        echo "document.body.classList.add('ip-theme-compass');";
-    }  ?>
+    <?php  
+        if (is_numeric($is_compass)) {
+            echo "document.body.classList.add('ip-theme-compass');";
+        } else if ( is_numeric($is_resf) ) {
+            echo "document.body.classList.add('ip-theme-resf');";
+        }
+    ?>
 </script>

@@ -528,7 +528,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     {{/if}}
                     {{#if feature_interior}}
                     <li class="ib-paitem">
-                      <h4 class="ib-paititle"><?php echo __("Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                      <h4 class="ib-paititle"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
                       <div class="ib-paicontent">
                         <ul class="ib-plgeneric">
                             {{#each feature_interior}}
@@ -550,6 +550,16 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       </div>
                     </li>
                     {{/if}}
+                    
+                    {{#if lat }}
+                    <li class="ib-paitem ib-pai-active">
+                        <h4 class="ib-paititle"><?php echo __('Location', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                        <div class="ib-paicontent">
+                            <div id="ib-modal-property-map" style="background-color:#EEE;height:300px;width:100%;margin:15px 0;"></div>
+                        </div>
+                    </li>
+                    {{/if}}
+
                     <?php /*<li class="ib-paitem">
                       <h4 class="ib-paititle">School Information</h4>
                       <div class="ib-paicontent"></div>

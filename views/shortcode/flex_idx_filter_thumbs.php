@@ -17,7 +17,7 @@
             <?php elseif($property['status'] == 2): ?>
             <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php elseif($property['status'] != 1): ?>
-            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>
             <?php elseif(isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
             <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php endif; ?>        	

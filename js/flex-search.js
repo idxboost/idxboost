@@ -298,7 +298,7 @@ var yDown = null;
                         listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                     }
                     if (item.status == 6) {
-                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+                        listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                     }
                     listingHTML.push('<h2 title="' + final_address + '"><span>' + final_address_parceada + '</span></h2>');
                     listingHTML.push('<ul class="features">');

@@ -159,7 +159,7 @@ function idx_slider_html(info_item,type){
             }else if (info_item.status=='2') {
             	html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
             }else if (info_item.status !='1') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
             }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
             	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
             }

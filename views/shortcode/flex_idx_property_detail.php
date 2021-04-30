@@ -361,7 +361,7 @@ var lastOpenedProperty = "<?php echo $property['mls_num']; ?>";
             <li><span><?php echo __("MLS", IDXBOOST_DOMAIN_THEME_LANG); ?> #</span><span><?php echo $property['mls_num']; ?></span></li>
             <li> <span><?php echo __("Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['property_type']; ?></span></li>
             <?php if ($property['status'] == "6"): // pending ?>
-            <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Pending", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
+            <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $property['status_name']; ?></span></li>
             <?php elseif ($property['status'] == "5"): // rented ?>
             <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Rented", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
             <?php elseif ($property['status'] == "2"): // closed ?>
@@ -460,6 +460,13 @@ var lastOpenedProperty = "<?php echo $property['mls_num']; ?>";
           </ul>
         </div>
         <?php endif;?>
+
+        <div class="list-details clidxboost-exterior-container active ms-loadmap" id="locationMap">
+          <h2 class="title-amenities"><?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+          <div id="ms-wrap-map">
+            <div id="googleMap" class="ms-map" data-real-type="mapa" data-img="googleMap" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
+          </div>
+        </div>
         <?php /*
         <div class="list-details clidxboost-schools-container" id="clidxboost-schools-container">
           <h2 class="title-amenities"><?php echo __("School Information", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -874,6 +881,68 @@ var lastOpenedProperty = "<?php echo $property['mls_num']; ?>";
         });
 
       }
+
+      function loadMapLocation(){
+        var elementSection = $('.ms-loadmap');
+        if (elementSection.length) {
+          elementSection.each(function(e) {
+            var sectionId = $("#" + $(this).attr('id'));
+            if (viewMap(sectionId)) {
+              var item = 0, el = $(this);
+              sectionId.find('[data-img]').each(function(e) {
+                if ($(this).attr('data-real-type') == "mapa") {
+                  if (viewMap($(this))) {
+                    var mapa = $(this).attr('data-img');
+                    var lat = $(this).attr('data-lat');
+                    var lng = $(this).attr('data-lng');
+
+                    if(mapa !== undefined && lat !== undefined && lng !== undefined){
+
+                      var myLatLng = {
+                        lat: parseFloat(lat),
+                        lng: parseFloat(lng)
+                      };
+
+                      var newMap = new google.maps.Map(document.getElementById(mapa), {
+                        zoom: 16,
+                        center: myLatLng,
+                        mapTypeControl: false,
+                        fullscreenControl: false
+                      });
+
+                      var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: newMap
+                      });
+                      
+                      $(this).removeAttr('data-img');
+                    }
+                    item++;
+                  }
+                }
+              });
+              if (item == sectionId.find('[data-img]').size()) {
+                el.addClass('ms-loaded').removeClass('ms-loadmap');
+              }
+            }
+          });
+        }
+      }
+
+      function viewMap(elem) {
+        var docViewTop = 0;  
+        var docViewBottom = 0;  
+        var elemTop = 0;  
+        var elemBottom = 0;  
+        docViewTop = $(window).scrollTop();  
+        docViewBottom = docViewTop + $(window).height();  
+        elemTop = $(elem).offset().top;  
+        elemBottom = elemTop + $(elem).height();
+        return ((elemBottom > docViewTop) && (elemTop < docViewBottom));
+      }
+      
+      $(window).load(function() { loadMapLocation(); });
+      $(window).scroll(function() { loadMapLocation(); });
 
     });
   })(jQuery);

@@ -2464,7 +2464,7 @@ function getLandSizeValues(min, max) {
                             } else if (item.status == "2") {
                                 listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                             }else if(item.status != "1"){
-                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+                                listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                             }else if(item.recently_listed === "yes") {
                                 listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                             }
@@ -2875,8 +2875,8 @@ function getLandSizeValues(min, max) {
                     }
                     infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> ' + textpropertybed + '</span></li>');
                     infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> ' + textpropertybath + '</span></li>');
-                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> SF<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
-                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ SF<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
+                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
+                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
                     infobox_content.push('</ul>');
                     infobox_content.push('<div class="mapviwe-img">');
                     infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');
@@ -2917,8 +2917,8 @@ function getLandSizeValues(min, max) {
                 }
                 infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> ' + textpropertyitembed + '</span></li>');
                 infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> ' + textpropertyitembath + '</span></li>');
-                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> SF<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
-                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ SF<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
                 infobox_content.push('</ul>');
                 infobox_content.push('<div class="mapviwe-img">');
                 infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');

@@ -240,7 +240,7 @@ Handlebars.registerHelper('handleStatusProperty', function(property) {
     if ("yes" === property.recently_listed) {
         return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
     } else if (1 != property.status) {
-        return '<li class="ib-piitem ib-pstatus">'+word_translate.pending+'</li>';
+        return '<li class="ib-piitem ib-pstatus">'+property.status_name+'</li>';
     }
 });
 

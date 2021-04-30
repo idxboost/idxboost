@@ -497,7 +497,7 @@ if (!empty($response) && is_array($response)) {
           <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="baths"><?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="living-size"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / SF </li>
+          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft.</li>
           <li class="development"><?php echo __('Development', IDXBOOST_DOMAIN_THEME_LANG); ?> / <?php echo __('Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         </ul>
         <ul id="result-search" class="slider-generator" style="overflow-y:auto;">
@@ -513,7 +513,7 @@ if (!empty($response) && is_array($response)) {
             <?php elseif($property['status'] == 2): ?>
             <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <?php elseif($property['status'] != 1): ?>
-            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?></div>               
+            <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>               
             <?php endif; ?>
             <?php else: ?>
             <?php if (isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>

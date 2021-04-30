@@ -19,58 +19,15 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
 // Set HTTP Header for POST request
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json',
-    'Content-Length: ' . strlen($payload))
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($payload))
 );
 
 $result = @json_decode(curl_exec($ch), true);
 
-$type_slider = "";
-if (
-
-    (
-        is_array($result["sections"]) && 
-        array_key_exists("listings", $result["sections"]) 
-    ) &&
-
-    (
-        is_array($result["sections"]["listings"]) && 
-        array_key_exists("type", $result["sections"]["listings"])        
-    ) &&
-
-    !empty($result["sections"]["listings"]["type"]) &&
-
-    $result["sections"]["listings"]["type"] == "property-sites" ) {
-    $type_slider = "property-sites";
-} else {
-    if (
-        (
-            is_array($result["sections"]) && 
-            array_key_exists("listings", $result["sections"]) 
-        ) &&
-        (
-            is_array($result["sections"]["listings"]) && 
-            array_key_exists("idxFilters", $result["sections"]["listings"])        
-        ) &&
-        in_array($result["sections"]["listings"]["idxFilters"], ["exclusive-listings","map-search-filter","display-filter"] ) 
-    ) {
-        $type_slider = $result["sections"]["listings"]["idxFilters"]; 
-    }
-}
-
-$variable_listings_property_sites = "";
-$variable_listings_exclusive = "";
-
-if ($type_slider == "property-sites") {
-    $variable_listings_property_sites = do_shortcode('[list_property_collection column="two" mode="slider"]');
-} else if ($type_slider == "exclusive-listings") {
-    $variable_listings_exclusive = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
-}
 
 $variable = do_shortcode("[idxboost_dinamic_menu]");
 $variable_autocomplete = do_shortcode("[flex_autocomplete]");
-$variable_idxboost_social_network_dinamic_header = do_shortcode('[idxboost_social_network_dinamic_header]');
-$variable_idxboost_social_network_dinamic_footer = do_shortcode('[idxboost_social_network_dinamic_footer]');
 $idxboost_dinamic_credential_lead_dinamic = do_shortcode('[idxboost_dinamic_credential_lead_dinamic]');
 $idxboost_dinamic_menu_mobile = do_shortcode('[idxboost_dinamic_menu_mobile]');
 
@@ -84,26 +41,32 @@ if ($httpcode == 200) {
     $result['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['content']);
     $result['content'] = str_replace("[idxboost_dinamic_menu_mobile]", $idxboost_dinamic_menu_mobile, $result['content']);
     $result['content'] = str_replace("[idxboost_dinamic_autocompleted]", $variable_autocomplete, $result['content']);
-    $result['content'] = str_replace('[idxboost_dinamic_listings type="property-sites"]', $variable_listings_property_sites, $result['content']);
-    $result['content'] = str_replace('[idxboost_dinamic_listings type="exclusive-listings"]', $variable_listings_exclusive, $result['content']);
-    $result['content'] = str_replace('[idxboost_dinamic_social_network type="header"]', $variable_idxboost_social_network_dinamic_header, $result['content']);
-    $result['content'] = str_replace('[idxboost_dinamic_social_network type="footer"]', $variable_idxboost_social_network_dinamic_footer, $result['content']);
     $result['content'] = str_replace('[idxboost_dinamic_credential_lead]', $idxboost_dinamic_credential_lead_dinamic, $result['content']);
 
-    if ($type_slider == "display-filter") {
-        $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
-        if (preg_match($pattern, $result['content'], $match)) {
-            $variable_flex_idx_filter = do_shortcode($match[0]);
-            $result['content'] = str_replace($match[0], $variable_flex_idx_filter, $result['content']);
-        }
-    } else if ($type_slider == "map-search-filter") {
-        $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
-        if (preg_match($pattern, $result['content'], $match)) {
-            $variable_map_search_filter = do_shortcode($match[0]);
-            $result['content'] = str_replace($match[0], $variable_map_search_filter, $result['content']);
-        }
+    $pattern = '~\[idxboost_dinamic_listings type="property-sites"\]~';
+    if (preg_match($pattern, $result['content'], $match)) {
+        $variable_idxboost_dinamic_listings = do_shortcode('[list_property_collection column="two" mode="slider"]');
+        $result['content'] = str_replace($match[0], $variable_idxboost_dinamic_listings, $result['content']);
     }
 
+    $pattern = '~\[idxboost_dinamic_listings type="exclusive-listings"\]~';
+    if (preg_match($pattern, $result['content'], $match)) {
+        $variable_idxboost_dinamic_listings = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
+        $result['content'] = str_replace($match[0], $variable_idxboost_dinamic_listings, $result['content']);
+    }
+
+
+    $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
+    if (preg_match($pattern, $result['content'], $match)) {
+        $variable_flex_idx_filter = do_shortcode($match[0]);
+        $result['content'] = str_replace($match[0], $variable_flex_idx_filter, $result['content']);
+    }
+
+    $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
+    if (preg_match($pattern, $result['content'], $match)) {
+        $ib_search_filter = do_shortcode($match[0]);
+        $result['content'] = str_replace($match[0], $ib_search_filter, $result['content']);
+    }
     echo $result['content'];
     echo '</div>';
 } else {

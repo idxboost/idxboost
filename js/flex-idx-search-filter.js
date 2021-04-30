@@ -218,7 +218,7 @@ Handlebars.registerHelper('handleStatusProperty', function(property) {
     if ("yes" === property.recently_listed) {
         return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
     } else if (1 != property.status) {
-        return '<li class="ib-piitem ib-pstatus">'+word_translate.pending+'</li>';
+        return '<li class="ib-piitem ib-pstatus">'+property.status_name+'</li>';
     }
 });
 
@@ -3562,7 +3562,7 @@ function handleFilterSearchLookup(event) {
                     }else if (info_item.status=='2') {
                         html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                     }else if (info_item.status !='1') {
-                        html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+                        html_response.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                     }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
                         html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                     }

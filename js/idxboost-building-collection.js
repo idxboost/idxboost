@@ -1000,11 +1000,7 @@ function idxboostListCollectionForSold(element){
                         
                         responseitems +='<tr class="flex-tbl-link" data-mls="'+element['mls_num']+'" data-type="sold" data-permalink="'+idxboost_collection_params["siteUrl"]+'/property/sold-'+element['slug']+'">';
                         responseitems += '<td><div class="unit propertie" data-mls="'+element['mls_num']+'">';
-                        if (element['is_favorite']==1) {
-                          responseitems +='<button class="clidxboost-btn-check flex-favorite-btn" data-alert-token="'+element['token_alert']+'"><span class="clidxboost-icon-check clidxboost-icon-check-list active flex-active-fav"></span></button><span>'+element['unit']+'</span>';
-                        }else{
-                          responseitems +='<button class="clidxboost-btn-check flex-favorite-btn"><span class="clidxboost-icon-check clidxboost-icon-check-list"></span></button><span>'+vunits+'</span>';
-                        }
+                        responseitems +='<span>'+vunits+'</span>';
                         responseitems +='</div></td><td><div class="asking-number blue">$ '+_.formatPrice(element['price_sold'])+'</div></td>';
                         var textreduced='black';
                         var textreducedmon='0%';
@@ -1400,7 +1396,7 @@ function idx_slider_building_html(info_item){
     }else if (info_item.status=='2') {
       html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
     }else if (info_item.status !='1') {
-      html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+      html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
     }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
       html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
     }

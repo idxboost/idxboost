@@ -510,7 +510,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     {{/if}}
                                     {{#if feature_interior}}
                                     <li class="ib-paitem ib-pai-active">
-                                        <h4 class="ib-paititle"><?php echo __('Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                                        <h4 class="ib-paititle"><?php echo __('Interior Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
                                         <div class="ib-paicontent">
                                             <ul class="ib-plgeneric">
                                                 {{#each feature_interior}}
