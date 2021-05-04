@@ -1,6 +1,6 @@
 <?php $class_filter = 'js-slider-single-property'; ?>
 
-<section class="flex-block-description mtop-60 ib-filter-slider ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
+<section class="flex-block-description mtop-60 ib-filter-slider-property-site ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
   data-item="<?php echo $atts['slider_item']; ?>" data-filter="<?php echo $class_filter; ?>"
   auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>">
 
