@@ -869,8 +869,9 @@ function validate_price(evt) {
     });
 
     /*PASSWORD*/
+    var resetPassPath;
     $(document).ready(function () {
-      resetPassPath = window.location.search.split('?passtoken=');
+       resetPassPath = window.location.search.split('?passtoken=');
       if (resetPassPath.length == 2) {
         $('li.login').click();
         $(".header-tab a").removeClass('active');
@@ -1978,24 +1979,141 @@ function scrollFixedElement(elemento) {
     }
     //mini map
     var flex_map_mini_view = $("#map-result");
-    var myLatLng2 = {
+
+    var myLatLng  = {
       lat: parseFloat(flex_map_mini_view.data('lat')),
       lng: parseFloat(flex_map_mini_view.data('lng'))
     };
-    var miniMap = new google.maps.Map(document.getElementById('map-result'), {
-      zoom: 16,
-      center: myLatLng2,
-      styles: style_map,
+
+    var map = new google.maps.Map(document.getElementById('map-result'), {
+      zoom: 18,
+      center: myLatLng,
+      disableDefaultUI: true,
+      streetViewControl: true,
+      /*mapTypeControl: true,
       mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.TOP_RIGHT
-      }
+        position: google.maps.ControlPosition.RIGHT_TOP,
+      }*/
     });
+
     var marker = new google.maps.Marker({
-      position: myLatLng2,
-      map: miniMap
+      position: myLatLng,
+      map: map
     });
-  }
+
+    google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls);
+
+    function handleSatelliteButton(event){
+      event.stopPropagation();
+      event.preventDefault();
+      map.setMapTypeId(google.maps.MapTypeId.HYBRID)
+    
+      if($(this).hasClass("is-active")){
+        $(this).removeClass("is-active");
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+      }else{
+        $(this).addClass("is-active");
+        map.setMapTypeId(google.maps.MapTypeId.HYBRID)
+      }
+    }
+    
+    function handleZoomInButton(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      map.setZoom(map.getZoom() + 1);
+    }
+    
+    function handleZoomOutButton(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      map.setZoom(map.getZoom() - 1);
+    }
+    
+    function handlefullscreenButton() {
+    
+      var elementToSendFullscreen = map.getDiv().firstChild;
+    
+      if (isFullscreen(elementToSendFullscreen)) {
+        exitFullscreen();
+      } else {
+        requestFullscreen(elementToSendFullscreen);
+      }
+    
+      document.onwebkitfullscreenchange = document.onmsfullscreenchange = document.onmozfullscreenchange = document.onfullscreenchange = function () {
+        if (isFullscreen(elementToSendFullscreen)) {
+          fullscreenControl.classList.add("is-fullscreen");
+        } else {
+          fullscreenControl.classList.remove("is-fullscreen");
+        }
+      };
+    }
+    
+    function isFullscreen(element) {
+      return (
+        (document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement) == element
+      );
+    }
+    
+    function requestFullscreen(element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullScreen) {
+        element.msRequestFullScreen();
+      }
+    }
+    
+    function exitFullscreen() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+    
+    function setupMapControls() {
+      // setup buttons wrapper
+      mapButtonsWrapper = document.createElement("div");
+      mapButtonsWrapper.classList.add('flex-map-controls-ct');
+    
+      // setup Full Screen button
+      fullscreenControl = document.createElement("div");
+      fullscreenControl.classList.add('flex-map-fullscreen');
+      mapButtonsWrapper.appendChild(fullscreenControl);
+    
+      // setup zoom in button
+      mapZoomInButton = document.createElement("div");
+      mapZoomInButton.classList.add('flex-map-zoomIn');
+      mapButtonsWrapper.appendChild(mapZoomInButton);
+    
+      // setup zoom out button
+      mapZoomOutButton = document.createElement("div");
+      mapZoomOutButton.classList.add('flex-map-zoomOut');
+      mapButtonsWrapper.appendChild(mapZoomOutButton);
+    
+      // setup Satellite button
+      satelliteMapButton = document.createElement("div");
+      satelliteMapButton.classList.add('flex-satellite-button');
+      mapButtonsWrapper.appendChild(satelliteMapButton);
+    
+      // add Buttons
+      google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
+      google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
+      google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+      google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
+      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
+    }
+}
 
   function msShowMap() {
     //mini map
@@ -2005,7 +2123,7 @@ function scrollFixedElement(elemento) {
       lng: parseFloat(flex_map_mini_view.data('lng'))
     };
     var miniMap = new google.maps.Map(document.getElementById('ms-map-result'), {
-      zoom: 16,
+      zoom: 18,
       center: myLatLng2,
       styles: style_map,
       /*mapTypeControlOptions: {

@@ -310,6 +310,7 @@
           <button class="open-map hide"><?php echo __('Open', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           <button class="close-map"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </div>
+
       </div>
     </div>
     <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
@@ -369,9 +370,16 @@
 <script type="text/javascript">
   var idxboost_force_registration=false;
 
-<?php if ( !empty($response) && 
-      array_key_exists('force_registration', $response) &&  
-      !empty($response['force_registration'])  ) { ?>
+<?php 
+$registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
+
+if (
+      ($registration_is_forced != false) || 
+      (
+         !empty($response) && 
+         array_key_exists('force_registration', $response) &&  !empty($response['force_registration']) 
+      )
+   ) { ?>
       idxboost_force_registration=true;
     <?php  } ?>
 

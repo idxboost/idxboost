@@ -860,9 +860,17 @@
   var idxboost_hackbox_filter=[];
   var idxboost_force_registration=false;
 
-<?php if ( !empty($response) && 
-      array_key_exists('force_registration', $response) &&  
-      !empty($response['force_registration'])  ) { ?>
+<?php
+$registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
+
+ if ( 
+      ($registration_is_forced != false) || 
+      (
+        !empty($response) && 
+            array_key_exists('force_registration', $response) &&  
+            !empty($response['force_registration'])     
+      )
+  ) { ?>
       idxboost_force_registration=true;
     <?php  } ?>
 

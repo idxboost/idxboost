@@ -15,9 +15,9 @@
   .ib-modal-filters-mobile {
   position: fixed !important;
   }
-  @media (max-width: 989px) {
+  /*@media (max-width: 989px) {
   .flex-map-controls-ct { display: none !important; }
-  }
+  }*/
 </style>
 <?php 
   $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
