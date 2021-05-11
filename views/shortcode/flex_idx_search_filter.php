@@ -163,6 +163,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 			<span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
 			<span class="ib-rembounds" style="color:blue;font-weight:600;cursor:pointer;">Remove boundaries</span> <?php echo __('or modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
 		</div>
+
+		<div class="ib-schema-section">
+			<?php echo do_shortcode('[schema_content]'); ?>
+		</div>
 	</div>
 </div>
 
