@@ -1988,12 +1988,13 @@ function scrollFixedElement(elemento) {
     var map = new google.maps.Map(document.getElementById('map-result'), {
       zoom: 18,
       center: myLatLng,
+      styles: style_map,
+      gestureHandling: 'cooperative',
+      panControl: false,
+      scrollwheel: false,
+      disableDoubleClickZoom: true,
       disableDefaultUI: true,
       streetViewControl: true,
-      /*mapTypeControl: true,
-      mapTypeControlOptions: {
-        position: google.maps.ControlPosition.RIGHT_TOP,
-      }*/
     });
 
     var marker = new google.maps.Marker({

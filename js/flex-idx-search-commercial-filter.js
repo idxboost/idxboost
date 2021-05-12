@@ -1022,25 +1022,36 @@ function exitFullscreen() {
   }
 }
 
-function setupMapControls() {
+//MAPA 50/50
+function setupMapControlsFull() {
   // setup buttons wrapper
   mapButtonsWrapper = document.createElement("div");
   mapButtonsWrapper.classList.add('flex-map-controls-ct');
 
-  // setup Full Screen button
-  fullscreenControl = document.createElement("div");
-  fullscreenControl.classList.add('flex-map-fullscreen');
-  mapButtonsWrapper.appendChild(fullscreenControl);
+	// setup Full Screen button
+	fullscreenControl = document.createElement("div");
+	fullscreenControl.classList.add('flex-map-fullscreen');
+	//mapButtonsWrapper.appendChild(fullscreenControl);
 
-  // setup zoom in button
-  mapZoomInButton = document.createElement("div");
-  mapZoomInButton.classList.add('flex-map-zoomIn');
-  mapButtonsWrapper.appendChild(mapZoomInButton);
+	// setup zoom in button
+	mapZoomInButton = document.createElement("div");
+	mapZoomInButton.classList.add('flex-map-zoomIn');
+	mapButtonsWrapper.appendChild(mapZoomInButton);
 
-  // setup zoom out button
-  mapZoomOutButton = document.createElement("div");
-  mapZoomOutButton.classList.add('flex-map-zoomOut');
-  mapButtonsWrapper.appendChild(mapZoomOutButton);
+	// setup zoom out button
+	mapZoomOutButton = document.createElement("div");
+	mapZoomOutButton.classList.add('flex-map-zoomOut');
+	mapButtonsWrapper.appendChild(mapZoomOutButton);
+
+	// setup draw button
+	mapDrawButton = document.createElement("div");
+	mapDrawButton.classList.add('flex-map-draw');
+	mapButtonsWrapper.appendChild(mapDrawButton);
+
+	// set draw erase button
+	mapDrawEraseButton = document.createElement("div");
+	mapDrawEraseButton.classList.add('flex-map-draw-erase');
+	//mapButtonsWrapper.appendChild(mapDrawEraseButton);
 
   // setup Satellite button
   satelliteMapButton = document.createElement("div");
@@ -1050,11 +1061,12 @@ function setupMapControls() {
   // add Buttons
   google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
   google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
-  google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+  //google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+	google.maps.event.addDomListener(mapDrawButton, "click", handleDrawButton);
   google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
+
   IB_MAP.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
 }
-
 
 
 // function setupListenersForMapBounds() {
@@ -1491,18 +1503,15 @@ function loadPropertyInModal(mlsNumber) {
 					var myLatLng = { lat: parseFloat(response.lat), lng: parseFloat(response.lng) };
 
 					var map = new google.maps.Map(IB_MODAL_WRAPPER.find(".ib-pmap")[0], {
-						disableDoubleClickZoom: true,
-						scrollwheel: false,
-						panControl: false,
 						zoom: 18,
 						center: myLatLng,
 						styles: style_map,
-						gestureHandling: 'greedy',
+						gestureHandling: 'cooperative',
+						panControl: false,
+						scrollwheel: false,
+						disableDoubleClickZoom: true,
+						disableDefaultUI: true,
 						streetViewControl: true,
-						/*mapTypeControl: true,
-						mapTypeControlOptions: {
-							position: google.maps.ControlPosition.RIGHT_TOP,
-						}*/
 					});
 			
 					var marker = new google.maps.Marker({
@@ -1516,16 +1525,15 @@ function loadPropertyInModal(mlsNumber) {
 					var myLatLng2 = { lat: parseFloat(response.lat), lng: parseFloat(response.lng) };
 
 					var map2 = new google.maps.Map(document.getElementById("ib-modal-property-map"), {
-							zoom: 18,
-							center: myLatLng2,
-							styles: style_map,
-							gestureHandling: 'cooperative',
-							disableDefaultUI: true,
-							streetViewControl: true,
-							/*mapTypeControl: true,
-							mapTypeControlOptions: {
-								position: google.maps.ControlPosition.RIGHT_TOP,
-							}*/
+						zoom: 18,
+						center: myLatLng2,
+						styles: style_map,
+						gestureHandling: 'cooperative',
+						panControl: false,
+						scrollwheel: false,
+						disableDoubleClickZoom: true,
+						disableDefaultUI: true,
+						streetViewControl: true,
 					});
 			
 					var marker2 = new google.maps.Marker({
@@ -5446,7 +5454,7 @@ function handleFilterSearchLookup(event) {
 				// attach listeners for mobile form [filter]
 				attachListenersMobileForm();
 
-				google.maps.event.addListenerOnce(IB_MAP, 'tilesloaded', setupMapControls);
+				google.maps.event.addListenerOnce(IB_MAP, 'tilesloaded', setupMapControlsFull);
 			}
 
 			if (params.hasOwnProperty('kml_boundaries'))  {
@@ -6659,14 +6667,14 @@ $(function () {
 
 						var map = new google.maps.Map(IB_MODAL_WRAPPER.find(".ib-pmap")[0], {
 							zoom: 18,
-							styles: style_map,
 							center: myLatLng,
+							styles: style_map,
+							gestureHandling: 'cooperative',
+							panControl: false,
+							scrollwheel: false,
+							disableDoubleClickZoom: true,
 							disableDefaultUI: true,
 							streetViewControl: true,
-							/*mapTypeControl: true,
-							mapTypeControlOptions: {
-								position: google.maps.ControlPosition.RIGHT_TOP,
-							}*/
 						});
 		
 						var marker = new google.maps.Marker({

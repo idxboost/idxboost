@@ -165,8 +165,13 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 		</div>
 
 		<div class="ib-schema-section">
-			<?php echo do_shortcode('[schema_content]'); ?>
+			<?php 
+				if(has_shortcode('[schema_content]','schema_content')){
+					echo do_shortcode('[schema_content]');
+				}
+			?>
 		</div>
+		
 	</div>
 </div>
 
