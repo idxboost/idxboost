@@ -63,6 +63,13 @@ if (is_array($result) && count($result) > 0) {
                 ) {
                 echo "document.body.classList.add('compass-sans-and-serif');";
             }
+
+            if ( 
+                array_key_exists("fontFamily", $GLOBALS['crm_theme_setting']) &&
+                $GLOBALS['crm_theme_setting']["fontFamily"] == "dinengschrift-and-open-sans"
+                ) {
+                echo "document.body.classList.add('dinengschrift-and-open-sans');";
+            }
         }
     }
     ?>

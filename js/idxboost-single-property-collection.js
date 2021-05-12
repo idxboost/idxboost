@@ -532,6 +532,12 @@
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
 				item.style.setProperty('--sp-font-family', fontFamily);
 			});
+		} else if ( fontFamily == "dinengschrift-and-open-sans" ) {
+			document.querySelector(IB_SP_PAGE).classList.add('dinengschrift-and-open-sans');
+			fontFamily = 'Open Sans, sans-serif';
+			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+				item.style.setProperty('--sp-font-family', fontFamily);
+			});
 		} else {
 			WebFont.load({
 				google: {
