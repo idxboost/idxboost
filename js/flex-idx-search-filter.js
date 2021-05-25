@@ -5274,7 +5274,7 @@ $(function () {
 				urlParams.delete("show");
 	
 				if ("" === urlParams.toString()) {
-					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+					history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
 				} else {
 					history.pushState(null, null, '?' + urlParams.toString());
 				}
@@ -5983,7 +5983,7 @@ $(function () {
 				});
 				setTimeout(function () { $("#flex_idx_search_filter_form").trigger("submit"); }, 250);
 			} else {
-				location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+				location.href = __flex_idx_search_filter.searchFilterPermalink;
 			}
 
 			// window.scrollTo(0,0);
