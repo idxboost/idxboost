@@ -174,32 +174,34 @@ jQuery(function() {
             }
 
             // build pagination
-            if (response.lead_info.listing_views_pagination.total_pages > 1) {
-              var lead_listing_views_paging = [];
-
-              if (response.lead_info.listing_views_pagination.has_prev_page) {
-                lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
-              }
-
-              lead_listing_views_paging.push('<div class="ib-paglinks">');
-
-              var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
-
-              for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-                if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                  lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
-                } else {
-                  lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+            if (response.hasOwnProperty('lead_info')) {
+              if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                var lead_listing_views_paging = [];
+  
+                if (response.lead_info.listing_views_pagination.has_prev_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
                 }
+  
+                lead_listing_views_paging.push('<div class="ib-paglinks">');
+  
+                var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+  
+                for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                  if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                    lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  } else {
+                    lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  }
+                }
+  
+                lead_listing_views_paging.push('</div>');
+  
+                if (response.lead_info.listing_views_pagination.has_next_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                }
+  
+                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-
-              lead_listing_views_paging.push('</div>');
-
-              if (response.lead_info.listing_views_pagination.has_next_page) {
-                lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
-              }
-
-              jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
             }
           }
         });
@@ -681,32 +683,34 @@ function validate_price(evt) {
             }
 
             // build pagination
-            if (response.lead_info.listing_views_pagination.total_pages > 1) {
-              var lead_listing_views_paging = [];
-
-              if (response.lead_info.listing_views_pagination.has_prev_page) {
-                lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
-              }
-
-              lead_listing_views_paging.push('<div class="ib-paglinks">');
-
-              var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
-
-              for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-                if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                  lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
-                } else {
-                  lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+            if (response.hasOwnProperty('lead_info')) {
+              if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                var lead_listing_views_paging = [];
+  
+                if (response.lead_info.listing_views_pagination.has_prev_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
                 }
+  
+                lead_listing_views_paging.push('<div class="ib-paglinks">');
+  
+                var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+  
+                for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                  if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                    lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  } else {
+                    lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  }
+                }
+  
+                lead_listing_views_paging.push('</div>');
+  
+                if (response.lead_info.listing_views_pagination.has_next_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                }
+  
+                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-
-              lead_listing_views_paging.push('</div>');
-
-              if (response.lead_info.listing_views_pagination.has_next_page) {
-                lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
-              }
-
-              jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
             }
           }
         });
@@ -1078,32 +1082,34 @@ function validate_price(evt) {
             }
 
             // build pagination
-            if (response.lead_info.listing_views_pagination.total_pages > 1) {
-              var lead_listing_views_paging = [];
-
-              if (response.lead_info.listing_views_pagination.has_prev_page) {
-                lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
-              }
-
-              lead_listing_views_paging.push('<div class="ib-paglinks">');
-
-              var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
-
-              for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-                if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                  lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
-                } else {
-                  lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+            if (response.hasOwnProperty('lead_info')) {
+              if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                var lead_listing_views_paging = [];
+  
+                if (response.lead_info.listing_views_pagination.has_prev_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
                 }
+  
+                lead_listing_views_paging.push('<div class="ib-paglinks">');
+  
+                var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+  
+                for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                  if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                    lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  } else {
+                    lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                  }
+                }
+  
+                lead_listing_views_paging.push('</div>');
+  
+                if (response.lead_info.listing_views_pagination.has_next_page) {
+                  lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                }
+  
+                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-
-              lead_listing_views_paging.push('</div>');
-
-              if (response.lead_info.listing_views_pagination.has_next_page) {
-                lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
-              }
-
-              jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
             }
           }
         });

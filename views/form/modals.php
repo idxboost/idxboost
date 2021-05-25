@@ -1581,7 +1581,8 @@ function fb_login() {
                                   }
 
                                   // build pagination
-                                  if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                                  if (response.hasOwnProperty('lead_info')) {
+                                    if (response.lead_info.listing_views_pagination.total_pages > 1) {
                                     var lead_listing_views_paging = [];
 
                                     if (response.lead_info.listing_views_pagination.has_prev_page) {
@@ -1607,6 +1608,7 @@ function fb_login() {
                                     }
 
                                     jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                  }
                                   }
                                 }
                               });
