@@ -1626,7 +1626,7 @@ function loadPropertyInModal(mlsNumber) {
 				}
 
 				// Web Share API
-				if ('share' in navigator) { // for mobile
+				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
 					document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;
 					history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 				} else { // for desktop
@@ -5266,7 +5266,7 @@ $(function () {
 			IB_MODAL_WRAPPER.empty();
 
 			// Web Share API
-			if ('share' in navigator) { // for mobile
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
 				document.title = initial_title;
 				history.pushState(null, null, initial_href);
 			} else { // for  desktop
