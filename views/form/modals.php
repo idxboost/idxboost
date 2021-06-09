@@ -167,15 +167,15 @@ global $flex_idx_info, $flex_idx_lead;
                       </div>
                       <ul class="pr-radio-list">
                         <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-0" value="1 - 3 Months">
+                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-0" value="1_3_months">
                           <label for="inline_radios_1513789754550-0" class="i-checks"><?php echo __("Within 1-3 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-1" value="3 - 6 Months">
+                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-1" value="3_6_months">
                           <label for="inline_radios_1513789754550-1" class="i-checks"><?php echo __("Within 3-6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-2" value="6+ Months">
+                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-2" value="6_months_more">
                           <label for="inline_radios_1513789754550-2" class="i-checks"><?php echo __("More than 6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                       </ul>
@@ -1815,15 +1815,15 @@ function fb_logout() {
                 </div>
                 <ul class="ib-pr-radio-list">
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-0" type="radio" name="timeline_for_purchase" value="1 - 3 Months">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-0" type="radio" name="timeline_for_purchase" value="1_3_months">
                     <label class="i-checks ib-rquizz-step2" for="inline_quizz_radios_1513789754550-0"><?php echo __("Within 1-3 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-1" type="radio" name="timeline_for_purchase" value="3 - 6 Months">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-1" type="radio" name="timeline_for_purchase" value="3_6_months">
                     <label class="i-checks ib-rquizz-step2" for="inline_quizz_radios_1513789754550-1"><?php echo __("Within 3-6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-2" type="radio" name="timeline_for_purchase" value="6+ Months">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789754550-2" type="radio" name="timeline_for_purchase" value="6_months_more">
                     <label class="i-checks ib-rquizz-step2" for="inline_quizz_radios_1513789754550-2"><?php echo __("More than 6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                 </ul>
@@ -1843,15 +1843,15 @@ function fb_logout() {
                 </div>
                 <ul class="ib-pr-radio-list">
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-0" type="radio" name="mortgage_approved" value="Yes">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-0" type="radio" name="mortgage_approved" value="yes">
                     <label class="i-checks ib-rquizz-step3" for="inline_quizz_radios_1513789825341-0"><?php echo __("I am pre-approved", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-1" type="radio" name="mortgage_approved" value="No">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-1" type="radio" name="mortgage_approved" value="no">
                     <label class="i-checks ib-rquizz-step3" for="inline_quizz_radios_1513789825341-1"><?php echo __("Not pre-approved yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-2" type="radio" name="mortgage_approved" value="I'm buying with Cash">
+                    <input class="ibregister-btn" id="inline_quizz_radios_1513789825341-2" type="radio" name="mortgage_approved" value="buying_with_cash">
                     <label class="i-checks ib-rquizz-step3" for="inline_quizz_radios_1513789825341-2"><?php echo __("I prefer to buy with cash", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                 </ul>
@@ -1871,15 +1871,15 @@ function fb_logout() {
                 </div>
                 <ul class="ib-pr-radio-list">
                   <li>
-                    <input id="inline_quizz_radios_15137898580630-0" type="radio" name="sell_a_home" value="Yes">
+                    <input id="inline_quizz_radios_15137898580630-0" type="radio" name="sell_a_home" value="yes">
                     <label class="ibregister-tg-submit-quizz" for="inline_quizz_radios_15137898580630-0"><?php echo __("Looking to sell too", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input id="inline_quizz_radios_15137898580631-1" type="radio" name="sell_a_home" value="No">
+                    <input id="inline_quizz_radios_15137898580631-1" type="radio" name="sell_a_home" value="no">
                     <label class="ibregister-tg-submit-quizz" for="inline_quizz_radios_15137898580631-1"><?php echo __("Not looking to sell", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                   <li>
-                    <input id="inline_quizz_radios_15137898580632-2" type="radio" name="sell_a_home" value="I'm undecided">
+                    <input id="inline_quizz_radios_15137898580632-2" type="radio" name="sell_a_home" value="not_sure_yet">
                     <label class="ibregister-tg-submit-quizz" for="inline_quizz_radios_15137898580632-2"><?php echo __("Not sure yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                   </li>
                 </ul>
