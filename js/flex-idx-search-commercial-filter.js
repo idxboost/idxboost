@@ -622,6 +622,10 @@ function handleKeyPressAutocompleteEvent(event) {
 }
 
 function handleKeyUpAutocompleteEvent(event) {
+	if (event.keyCode == 40 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 37) {
+		return;
+	}
+
 	var inputValue = this.value;
 
 	if ( ("" !== inputValue) && (13 === event.keyCode) ) {
@@ -1446,6 +1450,7 @@ function loadPropertyInModal(mlsNumber) {
 						  nav: true,
 						  bullets: false,
 						  lazyLoad: true,
+							navSpeed: 150,
 						  layout: {
 							  arrowDefaultStyles: false
 						  },
@@ -1656,7 +1661,8 @@ function loadPropertyInModal(mlsNumber) {
 				}
 
 				// Web Share API
-				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
+				// if ('share' in navigator) { // for mobile
+				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 					document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;
 					history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 				} else { // for desktop
@@ -3990,10 +3996,13 @@ function buildSearchFilterForm() {
 			var clickedOption = this.value;
 			var checkedOption = this.checked;
 
-			IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+			// IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
 
-			var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+			//var chk_amt = IB_LB_AMENITIES_OPTIONS.find(':checked');
+			var chk_amt = jQuery(this).parent().parent().find(':checked');
 			var chk_list = [];
+
+			IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
 			chk_amt.each(function (index, node) {
 				if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -4113,14 +4122,18 @@ function buildSearchFilterForm() {
 			IB_LB_TYPES_OPTIONS.eq(index).append(IB_DOCFRAG);
 		});
 
-		IB_LB_TYPES_OPTIONS.on("change", "input", function() {
+		IB_LB_TYPES_OPTIONS.on("change", "input", function(e) {
 			var clickedOption = this.value;
 			var checkedOption = this.checked;
 
-			IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+			//IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
+			//IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').attr('checked', checkedOption);
 
-			var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+			//var chk_amt = IB_LB_TYPES_OPTIONS.find(':checked');
+			var chk_amt = jQuery(this).parent().parent().find(':checked');
 			var chk_list = [];
+
+			IB_LB_TYPES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
 
 			chk_amt.each(function (index, node) {
 				if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -6365,7 +6378,8 @@ $(function () {
 			IB_MODAL_WRAPPER.empty();
 
 			// Web Share API
-			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
+			// if ('share' in navigator) { // for mobile
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 				document.title = initial_title;
 				history.pushState(null, null, initial_href);
 			} else { // for  desktop

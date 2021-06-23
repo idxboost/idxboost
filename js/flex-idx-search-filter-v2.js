@@ -9,21 +9,14 @@ if (typeof originalPositionY === "undefined") {
 var IB_HAS_LEFT_CLICKS = (__flex_g_settings.hasOwnProperty("signup_left_clicks") && (null != __flex_g_settings.signup_left_clicks));
 var IB_CURRENT_LEFT_CLICKS;
 
-		//delete feature hopa
-		if ([1,2,3].includes(parseFloat(__flex_idx_search_filter_v2.boardId) ) ===false ) {
-			
-			var item_dele=__flex_idx_search_filter_v2.search.amenities.map(function(item){
-				return item.code
-			}).indexOf('hopa');
-			__flex_idx_search_filter_v2.search.amenities.splice(item_dele,1);
-		}
-		//delete feature hopa
-
-		
-// if (true === IB_HAS_LEFT_CLICKS) {
-//     var IB_DEFAULT_LEFT_CLICKS = parseInt(__flex_g_settings.signup_left_clicks, 10);
-//     var IB_CURRENT_LEFT_CLICKS = parseInt(__flex_g_settings.signup_left_clicks, 10);
-// }
+//delete feature hopa
+if ([1,2,3].includes(parseFloat(__flex_idx_search_filter_v2.boardId) ) ===false ) {
+	var item_dele=__flex_idx_search_filter_v2.search.amenities.map(function(item){
+		return item.code
+	}).indexOf('hopa');
+	__flex_idx_search_filter_v2.search.amenities.splice(item_dele,1);
+}
+//delete feature hopa
 
 // fix for gmap dragEnd, zoomEnd
 var idleListener;
@@ -330,29 +323,6 @@ Handlebars.registerHelper('idxSliderLoop', function(property) {
 	}
 
 	return images.join("");
-
-	// if ( parseInt(property.img_cnt, 10) > 0 ) {
-	//     var sliderItems = [];
-	//     var count = parseInt(property.img_cnt, 10);
-
-	//     for (var index = 1; index < count; index++) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, index) +'">');
-	//     }
-
-	//     if (count == 1) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 1) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//     } else if (count == 2) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 1) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 2) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//     }
-
-	//     return sliderItems.join("");
-	// } else {
-	//     return [];
-	// }
 });
 
 Handlebars.registerHelper('propertyPermalink', function(slug) {
@@ -528,7 +498,9 @@ function handleKeyPressAutocompleteEvent(event) {
 }
 
 function handleKeyUpAutocompleteEvent(event) {
-	console.log('[keyup]');
+	if (event.keyCode == 40 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 37) {
+		return;
+	}
 
 	var inputValue = this.value;
 
@@ -577,6 +549,51 @@ function handleClearAutocompleteEvent() {
 
 	ib_autocomplete.autocomplete("option", "source", ib_autocomplete_cities);
 	ib_autocomplete.autocomplete( "search", "" );
+
+	if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+		document.title = initial_title;
+		history.pushState(null, null, initial_href);
+	} else { // for  desktop
+		var urlParams = new URLSearchParams(window.location.search);
+		urlParams.delete("keyword");
+
+		if ("" === urlParams.toString()) {
+			history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+		} else {
+			history.pushState(null, null, '?' + urlParams.toString());
+		}
+	}
+
+	IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
+	IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
+	// IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+	IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
+	IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+	if ("undefined" !== typeof IB_POLYGON) {
+		IB_POLYGON.setMap(null);
+	}
+
+	if ("undefined" !== typeof IB_DRAWING_POLYGON) {
+		// console.log("remove polygon draw");
+		IB_DRAWING_POLYGON.setMap(null);
+	}
+
+	IB_HAS_POLYGON = false;
+
+	var mapZoom = IB_MAP.getZoom();
+	var mapBounds = IB_MAP.getBounds();
+
+	IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
+	// console.log("hide remove boundaries button");
+
+	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+	IB_SEARCH_FILTER_FORM.trigger("submit");
+	
+	//handleFilterSearchLookup();
 }
 
 function handlePasteAutocompleteEvent() {
@@ -715,9 +732,6 @@ function getQueryParameter(q) {
 	return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
 }
 
-/**
- * Handle Google Map Custom Controls
- */
 function handleOverlayComplete(event) {
 	if (IB_DRAWING_MANAGER.getDrawingMode()) {
 		IB_DRAWING_MANAGER.setDrawingMode(null);
@@ -1297,6 +1311,7 @@ function loadPropertyInModal(mlsNumber) {
 							  nav: true,
 							  bullets: false,
 							  lazyLoad: true,
+								navSpeed: 150,
 							  layout: {
 								  arrowDefaultStyles: false
 							  },
@@ -1624,7 +1639,8 @@ function loadPropertyInModal(mlsNumber) {
 				}
 
 				// Web Share API
-				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
+				//if ('share' in navigator) { // for mobile
+				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 					document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;
 					history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 				} else { // for desktop
@@ -4734,7 +4750,7 @@ $(function () {
 				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
+				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val(encodedPath);
 				IB_SEARCH_FILTER_FORM.find('[name="page"]').val("1");
 	
@@ -4949,482 +4965,549 @@ $(function () {
 			loadPropertyInModal(mlsNumber);
 		});
 
-		// handle favorite
-		IB_MODAL_WRAPPER.on("click", ".ib-pfavorite", function(event) {
-			// console.log(__flex_g_settings.anonymous);
+	// handle favorite
+	IB_MODAL_WRAPPER.on("click", ".ib-pfavorite", function(event) {
+		// console.log(__flex_g_settings.anonymous);
 
-			if ("yes" === __flex_g_settings.anonymous) {
-				// if ($(".register").length) {
-					// $(".register").click();
-					$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
-					$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
-					$("#modal_login").find(".item_tab").removeClass("active");
-					$("#tabRegister").addClass("active");
-					$("#modal_login #msRst").empty().html($("#mstextRst").html());
-					$("button.close-modal").addClass("ib-close-mproperty");
-					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-					/*TEXTO LOGIN*/
-					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-				// }
-			
-				return;
+		if ("yes" === __flex_g_settings.anonymous) {
+			// if ($(".register").length) {
+				// $(".register").click();
+				$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+				$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+				$("#modal_login").find(".item_tab").removeClass("active");
+				$("#tabRegister").addClass("active");
+				$("#modal_login #msRst").empty().html($("#mstextRst").html());
+				$("button.close-modal").addClass("ib-close-mproperty");
+				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+				/*TEXTO LOGIN*/
+				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+				$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+			// }
+		
+			return;
+		}
+
+		var mlsNumber = $(this).data("mls");
+		var tokenAlert = $(this).data("token-alert");
+
+		if ($(this).hasClass("ib-pf-active")) { // remove
+			$(this).children().html(word_translate.save_favorite);
+		} else { // add
+			$(this).children().html(word_translate.remove_favorite);
+		}
+
+		$(this).toggleClass("ib-pf-active");
+
+		// save favorite from modal
+		markPropertyAsFavorite(mlsNumber, event.target, "modal");
+	});
+
+	// open property detail in another tab
+	IB_MODAL_WRAPPER.on("click", ".ib-pbtnopen", function() {
+		var linkToOpen = $(this).data("permalink");
+
+		window.open(linkToOpen);
+	});
+
+	// close opened modal
+	IB_MODAL_WRAPPER.on("click", ".ib-pbtnclose", function() {
+		IB_MODAL_WRAPPER.find(".ib-modal-master").removeClass("ib-md-active");
+		IB_MODAL_WRAPPER.empty();
+
+		// Web Share API
+		// if ('share' in navigator) { // for mobile
+		if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+			document.title = initial_title;
+			history.pushState(null, null, initial_href);
+		} else { // for  desktop
+			var urlParams = new URLSearchParams(window.location.search);
+			urlParams.delete("show");
+
+			if ("" === urlParams.toString()) {
+				history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+			} else {
+				history.pushState(null, null, '?' + urlParams.toString());
 			}
+		}
 
-			var mlsNumber = $(this).data("mls");
-			var tokenAlert = $(this).data("token-alert");
+		// quitando fallback para safari IOS
+		$('html').removeClass('ib-mpropertie-open');
 
-			if ($(this).hasClass("ib-pf-active")) { // remove
-				$(this).children().html(word_translate.save_favorite);
-			} else { // add
-				$(this).children().html(word_translate.remove_favorite);
-			}
+		if (/webOS|iPhone|iPad/i.test(navigator.userAgent)) {
+			$('body').removeClass('only-mobile');
+		}
 
-			$(this).toggleClass("ib-pf-active");
-
-			// save favorite from modal
-			markPropertyAsFavorite(mlsNumber, event.target, "modal");
-		});
-
-		// open property detail in another tab
-		IB_MODAL_WRAPPER.on("click", ".ib-pbtnopen", function() {
-			var linkToOpen = $(this).data("permalink");
-
-			window.open(linkToOpen);
-		});
-
-		// close opened modal
-		IB_MODAL_WRAPPER.on("click", ".ib-pbtnclose", function() {
-			IB_MODAL_WRAPPER.find(".ib-modal-master").removeClass("ib-md-active");
-			IB_MODAL_WRAPPER.empty();
-
-			// Web Share API
-			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) { // for mobile
-				document.title = initial_title;
-				history.pushState(null, null, initial_href);
-			} else { // for  desktop
-				var urlParams = new URLSearchParams(window.location.search);
-				urlParams.delete("show");
-	
-				if ("" === urlParams.toString()) {
-					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
-				} else {
-					history.pushState(null, null, '?' + urlParams.toString());
-				}
-			}
-
-			// quitando fallback para safari IOS
-			$('html').removeClass('ib-mpropertie-open');
-
-			if (/webOS|iPhone|iPad/i.test(navigator.userAgent)) {
-			  $('body').removeClass('only-mobile');
-			}
-
-			if (typeof originalPositionY !== "undefined") {
-				console.log('restoring to: ' + originalPositionY);
-				window.scrollTo(0,originalPositionY);
-			}
-		});
+		if (typeof originalPositionY !== "undefined") {
+			console.log('restoring to: ' + originalPositionY);
+			window.scrollTo(0,originalPositionY);
+		}
+	});
 
 
-		IB_SAVE_SEARCH_MODALS.on("submit",function(event){
-			event.preventDefault();
-			var search_url = encodeURIComponent(location.href);
-			var search_count = IB_SEARCH_FILTER.attr("data-count");
-			var search_condition = IB_SEARCH_FILTER.attr("data-condition");
-			var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
-			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
-			var formData = $(this).serialize();
-			formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID;
+	IB_SAVE_SEARCH_MODALS.on("submit",function(event){
+		event.preventDefault();
+		var search_url = encodeURIComponent(location.href);
+		var search_count = IB_SEARCH_FILTER.attr("data-count");
+		var search_condition = IB_SEARCH_FILTER.attr("data-condition");
+		var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
+		var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
+		var formData = $(this).serialize();
+		formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID;
 
-			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
-			if ("no" === __flex_g_settings.anonymous) {
-				$.ajax({
-					type: "POST",
-					url: __flex_idx_search_filter_v2.ajaxUrl,
-					data: formData,
-					dataType: "json",                    
-					success: function(response) {
-						if (response.success != false){
-						 swal({
-							 title: word_translate.search_saved,
-							 text: word_translate.your_search_has_been_saved_successfuly,
-							 type: "success",
-							   timer: 2000,
-							   showConfirmButton: false
-						 });
-						 $("#ib-fsearch-save-modal").removeClass("ib-md-active");
-						 $('.ib-mssinput').val('');
-						}else{
-							sweetAlert("Oops...", response.message, "error");
-						}
-
-						if (jQuery("#_ib_lead_activity_tab").length) {
-							jQuery("#_ib_lead_activity_tab button:eq(2)").click();
-						}
+		var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
+		if ("no" === __flex_g_settings.anonymous) {
+			$.ajax({
+				type: "POST",
+				url: __flex_idx_search_filter_v2.ajaxUrl,
+				data: formData,
+				dataType: "json",                    
+				success: function(response) {
+					if (response.success != false){
+						swal({
+							title: word_translate.search_saved,
+							text: word_translate.your_search_has_been_saved_successfuly,
+							type: "success",
+							timer: 2000,
+							showConfirmButton: false
+						});
+						$("#ib-fsearch-save-modal").removeClass("ib-md-active");
+						$('.ib-mssinput').val('');
+					}else{
+						sweetAlert("Oops...", response.message, "error");
 					}
+
+					if (jQuery("#_ib_lead_activity_tab").length) {
+						jQuery("#_ib_lead_activity_tab button:eq(2)").click();
+					}
+				}
+			});
+		}
+	});
+
+	// IB_SAVE_SEARCH_MODALS.find('.ib-mgsubmit').click(function(){ IB_SAVE_SEARCH_MODALS.submit(); });
+
+	IB_MODAL_WRAPPER.on("click", ".ib-plsifb", function(event) {
+		event.preventDefault();
+
+		var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
+
+		//params
+		var params = {
+			u: $(this).attr("href")
+		};
+
+		for(var prop in params) {
+			shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
+		}
+
+		var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+
+		if (wo.focus) {
+			wo.focus();
+		}
+	});
+
+	// share on twitter
+	IB_MODAL_WRAPPER.on("click", ".ib-plsitw", function(event) {
+		event.preventDefault();
+
+		var shareURL = "http://twitter.com/share?"; //url base
+
+		var buildTextShare = [];
+		var propertyRental = (1 == $(this).data("rental")) ? "Rent " : "Sale ";
+
+		buildTextShare.push($(this).data("type"));
+
+		buildTextShare.push(" for " + propertyRental );
+		buildTextShare.push($(this).data("price"));
+		buildTextShare.push(" #" + $(this).data("mls") );
+		buildTextShare.push(" in ");
+		buildTextShare.push($(this).data("address") + " ");
+
+		//params
+		var params = {
+			url: $(this).attr("href"), 
+			text: buildTextShare.join("")
+		}
+
+		for(var prop in params) {
+			shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
+		}
+
+		var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+
+		if (wo.focus) {
+			wo.focus();
+		}
+	});
+
+	// open mortgage calculator
+	IB_MODAL_WRAPPER.on("click", ".ib-pscalculator", function() {
+		var pp = $(this).data("price").replace(/[^\d]/g, "");
+
+		$(".ib-property-mortgage-f:eq(0)").trigger("reset");
+
+		var dp = $(".ib-property-mc-dp:eq(0)").val();
+		var ty = $(".ib-property-mc-ty:eq(0)").val();
+		var ir = $(".ib-property-mc-ir:eq(0)").val();
+
+		// update form
+		$(".ib-property-mc-pp").val("$" + _.formatPrice(pp));
+
+		var calc_mg = calculate_mortgage(pp, dp, ty, ir);
+
+		$(".ib-calc-mc-mortgage").html("$" + calc_mg.mortgage);
+		$(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
+		$(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
+		$(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
+
+		$("#ib-mortage-calculator").addClass("ib-md-active");
+	});
+
+	$(".ib-property-mortage-submit").on("click", function() {
+		var pp = $(".ib-property-mc-pp:eq(0)").val();
+		var dp = $(".ib-property-mc-dp:eq(0)").val();
+		var ty = $(".ib-property-mc-ty:eq(0)").val();
+		var ir = $(".ib-property-mc-ir:eq(0)").val();
+
+		var calc_mg = calculate_mortgage(pp, dp, ty, ir);
+
+		$(".ib-calc-mc-mortgage").html("$" + calc_mg.mortgage);
+		$(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
+		$(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
+		$(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
+	});
+
+	// open email to a friend modal
+	IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
+		var mlsNumber = $(this).data("mls");
+		var propertyStatus = $(this).data("status");
+
+		$(".ib-property-share-friend-f:eq(0)").trigger("reset");
+		$(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
+		$(".ib-property-share-property-status:eq(0)").val(propertyStatus);
+
+		$("#ib-email-to-friend").addClass("ib-md-active");
+		
+		var fn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
+		var ln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
+		var em = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
+		
+		if (fn.lenght || ln.length) {
+			$("#_sf_name").val(fn + " " + ln);
+		}
+		
+		$("#_sf_email").val(em);
+	});
+
+	$(".ib-property-share-friend-f").on("submit", function(event) {
+		event.preventDefault();
+
+		var _self = $(this);
+
+		if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+			if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+				// pending...
+			} else { // regular recaptcha
+				grecaptcha.ready(function() {
+					grecaptcha
+					.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+					.then(function(token) {
+						_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+		
+						var formData = _self.serialize();
+						var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+						var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+			
+						$.ajax({
+							type: "POST",
+							url: shareWithFriendEndpoint,
+							data: {
+								access_token: IB_ACCESS_TOKEN,
+								flex_credentials: Cookies.get("ib_lead_token"),
+								form_data: formData
+							},
+							success: function(response) {
+								// ...
+							}
+						});
+			
+						$("#ib-email-to-friend").removeClass("ib-md-active");
+						$("#ib-email-thankyou").addClass("ib-md-active");
+					});
 				});
 			}
-		});
-
-		// IB_SAVE_SEARCH_MODALS.find('.ib-mgsubmit').click(function(){ IB_SAVE_SEARCH_MODALS.submit(); });
-
-		IB_MODAL_WRAPPER.on("click", ".ib-plsifb", function(event) {
-			event.preventDefault();
-
-			var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
-
-			//params
-			var params = {
-				u: $(this).attr("href")
-			};
-  
-			for(var prop in params) {
-				shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
-			}
-
-			var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
-
-			if (wo.focus) {
-				wo.focus();
-			}
-		});
-
-		// share on twitter
-		IB_MODAL_WRAPPER.on("click", ".ib-plsitw", function(event) {
-			event.preventDefault();
-
-			var shareURL = "http://twitter.com/share?"; //url base
-
-			var buildTextShare = [];
-			var propertyRental = (1 == $(this).data("rental")) ? "Rent " : "Sale ";
-
-			buildTextShare.push($(this).data("type"));
-
-			buildTextShare.push(" for " + propertyRental );
-			buildTextShare.push($(this).data("price"));
-			buildTextShare.push(" #" + $(this).data("mls") );
-			buildTextShare.push(" in ");
-			buildTextShare.push($(this).data("address") + " ");
-
-			//params
-			var params = {
-			  url: $(this).attr("href"), 
-			  text: buildTextShare.join("")
-			}
-
-			for(var prop in params) {
-				shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
-			}
-
-			var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
-
-			if (wo.focus) {
-				wo.focus();
-			}
-		});
-
-		// open mortgage calculator
-		IB_MODAL_WRAPPER.on("click", ".ib-pscalculator", function() {
-			var pp = $(this).data("price").replace(/[^\d]/g, "");
-
-			$(".ib-property-mortgage-f:eq(0)").trigger("reset");
-
-			var dp = $(".ib-property-mc-dp:eq(0)").val();
-			var ty = $(".ib-property-mc-ty:eq(0)").val();
-			var ir = $(".ib-property-mc-ir:eq(0)").val();
-
-			// update form
-			$(".ib-property-mc-pp").val("$" + _.formatPrice(pp));
-
-			var calc_mg = calculate_mortgage(pp, dp, ty, ir);
-
-			$(".ib-calc-mc-mortgage").html("$" + calc_mg.mortgage);
-			$(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
-			$(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
-			$(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
-
-			$("#ib-mortage-calculator").addClass("ib-md-active");
-		});
-
-		$(".ib-property-mortage-submit").on("click", function() {
-			var pp = $(".ib-property-mc-pp:eq(0)").val();
-			var dp = $(".ib-property-mc-dp:eq(0)").val();
-			var ty = $(".ib-property-mc-ty:eq(0)").val();
-			var ir = $(".ib-property-mc-ir:eq(0)").val();
-
-			var calc_mg = calculate_mortgage(pp, dp, ty, ir);
-
-			$(".ib-calc-mc-mortgage").html("$" + calc_mg.mortgage);
-			$(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
-			$(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
-			$(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
-		});
-
-		// open email to a friend modal
-		IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
-			var mlsNumber = $(this).data("mls");
-			var propertyStatus = $(this).data("status");
-
-			$(".ib-property-share-friend-f:eq(0)").trigger("reset");
-			$(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
-			$(".ib-property-share-property-status:eq(0)").val(propertyStatus);
-
-			$("#ib-email-to-friend").addClass("ib-md-active");
-			
-			var fn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
-			var ln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
-			var em = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
-			
-			if (fn.lenght || ln.length) {
-				$("#_sf_name").val(fn + " " + ln);
-			}
-			
-			$("#_sf_email").val(em);
-		});
-
-		$(".ib-property-share-friend-f").on("submit", function(event) {
-			event.preventDefault();
-
-			var formData = $(this).serialize();
-			var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
-			var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
-
-			$.ajax({
-				type: "POST",
-				url: shareWithFriendEndpoint,
-				data: {
-					access_token: IB_ACCESS_TOKEN,
-					flex_credentials: Cookies.get("ib_lead_token"),
-					form_data: formData
-				},
-				success: function(response) {
-					// ...
-				}
-			});
-
-			$("#ib-email-to-friend").removeClass("ib-md-active");
-			$("#ib-email-thankyou").addClass("ib-md-active");
-		});
-
-		// print screen
-		IB_MODAL_WRAPPER.on("click", ".ib-psprint", function() {
-			var $printMsg = $('#printMessageBox');
-			var $propertyDetail = $(".ib-property-detail:eq(0)");
-
-			$printMsg.fadeIn();
-
-			$propertyDetail.addClass('ib-phw-print').printArea({
-				onClose: function () {
-					$printMsg.fadeOut('fast');
-					$propertyDetail.removeClass('ib-phw-print');
-				}
-			});
-		});
-
-		// handle share property
-		IB_MODAL_WRAPPER.on("submit", ".ib-propery-inquiry-f", function(event) {
-			event.preventDefault();
-
-			var formData = $(this).serialize();
-
-			var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
-			var requestInformationEndpoint = __flex_idx_search_filter_v2.requestInformationEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
-
-			$.ajax({
-				type: "POST",
-				url: requestInformationEndpoint,
-				data: {
-					access_token: IB_ACCESS_TOKEN,
-					flex_credentials: Cookies.get("ib_lead_token"),
-					form_data: formData
-				},
-				success: function(response) {
-					// ...
-				}
-			});
-
-			$("#ib-email-thankyou").addClass("ib-md-active");
-			$(document).on("click", "#ib-email-thankyou .ib-mmclose", function(event) {
-			  event.preventDefault();
-			  $("#ib-email-thankyou").removeClass("ib-md-active");
-			});
-		});
-
-		// handle slider switch fullscreen
-		IB_MODAL_WRAPPER.on("click", ".ib-btnfs", function() {
-			if (typeof IB_MODAL_SLIDER !== "undefined") {
-				IB_MODAL_SLIDER.fullscreen('in');
-			}
-		});
+		} else { // regular recaptcha
+			grecaptcha.ready(function() {
+				grecaptcha
+				.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+				.then(function(token) {
+					_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+	
+					var formData = _self.serialize();
+					var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+					var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
 		
-		// handle accordion
-		IB_MODAL_WRAPPER.on("click", ".ib-paitem", function(event) {
-			if (!$(event.target).hasClass("ib-paititle")) {
-				return;
-			}
+					$.ajax({
+						type: "POST",
+						url: shareWithFriendEndpoint,
+						data: {
+							access_token: IB_ACCESS_TOKEN,
+							flex_credentials: Cookies.get("ib_lead_token"),
+							form_data: formData
+						},
+						success: function(response) {
+							// ...
+						}
+					});
+		
+					$("#ib-email-to-friend").removeClass("ib-md-active");
+					$("#ib-email-thankyou").addClass("ib-md-active");
+				});
+			});
+		}
 
-			$(this).toggleClass("ib-pai-active");
+		// var formData = _self.serialize();
+		// var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+		// var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+
+		// $.ajax({
+		//     type: "POST",
+		//     url: shareWithFriendEndpoint,
+		//     data: {
+		//         access_token: IB_ACCESS_TOKEN,
+		//         flex_credentials: Cookies.get("ib_lead_token"),
+		//         form_data: formData
+		//     },
+		//     success: function(response) {
+		//         // ...
+		//     }
+		// });
+
+		// $("#ib-email-to-friend").removeClass("ib-md-active");
+		// $("#ib-email-thankyou").addClass("ib-md-active");
+	});
+
+	// print screen
+	IB_MODAL_WRAPPER.on("click", ".ib-psprint", function() {
+		var $printMsg = $('#printMessageBox');
+		var $propertyDetail = $(".ib-property-detail:eq(0)");
+
+		$printMsg.fadeIn();
+
+		$propertyDetail.addClass('ib-phw-print').printArea({
+			onClose: function () {
+				$printMsg.fadeOut('fast');
+				$propertyDetail.removeClass('ib-phw-print');
+			}
+		});
+	});
+
+	// handle share property
+	IB_MODAL_WRAPPER.on("submit", ".ib-propery-inquiry-f", function(event) {
+		event.preventDefault();
+
+		var formData = $(this).serialize();
+
+		var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
+		var requestInformationEndpoint = __flex_idx_search_filter_v2.requestInformationEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+
+		$.ajax({
+			type: "POST",
+			url: requestInformationEndpoint,
+			data: {
+				access_token: IB_ACCESS_TOKEN,
+				flex_credentials: Cookies.get("ib_lead_token"),
+				form_data: formData
+			},
+			success: function(response) {
+				// ...
+			}
 		});
 
-		// handle switch photos, map view, video
-		IB_MODAL_WRAPPER.on("click", ".ib-pvitem", function(event) {
-			var tabToOpen = $(this).data("id");
+		$("#ib-email-thankyou").addClass("ib-md-active");
+		$(document).on("click", "#ib-email-thankyou .ib-mmclose", function(event) {
+			event.preventDefault();
+			$("#ib-email-thankyou").removeClass("ib-md-active");
+		});
+	});
 
-			if ($(this).hasClass("ib-pvi-active") || ("video" == tabToOpen)  ) {
-				return;
-			}
+	// handle slider switch fullscreen
+	IB_MODAL_WRAPPER.on("click", ".ib-btnfs", function() {
+		if (typeof IB_MODAL_SLIDER !== "undefined") {
+			IB_MODAL_SLIDER.fullscreen('in');
+		}
+	});
+        
+	// handle accordion
+	IB_MODAL_WRAPPER.on("click", ".ib-paitem", function(event) {
+		if (!$(event.target).hasClass("ib-paititle")) {
+			return;
+		}
 
-			$(this).parent().find(">li").removeClass("ib-pvi-active");
-			$(this).addClass("ib-pvi-active");
+		$(this).toggleClass("ib-pai-active");
+	});
 
-			$(this).parent().parent().parent().removeClass('ib-pva-photos ib-pva-map').addClass('ib-pva-' + tabToOpen);
+	// handle switch photos, map view, video
+	// handle switch photos, map view, video
+	IB_MODAL_WRAPPER.on("click", ".ib-pvitem", function(event) {
+		var tabToOpen = $(this).data("id");
 
-			switch(tabToOpen) {
-				case "map":
-					var lat = $(this).data("lat");
-					var lng = $(this).data("lng");
-					var loaded = $(this).data("loaded");
+		if ($(this).hasClass("ib-pvi-active") || ("video" == tabToOpen)  ) {
+			return;
+		}
 
-					if ("no" === loaded) {
-						var myLatLng = { lat: parseFloat(lat), lng: parseFloat(lng) };
+		$(this).parent().find(">li").removeClass("ib-pvi-active");
+		$(this).addClass("ib-pvi-active");
 
-						var map = new google.maps.Map(IB_MODAL_WRAPPER.find(".ib-pmap")[0], {
-							zoom: 18,
-							center: myLatLng,
-							styles: style_map,
-							gestureHandling: 'cooperative',
-							panControl: false,
-							scrollwheel: false,
-							disableDoubleClickZoom: true,
-							disableDefaultUI: true,
-							streetViewControl: true,
-						});
-		
-						var marker = new google.maps.Marker({
-							position: myLatLng,
-							map: map
-						});
+		$(this).parent().parent().parent().removeClass('ib-pva-photos ib-pva-map').addClass('ib-pva-' + tabToOpen);
 
-						/* mapa 4 */
-						google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls4);
+		switch(tabToOpen) {
+			case "map":
+				var lat = $(this).data("lat");
+				var lng = $(this).data("lng");
+				var loaded = $(this).data("loaded");
 
-						function handleSatelliteButton(event){
-							event.stopPropagation();
-							event.preventDefault();
+				if ("no" === loaded) {
+					var myLatLng = { lat: parseFloat(lat), lng: parseFloat(lng) };
+
+					var map = new google.maps.Map(IB_MODAL_WRAPPER.find(".ib-pmap")[0], {
+						zoom: 18,
+						center: myLatLng,
+						styles: style_map,
+						gestureHandling: 'cooperative',
+						panControl: false,
+						scrollwheel: false,
+						disableDoubleClickZoom: true,
+						disableDefaultUI: true,
+						streetViewControl: true,
+					});
+	
+					var marker = new google.maps.Marker({
+						position: myLatLng,
+						map: map
+					});
+
+					/* mapa 4 */
+					google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls4);
+
+					function handleSatelliteButton(event){
+						event.stopPropagation();
+						event.preventDefault();
+						map.setMapTypeId(google.maps.MapTypeId.HYBRID)
+					
+						if($(this).hasClass("is-active")){
+							$(this).removeClass("is-active");
+							map.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+						}else{
+							$(this).addClass("is-active");
 							map.setMapTypeId(google.maps.MapTypeId.HYBRID)
-						
-							if($(this).hasClass("is-active")){
-								$(this).removeClass("is-active");
-								map.setMapTypeId(google.maps.MapTypeId.ROADMAP)
-							}else{
-								$(this).addClass("is-active");
-								map.setMapTypeId(google.maps.MapTypeId.HYBRID)
-							}
-						}
-						
-						function handleZoomInButton(event) {
-							event.stopPropagation();
-							event.preventDefault();
-							map.setZoom(map.getZoom() + 1);
-						}
-						
-						function handleZoomOutButton(event) {
-							event.stopPropagation();
-							event.preventDefault();
-							map.setZoom(map.getZoom() - 1);
-						}
-						
-						function handlefullscreenButton() {
-						
-							var elementToSendFullscreen = map.getDiv().firstChild;
-						
-							if (isFullscreen(elementToSendFullscreen)) {
-								exitFullscreen();
-							} else {
-								requestFullscreen(elementToSendFullscreen);
-							}
-						
-							document.onwebkitfullscreenchange = document.onmsfullscreenchange = document.onmozfullscreenchange = document.onfullscreenchange = function () {
-								if (isFullscreen(elementToSendFullscreen)) {
-									fullscreenControl.classList.add("is-fullscreen");
-								} else {
-									fullscreenControl.classList.remove("is-fullscreen");
-								}
-							};
-						}
-						
-						function isFullscreen(element) {
-							return (
-								(document.fullscreenElement ||
-									document.webkitFullscreenElement ||
-									document.mozFullScreenElement ||
-									document.msFullscreenElement) == element
-							);
-						}
-						
-						function requestFullscreen(element) {
-							if (element.requestFullscreen) {
-								element.requestFullscreen();
-							} else if (element.webkitRequestFullScreen) {
-								element.webkitRequestFullScreen();
-							} else if (element.mozRequestFullScreen) {
-								element.mozRequestFullScreen();
-							} else if (element.msRequestFullScreen) {
-								element.msRequestFullScreen();
-							}
-						}
-						
-						function exitFullscreen() {
-							if (document.exitFullscreen) {
-								document.exitFullscreen();
-							} else if (document.webkitExitFullscreen) {
-								document.webkitExitFullscreen();
-							} else if (document.mozCancelFullScreen) {
-								document.mozCancelFullScreen();
-							} else if (document.msExitFullscreen) {
-								document.msExitFullscreen();
-							}
-						}
-						
-						function setupMapControls4() {
-							// setup buttons wrapper
-							mapButtonsWrapper = document.createElement("div");
-							mapButtonsWrapper.classList.add('flex-map-controls-ct');
-						
-							// setup Full Screen button
-							fullscreenControl = document.createElement("div");
-							fullscreenControl.classList.add('flex-map-fullscreen');
-							mapButtonsWrapper.appendChild(fullscreenControl);
-						
-							// setup zoom in button
-							mapZoomInButton = document.createElement("div");
-							mapZoomInButton.classList.add('flex-map-zoomIn');
-							mapButtonsWrapper.appendChild(mapZoomInButton);
-						
-							// setup zoom out button
-							mapZoomOutButton = document.createElement("div");
-							mapZoomOutButton.classList.add('flex-map-zoomOut');
-							mapButtonsWrapper.appendChild(mapZoomOutButton);
-						
-							// setup Satellite button
-							satelliteMapButton = document.createElement("div");
-							satelliteMapButton.classList.add('flex-satellite-button');
-							mapButtonsWrapper.appendChild(satelliteMapButton);
-						
-							// add Buttons
-							google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
-							google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
-							google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
-							google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
-						
-							map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
 						}
 					}
+					
+					function handleZoomInButton(event) {
+						event.stopPropagation();
+						event.preventDefault();
+						map.setZoom(map.getZoom() + 1);
+					}
+					
+					function handleZoomOutButton(event) {
+						event.stopPropagation();
+						event.preventDefault();
+						map.setZoom(map.getZoom() - 1);
+					}
+					
+					function handlefullscreenButton() {
+					
+						var elementToSendFullscreen = map.getDiv().firstChild;
+					
+						if (isFullscreen(elementToSendFullscreen)) {
+							exitFullscreen();
+						} else {
+							requestFullscreen(elementToSendFullscreen);
+						}
+					
+						document.onwebkitfullscreenchange = document.onmsfullscreenchange = document.onmozfullscreenchange = document.onfullscreenchange = function () {
+							if (isFullscreen(elementToSendFullscreen)) {
+								fullscreenControl.classList.add("is-fullscreen");
+							} else {
+								fullscreenControl.classList.remove("is-fullscreen");
+							}
+						};
+					}
+					
+					function isFullscreen(element) {
+						return (
+							(document.fullscreenElement ||
+								document.webkitFullscreenElement ||
+								document.mozFullScreenElement ||
+								document.msFullscreenElement) == element
+						);
+					}
+					
+					function requestFullscreen(element) {
+						if (element.requestFullscreen) {
+							element.requestFullscreen();
+						} else if (element.webkitRequestFullScreen) {
+							element.webkitRequestFullScreen();
+						} else if (element.mozRequestFullScreen) {
+							element.mozRequestFullScreen();
+						} else if (element.msRequestFullScreen) {
+							element.msRequestFullScreen();
+						}
+					}
+					
+					function exitFullscreen() {
+						if (document.exitFullscreen) {
+							document.exitFullscreen();
+						} else if (document.webkitExitFullscreen) {
+							document.webkitExitFullscreen();
+						} else if (document.mozCancelFullScreen) {
+							document.mozCancelFullScreen();
+						} else if (document.msExitFullscreen) {
+							document.msExitFullscreen();
+						}
+					}
+					
+					function setupMapControls4() {
+						// setup buttons wrapper
+						mapButtonsWrapper = document.createElement("div");
+						mapButtonsWrapper.classList.add('flex-map-controls-ct');
+					
+						// setup Full Screen button
+						fullscreenControl = document.createElement("div");
+						fullscreenControl.classList.add('flex-map-fullscreen');
+						mapButtonsWrapper.appendChild(fullscreenControl);
+					
+						// setup zoom in button
+						mapZoomInButton = document.createElement("div");
+						mapZoomInButton.classList.add('flex-map-zoomIn');
+						mapButtonsWrapper.appendChild(mapZoomInButton);
+					
+						// setup zoom out button
+						mapZoomOutButton = document.createElement("div");
+						mapZoomOutButton.classList.add('flex-map-zoomOut');
+						mapButtonsWrapper.appendChild(mapZoomOutButton);
+					
+						// setup Satellite button
+						satelliteMapButton = document.createElement("div");
+						satelliteMapButton.classList.add('flex-satellite-button');
+						mapButtonsWrapper.appendChild(satelliteMapButton);
+					
+						// add Buttons
+						google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
+						google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
+						google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+						google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
+					
+						map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
+					}
+				}
 
-					break;
-			}
-		});
+				break;
+		}
+	});
+	
 	}
 
 	if (IB_RENTAL_TYPE.length) {

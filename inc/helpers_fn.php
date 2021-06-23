@@ -115,7 +115,8 @@ if (!function_exists("idxboost_agent_contact_inquiry_xhr_fn")) {
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_AGENT_CONTACT_FORM);
+        //curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_AGENT_CONTACT_FORM);
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_CONTACT_FORM);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1638,13 +1639,18 @@ if (!function_exists('flex_idx_get_info')) {
         $output['agent']['google_login_enabled'] = isset($idxboost_agent_info['google_login_enabled']) ? $idxboost_agent_info['google_login_enabled'] : false;
         $output['agent']['google_maps_api_key'] = isset($idxboost_agent_info['google_maps_api_key']) ? $idxboost_agent_info['google_maps_api_key'] : "";
         $output['agent']['google_captcha_public_key'] = isset($idxboost_agent_info['google_captcha_public_key']) ? (string) $idxboost_agent_info['google_captcha_public_key'] : "";
-        $output['agent']['google_captcha_private_key'] = isset($idxboost_agent_info['google_captcha_private_key']) ? (string) $idxboost_agent_info['google_captcha_private_key'] : "";
+        //$output['agent']['google_captcha_private_key'] = isset($idxboost_agent_info['google_captcha_private_key']) ? (string) $idxboost_agent_info['google_captcha_private_key'] : "";
         $output['agent']['google_analytics'] = isset($idxboost_agent_info['google_analytics']) ? $idxboost_agent_info['google_analytics'] : "";
         $output['agent']['google_adwords'] = isset($idxboost_agent_info['google_adwords']) ? $idxboost_agent_info['google_adwords'] : "";
         $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
         $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
         $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
         $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (boolean) $idxboost_agent_info['force_registration_forced'] : false;
+
+        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (boolean) $idxboost_agent_info['has_enterprise_recaptcha'] : false;
+        $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
+        $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
+
         // social info
         #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
         #$output['social'] = flex_map_array($list_social_info);
@@ -4517,6 +4523,10 @@ if (!function_exists('flex_idx_request_property_form_fn')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
         $server_output = curl_exec($ch);
+
+        // echo $server_output;
+        // exit;
+
         curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
@@ -4630,6 +4640,10 @@ if (!function_exists('idxboost_contact_inquiry_fn')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
         $server_output = curl_exec($ch);
+
+        // echo $server_output;
+        // exit;
+
         curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
@@ -4684,6 +4698,10 @@ if (!function_exists('flex_idx_request_website_building_form_fn')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
         $server_output = curl_exec($ch);
+
+        // echo $server_output;
+        // exit;
+
         curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
@@ -5733,12 +5751,16 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', 'style_map_idxboost', $descr_tools_map_style );
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
+            'events' => [
+                'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS
+            ],
             'fetchLeadActivitiesEndpoint' => FLEX_IDX_API_LEAD_FETCH_ACTIVITIES,
             'hideTooltipLeadEndpoint' => FLEX_IDX_API_LEAD_HIDE_TOOLTIP,
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
             'signup_left_clicks' => ( isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int) $flex_idx_info["agent"]["signup_left_clicks"] : null),
             'force_registration_forced' => (isset($flex_idx_info["agent"]["force_registration_forced"]) && ("1" == $flex_idx_info["agent"]["force_registration_forced"])) ? "yes" : "no",
             'has_facebook_login_enabled' => (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && ("1" == $flex_idx_info["agent"]["facebook_login_enabled"])) ? "yes" : "no",
+            'has_google_login_enabled' => (isset($flex_idx_info["agent"]["google_login_enabled"]) && ("1" == $flex_idx_info["agent"]["google_login_enabled"])) ? "yes" : "no",
             'checkLeadUsername' => FLEX_IDX_API_LEADS_CHECK_USERNAME,
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
@@ -5764,7 +5786,10 @@ if (!function_exists('flex_idx_register_assets')) {
             'user_show_quizz' => $flex_idx_info["agent"]["user_show_quizz"],
             'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (boolean) $flex_idx_info['agent']['has_dynamic_ads'] : false,
             'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (boolean) $flex_idx_info['agent']['has_seo_client'] : false,
-            'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : ""
+            'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : "",
+            'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (boolean) $flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
+            'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
+            'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null
         ));
 
         wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s', $flex_idx_info["agent"]["google_maps_api_key"]));

@@ -131,6 +131,10 @@
     }
 
     function handleKeyUpAutocompleteEvent(event) {
+        if (event.keyCode == 40 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 37) {
+            return;
+        }
+
         var inputValue = this.value;
 
         if ( ("" !== inputValue) && (13 === event.keyCode) ) {

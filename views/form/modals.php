@@ -192,15 +192,15 @@ global $flex_idx_info, $flex_idx_lead;
                       </div>
                       <ul class="pr-radio-list">
                         <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-0" value="Yes">
+                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-0" value="yes">
                           <label for="inline_radios_1513789825341-0" class="i-checks"><?php echo __("I am pre-approved", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-1" value="No">
+                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-1" value="no">
                           <label for="inline_radios_1513789825341-1" class="i-checks"><?php echo __("Not pre-approved yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-2" value="I'm buying with Cash">
+                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-2" value="buying_with_cash">
                           <label for="inline_radios_1513789825341-2" class="i-checks"><?php echo __("I prefer to buy with cash", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                       </ul>
@@ -217,15 +217,15 @@ global $flex_idx_info, $flex_idx_lead;
                       </div>
                       <ul class="pr-radio-list">
                         <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580630-0" value="Yes">
+                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580630-0" value="yes">
                           <label class="ibregister-tg-submit" for="inline_radios_15137898580630-0"><?php echo __("Looking to sell too", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580631-1" value="No">
+                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580631-1" value="no">
                           <label class="ibregister-tg-submit" for="inline_radios_15137898580631-1"><?php echo __("Not looking to sell", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                         <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580632-2" value="I'm undecided">
+                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580632-2" value="not_sure_yet">
                           <label class="ibregister-tg-submit" for="inline_radios_15137898580632-2"><?php echo __("Not sure yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         </li>
                       </ul>
@@ -985,6 +985,17 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
             $('#modal_login .content_md').addClass('ms-hidden-extras');
           } else {
             // alert("checking...");
+            if ('USERNAME_NOT_AVAILABLE' == response.error) {
+              var msg_err = response.message;
+
+              msg_err += ' <a href="javascript:void(0)" class="ms-tab" data-tab="tabLogin" data-text="Welcome Back">Login here</a> ';
+
+              $(".dgt-email-error").html(msg_err);
+            } else if ('INVALID_EMAIL_ADDRESS' == response.error) {
+              var msg_err = response.message;
+              $(".dgt-email-error").html(msg_err);
+            }
+
             $(".dgt-email-error").show();
             $("#formRegister").find("register_email:eq(0)").blur();
             $('#modal_login .content_md').removeClass('ms-hidden-extras');
@@ -1078,50 +1089,134 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
     $("#form-email-friend").on("submit", function(event) {
         event.preventDefault();
 
-        var formData = $(this).serialize();
-        var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
+        var _self = $(this);
 
-        if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
-          var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
-          var dataSubmit={
-                  access_token: __flex_g_settings.accessToken,
-                  flex_credentials: Cookies.get("ib_lead_token"),
-                  form_data: formData
-              };
-        }else{
-          var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
-          var dataSubmit=formData;
+        if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+          if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+              // pending...
+          } else { // regular recaptcha
+            grecaptcha.ready(function() {
+                grecaptcha
+                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                .then(function(token) {
+                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+                    var formData = _self.serialize();
+                    var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+
+                    if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
+                      var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                      var dataSubmit={
+                              access_token: __flex_g_settings.accessToken,
+                              flex_credentials: Cookies.get("ib_lead_token"),
+                              form_data: formData
+                          };
+                    }else{
+                      var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
+                      var dataSubmit=formData;
+                    }
+            
+                      $.ajax({
+                          type: "POST",
+                          url: shareWithFriendEndpoint,
+                          data: dataSubmit,
+                          success: function(response) {
+                              // ...
+                              _self.trigger('reset');
+                              $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                          },
+                          error: function() {
+                          _self.trigger('reset');
+                          $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                        }
+                      });
+
+                    // $(this).trigger("reset");
+                    // $('.close').click();
+                    $("#modal_email_to_friend").removeClass("active_modal");
+                    $("html").removeClass("modal_mobile");
+                    
+                    swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
+                });
+            });
         }
- 
-          $.ajax({
-              type: "POST",
-              url: shareWithFriendEndpoint,
-              data: dataSubmit,
-              success: function(response) {
-                  // ...
-              }
+      } else { // regular recaptcha
+          grecaptcha.ready(function() {
+              grecaptcha
+              .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+              .then(function(token) {
+                  _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+                  var formData = _self.serialize();
+                  var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+
+                  if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
+                    var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                    var dataSubmit={
+                            access_token: __flex_g_settings.accessToken,
+                            flex_credentials: Cookies.get("ib_lead_token"),
+                            form_data: formData
+                        };
+                  }else{
+                    var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
+                    var dataSubmit=formData;
+                  }
+          
+                    $.ajax({
+                        type: "POST",
+                        url: shareWithFriendEndpoint,
+                        data: dataSubmit,
+                        success: function(response) {
+                            // ...
+                            _self.trigger('reset');
+                            $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                        },
+                        error: function() {
+                          _self.trigger('reset');
+                          $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                        }
+                    });
+
+                  // $(this).trigger("reset");
+                  // $('.close').click();
+                  $("#modal_email_to_friend").removeClass("active_modal");
+                  $("html").removeClass("modal_mobile");
+                  
+                  swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
+              });
           });
+      }
 
+        // var formData = $(this).serialize();
+        // var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
 
-        // var _self = $(this);
-        // var serializedData = _self.serialize();
+        // if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
+        //   var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+        //   var dataSubmit={
+        //           access_token: __flex_g_settings.accessToken,
+        //           flex_credentials: Cookies.get("ib_lead_token"),
+        //           form_data: formData
+        //       };
+        // }else{
+        //   var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
+        //   var dataSubmit=formData;
+        // }
+ 
+        //   $.ajax({
+        //       type: "POST",
+        //       url: shareWithFriendEndpoint,
+        //       data: dataSubmit,
+        //       success: function(response) {
+        //           // ...
+        //       }
+        //   });
 
-        // $.ajax({
-        //     url: __flex_g_settings.ajaxUrl,
-        //     method: "POST",
-        //     data: serializedData,
-        //     dataType: "json",
-        //     success: function(data) {
-
-        //     }
-        // });
-
-        $(this).trigger("reset");
-        // $('.close').click();
-        $("#modal_email_to_friend").removeClass("active_modal");
-        $("html").removeClass("modal_mobile");
+        // $(this).trigger("reset");
+        // // $('.close').click();
+        // $("#modal_email_to_friend").removeClass("active_modal");
+        // $("html").removeClass("modal_mobile");
         
-        swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
+        // swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
     });
 
     $(".property-detail-share-fb").on("click", function(event) {
@@ -1378,10 +1473,22 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                         }
 
                         setTimeout(function () {
-                          if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
-                            jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
-                          }
-                        }, 3000);
+                            // if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                            if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
+                              // @todo open view
+                              jQuery("#__quizz_type").val("facebook");
+                              jQuery("#__quizz_type_phone_ct").show();
+                              jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
+                              jQuery("#__quizz_type_phone_ct").addClass("ib-active");
+                              jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                            }
+                          }, 3000);
+
+                        // setTimeout(function () {
+                        //   if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                        //     jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                        //   }
+                        // }, 3000);
                     } else {
                         sweetAlert("Oops...", ib_log_message, "error");
                     }
@@ -1583,32 +1690,32 @@ function fb_login() {
                                   // build pagination
                                   if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
                                     if (response.lead_info.listing_views_pagination.total_pages > 1) {
-                                    var lead_listing_views_paging = [];
+                                      var lead_listing_views_paging = [];
 
-                                    if (response.lead_info.listing_views_pagination.has_prev_page) {
-                                      lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
-                                    }
-
-                                    lead_listing_views_paging.push('<div class="ib-paglinks">');
-
-                                    var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
-
-                                    for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-                                      if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                                        lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
-                                      } else {
-                                        lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                      if (response.lead_info.listing_views_pagination.has_prev_page) {
+                                        lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
                                       }
+
+                                      lead_listing_views_paging.push('<div class="ib-paglinks">');
+
+                                      var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+
+                                      for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                                        if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                                          lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                        } else {
+                                          lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                        }
+                                      }
+
+                                      lead_listing_views_paging.push('</div>');
+
+                                      if (response.lead_info.listing_views_pagination.has_next_page) {
+                                        lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                                      }
+
+                                      jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
                                     }
-
-                                    lead_listing_views_paging.push('</div>');
-
-                                    if (response.lead_info.listing_views_pagination.has_next_page) {
-                                      lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
-                                    }
-
-                                    jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
-                                  }
                                   }
                                 }
                               });

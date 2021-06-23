@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 3.8.7
+ * Version: 3.8.8
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -136,6 +136,8 @@ define('FLEX_IDX_API_AGENT_FETCH_CUSTOM_SETTINGS', FLEX_IDX_BASE_URL . '/crm/age
 
 define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-info-agent');
 define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-team');
+
+define('IDX_BOOST_LEAD_TRACKING_EVENTS', FLEX_IDX_BASE_URL . '/tracking/events');
 /**
  * Import Third Partie Libraries
  */
@@ -162,34 +164,39 @@ $flex_idx_token = flex_idx_generate_access_token();
 $flex_idx_lead         = is_flex_user_logged_in();
 
 
+	
 // init scripts for recaptcha
-
 add_action('wp_head', function () {
   global $flex_idx_info;
-
   if (is_admin()) {
     return;
   }
-
-  if (empty($flex_idx_info['agent']['google_captcha_public_key']) || empty($flex_idx_info['agent']['google_captcha_private_key'])) {
-    return;
-  }
-
-  $output = <<<HTML
-
-<script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
-<script>
-grecaptcha.ready(function() {
-    grecaptcha.execute('{$flex_idx_info['agent']['google_captcha_public_key']}').then(function(token) {
-      jQuery('.iboost-secured-recaptcha-form').each(function () {
-        jQuery(this).append('<input type="hidden" name="recaptcha_response" value="' + token + '">');
-      });
-      console.dir(token);
-    });
-});
-</script>
-
+  if (isset($flex_idx_info['agent']['has_enterprise_recaptcha'])) { 
+    if (!empty($flex_idx_info['agent']['has_enterprise_recaptcha'])) { 
+      // is recaptcha enterprise
+      if (!isset($flex_idx_info['agent']['recaptcha_site_key']) || empty($flex_idx_info['agent']['recaptcha_site_key'])) {
+        return;
+      }
+      $output = <<<HTML
+      <script src="https://www.google.com/recaptcha/enterprise.js?render={$flex_idx_info['agent']['recaptcha_site_key']}"></script>
 HTML;
+    } else {
+      // regular recaptcha
+      if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
+        return;
+      }
+      $output = <<<HTML
+      <script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
+HTML;
+    }
+  } else { // regular recaptcha fallback
+    if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
+      return;
+    }
+    $output = <<<HTML
+<script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
+HTML;
+  }
 
   echo $output;
 });

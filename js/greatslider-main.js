@@ -284,7 +284,7 @@
 		let $fsSlider = $fullSlider.greatSlider({
 			type: 'swipe',
 			nav: true,
-			navSpeed: 500,
+			navSpeed: 150,
 			lazyLoad: true,
 			bullets: false,
 			items: 1,

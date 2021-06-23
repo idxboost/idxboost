@@ -2731,7 +2731,7 @@ if (!function_exists('idx_agent_filter_sc')) {
 
         $response = json_decode($server_output, true);
 
-        wp_localize_script('flex-idx-filter-js', 'filter_metadata', json_encode($response) );
+        wp_localize_script('flex-idx-filter-js', 'filter_metadata', $response );
         
 
         $search_params = $flex_idx_info['search'];

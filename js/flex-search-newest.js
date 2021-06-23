@@ -1950,7 +1950,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue > parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_from').val(currentValue);
@@ -2001,7 +2001,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue < parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_to').val(currentValue);
@@ -2059,7 +2059,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue > parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_rent_from').val(currentValue);
@@ -2110,7 +2110,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue < parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_rent_to').val(currentValue);
@@ -2169,7 +2169,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue > parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#land_from').val(currentValue);
@@ -2220,7 +2220,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue < parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#land_to').val(currentValue);
@@ -2279,7 +2279,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue > parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#living_from').val(currentValue);
@@ -2330,7 +2330,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue < parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#living_to').val(currentValue);
@@ -2384,7 +2384,7 @@ var yDown = null;
                     currentValue = $(this).data('max-year');
                 }
                 if (currentValue > parseInt(flex_input_year_max.val(), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_year_max.val(), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_year_max.val(), 10));
                     currentValue = $(this).data('min-year');
                 } else {
                     $('#year_from').val(currentValue);
@@ -2430,7 +2430,7 @@ var yDown = null;
                     currentValue = $(this).data('max-year');
                 }
                 if (currentValue < parseInt(flex_input_year_min.val(), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_year_min.val(), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_year_min.val(), 10));
                     currentValue = $(this).data('max-year');
                 } else {
                     $('#year_to').val(currentValue);

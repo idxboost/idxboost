@@ -731,7 +731,7 @@ $(function() {
                     
         });                
 
-        $(document).on("click", "#modal_login .close-modal", function(event) {
+        /*$(document).on("click", "#modal_login .close-modal", function(event) {
             event.preventDefault();
             $(".ib-pbtnclose").click();
         });                
@@ -740,6 +740,34 @@ $(function() {
                 event.preventDefault();
                 $(".ib-pbtnclose").click();
         });
+        */
+
+        /*
+        var $bodyHtml = $('html');
+        $(document).on('click', '.overlay_modal_closer', function () {
+          console.log("cerrando_modal");
+          var idModal = $(this).attr('data-id');
+          console.log(idModal);
+          if ("1" == __flex_g_settings.force_registration) {
+            $('#' + idModal).find('.close-modal').click();
+            if ( __flex_g_settings.hasOwnProperty("force_registration_forced") && ("yes" == __flex_g_settings.force_registration_forced) ) {
+              $(".ib-pbtnclose").click();
+            }
+            return;
+          }
+
+          if ($('button[data-id="modal_login"]:eq(0)').is(":hidden")) {
+            $('#' + idModal).find('.close-modal').click();
+            return;
+          }
+
+          var idModal = $(this).attr('data-id');
+          var parentModal = $(this).attr('data-frame');
+          $('#' + idModal).removeClass('active_modal');
+          $bodyHtml.removeClass(parentModal);
+          $('.content_md').removeClass('ms-hidden-extras');
+        });
+        */
 
         $(document).on("click", ".flex-tbl-link", function(event) {
           event.preventDefault();
@@ -1327,7 +1355,7 @@ function genMultiSliderBuilding(element){
     $multiSlider.greatSlider({
       type: 'swipe',
       nav: true,
-      navSpeed: 500,
+      navSpeed: 150,
       lazyLoad: true,
       bullets: false,
       items: 1,
@@ -1616,6 +1644,7 @@ function sliderModal(element){
     nav: true,
     lazyLoad: true,
     bullets: false,
+    navSpeed: 150,
   });
   //}
 

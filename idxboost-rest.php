@@ -6,6 +6,8 @@ class IDXBoost_REST_API_Endpoints
     const API_VERSION = 'v1';
     const API_CREATE_USER_ENDPOINT = '/users';
     const API_ADD_REGISTRATION_KEY = '/reg-key';
+    const API_GET_POST = '/posts';
+    const API_GET_CATEGORIES = '/categories';
     // const API_SETUP_AGENT_INITIAL_DATA = '/agents/setup/1';
     // const API_SETUP_AGENT_EXTRA_DATA = '/agents/setup/2';
 
@@ -24,6 +26,15 @@ class IDXBoost_REST_API_Endpoints
             'callback' => ['IDXBoost_REST_API_Endpoints', 'addRegKey']
         ));
 
+        register_rest_route($dns_api_rest_name_version, self::API_GET_POST, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'getPost']
+        ));
+        register_rest_route($dns_api_rest_name_version, self::API_GET_CATEGORIES, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'getCategories']
+        ));
+
         // register_rest_route($dns_api_rest_name_version, self::API_SETUP_AGENT_INITIAL_DATA, array(
         // 	'methods' => WP_REST_Server::CREATABLE,
         // 	'callback' => ['IDXBoost_REST_API_Endpoints', 'setupInitialData']
@@ -35,7 +46,97 @@ class IDXBoost_REST_API_Endpoints
         // ));
     }
 
-    public static function addRegKey(WP_REST_Request $request)
+    public static function getCategories(WP_REST_Request $request)
+    {
+        $reg_key = $_POST["reg-key"];
+        $response = [];
+        if (!$reg_key) {
+            $response = [
+                'status' => '400',
+                'message' => 'Bad Request',
+                'data' => []
+            ];
+        } else {
+
+            if (get_option('idxboost_registration_key') != $reg_key) {
+                $response = [
+                    'status' => '403',
+                    'message' => 'Forbidden',
+                    'data' => []
+                ];
+            } else {
+                $categories = get_categories(array(
+                    'orderby' => 'name',
+                    'order' => 'ASC'
+                ));
+
+                $response = [
+                    'status' => '200',
+                    'message' => 'Ok',
+                    'data' => $categories
+                ];
+            }
+        }
+        return new WP_REST_Response($response);
+    }
+
+    public static function getPost(WP_REST_Request $request)
+    {
+        $reg_key = $_POST["reg-key"];
+        $response = [];
+        if (!$reg_key) {
+            $response = [
+                'status' => '400',
+                'message' => 'Bad Request',
+                'data' => []
+            ];
+        } else {
+
+            if (get_option('idxboost_registration_key') != $reg_key) {
+                $response = [
+                    'status' => '403',
+                    'message' => 'Forbidden',
+                    'data' => []
+                ];
+            } else {
+                $args = array(
+                    'post_status' => array('publish'),
+                );
+                if (isset($_POST["category"])) {
+                    $args['category'] = ($_POST["category"]);
+                }
+                $args['numberposts'] = 10;
+                if (isset($_POST["size"])) {
+                    $args['numberposts'] = ($_POST["size"]);
+                }
+                $posts = get_posts($args);
+                $response_posts = array();
+                foreach ($posts as $post) {
+                    $excerpt = get_the_excerpt($post);
+                    $response_posts[] = array(
+                        'id' => $post->ID,
+                        'post_title' => $post->post_title,
+                        'post_excerpt' => $excerpt != "" ? $excerpt : mb_strimwidth(wp_trim_excerpt('', $post), 0, 100, '...'),
+                        'post_date' => $post->post_date,
+                        'post_content' => $post->post_content,
+                        'permalink' => get_permalink($post),
+                        'image' => get_the_post_thumbnail_url($post),
+                    );
+                }
+                $response = [
+                    'status' => '200',
+                    'message' => 'OK',
+                    'data' => $response_posts
+                ];
+
+            }
+        }
+
+        return new WP_REST_Response($response);
+    }
+
+    public
+    static function addRegKey(WP_REST_Request $request)
     {
         $reg_key = $_POST["reg-key"];
         $install_url = $_POST["install-url"];
@@ -68,7 +169,8 @@ class IDXBoost_REST_API_Endpoints
         return new WP_REST_Response($response);
     }
 
-    public static function createUser(WP_REST_Request $request)
+    public
+    static function createUser(WP_REST_Request $request)
     {
         $ib_rest_token = filter_input(INPUT_POST, 'ib_rest_token', FILTER_SANITIZE_STRING);
         $email_address = filter_input(INPUT_POST, 'email_address', FILTER_SANITIZE_STRING);

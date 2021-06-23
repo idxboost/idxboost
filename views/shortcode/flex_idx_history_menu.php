@@ -137,7 +137,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.listing_views_pagination.total_pages > 1) {
+              if (response.lead_info.listing_views_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.listing_views_pagination.has_prev_page) {
@@ -164,7 +164,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
@@ -220,7 +220,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.saved_listings_pagination.total_pages > 1) {
+              if (response.lead_info.saved_listings_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.saved_listings_pagination.has_prev_page) {
@@ -247,7 +247,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
@@ -296,7 +296,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.saved_searches_pagination.total_pages > 1) {
+              if (response.lead_info.saved_searches_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.saved_searches_pagination.has_prev_page) {
@@ -323,7 +323,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
@@ -392,7 +392,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.saved_listings_pagination.total_pages > 1) {
+              if (response.lead_info.saved_listings_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.saved_listings_pagination.has_prev_page) {
@@ -419,7 +419,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
@@ -466,7 +466,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.saved_searches_pagination.total_pages > 1) {
+              if (response.lead_info.saved_searches_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.saved_searches_pagination.has_prev_page) {
@@ -493,7 +493,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
@@ -552,7 +552,7 @@
 
               // build pagination
               if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-                if (response.lead_info.listing_views_pagination.total_pages > 1) {
+              if (response.lead_info.listing_views_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
                 if (response.lead_info.listing_views_pagination.has_prev_page) {
@@ -579,7 +579,7 @@
 
                 jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
               }
-              }
+            }
             }
           });
         }
