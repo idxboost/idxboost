@@ -2628,6 +2628,16 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 				}
 			});
 		}
+
+		// if user has logged out
+		if('yes' === __flex_g_settings.anonymous) {
+			// remove cookies
+			Cookies.remove('ib_lead_token');
+			Cookies.remove("_ib_user_firstname");
+			Cookies.remove("_ib_user_lastname");
+			Cookies.remove("_ib_user_phone");
+			Cookies.remove("_ib_user_email");
+		}
 	});
 	
 	})(jQuery);

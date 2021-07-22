@@ -122,6 +122,35 @@
       <span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
       <?php echo __('Modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
     </div>
+
+    <?php if (in_array($flex_idx_info["board_id"], [13,14])) { ?>
+          
+      <div class="ib-bdisclaimer">
+        <?php
+          if ( is_array($flex_idx_info) && 
+            array_key_exists("board_info", $flex_idx_info) && 
+            array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
+            !empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+              ?>
+        <div class="ms-logo-board">
+          <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
+        </div>        
+          <?php } ?>
+        <?php 
+        if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
+        <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+        <?php }else{ 
+          if ( is_array($flex_idx_info) && 
+            array_key_exists("board_info", $flex_idx_info) && 
+            array_key_exists("board_disclaimer", $flex_idx_info["board_info"]) && 
+            !empty($flex_idx_info["board_info"]["board_disclaimer"]) ) {
+              ?>
+          <p><?php echo $flex_idx_info["board_info"]["board_disclaimer"]; ?></p>  
+          <?php } ?>
+        <?php } ?>
+        <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+      </div>
+    <?php } ?>
   </div>
 </div>
 <!-- modal property html -->
@@ -525,19 +554,51 @@
                                   {{/if}}
                               </ul>
                           </div>
-                          <div class="ib-bdisclaimer ib-bdisclaimer-desktop">
-                          <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) : ?>
-                          <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                          <?php else : ?>
-                          <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                          The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                          All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                          other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                          All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                          Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                      <?php endif; ?>
-                              <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+                          <?php if( in_array($flex_idx_info["board_id"], ["13","14"]) ){ ?>
+                          <div class="ib-idx-info">
+                            <div class="ms-msg">
+                              {{#if board_info.last_check_timestamp}}
+                                <span>IDXBoost last checked {{board_info.last_check_timestamp}}</span>
+                              {{/if}}
+                              {{#if last_updated}}
+                                <span>Data was last updated {{last_updated}}</span>
+                              {{/if}}                              
+                            </div>
                           </div>
+                          <?php } ?>
+                          
+                          <div class="ib-bdisclaimer ib-bdisclaimer-desktop">
+                            <?php
+                              if ( is_array($flex_idx_info) && 
+                                array_key_exists("board_info", $flex_idx_info) && 
+                                array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
+                                !empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+                                  ?>
+                            <div class="ms-logo-board">
+                              <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
+                            </div>        
+                              <?php } ?>
+                            <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
+                            <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                            <?php }else if("13" == $flex_idx_info["board_id"]){ 
+                                    if ( is_array($flex_idx_info) && 
+                                        array_key_exists("board_info", $flex_idx_info) && 
+                                        array_key_exists("board_disclaimer", $flex_idx_info["board_info"]) && 
+                                        !empty($flex_idx_info["board_info"]["board_disclaimer"]) ) {
+                                        ?>
+                                <p><?php echo $flex_idx_info["board_info"]["board_disclaimer"]; ?></p>  
+                                <?php } ?>
+                            <?php }else{ ?>
+                            <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
+                            The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
+                            All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
+                            other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
+                            All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                            Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                            <?php } ?>
+                            <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+                          </div>
+
                       </div>
                       <div class="ib-paside">
                           <button class="ib-float-form"><span></span></button>
@@ -619,17 +680,22 @@
                       {{/if}}
   
                       <div class="ib-bdisclaimer ib-bdisclaimer-mobile">
-                      <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])): ?>
-                          <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                          <?php else: ?>
-                          <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                          The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                          All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                          other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                          All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                          Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                      <?php endif; ?>
-                          <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+                        <div class="ms-logo-board">
+                          <img src="{{board_info.board_logo_url}}">
+                        </div>
+                        <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
+                        <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                        <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
+                        <p>{{{board_info.board_disclaimer}}}</p>
+                        <?php }else{ ?>
+                        <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
+                        The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
+                        All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
+                        other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
+                        All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                        Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                        <?php } ?>
+                        <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
                       </div>
   
                   </div>
@@ -650,6 +716,7 @@
               <li class="ib-piitem ib-pisqft">{{ formatLotSize lot_size }} <?php echo __('Lot Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
               <li class="ib-piitem ib-paddress">{{ full_address }}</li>
               {{{ handleStatusProperty this }}}
+              <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
           </ul>
           <div class="ib-pislider {{ idxImageEmpty this }} gs-container-slider" data-img-cnt="{{ img_cnt }}" data-mls="{{ mls_num }}" data-status="{{ status }}">
               {{{ idxGalleryImages this }}}
@@ -662,7 +729,7 @@
               </div>
           </div>
           <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{ mls_num }}" data-status="{{ status }}" data-token-alert="{{token_alert}}"><?php /*<span>Add to Favorites</span> */ ?></div>
-          <a class="ib-pipermalink" href="{{ idxPermalink this }}" title="<?php echo __('View Detail of', IDXBOOST_DOMAIN_THEME_LANG); ?> {{ full_address }}"><span>{{ full_address }}</span></a>
+          <a class="ib-pipermalink" href="{{ idxPermalink this }}" title="<?php echo __('View Detail of', IDXBOOST_DOMAIN_THEME_LANG); ?> {{ full_address }}"><span>{{ full_address }}</span></a>      
       </li>
       {{{ capturePositionHackbox @index }}}
       {{/each}}

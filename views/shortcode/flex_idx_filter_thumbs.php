@@ -58,6 +58,7 @@
 						<?php else: ?>
 						<li class="development"><span><?php echo $property['complex']; ?></span></li>
 						<?php endif; ?>
+						
 					</ul>
 					<?php $totgallery=''; if ( count($property['gallery'])<=1 ) $totgallery='no-zoom'; ?>
 					<div class="wrap-slider <?php echo $totgallery; ?>">

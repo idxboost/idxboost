@@ -133,17 +133,18 @@ function idx_slider_html(info_item,type){
                 html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
                 html_response.push('<li class="build-year"><span>Built </span>2015</li>');
                 html_response.push('<li class="development"><span></span></li>');
+                html_response.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
               html_response.push('</ul>');
               html_response.push('<div class="wrap-slider">');
-                html_response.push('<ul>');
+            html_response.push('<ul>');
 
-				info_item.gallery.forEach(function(gallery,index_gallery){
-					if (index_gallery==0){
-						html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-					}else{
-						html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-					}				
-				});
+              info_item.gallery.forEach(function(gallery,index_gallery){
+                if (index_gallery==0){
+                  html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+                }else{
+                  html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+                }				
+              });
                 html_response.push('</ul>');
 
                 if (info_item.gallery.length>1){

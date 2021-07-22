@@ -266,14 +266,9 @@ function function_idx_agent_page($single_template)
 {
     global $post, $wp;
 
-    $wp_request = $wp->request;
-    $wp_request_exp = explode('/', $wp_request);
-    @list($agent_slug_name, $agent_page_name) = $wp_request_exp;
-    
-
-    $flex_agent_id = get_post_meta($post->ID, '_flex_agent_id', true);
-    $flex_agent_slug = get_post_meta($post->ID, '_flex_agent_slug', true);
-    $flex_agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
+//    $flex_agent_id = get_post_meta($post->ID, '_flex_agent_id', true);
+//    $flex_agent_slug = get_post_meta($post->ID, '_flex_agent_slug', true);
+//    $flex_agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
 
     // echo '<pre>';
     // print_r([
@@ -287,6 +282,13 @@ function function_idx_agent_page($single_template)
     // echo '</pre>';
 
     if ($post->post_type == 'idx-agents') {
+	    $wp_request = $wp->request;
+	    $wp_request_exp = explode('/', $wp_request);
+
+	    if (count( $wp_request_exp ) >= 2) {
+		    list($agent_slug_name, $agent_page_name) = $wp_request_exp;
+	    }
+
         if (1 == count($wp_request_exp)) {
             // for home and defaults
             $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';

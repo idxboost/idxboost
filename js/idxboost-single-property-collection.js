@@ -126,6 +126,7 @@
 												listHTML.push('<li class="price-sf"> <span></span> </li>');
 												listHTML.push('<li class="build-year"> <span></span> </li>');
 												listHTML.push('<li class="development"> <span></span> </li>');
+												listHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
 					              listHTML.push('</ul>');
 					              listHTML.push('<div class="wrap-slider">');
 					                listHTML.push('<ul>');
@@ -204,6 +205,7 @@
 												}
 											})()
 										}
+										<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>
 									</ul>
 
 									<div class="ib-pislider gs-container-slider ${hideGreatSliderNav}">

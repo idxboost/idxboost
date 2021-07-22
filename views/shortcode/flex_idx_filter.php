@@ -631,14 +631,8 @@
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
               ?>
-            <h2 title="<?php echo $property['full_address']; ?>">
-            <?php if ($sta_view_grid_type=='1') { ?>
-              <span><?php echo $property['full_address_top']; ?></span>
-              <span><?php echo $property['full_address_bottom']; ?></span>
-            <?php }else{ ?>
-              <span><?php echo $property['full_address']; ?></span>
-            <?php } ?>
-            </h2>
+            <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address"><?php echo $property['full_address_top']; ?><span>,</span><br><?php echo $property['full_address_bottom']; ?></h2>
+
             <ul class="features">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <?php if( $property['is_rental']=='1' ) { ?>
@@ -680,6 +674,12 @@
               <?php else: ?>
               <li class="development"><span><?php echo $property['complex']; ?></span></li>
               <?php endif; ?>
+              
+              <?php
+              if(is_array($response) && count($response)>0 && array_key_exists("board_info",$response) && array_key_exists("board_logo_url", $response["board_info"]) && !empty($response["board_info"]["board_logo_url"])  ){ ?>
+                <li class="ms-logo-board"><img src="<?php echo $response["board_info"]["board_logo_url"]; ?>"></li>
+              <?php } ?>
+
             </ul>
             <div class="wrap-slider">
               <ul>
@@ -718,18 +718,29 @@
               <?php endif; ?>
               <?php endif; ?>
             </div>
+            <?php
+            $url_property='#';
+            $class_for_recent = "view-detail view-detail-no-link";
+            if ($is_recent_sales=='yes') {
+              $class_for_recent = "view-detail";
+            }
+              $site_property=rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); 
+              $url_property=$site_property.'/'.$property['slug'];
+
+            ?>
+
             <?php if (isset($property["status"])): ?>
             <?php if (2 == $property["status"]): ?>
-            <a class="view-detail" href="#"><?php echo $property['full_address']; ?></a>
+            <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
             <?php elseif(5 == $property["status"]): ?>
-            <a class="view-detail" href="#"><?php echo $property['full_address']; ?></a>
+            <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
             <?php elseif(6 == $property["status"]): ?>
-            <a class="view-detail" href="#"><?php echo $property['full_address']; ?></a>
+            <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
             <?php else: ?>
-            <a class="view-detail" href="#"><?php echo $property['full_address']; ?></a>
+            <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
             <?php endif; ?>
             <?php else: ?>
-            <a class="view-detail" href="#"><?php echo $property['full_address']; ?></a>
+            <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
             <?php endif; ?>
             <a class="view-map-detail" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>">View Map</a>
               <?php if($atts['oh']=="1" && array_key_exists("oh_info", $property)) { 

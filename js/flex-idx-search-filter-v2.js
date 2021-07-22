@@ -458,6 +458,8 @@ function setAutocompleteTerm(term, type) {
 	}
 
 	IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
+	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
+	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 
 	update_bounds_zoom_gmap();
 
@@ -588,8 +590,22 @@ function handleClearAutocompleteEvent() {
 	IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
 	// console.log("hide remove boundaries button");
 
+	var boundCoords = [];
+
+	boundCoords.push(mapBounds.getSouthWest().lat());
+	boundCoords.push(mapBounds.getSouthWest().lng());
+	boundCoords.push(mapBounds.getNorthEast().lat());
+	boundCoords.push(mapBounds.getNorthEast().lat());
+
 	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+	console.log(mapBounds.toUrlValue());
+	console.log(mapBounds.getNorthEast().lat());
+	console.log(mapBounds.getNorthEast().lng());
+	console.log(mapBounds.getSouthWest().lat());
+	console.log(mapBounds.getSouthWest().lng());
 
 	IB_SEARCH_FILTER_FORM.trigger("submit");
 	
@@ -965,8 +981,22 @@ function handleDragSearchEvent() {
 	var mapBounds = IB_MAP.getBounds();
 	var mapCenter = mapBounds.getCenter();
 
+	var boundCoords = [];
+
+	boundCoords.push(mapBounds.getSouthWest().lat());
+	boundCoords.push(mapBounds.getSouthWest().lng());
+	boundCoords.push(mapBounds.getNorthEast().lat());
+	boundCoords.push(mapBounds.getNorthEast().lat());
+
 	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+	console.log(mapBounds.toUrlValue());
+	console.log(mapBounds.getNorthEast().lat());
+	console.log(mapBounds.getNorthEast().lng());
+	console.log(mapBounds.getSouthWest().lat());
+	console.log(mapBounds.getSouthWest().lng());
 
 	// console.log("Bounds: " + mapBounds.toUrlValue());
 	// console.log("Center: " + mapCenter.toUrlValue());
@@ -2267,6 +2297,10 @@ function buildMobileForm() {
 				text_caracteristics=word_translate.gulf;
 			}else if (option.name=="Creek"){
 				text_caracteristics=word_translate.creek;
+			}else if (option.name=="Pond"){
+				text_caracteristics=word_translate.pond;
+			}else if (option.name=="Marsh"){
+				text_caracteristics=word_translate.marsh;				
 			}else if (option.name=="Mangrove"){
 				text_caracteristics=word_translate.mangrove;          
 			}else if (option.name=="Navigable"){
@@ -2277,7 +2311,9 @@ function buildMobileForm() {
 				text_caracteristics=word_translate.basin;
 			}else if (option.name=="Seawall"){
 				text_caracteristics=word_translate.seawall;
-			}            
+			}else if (option.name=="Water Access"){
+				text_caracteristics=word_translate.water_access;
+			}
 			
 
 			else{
@@ -2962,6 +2998,10 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.gulf;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Creek")
 				text_label_trans=word_translate.creek;
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Pond")
+				text_label_trans=word_translate.pond;
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Marsh")
+				text_label_trans=word_translate.marsh;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Mangrove")
 				text_label_trans=word_translate.mangrove;          
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Navigable")
@@ -2972,6 +3012,8 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.basin;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Seawall")
 				text_label_trans=word_translate.seawall;
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Water Access")
+				text_label_trans=word_translate.water_access;
 						
 			
 
@@ -4314,8 +4356,22 @@ function handleFilterSearchLookup(event) {
 							IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
 							// console.log("hide remove boundaries button");
 
+							var boundCoords = [];
+
+							boundCoords.push(mapBounds.getSouthWest().lat());
+							boundCoords.push(mapBounds.getSouthWest().lng());
+							boundCoords.push(mapBounds.getNorthEast().lat());
+							boundCoords.push(mapBounds.getNorthEast().lat());
+
 							IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+							// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 							IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+							console.log(mapBounds.toUrlValue());
+							console.log(mapBounds.getNorthEast().lat());
+							console.log(mapBounds.getNorthEast().lng());
+							console.log(mapBounds.getSouthWest().lat());
+							console.log(mapBounds.getSouthWest().lng());
 		
 							IB_SEARCH_FILTER_FORM.trigger("submit");
 						}, 100);
@@ -4344,9 +4400,23 @@ function handleFilterSearchLookup(event) {
 				
 						IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
 						// console.log("hide remove boundaries button");
-					
+
+						var boundCoords = [];
+
+						boundCoords.push(mapBounds.getSouthWest().lat());
+						boundCoords.push(mapBounds.getSouthWest().lng());
+						boundCoords.push(mapBounds.getNorthEast().lat());
+						boundCoords.push(mapBounds.getNorthEast().lat());
+
 						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+						// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+						console.log(mapBounds.toUrlValue());
+						console.log(mapBounds.getNorthEast().lat());
+						console.log(mapBounds.getNorthEast().lng());
+						console.log(mapBounds.getSouthWest().lat());
+						console.log(mapBounds.getSouthWest().lng());
 
 						IB_SEARCH_FILTER_FORM.trigger("submit");
 
@@ -4502,7 +4572,7 @@ function handleFilterSearchLookup(event) {
 						new google.maps.LatLng(parseFloat(gmap_coords[0]), parseFloat(gmap_coords[1])), // SW
 						new google.maps.LatLng(parseFloat(gmap_coords[2]), parseFloat(gmap_coords[3])) // NE
 					);
-				
+
 					IB_MAP.setCenter({ lat: gmap_bounds.getCenter().lat(), lng: gmap_bounds.getCenter().lng() });
 					IB_MAP.setZoom(gmap_zoom);
 				}
@@ -4510,17 +4580,25 @@ function handleFilterSearchLookup(event) {
 
 			google.maps.event.clearListeners(IB_MAP, "idle");
 
-			if (true === IB_GMAP_FIT_TO_BOUNDS) {
-				if (!urlParams.has("rect") && !urlParams.has("zm")) {
-					if (location.search.length > 0) {
-						// console.log('[fit]');
-						IB_MAP.fitBounds(IB_BOUNDS);
+			if (response.items.length > 0) {
+				if (true === IB_GMAP_FIT_TO_BOUNDS) {
+					if (!urlParams.has("rect") && !urlParams.has("zm")) {
+						if (location.search.length > 0) {
+							// console.log('[fit]');
+							IB_MAP.fitBounds(IB_BOUNDS);
+						}
 					}
+
+					IB_GMAP_FIT_TO_BOUNDS = false;
 				}
-				
-				IB_GMAP_FIT_TO_BOUNDS = false;
 			}
 
+			// var mapCenter = IB_MAP.getCenter();
+			// var mapZoom = IB_MAP.getZoom();
+			// var mapBounds = IB_MAP.getBounds();
+			//
+			// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+			// IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 			/*
 			@todo map
 			setTimeout(function () {
@@ -4745,9 +4823,25 @@ $(function () {
 				var mapCenter = IB_MAP.getCenter();
 				var mapZoom = IB_MAP.getZoom();
 				var mapBounds = IB_MAP.getBounds();
-			
+
+				var boundCoords = [];
+
+				boundCoords.push(mapBounds.getSouthWest().lat());
+				boundCoords.push(mapBounds.getSouthWest().lng());
+				boundCoords.push(mapBounds.getNorthEast().lat());
+				boundCoords.push(mapBounds.getNorthEast().lat());
+
 				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+				// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+				boundCoords.length = 0;
+
+				console.log(mapBounds.toUrlValue());
+				console.log(mapBounds.getNorthEast().lat());
+				console.log(mapBounds.getNorthEast().lng());
+				console.log(mapBounds.getSouthWest().lat());
+				console.log(mapBounds.getSouthWest().lng());
 
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");

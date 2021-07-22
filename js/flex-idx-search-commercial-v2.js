@@ -3645,6 +3645,8 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.point_lot;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="River Front")
 				text_label_trans=word_translate.river_front;
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Water Access")
+				text_label_trans=word_translate.water_access;
 			option.innerHTML = text_label_trans;
 			option.setAttribute('value', __flex_idx_search_filter_v2.search.waterfront_options[i].code);
 			IB_DOCFRAG.appendChild(option);

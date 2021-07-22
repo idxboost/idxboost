@@ -111,6 +111,7 @@
                 <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m2)</span></li>
                 <li class="build-year"><span><?php echo __("Built", IDXBOOST_DOMAIN_THEME_LANG); ?> </span>2015</li>
                 <li class="development"><span>Star Island Corr</span></li>
+                
               </ul>
               <div class="wrap-slider">
                 <ul>
@@ -155,6 +156,7 @@
                 <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m2)</span></li>
                 <li class="build-year"><span><?php echo __("Built", IDXBOOST_DOMAIN_THEME_LANG); ?> </span>2015</li>
                 <li class="development"><span>Star Island Corr</span></li>
+                
               </ul>
               <div class="wrap-slider">
                 <ul>

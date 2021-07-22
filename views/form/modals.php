@@ -2168,3 +2168,33 @@ $(function() {
 
 })(jQuery);
 </script>
+
+
+<script id="ib-template-property" type="text/x-handlebars-template">
+{{#properties}}
+
+<li data-geocode="{{lat}}:{{lng}}" data-class-id="{{class_id}}" data-mls="{{mls_num}}" data-address="{{address_short}}" class="propertie">
+  {{{DFhandleStatusProperty this }}}
+  {{{DFhandleTypeView this }}}
+
+  <ul class="features">
+    <li class="address">{{{DFhandleFormatAddress this}}}</li>
+    <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental}}</li>
+    <li class="beds">{{class_name}} <span></span></li>
+    <li class="living-size"> <span>{{DFformatSqft lot_size}} </span><?php echo __('sqft', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>({{DFformatSqft living_size_m2}}  m2)</span></li>
+  </ul>
+
+  {{{DFidxGalleryImages this}}}
+  <a href="{{DFidxPermalink slug}}" class="view-detail"> {{DFhandleFormatAddress this}}</a>
+  <a class="view-map-detail" data-geocode="{{lat}}:{{lng}}">View Map</a>
+  {{{DFhandleOhContent this}}}
+</li>
+{{/properties}}
+</script>
+
+<script id="ib-template-display-pagination" type="text/x-handlebars-template">
+{{#pagination}}
+  <span id="indicator"><?php echo __('Page', IDXBOOST_DOMAIN_THEME_LANG); ?> {{current_page_number}} <?php echo __('of', IDXBOOST_DOMAIN_THEME_LANG); ?> {{total_pages_count }}</span>
+  {{{paginationBlock this}}}
+{{/pagination}}
+</script>

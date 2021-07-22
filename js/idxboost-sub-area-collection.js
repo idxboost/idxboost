@@ -1105,6 +1105,14 @@ function idxboostListCollectionForSold(element,ibstatus){
     htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m2)</span></li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
+        if ( 
+      idxboostCollecBuil.hasOwnProperty("payload") && 
+      idxboostCollecBuil.payload.hasOwnProperty("board_info") &&
+      idxboostCollecBuil.payload.board_info.hasOwnProperty("board_logo_url") &&
+      idxboostCollecBuil.payload.board_info.board_logo_url != "" ) {
+      htmlgrid +='<li class="ms-logo-board"><img src="'+idxboostCollecBuil.payload.board_info.board_logo_url+'"></li>';
+    }
+
     htmlgrid +='</ul>';
     htmlgrid +='<div class="wrap-slider">';
     htmlgrid +='<ul>';

@@ -1030,7 +1030,8 @@ var moreFilterHidden = {};
 		});
 	}
 
-		$("#result-search, .result-search").on("click", ".view-detail", function() {
+		$("#result-search, .result-search").on("click", ".view-detail", function(event) {
+			event.preventDefault();
 			var mlsNumber = $(this).parent('li').data('mls')
 
 			originalPositionY = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
@@ -1038,9 +1039,14 @@ var moreFilterHidden = {};
 
 			loadPropertyInModal(mlsNumber);
 		});
-
+		/*
 		$(document).on("click", ".view-detail", function(event) {
 			event.preventDefault();
+		});
+		*/
+
+		document.getElementsByClassName("view-detail-no-link")[0].addEventListener("click", function(event){
+		  event.preventDefault()
 		});
 
 		$('.property_type_checkbox').change(function(event){
@@ -2578,12 +2584,9 @@ function getLandSizeValues(min, max) {
 								listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 							}
 						//}
-							
-						if (view_grid_type=='1'){
-							listingHTML.push('<h2 title="' + item.full_address + '"><span>'+item.full_address_top+'</span><span>'+item.full_address_bottom+'</span></h2>');
-						}else{
-							listingHTML.push('<h2 title="' + item.full_address + '"><span>' + item.full_address + '</span></h2>');
-						}
+						
+						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address">'+item.full_address_top+'<span>,</span><br> '+item.full_address_bottom+'</h2>');
+
 						listingHTML.push('<ul class="features">');
 						listingHTML.push('<li class="address">' + item.full_address + '</li>');
 						listingHTML.push('<li class="price">$' + _.formatPrice(item.price) + text_is_rental + '</li>');
@@ -2621,6 +2624,17 @@ function getLandSizeValues(min, max) {
 						} else {
 							listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
 						}
+						
+						if ( 
+			                filter_metadata.hasOwnProperty("board_info") && 
+			                filter_metadata.board_info.hasOwnProperty("board_logo_url") &&
+			                filter_metadata.board_info.board_logo_url != "" && 
+			                filter_metadata.board_info.board_logo_url != null
+			                ) {
+			            listingHTML.push('<li class="ms-logo-board"><img src="'+filter_metadata.board_info.board_logo_url+'"></li>');
+			        	}
+						
+
 						listingHTML.push('</ul>');
 						var totgallery='';
 						if (item.gallery.length <= 1) {
@@ -2652,7 +2666,7 @@ function getLandSizeValues(min, max) {
 						}
 
 						listingHTML.push('</div>');
-						listingHTML.push('<a href="#" class="view-detail">'+item.full_address+'</a>');
+						listingHTML.push('<a href="' + flex_idx_filter_params.propertyDetailPermalink + '/' +item.slug + '" class="view-detail">'+item.full_address+'</a>');
 						listingHTML.push('<a class="view-map-detail" data-geocode="'+item.lat + ':' + item.lng+'">View Map</a>');
 						if (idx_oh=="1" && item.hasOwnProperty("oh_info") ) {
 						  var oh_info=JSON.parse(item.oh_info);
@@ -2797,7 +2811,7 @@ function getLandSizeValues(min, max) {
 					// var map_items = response.map_items;
 					// setupMarkers(map_items);
 					//setupMarkers(items);
-					$(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					//$(window).scrollTop($('.clidxboost-sc-filters').offset().top);
 					setupMarkers(response.map_items);
 					// check lazy images
 					myLazyLoad.update();

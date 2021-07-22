@@ -2280,6 +2280,10 @@ function buildMobileForm() {
 				text_caracteristics=word_translate.gulf;
 			else if (option.name=="Creek")
 				text_caracteristics=word_translate.creek;
+			else if (option.name=="Pond")
+				text_caracteristics=word_translate.pond;
+			else if (option.name=="Marsh")
+				text_caracteristics=word_translate.marsh;
 			else if (option.name=="Mangrove")
 				text_caracteristics=word_translate.mangrove;          
 			else if (option.name=="Navigable")
@@ -2292,6 +2296,8 @@ function buildMobileForm() {
 				text_caracteristics=word_translate.seawall;
 			else if (option.name=="Lake")
 				text_caracteristics=word_translate.lake;
+			else if (option.name=="Water Access")
+				text_caracteristics=word_translate.water_access;
 			else
 				text_caracteristics=option.name;
 
@@ -2934,6 +2940,10 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.gulf;
 			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Creek")
 				text_label_trans=word_translate.creek;
+			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Pond")
+				text_label_trans=word_translate.pond;
+			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Marsh")
+				text_label_trans=word_translate.marsh;
 			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Mangrove")
 				text_label_trans=word_translate.mangrove;          
 			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Navigable")
@@ -2944,6 +2954,8 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.basin;
 			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Seawall")
 				text_label_trans=word_translate.seawall;
+			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Water Access")
+				text_label_trans=word_translate.water_access;
 
 			option.innerHTML = text_label_trans;
 			option.setAttribute('value', __flex_idx_search_filter.search.waterfront_options[i].code);
@@ -3725,6 +3737,15 @@ function handleFilterSearchLookup(event) {
 						html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
 						html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
 						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+
+	                    if ( 
+	                      response.hasOwnProperty("board_info") &&
+	                      response.board_info.hasOwnProperty("board_logo_url") &&
+	                      response.board_info.board_logo_url != "" ) {
+	                      html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
+	                    }
+
 						//html_response.push('<li class="build-year"><span>Built </span>2015</li>');
 						//html_response.push('<li class="development"><span></span></li>');
 					  html_response.push('</ul>');

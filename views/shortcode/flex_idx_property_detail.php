@@ -570,21 +570,41 @@ var lastOpenedProperty = "<?php echo $property['mls_num']; ?>";
           </div>
         </div>   */ ?>
 
+        <?php if( in_array($flex_idx_info["board_id"], ["13","14"]) ){ ?>
+          <div class="ib-idx-info">
+            <div class="ms-msg">
+              <?php if( array_key_exists('board_info', $property) && array_key_exists("last_check_timestamp", $property['board_info']) && !empty($property['board_info']["last_check_timestamp"])){ ?>
+              <span>IDXBoost last checked <?php echo $property['board_info']["last_check_timestamp"];?></span>
+            <?php } ?>
+              <span>Data was last updated <?php echo $property["last_updated"];?></span>
+            </div>
+          </div>
+        <?php } ?>
+
         <div class="property-contact">
           <div class="info-content">
-
-            <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])): ?>
-              <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <?php echo $property["office_name"]; ?></p>
-            <?php else: ?>
+            <div class="ib-bdisclaimer">
+              <?php if( array_key_exists('board_info', $property) && array_key_exists("board_logo_url", $property['board_info']) && !empty($property['board_info']["board_logo_url"])){ ?>
+              <div class="ms-logo-board">
+                <img src="<?php echo $property['board_info']["board_logo_url"];?>">
+              </div>
+              <?php } ?>
+              <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
+              <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+              <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
+                <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
+                  <p><?php echo $property['board_info']["board_disclaimer"];?></p>
+                <?php } ?>
+              <?php }else{ ?>
               <p>The multiple listing information is provided by the <?php echo $property["board_name"]; ?>® from a copyrighted compilation of listings.
               The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present <?php echo $property["board_name"]; ?>®.
               All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
               other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
               All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
               Listing courtesy of: <?php echo $property["office_name"]; ?></p>
-            <?php endif; ?>
-
-            <span>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow">TREMGROUP</a></span>
+              <?php } ?>
+              <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+            </div>
           </div>
         </div>
       </div>

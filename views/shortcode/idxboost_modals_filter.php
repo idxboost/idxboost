@@ -565,6 +565,39 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       <div class="ib-paicontent"></div>
                     </li>*/ ?>
                   </ul>
+                  <?php if( in_array($flex_idx_info["board_id"], ["13","14"]) ){ ?>
+                    <div class="ib-idx-info">
+                      <div class="ms-msg">
+                        {{#if board_info.last_check_timestamp}}
+                          <span>IDXBoost last checked {{board_info.last_check_timestamp}}</span>
+                        {{/if}}
+                        {{#if last_updated}}
+                          <span>Data was last updated {{last_updated}}</span>
+                        {{/if}}
+                      </div>
+                    </div>
+                  <?php } ?>
+
+                  <div class="ib-bdisclaimer">
+                    {{#if board_info.board_logo_url}}
+                      <div class="ms-logo-board">
+                        <img src="{{board_info.board_logo_url}}">
+                      </div>
+                    {{/if}}
+                    <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
+                    <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                    <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
+                    <p>{{{board_info.board_disclaimer}}}</p>
+                    <?php }else{ ?>
+                    <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
+                    The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
+                    All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
+                    other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
+                    All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                    Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                    <?php } ?>
+                    <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+                  </div>
                 </div>
                 
               </div>
@@ -608,19 +641,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       </div>
                     </form>
                   </div>
-                </div>
-                <div class="ib-bdisclaimer">
-                <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])): ?>
-                            <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                            <?php else: ?>
-                            <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                            The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                            All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                            other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                            All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                            Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                        <?php endif; ?>
-                  <p><?php echo __("Real Estate IDX Powered by:", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
                 </div>
 
                 {{#if related_properties}}
@@ -674,6 +694,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         <li class="ib-piitem ib-pibaths">{{ bath }} <?php echo __("bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-pisqft">{{ formatSqft sqft }} <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ address_short }} {{ address_large }}</li>
+        <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>  
     </ul>
     <div class="ib-pislider {{ idxImageEmpty this }} gs-container-slider" data-img-cnt="{{ img_cnt }}" data-mls="{{ mls_num }}">
         <img class="ib-pifimg" src="{{ idxImage this }}" alt="{{ address_short }} {{ address_large }}">

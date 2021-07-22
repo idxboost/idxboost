@@ -115,28 +115,15 @@ function get_data_info(){
 	ib_obj_filter.forEach(function(itemFilter){
 
 		$.ajax({
-			url: idx_param_slider.ajaxUrl,
-			method: "POST",
-			data: {
-				action: "ib_slider_filter_regular",
-				type_filter: itemFilter.ib_type_filter,
-				id_filter:itemFilter.ib_id_filter
-			},
-			dataType: "json",
+        url: idx_param_slider.ajaxUrl,
+        type: "POST",
+        data: filter_metadata_commercial,
+        dataType: "json",
 			success: function(response) {
 				var html_listing=[];
-        var vboard_info = [];
-        
-        if ( 
-          response.hasOwnProperty("board_info") 
-          ) {
-          vboard_info = response.board_info;
-          }
-          console.log(vboard_info);
-
 				response.items.forEach(function(item){
-					html_exclusive_listing.push(idx_slider_html(item,'exclusve',vboard_info));
-					html_listing.push(idx_slider_html(item,'exclusve',vboard_info));
+					html_exclusive_listing.push(idx_slider_html(item,'exclusve'));
+					html_listing.push(idx_slider_html(item,'exclusve'));
 				});	
 
         //console.log(html_listing);
@@ -156,7 +143,7 @@ function get_data_info(){
 	});
 }
 
-function idx_slider_html(info_item,type,vboard_info){
+function idx_slider_html(info_item,type){
 	var html_response=[];
 	var slug_post=idx_param_slider.propertyDetailPermalink+'/'+info_item.slug;
 
@@ -173,27 +160,13 @@ function idx_slider_html(info_item,type,vboard_info){
             	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
             }
               //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-              //html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span><span>'+info_item.full_address_bottom+'</span></h2>');
-              html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address">'+info_item.full_address_top+'<span>,</span><br> '+info_item.full_address_bottom+'</h2>');
+              html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span><span>'+info_item.full_address_bottom+'</span></h2>');
 
               html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address_large+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
-                html_response.push('<li class="pr down">2.05%</li>');
-                html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
-                html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-                html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
-                html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
-                html_response.push('<li class="build-year"><span>Built </span>2015</li>');
-                html_response.push('<li class="development"><span></span></li>');
-                //html_response.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
-
-            if ( 
-                      vboard_info.hasOwnProperty("board_logo_url") &&
-                      vboard_info.board_logo_url != "" && vboard_info.board_logo_url != null ) {
-                  html_response.push('<li class="ms-logo-board"><img src="'+vboard_info.board_logo_url+'"></li>');
-                }
-
+                html_response.push('<li class="beds">'+info_item.class_name+'  <span></span></li>');
+                html_response.push('<li class="living-size"> '+_.formatPrice(info_item.lot_size)+' '+word_translate.sqft+'</li>');
               html_response.push('</ul>');
               html_response.push('<div class="wrap-slider">');
                 html_response.push('<ul>');

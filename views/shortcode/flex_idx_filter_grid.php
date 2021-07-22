@@ -391,6 +391,11 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                             <?php else: ?>
                                 <li class="development"><span><?php echo $property['complex']; ?></span></li>
                             <?php endif; ?>
+                            <?php
+                            if(is_array($response) && count($response)>0 && array_key_exists("board_info",$response) && array_key_exists("board_logo_url", $response["board_info"]) && !empty($response["board_info"]["board_logo_url"])  ){ ?>
+                              <li class="ms-logo-board"><img src="<?php echo $response["board_info"]["board_logo_url"]; ?>"></li>
+                            <?php } ?>
+
                         </ul>
                         <div class="wrap-slider">
                             <ul>

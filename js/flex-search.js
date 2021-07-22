@@ -332,6 +332,14 @@ var yDown = null;
                     } else {
                         listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
                     }
+
+                    if ( 
+                        response.payload.hasOwnProperty("board_info") &&
+                        response.board_info.hasOwnProperty("board_logo_url") &&
+                        response.board_info.board_logo_url != "" ) {
+                        listingHTML.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
+                    }
+
                     listingHTML.push('</ul>');
                     var totgallery='';
 

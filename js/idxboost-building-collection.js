@@ -1149,6 +1149,14 @@ function idxboostListCollectionForSold(element){
     htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m2)</span></li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
+    if ( 
+      idxboostCollecBuil.hasOwnProperty("payload") && 
+      idxboostCollecBuil.payload.hasOwnProperty("board_info") &&
+      idxboostCollecBuil.payload.board_info.hasOwnProperty("board_logo_url") &&
+      idxboostCollecBuil.payload.board_info.board_logo_url != "" && idxboostCollecBuil.payload.board_info.board_logo_url != null ) {
+      htmlgrid +='<li class="ms-logo-board"><img src="'+idxboostCollecBuil.payload.board_info.board_logo_url+'"></li>';
+    }
+    
     htmlgrid +='</ul>';
     htmlgrid +='<div class="wrap-slider">';
     htmlgrid +='<ul>';
@@ -1429,7 +1437,7 @@ function idx_slider_building_html(info_item){
       html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
     }
 
-    html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span> <span>'+info_item.full_address_bottom+'</span></h2>');
+    //html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span> <span>'+info_item.full_address_bottom+'</span></h2>');
       html_response.push('<ul class="features">');
         html_response.push('<li class="address">'+info_item.address_large+'</li>');
         html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
@@ -1438,8 +1446,17 @@ function idx_slider_building_html(info_item){
         html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
         html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
         html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+        html_response.push('<li class="mx-address">'+info_item.full_address_top+' '+info_item.full_address_bottom+'</li>');
         html_response.push('<li class="build-year"><span>Built </span>2015</li>');
         html_response.push('<li class="development"><span></span></li>');
+        if ( 
+          idxboostCollecBuil.hasOwnProperty("payload") && 
+          idxboostCollecBuil.payload.hasOwnProperty("board_info") &&
+          idxboostCollecBuil.payload.board_info.hasOwnProperty("board_logo_url") &&
+          idxboostCollecBuil.payload.board_info.board_logo_url != "" && idxboostCollecBuil.payload.board_info.board_logo_url != null ) {
+          html_response.push('<li class="ms-logo-board"><img src="'+idxboostCollecBuil.payload.board_info.board_logo_url+'"></li>');
+        }
+
       html_response.push('</ul>');
 
       html_response.push('<div class="wrap-slider">');
