@@ -1881,7 +1881,7 @@ function fb_logout() {
     <div class="ib-mwrapper ib-mgeneric">
       <div class="ib-mgcontent"> 
         <div id="ib-push-registration">
-          <button class="ms-skip ms-close ms-close-step" aria-label="Close"><span></span></button>
+          <!--<button class="ms-skip ms-close ms-close-step" aria-label="Close"><span></span></button>-->
           <form id="ib-register-form-quizz" method="post">
             <fieldset>
               <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
@@ -1906,9 +1906,9 @@ function fb_logout() {
                     </div>
                   </div>
                   <button class="pr-redbtn pr-populate-phone pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                  <div class="ms-center">
+                    <!--<div class="ms-center">
                     <a href="javascript:void(0)" class="ms-skip"><?php echo __('Skip this step', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-                  </div>
+                  </div>-->
               </li>
               <li class="ib-pr-step ib-pr-radio ib-active" id="__quizz_cancel_on_fb">
                 <div class="ms-header-md">

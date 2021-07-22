@@ -5279,7 +5279,7 @@ $(function () {
 				urlParams.delete("show");
 	
 				if ("" === urlParams.toString()) {
-					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+					history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
 				} else {
 					history.pushState(null, null, '?' + urlParams.toString());
 				}
@@ -5476,7 +5476,7 @@ $(function () {
             
                             var formData = _self.serialize();
                             var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
-                            var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                            var shareWithFriendEndpoint = __flex_idx_search_filter.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
                 
                             $.ajax({
                                 type: "POST",
@@ -5505,7 +5505,7 @@ $(function () {
         
                         var formData = _self.serialize();
                         var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
-                        var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                        var shareWithFriendEndpoint = __flex_idx_search_filter.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
             
                         $.ajax({
                             type: "POST",

@@ -1242,7 +1242,7 @@ window.loadPropertyInModal = loadPropertyInModal;
             
                             var formData = _self.serialize();
                             var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
-                            var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                            var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
                 
                             $.ajax({
                                 type: "POST",
@@ -1271,7 +1271,7 @@ window.loadPropertyInModal = loadPropertyInModal;
         
                         var formData = _self.serialize();
                         var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
-                        var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                        var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
             
                         $.ajax({
                             type: "POST",
