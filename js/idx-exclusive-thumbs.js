@@ -86,7 +86,7 @@ $('.propertie').on('click',function(event){
 	                        } else {
 	                            listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
 	                        }
-													listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
+													//listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
 	                        listingHTML.push('</ul>');
 	                        var totgallery='';
 	                        if (item.gallery.length <= 1) {

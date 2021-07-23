@@ -191,7 +191,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 					if ( is_array($flex_idx_info) && 
 						array_key_exists("board_info", $flex_idx_info) && 
 						array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
-						!empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+						!empty($flex_idx_info["board_info"]["board_logo_url"]) && 
+						$flex_idx_info["board_info"]["board_logo_url"] !="" ) {
 							?>
 				<div class="ms-logo-board">
 					<img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">

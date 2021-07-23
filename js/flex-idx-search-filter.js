@@ -3742,7 +3742,7 @@ function handleFilterSearchLookup(event) {
 	                    if ( 
 	                      response.hasOwnProperty("board_info") &&
 	                      response.board_info.hasOwnProperty("board_logo_url") &&
-	                      response.board_info.board_logo_url != "" ) {
+	                      response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null ) {
 	                      html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
 	                    }
 

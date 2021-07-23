@@ -163,13 +163,13 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 			<span class="ib-rembounds" style="color:blue;font-weight:600;cursor:pointer;">Remove boundaries</span> <?php echo __('or modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
 		</div>
 
-		<?php if (in_array($flex_idx_info["board_id"], [13,14]])) { ?>
+		<?php if ( in_array($flex_idx_info["board_id"], ["13","14"] ) ) { ?>
 			<div class="ib-bdisclaimer">
 				<?php
 					if ( is_array($flex_idx_info) && 
 						array_key_exists("board_info", $flex_idx_info) && 
 						array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
-						!empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+						!empty($flex_idx_info["board_info"]["board_logo_url"]) && $flex_idx_info["board_info"]["board_logo_url"] !="" ) {
 							?>
 				<div class="ms-logo-board">
 					<img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
@@ -602,7 +602,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 				if ( is_array($flex_idx_info) && 
 					array_key_exists("board_info", $flex_idx_info) && 
 					array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
-					!empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+					!empty($flex_idx_info["board_info"]["board_logo_url"]) &&
+					$flex_idx_info["board_info"]["board_logo_url"] !=""  ) {
 						?>
 			<div class="ms-logo-board">
 				<img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">

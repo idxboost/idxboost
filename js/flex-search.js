@@ -336,7 +336,7 @@ var yDown = null;
                     if ( 
                         response.payload.hasOwnProperty("board_info") &&
                         response.board_info.hasOwnProperty("board_logo_url") &&
-                        response.board_info.board_logo_url != "" ) {
+                        response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null) {
                         listingHTML.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
                     }
 

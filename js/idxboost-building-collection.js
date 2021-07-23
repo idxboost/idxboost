@@ -1123,7 +1123,7 @@ function idxboostListCollectionForSold(element){
           }
       }
       */
-    htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'"><span>'+element['address_short'].replace('# ','#')+'</span></h2>';
+    htmlgrid +='<h2 title="' + element.full_address + '" class="ms-property-address">'+element.full_address_top+'<span>,</span><br> '+element.full_address_bottom+'</h2>';
 
     if (idxboostCollecBuil.payload.is_marketing != false) {
       var txt_marketing ='';

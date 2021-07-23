@@ -1109,7 +1109,7 @@ function idxboostListCollectionForSold(element,ibstatus){
       idxboostCollecBuil.hasOwnProperty("payload") && 
       idxboostCollecBuil.payload.hasOwnProperty("board_info") &&
       idxboostCollecBuil.payload.board_info.hasOwnProperty("board_logo_url") &&
-      idxboostCollecBuil.payload.board_info.board_logo_url != "" ) {
+      idxboostCollecBuil.payload.board_info.board_logo_url != "" && idxboostCollecBuil.payload.board_info.board_logo_url != null ) {
       htmlgrid +='<li class="ms-logo-board"><img src="'+idxboostCollecBuil.payload.board_info.board_logo_url+'"></li>';
     }
 

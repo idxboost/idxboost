@@ -130,7 +130,8 @@
           if ( is_array($flex_idx_info) && 
             array_key_exists("board_info", $flex_idx_info) && 
             array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
-            !empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+            !empty($flex_idx_info["board_info"]["board_logo_url"]) && 
+            $flex_idx_info["board_info"]["board_logo_url"] !="" ) {
               ?>
         <div class="ms-logo-board">
           <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
@@ -572,7 +573,8 @@
                               if ( is_array($flex_idx_info) && 
                                 array_key_exists("board_info", $flex_idx_info) && 
                                 array_key_exists("board_logo_url", $flex_idx_info["board_info"]) && 
-                                !empty($flex_idx_info["board_info"]["board_logo_url"]) ) {
+                                !empty($flex_idx_info["board_info"]["board_logo_url"]) && 
+                                $flex_idx_info["board_info"]["board_logo_url"] !="" ) {
                                   ?>
                             <div class="ms-logo-board">
                               <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">

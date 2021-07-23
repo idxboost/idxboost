@@ -2169,6 +2169,33 @@ $(function() {
 })(jQuery);
 </script>
 
+<script id="ib-template-property-sale-rent-sold" type="text/x-handlebars-template">
+{{#properties}}
+
+<li data-geocode="{{lat}}:{{lng}}" data-class-id="{{class_id}}" data-mls="{{mls_num}}" data-address="{{address_short}}" class="propertie">
+  {{{DFhandleStatusProperty this }}}
+  {{{DFhandleTypeView this }}}
+
+  <ul class="features">
+    <li class="address">{{{DFhandleFormatAddress this}}}</li>
+    <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental}}</li>
+    {{{DFidxReduced reduced}}}
+    <li class="beds">{{bed}} <?php echo __('beds', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span></li>
+    <li class="baths">{{bath}} {{DFformatBathsHalf baths_half}} <span><?php echo __('baths', IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
+    <li class="living-size"> <span>{{DFformatSqft sqft}} <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+    <li class="price-sf"><span>{{DFformatPrice price_sqft}} </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>({{DFformatPrice price_sqft_m2}}  m2)</span></li>
+
+    {{{DFhandleDevelopment this}}}
+
+  </ul>
+
+  {{{DFidxGalleryImages this}}}
+  <a href="{{DFidxPermalink slug}}" class="view-detail"> {{DFhandleFormatAddress this}}</a>
+  <a class="view-map-detail" data-geocode="{{lat}}:{{lng}}">View Map</a>
+  {{{DFhandleOhContent this}}}
+</li>
+{{/properties}}
+</script>
 
 <script id="ib-template-property" type="text/x-handlebars-template">
 {{#properties}}

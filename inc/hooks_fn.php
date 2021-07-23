@@ -50,6 +50,13 @@ add_action("wp_ajax_nopriv_idxboost_sub_area_collection_list", "idxboost_sub_are
 add_action('wp_ajax_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
 add_action('wp_ajax_nopriv_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
 
+add_action('wp_ajax_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn');
+add_action('wp_ajax_nopriv_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn');
+
+add_action('wp_ajax_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
+add_action('wp_ajax_nopriv_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
+
+
 add_action("wp_ajax_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 add_action("wp_ajax_nopriv_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 

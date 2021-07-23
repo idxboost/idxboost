@@ -2676,7 +2676,7 @@ if (!function_exists('flex_idx_exclusive_boost_sc')) {
         $atts = shortcode_atts(array(
             'mode'        => 'default',
             'office_id'        => 'default',
-            'agen_id'        => 'default',
+            'agent_id'        => 'default',
             'property_sub_class'        => 'default',
             'property_status'        => 'default',
             'is_rental'        => 'default',
@@ -2691,6 +2691,7 @@ if (!function_exists('flex_idx_exclusive_boost_sc')) {
         ), $atts);
 
         $atts["action"] = "ib_boost_commercial";
+        $atts["page"] = "1";
 
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
@@ -2742,6 +2743,164 @@ if (!function_exists('flex_idx_exclusive_boost_sc')) {
     }
 
     add_shortcode('idx_commercial_boost', 'flex_idx_exclusive_boost_sc');
+}
+
+if (!function_exists('flex_idx_dinamic_boost_agent_office_sc')) {
+    function flex_idx_dinamic_boost_agent_office_sc($atts)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+
+        $access_token          = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+
+        $atts = shortcode_atts(array(
+            'months_back'        => "12",
+            'mode'        => 'default',
+            'office_id'        => 'default',
+            'agent_id'        => 'default',
+            'property_sub_class'        => 'default',
+            'property_status'        => 'default',
+            'is_rental'        => 'default',
+            'price_min'        => 'default',
+            'price_max'        => 'default',
+            'order_by'        => 'price-desc',
+            'limit_carousel'        => 'default',
+            "slider_item" => "4",
+            "slider_play" => "0",
+            "slider_speed" => "5000",            
+            'title'   => ''            
+        ), $atts);
+
+        $atts["action"] = "ib_boost_dinamic_data_agent_office";
+        $atts["page"] = "1";
+
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+        $wp_request     = $wp->request;
+        $wp_request_exp = explode('/', $wp_request);
+
+        $search_params = $flex_idx_info['search'];
+
+        $agent_info_name  = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
+        $agent_last_name  = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
+        $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
+        $agent_info_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? $flex_idx_info['agent']['agent_contact_phone_number'] : '';
+        $agent_info_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? $flex_idx_info['agent']['agent_contact_email_address'] : '';
+        $default_floor_plan=[];
+        
+        ob_start();
+
+        if ($atts["mode"] == "slider") {
+            wp_localize_script('ib_slider_filter_boost_agent_office', 'filter_metadata', $atts );
+            wp_enqueue_script('ib_slider_filter_boost_agent_office');
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_slider.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_slider.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_dinamic_slider.php';
+                }
+
+        }else{
+
+                wp_enqueue_style('flex-idx-filter-pages-css');
+                wp_localize_script('idxboost_dinamic_agent_office', 'filter_metadata', $atts );
+                wp_enqueue_script('idxboost_dinamic_agent_office');
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_dinamic_agent_office.php';
+                }
+        }
+
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('idx_boost_agent_office', 'flex_idx_dinamic_boost_agent_office_sc');
+}
+
+
+
+if (!function_exists('flex_idx_dinamic_boost_agent_office_sold_sc')) {
+    function flex_idx_dinamic_boost_agent_office_sold_sc($atts)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+
+        $access_token          = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+
+        $atts = shortcode_atts(array(
+            'months_back'        => "12",
+            'mode'        => 'default',
+            'office_id'        => 'default',
+            'agent_id'        => 'default',
+            'property_sub_class'        => 'default',
+            'property_status'        => 'default',
+            'is_rental'        => 'default',
+            'price_min'        => 'default',
+            'price_max'        => 'default',
+            'order_by'        => 'price-desc',
+            'limit_carousel'        => 'default',
+            "slider_item" => "4",
+            "slider_play" => "0",
+            "slider_speed" => "5000",            
+            'title'   => ''            
+        ), $atts);
+
+        $atts["action"] = "ib_boost_dinamic_data";
+        $atts["page"] = "1";
+
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+        $wp_request     = $wp->request;
+        $wp_request_exp = explode('/', $wp_request);
+
+        $search_params = $flex_idx_info['search'];
+
+        $agent_info_name  = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
+        $agent_last_name  = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
+        $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
+        $agent_info_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? $flex_idx_info['agent']['agent_contact_phone_number'] : '';
+        $agent_info_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? $flex_idx_info['agent']['agent_contact_email_address'] : '';
+        $default_floor_plan=[];
+        
+        ob_start();
+
+        if ($atts["mode"] == "slider") {
+            wp_localize_script('ib_slider_filter_boost_agent_office', 'filter_metadata', $atts );
+            wp_enqueue_script('ib_slider_filter_boost_agent_office');
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_slider.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_slider.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_dinamic_slider.php';
+                }
+
+        }else{
+
+                wp_enqueue_style('flex-idx-filter-pages-css');
+                wp_localize_script('idxboost_dinamic_agent_office', 'filter_metadata', $atts );
+                wp_enqueue_script('idxboost_dinamic_agent_office');
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_dinamic_agent_office.php';
+                }
+        }
+
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('idx_boost_agent_office_sold', 'flex_idx_dinamic_boost_agent_office_sold_sc');
 }
 
 
