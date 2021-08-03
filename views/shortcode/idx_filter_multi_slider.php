@@ -26,7 +26,7 @@
         <?php foreach($response['items'] as $value){ ?>
           <ul class="result-search slider-generator">
             <li class="propertie" data-id="<?php echo $value['mls_num']; ?>" data-mls="<?php echo $value['mls_num']; ?>" data-counter="<?php echo $count_item; ?>">
-              <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><span><?php echo str_replace('# ', '#', $value['address_short']); ?></span></h2>
+              <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><?php echo str_replace('# ', '#', $value['address_short']); ?></h2>
               <ul class="features">
                 <li class="address"><?php echo $value['address_large']; ?></li>
                 <li class="price">$<?php echo number_format($value['price']); ?></li>
@@ -69,7 +69,8 @@
         <?php foreach($response_rentals['items'] as $value){ ?>
           <ul class="result-search slider-generator">
             <li class="propertie" data-id="<?php echo $value['mls_num']; ?>" data-mls="<?php echo $value['mls_num']; ?>" data-counter="<?php echo $count_item; ?>">
-              <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><span><?php echo str_replace('# ', '#', $value['address_short']); ?></span></h2>
+              
+              <h2 title="<?php echo $value['address_short']; ?> <?php echo $value['address_large']; ?>"><?php echo str_replace('# ', '#', $value['address_short']); ?></h2>
               <ul class="features">
                 <li class="address"><?php echo $value['address_large']; ?></li>
                 <li class="price">$<?php echo number_format($value['price']); ?></li>

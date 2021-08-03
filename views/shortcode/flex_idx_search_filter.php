@@ -151,6 +151,12 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 				</div>
 			</div>
 		</div>
+
+		<div class="ib-gnopro">
+			<span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+			<span class="ib-rembounds" style="color:blue;font-weight:600;cursor:pointer;">Remove boundaries</span> <?php echo __('or modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
+		</div>
+		
 		<div class="ib-cproperties">
 			<div class="ib-wproperties">
 				<ul class="ib-lproperties ib-listings-ct"></ul>
@@ -158,10 +164,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 			<div class="ib-cpagination">
 				<nav class="ib-wpagination ib-pagination-ctrl"></nav>
 			</div>
-		</div>
-		<div class="ib-gnopro">
-			<span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-			<span class="ib-rembounds" style="color:blue;font-weight:600;cursor:pointer;">Remove boundaries</span> <?php echo __('or modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
 		</div>
 
 		<?php if (in_array($flex_idx_info["board_id"], [13,14])) { ?>

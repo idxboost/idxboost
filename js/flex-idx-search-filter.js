@@ -3728,8 +3728,9 @@ function handleFilterSearchLookup(event) {
 					}else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
 						html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 					}
-					  html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-					  html_response.push('<ul class="features">');
+					  //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
+					  html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address">'+info_item.full_address_top+'<span>,</span> <br> '+info_item.full_address_bottom+'</h2>');
+						html_response.push('<ul class="features">');
 						html_response.push('<li class="address">'+info_item.address_large+'</li>');
 						html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
 						html_response.push('<li class="pr down">2.05%</li>');

@@ -1166,7 +1166,7 @@ var yDown = null;
                                 listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                             }
                         }
-                        listingHTML.push('<h2 title="' + item.address + '"><span>' + item.address + '</span></h2>');
+                        listingHTML.push('<h2 title="' + item.address + '">' + item.address + '</h2>');
                         listingHTML.push('<ul class="features">');
                         listingHTML.push('<li class="address">' + item.address + '</li>');
                         listingHTML.push('<li class="price">$' + _.formatPrice(item.listing_price) + text_is_rental + '</li>');

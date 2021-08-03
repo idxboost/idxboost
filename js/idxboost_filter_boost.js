@@ -102,7 +102,7 @@ Handlebars.registerHelper('DFhandleStatusProperty', function(property) {
 });
 
 Handlebars.registerHelper('DFhandleTypeView', function(property) {
-	return '<h2 title="' + property.full_address + '" class="ms-property-address">'+property.full_address_top+'<span>,</span><br> '+property.full_address_bottom+'</h2>';
+	return '<h2 title="' + property.full_address + '" class="ms-property-address">'+property.full_address_top+'<span>,</span> <br> '+property.full_address_bottom+'</h2>';
 });
 
 Handlebars.registerHelper('DFhandleOhContent', function(property) {

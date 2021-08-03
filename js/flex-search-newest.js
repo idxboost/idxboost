@@ -194,7 +194,7 @@ var yDown = null;
                     var st = al[1].replace(/[\d\s]/g, "");
                     // var final_address = item.address_short + ", " + al[0] + ", " + st;
                     var final_address = item.address_short.replace(/# /, "#") + ", " + al[0] + ", " + st;
-                    var final_address_parceada = item.address_short.replace(/# /, "#") + "<span> " + al[0] + ", " + st+"</span>";
+                    var final_address_parceada = item.address_short.replace(/# /, "#") + al[0] + "<span>,<span> <br>" + st;
                     var final_address_parceada_new = " <span>"+ item.address_short.replace(/# /, "#") +", " + al[0] + ", " + al[1] + "</span>";
 
                     listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="' + item.address_short + '" class="propertie">');
@@ -204,7 +204,7 @@ var yDown = null;
                     if (item.status == 6) {
                         listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                     }
-                    listingHTML.push('<h2 title="' + final_address + '"><span>' + final_address_parceada + '</span></h2>');
+                    listingHTML.push('<h2 title="' + final_address + '">' + final_address_parceada + '</h2>');
                     listingHTML.push('<ul class="features">');
                     listingHTML.push('<li class="address">' + final_address_parceada_new + '</li>');
                     listingHTML.push('<li class="price"><a href="' + flex_idx_search_params.propertyDetailPermalink + '/' + item.slug + '">$' + _.formatPrice(item.price) + '</a></li>');

@@ -110,6 +110,12 @@
         </div>
       </div>
     </div>
+    
+    <div class="ib-gnopro">
+      <span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+      <?php echo __('Modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
+    </div>
+
     <div class="ib-cproperties">
       <div class="ib-wproperties">
         <ul class="ib-lproperties ib-listings-ct"></ul>
@@ -118,13 +124,8 @@
         <nav class="ib-wpagination ib-pagination-ctrl"></nav>
       </div>
     </div>
-    <div class="ib-gnopro">
-      <span class="ib-gnpno"><?php echo __('No matching results...', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-      <?php echo __('Modify your', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __('filter', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('preferences to get new results or', IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpclear"><?php echo __('clear', IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __('your search.', IDXBOOST_DOMAIN_THEME_LANG); ?>
-    </div>
 
-    <?php if (in_array($flex_idx_info["board_id"], [13,14])) { ?>
-          
+    <?php if (in_array($flex_idx_info["board_id"], [13,14])) { ?>    
       <div class="ib-bdisclaimer">
         <?php
           if ( is_array($flex_idx_info) && 

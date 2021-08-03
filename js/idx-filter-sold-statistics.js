@@ -645,9 +645,9 @@ var bounds;
                         //}
 
                         if (view_grid_type=='1'){
-                            listingHTML.push('<h2 title="' + item.full_address + '"><span>'+item.full_address_top+'</span><span>'+item.full_address_bottom+'</span></h2>');
+                            listingHTML.push('<h2 title="' + item.full_address + '">'+item.full_address_top+'<span>,</span> <br>'+item.full_address_bottom+'</span></h2>');
                         }else{
-                            listingHTML.push('<h2 title="' + item.full_address + '"><span>' + item.full_address + '</span></h2>');
+                            listingHTML.push('<h2 title="' + item.full_address + '">' + item.full_address + '</h2>');
                         }
 
                         listingHTML.push('<ul class="features">');

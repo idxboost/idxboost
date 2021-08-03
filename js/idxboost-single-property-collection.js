@@ -115,7 +115,7 @@
 												let propertyBaths = item.propertyBaths != '0' ? item.propertyBaths+'  <span>'+word_translate.baths+' </span>' : '';
 												let propertyLivingSize = item.propertyLivingSize != '0' ? '<span>'+_.formatPrice(item.propertyLivingSize)+'</span>'+word_translate.sqft+'<span></span>' : '';
 
-												listHTML.push('<h2 title="'+websiteName+'"><span>'+websiteName+'<span></span><span></h2>');
+												listHTML.push('<h2 title="'+websiteName+'">'+websiteName+'</h2>');
 					              listHTML.push('<ul class="features">');
 												listHTML.push('<li class="address">'+websiteName+'</li>');
 												if (item.propertyPrice != '0') { listHTML.push('<li class="price">$'+propertyPrice+'</li>'); }

@@ -516,9 +516,8 @@ if($idxboost_ver_bool==false){ ?>
                         $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
                         $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
                         ?>
-
-                        <h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"> <span><?php echo $final_address_parceada; ?></span> </h2>
-
+                        <!--<h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><?php echo $final_address_parceada; ?></h2>-->
+                        <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address"><?php echo $property['full_address_top']; ?><span>,</span> <br><?php echo $property['full_address_bottom']; ?></h2>
                         <ul class="features">
                             <li class="address"><?php echo $property['address_large']; ?></li>
                             <li class="price">$<?php echo number_format($property['price']); ?></li>

@@ -1094,7 +1094,7 @@ function idxboostListCollectionForSold(element,ibstatus){
             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
           }
       }
-    htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'"><span>'+element['address_short'].replace('# ','#')+'</span></h2>';
+    htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'">'+element['address_short'].replace('# ','#')+'</h2>';
     htmlgrid +='<ul class="features">';
     htmlgrid +='<li class="address">'+element['address_large']+'</li>';
     htmlgrid +='<li class="price">$'+price+'</li>';

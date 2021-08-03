@@ -122,7 +122,7 @@ function idx_slider_html(info_item,type){
 	idx_param_slider.propertyDetailPermalink+'/'+info_item.slug
           html_response.push('<ul class="result-search slider-generator">');
             html_response.push('<li class="propertie" data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
-              html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
+              html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'">'+info_item.address_short+'</h2>');
               html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address_large+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');

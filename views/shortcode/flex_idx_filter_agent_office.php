@@ -524,15 +524,16 @@ if (!empty($response) && is_array($response)) {
               $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
-              ?>
+            ?>
+
             <h2 title="<?php echo $property['full_address']; ?>">
             <?php if ($sta_view_grid_type=='1') { ?>
-              <span><?php echo $property['full_address_top']; ?></span>
-              <span><?php echo $property['full_address_bottom']; ?></span>
+              <?php echo $property['full_address_top']; ?><span>,</span> <br><?php echo $property['full_address_bottom']; ?>
             <?php }else{ ?>
-              <span><?php echo $property['full_address']; ?></span>
+              <?php echo $property['full_address']; ?>
             <?php } ?>
             </h2>
+            
             <ul class="features">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <li class="price">$<?php echo number_format($property['price']); ?></li>

@@ -2585,7 +2585,7 @@ function getLandSizeValues(min, max) {
 							}
 						//}
 						
-						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address">'+item.full_address_top+'<span>,</span><br> '+item.full_address_bottom+'</h2>');
+						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address">'+item.full_address_top+'<span>,</span> <br> '+item.full_address_bottom+'</h2>');
 
 						listingHTML.push('<ul class="features">');
 						listingHTML.push('<li class="address">' + item.full_address + '</li>');

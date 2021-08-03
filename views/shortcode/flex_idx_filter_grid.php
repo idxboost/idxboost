@@ -356,7 +356,10 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                         $arraytemp = explode(" , ", $property['address_large']);
                         $final_address_parceada = $property['address_short'] . "<span>".$arraytemp[0]. ", " .$arraytemp[1] ."</span>";
                         ?>
-                        <h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><span><?php echo $final_address_parceada; ?></span></h2>                        
+                        
+                        <!--<h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><?php echo $final_address_parceada; ?></h2>-->                        
+                        <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address"><?php echo $property['full_address_top']; ?><span>,</span><br><?php echo $property['full_address_bottom']; ?></h2>
+
                         <ul class="features">
                             <li class="address"><?php echo $property['address_large']; ?></li>
                             <li class="price">$<?php echo number_format($property['price']); ?></li>
