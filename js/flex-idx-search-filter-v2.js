@@ -479,7 +479,8 @@ function handleSelectAutocomplete(event, ui) {
 }
 
 function handleFocusAutocompleteEvent() {
-	console.log('[focus]');
+	//console.log('[focus]');
+
 	if ("" === this.value) {
 		ib_autocomplete.autocomplete("option", "source", ib_autocomplete_cities);
 		ib_autocomplete.autocomplete( "search", "" );
@@ -549,7 +550,7 @@ function handleKeyUpAutocompleteEvent(event) {
 }
 
 function handleClearAutocompleteEvent() {
-	console.log('[search]');
+	// console.log('[search]');
 
 	ib_autocomplete.autocomplete("option", "source", ib_autocomplete_cities);
 	ib_autocomplete.autocomplete( "search", "" );
@@ -603,11 +604,11 @@ function handleClearAutocompleteEvent() {
 	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 
-	console.log(mapBounds.toUrlValue());
-	console.log(mapBounds.getNorthEast().lat());
-	console.log(mapBounds.getNorthEast().lng());
-	console.log(mapBounds.getSouthWest().lat());
-	console.log(mapBounds.getSouthWest().lng());
+	// console.log(mapBounds.toUrlValue());
+	// console.log(mapBounds.getNorthEast().lat());
+	// console.log(mapBounds.getNorthEast().lng());
+	// console.log(mapBounds.getSouthWest().lat());
+	// console.log(mapBounds.getSouthWest().lng());
 
 	IB_SEARCH_FILTER_FORM.trigger("submit");
 	
@@ -789,6 +790,11 @@ function handleOverlayComplete(event) {
 
 //MAPA 50/50
 function setupMapControlsFull() {
+	//console.log(IB_MAP.getBounds().toUrlValue());
+	
+	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+
   // setup buttons wrapper
   mapButtonsWrapper = document.createElement("div");
   mapButtonsWrapper.classList.add('flex-map-controls-ct');
@@ -4854,11 +4860,11 @@ $(function () {
 
 				boundCoords.length = 0;
 
-				console.log(mapBounds.toUrlValue());
-				console.log(mapBounds.getNorthEast().lat());
-				console.log(mapBounds.getNorthEast().lng());
-				console.log(mapBounds.getSouthWest().lat());
-				console.log(mapBounds.getSouthWest().lng());
+				// console.log(mapBounds.toUrlValue());
+				// console.log(mapBounds.getNorthEast().lat());
+				// console.log(mapBounds.getNorthEast().lng());
+				// console.log(mapBounds.getSouthWest().lat());
+				// console.log(mapBounds.getSouthWest().lng());
 
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
