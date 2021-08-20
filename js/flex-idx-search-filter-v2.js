@@ -459,6 +459,7 @@ function setAutocompleteTerm(term, type) {
 		IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val(type);
 	}
 
+	// @TODO check autocomplete change
 	IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
 	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
 	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
@@ -1018,8 +1019,8 @@ function update_bounds_zoom_gmap() {
 	var mapZoom = IB_MAP.getZoom();
 	var mapBounds = IB_MAP.getBounds();
 	
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
+	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
+	// IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 	
 	IB_GMAP_FIT_TO_BOUNDS = true;
 }
