@@ -4617,6 +4617,10 @@ function handleFilterSearchLookup(event) {
 				}
 			}
 
+			IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+			IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+			console.log('[refresh]');
+
 			// var mapCenter = IB_MAP.getCenter();
 			// var mapZoom = IB_MAP.getZoom();
 			// var mapBounds = IB_MAP.getBounds();
