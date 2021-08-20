@@ -310,22 +310,36 @@ function ib_init_script(){
                   /* NEW SLIDER*/
                   /* NEW SLIDER*/
                   //
+                  if (response.payload.property_display_active == "grid") {
+                    if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("grid");
+                    }else{
+                      $('.idxboost_collection_filterviews .grid').click();
+                    }
+                  }else{
+                   if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("list");
+                    }else{
+                      $('.idxboost_collection_filterviews .list').click();
+                    }
+
+                  }
+                  /*
                   if ( response.payload.modo_view == "1" ) {
-                    
                     if (__flex_g_settings.is_mobile =="1" ) {
                       $('.idxboost_collection_filterviews select').val("list");
                     }else{
                       $('.idxboost_collection_filterviews .list').click();
                     }
-                    
                   }else{
                     if (__flex_g_settings.is_mobile =="1" ) {
                       $('.idxboost_collection_filterviews select').val("grid");
                     }else{
                       $('.idxboost_collection_filterviews .grid').click();
                     }
-                    
                   }
+                  */
+
 
                   if (__flex_g_settings.is_mobile =="1" ) {
                     $('.idxboost_collection_filterviews select').change();
@@ -1123,7 +1137,7 @@ function idxboostListCollectionForSold(element){
           }
       }
       */
-    htmlgrid +='<h2 title="' + element.full_address + '" class="ms-property-address">'+element.full_address_top+'<span>,</span> <br> '+element.full_address_bottom+'</h2>';
+    htmlgrid +='<h2 title="' + element.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+element.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+element.full_address_bottom+'</div></h2>';
 
     if (idxboostCollecBuil.payload.is_marketing != false) {
       var txt_marketing ='';

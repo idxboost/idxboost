@@ -124,8 +124,8 @@ function idx_off_market_listing_slider_html(info_item,type){
             }
               
 						//html_response.push('<h2 title="'+info_item.address+'"><span>'+info_item.address+'</span></h2>');
-							html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address">'+info_item.full_address_top+'<span>,</span> <br> '+info_item.full_address_bottom+'</h2>');
-              html_response.push('<ul class="features">');
+							html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+info_item.full_address_bottom+'</div></h2>');
+							html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.listing_price)+'</li>');
                 html_response.push('<li class="pr down">2.05%</li>');

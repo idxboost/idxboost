@@ -2584,8 +2584,8 @@ function getLandSizeValues(min, max) {
 								listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 							}
 						//}
-						
-						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address">'+item.full_address_top+'<span>,</span> <br> '+item.full_address_bottom+'</h2>');
+
+						listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
 
 						listingHTML.push('<ul class="features">');
 						listingHTML.push('<li class="address">' + item.full_address + '</li>');
@@ -2811,7 +2811,12 @@ function getLandSizeValues(min, max) {
 					// var map_items = response.map_items;
 					// setupMarkers(map_items);
 					//setupMarkers(items);
-					//$(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					
+					var sizeTop = $('.clidxboost-sc-filters').offset().top;
+					$(window).scrollTop(sizeTop - 100);
+
+					//$("html, body").animate({ scrollTop: sizeTop - 100 }, 600);
+
 					setupMarkers(response.map_items);
 					// check lazy images
 					myLazyLoad.update();

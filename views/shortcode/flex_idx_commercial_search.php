@@ -51,6 +51,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                 $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
                 if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
                   $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }elseif (isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"])){
+                    $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
                 }
                 
 ?>

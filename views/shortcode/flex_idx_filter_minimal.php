@@ -336,6 +336,8 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                 $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
                 if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
                   $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }elseif(isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
                 }
                 ?>
                               
@@ -516,8 +518,13 @@ if($idxboost_ver_bool==false){ ?>
                         $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
                         $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
                         ?>
-                        <!--<h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><?php echo $final_address_parceada; ?></h2>-->
-                        <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address"><?php echo $property['full_address_top']; ?><span>,</span> <br><?php echo $property['full_address_bottom']; ?></h2>
+     
+                        <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
+                          <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
+                          <div class="ms-br-line">,</div>
+                          <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+                        </h2>
+                        
                         <ul class="features">
                             <li class="address"><?php echo $property['address_large']; ?></li>
                             <li class="price">$<?php echo number_format($property['price']); ?></li>

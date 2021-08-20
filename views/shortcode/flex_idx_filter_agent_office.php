@@ -326,6 +326,8 @@ if (!empty($response) && is_array($response)) {
                 $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
                 if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
                   $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }elseif (isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
                 }
                 ?>
                 <h4 class="clidxboost-icon-arrow-select"><?php echo $label_waterfront_description; ?></h4>
@@ -526,11 +528,13 @@ if (!empty($response) && is_array($response)) {
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
             ?>
 
-            <h2 title="<?php echo $property['full_address']; ?>">
+            <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
             <?php if ($sta_view_grid_type=='1') { ?>
-              <?php echo $property['full_address_top']; ?><span>,</span> <br><?php echo $property['full_address_bottom']; ?>
+              <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
+              <div class="ms-br-line">,</div>
+              <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
             <?php }else{ ?>
-              <?php echo $property['full_address']; ?>
+              <div class="ms-title-address -address-top"><?php echo $property['full_address']; ?></div>
             <?php } ?>
             </h2>
             

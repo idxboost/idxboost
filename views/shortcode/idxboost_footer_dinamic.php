@@ -1,9 +1,14 @@
 <?php
+
 $result = [];
-if (!empty($GLOBALS) && array_key_exists('idx_header_footer', $GLOBALS) && !empty($GLOBALS['idx_header_footer'])) {
+
+if (
+    ! empty($GLOBALS) && 
+    array_key_exists('idx_header_footer', $GLOBALS) && 
+    ! empty($GLOBALS['idx_header_footer'])
+) {
     $result = $GLOBALS['idx_header_footer'];
 } else {
-
 
     $data = array(
         'registration_key' => get_option('idxboost_registration_key')
@@ -24,18 +29,21 @@ if (!empty($GLOBALS) && array_key_exists('idx_header_footer', $GLOBALS) && !empt
 
     $result = @json_decode(curl_exec($ch), true);
     $GLOBALS['idx_header_footer'] = $result;
+    
+    // Close cURL session handle
     curl_close($ch);
-
 }
-
 
 $variable = do_shortcode("[idxboost_dinamic_menu]");
 
-// Close cURL session handle
-
-if (is_array($result) && count($result) > 0) {
-    if (array_key_exists('data', $result) && array_key_exists('footer', $result['data']) && !empty($result['data']['footer']['content'])) {
+if ( is_array($result) && count($result) > 0 ) {
+    if (
+        array_key_exists('data', $result) && 
+        array_key_exists('footer', $result['data']) && 
+        ! empty($result['data']['footer']['content'])
+    ) {
         $result['data']['footer']['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['data']['footer']['content']);
     }
+    
     echo $result['data']['footer']['content'];
 }

@@ -1,3 +1,5 @@
+var is_search_filter_viewed = false;
+
 var initial_title;
 var initial_href;
 var dataAlert;
@@ -2956,6 +2958,8 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.seawall;
 			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Water Access")
 				text_label_trans=word_translate.water_access;
+			else
+				text_label_trans=__flex_idx_search_filter.search.waterfront_options[i].name;
 
 			option.innerHTML = text_label_trans;
 			option.setAttribute('value', __flex_idx_search_filter.search.waterfront_options[i].code);
@@ -3708,9 +3712,29 @@ function handleFilterSearchLookup(event) {
 			device_width: window.innerWidth
 		},
 		success: function(response) {
+			if ("no" === __flex_g_settings.anonymous) {
+				if (false === is_search_filter_viewed) {
+					is_search_filter_viewed = true;
+					$.ajax({
+						type: "POST",
+						url: __flex_idx_search_filter.updateEventUri,
+						data: {
+							"type": "lead_search_filter_view",
+							"name": response.params.name,
+							"access_token": __flex_g_settings.accessToken,
+							"lead_token": Cookies.get("ib_lead_token"),
+							"source_url": location.href
+						},
+						success: function(response) {
+							//console.dir(response);
+						}
+					});
+				}
+			}
+
 			dataAlert=response;
 			if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
-				console.dir(response);
+				// console.dir(response);
 
 				var html_response = [];
 
@@ -3728,8 +3752,10 @@ function handleFilterSearchLookup(event) {
 					}else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
 						html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 					}
+
 					  //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-					  html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address">'+info_item.full_address_top+'<span>,</span> <br> '+info_item.full_address_bottom+'</h2>');
+
+						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.address_short+'</div></h2>');
 						html_response.push('<ul class="features">');
 						html_response.push('<li class="address">'+info_item.address_large+'</li>');
 						html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
@@ -5635,27 +5661,21 @@ $(function () {
                         var myLatLng = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
                         var map = new google.maps.Map(IB_MODAL_WRAPPER.find(".ib-pmap")[0], {
-                            disableDoubleClickZoom: true,
-                            scrollwheel: false,
-                            streetViewControl: false,
-                            panControl: false,
-                            zoom: 15,
-                            center: myLatLng,
-                            styles: style_map,
-                            gestureHandling: 'cooperative',
-                            zoomControl: true,
-                            zoomControlOptions: {
-                                position: google.maps.ControlPosition.RIGHT_TOP
-                            },
-                            mapTypeControlOptions: {
-                              position: google.maps.ControlPosition.LEFT_BOTTOM
-                            }
-                        });
-                
-                        var marker = new google.maps.Marker({
-                          position: myLatLng,
-                          map: map
-                        });
+													zoom: 18,
+													center: myLatLng,
+													styles: style_map,
+													gestureHandling: 'cooperative',
+													panControl: false,
+													scrollwheel: false,
+													disableDoubleClickZoom: true,
+													disableDefaultUI: true,
+													streetViewControl: true,
+												});
+								
+												var marker = new google.maps.Marker({
+													position: myLatLng,
+													map: map
+												});
 
 						google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls);
 

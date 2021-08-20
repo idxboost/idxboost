@@ -207,8 +207,13 @@ $logo_broker='';
         </section>
       </div>
     </main>
-    
-    <input type="hidden" class="ib_collection_view" value="list" >
+    <?php
+    $type_view = "list";
+    if ( !empty($GLOBALS['result_detailt_building']['payload']['property_display_active']) ) { 
+      $type_view = $GLOBALS['result_detailt_building']['payload']['property_display_active'];
+    } 
+    ?>
+    <input type="hidden" class="ib_collection_view" value="<?php echo $type_view; ?>">
     <input type="hidden" class="ib_collection_tab" value="tab_sale" >
 <style type="text/css">
   .item_view_db{

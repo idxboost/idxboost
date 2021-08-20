@@ -2,6 +2,8 @@ var initial_title;
 var initial_href;
 var dataAlert;
 
+var initLoadMapCenter = false;
+
 if (typeof originalPositionY === "undefined") {
 	var originalPositionY;
 }
@@ -2952,7 +2954,7 @@ function buildSearchFilterForm() {
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Park Greenbelt")
 				text_label_trans=word_translate.park_greenbelt;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Mountains")
-				text_label_trans=word_translate.mountains;
+				text_label_trans=word_translate.mountain;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Strip View")
 				text_label_trans=word_translate.strip_view;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="River")
@@ -3014,6 +3016,8 @@ function buildSearchFilterForm() {
 				text_label_trans=word_translate.seawall;
 			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Water Access")
 				text_label_trans=word_translate.water_access;
+			else
+				text_label_trans=__flex_idx_search_filter_v2.search.waterfront_options[i].name;
 						
 			
 
@@ -3800,6 +3804,19 @@ function handleFilterSearchLookup(event) {
 
 	$(".ib-temp-modal-infobox").remove();
 
+	// if (typeof IB_MAP !== "undefined") {
+	// 	if (false === initLoadMapCenter) {
+	// 		initLoadMapCenter = true;
+	
+	// 		var mapBounds = IB_MAP.getBounds();
+	// 		var mapZoom = IB_MAP.getZoom();
+			
+	// 		IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	// 		// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
+	// 		IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	// 	}
+	// }
+
 	//IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
 
 	// $(".ib-fmsearchsuggestions:eq(0)").parent().removeClass("ib-fhpa-minisearch-active");
@@ -4412,11 +4429,11 @@ function handleFilterSearchLookup(event) {
 						// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 
-						console.log(mapBounds.toUrlValue());
-						console.log(mapBounds.getNorthEast().lat());
-						console.log(mapBounds.getNorthEast().lng());
-						console.log(mapBounds.getSouthWest().lat());
-						console.log(mapBounds.getSouthWest().lng());
+						// console.log(mapBounds.toUrlValue());
+						// console.log(mapBounds.getNorthEast().lat());
+						// console.log(mapBounds.getNorthEast().lng());
+						// console.log(mapBounds.getSouthWest().lat());
+						// console.log(mapBounds.getSouthWest().lng());
 
 						IB_SEARCH_FILTER_FORM.trigger("submit");
 

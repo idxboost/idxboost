@@ -12,6 +12,7 @@ $filter_token_id = get_post_meta($filter_page_ID, '_flex_filter_page_id', true);
 $filter_page_references = get_post_meta($filter_page_ID, '_flex_filter_page_references', true);
 $post_thumbnail_id = get_post_thumbnail_id($filter_page_ID);
 $post_thumbnail_url = wp_get_attachment_url($post_thumbnail_id);
+$references_query = "";
 
 if (!empty($filter_page_references) && $filter_page_references =='1') {
   $references_query = 'reference="yes"';

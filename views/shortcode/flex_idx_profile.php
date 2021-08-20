@@ -19,7 +19,11 @@
 <div class="gwr flex-not-logged-in-msg">
    <p><?php echo __("You need to", IDXBOOST_DOMAIN_THEME_LANG); ?> <a class="flex-login-link" href="#"><?php echo __("login", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("to view this page.", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
 </div>
-<?php else: ?>
+<?php else:
+
+global $flex_idx_info;
+
+?>
 <style>
 .favorite-list-save {max-width:1400px;margin-left:auto;margin-right:auto;}
 </style>
@@ -52,16 +56,20 @@
                           <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
                         </a>
                       </li>
+                      <?php if (true === $flex_idx_info['agent']['has_basic_idx']): ?>
                       <li>
                         <a href="<?php echo $flex_idx_info['pages']['flex_idx_favorites']['guid']; ?>">
                           <span><?php echo $flex_idx_info['pages']['flex_idx_favorites']['post_title']; ?></span>
                         </a>
                       </li>
+                      <?php endif; ?>
+                      <?php if (true === $flex_idx_info['agent']['has_basic_idx']): ?>
                       <li>
                         <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['guid']; ?>">
                           <span><?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['post_title']; ?></span>
                         </a>
                       </li>
+                      <?php endif; ?>
                       <li>
                         <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
                           <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>

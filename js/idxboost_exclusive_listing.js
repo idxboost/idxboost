@@ -1726,7 +1726,7 @@ var yDown = null;
 							}
 
 
-						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address">'+item.full_address_top+'<span>,</span> <br> '+item.full_address_bottom+'</h2>');
+						listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
 
 						listingHTML.push('<ul class="features">');
 						listingHTML.push('<li class="address">' + final_address_parceada_new + '</li>');
@@ -2057,7 +2057,9 @@ var yDown = null;
 					// setupMarkers(map_items);
 					//setupMarkers(items);
 
-					//$(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					var sizeTop = $('.clidxboost-sc-filters').offset().top;
+					$(window).scrollTop(sizeTop - 100);
+
 					setupMarkers(response.map_items);
 					
 					// check lazy images

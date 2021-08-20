@@ -644,7 +644,7 @@ Handlebars.registerHelper('DFhandleStatusProperty', function(property) {
 });
 
 Handlebars.registerHelper('DFhandleTypeView', function(property) {
-	return '<h2 title="' + property.full_address + '" class="ms-property-address">'+property.full_address_top+'<span>,</span> <br> '+property.full_address_bottom+'</h2>';
+	return '<h2 title="'+property.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+property.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+property.full_address_bottom+'</div></h2>';
 });
 
 Handlebars.registerHelper('DFhandleOhContent', function(property) {
@@ -796,6 +796,8 @@ Handlebars.registerHelper("DFidxPermalink", function(slug) {
 					var sourcePagina = Handlebars.compile(IB_PAGINATION.html());
 					var compilatePag = sourcePagina(contentPage);
 					$("#nav-results").html(compilatePag);					
+					var sizeTop = $('.clidxboost-sc-filters').offset().top;
+					$(window).scrollTop(sizeTop - 100);					
 				  	$('#info-subfilters').html(word_translate.showing+' ' +paging.offset.start+' '+word_translate.to+' ' +paging.offset.end+' '+word_translate.of+' '+ _.formatPrice(response.counter)+' '+word_translate.properties+'.');
 					myLazyLoad.update();
 					idxboostTypeIcon();

@@ -157,7 +157,12 @@
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
               ?>
-            <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address"><?php echo $property['full_address_top']; ?><span>,</span> <br><?php echo $property['full_address_bottom']; ?></h2>
+
+              <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
+                <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
+                <div class="ms-br-line">,</div>
+                <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+              </h2>
 
             <ul class="features">
               <li class="address"><?php echo $property['full_address']; ?></li>

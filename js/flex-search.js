@@ -289,7 +289,7 @@ var yDown = null;
                     }
 
                     var final_address = item.address_short + " " + al[0] + ", " + st;
-                    var final_address_parceada = item.address_short + "<span>,</span> <br>" + st_print;
+                    var final_address_parceada = '<div class="ms-title-address -address-top">'+item.address_short+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+st_print+'</div>';
                     //var final_address_parceada_new = "<span>"+item.address_short + " " + al[0] +  " " + al[1]+ "</span>";
                     var final_address_parceada_new = "<span>"+item.address_short + " " + st_print + "</span>";
 
@@ -300,7 +300,8 @@ var yDown = null;
                     if (item.status == 6) {
                         listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                     }
-                    listingHTML.push('<h2 title="' + final_address + '">' + final_address_parceada + '</h2>');
+                    listingHTML.push('<h2 title="'+final_address+'" class="ms-property-address">' + final_address_parceada + '</h2>');
+                    
                     listingHTML.push('<ul class="features">');
                     listingHTML.push('<li class="address">' + final_address_parceada_new + '</li>');
                     listingHTML.push('<li class="price"><a href="' + flex_idx_search_params.propertyDetailPermalink + '/' + item.slug + '">$' + _.formatPrice(item.price) + '</a></li>');

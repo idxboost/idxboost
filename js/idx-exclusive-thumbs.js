@@ -44,9 +44,9 @@ $('.propertie').on('click',function(event){
 	                            }
 	                        }
 	                        if (view_grid_type=='1'){
-	                            listingHTML.push('<h2 title="' + item.full_address + '">'+item.full_address_top+'<span>,</span> <br>'+item.full_address_bottom+'</h2>');
+	                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
 	                        }else{
-	                            listingHTML.push('<h2 title="' + item.full_address + '">' + item.full_address + '</h2>');
+	                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address+'</div></h2>');
 	                        }
 
 	                        listingHTML.push('<ul class="features">');

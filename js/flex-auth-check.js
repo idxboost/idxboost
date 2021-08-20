@@ -290,7 +290,7 @@ function idx_auto_save_building(lead_data){
 										search_url:window.location.href
 									},
 								success: function(response) {
-										console.log(response);
+										//console.log(response);
 									}
 							});                                
 						}
@@ -657,7 +657,7 @@ function validate_price(evt) {
 				dataType: "json",
 				success: function (response) {
 					if (response.success === true) {
-						console.dir(seriaLogin);
+						// console.dir(seriaLogin);
 
 						if (typeof dataLayer !== "undefined") {
 							dataLayer.push({'event': 'email_signin'});
@@ -2624,7 +2624,7 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 				},
 				dataType: "json",
 				success: function(response) {
-					console.log(response)
+					//console.log(response)
 				}
 			});
 		}

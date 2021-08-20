@@ -56,7 +56,6 @@ add_action('wp_ajax_nopriv_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn
 add_action('wp_ajax_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
 add_action('wp_ajax_nopriv_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
 
-
 add_action("wp_ajax_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 add_action("wp_ajax_nopriv_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 
@@ -240,17 +239,17 @@ add_action('admin_init', 'flex_idx_register_settings_configuration_fn');
 // setup initial post types
 add_action('init', 'flex_idx_posttype_pages_fn');
 
-add_action('wp_footer', 'idxboost_autologin_alerts_fn',25);
+add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
 
 // Disable Open Graph meta on AMP pages
-add_filter( 'aioseop_enable_amp_social_meta', '__return_false' );
+add_filter('aioseop_enable_amp_social_meta', '__return_false');
 
 // Remove Yoast SEO OpenGraph Output From One Post/Page
-add_filter('wpseo_opengraph_url' , '__return_false' );
-add_filter('wpseo_opengraph_desc', '__return_false' );
-add_filter('wpseo_opengraph_title', '__return_false' );
-add_filter('wpseo_opengraph_type', '__return_false' );
-add_filter('wpseo_opengraph_site_name', '__return_false' );
+add_filter('wpseo_opengraph_url', '__return_false');
+add_filter('wpseo_opengraph_desc', '__return_false');
+add_filter('wpseo_opengraph_title', '__return_false');
+add_filter('wpseo_opengraph_type', '__return_false');
+add_filter('wpseo_opengraph_site_name', '__return_false');
 
 // rest api
 add_action('rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints']);
@@ -258,8 +257,14 @@ add_action('rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints']
 // print analytics script
 add_action('wp_head', 'iboost_print_analytics_script');
 
-add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script',0);
+add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script', 0);
 
-add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script',0);
+add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script', 0);
 
 add_action('wp_head', 'idx_boost_cms_assets_style', 100);
+
+add_action( 'edit_post', 'idx_edit_post', 10, 2 );
+
+add_action( 'admin_init', 'hide_editor', 10, 2 );
+
+

@@ -159,8 +159,9 @@ function idx_slider_html(info_item,type){
             }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
             	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
             }
+
               //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-              html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address">'+info_item.full_address_top+'<span>,</span> <br> '+info_item.full_address_bottom+'</h2>');
+              html_response.push('<h2 title="'+info_item.address_short+'" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.address_large+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+info_item.address_short+'</div></h2>');
 
               html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address_large+'</li>');
