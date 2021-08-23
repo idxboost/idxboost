@@ -245,7 +245,7 @@ if ( ! function_exists('idxboost_team_page_sc') ) {
         global $flex_idx_info;
 
         if ( ! empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
-            if (! empty($flex_idx_info['agent']['has_cms_team']) && $flex_idx_info['agent']['has_cms_team'] != false ) {
+            //if (! empty($flex_idx_info['agent']['has_cms_team']) && $flex_idx_info['agent']['has_cms_team'] != false ) {
                 
                 wp_enqueue_script('idx_boost_js_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/team.js', array(), false, true);
 
@@ -258,7 +258,7 @@ if ( ! function_exists('idxboost_team_page_sc') ) {
                 }
 
                 return ob_get_clean();
-            }
+            //}
         }
 
         idx_page_404();
@@ -4481,6 +4481,7 @@ if (!function_exists('idx_page_404')) {
     }
 }
 
+/*
 if (!function_exists('idx_page_shortcode_render')) {
     function idx_page_shortcode_render($content)
     {
@@ -4520,6 +4521,42 @@ if (!function_exists('idx_page_shortcode_render')) {
             $content = str_replace($match[0], $ib_building_filter, $content);
         }
         
+        echo $content;
+    }
+}
+*/
+if (!function_exists('idx_page_shortcode_render')) {
+    function idx_page_shortcode_render($content)
+    {
+
+        $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
+        $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
+        $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
+        $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
+        $pattern = '~\[idxboost_dinamic_listings type="property-sites"\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $variable_idxboost_dinamic_listings = do_shortcode('[list_property_collection column="two" mode="slider"]');
+            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+        }
+
+        $pattern = '~\[idxboost_dinamic_listings type="exclusive-listings"\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $variable_idxboost_dinamic_listings = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
+            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+        }
+
+
+        $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $variable_flex_idx_filter = do_shortcode($match[0]);
+            $content = str_replace($match[0], $variable_flex_idx_filter, $content);
+        }
+
+        $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $ib_search_filter = do_shortcode($match[0]);
+            $content = str_replace($match[0], $ib_search_filter, $content);
+        }
         echo $content;
     }
 }
