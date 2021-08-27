@@ -365,7 +365,7 @@ class IDXBoost_REST_API_Endpoints
     {
         $reg_key = $_POST["reg_key"];
 
-        if ( ! $reg_key ) {
+        if (!$reg_key) {
             $response = [
                 'status' => '400',
                 'message' => 'Bad Request',
@@ -377,14 +377,29 @@ class IDXBoost_REST_API_Endpoints
                 'message' => 'OK',
                 'data' => []
             ];
+
             $favicon = $_POST["favicon"];
-            $favicon = str_replace('\\', '', $favicon);
-            update_option('favicon', basename($favicon));
-            file_put_contents(str_replace('/wp-content/themes', '', get_theme_root()) . "/" . basename($favicon), file_get_contents($favicon));
+
+            if ($favicon == '') {
+                $favicon = get_option('favicon');
+                $file = str_replace('/wp-content/themes', '', get_theme_root()) . "/" . $favicon;
+                unlink($file);
+            } else {
+                $favicon_old = get_option('favicon');
+                if ($favicon_old && basename($favicon) != $favicon) {
+                    $file = str_replace('/wp-content/themes', '', get_theme_root()) . "/" . $favicon_old;
+                    unlink($file);
+                }
+
+                $favicon = str_replace('\\', '', $favicon);
+                update_option('favicon', basename($favicon));
+                file_put_contents(str_replace('/wp-content/themes', '', get_theme_root()) . "/" . basename($favicon), file_get_contents($favicon));
+            }
         }
 
         return new WP_REST_Response($response);
     }
+
 
     /*
       public static function setupInitialData(WP_REST_Request $request)

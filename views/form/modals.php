@@ -1329,7 +1329,8 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                     window_width: window.innerWidth,
                     user_info: google_user_info,
                     logon_type: "google",
-                    action: "flex_idx_lead_signin"
+                    action: "flex_idx_lead_signin",
+                    ib_tags: jQuery("formRegister_ib_tags").val()
                 },
                 dataType: "json",
                 success: function(response) {
@@ -1564,7 +1565,8 @@ function fb_login() {
                         action: "flex_idx_lead_signin",
                         __property_signup_price: jQuery('.ib_property_signup_price:eq(0)').val(),
                         source_registration_title: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? IB_SEARCH_FILTER_PAGE_TITLE : null,
-                        source_registration_url: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? location.href : null
+                        source_registration_url: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? location.href : null,
+                        ib_tags: jQuery("formRegister_ib_tags").val()
                     },
                     dataType: "json",
                     success: function(response) {

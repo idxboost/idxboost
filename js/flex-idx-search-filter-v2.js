@@ -601,9 +601,13 @@ function handleClearAutocompleteEvent() {
 	boundCoords.push(mapBounds.getNorthEast().lat());
 	boundCoords.push(mapBounds.getNorthEast().lat());
 
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+		IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+		IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	}
+	
 	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	//IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 
 	// console.log(mapBounds.toUrlValue());
 	// console.log(mapBounds.getNorthEast().lat());
@@ -792,9 +796,10 @@ function handleOverlayComplete(event) {
 //MAPA 50/50
 function setupMapControlsFull() {
 	//console.log(IB_MAP.getBounds().toUrlValue());
-	
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+	if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+		IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+		IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+	}
 
   // setup buttons wrapper
   mapButtonsWrapper = document.createElement("div");
@@ -997,9 +1002,11 @@ function handleDragSearchEvent() {
 	boundCoords.push(mapBounds.getNorthEast().lat());
 	boundCoords.push(mapBounds.getNorthEast().lat());
 
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-	// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+		IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+		// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	}
 
 	console.log(mapBounds.toUrlValue());
 	console.log(mapBounds.getNorthEast().lat());
@@ -3850,6 +3857,8 @@ function handleFilterSearchLookup(event) {
 			$("#ib-apply-filters-btn").html(word_translate.searching+'...');
 		},
 		success: function(response) {
+			
+
 			dataAlert=response;
 			ib_xhr_running = false;
 
@@ -4064,12 +4073,14 @@ function handleFilterSearchLookup(event) {
 			}
 
 			// if (true === IB_GMAP_INIT) {
-			if (params.hasOwnProperty("zm")) {
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(params.zm);
-			}
+			if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+				if (params.hasOwnProperty("zm")) {
+					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(params.zm);
+				}
 
-			if (params.hasOwnProperty("rect")) {
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(params.rect);
+				if (params.hasOwnProperty("rect")) {
+					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(params.rect);
+				}
 			}
 			// } else {
 			//     if (params.hasOwnProperty("zm") && (")) {
@@ -4387,9 +4398,11 @@ function handleFilterSearchLookup(event) {
 							boundCoords.push(mapBounds.getNorthEast().lat());
 							boundCoords.push(mapBounds.getNorthEast().lat());
 
-							IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-							// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
-							IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+							if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+								IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+								// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
+								IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+							}
 
 							console.log(mapBounds.toUrlValue());
 							console.log(mapBounds.getNorthEast().lat());
@@ -4432,9 +4445,11 @@ function handleFilterSearchLookup(event) {
 						boundCoords.push(mapBounds.getNorthEast().lat());
 						boundCoords.push(mapBounds.getNorthEast().lat());
 
-						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-						// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
-						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+						if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+							IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+							// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
+							IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+						}
 
 						// console.log(mapBounds.toUrlValue());
 						// console.log(mapBounds.getNorthEast().lat());
@@ -4617,8 +4632,10 @@ function handleFilterSearchLookup(event) {
 				}
 			}
 
-			IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
-			IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+			if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+			}
 			console.log('[refresh]');
 
 			// var mapCenter = IB_MAP.getCenter();
@@ -4859,9 +4876,11 @@ $(function () {
 				boundCoords.push(mapBounds.getNorthEast().lat());
 				boundCoords.push(mapBounds.getNorthEast().lat());
 
+				if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
 				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
 				// IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(boundCoords.join(","));
 				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+				}
 
 				boundCoords.length = 0;
 

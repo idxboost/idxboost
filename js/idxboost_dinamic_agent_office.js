@@ -26,6 +26,10 @@ var arraytest_pryueba = '';
 var currentfiltemid = '';
 var xDown = null;
 var yDown = null;
+
+
+var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+
 	// console.dir(property_items);
 	/******** MAP BEHAVIOR ********/
 	var map;
@@ -795,9 +799,12 @@ Handlebars.registerHelper("DFidxPermalink", function(slug) {
 				  	//TEMPLATE PAGINATION
 					var sourcePagina = Handlebars.compile(IB_PAGINATION.html());
 					var compilatePag = sourcePagina(contentPage);
-					$("#nav-results").html(compilatePag);					
-					var sizeTop = $('.clidxboost-sc-filters').offset().top;
-					$(window).scrollTop(sizeTop - 100);					
+					$("#nav-results").html(compilatePag);
+
+					//scroll top paginador $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					$("html, body").animate({ scrollTop: scrollTopElement }, 0);
+					
+					
 				  	$('#info-subfilters').html(word_translate.showing+' ' +paging.offset.start+' '+word_translate.to+' ' +paging.offset.end+' '+word_translate.of+' '+ _.formatPrice(response.counter)+' '+word_translate.properties+'.');
 					myLazyLoad.update();
 					idxboostTypeIcon();

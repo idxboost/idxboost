@@ -722,7 +722,7 @@ if (!function_exists('idx_boost_cms_assets_style')) {
         $idx_page_type = get_post_meta($post->ID, 'idx_page_type', true);
 
         if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
-            
+
             $GLOBALS["crm_theme_setting"] = [];
 
             $data_service = array(
@@ -766,9 +766,9 @@ if (!function_exists('idx_boost_cms_assets_style')) {
             echo '<link rel="stylesheet" id="idx_boost_style_base-css" href="' . IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/base.css' . '" type="text/css" media="all">';
 
             if (
-                is_home() || 
-                is_front_page() || 
-                $idx_page_type == 'custom' || 
+                is_home() ||
+                is_front_page() ||
+                $idx_page_type == 'custom' ||
                 $idx_page_type == 'landing'
             ) {
                 echo '<link rel="stylesheet" id="idx_boost_style_home-css" href="' . IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/home.css' . '" type="text/css" media="all">';
@@ -793,8 +793,9 @@ if (!function_exists('idx_boost_cms_assets_style')) {
             if ($post->post_type == 'idx-agents') {
                 wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/agent.js', array(), false, true);
             }
-
-            echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/'.get_option("favicon").'" />';
+            if (get_option("favicon")) {
+                echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
+            }
 
         }
 
@@ -1708,16 +1709,16 @@ if (!function_exists('flex_idx_get_info')) {
         $output['agent']['facebook_login_enabled'] = isset($idxboost_agent_info['facebook_login_enabled']) ? $idxboost_agent_info['facebook_login_enabled'] : false;
         $output['agent']['google_login_enabled'] = isset($idxboost_agent_info['google_login_enabled']) ? $idxboost_agent_info['google_login_enabled'] : false;
         $output['agent']['google_maps_api_key'] = isset($idxboost_agent_info['google_maps_api_key']) ? $idxboost_agent_info['google_maps_api_key'] : "";
-        $output['agent']['google_captcha_public_key'] = isset($idxboost_agent_info['google_captcha_public_key']) ? (string) $idxboost_agent_info['google_captcha_public_key'] : "";
+        $output['agent']['google_captcha_public_key'] = isset($idxboost_agent_info['google_captcha_public_key']) ? (string)$idxboost_agent_info['google_captcha_public_key'] : "";
         //$output['agent']['google_captcha_private_key'] = isset($idxboost_agent_info['google_captcha_private_key']) ? (string) $idxboost_agent_info['google_captcha_private_key'] : "";
         $output['agent']['google_analytics'] = isset($idxboost_agent_info['google_analytics']) ? $idxboost_agent_info['google_analytics'] : "";
         $output['agent']['google_adwords'] = isset($idxboost_agent_info['google_adwords']) ? $idxboost_agent_info['google_adwords'] : "";
         $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
         $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
         $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
-        $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (boolean) $idxboost_agent_info['force_registration_forced'] : false;
+        $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (boolean)$idxboost_agent_info['force_registration_forced'] : false;
 
-        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (boolean) $idxboost_agent_info['has_enterprise_recaptcha'] : false;
+        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (boolean)$idxboost_agent_info['has_enterprise_recaptcha'] : false;
         $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
         $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
 
@@ -2285,7 +2286,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)" rel="nofollow">
-                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $name; ?>
+                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $name; ?>
             </a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)): ?>
@@ -2394,6 +2395,7 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
 
         $source_registration_title = isset($_POST['source_registration_title']) ? trim($_POST['source_registration_title']) : '';
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
+        $ib_tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
 
         $sendParams = array(
             'access_token' => $access_token,
@@ -2406,7 +2408,8 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
             'url_origin' => $url_origin,
             'signup_price' => $signup_price,
             'source_registration_title' => $source_registration_title,
-            'source_registration_url' => $source_registration_url
+            'source_registration_url' => $source_registration_url,
+            "ib_tags" => $ib_tags
         );
 
         $ch = curl_init();
@@ -3087,18 +3090,18 @@ if (!function_exists('flex_idx_connect_fn')) {
 
             foreach ($response['active_agents'] as $idx_agent) {
                 $GLOBALS["cod_agent"] = $idx_agent["id"];
-                        $exit_agent = array_values(
-                            array_filter($wp_agents, function ($agent) {
-                                return (
-                                    $agent['meta_value'] == $GLOBALS["cod_agent"]
-                                );
-                            })
+                $exit_agent = array_values(
+                    array_filter($wp_agents, function ($agent) {
+                        return (
+                            $agent['meta_value'] == $GLOBALS["cod_agent"]
                         );
+                    })
+                );
 
                 if (is_array($exit_agent) && count($exit_agent) > 0) {
                     $id_agent_post = $exit_agent[0]["ID"];
                     $wp_idx_agent = wp_update_post(array(
-                        'ID'        => $id_agent_post,
+                        'ID' => $id_agent_post,
                         'post_title' => implode(' ', array($idx_agent['contact_first_name'], $idx_agent['contact_last_name'])),
                         'post_name' => $idx_agent['agent_slug'],
                         'post_content' => $idx_agent['bio'],
@@ -3118,8 +3121,8 @@ if (!function_exists('flex_idx_connect_fn')) {
                     update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
                     update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
                     update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-                    
-                }else{
+
+                } else {
                     /*
                     if (in_array($idx_agent['id'], $wp_agents)) {
                         continue;
@@ -3145,7 +3148,7 @@ if (!function_exists('flex_idx_connect_fn')) {
                     update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
                     update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
                     update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-                
+
 
                 }
 
@@ -4886,27 +4889,27 @@ if (!function_exists('ib_boost_commercial_xhr_fn')) {
     function ib_boost_commercial_xhr_fn()
     {
         global $wp, $wpdb;
-        $access_token          = flex_idx_get_access_token();
+        $access_token = flex_idx_get_access_token();
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
-            'access_token'     => $access_token,
+            'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
-            'office_id'     => $_POST["office_id"],
-            'agen_id'     => $_POST["agen_id"],
-            'property_sub_class'     => $_POST["property_sub_class"],
-            'property_status'     => $_POST["property_status"],
-            'is_rental'     => $_POST["is_rental"],
-            'price_min'     => $_POST["price_min"],
-            'price_max'     => $_POST["price_max"],
-            'order_by'     => $_POST["order_by"],
-            'limit'     => $_POST["limit_carousel"],
-            'page'     => $_POST["page"]
+            'office_id' => $_POST["office_id"],
+            'agen_id' => $_POST["agen_id"],
+            'property_sub_class' => $_POST["property_sub_class"],
+            'property_status' => $_POST["property_status"],
+            'is_rental' => $_POST["is_rental"],
+            'price_min' => $_POST["price_min"],
+            'price_max' => $_POST["price_max"],
+            'order_by' => $_POST["order_by"],
+            'limit' => $_POST["limit_carousel"],
+            'page' => $_POST["page"]
         );
 
-        
-        $ch = curl_init();        
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -4924,28 +4927,28 @@ if (!function_exists('ib_boost_dinamic_data_xhr_fn')) {
     function ib_boost_dinamic_data_xhr_fn()
     {
         global $wp, $wpdb;
-        $access_token          = flex_idx_get_access_token();
+        $access_token = flex_idx_get_access_token();
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
-            'access_token'     => $access_token,
+            'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
-            'office_id'     => $_POST["office_id"],
-            'months_back'     => $_POST["months_back"],
-            'agent_id'     => $_POST["agent_id"],
-            'property_sub_class'     => $_POST["property_sub_class"],
-            'property_status'     => $_POST["property_status"],
-            'is_rental'     => $_POST["is_rental"],
-            'price_min'     => $_POST["price_min"],
-            'price_max'     => $_POST["price_max"],
-            'order_by'     => $_POST["order_by"],
-            'limit'     => $_POST["limit_carousel"],
-            'page'     => $_POST["page"]
+            'office_id' => $_POST["office_id"],
+            'months_back' => $_POST["months_back"],
+            'agent_id' => $_POST["agent_id"],
+            'property_sub_class' => $_POST["property_sub_class"],
+            'property_status' => $_POST["property_status"],
+            'is_rental' => $_POST["is_rental"],
+            'price_min' => $_POST["price_min"],
+            'price_max' => $_POST["price_max"],
+            'order_by' => $_POST["order_by"],
+            'limit' => $_POST["limit_carousel"],
+            'page' => $_POST["page"]
         );
 
-        
-        $ch = curl_init();        
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -4963,28 +4966,28 @@ if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
     function ib_boost_dinamic_data_agent_office_xhr_fn()
     {
         global $wp, $wpdb;
-        $access_token          = flex_idx_get_access_token();
+        $access_token = flex_idx_get_access_token();
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
-            'access_token'     => $access_token,
+            'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
-            'office_id'     => $_POST["office_id"],
-            'months_back'     => $_POST["months_back"],
-            'agent_id'     => $_POST["agent_id"],
-            'property_sub_class'     => $_POST["property_sub_class"],
-            'property_status'     => $_POST["property_status"],
-            'is_rental'     => $_POST["is_rental"],
-            'price_min'     => $_POST["price_min"],
-            'price_max'     => $_POST["price_max"],
-            'order_by'     => $_POST["order_by"],
-            'limit'     => $_POST["limit_carousel"],
-            'page'     => $_POST["page"]
+            'office_id' => $_POST["office_id"],
+            'months_back' => $_POST["months_back"],
+            'agent_id' => $_POST["agent_id"],
+            'property_sub_class' => $_POST["property_sub_class"],
+            'property_status' => $_POST["property_status"],
+            'is_rental' => $_POST["is_rental"],
+            'price_min' => $_POST["price_min"],
+            'price_max' => $_POST["price_max"],
+            'order_by' => $_POST["order_by"],
+            'limit' => $_POST["limit_carousel"],
+            'page' => $_POST["page"]
         );
 
-        
-        $ch = curl_init();        
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -5525,260 +5528,260 @@ if (!function_exists('flex_idx_register_assets')) {
     function flex_idx_register_assets()
     {
         global $flex_idx_lead, $flex_idx_info, $wpdb;
-    $word_translate_setting = array('cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG));
+        $word_translate_setting = array('cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG));
 
-    $custom_strings = array(
-        'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
-        'city' => __('City', IDXBOOST_DOMAIN_THEME_LANG),
-        'close' => __('Close', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_size' => __('Any Size', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_bed' => __('Any Bed', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_beds' => __('Any Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_bath' => __('Any Bath', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_baths' => __('Any Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'hello' => __('hello', IDXBOOST_DOMAIN_THEME_LANG),
-        'bed' => __('Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'bath' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'sbeds' => __('Beds', IDXBOOST_DOMAIN_THEME_LANG),
-        'sbaths' => __('Baths', IDXBOOST_DOMAIN_THEME_LANG),
-        'beds' => __('Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'unit' => __('Unit', IDXBOOST_DOMAIN_THEME_LANG),
-        'more_schools' => __('more schools', IDXBOOST_DOMAIN_THEME_LANG),
-        'days_on_market' => __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG),
-        'sold_date' => __('Sold Date', IDXBOOST_DOMAIN_THEME_LANG),
-        'sold_price' => __('Sold Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'living_size' => __('Living Size', IDXBOOST_DOMAIN_THEME_LANG),
-        'asking_price' => __('Asking price', IDXBOOST_DOMAIN_THEME_LANG),
-        'price' => __('Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'view' => __('View', IDXBOOST_DOMAIN_THEME_LANG),
-        'listings' => __('Listings', IDXBOOST_DOMAIN_THEME_LANG),
-        'saved_on' => __('Saved on', IDXBOOST_DOMAIN_THEME_LANG),
-        'thank_you' => __('Thank you', IDXBOOST_DOMAIN_THEME_LANG),
-        'baths' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
-        'your_info_has_been_saved' => __('Your info has been saved', IDXBOOST_DOMAIN_THEME_LANG),
-        'enter_you_new_password' => __('Enter you new Password', IDXBOOST_DOMAIN_THEME_LANG),
-        'invalid_email_address' => __('invalid email address', IDXBOOST_DOMAIN_THEME_LANG),
-        'please_fill_the_fields' => __('Please fill the fields', IDXBOOST_DOMAIN_THEME_LANG),                
-        'show' => __('Show %d to %d of %s results', IDXBOOST_DOMAIN_THEME_LANG),
-        'reset_password' => __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG),
-        'invalid_credentials_try_again' => __('Invalid credentials, try again.', IDXBOOST_DOMAIN_THEME_LANG),
-        'logged_in_succesfully' => __('Logged in succesfully.', IDXBOOST_DOMAIN_THEME_LANG),
-        'your_account_has_been_created_successfully' => __('Your account has been created successfully.', IDXBOOST_DOMAIN_THEME_LANG),
-        'the_user_already_exists_try_another_email_address' => __('The user already exists, try another email address.', IDXBOOST_DOMAIN_THEME_LANG),
-        'rented' => __('rented', IDXBOOST_DOMAIN_THEME_LANG),
-        'save_favorite' => __('save favorite', IDXBOOST_DOMAIN_THEME_LANG),
-        'register_for_details' => __('Register for details', IDXBOOST_DOMAIN_THEME_LANG),
-        'remove_favorite' => __('remove favorite', IDXBOOST_DOMAIN_THEME_LANG),
-        'first_page' => __('First page', IDXBOOST_DOMAIN_THEME_LANG),
-        'last_page' => __('Last page', IDXBOOST_DOMAIN_THEME_LANG),
-        'showing' => __('Showing', IDXBOOST_DOMAIN_THEME_LANG),
-        'page' => __('Page', IDXBOOST_DOMAIN_THEME_LANG),
-        'edit' => __('Edit', IDXBOOST_DOMAIN_THEME_LANG),
-        'remove' => __('Remove', IDXBOOST_DOMAIN_THEME_LANG),
-        'email_sent' => __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG),
-        'your_email_was_sent_succesfully' => __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG),
-        'to' => __('to', IDXBOOST_DOMAIN_THEME_LANG),
-        'of' => __('of', IDXBOOST_DOMAIN_THEME_LANG),
-        'pag' => __('pag', IDXBOOST_DOMAIN_THEME_LANG),
-        'homes' => __('Homes', IDXBOOST_DOMAIN_THEME_LANG),
-        'similar_properties_for_rent' => __('Similar Properties For Rent', IDXBOOST_DOMAIN_THEME_LANG),
-        'Similar_properties_for_sale' => __('Similar Properties For Sale', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_for_sale' => __('Condos For Sale', IDXBOOST_DOMAIN_THEME_LANG),
-        'apartments_for_rent' => __('Apartments For Rent', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_pending' => __('Condos Pending', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_sold' => __('Condos Sold', IDXBOOST_DOMAIN_THEME_LANG),
-        'all_neighborhoods' => __('All Neighborhoods', IDXBOOST_DOMAIN_THEME_LANG),
-        'by_Name' => __('by Name', IDXBOOST_DOMAIN_THEME_LANG),
-        'show_more' => __('show more', IDXBOOST_DOMAIN_THEME_LANG),
-        'todays_prices' => __("Today's Prices", IDXBOOST_DOMAIN_THEME_LANG),
-        'month' => __("month", IDXBOOST_DOMAIN_THEME_LANG),
-        'searching' => __('Searching', IDXBOOST_DOMAIN_THEME_LANG),
-        'condominiums' => __('Condominiums', IDXBOOST_DOMAIN_THEME_LANG),
+        $custom_strings = array(
+            'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
+            'city' => __('City', IDXBOOST_DOMAIN_THEME_LANG),
+            'close' => __('Close', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_size' => __('Any Size', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_bed' => __('Any Bed', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_beds' => __('Any Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_bath' => __('Any Bath', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_baths' => __('Any Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'hello' => __('hello', IDXBOOST_DOMAIN_THEME_LANG),
+            'bed' => __('Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'bath' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'sbeds' => __('Beds', IDXBOOST_DOMAIN_THEME_LANG),
+            'sbaths' => __('Baths', IDXBOOST_DOMAIN_THEME_LANG),
+            'beds' => __('Bed(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'unit' => __('Unit', IDXBOOST_DOMAIN_THEME_LANG),
+            'more_schools' => __('more schools', IDXBOOST_DOMAIN_THEME_LANG),
+            'days_on_market' => __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG),
+            'sold_date' => __('Sold Date', IDXBOOST_DOMAIN_THEME_LANG),
+            'sold_price' => __('Sold Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'living_size' => __('Living Size', IDXBOOST_DOMAIN_THEME_LANG),
+            'asking_price' => __('Asking price', IDXBOOST_DOMAIN_THEME_LANG),
+            'price' => __('Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'view' => __('View', IDXBOOST_DOMAIN_THEME_LANG),
+            'listings' => __('Listings', IDXBOOST_DOMAIN_THEME_LANG),
+            'saved_on' => __('Saved on', IDXBOOST_DOMAIN_THEME_LANG),
+            'thank_you' => __('Thank you', IDXBOOST_DOMAIN_THEME_LANG),
+            'baths' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_info_has_been_saved' => __('Your info has been saved', IDXBOOST_DOMAIN_THEME_LANG),
+            'enter_you_new_password' => __('Enter you new Password', IDXBOOST_DOMAIN_THEME_LANG),
+            'invalid_email_address' => __('invalid email address', IDXBOOST_DOMAIN_THEME_LANG),
+            'please_fill_the_fields' => __('Please fill the fields', IDXBOOST_DOMAIN_THEME_LANG),
+            'show' => __('Show %d to %d of %s results', IDXBOOST_DOMAIN_THEME_LANG),
+            'reset_password' => __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG),
+            'invalid_credentials_try_again' => __('Invalid credentials, try again.', IDXBOOST_DOMAIN_THEME_LANG),
+            'logged_in_succesfully' => __('Logged in succesfully.', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_account_has_been_created_successfully' => __('Your account has been created successfully.', IDXBOOST_DOMAIN_THEME_LANG),
+            'the_user_already_exists_try_another_email_address' => __('The user already exists, try another email address.', IDXBOOST_DOMAIN_THEME_LANG),
+            'rented' => __('rented', IDXBOOST_DOMAIN_THEME_LANG),
+            'save_favorite' => __('save favorite', IDXBOOST_DOMAIN_THEME_LANG),
+            'register_for_details' => __('Register for details', IDXBOOST_DOMAIN_THEME_LANG),
+            'remove_favorite' => __('remove favorite', IDXBOOST_DOMAIN_THEME_LANG),
+            'first_page' => __('First page', IDXBOOST_DOMAIN_THEME_LANG),
+            'last_page' => __('Last page', IDXBOOST_DOMAIN_THEME_LANG),
+            'showing' => __('Showing', IDXBOOST_DOMAIN_THEME_LANG),
+            'page' => __('Page', IDXBOOST_DOMAIN_THEME_LANG),
+            'edit' => __('Edit', IDXBOOST_DOMAIN_THEME_LANG),
+            'remove' => __('Remove', IDXBOOST_DOMAIN_THEME_LANG),
+            'email_sent' => __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_email_was_sent_succesfully' => __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG),
+            'to' => __('to', IDXBOOST_DOMAIN_THEME_LANG),
+            'of' => __('of', IDXBOOST_DOMAIN_THEME_LANG),
+            'pag' => __('pag', IDXBOOST_DOMAIN_THEME_LANG),
+            'homes' => __('Homes', IDXBOOST_DOMAIN_THEME_LANG),
+            'similar_properties_for_rent' => __('Similar Properties For Rent', IDXBOOST_DOMAIN_THEME_LANG),
+            'Similar_properties_for_sale' => __('Similar Properties For Sale', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_for_sale' => __('Condos For Sale', IDXBOOST_DOMAIN_THEME_LANG),
+            'apartments_for_rent' => __('Apartments For Rent', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_pending' => __('Condos Pending', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_sold' => __('Condos Sold', IDXBOOST_DOMAIN_THEME_LANG),
+            'all_neighborhoods' => __('All Neighborhoods', IDXBOOST_DOMAIN_THEME_LANG),
+            'by_Name' => __('by Name', IDXBOOST_DOMAIN_THEME_LANG),
+            'show_more' => __('show more', IDXBOOST_DOMAIN_THEME_LANG),
+            'todays_prices' => __("Today's Prices", IDXBOOST_DOMAIN_THEME_LANG),
+            'month' => __("month", IDXBOOST_DOMAIN_THEME_LANG),
+            'searching' => __('Searching', IDXBOOST_DOMAIN_THEME_LANG),
+            'condominiums' => __('Condominiums', IDXBOOST_DOMAIN_THEME_LANG),
 
-        'sold_at' => __('Sold at', IDXBOOST_DOMAIN_THEME_LANG),
-        'for_sale_at' => __('For Sale at', IDXBOOST_DOMAIN_THEME_LANG),
-        'pending_at' => __('Pending at', IDXBOOST_DOMAIN_THEME_LANG),
-        'for_rent_at' => __('For Rent at', IDXBOOST_DOMAIN_THEME_LANG),
+            'sold_at' => __('Sold at', IDXBOOST_DOMAIN_THEME_LANG),
+            'for_sale_at' => __('For Sale at', IDXBOOST_DOMAIN_THEME_LANG),
+            'pending_at' => __('Pending at', IDXBOOST_DOMAIN_THEME_LANG),
+            'for_rent_at' => __('For Rent at', IDXBOOST_DOMAIN_THEME_LANG),
 
-        'marsh' => __('Marsh', IDXBOOST_DOMAIN_THEME_LANG),
-        'pond' => __('Pond', IDXBOOST_DOMAIN_THEME_LANG),
-        'condominium' => __('Condominium', IDXBOOST_DOMAIN_THEME_LANG),
-        'adult_congregate' => __('Adult Congregate', IDXBOOST_DOMAIN_THEME_LANG),
-        'agricultural' => __('Agricultural', IDXBOOST_DOMAIN_THEME_LANG),
-        'apartments' => __('Apartments', IDXBOOST_DOMAIN_THEME_LANG),
-        'automotive' => __('Automotive', IDXBOOST_DOMAIN_THEME_LANG),
-        "building" => __('Building', IDXBOOST_DOMAIN_THEME_LANG),
-        "business" => __('Business', IDXBOOST_DOMAIN_THEME_LANG),
-        "church" => __('Church', IDXBOOST_DOMAIN_THEME_LANG),
-        "commercial" => __('Commercial', IDXBOOST_DOMAIN_THEME_LANG),
-        "commercial_business_agricultural_industrial_land" => __("Commercial / Business / Agricultural / Industrial Land", IDXBOOST_DOMAIN_THEME_LANG),
-        "dock" => __('Dock', IDXBOOST_DOMAIN_THEME_LANG), 
-        "dock_height" => __('Dock Height', IDXBOOST_DOMAIN_THEME_LANG), 
-        "duplex_quad_plex_triplex" => __('Duplex / Quad Plex / Triplex', IDXBOOST_DOMAIN_THEME_LANG), 
-        "franchise" => __('Franchise', IDXBOOST_DOMAIN_THEME_LANG), 
-        "free_standing" => __('Free Standing', IDXBOOST_DOMAIN_THEME_LANG), 
-        "hotel" => __('Hotel', IDXBOOST_DOMAIN_THEME_LANG), 
-        "income" => __('Income', IDXBOOST_DOMAIN_THEME_LANG), 
-        "industrial" => __('Industrial', IDXBOOST_DOMAIN_THEME_LANG), 
-        "manufacturing" => __('Manufacturing', IDXBOOST_DOMAIN_THEME_LANG), 
-        "medical" => __('Medical', IDXBOOST_DOMAIN_THEME_LANG), 
-        "multifamily" => __('Multifamily', IDXBOOST_DOMAIN_THEME_LANG), 
-        "office" => __('Office', IDXBOOST_DOMAIN_THEME_LANG), 
-        "professional" => __('Professional', IDXBOOST_DOMAIN_THEME_LANG), 
-        "residential_income" => __('Residential Income', IDXBOOST_DOMAIN_THEME_LANG), 
-        "residential_Land_boat_docks" => __('Residential Land/Boat Docks', IDXBOOST_DOMAIN_THEME_LANG), 
-        "restaurant" => __('Restaurant', IDXBOOST_DOMAIN_THEME_LANG), 
-        "retail" => __('Retail', IDXBOOST_DOMAIN_THEME_LANG), 
-        "school" => __('School', IDXBOOST_DOMAIN_THEME_LANG), 
-        "service" => __('Service', IDXBOOST_DOMAIN_THEME_LANG), 
-        "shopping_center" => __('Shopping Center', IDXBOOST_DOMAIN_THEME_LANG), 
-        "showroom" => __('Showroom', IDXBOOST_DOMAIN_THEME_LANG), 
-        "special" => __('Special', IDXBOOST_DOMAIN_THEME_LANG), 
-        "store" => __('Store', IDXBOOST_DOMAIN_THEME_LANG), 
-        "warehouse" => __('Warehouse', IDXBOOST_DOMAIN_THEME_LANG), 
-        "housing_older_persons" => __('Housing Older Persons', IDXBOOST_DOMAIN_THEME_LANG), 
-        "occupied" => __('Occupied', IDXBOOST_DOMAIN_THEME_LANG), 
-        "vacant" => __('Vacant', IDXBOOST_DOMAIN_THEME_LANG), 
+            'marsh' => __('Marsh', IDXBOOST_DOMAIN_THEME_LANG),
+            'pond' => __('Pond', IDXBOOST_DOMAIN_THEME_LANG),
+            'condominium' => __('Condominium', IDXBOOST_DOMAIN_THEME_LANG),
+            'adult_congregate' => __('Adult Congregate', IDXBOOST_DOMAIN_THEME_LANG),
+            'agricultural' => __('Agricultural', IDXBOOST_DOMAIN_THEME_LANG),
+            'apartments' => __('Apartments', IDXBOOST_DOMAIN_THEME_LANG),
+            'automotive' => __('Automotive', IDXBOOST_DOMAIN_THEME_LANG),
+            "building" => __('Building', IDXBOOST_DOMAIN_THEME_LANG),
+            "business" => __('Business', IDXBOOST_DOMAIN_THEME_LANG),
+            "church" => __('Church', IDXBOOST_DOMAIN_THEME_LANG),
+            "commercial" => __('Commercial', IDXBOOST_DOMAIN_THEME_LANG),
+            "commercial_business_agricultural_industrial_land" => __("Commercial / Business / Agricultural / Industrial Land", IDXBOOST_DOMAIN_THEME_LANG),
+            "dock" => __('Dock', IDXBOOST_DOMAIN_THEME_LANG),
+            "dock_height" => __('Dock Height', IDXBOOST_DOMAIN_THEME_LANG),
+            "duplex_quad_plex_triplex" => __('Duplex / Quad Plex / Triplex', IDXBOOST_DOMAIN_THEME_LANG),
+            "franchise" => __('Franchise', IDXBOOST_DOMAIN_THEME_LANG),
+            "free_standing" => __('Free Standing', IDXBOOST_DOMAIN_THEME_LANG),
+            "hotel" => __('Hotel', IDXBOOST_DOMAIN_THEME_LANG),
+            "income" => __('Income', IDXBOOST_DOMAIN_THEME_LANG),
+            "industrial" => __('Industrial', IDXBOOST_DOMAIN_THEME_LANG),
+            "manufacturing" => __('Manufacturing', IDXBOOST_DOMAIN_THEME_LANG),
+            "medical" => __('Medical', IDXBOOST_DOMAIN_THEME_LANG),
+            "multifamily" => __('Multifamily', IDXBOOST_DOMAIN_THEME_LANG),
+            "office" => __('Office', IDXBOOST_DOMAIN_THEME_LANG),
+            "professional" => __('Professional', IDXBOOST_DOMAIN_THEME_LANG),
+            "residential_income" => __('Residential Income', IDXBOOST_DOMAIN_THEME_LANG),
+            "residential_Land_boat_docks" => __('Residential Land/Boat Docks', IDXBOOST_DOMAIN_THEME_LANG),
+            "restaurant" => __('Restaurant', IDXBOOST_DOMAIN_THEME_LANG),
+            "retail" => __('Retail', IDXBOOST_DOMAIN_THEME_LANG),
+            "school" => __('School', IDXBOOST_DOMAIN_THEME_LANG),
+            "service" => __('Service', IDXBOOST_DOMAIN_THEME_LANG),
+            "shopping_center" => __('Shopping Center', IDXBOOST_DOMAIN_THEME_LANG),
+            "showroom" => __('Showroom', IDXBOOST_DOMAIN_THEME_LANG),
+            "special" => __('Special', IDXBOOST_DOMAIN_THEME_LANG),
+            "store" => __('Store', IDXBOOST_DOMAIN_THEME_LANG),
+            "warehouse" => __('Warehouse', IDXBOOST_DOMAIN_THEME_LANG),
+            "housing_older_persons" => __('Housing Older Persons', IDXBOOST_DOMAIN_THEME_LANG),
+            "occupied" => __('Occupied', IDXBOOST_DOMAIN_THEME_LANG),
+            "vacant" => __('Vacant', IDXBOOST_DOMAIN_THEME_LANG),
 
-        'townhouses' => __('Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
-        'multi_family' => __('Multi-Family', IDXBOOST_DOMAIN_THEME_LANG),
-        'vacant_land' => __('Vacant Land', IDXBOOST_DOMAIN_THEME_LANG),
-        'single_family_homes' => __('Single Family Homes', IDXBOOST_DOMAIN_THEME_LANG),
-        'river_front' => __('River Front', IDXBOOST_DOMAIN_THEME_LANG),
-        'point_lot' => __('Point Lot', IDXBOOST_DOMAIN_THEME_LANG),
-        'ocean_front' => __('Ocean Front', IDXBOOST_DOMAIN_THEME_LANG),
-        'bay_front' => __('Bay Front', IDXBOOST_DOMAIN_THEME_LANG),
-        'bay_front' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
-        'canal' => __('Canal', IDXBOOST_DOMAIN_THEME_LANG),
-        'fixed_bridge' => __('Fixed Bridge', IDXBOOST_DOMAIN_THEME_LANG),
-        'intracoastal' => __('Intracoastal', IDXBOOST_DOMAIN_THEME_LANG),
+            'townhouses' => __('Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
+            'multi_family' => __('Multi-Family', IDXBOOST_DOMAIN_THEME_LANG),
+            'vacant_land' => __('Vacant Land', IDXBOOST_DOMAIN_THEME_LANG),
+            'single_family_homes' => __('Single Family Homes', IDXBOOST_DOMAIN_THEME_LANG),
+            'river_front' => __('River Front', IDXBOOST_DOMAIN_THEME_LANG),
+            'point_lot' => __('Point Lot', IDXBOOST_DOMAIN_THEME_LANG),
+            'ocean_front' => __('Ocean Front', IDXBOOST_DOMAIN_THEME_LANG),
+            'bay_front' => __('Bay Front', IDXBOOST_DOMAIN_THEME_LANG),
+            'bay_front' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
+            'canal' => __('Canal', IDXBOOST_DOMAIN_THEME_LANG),
+            'fixed_bridge' => __('Fixed Bridge', IDXBOOST_DOMAIN_THEME_LANG),
+            'intracoastal' => __('Intracoastal', IDXBOOST_DOMAIN_THEME_LANG),
 
-        'garden' => __('Garden', IDXBOOST_DOMAIN_THEME_LANG),
-        'ocean' => __('Ocean', IDXBOOST_DOMAIN_THEME_LANG),
-        'City' => __('city', IDXBOOST_DOMAIN_THEME_LANG),
-        'lagoon' => __('Lagoon', IDXBOOST_DOMAIN_THEME_LANG),
-        'river' => __('River', IDXBOOST_DOMAIN_THEME_LANG),
-        'strip_view' => __('Strip View', IDXBOOST_DOMAIN_THEME_LANG),
-        'mountain' => __('Mountain', IDXBOOST_DOMAIN_THEME_LANG),
-        'park_greenbelt' => __('Park Greenbelt', IDXBOOST_DOMAIN_THEME_LANG),
-        'court_yard' => __('Court yard', IDXBOOST_DOMAIN_THEME_LANG),
-        'golf' => __('Golf', IDXBOOST_DOMAIN_THEME_LANG),
-        'lake' => __('Lake', IDXBOOST_DOMAIN_THEME_LANG),
+            'garden' => __('Garden', IDXBOOST_DOMAIN_THEME_LANG),
+            'ocean' => __('Ocean', IDXBOOST_DOMAIN_THEME_LANG),
+            'City' => __('city', IDXBOOST_DOMAIN_THEME_LANG),
+            'lagoon' => __('Lagoon', IDXBOOST_DOMAIN_THEME_LANG),
+            'river' => __('River', IDXBOOST_DOMAIN_THEME_LANG),
+            'strip_view' => __('Strip View', IDXBOOST_DOMAIN_THEME_LANG),
+            'mountain' => __('Mountain', IDXBOOST_DOMAIN_THEME_LANG),
+            'park_greenbelt' => __('Park Greenbelt', IDXBOOST_DOMAIN_THEME_LANG),
+            'court_yard' => __('Court yard', IDXBOOST_DOMAIN_THEME_LANG),
+            'golf' => __('Golf', IDXBOOST_DOMAIN_THEME_LANG),
+            'lake' => __('Lake', IDXBOOST_DOMAIN_THEME_LANG),
 
-        'bay' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
-        'gulf' => __('Gulf', IDXBOOST_DOMAIN_THEME_LANG),
-        'creek' => __('Creek', IDXBOOST_DOMAIN_THEME_LANG),
-        'mangrove' => __('Mangrove', IDXBOOST_DOMAIN_THEME_LANG),
-        'navigable' => __('Navigable', IDXBOOST_DOMAIN_THEME_LANG),
-        'river_frontage' => __('River Frontage', IDXBOOST_DOMAIN_THEME_LANG),
-        'basin' => __('Basin', IDXBOOST_DOMAIN_THEME_LANG),
-        'seawall' => __('Seawall', IDXBOOST_DOMAIN_THEME_LANG), 
+            'bay' => __('Bay', IDXBOOST_DOMAIN_THEME_LANG),
+            'gulf' => __('Gulf', IDXBOOST_DOMAIN_THEME_LANG),
+            'creek' => __('Creek', IDXBOOST_DOMAIN_THEME_LANG),
+            'mangrove' => __('Mangrove', IDXBOOST_DOMAIN_THEME_LANG),
+            'navigable' => __('Navigable', IDXBOOST_DOMAIN_THEME_LANG),
+            'river_frontage' => __('River Frontage', IDXBOOST_DOMAIN_THEME_LANG),
+            'basin' => __('Basin', IDXBOOST_DOMAIN_THEME_LANG),
+            'seawall' => __('Seawall', IDXBOOST_DOMAIN_THEME_LANG),
 
-        
-        'lake_front' => __('Lake Front', IDXBOOST_DOMAIN_THEME_LANG),
-        'equestrian' => __('Equestrian', IDXBOOST_DOMAIN_THEME_LANG),
-        'pets' => __('Pets', IDXBOOST_DOMAIN_THEME_LANG),
-        'pool' => __('Pool', IDXBOOST_DOMAIN_THEME_LANG),
-        'water_front' => __('Waterfront', IDXBOOST_DOMAIN_THEME_LANG),
-        'water_access' => __('Water Access', IDXBOOST_DOMAIN_THEME_LANG),
-        'water' => __('Water', IDXBOOST_DOMAIN_THEME_LANG),
-        // 'open_house' => __('Open House', IDXBOOST_DOMAIN_THEME_LANG),
-        'penthouse' => __('Penthouse', IDXBOOST_DOMAIN_THEME_LANG),
-        'lofts' => __('Lofts', IDXBOOST_DOMAIN_THEME_LANG),
-        'gated_community' => __('Gated Community', IDXBOOST_DOMAIN_THEME_LANG),
-        'tennis_courts' => __('Tennis Courts', IDXBOOST_DOMAIN_THEME_LANG),
-        'tennis_court' => __('Tennis Court', IDXBOOST_DOMAIN_THEME_LANG),
-        'golf_course' => __('Golf Course', IDXBOOST_DOMAIN_THEME_LANG),
-        'swimming_pool' => __('Swimming Pool', IDXBOOST_DOMAIN_THEME_LANG),
-        'furnished' => __('Furnished', IDXBOOST_DOMAIN_THEME_LANG),
-        'ocean_access' => __('Ocean Access', IDXBOOST_DOMAIN_THEME_LANG),
-        'homes_condominiums_townhouses' => __('Homes, Condominiums, Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
-        'homes_condominiums' => __('Homes, Condominiums', IDXBOOST_DOMAIN_THEME_LANG),
-        'condominiums_townhouses' => __('Condominiums, Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
-        'next_page' => __('Next page', IDXBOOST_DOMAIN_THEME_LANG),
-        'previous_page' => __('Previous Page', IDXBOOST_DOMAIN_THEME_LANG),
-        'your_message_has_been_sent' => __('Your message has been sent!', IDXBOOST_DOMAIN_THEME_LANG),
-        'price_range' => __('Price range', IDXBOOST_DOMAIN_THEME_LANG),
-        'average_listing_price' => __('Average Listing Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'average_rental_price' => __('Average Rental Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'average_sold_price' => __('Average Sold Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'average_pending_price' => __('Average Pending Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'from' => __('from', IDXBOOST_DOMAIN_THEME_LANG),
-        'properties' => __('Properties', IDXBOOST_DOMAIN_THEME_LANG),
-        'loading_properties' => __('Loading Properties...', IDXBOOST_DOMAIN_THEME_LANG),
-        'and' => __('and', IDXBOOST_DOMAIN_THEME_LANG),
-        'in' => __('in', IDXBOOST_DOMAIN_THEME_LANG),
-        'new_listing' => __('new listing', IDXBOOST_DOMAIN_THEME_LANG),
-        'active_under_contract' => __('Active Under Contract', IDXBOOST_DOMAIN_THEME_LANG),
-        'pending'  => __('pending', IDXBOOST_DOMAIN_THEME_LANG),
-        'boat_dock'  => __('Boat Dock', IDXBOOST_DOMAIN_THEME_LANG),
-        'short_sales'  => __('Short Sales', IDXBOOST_DOMAIN_THEME_LANG),
-        'foreclosures'  => __('Foreclosures', IDXBOOST_DOMAIN_THEME_LANG),
-        'any' => __('Any', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_price' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_price_max' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
-        'any_type' => __('Any Type', IDXBOOST_DOMAIN_THEME_LANG),
-        'up_to' => __('up to', IDXBOOST_DOMAIN_THEME_LANG),
-        'details' => __('View detail', IDXBOOST_DOMAIN_THEME_LANG),
-        'for_sale' => __('For Sale', IDXBOOST_DOMAIN_THEME_LANG),
-        'for_rent' => __('For Rent', IDXBOOST_DOMAIN_THEME_LANG),
-        'for_sold' => __('For Sold', IDXBOOST_DOMAIN_THEME_LANG),
-        
-        'condos_for_sale' => __('Condos For Sale', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_for_rent' => __('Condos For Rent', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_sold' => __('Condos Sold', IDXBOOST_DOMAIN_THEME_LANG),
-        'condos_pending' => __('Condos Pending', IDXBOOST_DOMAIN_THEME_LANG),
-        'save' => __('Save', IDXBOOST_DOMAIN_THEME_LANG),
-        'sold' => __('Sold', IDXBOOST_DOMAIN_THEME_LANG),
-        'bname' => __('Building Name', IDXBOOST_DOMAIN_THEME_LANG),
-        'price_range' => __('Price Range', IDXBOOST_DOMAIN_THEME_LANG),
-        'bedrooms_units' => __('Bedrooms Units', IDXBOOST_DOMAIN_THEME_LANG),
-        'bedroom_condos' => __('Bedroom Condos', IDXBOOST_DOMAIN_THEME_LANG),
-        'bedroom_apartments' => __('Bedroom Apartments', IDXBOOST_DOMAIN_THEME_LANG),
-        'bedrooms' => __('Bedrooms', IDXBOOST_DOMAIN_THEME_LANG),
-        'units' => __('Units', IDXBOOST_DOMAIN_THEME_LANG),
-        'floors' => __('Floors', IDXBOOST_DOMAIN_THEME_LANG),
-        'address' => __('Address', IDXBOOST_DOMAIN_THEME_LANG),
-        'sqft' => __('Sq.Ft.', IDXBOOST_DOMAIN_THEME_LANG),
-        'check_your_mailbox' => __('Check your mailbox', IDXBOOST_DOMAIN_THEME_LANG),
-        'password_change' => __('Password Change', IDXBOOST_DOMAIN_THEME_LANG),
-        'deleted' => __('Deleted!', IDXBOOST_DOMAIN_THEME_LANG),
-        'delete' => __('Delete', IDXBOOST_DOMAIN_THEME_LANG),
-        'yes_delete_it' => __('Yes, delete it!', IDXBOOST_DOMAIN_THEME_LANG),
-        'newconstruction' => __('New Construction', IDXBOOST_DOMAIN_THEME_LANG),
-        'preconstruction' => __('Preconstruction', IDXBOOST_DOMAIN_THEME_LANG),
-        'neighborhood' => __('Neighborhood', IDXBOOST_DOMAIN_THEME_LANG),
-        'good_job' => __('Good job!', IDXBOOST_DOMAIN_THEME_LANG),
-        'congratulations' => __('Congratulations', IDXBOOST_DOMAIN_THEME_LANG),
-        'cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG),
-        'search_saved' => __('Search Saved!', IDXBOOST_DOMAIN_THEME_LANG),
-        'draw_your_map' => __('DRAW YOUR MAP', IDXBOOST_DOMAIN_THEME_LANG),
-        'current_value_must_be_less_than_or_equal_to' => __('current value must be less than or equal to', IDXBOOST_DOMAIN_THEME_LANG),
-        'are_you_sure_you_want_to_remove_this_property' => __("Are you sure you want to remove this property?", IDXBOOST_DOMAIN_THEME_LANG),
-        'your_search_has_been_saved_successfuly' => __('Your search has been saved successfuly', IDXBOOST_DOMAIN_THEME_LANG),
-        'you_cannot_save_search_with_more_than_500_properties' => __('You cannot save a search with more than 500 properties.', IDXBOOST_DOMAIN_THEME_LANG),
-        'youmust_selectat_least_one_checkbox_from_below' => __('You must select at least one checkbox from below.', IDXBOOST_DOMAIN_THEME_LANG),
-        'yoursearch_has_been_saved_successfully' => __('Your search has been saved successfully.', IDXBOOST_DOMAIN_THEME_LANG),
-        'you_must_provide_a_name_for_this_search' => __('You must provide a name for this search.', IDXBOOST_DOMAIN_THEME_LANG),
-        'the_saved_search_has_been_removed_from_your_alerts' => __('The saved search has been removed from your alerts', IDXBOOST_DOMAIN_THEME_LANG),
-        'are_you_sure' => __('Are you sure?', IDXBOOST_DOMAIN_THEME_LANG),
-        'the_building_has_been_removed_from_your_favorites' => __('The building has been removed from your favorites.', IDXBOOST_DOMAIN_THEME_LANG),
-        'are_you_sure_you_want_to_remove_this_building' => __('Are you sure you want to remove this building?', IDXBOOST_DOMAIN_THEME_LANG),
-        'the_property_has_been_removed_from_your_favorites' => __('The property has been removed from your favorites.', IDXBOOST_DOMAIN_THEME_LANG),
-        'are_you_sure_you_want_to_remove_this_saved_search' => __('Are you sure you want to remove this saved search?', IDXBOOST_DOMAIN_THEME_LANG),
-        'please_wait_youraccount_is_being_created' => __('Please wait your account is being created...', IDXBOOST_DOMAIN_THEME_LANG),
-        'your_account_is_being_created' => __('Your account is being created', IDXBOOST_DOMAIN_THEME_LANG),
-        'this_might_take_a_while_do_not_reload_thepage' => __('This might take a while. Do not reload the page.', IDXBOOST_DOMAIN_THEME_LANG),
-        'inq_details' => __('Inquire for details', IDXBOOST_DOMAIN_THEME_LANG),
-        'welcome_back' => __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG),
-        'welcome' => __('Welcome', IDXBOOST_DOMAIN_THEME_LANG),
-        'sign_in_below' => __('Sign in below', IDXBOOST_DOMAIN_THEME_LANG),
-        'oops' => __('Oops...', IDXBOOST_DOMAIN_THEME_LANG),
-        'join_to_save_listings_and_receive_updates' => __('Join to save listings and receive updates', IDXBOOST_DOMAIN_THEME_LANG),
-        'register' => __('Register', IDXBOOST_DOMAIN_THEME_LANG),
-        'logout' => __('Logout', IDXBOOST_DOMAIN_THEME_LANG),
-        'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
-    );
+
+            'lake_front' => __('Lake Front', IDXBOOST_DOMAIN_THEME_LANG),
+            'equestrian' => __('Equestrian', IDXBOOST_DOMAIN_THEME_LANG),
+            'pets' => __('Pets', IDXBOOST_DOMAIN_THEME_LANG),
+            'pool' => __('Pool', IDXBOOST_DOMAIN_THEME_LANG),
+            'water_front' => __('Waterfront', IDXBOOST_DOMAIN_THEME_LANG),
+            'water_access' => __('Water Access', IDXBOOST_DOMAIN_THEME_LANG),
+            'water' => __('Water', IDXBOOST_DOMAIN_THEME_LANG),
+            // 'open_house' => __('Open House', IDXBOOST_DOMAIN_THEME_LANG),
+            'penthouse' => __('Penthouse', IDXBOOST_DOMAIN_THEME_LANG),
+            'lofts' => __('Lofts', IDXBOOST_DOMAIN_THEME_LANG),
+            'gated_community' => __('Gated Community', IDXBOOST_DOMAIN_THEME_LANG),
+            'tennis_courts' => __('Tennis Courts', IDXBOOST_DOMAIN_THEME_LANG),
+            'tennis_court' => __('Tennis Court', IDXBOOST_DOMAIN_THEME_LANG),
+            'golf_course' => __('Golf Course', IDXBOOST_DOMAIN_THEME_LANG),
+            'swimming_pool' => __('Swimming Pool', IDXBOOST_DOMAIN_THEME_LANG),
+            'furnished' => __('Furnished', IDXBOOST_DOMAIN_THEME_LANG),
+            'ocean_access' => __('Ocean Access', IDXBOOST_DOMAIN_THEME_LANG),
+            'homes_condominiums_townhouses' => __('Homes, Condominiums, Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
+            'homes_condominiums' => __('Homes, Condominiums', IDXBOOST_DOMAIN_THEME_LANG),
+            'condominiums_townhouses' => __('Condominiums, Townhouses', IDXBOOST_DOMAIN_THEME_LANG),
+            'next_page' => __('Next page', IDXBOOST_DOMAIN_THEME_LANG),
+            'previous_page' => __('Previous Page', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_message_has_been_sent' => __('Your message has been sent!', IDXBOOST_DOMAIN_THEME_LANG),
+            'price_range' => __('Price range', IDXBOOST_DOMAIN_THEME_LANG),
+            'average_listing_price' => __('Average Listing Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'average_rental_price' => __('Average Rental Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'average_sold_price' => __('Average Sold Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'average_pending_price' => __('Average Pending Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'from' => __('from', IDXBOOST_DOMAIN_THEME_LANG),
+            'properties' => __('Properties', IDXBOOST_DOMAIN_THEME_LANG),
+            'loading_properties' => __('Loading Properties...', IDXBOOST_DOMAIN_THEME_LANG),
+            'and' => __('and', IDXBOOST_DOMAIN_THEME_LANG),
+            'in' => __('in', IDXBOOST_DOMAIN_THEME_LANG),
+            'new_listing' => __('new listing', IDXBOOST_DOMAIN_THEME_LANG),
+            'active_under_contract' => __('Active Under Contract', IDXBOOST_DOMAIN_THEME_LANG),
+            'pending' => __('pending', IDXBOOST_DOMAIN_THEME_LANG),
+            'boat_dock' => __('Boat Dock', IDXBOOST_DOMAIN_THEME_LANG),
+            'short_sales' => __('Short Sales', IDXBOOST_DOMAIN_THEME_LANG),
+            'foreclosures' => __('Foreclosures', IDXBOOST_DOMAIN_THEME_LANG),
+            'any' => __('Any', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_price' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_price_max' => __('Any Price', IDXBOOST_DOMAIN_THEME_LANG),
+            'any_type' => __('Any Type', IDXBOOST_DOMAIN_THEME_LANG),
+            'up_to' => __('up to', IDXBOOST_DOMAIN_THEME_LANG),
+            'details' => __('View detail', IDXBOOST_DOMAIN_THEME_LANG),
+            'for_sale' => __('For Sale', IDXBOOST_DOMAIN_THEME_LANG),
+            'for_rent' => __('For Rent', IDXBOOST_DOMAIN_THEME_LANG),
+            'for_sold' => __('For Sold', IDXBOOST_DOMAIN_THEME_LANG),
+
+            'condos_for_sale' => __('Condos For Sale', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_for_rent' => __('Condos For Rent', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_sold' => __('Condos Sold', IDXBOOST_DOMAIN_THEME_LANG),
+            'condos_pending' => __('Condos Pending', IDXBOOST_DOMAIN_THEME_LANG),
+            'save' => __('Save', IDXBOOST_DOMAIN_THEME_LANG),
+            'sold' => __('Sold', IDXBOOST_DOMAIN_THEME_LANG),
+            'bname' => __('Building Name', IDXBOOST_DOMAIN_THEME_LANG),
+            'price_range' => __('Price Range', IDXBOOST_DOMAIN_THEME_LANG),
+            'bedrooms_units' => __('Bedrooms Units', IDXBOOST_DOMAIN_THEME_LANG),
+            'bedroom_condos' => __('Bedroom Condos', IDXBOOST_DOMAIN_THEME_LANG),
+            'bedroom_apartments' => __('Bedroom Apartments', IDXBOOST_DOMAIN_THEME_LANG),
+            'bedrooms' => __('Bedrooms', IDXBOOST_DOMAIN_THEME_LANG),
+            'units' => __('Units', IDXBOOST_DOMAIN_THEME_LANG),
+            'floors' => __('Floors', IDXBOOST_DOMAIN_THEME_LANG),
+            'address' => __('Address', IDXBOOST_DOMAIN_THEME_LANG),
+            'sqft' => __('Sq.Ft.', IDXBOOST_DOMAIN_THEME_LANG),
+            'check_your_mailbox' => __('Check your mailbox', IDXBOOST_DOMAIN_THEME_LANG),
+            'password_change' => __('Password Change', IDXBOOST_DOMAIN_THEME_LANG),
+            'deleted' => __('Deleted!', IDXBOOST_DOMAIN_THEME_LANG),
+            'delete' => __('Delete', IDXBOOST_DOMAIN_THEME_LANG),
+            'yes_delete_it' => __('Yes, delete it!', IDXBOOST_DOMAIN_THEME_LANG),
+            'newconstruction' => __('New Construction', IDXBOOST_DOMAIN_THEME_LANG),
+            'preconstruction' => __('Preconstruction', IDXBOOST_DOMAIN_THEME_LANG),
+            'neighborhood' => __('Neighborhood', IDXBOOST_DOMAIN_THEME_LANG),
+            'good_job' => __('Good job!', IDXBOOST_DOMAIN_THEME_LANG),
+            'congratulations' => __('Congratulations', IDXBOOST_DOMAIN_THEME_LANG),
+            'cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG),
+            'search_saved' => __('Search Saved!', IDXBOOST_DOMAIN_THEME_LANG),
+            'draw_your_map' => __('DRAW YOUR MAP', IDXBOOST_DOMAIN_THEME_LANG),
+            'current_value_must_be_less_than_or_equal_to' => __('current value must be less than or equal to', IDXBOOST_DOMAIN_THEME_LANG),
+            'are_you_sure_you_want_to_remove_this_property' => __("Are you sure you want to remove this property?", IDXBOOST_DOMAIN_THEME_LANG),
+            'your_search_has_been_saved_successfuly' => __('Your search has been saved successfuly', IDXBOOST_DOMAIN_THEME_LANG),
+            'you_cannot_save_search_with_more_than_500_properties' => __('You cannot save a search with more than 500 properties.', IDXBOOST_DOMAIN_THEME_LANG),
+            'youmust_selectat_least_one_checkbox_from_below' => __('You must select at least one checkbox from below.', IDXBOOST_DOMAIN_THEME_LANG),
+            'yoursearch_has_been_saved_successfully' => __('Your search has been saved successfully.', IDXBOOST_DOMAIN_THEME_LANG),
+            'you_must_provide_a_name_for_this_search' => __('You must provide a name for this search.', IDXBOOST_DOMAIN_THEME_LANG),
+            'the_saved_search_has_been_removed_from_your_alerts' => __('The saved search has been removed from your alerts', IDXBOOST_DOMAIN_THEME_LANG),
+            'are_you_sure' => __('Are you sure?', IDXBOOST_DOMAIN_THEME_LANG),
+            'the_building_has_been_removed_from_your_favorites' => __('The building has been removed from your favorites.', IDXBOOST_DOMAIN_THEME_LANG),
+            'are_you_sure_you_want_to_remove_this_building' => __('Are you sure you want to remove this building?', IDXBOOST_DOMAIN_THEME_LANG),
+            'the_property_has_been_removed_from_your_favorites' => __('The property has been removed from your favorites.', IDXBOOST_DOMAIN_THEME_LANG),
+            'are_you_sure_you_want_to_remove_this_saved_search' => __('Are you sure you want to remove this saved search?', IDXBOOST_DOMAIN_THEME_LANG),
+            'please_wait_youraccount_is_being_created' => __('Please wait your account is being created...', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_account_is_being_created' => __('Your account is being created', IDXBOOST_DOMAIN_THEME_LANG),
+            'this_might_take_a_while_do_not_reload_thepage' => __('This might take a while. Do not reload the page.', IDXBOOST_DOMAIN_THEME_LANG),
+            'inq_details' => __('Inquire for details', IDXBOOST_DOMAIN_THEME_LANG),
+            'welcome_back' => __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG),
+            'welcome' => __('Welcome', IDXBOOST_DOMAIN_THEME_LANG),
+            'sign_in_below' => __('Sign in below', IDXBOOST_DOMAIN_THEME_LANG),
+            'oops' => __('Oops...', IDXBOOST_DOMAIN_THEME_LANG),
+            'join_to_save_listings_and_receive_updates' => __('Join to save listings and receive updates', IDXBOOST_DOMAIN_THEME_LANG),
+            'register' => __('Register', IDXBOOST_DOMAIN_THEME_LANG),
+            'logout' => __('Logout', IDXBOOST_DOMAIN_THEME_LANG),
+            'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
+        );
         // main styles
         wp_register_style('flex-idx-main-project', FLEX_IDX_URI . 'css/main.css', array(), iboost_get_mod_time("css/main.css"));
         // buildings
@@ -6011,7 +6014,7 @@ if (!function_exists('flex_idx_register_assets')) {
         $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
         $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
         $descr_tools_map_style = [];
-        
+
 
         if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
             $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
@@ -6053,10 +6056,10 @@ if (!function_exists('flex_idx_register_assets')) {
             'force_registration' => $flex_idx_info["agent"]["force_registration"],
             'page_setting' => $flex_idx_info['pages'],
             'user_show_quizz' => $flex_idx_info["agent"]["user_show_quizz"],
-            'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (boolean) $flex_idx_info['agent']['has_dynamic_ads'] : false,
-            'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (boolean) $flex_idx_info['agent']['has_seo_client'] : false,
+            'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (boolean)$flex_idx_info['agent']['has_dynamic_ads'] : false,
+            'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (boolean)$flex_idx_info['agent']['has_seo_client'] : false,
             'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : "",
-            'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (boolean) $flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
+            'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (boolean)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
             'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null
         ));
@@ -6217,7 +6220,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-idx-filter-jquery-ui-touch',
             'flex-lazyload-plugin',
             'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
-        ), iboost_get_mod_time("js/idxboost_filter_boost.js"));      
+        ), iboost_get_mod_time("js/idxboost_filter_boost.js"));
 
         wp_register_script('idxboost_dinamic_agent_office', FLEX_IDX_URI . 'js/idxboost_dinamic_agent_office.js', array(
             'underscore',
@@ -6291,39 +6294,38 @@ if (!function_exists('flex_idx_register_assets')) {
 
 
         wp_localize_script('idxboost_filter_boost', 'flex_idx_filter_params', array(
-            'rk'         => get_option('flex_idx_alerts_keys'),
-            'wp_web_id'  => get_option('flex_idx_alerts_app_id'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
-            'ajaxUrl'                 => admin_url('admin-ajax.php'),
-            'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'siteUrl'                 => $flex_idx_info["website_url"],
-            'params'                  => $flex_idx_info['search'],
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'siteUrl' => $flex_idx_info["website_url"],
+            'params' => $flex_idx_info['search'],
             'boardId' => $flex_idx_info['board_id'],
-            'anonymous'               => ($flex_idx_lead === false) ? 'yes' : 'no',
-            'loginUrl'                => wp_login_url(),
+            'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
+            'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
-        ));     
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
+        ));
 
         wp_localize_script('idxboost_dinamic_agent_office', 'flex_idx_filter_params', array(
-            'rk'         => get_option('flex_idx_alerts_keys'),
-            'wp_web_id'  => get_option('flex_idx_alerts_app_id'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
-            'ajaxUrl'                 => admin_url('admin-ajax.php'),
-            'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'siteUrl'                 => $flex_idx_info["website_url"],
-            'params'                  => $flex_idx_info['search'],
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'siteUrl' => $flex_idx_info["website_url"],
+            'params' => $flex_idx_info['search'],
             'boardId' => $flex_idx_info['board_id'],
-            'anonymous'               => ($flex_idx_lead === false) ? 'yes' : 'no',
-            'loginUrl'                => wp_login_url(),
+            'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
+            'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
-        ));     
-        
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
+        ));
 
 
-        wp_register_script('flex-idx-sub-area-inventory-js', FLEX_IDX_URI . 'js/idxboost-sub-area-collection.js',array(
-          'underscore-mixins',
+        wp_register_script('flex-idx-sub-area-inventory-js', FLEX_IDX_URI . 'js/idxboost-sub-area-collection.js', array(
+            'underscore-mixins',
             'underscore',
             'flex-idx-filter-handler',
             'flex-idx-filter-jquery-ui',
@@ -6375,9 +6377,9 @@ if (!function_exists('flex_idx_register_assets')) {
             'loginUrl' => wp_login_url(),
             'wpsite' => get_permalink(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'subarealink'         => rtrim($flex_idx_info["pages"]['flex_idx_sub_area']['guid'], "/"),
-            'offmarket'         => rtrim($flex_idx_info["pages"]['flex_idx_sub_area']['guid'], "/"),            
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'subarealink' => rtrim($flex_idx_info["pages"]['flex_idx_sub_area']['guid'], "/"),
+            'offmarket' => rtrim($flex_idx_info["pages"]['flex_idx_sub_area']['guid'], "/"),
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
             'requestInformationEndpoint' => FLEX_IDX_API_REQUEST_INFO_PROPERTY,
             'underscore-mixins',
@@ -6570,63 +6572,61 @@ if (!function_exists('flex_idx_register_assets')) {
         ));
 
         wp_localize_script('ib_slider_filter_boost', 'idx_param_slider', array(
-            'rk'         => get_option('flex_idx_alerts_keys'),
-            'wp_web_id'  => get_option('flex_idx_alerts_app_id'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
             'lookupListingsDetail' => FLEX_IDX_API_SEARCH_LISTING,
-            'ajaxUrl'                 => admin_url('admin-ajax.php'),
-            'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'siteUrl'                 => $flex_idx_info["website_url"],
-            'params'                  => $flex_idx_info['search'],
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'siteUrl' => $flex_idx_info["website_url"],
+            'params' => $flex_idx_info['search'],
             'boardId' => $flex_idx_info['board_id'],
             'searchFilterPermalink' => get_permalink(),
-            'anonymous'               => ($flex_idx_lead === false) ? 'yes' : 'no',
-            'loginUrl'                => wp_login_url(),
+            'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
+            'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'sitewp'         => get_permalink()
-        ));  
-        
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'sitewp' => get_permalink()
+        ));
+
         wp_localize_script('ib_slider_building_boost', 'idx_param_slider', array(
-            'rk'         => get_option('flex_idx_alerts_keys'),
-            'wp_web_id'  => get_option('flex_idx_alerts_app_id'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
             'lookupListingsDetail' => FLEX_IDX_API_SEARCH_LISTING,
-            'ajaxUrl'                 => admin_url('admin-ajax.php'),
-            'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'siteUrl'                 => $flex_idx_info["website_url"],
-            'params'                  => $flex_idx_info['search'],
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'siteUrl' => $flex_idx_info["website_url"],
+            'params' => $flex_idx_info['search'],
             'boardId' => $flex_idx_info['board_id'],
             'searchFilterPermalink' => get_permalink(),
-            'anonymous'               => ($flex_idx_lead === false) ? 'yes' : 'no',
-            'loginUrl'                => wp_login_url(),
+            'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
+            'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'sitewp'         => get_permalink()
-        ));  
-        
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'sitewp' => get_permalink()
+        ));
+
 
         wp_localize_script('ib_slider_filter_boost_agent_office', 'idx_param_slider', array(
-            'rk'         => get_option('flex_idx_alerts_keys'),
-            'wp_web_id'  => get_option('flex_idx_alerts_app_id'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
             'lookupListingsDetail' => FLEX_IDX_API_SEARCH_LISTING,
-            'ajaxUrl'                 => admin_url('admin-ajax.php'),
-            'searchUrl'               => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'siteUrl'                 => $flex_idx_info["website_url"],
-            'params'                  => $flex_idx_info['search'],
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'siteUrl' => $flex_idx_info["website_url"],
+            'params' => $flex_idx_info['search'],
             'boardId' => $flex_idx_info['board_id'],
             'searchFilterPermalink' => get_permalink(),
-            'anonymous'               => ($flex_idx_lead === false) ? 'yes' : 'no',
-            'loginUrl'                => wp_login_url(),
+            'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
+            'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
-            'searchPermalink'         => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
-            'sitewp'         => get_permalink()
-        ));  
+            'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'sitewp' => get_permalink()
+        ));
 
-        
 
-        
         wp_localize_script('idxboost_exclusive_listing', 'flex_idx_filter_params', array(
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
@@ -7548,7 +7548,7 @@ if (!function_exists('idxboost_get_header_dinamic')) {
 
     function idxboost_get_header_dinamic($name)
     {
-        
+
         global $flex_idx_info, $post;
 
         if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
@@ -7599,6 +7599,7 @@ if (!function_exists('idx_edit_post')) {
         }
     }
 }
+
 if (!function_exists('hide_editor')) {
     function hide_editor()
     {
@@ -7625,8 +7626,8 @@ if (!function_exists('idxboost_footer_header_dinamic')) {
             $show_footer = true;
 
             if (
-                in_array($post->post_type, ["flex-idx-pages", "flex-landing-pages"]) || 
-                is_front_page() || 
+                in_array($post->post_type, ["flex-idx-pages", "flex-landing-pages"]) ||
+                is_front_page() ||
                 $flex_idx_page_type == 'landing'
             ) {
                 $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
@@ -7652,6 +7653,142 @@ if (!function_exists('idxboost_footer_header_dinamic')) {
     add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
 }
 
+if (!function_exists('update_seo')) {
+    function update_seo($title, $description, $socialShareTitle, $socialShareImage)
+    {
+        echo '<title>' . $title . '</title>
+              <meta name="description" content="' . $description . '" />
+              <meta name="twitter:title" content="' . $title . '">
+              <meta name="twitter:description" content="' . $description . '">
+              <meta name="twitter:image" content="' . $socialShareImage . '">
+              <meta property="og:title" content="' . $socialShareTitle . '" />
+              <meta property="og:type" content="article" />
+              <meta property="og:image" content="' . $socialShareImage . '" />
+              <meta property="og:description" content="' . $description . '" />
+              <meta property="og:site_name" content="' . $socialShareTitle . '" />';
+    }
+}
+
+if (!function_exists('update_seo_default')) {
+    function update_seo_default()
+    {
+        echo '<title>' . wp_title('|', 0, 'right') . get_bloginfo('name') . '</title>';
+        if (get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true)) {
+            echo '<meta name="description" content="' . get_bloginfo("description") . '">';
+        }
+    }
+}
+
+if (!function_exists('update_seo_all_page')) {
+    function update_seo_all_page($title)
+    {
+        echo '<title>' . wp_title('|', 0, 'right') . $title . '</title>';
+        if (get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true)) {
+            echo '<meta name="description" content="' . get_bloginfo("description") . '">';
+        }
+    }
+}
+
+if (!function_exists("custom_seo_page")) {
+    function custom_seo_page()
+    {
+        global $post;
+        global $flex_idx_info;
+        global $wp;
+        $wp_request = $wp->request;
+
+        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
+
+            $metas = get_post_meta($post->ID, 'idx_page_type');
+            $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
+
+            if (
+                (is_array($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
+                is_home() or is_front_page() or
+                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
+                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
+            ) {
+                $page_type = '';
+                $post_id = '';
+
+                if ($metas[0] == 'custom') {
+                    $page_type = 'custom';
+                    $post_id = $post->ID;
+                }
+
+                if ($metas[0] == 'landing') {
+                    $page_type = 'landing';
+                    $post_id = $post->ID;
+                }
+
+                if (is_home() || is_front_page()) {
+                    $page_type = 'home';
+                }
+
+                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") {
+                    $page_type = 'about';
+                }
+
+                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact") {
+                    $page_type = 'contact';
+                }
+
+                $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo', array(
+                        'method' => 'POST',
+                        'headers' => [
+                            'Content-Type' => 'application/json',
+                        ],
+                        'body' => wp_json_encode(array(
+                            'registration_key' => get_option('idxboost_registration_key'),
+                            "page_type" => $page_type,
+                            "post_id" => $post_id
+                        ))
+                    )
+                );
+
+                $body = wp_remote_retrieve_body($response);
+                $content = json_decode($body, true);
+
+                if (!is_wp_error($response) or $content != NULL) {
+                    // validar que se use el seo, sino usar seo por defecto
+                    if ($content['cmsSeo'] == 1) {
+                        update_seo($content['seo']['title'], $content['seo']['description'], $content['socialShare']['title'], $content['socialShare']['image']);
+                    } else {
+                        update_seo_default();
+                    }
+                } else {
+                    update_seo_default();
+                }
+            } else {
+                $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo', array(
+                        'method' => 'POST',
+                        'headers' => [
+                            'Content-Type' => 'application/json',
+                        ],
+                        'body' => wp_json_encode(array(
+                            'registration_key' => get_option('idxboost_registration_key'),
+                            "page_type" => 'home',
+                            "post_id" => ''
+                        ))
+                    )
+                );
+
+                $body = wp_remote_retrieve_body($response);
+                $content = json_decode($body, true);
+
+                if (!is_wp_error($response) or $content != NULL) {
+                    update_seo_all_page($content['seo']['title']);
+                } else {
+                    update_seo_default();
+                }
+            }
+
+        } else {
+            update_seo_default();
+        }
+
+    }
+}
 
 if (!function_exists('idxboost_save_options_after_update')) {
     $options = array(
@@ -7773,5 +7910,40 @@ if (!function_exists("flex_idx_get_building_noscript_inventory")) {
         </noscript>
 
         <?php
+    }
+}
+
+if (!function_exists("idx_autologin_authenticate")) {
+    function idx_autologin_authenticate()
+    {
+        if (strpos($_SERVER["REQUEST_URI"], '/autologin?token=') !== false) {
+            $publicKey = <<<EOD
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
+4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
+0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
+ehde/zUxo6UvS7UrBQIDAQAB
+-----END PUBLIC KEY-----
+EOD;
+
+            require "JWT.php";
+            $token = $_GET['token'];
+            try {
+                $decoded = JWT::decode($token, $publicKey, array('RS256'));
+                $decoded_array = (array)$decoded;
+                $page = $decoded_array['page'];
+                $userToLogin = get_user_by('email', $decoded_array['email']);
+                if ($userToLogin) {
+                    wp_set_auth_cookie($userToLogin->ID, false);
+                    do_action('wp_login', $userToLogin->name, $userToLogin);
+                }
+                if ($page == 'home') wp_redirect(home_url());
+                if ($page == 'admin') wp_redirect(admin_url() . '?page=flex-idx');
+                exit();
+            } catch (Exception $ex) {
+                wp_redirect(home_url());
+                exit();
+            }
+        }
     }
 }

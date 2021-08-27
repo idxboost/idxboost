@@ -68,6 +68,9 @@ var currentfiltemid = '';
 var xDown = null;
 var yDown = null;
 
+
+var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+
 (function($) {
 	/*function scrollFixed(conditional) {
 		var $conditional = conditional;
@@ -2057,8 +2060,8 @@ var yDown = null;
 					// setupMarkers(map_items);
 					//setupMarkers(items);
 
-					var sizeTop = $('.clidxboost-sc-filters').offset().top;
-					$(window).scrollTop(sizeTop - 100);
+					//scroll top paginador $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					$("html, body").animate({ scrollTop: scrollTopElement }, 0);
 
 					setupMarkers(response.map_items);
 					

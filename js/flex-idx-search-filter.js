@@ -6386,6 +6386,93 @@ $(function () {
 			}
 		});
 
+		$(document).on("click", ".flex-slider-prev", function(event) {
+			event.stopPropagation();
+			var node = $(this).prev().find('li.flex-slider-current');
+			var index = node.index();
+			var total = $(this).prev().find('li').length;
+			index = (index === 0) ? (total - 1) : (index - 1);
+			$(this).prev().find('li').removeClass('flex-slider-current');
+			$(this).prev().find('li').addClass('flex-slider-item-hidden');
+			$(this).prev().find('li').eq(index).removeClass('flex-slider-item-hidden').addClass('flex-slider-current');
+			myLazyLoad.update();
+			// Open Registration popup after 3 property pictures are showed [force registration]
+			if ("yes" === __flex_g_settings.anonymous) {
+				if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
+					countClickAnonymous++;
+			
+					if (countClickAnonymous >= 3) {
+						$("#modal_login").addClass("active_modal")
+						.find('[data-tab]').removeClass('active');
+					
+						$("#modal_login").addClass("active_modal")
+							.find('[data-tab]:eq(1)')
+							.addClass('active');
+						
+						$("#modal_login")
+							.find(".item_tab")
+							.removeClass("active");
+						
+						$("#tabRegister")
+						.addClass("active");
+						$("#modal_login #msRst").empty().html($("#mstextRst").html());
+						$("button.close-modal").addClass("ib-close-mproperty");
+						//$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+						/*TEXTO LOGIN*/
+						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+						countClickAnonymous = 0;
+					}
+				}
+			}
+		});
+		
+		$(document).on("click", ".flex-slider-next", function(event) {
+			event.stopPropagation();
+			var node = $(this).prev().prev().find('li.flex-slider-current');
+			var index = node.index();
+			var total = $(this).prev().prev().find('li').length;
+			if (index >= (total - 1)) {
+				index = 0;
+			} else {
+				index = index + 1;
+			}
+			// index = (index >= (total - 1)) ? 0 : (index + 1);
+			$(this).prev().prev().find('li').removeClass('flex-slider-current');
+			$(this).prev().prev().find('li').addClass('flex-slider-item-hidden');
+			$(this).prev().prev().find('li').eq(index).removeClass('flex-slider-item-hidden').addClass('flex-slider-current');
+			myLazyLoad.update();
+			// Open Registration popup after 3 clicks property pictures are showed [force registration]
+			if ("yes" === __flex_g_settings.anonymous) {
+				if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
+					countClickAnonymous++;
+			
+					if (countClickAnonymous >= 3) {
+						$("#modal_login").addClass("active_modal")
+						.find('[data-tab]').removeClass('active');
+					
+						$("#modal_login").addClass("active_modal")
+							.find('[data-tab]:eq(1)')
+							.addClass('active');
+						
+						$("#modal_login")
+							.find(".item_tab")
+							.removeClass("active");
+						
+						$("#tabRegister")
+						.addClass("active");
+						$("#modal_login #msRst").empty().html($("#mstextRst").html());
+						$("button.close-modal").addClass("ib-close-mproperty");
+						//$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+						/*TEXTO LOGIN*/
+						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+						countClickAnonymous = 0;
+					}
+				}
+			}
+		});
+
 		// refresh page
 		$("#ib-apply-clear").on("click", function() {
 			if( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) ) {

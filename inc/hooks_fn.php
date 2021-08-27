@@ -251,9 +251,6 @@ add_filter('wpseo_opengraph_title', '__return_false');
 add_filter('wpseo_opengraph_type', '__return_false');
 add_filter('wpseo_opengraph_site_name', '__return_false');
 
-// rest api
-add_action('rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints']);
-
 // print analytics script
 add_action('wp_head', 'iboost_print_analytics_script');
 
@@ -261,10 +258,20 @@ add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script', 0);
 
 add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script', 0);
 
-add_action('wp_head', 'idx_boost_cms_assets_style', 100);
+// CMS. REST api
+add_action( 'rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints'] );
 
+// CMS. Load assets
+add_action( 'wp_head', 'idx_boost_cms_assets_style', 100 );
+
+// CMS. Load SEO
+add_action( 'wp_head', 'custom_seo_page', 0, 0 );
+
+// CMS. Update post
 add_action( 'edit_post', 'idx_edit_post', 10, 2 );
 
+// CMS. Disable WP editor for custom and landing pages
 add_action( 'admin_init', 'hide_editor', 10, 2 );
 
-
+// Hook general init to login users if an autologin code is specified
+add_action('init', 'idx_autologin_authenticate');

@@ -124,6 +124,9 @@ var IB_RG_PROPERTY_TYPE=$('.property_type_checkbox');
 var ib_moreFilter = {};
 var moreFilterHidden = {};
 
+
+var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+
 (function($) {
 	$(function() {
 	  // handle save search on filter pages
@@ -2812,10 +2815,8 @@ function getLandSizeValues(min, max) {
 					// setupMarkers(map_items);
 					//setupMarkers(items);
 					
-					var sizeTop = $('.clidxboost-sc-filters').offset().top;
-					$(window).scrollTop(sizeTop - 100);
-
-					//$("html, body").animate({ scrollTop: sizeTop - 100 }, 600);
+					//scroll top paginador $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+					$("html, body").animate({ scrollTop: scrollTopElement }, 0);
 
 					setupMarkers(response.map_items);
 					// check lazy images

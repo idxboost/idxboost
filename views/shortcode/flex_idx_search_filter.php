@@ -1,11 +1,12 @@
 <script>
 var IB_SEARCH_FILTER_PAGE = true;
-var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
+var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title();?>';
 
 jQuery(function() {
 	if (true === IB_SEARCH_FILTER_PAGE) {
 		jQuery('#formRegister').append('<input type="hidden" name="source_registration_title" value="'+IB_SEARCH_FILTER_PAGE_TITLE+'">');
 		jQuery('#formRegister').append('<input type="hidden" name="source_registration_url" value="'+location.href+'">');
+    	jQuery("#formRegister_ib_tags").val(IB_SEARCH_FILTER_PAGE_TITLE);
 	}
 });
 </script>

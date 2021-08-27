@@ -67,6 +67,8 @@ var currentfiltemid = '';
 var xDown = null;
 var yDown = null;
 
+var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+
 (function($) {
     $(function() {
       // handle save search on filter pages
@@ -1275,7 +1277,10 @@ var yDown = null;
                     }                    
 
                     //removeMarkers();
-                    $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+                    
+                    //scroll top paginador $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
+                    $("html, body").animate({ scrollTop: scrollTopElement }, 0);
+
                     //setupMarkers(response.items);
                     // check lazy images
                     myLazyLoad.update();
