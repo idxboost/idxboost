@@ -63,19 +63,25 @@ if ( ! $agent_full_info ) {
 
         if ($jsonObj->content != null && trim($jsonObj->content) != "") {
 
-            $pattern = '~\[idx_agent_filter id="(.+?)" type="agent"\]~';
+            $pattern = '~\[idx_boost_agent_office agent_id="(.+?)"\]~';
             if (preg_match($pattern, $jsonObj->content, $match)) {
                 $ib_agent_filter = do_shortcode($match[0]);
                 $jsonObj->content = str_replace($match[0], $ib_agent_filter, $jsonObj->content);
             }
 
-            $pattern = '~\[idx_agent_filter id="(.+?)" type="office"\]~';
+            $pattern = '~\[idx_boost_agent_office office_id="(.+?)"\]~';
             if (preg_match($pattern, $jsonObj->content, $match)) {
                 $ib_office_filter = do_shortcode($match[0]);
                 $jsonObj->content = str_replace($match[0], $ib_office_filter, $jsonObj->content);
             }
 
-            $pattern = '~\[idx_boost_agent_office_sold office_id="(.+?)"\]~';
+            $pattern = '~\[idx_boost_agent_office_sold office_id="(.+?)" months_back="(.+?)"\]~';
+            if (preg_match($pattern, $jsonObj->content, $match)) {
+                $ib_office_sold_filter = do_shortcode($match[0]);
+                $jsonObj->content = str_replace($match[0], $ib_office_sold_filter, $jsonObj->content);
+            }
+
+            $pattern = '~\[idx_boost_agent_office_sold agent_id="(.+?)" months_back="(.+?)"\]~';
             if (preg_match($pattern, $jsonObj->content, $match)) {
                 $ib_office_sold_filter = do_shortcode($match[0]);
                 $jsonObj->content = str_replace($match[0], $ib_office_sold_filter, $jsonObj->content);

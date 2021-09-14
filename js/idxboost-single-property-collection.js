@@ -23,7 +23,7 @@
 		$.ajax({
 			url: ib_property_collection.ajaxSetting,
 			method: "POST",
-			data: JSON.stringify({ "registration_key":ib_property_collection.rg }),
+			data: JSON.stringify({ "registration_key":ib_property_collection.rg,limit:ib_property_collection.limit }),
 			dataType: "json",
 		    success: function(data, textStatus, xhr) {
 		        
@@ -79,10 +79,23 @@
 		let sortProperty = IB_SP_SORT_FILTER.val();
 		IB_SP_TOTAL.html(word_translate.loading_properties);
 
+		let data = {
+			"registration_key": ib_property_collection.rg, 
+			"page": currentPage, 
+			"sort": sortProperty
+		};
+		
+		if (
+			ib_property_collection.limit && 
+			parseInt(ib_property_collection.limit) != 0 
+		) {
+			data.limit = parseInt(ib_property_collection.limit);
+		}
+
 		$.ajax({
 			url: ib_property_collection.ajaxlist,
 			method: "POST",
-			data: JSON.stringify({ "registration_key":ib_property_collection.rg ,"page": currentPage, "sort": sortProperty }),
+			data: JSON.stringify(data),
 			dataType: "json",
 			success: function (response) {
 				let listHTML = [];
@@ -541,22 +554,35 @@
 				item.style.setProperty('--sp-font-family', fontFamily);
 			});
 		} else {
-			WebFont.load({
-				google: {
-					families: [`${fontFamily}:400,500,600,700`]
-				},
-	
-				/* 
-					Called when each requested web font has finished loading.
-					The fontFamily parameter is the name of the font family, 
-					and fontDescription represents the style and weight of the font. 
-				*/
-				fontactive: function(fontFamily, fontDescription) {
-					document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-						item.style.setProperty('--sp-font-family', fontFamily);
-					});
-				},
-			});
+			let webFontLoaded = false;
+
+			if ( !webFontLoaded ) {
+				let js = document.createElement("script");
+				js.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+				js.async = 1;
+				let firstScript = document.getElementsByTagName("script")[0];
+				firstScript.parentNode.insertBefore(js, firstScript);
+				webFontLoaded = true;
+			}
+
+			setTimeout(() => {
+				WebFont.load({
+					google: {
+						families: [`${fontFamily}:400,500,600,700`]
+					},
+		
+					/* 
+						Called when each requested web font has finished loading.
+						The fontFamily parameter is the name of the font family, 
+						and fontDescription represents the style and weight of the font. 
+					*/
+					fontactive: function(fontFamily, fontDescription) {
+						document.querySelectorAll(IB_SP_PAGE).forEach(item => {
+							item.style.setProperty('--sp-font-family', fontFamily);
+						});
+					},
+				});
+			}, 1000);
 		}
 
 	}
@@ -575,17 +601,26 @@
 	 * Generate sliders inside SP Modal Website
 	 */
 	function generateSPSliders() {
-		const $sliderWelcome = $(".sp-main-slider");
-		if ($sliderWelcome.length) {
-			$sliderWelcome.greatSlider({
-				type: 'fade',
-				nav: false,
-				lazyLoad: true,
-				bullets: false,
-				autoHeight: false,
-				autoplay: true,
-				autoplaySpeed: 7000,
+		
+		// Slider for Home section
+		const $sliderHome = $('.js-slider-home');
+
+		if ($sliderHome.length) {
+		  $.each($sliderHome, function() {
+	  
+			let $slider = $(this);
+	  
+			$slider.greatSlider({
+			  type: 'fade',
+			  nav: false,
+			  lazyLoad: true,
+			  bullets: false,
+			  autoHeight: false,
+			  autoplay: true,
+			  autoplaySpeed: 7000,
 			});
+	  
+		  });
 		}
 
 		const $sliderVideoTour = $(".sp-video-slider");
@@ -1024,19 +1059,19 @@
     $("#sps-modal-sp-slider").append('<div class="sps-wrap-slider" id="sps-gen-slider"></div>');
   }
 
-
-
 //slider
-
 function genMultiSliderSingleProperty(element){
   var $multiSlider = $(element);
   if($multiSlider.length) {
-
+    
+    //RECUPERANDO LOS PARAMETROS
     var initialItems, autoPlaySpeed, autoPlay  = "";
     var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
     var autoPlayStatus = ($multiSlider.parents("#featured-section").attr("auto-play")) * 1;
     var autoPlayspeed = $multiSlider.parents("#featured-section").attr("speed-slider");
+    var styleFormat = ($multiSlider.parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
 
+    //VALIDAMOS LA EXISTENCIA DE LOS PARAMETROS
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
       autoPlay = true;
     }else{
@@ -1055,67 +1090,89 @@ function genMultiSliderSingleProperty(element){
       initialItems = 4;
     }
     
-    $multiSlider.greatSlider({
-      type: 'swipe',
-      nav: true,
-      navSpeed: 500,
-      lazyLoad: true,
-      bullets: false,
-      items: 1,
-      autoplay: autoPlay,
-      autoplaySpeed: autoPlaySpeed,
-      layout: {
-        bulletDefaultStyles: false,
-        wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
-        arrowPrevContent: 'Prev',
-        arrowNextContent: 'Next',
-        arrowDefaultStyles: false
-      },
-      breakPoints: {
-        640: {
-          items: 2,
-          slideBy: 2,
-          nav: false,
-          bullets: true
+    //CONSULTAMOS LA EXISTENCIA Y EL TIPO DE FORMATO "GRILLA/SLIDER"
+    if(styleFormat !== "" && styleFormat !== undefined && styleFormat > 0){
+      styleFormat = 1; //RECUPERAMOS EL PARAMETRO
+    }else{
+      styleFormat = 0;
+    }
+
+    //CONSULTAMOS EL FORMATO
+    if(styleFormat == 1){
+      //generamos las clases para el formato de columnas
+      if(initialItems < 2){
+        initialItems = 2;
+      }else if(initialItems > 4){
+        initialItems = 4;
+      }else{
+        initialItems = initialItems;
+      }
+
+      $multiSlider.parents("#featured-section").addClass("ms-colums-"+initialItems);
+    }else{
+      //generamos el slider
+      $multiSlider.greatSlider({
+        type: 'swipe',
+        nav: true,
+        navSpeed: 500,
+        lazyLoad: true,
+        bullets: false,
+        items: 1,
+        autoplay: autoPlay,
+        autoplaySpeed: autoPlaySpeed,
+        layout: {
+          bulletDefaultStyles: false,
+          wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
+          arrowPrevContent: 'Prev',
+          arrowNextContent: 'Next',
+          arrowDefaultStyles: false
         },
-        991: {
-          items: 3,
-          slideBy: 3
-        },
-        1360: {
-          items: initialItems,
-          slideBy: initialItems,
-        }
-      },
-      onStepStart: function(){
-        $(element).find(".flex-slider-current img").each(function() {
-          if(!$(this).hasClass(".loaded")){
-            var dataImage = $(this).attr('data-original');
-            $(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
+        breakPoints: {
+          640: {
+            items: 2,
+            slideBy: 2,
+            nav: false,
+            bullets: true
+          },
+          991: {
+            items: 3,
+            slideBy: 3
+          },
+          1360: {
+            items: initialItems,
+            slideBy: initialItems,
           }
-        });
-      },
-	    onInited: function(){
-	    	var $a = 0;
-	    	var $bulletBtn = $multiSlider.find(".gs-bullet");
-	    	if($bulletBtn.length){
-					$bulletBtn.each(function() {
-						$a += 1;
-						$(this).text('View Slide '+$a);
-					});
-	    	}
-	    },
-			onResized: function(){
-	    	var $a = 0;
-	    	var $bulletBtn = $multiSlider.find(".gs-bullet");
-	    	if($bulletBtn.length){
-					$bulletBtn.each(function() {
-						$a += 1;
-						$(this).text('View Slide '+$a);
-					});
-	    	}
-	    }
-    });
+        },
+        onStepStart: function(){
+          $(element).find(".flex-slider-current img").each(function() {
+            if(!$(this).hasClass(".loaded")){
+              var dataImage = $(this).attr('data-original');
+              $(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
+            }
+          });
+        },
+        onInited: function(){
+          var $a = 0;
+          var $bulletBtn = $multiSlider.find(".gs-bullet");
+          if($bulletBtn.length){
+            $bulletBtn.each(function() {
+              $a += 1;
+              $(this).text('View Slide '+$a);
+            });
+          }
+        },
+        onResized: function(){
+          var $a = 0;
+          var $bulletBtn = $multiSlider.find(".gs-bullet");
+          if($bulletBtn.length){
+            $bulletBtn.each(function() {
+              $a += 1;
+              $(this).text('View Slide '+$a);
+            });
+          }
+        }
+      });
+    }
   }
 }
 

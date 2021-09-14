@@ -60,8 +60,11 @@ if (!function_exists('ib_crm_listings_collection_sc')) {
             "slider_item" => "4",
             "slider_play" => "0",
             "slider_speed" => "5000",            
-            'title'   => ''
+            'title'   => '',
+            "gallery" => "0"
         ), $atts);
+
+        $gallery_val = $atts["gallery"];
         
         $idxboost_registration_key = get_option('idxboost_registration_key');
         
@@ -567,7 +570,9 @@ if (!function_exists('ib_search_filter_sc')) {
             'link' => '',
             'title' => '',
             'name_button' => '',
-            'slider_items' => '4'
+            'slider_item' => '',
+            'gallery' => '',
+            'limit' => ''
         ), $atts);
 
         ob_start();
@@ -589,7 +594,8 @@ if (!function_exists('ib_search_filter_sc')) {
                 // Permite validar si el shortcode se ejecuta en modo slider, 
                 // para no agregar la clase ms-hidden-ovf en el body
                 wp_localize_script('flex-idx-search-filter', 'ib_search_filter_extra', [
-                    'mode' => "slider"
+                    'mode' => "slider",
+                    "limit" => $atts["limit"]
                     ]
                 );
 
@@ -2251,8 +2257,11 @@ if (!function_exists('flex_idx_filter_sc')) {
             "slider_play" => "0",
             "slider_speed" => "5000",
             "reference" => "no",
+            "gallery" => "0",
             "max" => 0
-        ), $atts);      
+        ), $atts);  
+
+        $gallery_val = $atts["gallery"];
 
         $typeworked='0';
         $default_view = $flex_idx_info['search']['default_view'];
@@ -3512,8 +3521,10 @@ if (!function_exists('idxboost_building_inventory_sc')) {
             'view'        => 'grid',
             "slider_item" => "4",
             "slider_play" => "0",
-            "slider_speed" => "5000"            
+            "slider_speed" => "5000",
+            "gallery"   => "0"
         ), $atts);
+        $gallery_val = $atts["gallery"];
 
         $type_view=$atts['type'];
         $type_view_default=$atts['view'];
@@ -4481,49 +4492,6 @@ if (!function_exists('idx_page_404')) {
     }
 }
 
-// if (!function_exists('idx_page_shortcode_render')) {
-//     function idx_page_shortcode_render($content)
-//     {
-
-//         $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
-//         $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
-//         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
-//         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
-
-//         $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-//         }
-
-//         $pattern = '~\[flex_idx_filter type="2" slider_item="(.+?)" mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-//         }
-
-//         $pattern = '~\[flex_idx_filter id="(.+?) slider_item="(.+?)" mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_flex_idx_filter = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $variable_flex_idx_filter, $content);
-//         }
-
-//         $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $ib_search_filter = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $ib_search_filter, $content);
-//         }
-
-//         $pattern = '~\[idxboost_building_inventory building_id="(.+?)" load="ajax" slider_item="(.+?) type="sale" view="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $ib_building_filter = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $ib_building_filter, $content);
-//         }
-        
-//         echo $content;
-//     }
-// }
-
 if (!function_exists('idx_page_shortcode_render')) {
     function idx_page_shortcode_render($content)
     {
@@ -4532,30 +4500,73 @@ if (!function_exists('idx_page_shortcode_render')) {
         $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
-        $pattern = '~\[idxboost_dinamic_listings type="property-sites"\]~';
+
+        $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode('[list_property_collection column="two" mode="slider"]');
+            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
         }
 
-        $pattern = '~\[idxboost_dinamic_listings type="exclusive-listings"\]~';
+        $pattern = '~\[flex_idx_filter type="2" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
+            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
         }
 
-
-        $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
+        $pattern = '~\[flex_idx_filter id="(.+?) slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {
             $variable_flex_idx_filter = do_shortcode($match[0]);
             $content = str_replace($match[0], $variable_flex_idx_filter, $content);
         }
 
-        $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
+        $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {
             $ib_search_filter = do_shortcode($match[0]);
             $content = str_replace($match[0], $ib_search_filter, $content);
         }
+
+        $pattern = '~\[idxboost_building_inventory building_id="(.+?)" load="ajax" slider_item="(.+?) type="sale" view="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $ib_building_filter = do_shortcode($match[0]);
+            $content = str_replace($match[0], $ib_building_filter, $content);
+        }
+        
         echo $content;
     }
 }
+
+// if (!function_exists('idx_page_shortcode_render')) {
+//     function idx_page_shortcode_render($content)
+//     {
+
+//         $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
+//         $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
+//         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
+//         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
+//         $pattern = '~\[idxboost_dinamic_listings type="property-sites"\]~';
+//         if (preg_match($pattern, $content, $match)) {
+//             $variable_idxboost_dinamic_listings = do_shortcode('[list_property_collection column="two" mode="slider"]');
+//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+//         }
+
+//         $pattern = '~\[idxboost_dinamic_listings type="exclusive-listings"\]~';
+//         if (preg_match($pattern, $content, $match)) {
+//             $variable_idxboost_dinamic_listings = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
+//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+//         }
+
+
+//         $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
+//         if (preg_match($pattern, $content, $match)) {
+//             $variable_flex_idx_filter = do_shortcode($match[0]);
+//             $content = str_replace($match[0], $variable_flex_idx_filter, $content);
+//         }
+
+//         $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
+//         if (preg_match($pattern, $content, $match)) {
+//             $ib_search_filter = do_shortcode($match[0]);
+//             $content = str_replace($match[0], $ib_search_filter, $content);
+//         }
+//         echo $content;
+//     }
+// }

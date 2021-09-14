@@ -1,6 +1,6 @@
 <?php $class_filter = 'js-slider-single-property'; ?>
 
-<section class="flex-block-description mtop-60 ib-filter-slider-property-site ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
+<section data-gallery="<?php echo $gallery_val; ?>" class="flex-block-description mtop-60 ib-filter-slider-property-site ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
   data-item="<?php echo $atts['slider_item']; ?>" data-filter="<?php echo $class_filter; ?>"
   auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>">
 
@@ -71,7 +71,34 @@
 
             <main>
               {{#if (ifVisibility visibilityRegions.headerSection)}}
-                <section class="sp-animate" id="sp-welcome">
+                <section class="sps-section-home sp-animate" id="sp-welcome"
+                  style="
+                    --sps-section-background-color:{{sections.home.style.section.background.color}};
+                    --sps-section-background-opacity:{{sections.home.style.section.background.opacity}};
+                  ">
+
+                  <div class="sps-section-background">
+                    {{#ifequals bannerType 1}}
+                      {{#if bannerPhotoGallery}}
+                        <div class="sps-slider sps-h-full sps-w-full js-slider-home">
+                          {{#each bannerPhotoGallery}}
+                            <div class="sps-item sps-h-full sps-w-full">
+                              <img class="gs-lazy" data-lazy="{{this.full}}" 
+                                alt="{{this.name}}" draggable="false">
+                            </div>
+                          {{/each}}
+                        </div>
+                      {{/if}}
+                    {{/ifequals}}
+                    {{#ifequals bannerType 0}}
+                      {{#if bannerVideoUrl}}
+                        <div class="sps-main-video sps-h-full sps-w-full" data-img="{{ bannerVideoUrl }}"></div>
+                      {{/if}}
+                    {{/ifequals}}
+
+                    <div class="sps-section-background-overlay"></div>
+                  </div>
+
                   <h2 class="sp-main-title">
                     {{#if bannerHeadingOne}}
                       <span>"{{bannerHeadingOne}}"</span>
@@ -87,24 +114,6 @@
 
                   <button class="sp-btn sfm">{{stylesInput.headerSection.button.text}}</button>
 
-                  <!-- Background video -->
-                  
-                  {{#ifequals bannerType 1}}
-                    {{#if bannerPhotoGallery}}
-                      <div class="sp-main-slider">
-                        {{#each bannerPhotoGallery}}
-                          <div class="sp-item">
-                            <img src="{{this.full}}" alt="{{this.name}}" draggable="false">
-                          </div>
-                        {{/each}}
-                      </div>
-                    {{/if}}
-                  {{/ifequals}}
-                  {{#ifequals bannerType 0}}
-                    {{#if bannerVideoUrl}}
-                      <div class="sp-main-video" data-img="{{ bannerVideoUrl }}"></div>
-                    {{/if}}
-                  {{/ifequals}}
                 </section>
               {{/if}}
 

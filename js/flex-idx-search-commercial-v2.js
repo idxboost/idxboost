@@ -1284,6 +1284,22 @@ function loadPropertyInModal(mlsNumber) {
 				}
 			}
 
+			setTimeout(function () {
+				if( $(".ib-property-mortage-submit").length >0 ){
+					var pp = response.price;
+					$(".ib-property-mortgage-f:eq(0)").trigger("reset");
+					var dp = $(".ib-property-mc-dp:eq(0)").val();
+					var ty = $(".ib-property-mc-ty:eq(0)").val();
+					var ir = $(".ib-property-mc-ir:eq(0)").val();
+		            var calc_mg = calculate_mortgage(pp, dp, ty, ir);
+		            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
+			// update form
+		            $(".js-est-payment").hide();
+		            if (response.is_rental=="0") {
+		            	$(".js-est-payment").show();
+		            }
+				}
+			}, 1000);
 
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
@@ -1327,12 +1343,15 @@ function loadPropertyInModal(mlsNumber) {
 							  layout: {
 								  arrowDefaultStyles: false
 							  },
-							  fullscreen: true,
+							  fullscreen: false,
 							  layout: {
 								  fsButtonDefaultStyles: false,
 								  fsButtonClass: 'ib-btnfs'
 							  },
 							  breakPoints: {
+									768:{
+										fullscreen: true,
+									},
 								  640: {
 									  items: 2
 								  },
@@ -1341,37 +1360,42 @@ function loadPropertyInModal(mlsNumber) {
 								  }
 							  },
 							  onInited: function() {
-								IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
-									IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
-								});
+
+									var windowSize = $(window).width();
+									if(windowSize > 767){
+										IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
+											IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
+										});
+									}
+
+									// Creando la numeración en FS
+									const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
+									if (!$ibmpNumbers.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
+									} else {
+										IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									}
+
 							  },
 							  onLoadedItem: function(item, index, response) {
-								if ("success" != response) {
-									setTimeout(function () {
-										item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
-									}, 2000);
-								}
+									if ("success" != response) {
+										setTimeout(function () {
+											item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
+										}, 2000);
+									}
 							  },
 							  onFullscreenIn: ()=> {
-								// creando el título en FS
-								const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
-								if (!$ibmpTitle.length) {
-									IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
-								}
-								// Creando la numeración en FS
-								const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
-								if (!$ibmpNumbers.length) {
-									IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
-								} else {
-									IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-								}
+									// creando el título en FS
+									const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
+									if (!$ibmpTitle.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
+									}
 							  },
-							  onStepEnd: ($itemActivo, indexIA)=> {
-								if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
-									IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-								}
+								onStepEnd: ($itemActivo, indexIA)=> {
+									//if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
+										IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									//}
 							  }
-	
 						  });
 
 					}
@@ -5797,6 +5821,7 @@ $(function () {
 			$(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
 			$(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
 			$(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
+			$(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
 		});
 
 		// open email to a friend modal

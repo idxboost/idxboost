@@ -2,9 +2,13 @@
 global $flex_idx_info, $flex_idx_lead;
 ?>
 <script type="text/javascript">
-  <?php /*var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ? '1' : '0'; ?>';*/ ?>
+  var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ? '1' : '0'; ?>';
 
-  var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"])) ? '1' : '0'; ?>';
+  var IS_CUSTOM_SIGNUP = false;
+
+  // console.log(SIGNUP_EXTENDS_QUIZZ);
+
+  //var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"])) ? '1' : '0'; ?>';
 
   if (typeof originalPositionY === "undefined") {
     var originalPositionY;
@@ -152,8 +156,8 @@ global $flex_idx_info, $flex_idx_lead;
                     </li>
 
                     <?php if (
-                      (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ||
-                      (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"]))
+                      (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) 
+                      // || (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"]))
                      ): ?>
                     <li class="pr-step pr-radio">
                       <div class="ms-header-md">
@@ -779,12 +783,14 @@ global $flex_idx_info, $flex_idx_lead;
       <button data-id="modal_calculator" class="close close-modal" data-frame="modal_mobile"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
       <div class="content_md">
         <div class="heder_md">
-          <span class="ms-modal-title"><?php echo __("Mortgage calculator", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <span class="ms-modal-title"><?php echo __("Estimated Monthly Payment", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+        </div>
+        <div class="ib-mg-detail">
+          <p style="margin-top: 0;"><?php echo __('Monthly Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+          <span id="monthly-amount" class="text-bold mtotal mortgage_amount_txt"></span>
+          <p><?php echo __('Estimate includes principal and interest, taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
         </div>
         <div class="body_md">
-          <p>
-            <?php echo __("Let’s us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]+/', '', $flex_idx_info['agent']['agent_contact_phone_number']) ?>"><?php echo $flex_idx_info['agent']['agent_contact_phone_number']; ?></a>
-          </p>
           <div class="form_content">
             <form id="form-calculator">
 		          <fieldset>
@@ -801,7 +807,7 @@ global $flex_idx_info, $flex_idx_lead;
                   </li>
                   <li class="gfield">
                     <label class="gfield_label" for="down_payment_txt">
-                    % <?php echo __("Down Payment", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    <?php echo __("Down Payment", IDXBOOST_DOMAIN_THEME_LANG); ?> (%)
                     </label>
                     <div class="ginput_container ginput_container_payment">
                       <input class="medium down_payment_txt" max="95" min="0" name="input_2 down_payment_txt" step="any" type="number" value="30" id="down_payment_txt">
@@ -809,22 +815,18 @@ global $flex_idx_info, $flex_idx_lead;
                   </li>
                   <li class="gfield">
                     <label class="gfield_label" for="term_txt">
-                    <?php echo __("Term", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    <?php echo __("Term", IDXBOOST_DOMAIN_THEME_LANG); ?>(<?php echo __("Years", IDXBOOST_DOMAIN_THEME_LANG); ?>)
                     </label>
                     <div class="ginput_container ginput_container_years">
                       <select class="medium term_txt" id="term_txt">
-                        <option value="30">
-                          30 <?php echo __("Years", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                        </option>
-                        <option value="15">
-                          15 <?php echo __("Years", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                        </option>
+                        <option value="30">30</option>
+                        <option value="15">15</option>
                       </select>
                     </div>
                   </li>
                   <li class="gfield">
                     <label class="gfield_label" for="interest_rate_txt">
-                    <?php echo __("Interest Rate", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    <?php echo __("Interest Rate", IDXBOOST_DOMAIN_THEME_LANG); ?> (%)
                     </label>
                     <div class="ginput_container ginput_container_rate">
                       <input class="medium interest_rate_txt" id="interest_rate_txt" max="95" min="0" name="input_3" step="any" type="number" value="4">
@@ -841,16 +843,17 @@ global $flex_idx_info, $flex_idx_lead;
               </input>
             </form>
           </div>
-          <div class="detail-mortgage">
+          <p class="ms-info-txt"><?php echo __("Let’s us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]+/', '', $flex_idx_info['agent']['agent_contact_phone_number']) ?>"><?php echo $flex_idx_info['agent']['agent_contact_phone_number']; ?></a></p>
+          <div class="detail-mortgage" style="display: none">
             <span class="ms-md-calc-title"><?php echo __("Mortgage Breakdown", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <ul>
               <li><span><?php echo __("Mortgage Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span id="mortgage-amount" class="text-bold mortgage_mount_txt"></span></li>
               <li><span><?php echo __("Down Payment Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span id="down-payment" class="text-bold down_paymentamount_txt"></span></li>
-              <li class="line-top"><span><?php echo __("Monthly Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span id="monthly-amount" class="text-bold mtotal mortgage_amount_txt"></span></li>
               <li class="line-top"><span><?php echo __("Total Monthly Amount", IDXBOOST_DOMAIN_THEME_LANG); ?> <strong> <?php echo __("(Principal & Interest, and PMI)", IDXBOOST_DOMAIN_THEME_LANG); ?></strong></span><span id="total-monthly" class="text-bold mtotal mortgage_amount_txt"></span></li>
             </ul>
           </div>
         </div>
+        <div class="ib-img-calculator"></div>
       </div>
     </div>
     <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_calculator"></div>
@@ -1052,9 +1055,20 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
           $(this).removeClass("signup-regular-submit-close");
         });
       }
-    } else {
-      console.log("submit the form");
-      $("#formRegister").submit();
+     } else {
+       if (true === IS_CUSTOM_SIGNUP) {
+        $("#ib-register-form-quizz").submit();
+        $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
+        swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+       } else {
+        $("#formRegister").submit();
+       }
+      // swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+      //return;
+      // console.log('submit only pho form');
+      // console.log("submit the form");
+      // ib_register_form_quizz.submit();
+      //$("#formRegister").submit();
     }
 
     // if (typeof SIGNUP_EXTENDS_QUIZZ === "undefined" || ((typeof SIGNUP_EXTENDS_QUIZZ !== "undefined") && ("0" === SIGNUP_EXTENDS_QUIZZ))) {
@@ -1287,16 +1301,16 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
     auth2.attachClickHandler(element, {},
         function(googleUser) {
           var profile = googleUser.getBasicProfile();
-
+          
           console.log('Fetching data from google...');
-          console.dir({
-            id: profile.getId(),
-            name: profile.getName(),
-            givenName: profile.getGivenName(),
-            familyName: profile.getFamilyName(),
-            imageUrl: profile.getImageUrl() + "?sz=100",
-            email: profile.getEmail()
-          });
+          // console.dir({
+          //   id: profile.getId(),
+          //   name: profile.getName(),
+          //   givenName: profile.getGivenName(),
+          //   familyName: profile.getFamilyName(),
+          //   imageUrl: profile.getImageUrl() + "?sz=100",
+          //   email: profile.getEmail()
+          // });
 
           // return;
 
@@ -1305,7 +1319,8 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
             'first_name': profile.getGivenName(),
             'last_name': profile.getFamilyName(),
             'email': profile.getEmail(),
-            'id': profile.getId()
+            'id': profile.getId(),
+            'photo_profile_url': profile.getImageUrl() + "?sz=100"
           };
 
           // hide registration form
@@ -1335,12 +1350,20 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                 dataType: "json",
                 success: function(response) {
                     var ib_log_message = response.message;
+
+                    IS_CUSTOM_SIGNUP = true;
+
                     if (response.message=='Logged in succesfully.'){
                         ib_log_message=word_translate.logged_in_succesfully;
+                        // if ("undefined" !== typeof redirectregister) {
+                        //     custom_modal_redirect(redirectregister);
+                        // }
                     }else if(response.message=='Your account has been created successfully.'){
                         ib_log_message=word_translate.your_account_has_been_created_successfully;
-
-                                              // track facebook signup
+                        // if ("undefined" !== typeof redirectregister) {
+                        //     custom_modal_redirect(redirectregister);
+                        // }
+                      // track google signup
                       if (typeof dataLayer !== "undefined") {
                         dataLayer.push({'event': 'google_signin'});
                       }
@@ -1361,7 +1384,126 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
 
                       idx_auto_save_building(response);
                       
-                        Cookies.set('ib_lead_token', response.lead_token, { expires: 30 });
+                      Cookies.set('ib_lead_token', response.lead_token, { expires: 30 });
+
+                          // if available history menu for lead
+                          if (jQuery("#ib-lead-history-menu-btn").length) {
+                            jQuery.ajax({
+                              url :__flex_g_settings.fetchLeadActivitiesEndpoint,
+                              method: "POST",
+                              data: {
+                                access_token: __flex_g_settings.accessToken,
+                                flex_credentials: Cookies.get("ib_lead_token")
+                              },
+                              dataType: "json",
+                              success: function(response) {
+                                if ("yes" === response.lead_info.show_help_tooltip) {
+                                  jQuery("#ib-lead-history-tooltip-help").show();
+                                }
+
+                                jQuery("#ib-lead-history-menu-btn").show();
+
+                                // fill generated values
+                                var fill_first_letter_name_values = [];
+
+                                if (response.lead_info.first_name.length) {
+                                  fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
+                                }
+
+                                if (response.lead_info.last_name.length) {
+                                  fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
+                                }
+
+                                jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
+                                
+                                if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
+                                  jQuery(".ib-lead-first-letter-name").css({
+                                    'background-color': 'transparent',
+                                    'background-image': 'url(' + response.lead_info.photo_url + ')',
+                                    'background-repeat': 'no-repeat',
+                                    'background-size': 'contain',
+                                    'background-position': 'center center',
+                                    'text-indent': '-9999px'
+                                  });
+                                }
+
+                                jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
+                                jQuery(".ib-lead-firstname").html(word_translate.hello+" " + response.lead_info.first_name + "!");
+
+                                jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
+                                jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+                                jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
+                                jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
+                                jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
+                                jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
+
+                                // fill activity lead
+                                jQuery("#_ib_lead_activity_rows").empty();
+                                jQuery("#_ib_lead_activity_pagination").empty();
+
+                                if (response.lead_info.listing_views.length) {
+                                  var lead_listing_views = response.lead_info.listing_views;
+                                  var lead_listing_views_html = [];
+
+                                  for (var i = 0, l = lead_listing_views.length; i < l; i++) {
+                                    lead_listing_views_html.push('<div class="ms-item">');
+                                    lead_listing_views_html.push('<div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper">');
+                                    lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
+                                    lead_listing_views_html.push('</div>');
+                                    lead_listing_views_html.push('<div class="ms-property-detail">');
+                                    lead_listing_views_html.push('<h3 class="ms-title">'+lead_listing_views[i].address_short+'</h3>');
+                                    lead_listing_views_html.push('<h4 class="ms-address">'+lead_listing_views[i].address_large+'</h4>');
+                                    lead_listing_views_html.push('<h5 class="ms-price">'+lead_listing_views[i].price+'</h5>');
+                                    lead_listing_views_html.push('<div class="ms-details">');
+                                      lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' '+word_translate.beds+'</span>');
+                                      lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' '+word_translate.baths+'</span>');
+                                      lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' '+word_translate.sqft+'</span>');
+                                    lead_listing_views_html.push('</div>');
+                                    lead_listing_views_html.push('</div>');
+                                    //lead_listing_views_html.push('<div class="ms-property-actions">');
+                                    //lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
+                                    //lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
+                                    //lead_listing_views_html.push('</div>');
+                                    lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
+                                    lead_listing_views_html.push('</div>');
+                                  }
+
+                                  jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
+                                }
+
+                                // build pagination
+                                if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+                                  if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                                    var lead_listing_views_paging = [];
+
+                                    if (response.lead_info.listing_views_pagination.has_prev_page) {
+                                      lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
+                                    }
+
+                                    lead_listing_views_paging.push('<div class="ib-paglinks">');
+
+                                    var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+
+                                    for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                                      if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                                        lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                      } else {
+                                        lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                      }
+                                    }
+
+                                    lead_listing_views_paging.push('</div>');
+
+                                    if (response.lead_info.listing_views_pagination.has_next_page) {
+                                      lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                                    }
+
+                                    jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                  }
+                                }
+                              }
+                            });
+                          }
 
                         // socket.subscribe(__flex_g_settings.pusher.presence_channel);
                         if ("undefined" !== typeof socket) {
@@ -1474,10 +1616,17 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                         }
 
                         setTimeout(function () {
-                            // if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
-                            if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
+                            console.group('[googleSignup]');
+                              console.log(__flex_g_settings.user_show_quizz);
+                              console.dir(response);
+                            console.groupEnd('[googleSignup]');
+
+                            //if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                            //if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
                               // @todo open view
-                              jQuery("#__quizz_type").val("facebook");
+                              if ("signup" == response.logon_type) {
+
+                              jQuery("#__quizz_type").val("google");
                               jQuery("#__quizz_type_phone_ct").show();
                               jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
                               jQuery("#__quizz_type_phone_ct").addClass("ib-active");
@@ -1525,8 +1674,9 @@ function fb_login() {
           var userID = response.authResponse.userID;
 
           FB.api('/me?fields=name,first_name,last_name,email,picture.width(100).height(100)', function(response) {
-              // console.log("Fetching data from facebook...");
-              // console.dir(response);
+              console.log("Fetching data from facebook...");
+              console.dir(response);
+              response.photo_profile_url = response.hasOwnProperty('picture') ? response.picture.data.url : null;
               // return;
 
               if (!response.hasOwnProperty("email")) {
@@ -1571,6 +1721,8 @@ function fb_login() {
                     dataType: "json",
                     success: function(response) {
                         var ib_log_message = response.message;
+
+                        IS_CUSTOM_SIGNUP = true;
 
                         if (response.message=='Logged in succesfully.') {
                             ib_log_message=word_translate.logged_in_succesfully;
@@ -1833,8 +1985,14 @@ function fb_login() {
                             }
 
                           setTimeout(function () {
-                            // if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
-                            if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
+                            console.group('[facebookSignup]');
+                              console.log(__flex_g_settings.user_show_quizz);
+                              console.dir(response);
+                            console.groupEnd('[facebookSignup]')
+
+                             //if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                            //if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
+                              if ("signup" == response.logon_type) {
                               // @todo open view
                               jQuery("#__quizz_type").val("facebook");
                               jQuery("#__quizz_type_phone_ct").show();

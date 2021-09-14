@@ -547,6 +547,23 @@ function loadPropertyInModal(mlsNumber) {
 				}
 			}
 
+			setTimeout(function () {
+				if( $(".ib-property-mortage-submit").length >0 ){
+					var pp = response.price;
+					$(".ib-property-mortgage-f:eq(0)").trigger("reset");
+					var dp = $(".ib-property-mc-dp:eq(0)").val();
+					var ty = $(".ib-property-mc-ty:eq(0)").val();
+					var ir = $(".ib-property-mc-ir:eq(0)").val();
+		            var calc_mg = calculate_mortgage(pp, dp, ty, ir);
+		            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
+		            $(".js-est-payment").hide();
+		            if (response.is_rental=="0") {
+		            	$(".js-est-payment").show();
+		            }
+			// update form
+				}
+			}, 1000);
+
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
 			IB_TRACKING_IFRAME.setAttribute("src", __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
@@ -966,6 +983,7 @@ function loadPropertyInModal(mlsNumber) {
 				  (__flex_g_settings.hasOwnProperty("force_registration") &&
 					1 == __flex_g_settings.force_registration) ||
 				  (typeof idxboost_force_registration != false &&
+				  	typeof idxboost_force_registration != 'undefined' &&
 					idxboost_force_registration != undefined && 
 					idxboost_force_registration == true) 
 				) {
@@ -1212,6 +1230,7 @@ window.loadPropertyInModal = loadPropertyInModal;
             $(".ib-calc-mc-down-payment").html("$" + calc_mg.down_payment);
             $(".ib-calc-mc-monthly").html("$" + calc_mg.monthly);
             $(".ib-calc-mc-totalmonthly").html("$" + calc_mg.total_monthly);
+            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
         });
 
         // open email to a friend modal

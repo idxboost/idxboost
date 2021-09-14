@@ -124,9 +124,6 @@ var IB_RG_PROPERTY_TYPE=$('.property_type_checkbox');
 var ib_moreFilter = {};
 var moreFilterHidden = {};
 
-
-var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
-
 (function($) {
 	$(function() {
 	  // handle save search on filter pages
@@ -1047,10 +1044,11 @@ var scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
 			event.preventDefault();
 		});
 		*/
-
-		document.getElementsByClassName("view-detail-no-link")[0].addEventListener("click", function(event){
-		  event.preventDefault()
-		});
+		if (document.getElementsByClassName("view-detail-no-link").length > 0) {
+			document.getElementsByClassName("view-detail-no-link")[0].addEventListener("click", function(event){
+			  event.preventDefault()
+			});			
+		}
 
 		$('.property_type_checkbox').change(function(event){
 			var typeProperty=[],text_type=[];
@@ -2386,7 +2384,15 @@ function getLandSizeValues(min, max) {
 
 /*NEW FILTER FROM MODALS*/
 
-	function filter_refresh_search() {
+	function filter_refresh_search(topElementContent) {
+
+		var filter_refresh_search = parseInt(topElementContent, 10);
+		if(filter_refresh_search > 0){
+			filter_refresh_search = filter_refresh_search
+		}else{
+			filter_refresh_search = 0;
+		}
+
 		if (flex_ui_loaded === false) {
 			return;
 		}
@@ -2816,7 +2822,7 @@ function getLandSizeValues(min, max) {
 					//setupMarkers(items);
 					
 					//scroll top paginador $(window).scrollTop($('.clidxboost-sc-filters').offset().top);
-					$("html, body").animate({ scrollTop: scrollTopElement }, 0);
+					$("html, body").animate({ scrollTop: filter_refresh_search }, 0);
 
 					setupMarkers(response.map_items);
 					// check lazy images
@@ -3127,8 +3133,17 @@ function getLandSizeValues(min, max) {
 				// history.pushState(null, '', $(this).attr('norefre'));
 				$('.flex-idx-filter-form-'+currentfiltemid+' #idx_page').val(currentPage);
 				// do ajax
-				filter_refresh_search();
+				//filter_refresh_search();
 				// filter_change_page();
+
+
+				var scrollTopElement = $(".clidxboost-sc-filters");
+				if(scrollTopElement.length){
+					scrollTopElement = (($(".clidxboost-sc-filters").offset().top) * 1) - 100;
+				}else{
+					scrollTopElement = 0;
+				}
+				filter_refresh_search(scrollTopElement);
 			});
 		}
 

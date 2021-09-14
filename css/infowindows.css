@@ -267,7 +267,7 @@
         left: 0;
         overflow: hidden;
         text-indent: -999999px;
-        display: none; }
+        /*display: none;*/ }
       .mapview-container .mapviwe-body .mapviwe-item:last-child {
         border-bottom: none; }
 

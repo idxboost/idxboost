@@ -201,6 +201,88 @@ if (!function_exists('flex_idx_setup_pages_fn')) {
             add_option('idxboost_off_market_listings_initial_pages', 'yes');
         }
 
+        if (false == get_option('idxboost_init_pages')) {
+
+            $page_home = wp_insert_post(array(
+                'post_title' => 'Home',
+                'post_name' => 'home',
+                'post_content' => '',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "page"
+            ));
+
+            update_option( 'show_on_front', "page" );
+            update_option( 'page_on_front', $page_home );
+
+
+            $page_blog = wp_insert_post(array(
+                'post_title' => 'Blog',
+                'post_name' => 'blog',
+                'post_content' => '',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "page"
+            ));
+
+            update_option( 'page_for_posts', $page_blog );
+            
+
+
+            $page_buy = wp_insert_post(array(
+                'post_title' => 'I Want To Buy',
+                'post_name' => 'buy',
+                'post_content' => '[idxboost_buyers_form]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "page"
+            ));
+            update_post_meta($page_buy, '_wp_page_template', 'page/forms-buy-sell-rent.php');
+
+            $page_sell = wp_insert_post(array(
+                'post_title' => 'I Want To Sell',
+                'post_name' => 'sell',
+                'post_content' => '[idxboost_sellers_form]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "page"
+            ));
+            update_post_meta($page_sell, '_wp_page_template', 'page/forms-buy-sell-rent.php');
+
+            $page_rent = wp_insert_post(array(
+                'post_title' => 'I Want To Rent',
+                'post_name' => 'rent',
+                'post_content' => '[idxboost_rentals_form]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "page"
+            ));
+            update_post_meta($page_rent, '_wp_page_template', 'page/forms-buy-sell-rent.php');
+
+
+            $page_sell = wp_insert_post(array(
+                'post_title' => 'Exclusive Listings',
+                'post_name' => 'exclusive-listings',
+                'post_content' => '',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-filter-pages"
+            ));
+            update_post_meta($page_sell, '_flex_filter_page_fl', '2');
+
+            $page_rent = wp_insert_post(array(
+                'post_title' => 'Sold Properties',
+                'post_name' => 'sold-properties',
+                'post_content' => '',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-filter-pages"
+            ));
+            update_post_meta($page_rent, '_flex_filter_page_fl', '1');
+
+            add_option('idxboost_init_pages', 'yes');
+        }        
+
     }
 }
 
@@ -1169,79 +1251,61 @@ function idx_func_style_on()
 .special-hover>li>a:before,
 .social-networks li:before,
 .message-alert p button:hover{  background-color: ' . $color_primary . '; }
-
 .form-content .gform_body .gform_button {
     border-color: ' . $color_primary . ';
     color: ' . $color_texto . ';
     background-color: ' . $color_primary . ';
 }
-
 .form-content .gform_body .gform_button:hover {
     border-color: ' . $color_second . ';
     color: ' . $color_texto . ';
     background-color: ' . $color_second . ';
 }
-
 #menu-main .sub-menu li a:hover,
 .form_content .btn_form {
   background-color: ' . $color_primary . '; }
   border-color: ' . $color_primary . '; }
 }
-
 #available-languages li.active:after {
   border-top: 7px solid ' . $color_primary . ';
 }
-
-
 .flex-newsletter-content .flex-content-form li .button:hover {
    background-color: ' . $color_primary . ';
    border-color: ' . $color_second . ';
    color: white;
 }
-
 .clidxboost-btn-link span{ border: 1px solid ' . $color_primary . '; color: ' . $color_texto . '; }
-
 #wrap-subfilters #sub-filters #filter-by.clidxboost-icon-arrow-select:before, #wrap-subfilters #sub-filters #filter-views.clidxboost-icon-arrow-select:before{ color: ' . $color_primary . '; }
-
-
 .message-alert.info-color {
    background-color: ' . $color_primary . ';
    border-color: ' . $color_primary . ';
 }
-
-
 #view-list .tbl_properties_wrapper table {
     border-top: 2px solid ' . $color_primary . ';
 }
-
 .clidxboost-btn-link span.active, .clidxboost-btn-link span:hover, .message-alert p button {
     background-color: ' . $color_second . ';
     color: ' . $color_texto . ';
     border-color: ' . $color_second . ';
 }
-
 .flex-newsletter-content .flex-content-form li .button {
    border: 1px solid ' . $color_second . ';
    background-color: ' . $color_second . ';
    color: white;
 }
-
 .form_content .btn_form:hover{
   border-color: ' . $color_second . ';
   background-color: ' . $color_second . ';
 }
-
 .modal_cm .header-tab li a.active, .modal_cm .header-tab li a:focus,
 .modal_cm .header-tab li a:hover {
     border-bottom: 2px solid ' . $color_primary . ';
 }
-
 @media screen and (min-width: 768px){
  #wrap-filters #all-filters.individual #mini-filters {
     border-top: 3px solid ' . $color_primary . ';
  }
 }
-
 .show_modal_login_active .menu_login_active ul li a:hover {
     background-color: ' . $color_primary . ';
     border-color: ' . $color_primary . ';
@@ -1369,7 +1433,6 @@ $wp_theme_arg    = new WP_Query($argumento_theme);
 if (!$wp_theme_arg->have_posts()) {
     wp_insert_post($my_post_theme);
 }
-
 wp_reset_postdata();*/
 
 function func_idx_meta_style_theme()
@@ -1870,25 +1933,26 @@ function flexidx_custom_toolbar_link($wp_admin_bar)
     $wp_admin_bar->add_node($args);
 
     $args = array(
-        'id' => 'wpflexidx_toolbar-guides',
-        'title' => 'Settings - IDX Boost',
-        'href' => admin_url('admin.php?page=flex-idx'),
+        'id' => 'wpflexidx_toolbar-guides-map-search',
+        'title' => 'Map Search Filters',
+        'href' => admin_url('edit.php?post_type=flex-landing-pages'),
         'parent' => 'wpflexidx_toolbar',
         'meta' => array(
             'class' => 'wpflexidx_toolbar-guides',
-            'title' => 'Settings - IDX Boost',
+            'title' => 'Map Search Filters',
         ),
     );
     $wp_admin_bar->add_node($args);
 
+
     $args = array(
-        'id' => 'My-IDX-Pages',
-        'title' => 'My IDX Pages - IDX Boost',
-        'href' => admin_url('edit.php?post_type=flex-idx-pages'),
+        'id' => 'wpflexidx_toolbar-guides',
+        'title' => 'Display Filters',
+        'href' => admin_url('edit.php?post_type=flex-filter-pages'),
         'parent' => 'wpflexidx_toolbar',
         'meta' => array(
-            'class' => 'wpflexidx_toolbar-tutorials',
-            'title' => 'My IDX Pages - IDX Boost',
+            'class' => 'wpflexidx_toolbar-guides',
+            'title' => 'Display Filters',
         ),
     );
     $wp_admin_bar->add_node($args);
@@ -1896,12 +1960,12 @@ function flexidx_custom_toolbar_link($wp_admin_bar)
     $args =
         array(
             'id' => 'My-IDX-Buildings',
-            'title' => 'My IDX Buildings - IDX Boost',
+            'title' => 'My Buildings',
             'href' => admin_url('edit.php?post_type=flex-idx-building'),
             'parent' => 'wpflexidx_toolbar',
             'meta' => array(
                 'class' => 'wpflexidx_toolbar-tutorials',
-                'title' => 'My IDX Buildings - IDX Boost',
+                'title' => 'My Buildings',
             ),
         );
     $wp_admin_bar->add_node($args);
@@ -1909,27 +1973,28 @@ function flexidx_custom_toolbar_link($wp_admin_bar)
     $args =
         array(
             'id' => 'My-IDX-Sub-Area',
-            'title' => 'My IDX Sub Area - IDX Boost',
+            'title' => 'My Master Plans',
             'href' => admin_url('edit.php?post_type=idx-sub-area'),
             'parent' => 'wpflexidx_toolbar',
             'meta' => array(
                 'class' => 'wpflexidx_toolbar-tutorials',
-                'title' => 'My IDX Sub Area - IDX Boost',
+                'title' => 'My Master Plans',
             ),
         );
     $wp_admin_bar->add_node($args);
 
     $args = array(
-        'id' => 'My-Filter-Pages',
-        'title' => 'My Filter Pages - IDX Boost',
-        'href' => admin_url('edit.php?post_type=flex-filter-pages'),
+        'id' => 'My-IDX-Pages',
+        'title' => 'Page’s URL Slug',
+        'href' => admin_url('edit.php?post_type=flex-idx-pages'),
         'parent' => 'wpflexidx_toolbar',
         'meta' => array(
             'class' => 'wpflexidx_toolbar-tutorials',
-            'title' => 'My Filter Pages - IDX Boost',
+            'title' => 'Page’s URL Slug',
         ),
     );
     $wp_admin_bar->add_node($args);
+
 }
 
 add_action('admin_bar_menu', 'flexidx_custom_toolbar_link', 999);
@@ -1948,7 +2013,7 @@ function custom_page_template($page_template)
         if ( is_array($metas) && $metas[0] == 'custom' ) {
             $page_template = FLEX_IDX_PATH . '/views/pages/custom-page-template.php';
         }
-		
+    
         if ( ! empty($flex_idx_info['agent']['has_cms_form']) && $flex_idx_info['agent']['has_cms_form'] != false ) {
             if ( is_array($metas) && $metas[0] == 'landing' ) {
                 $page_template = FLEX_IDX_PATH . '/views/pages/landing-page-template.php';

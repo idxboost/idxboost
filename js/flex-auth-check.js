@@ -394,6 +394,7 @@ function validate_price(evt) {
 				$('.mortgage_mount_txt').text('$' + response.mortgage);
 				$('.down_paymentamount_txt').text('$' + response.down_payment);
 				$('.mortgage_amount_txt').text('$' + response.total_monthly);
+				$('.js-est-payment').text('$' + response.total_monthly);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError);
@@ -2552,7 +2553,15 @@ function scrollFixedElement(elemento) {
 		document.body.classList.remove('using-mouse');
 	});
 
-	
+	/*-----------------------------------------------------------------------------------------------------*/
+	/* MUESTRA EL NUEVO MODAL DE LA CALCULADORA
+	/*-----------------------------------------------------------------------------------------------------*/
+  $(document).on('click', '.ib-price-calculator', function(e) {
+    e.preventDefault();
+    $(".ib-pscitem.ib-pscalculator").trigger("click")
+  });
+
+
 }(jQuery));
 
 (function ($) {
