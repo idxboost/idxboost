@@ -9,7 +9,7 @@ var NO_REFRESH_F_AJAX = true;
     <ul class="result-search idx_color_primary slider-generator built interval" id="result-search">
     <?php foreach($response['items'] as $property): ?>
     <li data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
-        <h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><?php echo $property['address_short'].' '.$property['address_large']; ?></h2>
+        <h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><span><?php echo $property['address_short'].' <span>'.$property['address_large']; ?></span></span></h2>
         <ul class="features">
             <li class="address"><?php echo $property['address_large']; ?></li>
             <li class="price"><a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>">$<?php echo number_format($property['price']); ?></a></li>
@@ -43,11 +43,6 @@ var NO_REFRESH_F_AJAX = true;
             <?php else: ?>
                 <li class="development"><span><?php echo $property['complex']; ?></span></li>
             <?php endif; ?>
-              <?php
-              if(is_array($response) && count($response)>0 && array_key_exists("board_info",$response) && array_key_exists("board_logo_url", $response["board_info"]) && !empty($response["board_info"]["board_logo_url"])  ){ ?>
-                <li class="ms-logo-board"><img src="<?php echo $response["board_info"]["board_logo_url"]; ?>"></li>
-              <?php } ?>
-
         </ul>
         <?php
         $totgallery='';

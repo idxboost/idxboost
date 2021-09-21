@@ -282,9 +282,9 @@
 	if($fullSlider.length) {
 		const $totalItems = $fullSlider.find('.img-slider').length;
 		let $fsSlider = $fullSlider.greatSlider({
-			/*type: 'swipe',
+			type: 'swipe',
 			nav: true,
-			navSpeed: 150,
+			navSpeed: 500,
 			lazyLoad: true,
 			bullets: false,
 			items: 1,
@@ -292,56 +292,28 @@
 			autoHeight: false,
 			dragHand: false,
 			drag: false,
-			touch: false,*/
-			type: 'swipe',
-			nav: true,
-			bullets: false,
-			lazyLoad: true,
-			navSpeed: 150,
-			fullscreen: false,
-
+			touch: false,
 			layout: {
 				arrowDefaultStyles: false,
+
 				arrowPrevContent: 'Prev',
 				arrowNextContent: 'Next',
 			},
-
 			breakPoints: {
 		      640: {
 		        items: 2
 		      },
-					
-					768:{
-						fullscreen: true,
-					},
-
 		      1360: {
-		        items: 3,
+		        items: 3
 		      }
 		    },
-
 		    onInited: function(){
 					var $showSlider = $fullSlider.parents('#full-slider');
 					if($showSlider.length) $showSlider.addClass('show-slider-psl');
-
-					var windowSize = $(window).width();
-					var cantElement = $(".clidxboost-full-slider").find('.gs-item-slider').length;
-					if(windowSize > 767){
-						// anidando FS con click sobre la imagen
-						$fullSlider.find('.gs-item-slider').on('click', function(){
-							$fsSlider.fullscreen('in', $(this).index() + 1);
-						});
-					}
-
-					if(windowSize < 640 && cantElement < 2){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else if(windowSize > 639 && windowSize < 1360 && cantElement < 3){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else if(windowSize > 1359 && cantElement < 4){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else{
-						$(".clidxboost-full-slider").removeClass("-control-nav");
-					}
+					// anidando FS con click sobre la imagen
+					$fullSlider.find('.gs-item-slider').on('click', function(){
+						$fsSlider.fullscreen('in', $(this).index() + 1);
+					});
 
 					var $a = 0;
 		    	var $bulletBtn = $fullSlider.find(".gs-bullet");
@@ -351,26 +323,7 @@
 							$(this).text('View Slide '+$a);
 						});
 		    	}
-
-					// Creando la numeración en FS
-
-					/*var $ibmpNumbers = $("#full-slider").find('.ib-pvsinumber');
-					if (!$ibmpNumbers.length) {
-						$("#full-slider").find('.gs-container-items').append('<span class="ib-pvsinumber">' + ($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $("#full-slider").find('.ib-pvsitem').length + '</span>');
-					} else {
-						$("#full-slider").find('.ib-pvsinumber').text(($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $("#full-slider").find('.ib-pvsitem').length)
-					}*/
-
-					// Creando la numeración en FS
-					var $ibmpNumbers = $("#full-slider").find('.ib-pvsinumber');
-					if (!$ibmpNumbers.length) {
-						$("#full-slider").find('.gs-container-items').append('<span class="ib-pvsinumber">' + ($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $totalItems + '</span>');
-					} else {
-						$("#full-slider").find('.ib-pvsinumber').text(($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $totalItems)
-					}
-
 		    },
-
 				onResized: function(){
 					var $a = 0;
 					var $bulletBtn = $fullSlider.find(".gs-bullet");
@@ -380,36 +333,25 @@
 							$(this).text('View Slide '+$a);
 						});
 					}
-
-					var windowSize = $(window).width()
-					var cantElement = $(".clidxboost-full-slider").find('.gs-item-slider').length;
-					if(windowSize < 640 && cantElement < 2){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else if(windowSize > 639 && windowSize < 1360 && cantElement < 3){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else if(windowSize > 1359 && cantElement < 4){
-						$(".clidxboost-full-slider").addClass("-control-nav");
-					}else{
-						$(".clidxboost-full-slider").removeClass("-control-nav");
-					}
 				},
-
 		    onFullscreenIn: ()=> {
 				// creando el título en FS
 				const $ibmpTitle = $fullSlider.find('.ib-pvsititle');
 				if (!$ibmpTitle.length) {
 					$fullSlider.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.title-page').text() + '</span>');
 				}
-
-				if($fullSlider.find(".gs-item-slider").length < 2){
-					$fullSlider.find(".gs-container-navs").css({"display":"none"});
+				// Creando la numeración en FS
+				const $ibmpNumbers = $fullSlider.find('.ib-pvsinumber');
+				if (!$ibmpNumbers.length) {
+					$fullSlider.find('.gs-container-items').append('<span class="ib-pvsinumber">' + ($fullSlider.find('.gs-item-active').index() + 1) + ' of ' + $totalItems + '</span>');
+				} else {
+					$fullSlider.find('.ib-pvsinumber').text(($fullSlider.find('.gs-item-active').index() + 1) + ' of ' + $totalItems)
 				}
 			},
-
 			onStepEnd: ($itemActivo, indexIA)=> {
-				//if ($fullSlider.hasClass('gs-infs')) {
-					$("#full-slider").find('.ib-pvsinumber').text(indexIA + ' of ' + $totalItems)
-				//}
+				if ($fullSlider.hasClass('gs-infs')) {
+					$fullSlider.find('.ib-pvsinumber').text(indexIA + ' of ' + $totalItems)
+				}
 			}
 		});
 	}

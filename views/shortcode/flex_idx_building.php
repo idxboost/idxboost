@@ -1,9 +1,5 @@
 <?php
   global $flex_idx_info, $post, $flex_social_networks, $wp;
-
-  $log_building_name = isset($response["payload"]["name_building"]) ? $response["payload"]["name_building"] : "";
-  $log_building_address = isset($response["payload"]["address_building"]) ? unserialize($response["payload"]["address_building"])[0] : "";
-  $log_building_city = isset($response["payload"]["city_building_name"]) ? $response["payload"]["city_building_name"] : "";
   
   $wp_request = $wp->request;
   $wp_request_exp = explode('/', $wp_request);
@@ -111,12 +107,17 @@
     <section class="title-conteiner gwr animated fixed-box">
       <div class="content-fixed simple-btn">
         <div class="content-fixed-title">
-          <h1 class="title-page" id="page_title" data-building-name="<?php echo $log_building_name; ?>" data-building-address="<?php echo $log_building_address; ?>" data-building-city="<?php echo $log_building_city; ?>" data-title="<?php echo $response['payload']['name_building']; ?>"><?php echo $response['payload']['name_building']; ?><span><?php echo $building_default_address; ?></span></h1>
+          <h1 class="title-page" data-title="<?php echo $response['payload']['name_building']; ?>"><?php echo $response['payload']['name_building']; ?><span><?php echo $building_default_address; ?></span></h1>
           <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
           <div class="breadcrumb-options">
             <button class="btn-request" id="form-request-a">
               <?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?>
             </button>
+            <script type="text/javascript">
+              jQuery("#form-request-a").on( "click", function() {
+                jQuery(".aside .flex_idx_building_form .gfield:nth-child(1) input").focus();
+              });
+            </script>
           </div>
         </div>
         <ul class="content-fixed-btn">
@@ -125,7 +126,13 @@
             <button class="clidxboost-icon-envelope show-modal" data-modal="modal_email_to_friend">
             <span><?php echo __('Email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             </button>-->
+
             <button class="btn-request" id="form-request"><?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            <script type="text/javascript">
+              jQuery("#form-request").on( "click", function() {
+                jQuery(".form-content.large-form .medium:eq(0)").focus();
+              });
+            </script>
           </li>
         </ul>
       </div>
@@ -138,48 +145,29 @@
       </ul>
     </div>
     <div id="imagen-print"></div>
-    
-        <div id="full-slider" class="show-slider-psl js-gallery-building">
-          <?php
-          if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
-            if ($response['payload']["type_gallery"]== "2") {
-               if (count($response['payload']['gallery_building']) > 0) { ?>
-								<div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
-								<?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
-									<img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
-								<?php } ?>
-								</div>
-              <?php }
-            }elseif ($response['payload']["type_gallery"]=="1") { ?>
-              <!-- NUEVA ESTRUCTURA SLIDER -->
-                <div class="ms-slider-buildings">
-                  <div class="wrap-result view-grid ms-sm-grid">
-                    <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
-                      <div class="wrap-result view-grid">
-                        <div class="gs-container-slider ib-properties-slider"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <!-- NUEVA ESTRUCTURA SLIDER -->
-              <?php
-            }            
-          } ?>
+
+      <?php if (count($response['payload']['gallery_building']) > 0) { ?>
+        <div id="full-slider">
+          <div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
+            <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
+              <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
+            <?php } ?>
+          </div>
           <div class="moptions">
             <ul class="slider-option">
               <li>
-                <button class="option-switch js-option-building js-option-building-photo active" type="photo" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                <button class="option-switch" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
               </li>
               <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
                 <li>
-                  <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                  <button class="option-switch" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 </li>
               <?php else : ?>
                 <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
                   $response['payload']['lat_building'] = $latAlternative;
                   $response['payload']['lng_building'] = $lngAlternative; ?>
                   <li>
-                    <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <button class="option-switch" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                   </li>
                 <?php } ?>
               <?php endif; ?>
@@ -191,6 +179,7 @@
             <div id="map-result" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"></div>
           </div>
         </div>
+      <?php } ?>
 
       <section class="main">
         <div class="temporal-content-bl"></div>
@@ -324,54 +313,32 @@
 
 <?php
 //FLOOR PLAN THUMBS
-                if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='1') {
+  if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='1') {
 
-                  if (array_key_exists('floor_plan_view_thumbs', $response['payload']) && !empty($response['payload']['floor_plan_view_thumbs']) ) {
-                    
-                    $floor_plan_view_thumbs= json_decode($response['payload']['floor_plan_view_thumbs'],true);
+    if (array_key_exists('floor_plan_view_thumbs', $response['payload']) && !empty($response['payload']['floor_plan_view_thumbs']) ) {
+      
+      $floor_plan_view_thumbs= json_decode($response['payload']['floor_plan_view_thumbs']);
 
-                   if( is_array($floor_plan_view_thumbs) && count($floor_plan_view_thumbs)>0 ) { ?>
+     if( is_array($floor_plan_view_thumbs) && count($floor_plan_view_thumbs)>0 ) { ?>
 
-                      <h2 class="title-thumbs"><?php echo $response['payload']['name_building']; ?> Floorplans</h2>
-                      <ul class="ib-wrap-floors">
-                        <?php
-                         foreach ($floor_plan_view_thumbs as $value_thumbs) {
-                          $url_img_floorplan ="";
-                          if (array_key_exists('url', $value_thumbs)) {
-                            $url_img_floorplan = $value_thumbs["url"];
-                          }else{
-                            $url_img_floorplan = $value_thumbs[0];
-                          }
-
-                          $title_floorplan ="";
-                          if (array_key_exists('title', $value_thumbs)) {
-                            $title_floorplan = $value_thumbs["title"];
-                          }else{
-                            $title_floorplan = $value_thumbs[1];
-                          }
-
-                          $tag_floorplan ="";
-                          if (array_key_exists('tag', $value_thumbs)) {
-                            $tag_floorplan = $value_thumbs["tag"];
-                          }else{
-                            $tag_floorplan = $value_thumbs[2];
-                          }
-                          ?>
-                        <li class="ib-item">
-                          <a href="javascript:void(0)" class="ib-item-fp fp-btn">
-                            <img src="<?php echo $url_img_floorplan; ?>" class="img-bz" alt="<?php echo $tag_floorplan; ?>" title="<?php echo $title_floorplan; ?>">
-                            <?php  if (!empty($title_floorplan )) {
-                              echo '<h3 class="ib-fp-caption">'.$title_floorplan.'</h3>';
-                            }
-                            ?>              
-                          </a>
-                        </li>    
-                        <?php } ?>  
-                      </ul>
-                   <?php 
-                  }
-                }
+        <ul class="ib-wrap-floors">
+          <?php foreach ($floor_plan_view_thumbs as $value_thumbs) { ?>
+          <li class="ib-item">
+            <a href="javascript:void(0)" class="ib-item-fp fp-btn">
+              <img src="<?php echo $value_thumbs[0]; ?>" class="img-bz" alt="<?php echo $value_thumbs[1]; ?>" title="<?php echo $value_thumbs[2]; ?>">
+              <?php  if (!empty($value_thumbs[2])) {
+                echo '<h3 class="ib-fp-caption">'.$value_thumbs[2].'</h3>';
               }
+              ?>              
+            </a>
+          </li>    
+          <?php } ?>  
+        </ul>
+     <?php 
+    }
+  }
+}
+
   if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='2') {
 
     if (array_key_exists('floor_plan_view_grid', $response['payload']) && !empty($response['payload']['floor_plan_view_grid']) ) {
@@ -541,102 +508,95 @@
 
 
 
-
-
-
               <?php
               if (shortcode_exists('sc_news_to_building'))
                 echo do_shortcode('[sc_news_to_building id_building="' . get_the_ID() . '"]'); ?>
 
-              <div class="ms-form-detail msModalDetail">
-                <div class="property-contact">
-                  <div class="form-content large-form">
-                    <div class="avatar-content">
-                      <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>" alt="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>"></div>
-                      <div class="avatar-information">
-                        <h2><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></h2>
-                        <?php if (!empty($agent_info_phone)) : ?>
-                          <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="<?php echo __('Call to', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $agent_info_phone; ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG); ?>. <?php echo $agent_info_phone; ?></a>
-                        <?php endif; ?>
-                      </div>
+              <div class="property-contact">
+                <div class="form-content large-form">
+                  <div class="avatar-content">
+                    <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>" alt="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>"></div>
+                    <div class="avatar-information">
+                      <h2><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></h2>
+                      <?php if (!empty($agent_info_phone)) : ?>
+                        <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="<?php echo __('Call to', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $agent_info_phone; ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG); ?>. <?php echo $agent_info_phone; ?></a>
+                      <?php endif; ?>
                     </div>
-                    <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
-                      <fieldset>
-                        <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
-                        <input type="hidden" name="ib_tags" value="">
-                        <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
-                        <input type="hidden" name="action" value="flex_idx_request_website_building_form">
-                        <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                        <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
-                        <div class="gform_body">
-                          <ul class="gform_fields">
+                  </div>
+                  <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+                    <fieldset>
+                      <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
+                      <input type="hidden" name="ib_tags" value="">
+                      <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
+                      <input type="hidden" name="action" value="flex_idx_request_website_building_form">
+                      <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
+                      <input type="hidden" name="building_price_range" value="$0">
+                      <div class="gform_body">
+                        <ul class="gform_fields">
 
-                            <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) {
-                              if ($flex_idx_info['agent']['track_gender'] == true) { ?>
-                                <li class="gfield">
-                                  <label class="gfield_label" for="first_name"><?php echo __("Gender", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                  <div class="ginput_container ginput_container_text sp-box">
-                                    <select name="gender" class="gender">
-                                      <option value="<?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                                      <option value="<?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                                      <option value="<?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                                    </select>
-                                    <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                                  </div>
-                                </li>
-                              <?php } else { ?>
-                                <li class="gfield">
-                                  <div class="ginput_container ginput_container_text">
-                                    <label class="gfield_label" for="first_name"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                    <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_fn_inq medium" name="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                                  </div>
-                                </li>
-                              <?php }
-                            } else { ?>
+                          <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) {
+                            if ($flex_idx_info['agent']['track_gender'] == true) { ?>
+                              <li class="gfield">
+                                <label class="gfield_label" for="first_name"><?php echo __("Gender", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                                <div class="ginput_container ginput_container_text sp-box">
+                                  <select name="gender" class="gender">
+                                    <option value="<?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                    <option value="<?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                    <option value="<?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                  </select>
+                                  <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                                </div>
+                              </li>
+                            <?php } else { ?>
                               <li class="gfield">
                                 <div class="ginput_container ginput_container_text">
                                   <label class="gfield_label" for="first_name"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                                   <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_fn_inq medium" name="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                                 </div>
                               </li>
-                            <?php } ?>
-
+                            <?php }
+                          } else { ?>
                             <li class="gfield">
                               <div class="ginput_container ginput_container_text">
-                                <label class="gfield_label" for="first_name"><?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ln_inq medium" name="last_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                                <label class="gfield_label" for="first_name"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_fn_inq medium" name="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                               </div>
                             </li>
-                            <li class="gfield">
-                              <div class="ginput_container ginput_container_email">
-                                <label class="gfield_label" for="email"><?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_em_inq medium" name="email" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                              </div>
-                            </li>
-                            <li class="gfield">
-                              <div class="ginput_container ginput_container_email">
-                                <label class="gfield_label" for="phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                              </div>
-                            </li>
-                            <li class="gfield comments">
-                              <div class="ginput_container">
-                                <label class="gfield_label" for="message"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="Comments" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG) . ' ' . $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
-                              </div>
-                            </li>
-                            <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                            <div class="gform_footer">
-                              <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request Information', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                          <?php } ?>
+
+                          <li class="gfield">
+                            <div class="ginput_container ginput_container_text">
+                              <label class="gfield_label" for="first_name"><?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ln_inq medium" name="last_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                             </div>
-                          </ul>
-                        </div>
-                      </fieldset>
-                    </form>
-                    <button class="msCloseModalDetail ms-close">Close</button>
-                  </div>
+                          </li>
+                          <li class="gfield">
+                            <div class="ginput_container ginput_container_email">
+                              <label class="gfield_label" for="email"><?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_em_inq medium" name="email" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            </div>
+                          </li>
+                          <li class="gfield">
+                            <div class="ginput_container ginput_container_email">
+                              <label class="gfield_label" for="phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            </div>
+                          </li>
+                          <li class="gfield comments">
+                            <div class="ginput_container">
+                              <label class="gfield_label" for="message"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="Comments" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG) . ' ' . $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
+                            </div>
+                          </li>
+                          <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                          <div class="gform_footer">
+                            <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request Information', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                          </div>
+                        </ul>
+                      </div>
+                    </fieldset>
+                  </form>
                 </div>
-                <div class="ms-layout-modal mslayoutModalDetail"></div>
               </div>
             </div>
           </div>
@@ -692,7 +652,7 @@
                   <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
                   <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                   <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
-                  <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
+                  <input type="hidden" name="building_price_range" value="$0">
                   <div class="gform_body">
                     <ul class="gform_fields">
 
@@ -846,14 +806,6 @@
     </button>
   </div>
 
-  <div class="ms-bs-modal-sp-slider fade">
-    <div id="ms-bs-modal-sp-slider">
-      <div class="ms-bs-wrap-slider" id="ms-bs-gen-slider"></div>
-    </div>
-    <button class="ms-bs-close">Close</button>
-    <button class="ms-btn-detail">View detail</button>
-  </div>
-
 <script type="text/javascript">
   (function ($) {
   
@@ -999,20 +951,10 @@
     <?php  } ?>
     
    
-    <?php 
-
-    $registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
-
-    if(
-        ($registration_is_forced != false) || 
-         (
-          !empty($response) && 
-          array_key_exists('payload', $response) &&  
-          array_key_exists('force_registration', $response['payload']) &&  
-          !empty($response['payload']['force_registration'])  
-        ) 
-      )
-      { ?>
+    <?php if ( !empty($response) && 
+      array_key_exists('payload', $response) &&  
+      array_key_exists('force_registration', $response['payload']) &&  
+      !empty($response['payload']['force_registration'])  ) { ?>
       idxboost_force_registration=true;
     <?php  } ?>
 
@@ -1065,17 +1007,6 @@
     jQuery('body').removeClass('fp-active-modal');
   });
   //script floor plan
-
-
-  jQuery(document).on("click", ".btn-request", function (e) {
-    e.preventDefault();
-    jQuery("body").addClass("ms-active-aside-form");
-  });
-
-  jQuery(document).on("click", ".msCloseModalDetail, .mslayoutModalDetail", function (e) {
-    e.preventDefault();
-    jQuery("body").removeClass("ms-active-aside-form");
-  });
 </script>
 
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

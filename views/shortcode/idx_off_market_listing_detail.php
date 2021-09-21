@@ -246,9 +246,11 @@ if ($status_school != false) {
             <?php if ( !empty($property['url_brochure']) ) { ?>
               <li><a href="<?php echo $property['url_brochure']; ?>" target="_blank" class="ico-brochure"><span><?php echo __("Download brochure", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
             <?php } ?>
-            <li><a data-price="$<?php echo number_format($property['price']); ?>" class="show-modal ico-calculator" href="#" title="Mortgage calculator" data-modal="modal_calculator" rel="nofollow" id="calculator-mortgage"><?php echo __("mortgage calculator", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-            <li><a class="show-modal ico-envelope" href="javascript:void(0)" title="Email to a firend" data-modal="modal_email_to_friend" rel="nofollow" id="email-friend"><?php echo __("email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-            <li><a class="ico-printer" href="javascript:void(0)" title="Print" rel="nofollow" id="print-btn"><?php echo __("print", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+
+            <li><a data-price="$<?php echo number_format($property['price']); ?>" class="show-modal ico-calculator" href="#" title="mortgage calculator" data-modal="modal_calculator" rel="nofollow" id="calculator-mortgage"><?php echo __("mortgage calculator", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+
+            <li><a class="show-modal ico-envelope" href="javascript:void(0)" title="email to a firend" data-modal="modal_email_to_friend" rel="nofollow" id="email-friend"><?php echo __("email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a class="ico-printer" href="javascript:void(0)" title="print" rel="nofollow" id="print-btn"><?php echo __("print", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
           </ul>
         </div>
       </div>

@@ -4,90 +4,63 @@
   font-family: "Open Sans", sans-serif;
   width: 100%;
   height: 100%;
-  position: relative;
-  /*border-radius: 6px;
-  overflow: hidden;
-  box-shadow: rgba(0,0,0,0.3) 0px 1px 6px 0px;*/ }
+  position: relative; }
   .mapview-container .mapviwe-header {
-    background-color: #f5f5f5;
+    background-color: #333;
     position: relative;
-    display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
     -ms-flex-pack: start;
     justify-content: flex-start;
-    height: 30px;
-    -webkit-box-align: center;
+    height: 27px;
+    -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
     .mapview-container .mapviwe-header h2 {
       margin: 0;
       line-height: normal;
-      color: #333;
+      color: #FFF;
       display: block;
       width: 200px;
-      -o-text-overflow: ellipsis;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 1.1;
+      font-weight: 400;
+      font-size: 13px;
       text-transform: uppercase;
-      margin-left: 15px;
-      -webkit-box-ordinal-group: 3;
+      margin-left: 10px;
+      -webkit-order: 2;
       -ms-flex-order: 2;
       order: 2; }
     .mapview-container .mapviwe-header .build {
-      padding-left: 10px;
-      background-color: #f5f5f5;
+      padding-left: 25px;
+      background-color: #434343;
       height: 100%;
       padding-right: 10px;
-      color: #333;
-      font-size: 12px;
-      font-weight: 600;
-      line-height: 1.1;
-      display: -webkit-box;
+      color: #FFF;
+      font-size: 14px;
+      display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
+      -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center;
-      position: relative;
-      border-right: 1px solid #ccc; }
+      position: relative; }
       .mapview-container .mapviwe-header .build:before {
-        /*content: "";
+        content: "";
         display: block;
         position: absolute;
         left: 3px;
         top: 50%;
         margin-top: -10px;
-        background-image: url(../images/plus-unit-2.png);
+        background-image: url(../images/plus-unit.png);
         background-position: center;
         background-repeat: no-repeat;
         height: 19px;
         width: 19px;
-        background-size: cover;*/
-        content: "\6b";
-        font-family: "idx-boost-icons" !important;
-        font-style: normal !important;
-        font-weight: normal !important;
-        font-variant: normal !important;
-        text-transform: none !important;
-        line-height: 1;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        font-size: 1em;
-        margin-right: 3px;
-        color: #333333; }
+        background-size: cover; }
     .mapview-container .mapviwe-header .closeInfo {
       position: absolute;
       top: 0;
@@ -101,41 +74,29 @@
       padding: 0; }
       .mapview-container .mapviwe-header .closeInfo span {
         text-indent: -9999999px;
-        display: -webkit-box;
+        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         width: 100%;
         height: 100%;
-        -webkit-box-align: center;
+        -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        -webkit-box-pack: center;
+        -webkit-justify-content: center;
         -ms-flex-pack: center;
         justify-content: center; }
         .mapview-container .mapviwe-header .closeInfo span:after {
           content: "X";
           position: relative;
           top: 0px;
-          font-size: 16px;
+          font-size: 21px;
           text-transform: uppercase;
           display: block;
-          color: #333;
-          text-indent: 0;
-          font-weight: bold;
-          height: 30px;
-          display: -webkit-box;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-box-align: center;
-          -ms-flex-align: center;
-          align-items: center;
-          -webkit-box-pack: center;
-          -ms-flex-pack: center;
-          justify-content: center; }
+          color: #fff;
+          text-indent: 0; }
   .mapview-container .mapviwe-body {
     width: 100%;
-    height: auto;
-    max-height: 120px;
+    height: 105px;
     overflow: hidden;
     overflow-y: auto; }
     .mapview-container .mapviwe-body::-webkit-scrollbar-track {
@@ -147,112 +108,113 @@
       width: 10px;
       background-color: #333; }
     .mapview-container .mapviwe-body .mapviwe-item {
-      padding: 10px 15px;
+      padding: 10px;
       position: relative;
-      display: -webkit-box;
+      display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      -webkit-box-pack: start;
-      -ms-flex-pack: start;
-      justify-content: flex-start;
-      padding-left: 168px;
-      min-height: 115px; }
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      border-bottom: 1px solid #ccc; }
       .mapview-container .mapviwe-body .mapviwe-item h2 {
-        color: #333333;
-        font-weight: bold;
-        line-height: 1.1;
-        margin-bottom: 2px;
-        font-size: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        width: 100%; }
-      .mapview-container .mapviwe-body .mapviwe-item .mapviwe-img {
-        overflow: hidden;
-        width: 138px;
-        height: 95px;
-        background-color: #f5f5f5;
         position: absolute;
-        top: 10px;
-        left: 15px; }
+        font-size: 18px;
+        font-weight: 600;
+        position: absolute;
+        width: 200px;
+        left: 130px;
+        top: 8px; }
+        .mapview-container .mapviwe-body .mapviwe-item h2 span {
+          display: block;
+          width: 90%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap; }
+      .mapview-container .mapviwe-body .mapviwe-item .mapviwe-img {
+        -webkit-order: 1;
+        -ms-flex-order: 1;
+        order: 1;
+        height: 75px;
+        width: 110px;
+        padding: 1px;
+        border: 1px solid #CCCCCC;
+        -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        overflow: hidden;
+        position: relative; }
         .mapview-container .mapviwe-body .mapviwe-item .mapviwe-img img {
           display: block;
           width: 100%;
           height: 100%;
-          -o-object-fit: cover;
-          object-fit: cover; }
+          -webkit-transform: scale(1.6);
+          -ms-transform: scale(1.6);
+          transform: scale(1.6); }
       .mapview-container .mapviwe-body .mapviwe-item ul {
-        /*display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: center;*/
-        display: -webkit-box;
+        margin-top: 20px;
+        -webkit-order: 2;
+        -ms-flex-order: 2;
+        order: 2;
+        width: 100%;
+        margin-left: 10px;
+        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
+        -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-        -webkit-box-pack: start;
+        -webkit-justify-content: flex-start;
         -ms-flex-pack: start;
         justify-content: flex-start;
-        -webkit-box-align: start;
-        -ms-flex-align: start;
-        align-items: flex-start; }
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
         .mapview-container .mapviwe-body .mapviwe-item ul li {
-          width: auto;
           font-size: 13px; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li b {
-            font-weight: 600; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.adress {
-            margin-bottom: 3px; }
-            .mapview-container .mapviwe-body .mapviwe-item ul li.adress span {
-              display: block;
-              width: 100%;
-              -o-text-overflow: ellipsis;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;
-              font-size: 14px; }
+          .mapview-container .mapviwe-body .mapviwe-item ul li.adress span {
+            display: block;
+            width: 90%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap; }
           .mapview-container .mapviwe-body .mapviwe-item ul li.address, .mapview-container .mapviwe-body .mapviwe-item ul li.price {
             width: 100%; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.address:after {
-            display: none; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.price {
-            font-weight: bold;
-            color: #333;
-            font-size: 15px; }
-            .mapview-container .mapviwe-body .mapviwe-item ul li.price:after {
+            .mapview-container .mapviwe-body .mapviwe-item ul li.address:after, .mapview-container .mapviwe-body .mapviwe-item ul li.price:after {
               display: none; }
+          .mapview-container .mapviwe-body .mapviwe-item ul li.price {
+            font-weight: 600;
+            color: #333; }
           .mapview-container .mapviwe-body .mapviwe-item ul li.beds, .mapview-container .mapviwe-body .mapviwe-item ul li.baths, .mapview-container .mapviwe-body .mapviwe-item ul li.living-size, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf {
             margin-right: 3px;
             position: relative;
-            display: -webkit-box;
+            display: -webkit-flex;
             display: -ms-flexbox;
             display: flex;
-            -webkit-box-pack: center;
+            -webkit-justify-content: center;
             -ms-flex-pack: center;
             justify-content: center;
-            -webkit-box-align: center;
+            -webkit-align-items: center;
             -ms-flex-align: center;
             align-items: center;
+            font-size: 11px;
             font-weight: 600; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.beds span, .mapview-container .mapviwe-body .mapviwe-item ul li.baths span, .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span {
-            font-weight: 400; }
+            .mapview-container .mapviwe-body .mapviwe-item ul li.beds span, .mapview-container .mapviwe-body .mapviwe-item ul li.baths span, .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span {
+              font-weight: 400; }
           .mapview-container .mapviwe-body .mapviwe-item ul li:after {
             content: ",";
             margin-left: .2rem; }
           .mapview-container .mapviwe-body .mapviwe-item ul li.living-size, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf {
             font-weight: 400; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span {
-            margin-right: 3px; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span:first-child, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span:first-child {
-            font-weight: 600; }
-          .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span:last-child, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span:last-child {
-            display: none; }
+            .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span {
+              margin-right: 3px; }
+              .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span:first-child, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span:first-child {
+                font-weight: 600; }
+              .mapview-container .mapviwe-body .mapviwe-item ul li.living-size span:last-child, .mapview-container .mapviwe-body .mapviwe-item ul li.price-sf span:last-child {
+                display: none; }
           .mapview-container .mapviwe-body .mapviwe-item ul li:last-child {
             margin-right: 0; }
             .mapview-container .mapviwe-body .mapviwe-item ul li:last-child:after {
@@ -266,27 +228,12 @@
         top: 0;
         left: 0;
         overflow: hidden;
-        text-indent: -999999px;
-        /*display: none;*/ }
+        text-indent: -999999px; }
       .mapview-container .mapviwe-body .mapviwe-item:last-child {
         border-bottom: none; }
 
 .dgt-richmarker-group {
-  padding-left: 20px !important;
-  font-family: "Open Sans", sans-serif;
-  text-align: center;
-  background-color: #333;
-  color: #fff;
-  padding: 3px 5px;
-  cursor: pointer;
-  border-radius: 4px;
-  position: relative;
-  width: auto;
-  display: inline-block;
-  font-size: 10px;
-  -webkit-transition: all .35s ease;
-  -o-transition: all .35s ease;
-  transition: all .35s ease; }
+  padding-left: 20px !important; }
   .dgt-richmarker-group:before {
     display: block;
     content: '';
@@ -304,6 +251,7 @@
   .dgt-richmarker-group span:nth-child(2) {
     margin-left: 3px; }
 
+.dgt-richmarker-group,
 .dgt-richmarker-single {
   font-family: "Open Sans", sans-serif;
   text-align: center;
@@ -316,42 +264,40 @@
   width: auto;
   display: inline-block;
   font-size: 10px;
-  -webkit-transition: all .35s ease;
-  -o-transition: all .35s ease;
   transition: all .35s ease; }
+  .dgt-richmarker-group strong,
+  .dgt-richmarker-single strong {
+    font-weight: 600; }
+  .dgt-richmarker-group:after,
+  .dgt-richmarker-single:after {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 5px solid #333;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transition: all .35s ease; }
+  .dgt-richmarker-group:hover, .dgt-richmarker-group:active, .dgt-richmarker-group.active, .dgt-richmarker-group:focus,
+  .dgt-richmarker-single:hover,
+  .dgt-richmarker-single:active,
+  .dgt-richmarker-single.active,
+  .dgt-richmarker-single:focus {
+    background-color: #434343; }
+    .dgt-richmarker-group:hover:after, .dgt-richmarker-group:active:after, .dgt-richmarker-group.active:after, .dgt-richmarker-group:focus:after,
+    .dgt-richmarker-single:hover:after,
+    .dgt-richmarker-single:active:after,
+    .dgt-richmarker-single.active:after,
+    .dgt-richmarker-single:focus:after {
+      border-top: 5px solid #434343; }
 
-.dgt-richmarker-group strong, .dgt-richmarker-single strong {
-  font-weight: 600; }
-
-.dgt-richmarker-group:after, .dgt-richmarker-single:after {
-  content: '';
-  width: 0px;
-  height: 0px;
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-top: 5px solid #333;
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  -webkit-transition: all .35s ease;
-  -o-transition: all .35s ease;
-  transition: all .35s ease; }
-
-.dgt-richmarker-group:hover, .dgt-richmarker-group:active, .dgt-richmarker-group.active, .dgt-richmarker-group:focus {
-  background-color: #434343; }
-
-.dgt-richmarker-single:hover, .dgt-richmarker-single:active, .dgt-richmarker-single.active, .dgt-richmarker-single:focus {
-  background-color: #434343; }
-
-.dgt-richmarker-group:hover:after, .dgt-richmarker-group:active:after, .dgt-richmarker-group.active:after, .dgt-richmarker-group:focus:after {
-  border-top: 5px solid #434343; }
-
-.dgt-richmarker-single:hover:after, .dgt-richmarker-single:active:after, .dgt-richmarker-single.active:after, .dgt-richmarker-single:focus:after {
-  border-top: 5px solid #434343; }
 
 .js-info-bubble-close {
-  width: 25px !important;
-  height: 25px !important;
-  opacity: 0 !important; }
+    width: 25px !important;
+    height: 25px !important;
+    opacity: 0 !important;
+}

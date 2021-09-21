@@ -4,15 +4,12 @@ var html_recent_sale=[],html_exclusive_listing=[];
 function genMultiSlider(element){
   var $multiSlider = $(element);
   if($multiSlider.length) {
-    
-    //RECUPERANDO LOS PARAMETROS
+
     var initialItems, autoPlaySpeed, autoPlay  = "";
     var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
     var autoPlayStatus = ($multiSlider.parents("#featured-section").attr("auto-play")) * 1;
     var autoPlayspeed = $multiSlider.parents("#featured-section").attr("speed-slider");
-    var styleFormat = ($multiSlider.parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
 
-    //VALIDAMOS LA EXISTENCIA DE LOS PARAMETROS
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
       autoPlay = true;
     }else{
@@ -31,89 +28,67 @@ function genMultiSlider(element){
       initialItems = 4;
     }
     
-    //CONSULTAMOS LA EXISTENCIA Y EL TIPO DE FORMATO "GRILLA/SLIDER"
-    if(styleFormat !== "" && styleFormat !== undefined && styleFormat > 0){
-      styleFormat = 1; //RECUPERAMOS EL PARAMETRO
-    }else{
-      styleFormat = 0;
-    }
-
-    //CONSULTAMOS EL FORMATO
-    if(styleFormat == 1){
-      //generamos las clases para el formato de columnas
-      if(initialItems < 2){
-        initialItems = 2;
-      }else if(initialItems > 4){
-        initialItems = 4;
-      }else{
-        initialItems = initialItems;
-      }
-
-      $multiSlider.parents("#featured-section").addClass("ms-colums-"+initialItems);
-    }else{
-      //generamos el slider
-      $multiSlider.greatSlider({
-        type: 'swipe',
-        nav: true,
-        navSpeed: 500,
-        lazyLoad: true,
-        bullets: false,
-        items: 1,
-        autoplay: autoPlay,
-        autoplaySpeed: autoPlaySpeed,
-        layout: {
-          bulletDefaultStyles: false,
-          wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
-          arrowPrevContent: 'Prev',
-          arrowNextContent: 'Next',
-          arrowDefaultStyles: false
+    $multiSlider.greatSlider({
+      type: 'swipe',
+      nav: true,
+      navSpeed: 500,
+      lazyLoad: true,
+      bullets: false,
+      items: 1,
+      autoplay: autoPlay,
+      autoplaySpeed: autoPlaySpeed,
+      layout: {
+        bulletDefaultStyles: false,
+        wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
+        arrowPrevContent: 'Prev',
+        arrowNextContent: 'Next',
+        arrowDefaultStyles: false
+      },
+      breakPoints: {
+        640: {
+          items: 2,
+          slideBy: 2,
+          nav: false,
+          bullets: true
         },
-        breakPoints: {
-          640: {
-            items: 2,
-            slideBy: 2,
-            nav: false,
-            bullets: true
-          },
-          991: {
-            items: 3,
-            slideBy: 3
-          },
-          1360: {
-            items: initialItems,
-            slideBy: initialItems,
-          }
+        991: {
+          items: 3,
+          slideBy: 3
         },
-        onStepStart: function(){
-          $(element).find(".flex-slider-current img").each(function() {
-            if(!$(this).hasClass(".loaded")){
-              var dataImage = $(this).attr('data-original');
-              $(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
-            }
-          });
-        },
-        onInited: function(){
-          var $a = 0;
-          var $bulletBtn = $multiSlider.find(".gs-bullet");
-          if($bulletBtn.length){
-            $bulletBtn.each(function() {
-              $a += 1;
-              $(this).text('View Slide '+$a);
-            });
-          }
-        },
-        onResized: function(){
-          var $a = 0;
-          var $bulletBtn = $multiSlider.find(".gs-bullet");
-          if($bulletBtn.length){
-            $bulletBtn.each(function() {
-              $a += 1;
-              $(this).text('View Slide '+$a);
-            });
-          }
+        1360: {
+          items: initialItems,
+          slideBy: initialItems,
         }
-      });
-    }
+      },
+      onStepStart: function(){
+        $(element).find(".flex-slider-current img").each(function() {
+          if(!$(this).hasClass(".loaded")){
+            var dataImage = $(this).attr('data-original');
+            $(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
+          }
+        });
+      },
+	    onInited: function(){
+	    	var $a = 0;
+	    	var $bulletBtn = $multiSlider.find(".gs-bullet");
+	    	if($bulletBtn.length){
+					$bulletBtn.each(function() {
+						$a += 1;
+						$(this).text('View Slide '+$a);
+					});
+	    	}
+	    },
+			onResized: function(){
+	    	var $a = 0;
+	    	var $bulletBtn = $multiSlider.find(".gs-bullet");
+	    	if($bulletBtn.length){
+					$bulletBtn.each(function() {
+						$a += 1;
+						$(this).text('View Slide '+$a);
+					});
+	    	}
+	    }
+    });
   }
 }
 
@@ -145,24 +120,14 @@ function get_data_info(){
 			data: {
 				action: "ib_slider_filter_regular",
 				type_filter: itemFilter.ib_type_filter,
-				id_filter:itemFilter.ib_id_filter,
-        limit:itemFilter.limit
+				id_filter:itemFilter.ib_id_filter
 			},
 			dataType: "json",
 			success: function(response) {
 				var html_listing=[];
-        var vboard_info = [];
-        
-        if ( 
-          response.hasOwnProperty("board_info") 
-          ) {
-          vboard_info = response.board_info;
-          }
-          console.log(vboard_info);
-
 				response.items.forEach(function(item){
-					html_exclusive_listing.push(idx_slider_html(item,'exclusve',vboard_info));
-					html_listing.push(idx_slider_html(item,'exclusve',vboard_info));
+					html_exclusive_listing.push(idx_slider_html(item,'exclusve'));
+					html_listing.push(idx_slider_html(item,'exclusve'));
 				});	
 
         //console.log(html_listing);
@@ -180,9 +145,12 @@ function get_data_info(){
 			}
 		});	
 	});
+
+
+
 }
 
-function idx_slider_html(info_item,type,vboard_info){
+function idx_slider_html(info_item,type){
 	var html_response=[];
 	var slug_post=idx_param_slider.propertyDetailPermalink+'/'+info_item.slug;
 
@@ -190,17 +158,17 @@ function idx_slider_html(info_item,type,vboard_info){
           html_response.push('<ul class="result-search slider-generator">');
             html_response.push('<li class="propertie" data-address="'+info_item.full_address+'"  data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
             if (info_item.status=='5') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
             }else if (info_item.status=='2') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
             }else if (info_item.status !='1') {
-            	html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
             }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
             }
               //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-              //html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span><span>'+info_item.full_address_bottom+'</span></h2>');
-              html_response.push('<h2 title="'+info_item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+info_item.full_address_bottom+'</div></h2>');
+              html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span><span>'+info_item.full_address_bottom+'</span></h2>');
+
               html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address_large+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
@@ -211,14 +179,6 @@ function idx_slider_html(info_item,type,vboard_info){
                 html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
                 html_response.push('<li class="build-year"><span>Built </span>2015</li>');
                 html_response.push('<li class="development"><span></span></li>');
-                //html_response.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
-
-            if ( 
-                      vboard_info.hasOwnProperty("board_logo_url") &&
-                      vboard_info.board_logo_url != "" && vboard_info.board_logo_url != null ) {
-                  html_response.push('<li class="ms-logo-board"><img src="'+vboard_info.board_logo_url+'"></li>');
-                }
-
               html_response.push('</ul>');
               html_response.push('<div class="wrap-slider">');
                 html_response.push('<ul>');
@@ -264,7 +224,7 @@ $(document).ready(function(event){
             });
 
 	$('.ib-filter-slider').each(function(){
-		ib_obj_filter.push( { 'obj_container':'.ib-filter-slider-'+$(this).attr('data-filter')+' .ib-properties-slider', 'ib_type_filter':$(this).find('.ib_type_filter').val(), 'ib_id_filter':$(this).find('.ib_id_filter').val(),'limit':+$(this).attr('data-limit') } );
+		ib_obj_filter.push( { 'obj_container':'.ib-filter-slider-'+$(this).attr('data-filter')+' .ib-properties-slider', 'ib_type_filter':$(this).find('.ib_type_filter').val(), 'ib_id_filter':$(this).find('.ib_id_filter').val() } );
 	});
 
 	get_data_info();

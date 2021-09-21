@@ -194,7 +194,7 @@ var yDown = null;
                     var st = al[1].replace(/[\d\s]/g, "");
                     // var final_address = item.address_short + ", " + al[0] + ", " + st;
                     var final_address = item.address_short.replace(/# /, "#") + ", " + al[0] + ", " + st;
-                    var final_address_parceada = item.address_short.replace(/# /, "#") + al[0] + "<span>,<span> <br>" + st;
+                    var final_address_parceada = item.address_short.replace(/# /, "#") + "<span> " + al[0] + ", " + st+"</span>";
                     var final_address_parceada_new = " <span>"+ item.address_short.replace(/# /, "#") +", " + al[0] + ", " + al[1] + "</span>";
 
                     listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="' + item.address_short + '" class="propertie">');
@@ -202,9 +202,9 @@ var yDown = null;
                         listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
                     }
                     if (item.status == 6) {
-                        listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
+                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
                     }
-                    listingHTML.push('<h2 title="' + final_address + '">' + final_address_parceada + '</h2>');
+                    listingHTML.push('<h2 title="' + final_address + '"><span>' + final_address_parceada + '</span></h2>');
                     listingHTML.push('<ul class="features">');
                     listingHTML.push('<li class="address">' + final_address_parceada_new + '</li>');
                     listingHTML.push('<li class="price"><a href="' + flex_idx_search_params.propertyDetailPermalink + '/' + item.slug + '">$' + _.formatPrice(item.price) + '</a></li>');
@@ -235,7 +235,6 @@ var yDown = null;
                     } else {
                         listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
                     }
-                    //listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
                     listingHTML.push('</ul>');
                     var totgallery='';
 
@@ -1951,7 +1950,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue > parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_max_price_sale.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_from').val(currentValue);
@@ -2002,7 +2001,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue < parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_min_price_sale.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_to').val(currentValue);
@@ -2060,7 +2059,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue > parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_max_price_rent.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_rent_from').val(currentValue);
@@ -2111,7 +2110,7 @@ var yDown = null;
                     currentValue = $(this).data('max-price');
                 }
                 if (currentValue < parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_min_price_rent.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-price');
                 } else {
                     $('#price_rent_to').val(currentValue);
@@ -2170,7 +2169,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue > parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_land_to.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#land_from').val(currentValue);
@@ -2221,7 +2220,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue < parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_land_from.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#land_to').val(currentValue);
@@ -2280,7 +2279,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue > parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_living_to.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#living_from').val(currentValue);
@@ -2331,7 +2330,7 @@ var yDown = null;
                     currentValue = $(this).data('max-sqft');
                 }
                 if (currentValue < parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_living_from.val().trim().replace(/\D/g, ''), 10));
                     currentValue = $(this).data('min-sqft');
                 } else {
                     $('#living_to').val(currentValue);
@@ -2385,7 +2384,7 @@ var yDown = null;
                     currentValue = $(this).data('max-year');
                 }
                 if (currentValue > parseInt(flex_input_year_max.val(), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_year_max.val(), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_year_max.val(), 10));
                     currentValue = $(this).data('min-year');
                 } else {
                     $('#year_from').val(currentValue);
@@ -2431,7 +2430,7 @@ var yDown = null;
                     currentValue = $(this).data('max-year');
                 }
                 if (currentValue < parseInt(flex_input_year_min.val(), 10)) {
-                    alert(word_translate.current_value_must_be_less_than_or_equal_to+' ' + parseInt(flex_input_year_min.val(), 10));
+                    alert(word_translate.current_value_must_be_less_than_or_equal_to.+' ' + parseInt(flex_input_year_min.val(), 10));
                     currentValue = $(this).data('max-year');
                 } else {
                     $('#year_to').val(currentValue);

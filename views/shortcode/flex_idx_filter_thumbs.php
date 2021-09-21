@@ -13,23 +13,19 @@
       <ul class="result-search idx_color_primary">
         <li data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
             <?php if ($property['status'] == 5): ?>
-            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php elseif($property['status'] == 2): ?>
-            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php elseif($property['status'] != 1): ?>
-            <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>
+            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php elseif(isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
-            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php endif; ?>        	
         	<?php $arraytemp = str_replace(' , ', ', ', $property["address_large"]); $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>"; ?>
-        	
-					<h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
-						<div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
-						<div class="ms-br-line">,</div>
-						<div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
-					</h2>
-					
-					<ul class="features">
+        	<h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>">
+        		<span><?php echo $final_address_parceada; ?></span>
+        	</h2>
+        	<ul class="features">
 						<li class="address"><?php echo $property['address_large']; ?></li>
 						<li class="price">$<?php echo number_format($property['price']); ?></li>
 						<?php if ($property['reduced'] == ''): ?>
@@ -62,7 +58,6 @@
 						<?php else: ?>
 						<li class="development"><span><?php echo $property['complex']; ?></span></li>
 						<?php endif; ?>
-						
 					</ul>
 					<?php $totgallery=''; if ( count($property['gallery'])<=1 ) $totgallery='no-zoom'; ?>
 					<div class="wrap-slider <?php echo $totgallery; ?>">

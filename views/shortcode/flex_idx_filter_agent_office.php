@@ -320,17 +320,7 @@ if (!empty($response) && is_array($response)) {
             </li>
             <li class="waterfront">
               <div class="gwr">
-                <?php
-                $c_search_settings = get_option("idxboost_search_settings");
-                
-                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
-                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
-                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
-                }elseif (isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"])){
-                  $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
-                }
-                ?>
-                <h4 class="clidxboost-icon-arrow-select"><?php echo $label_waterfront_description; ?></h4>
+                <h4 class="clidxboost-icon-arrow-select"><?php echo __("Waterfront description", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
                 <div class="wrap-item">
                   <div class="wrap-select clidxboost-icon-arrow-select">
                     <select id="flex_waterfront_switch">
@@ -499,7 +489,7 @@ if (!empty($response) && is_array($response)) {
           <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="baths"><?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="living-size"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft.</li>
+          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / SF </li>
           <li class="development"><?php echo __('Development', IDXBOOST_DOMAIN_THEME_LANG); ?> / <?php echo __('Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         </ul>
         <ul id="result-search" class="slider-generator" style="overflow-y:auto;">
@@ -511,33 +501,30 @@ if (!empty($response) && is_array($response)) {
           <li data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
             <?php if (isset($property['status'])): ?>
             <?php if ($property['status'] == 5): ?>
-            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php elseif($property['status'] == 2): ?>
-            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php elseif($property['status'] != 1): ?>
-            <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>               
+            <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>               
             <?php endif; ?>
             <?php else: ?>
             <?php if (isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
-            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
             <?php endif ?>
             <?php endif; ?>
             <?php
               $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
-            ?>
-
-            <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
+              ?>
+            <h2 title="<?php echo $property['full_address']; ?>">
             <?php if ($sta_view_grid_type=='1') { ?>
-              <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
-              <div class="ms-br-line">,</div>
-              <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+              <span><?php echo $property['full_address_top']; ?></span>
+              <span><?php echo $property['full_address_bottom']; ?></span>
             <?php }else{ ?>
-              <div class="ms-title-address -address-top"><?php echo $property['full_address']; ?></div>
+              <span><?php echo $property['full_address']; ?></span>
             <?php } ?>
             </h2>
-            
             <ul class="features">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <li class="price">$<?php echo number_format($property['price']); ?></li>
@@ -574,12 +561,6 @@ if (!empty($response) && is_array($response)) {
               <?php else: ?>
               <li class="development"><span><?php echo $property['complex']; ?></span></li>
               <?php endif; ?>
-              <?php
-              if(is_array($response) && count($response)>0 && array_key_exists("board_info",$response) && array_key_exists("board_logo_url", $response["board_info"]) && !empty($response["board_info"]["board_logo_url"])  ){ ?>
-                <li class="ms-logo-board"><img src="<?php echo $response["board_info"]["board_logo_url"]; ?>"></li>
-              <?php } ?>
-
-
             </ul>
             <div class="wrap-slider">
               <ul>

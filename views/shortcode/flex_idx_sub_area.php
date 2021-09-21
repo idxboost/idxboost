@@ -200,7 +200,7 @@
         <ul>
           <?php if( !empty($description_building) ) { ?><li><a href="#overview" title="Overview">Overview</a></li><?php } ?>
           <?php if( !empty($amenities_build) ) { ?><li><a href="#amenites" title="Amenities">Amenities</a></li><?php } ?>
-          <li class="js-available-homes" ><a href="#available-homes" title="Available Homes">Available Homes</a></li>
+          <li class="js-available-homes" ><a href="#full-main" title="Available Homes">Available Homes</a></li>
           
           <?php if ( $exist_section_location ) { ?>          
           <li><a href="#location" title="Location">Location</a></li>
@@ -289,8 +289,9 @@
           } ?>
 
           <?php if( !empty($size_min)  && !empty($size_max)) {
-            echo "<tr><td>Home Sizes</td><td><span id='minSize' data-value='".$size_min."'>".$size_min."</span> SqFt - <span id='maxSize' data-value='".$size_max."'>".$size_max."</span> SqFt</td></tr>";
+            echo "<tr><td>Home Sizes</td><td>".$size_min." SqFt - ".$size_max." SqFt</td></tr>";
           } ?>
+
 
           <?php if( !empty($response['payload']['year_building']) ) {
             echo "<tr><td>Year Built</td><td>".$response['payload']['year_building']."</td></tr>";
@@ -301,7 +302,7 @@
           } ?>          
 
           <?php if( !empty($response['payload']['hoa']) ) {
-            echo "<tr><td>HOA</td><td><span id='hoaSize' data-value='".$response['payload']['hoa']."'>$".$response['payload']['hoa']."</span></td></tr>";
+            echo "<tr><td>HOA</td><td>".$response['payload']['hoa']."</td></tr>";
           } ?>          
 
           <?php  if ( !empty($response['payload']['image_map_thumb'])) { ?>
@@ -313,6 +314,8 @@
               </td>
             </tr>
           <?php } ?>
+
+          
         </table>
 
         <div class="ms-float-actions">
@@ -359,10 +362,9 @@
 
     <?php } ?>
 
-    <div class="ib-container-collection-sub-area ms-sb-section" id="available-homes">
-      <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Available Homes</h2>
-      <?php echo do_shortcode('[idxboost_sub_area_inventory building_id="'.$atts['building_id'].'" load="ajax" template="detail-collection" ]'); ?>
-    </div>
+  <div class="ib-container-collection-sub-area">
+    <?php echo do_shortcode('[idxboost_sub_area_inventory building_id="'.$atts['building_id'].'" load="ajax" template="detail-collection" ]'); ?>
+  </div>
 
     <?php if($exist_section_location ) { ?>
 
@@ -682,17 +684,8 @@
   </div>
   <button class="ms-close">Close</button>
 </div>
-<?php endif; ?>
-<?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>
 
-<script>
-  jQuery(window).load(function() {
-    var minSize = (jQuery("#minSize").attr("data-value")) * 1;
-    var maxSize = (jQuery("#maxSize").attr("data-value")) * 1;
-    var hoaSize = (jQuery("#hoaSize").attr("data-value")) * 1;
-    const noTruncarDecimales = {maximumFractionDigits: 20};
-    jQuery("#minSize").html(minSize.toLocaleString('en-US', noTruncarDecimales));
-    jQuery("#maxSize").html(maxSize.toLocaleString('en-US', noTruncarDecimales));
-    jQuery("#hoaSize").html("$"+hoaSize.toLocaleString('en-US', noTruncarDecimales));
-  });
-</script>
+
+<?php endif; ?>
+
+<?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

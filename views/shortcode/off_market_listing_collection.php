@@ -76,7 +76,7 @@
           <?php 
           //var_dump($search_params['property_types']);
           //if(in_array($property_type["value"], $ptypes_checked))
-          //$property_types_label=array_map(function($item){ return $item['label'];}, $search_params['property_types']);
+          $property_types_label=array_map(function($item){ return $item['label'];}, $search_params['property_types']);
           ?>
           
           <li class="all ib-oadbanced">
@@ -92,18 +92,17 @@
       </div>
     </div>
   </div>
-
   <div id="wrap-subfilters" style="margin-top:15px;">
     <div class="gwr">
       <ul id="sub-filters">
         <li id="filter-by" class="clidxboost-icon-arrow-select">
           <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
-              <option value="list_date-desc"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="year-desc"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="listing_price-desc"><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="listing_price-asc"><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="sqft-desc"><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="sqft-asc"><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="living_area-desc"><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="living_area-asc"><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
           </select>
         </li>
         <li id="filter-views" class="filter-views filter-views-<?php echo $class_multi; ?> clidxboost-icon-arrow-select grid" filtemid="<?php echo $class_multi; ?>">
@@ -134,7 +133,7 @@
           <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="baths"><?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="living-size"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft. </li>
+          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / SF </li>
           <li class="development"><?php echo __('Development', IDXBOOST_DOMAIN_THEME_LANG); ?> / <?php echo __('Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         </ul>
         <ul id="result-search" class="slider-generator idx-off-market-result-search" style="overflow-y:auto;">
@@ -187,7 +186,7 @@
 <script type="text/javascript">
   var idxboost_hackbox_filter=[];
    
-   <?php if( is_array($response) && array_key_exists("hackbox", $response)){ ?>
+   <?php if(array_key_exists("hackbox", $response)){ ?>
     idxboost_hackbox_filter= <?php echo json_encode($response["hackbox"]); ?>;
    <?php } ?>
 

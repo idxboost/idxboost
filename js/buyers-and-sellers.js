@@ -53,77 +53,25 @@ function handleSubmissionBuyForm(event) {
 
     lead_submission_running = true;
 
-    if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-            // pending...
-        } else { // regular recaptcha
-            grecaptcha.ready(function() {
-                grecaptcha
-                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_buy' })
-                .then(function(token) {
-                    lead_submission_buy_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+    var formData = lead_submission_buy_form.serialize();
 
-                    var formData = lead_submission_buy_form.serialize();
+    $.ajax({
+        type: "POST",
+        url: __flex_g_settings.ajaxUrl,
+        data: formData,
+        success: function(response) {
+            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+            lead_submission_buy_form.find(":input").prop("disabled", true);
 
-                    $.ajax({
-                        type: "POST",
-                        url: __flex_g_settings.ajaxUrl,
-                        data: formData,
-                        success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_buy_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
-                                }
-                            });
-                        },
-                        error: function() {
-                            setTimeout(function () {
-                                document.location.reload();
-                            }, 300);
-                        }
-                    });
-                });
+            $(document).one("click", "button", function(event) {
+                if ($(event.target).hasClass("confirm")) {
+                    setTimeout(function () {
+                        document.location.reload();
+                    }, 300);
+                }
             });
         }
-    } else { // regular recaptcha
-        grecaptcha.ready(function() {
-            grecaptcha
-            .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_buy' })
-            .then(function(token) {
-                lead_submission_buy_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-
-                var formData = lead_submission_buy_form.serialize();
-
-                $.ajax({
-                    type: "POST",
-                    url: __flex_g_settings.ajaxUrl,
-                    data: formData,
-                    success: function(response) {
-                        sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                        lead_submission_buy_form.find(":input").prop("disabled", true);
-            
-                        $(document).one("click", "button", function(event) {
-                            if ($(event.target).hasClass("confirm")) {
-                                setTimeout(function () {
-                                    document.location.reload();
-                                }, 300);
-                            }
-                        });
-                    },
-                    error: function() {
-                        setTimeout(function () {
-                            document.location.reload();
-                        }, 300);
-                    }
-                });
-            });
-        });
-    }
+    });
 }
 
 function handleSubmissionRentForm(event) {
@@ -135,77 +83,25 @@ function handleSubmissionRentForm(event) {
 
     lead_submission_running = true;
 
-    if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-            // pending...
-        } else { // regular recaptcha
-            grecaptcha.ready(function() {
-                grecaptcha
-                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_rent' })
-                .then(function(token) {
-                    lead_submission_rent_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+    var formData = lead_submission_rent_form.serialize();
 
-                    var formData = lead_submission_rent_form.serialize();
+    $.ajax({
+        type: "POST",
+        url: __flex_g_settings.ajaxUrl,
+        data: formData,
+        success: function(response) {
+            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+            lead_submission_rent_form.find(":input").prop("disabled", true);
 
-                    $.ajax({
-                        type: "POST",
-                        url: __flex_g_settings.ajaxUrl,
-                        data: formData,
-                        success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_rent_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
-                                }
-                            });
-                        },
-                        error: function() {
-                            setTimeout(function () {
-                                document.location.reload();
-                            }, 300);
-                        }
-                    });
-                });
+            $(document).one("click", "button", function(event) {
+                if ($(event.target).hasClass("confirm")) {
+                    setTimeout(function () {
+                        document.location.reload();
+                    }, 300);
+                }
             });
         }
-    } else { // regular recaptcha
-        grecaptcha.ready(function() {
-            grecaptcha
-            .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_rent' })
-            .then(function(token) {
-                lead_submission_rent_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-
-                var formData = lead_submission_rent_form.serialize();
-
-                $.ajax({
-                    type: "POST",
-                    url: __flex_g_settings.ajaxUrl,
-                    data: formData,
-                    success: function(response) {
-                        sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                        lead_submission_rent_form.find(":input").prop("disabled", true);
-            
-                        $(document).one("click", "button", function(event) {
-                            if ($(event.target).hasClass("confirm")) {
-                                setTimeout(function () {
-                                    document.location.reload();
-                                }, 300);
-                            }
-                        });
-                    },
-                    error: function() {
-                        setTimeout(function () {
-                            document.location.reload();
-                        }, 300);
-                    }
-                });
-            });
-        });
-    }
+    });
 }
 
 function handleSubmissionSellForm(event) {
@@ -217,77 +113,25 @@ function handleSubmissionSellForm(event) {
 
     lead_submission_running = true;
 
-    if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-            // pending...
-        } else { // regular recaptcha
-            grecaptcha.ready(function() {
-                grecaptcha
-                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_sell' })
-                .then(function(token) {
-                    lead_submission_sell_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+    var formData = lead_submission_sell_form.serialize();
 
-                    var formData = lead_submission_sell_form.serialize();
+    $.ajax({
+        type: "POST",
+        url: __flex_g_settings.ajaxUrl,
+        data: formData,
+        success: function(response) {
+            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+            lead_submission_sell_form.find(":input").prop("disabled", true);
 
-                    $.ajax({
-                        type: "POST",
-                        url: __flex_g_settings.ajaxUrl,
-                        data: formData,
-                        success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_sell_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
-                                }
-                            });
-                        },
-                        error: function() {
-                            setTimeout(function () {
-                                document.location.reload();
-                            }, 300);
-                        }
-                    });
-                });
+            $(document).one("click", "button", function(event) {
+                if ($(event.target).hasClass("confirm")) {
+                    setTimeout(function () {
+                        document.location.reload();
+                    }, 300);
+                }
             });
         }
-    } else { // regular recaptcha
-        grecaptcha.ready(function() {
-            grecaptcha
-            .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'i_want_to_sell' })
-            .then(function(token) {
-                lead_submission_sell_form.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-
-                var formData = lead_submission_sell_form.serialize();
-
-                $.ajax({
-                    type: "POST",
-                    url: __flex_g_settings.ajaxUrl,
-                    data: formData,
-                    success: function(response) {
-                        sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                        lead_submission_sell_form.find(":input").prop("disabled", true);
-            
-                        $(document).one("click", "button", function(event) {
-                            if ($(event.target).hasClass("confirm")) {
-                                setTimeout(function () {
-                                    document.location.reload();
-                                }, 300);
-                            }
-                        });
-                    },
-                    error: function() {
-                        setTimeout(function () {
-                            document.location.reload();
-                        }, 300);
-                    }
-                });
-            });
-        });
-    }
+    });
 }
     
 $(function() {

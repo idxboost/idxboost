@@ -56,7 +56,7 @@
         }
 
         $.ajax({
-            url: __flex_g_settings.suggestions.service_url,
+            url: "https://autocomplete.idxboost.com",
             dataType: "json",
             data: {
                 term: request.term,
@@ -131,10 +131,6 @@
     }
 
     function handleKeyUpAutocompleteEvent(event) {
-        if (event.keyCode == 40 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 37) {
-            return;
-        }
-
         var inputValue = this.value;
 
         if ( ("" !== inputValue) && (13 === event.keyCode) ) {

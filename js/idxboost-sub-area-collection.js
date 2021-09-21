@@ -230,7 +230,6 @@ function ib_generate_struct(response){
       building_avg_days=response.payload.meta.building_avg_days;
       $('.property-information .price').html(label_price+"<span>"+word_translate.todays_prices+"</span>" );
       $('.ib_inventory_min_max_price').html(label_price );
-      $('.js-building-price-range').val(label_price);
     }
 
     $('.ib_inventory_listing_price').html(label_price );
@@ -1085,16 +1084,16 @@ function idxboostListCollectionForSold(element,ibstatus){
       
       if (element['status']!=null || element['status']!=undefined ){
           if(element['status'] == 5){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.rented+'</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.rented+'!</div>';
           }else if(element['status']== 2){
-             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'</div>';
+             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'!</div>';
           }else if(element['status'] != 1){
-            htmlgrid +='<div class="flex-property-new-listing">'+element.status_name+'</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.pending+'!</div>';
           }else if(element['recently_listed'] == 'yes'){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
+            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>';
           }
       }
-    htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'">'+element['address_short'].replace('# ','#')+'</h2>';
+    htmlgrid +='<h2 title="'+element['address_short']+' '+element['address_large']+'"><span>'+element['address_short'].replace('# ','#')+'</span></h2>';
     htmlgrid +='<ul class="features">';
     htmlgrid +='<li class="address">'+element['address_large']+'</li>';
     htmlgrid +='<li class="price">$'+price+'</li>';
@@ -1105,14 +1104,6 @@ function idxboostListCollectionForSold(element,ibstatus){
     htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m2)</span></li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
-        if ( 
-      idxboostCollecBuil.hasOwnProperty("payload") && 
-      idxboostCollecBuil.payload.hasOwnProperty("board_info") &&
-      idxboostCollecBuil.payload.board_info.hasOwnProperty("board_logo_url") &&
-      idxboostCollecBuil.payload.board_info.board_logo_url != "" && idxboostCollecBuil.payload.board_info.board_logo_url != null ) {
-      htmlgrid +='<li class="ms-logo-board"><img src="'+idxboostCollecBuil.payload.board_info.board_logo_url+'"></li>';
-    }
-
     htmlgrid +='</ul>';
     htmlgrid +='<div class="wrap-slider">';
     htmlgrid +='<ul>';

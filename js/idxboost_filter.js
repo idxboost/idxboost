@@ -32,8 +32,7 @@ $(function() {
                         notification_day: $('.notification_day_class').val(),
                         notification_type: arragle_notification_type,
                         search_query: search_query,
-                        type: "add",
-                        search_params: JSON.stringify(dataAlert)
+                        type: "add"
                     },
                     dataType: "json",
                     success: function(data) {

@@ -80,7 +80,7 @@
                   <div class="flex-table-row-item select-action text-center"><?php echo __("Action", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   </div>
                   <?php foreach ($response['items'] as $property): ?>
-                  <div class="flex-table-row flex-body" data-mls="<?php echo $property['mls_num']; ?>">
+                  <div class="flex-table-row flex-body" data-mls="<?php echo $property['mlsNum']; ?>">
                     <div class="flex-table-row-item fwrap">
                       <div class="info-sub-item">
                         <div class="info-a">
@@ -89,8 +89,8 @@
                           </div>
                         </div>
                         <div class="info-b">
-                          <h3 class="info-b-title"><?php echo $property["address_short"]; ?></h3>
-                          <span><?php echo str_replace(array(' FL, ', ' IL, '), array(', FL ', ', IL '), $property['address_large']); ?></span>
+                          <h3 class="info-b-title"><?php echo $property['addressShort']; ?></h3>
+                          <span><?php echo str_replace(array(' FL, ', ' IL, '), array(', FL ', ', IL '), $property['addressLarge']); ?></span>
                           
                           <?php /*
                           <button data-mls="<?php echo $property['mlsNum']; ?>" data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>" data-address-short="<?php echo $property['addressShort']; ?>" data-address-large="<?php echo $property['addressLarge']; ?>" data-slug="<?php echo $property['slug']; ?>" data-price="<?php echo $property['price']; ?>" data-modal="modal_schedule" class="show-modal flex-property-request-showing request"> <span><?php echo __("request showing", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button> */ ?>
@@ -100,7 +100,7 @@
                             <span class="s1"><?php echo __("View more", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                             <span class="s2"><?php echo __("Less", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                             </button>
-                            <button data-mls="<?php echo $property['mls_num']; ?>" data-alert-token="<?php echo $property['tokenAlert']; ?>" class="clidxboost-btn-remove dgt-remove-favorite"> 
+                            <button data-mls="<?php echo $property['mlsNum']; ?>" data-alert-token="<?php echo $property['tokenAlert']; ?>" class="clidxboost-btn-remove dgt-remove-favorite"> 
                             <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                             </button>
                           </div>
@@ -129,10 +129,10 @@
                     <div class="flex-table-row-item text-center">
                       <?php echo number_format($property['sqft']); ?> <span> Sq.Ft</span>
                     </div>
-                    <div class="flex-table-row-item text-center"><?php echo $property['mls_num']; ?></div>
+                    <div class="flex-table-row-item text-center"><?php echo $property['mlsNum']; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($property['createdAt']['date'])); ?></div>
                     <div class="flex-table-row-item select-action text-center">
-                      <button data-mls="<?php echo $property['mls_num']; ?>" data-alert-token="<?php echo $property['tokenAlert']; ?>" class="clidxboost-btn-remove dgt-remove-favorite"> <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
+                      <button data-mls="<?php echo $property['mlsNum']; ?>" data-alert-token="<?php echo $property['tokenAlert']; ?>" class="clidxboost-btn-remove dgt-remove-favorite"> <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
                     </div>
                     
                     <?php /*
