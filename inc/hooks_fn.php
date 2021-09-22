@@ -47,6 +47,14 @@ add_action("wp_ajax_nopriv_idxboost_collection_list", "idxboost_collection_list_
 add_action("wp_ajax_idxboost_sub_area_collection_list", "idxboost_sub_area_collection_list_fn");
 add_action("wp_ajax_nopriv_idxboost_sub_area_collection_list", "idxboost_sub_area_collection_list_fn");
 
+add_action('wp_ajax_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
+add_action('wp_ajax_nopriv_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
+
+add_action('wp_ajax_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn');
+add_action('wp_ajax_nopriv_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn');
+
+add_action('wp_ajax_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
+add_action('wp_ajax_nopriv_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
 
 add_action("wp_ajax_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 add_action("wp_ajax_nopriv_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
@@ -231,24 +239,42 @@ add_action('admin_init', 'flex_idx_register_settings_configuration_fn');
 // setup initial post types
 add_action('init', 'flex_idx_posttype_pages_fn');
 
-add_action('wp_footer', 'idxboost_autologin_alerts_fn',25);
+add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
 
 // Disable Open Graph meta on AMP pages
-add_filter( 'aioseop_enable_amp_social_meta', '__return_false' );
+add_filter('aioseop_enable_amp_social_meta', '__return_false');
 
 // Remove Yoast SEO OpenGraph Output From One Post/Page
-add_filter('wpseo_opengraph_url' , '__return_false' );
-add_filter('wpseo_opengraph_desc', '__return_false' );
-add_filter('wpseo_opengraph_title', '__return_false' );
-add_filter('wpseo_opengraph_type', '__return_false' );
-add_filter('wpseo_opengraph_site_name', '__return_false' );
-
-// rest api
-add_action('rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints']);
+add_filter('wpseo_opengraph_url', '__return_false');
+add_filter('wpseo_opengraph_desc', '__return_false');
+add_filter('wpseo_opengraph_title', '__return_false');
+add_filter('wpseo_opengraph_type', '__return_false');
+add_filter('wpseo_opengraph_site_name', '__return_false');
 
 // print analytics script
 add_action('wp_head', 'iboost_print_analytics_script');
 
-add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script',0);
+add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script', 0);
 
-add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script',0);
+add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script', 0);
+
+// CMS. REST api
+add_action( 'rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints'] );
+
+// CMS. Load assets
+add_action( 'wp_head', 'idx_boost_cms_assets_style', 100 );
+
+// CMS. Load SEO
+add_action( 'wp_head', 'custom_seo_page', 0, 0 );
+
+// CMS. Load loader
+add_action( 'get_footer', 'idxboost_cms_loader', 101, 1 );
+
+// CMS. Update post
+add_action( 'edit_post', 'idx_edit_post', 10, 2 );
+
+// CMS. Disable WP editor for custom and landing pages
+add_action( 'admin_init', 'hide_editor', 10, 2 );
+
+// Hook general init to login users if an autologin code is specified
+add_action('init', 'idx_autologin_authenticate');

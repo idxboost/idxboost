@@ -63,13 +63,14 @@ function idxboostTypeIcon() {
 }
 
 function get_data_info(){
-idx_ajax_param_slider.forEach(function(item_request){
+idx_ajax_param_slider["type"].forEach(function(item_request){
 	$.ajax({
 		url: idx_param_slider.ajaxUrl,
 		method: "POST",
 		data: {
 			action: "idxboost_get_data_slider",
-			type: item_request
+			type: item_request,
+            limit: idx_ajax_param_slider["limit"]
 		},
 		dataType: "json",
 		success: function(response) {
@@ -121,7 +122,7 @@ function idx_slider_html(info_item,type){
 	idx_param_slider.propertyDetailPermalink+'/'+info_item.slug
           html_response.push('<ul class="result-search slider-generator">');
             html_response.push('<li class="propertie" data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
-              html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
+              html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'">'+info_item.address_short+'</h2>');
               html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address_large+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
@@ -132,17 +133,18 @@ function idx_slider_html(info_item,type){
                 html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
                 html_response.push('<li class="build-year"><span>Built </span>2015</li>');
                 html_response.push('<li class="development"><span></span></li>');
+                //html_response.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
               html_response.push('</ul>');
               html_response.push('<div class="wrap-slider">');
-                html_response.push('<ul>');
+            html_response.push('<ul>');
 
-				info_item.gallery.forEach(function(gallery,index_gallery){
-					if (index_gallery==0){
-						html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-					}else{
-						html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-					}				
-				});
+              info_item.gallery.forEach(function(gallery,index_gallery){
+                if (index_gallery==0){
+                  html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+                }else{
+                  html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+                }				
+              });
                 html_response.push('</ul>');
 
                 if (info_item.gallery.length>1){

@@ -194,7 +194,18 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
           </li>
           <li class="waterfront">
             <div class="gwr">
-              <h4 class="clidxboost-icon-arrow-select"><?php echo __('Waterfront description', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                <?php
+                $c_search_settings = get_option("idxboost_search_settings");
+                
+                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+                }elseif (isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"])){
+                  $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
+                }
+                ?>
+                
+              <h4 class="clidxboost-icon-arrow-select"><?php echo $label_waterfront_description; ?></h4>
               <div class="wrap-item">
                 <div class="wrap-select clidxboost-icon-arrow-select">
                 <select id="flex_waterfront_switch">
@@ -284,6 +295,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                     <option <?php selected($response['order'], 'sqft-asc'); ?> value="sqft-asc">Size Low  to High </option>
                     <option <?php selected($response['order'], 'year-desc'); ?> value="year-desc">Year Newest</option>
                     <option <?php selected($response['order'], 'year-asc'); ?> value="year-asc">Year Oldest</option>
+                    */ ?>
                     <?php if ($filter_type_fl != 1): ?>
                     <option <?php selected($response['order'], 'list_date-desc'); ?> value="list_date-desc"><?php echo __('Newest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <option <?php selected($response['order'], 'list_date-asc'); ?> value="list_date-asc"><?php echo __('Oldest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -319,7 +331,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                 <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                 <li class="baths"><?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                 <li class="living-size"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / SF </li>
+                <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft.</li>
                 <li class="development"><?php echo __('Development', IDXBOOST_DOMAIN_THEME_LANG); ?> / <?php echo __('Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
             </ul>
             <ul id="result-search" class="slider-generator">
@@ -333,20 +345,26 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                     <li data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
                         <?php if (isset($property['status'])): ?>
                             <?php if ($property['status'] == 5): ?>
-                                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                                <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                             <?php elseif($property['status'] == 2): ?>
-                                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                                <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                             <?php endif; ?>
                         <?php else: ?>
                             <?php if (isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
-                            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+                            <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                             <?php endif ?>
                         <?php endif; ?>
                         <?php
                         $arraytemp = explode(" , ", $property['address_large']);
                         $final_address_parceada = $property['address_short'] . "<span>".$arraytemp[0]. ", " .$arraytemp[1] ."</span>";
                         ?>
-                        <h2 title="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>"><span><?php echo $final_address_parceada; ?></span></h2>                        
+                        
+                        <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
+                          <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
+                          <div class="ms-br-line">,</div>
+                          <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+                        </h2>
+
                         <ul class="features">
                             <li class="address"><?php echo $property['address_large']; ?></li>
                             <li class="price">$<?php echo number_format($property['price']); ?></li>
@@ -381,6 +399,11 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                             <?php else: ?>
                                 <li class="development"><span><?php echo $property['complex']; ?></span></li>
                             <?php endif; ?>
+                            <?php
+                            if(is_array($response) && count($response)>0 && array_key_exists("board_info",$response) && array_key_exists("board_logo_url", $response["board_info"]) && !empty($response["board_info"]["board_logo_url"])  ){ ?>
+                              <li class="ms-logo-board"><img src="<?php echo $response["board_info"]["board_logo_url"]; ?>"></li>
+                            <?php } ?>
+
                         </ul>
                         <div class="wrap-slider">
                             <ul>

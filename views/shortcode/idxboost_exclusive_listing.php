@@ -132,7 +132,7 @@
           <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="baths"><?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="living-size"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / SF </li>
+          <li class="price-sf"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft. </li>
           <li class="development"><?php echo __('Development', IDXBOOST_DOMAIN_THEME_LANG); ?> / <?php echo __('Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         </ul>
         <ul id="result-search" class="slider-generator" style="overflow-y:auto;">
@@ -143,30 +143,27 @@
           <li data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
             <?php //if($atts['oh']=="0" ) { ?>
               <?php if ($property['status'] == 5): ?>
-              <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+              <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
               <?php elseif($property['status'] == 2): ?>
-              <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+              <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
               <?php elseif($property['status'] != 1): ?>
-              <div class="flex-property-new-listing"><?php echo __('pending', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+              <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>
               <?php elseif(isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
-              <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?>!</div>
+              <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
               <?php endif; ?>
             <?php //} ?>
-
-
             <?php
               $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
               ?>
-            <h2 title="<?php echo $property['full_address']; ?>">
-            <?php if ($sta_view_grid_type=='1') { ?>
-              <span><?php echo $property['full_address_top']; ?></span>
-              <span><?php echo $property['full_address_bottom']; ?></span>
-            <?php }else{ ?>
-              <span><?php echo $property['full_address']; ?></span>
-            <?php } ?>
-            </h2>
+
+              <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
+                <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
+                <div class="ms-br-line">,</div>
+                <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+              </h2>
+
             <ul class="features">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <?php if( $property['is_rental']=='1' ) { ?>
@@ -207,6 +204,12 @@
               <?php else: ?>
               <li class="development"><span><?php echo $property['complex']; ?></span></li>
               <?php endif; ?>
+
+              <?php if( array_key_exists('board_info', $response) && array_key_exists("board_logo_url", $response['board_info']) && !empty($response['board_info']["board_logo_url"])){ ?>
+                <li class="ms-logo-board"><img src="<?php echo $response['board_info']["board_logo_url"];?>"></li>
+            <?php } ?>
+
+              
             </ul>
             <div class="wrap-slider">
               <ul>
@@ -248,23 +251,25 @@
 
             <?php
             $url_property='#';
+            $class_for_recent = "view-detail view-detail-no-link";
             if ($is_recent_sales=='yes') {
+              $class_for_recent = "view-detail";
+            }
               $site_property=rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); 
               $url_property=$site_property.'/'.$property['slug'];
-            }
             ?>
               <?php if (isset($property["status"])): ?>
               <?php if (2 == $property["status"]): ?>
-              <a class="view-detail" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php elseif(5 == $property["status"]): ?>
-              <a class="view-detail" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php elseif(6 == $property["status"]): ?>
-              <a class="view-detail" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php else: ?>
-              <a class="view-detail" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php endif; ?>
               <?php else: ?>
-              <a class="view-detail" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php endif; ?>
 
             <a class="view-map-detail" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>">View Map</a>
@@ -312,6 +317,7 @@
           <button class="open-map hide"><?php echo __('Open', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           <button class="close-map"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </div>
+
       </div>
     </div>
     <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
@@ -369,6 +375,21 @@
 
 
 <script type="text/javascript">
+  var idxboost_force_registration=false;
+
+<?php 
+$registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
+
+if (
+      ($registration_is_forced != false) || 
+      (
+         !empty($response) && 
+         array_key_exists('force_registration', $response) &&  !empty($response['force_registration']) 
+      )
+   ) { ?>
+      idxboost_force_registration=true;
+    <?php  } ?>
+
   var idxboost_hackbox_filter=[];
    
    <?php

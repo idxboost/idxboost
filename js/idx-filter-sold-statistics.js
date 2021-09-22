@@ -229,8 +229,8 @@ var bounds;
                     }
                     infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> ' + textpropertybed + '</span></li>');
                     infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> ' + textpropertybath + '</span></li>');
-                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> SF<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
-                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ SF<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
+                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
+                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
                     infobox_content.push('</ul>');
                     infobox_content.push('<div class="mapviwe-img">');
                     infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');
@@ -271,8 +271,8 @@ var bounds;
                 }
                 infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> ' + textpropertyitembed + '</span></li>');
                 infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> ' + textpropertyitembath + '</span></li>');
-                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> SF<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
-                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ SF<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
                 infobox_content.push('</ul>');
                 infobox_content.push('<div class="mapviwe-img">');
                 infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');
@@ -631,23 +631,23 @@ var bounds;
 
                             if (item.hasOwnProperty("status")) {
                                 if (item.status == "5") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
                                 } else if (item.status == "2") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
                                 }else if(item.status != "1"){
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                                 }                           
                             } else {
                                 if (item.recently_listed === "yes") {
-                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                                    listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                                 }
                             }
                         //}
 
                         if (view_grid_type=='1'){
-                            listingHTML.push('<h2 title="' + item.full_address + '"><span>'+item.full_address_top+'</span><span>'+item.full_address_bottom+'</span></h2>');
+                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
                         }else{
-                            listingHTML.push('<h2 title="' + item.full_address + '"><span>' + item.full_address + '</span></h2>');
+                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address+'</div></h2>');
                         }
 
                         listingHTML.push('<ul class="features">');
@@ -687,6 +687,7 @@ var bounds;
                         } else {
                             listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
                         }
+                        //listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
                         listingHTML.push('</ul>');
                         var totgallery='';
                         if (item.gallery.length <= 1) {

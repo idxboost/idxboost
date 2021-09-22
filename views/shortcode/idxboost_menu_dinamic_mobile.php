@@ -54,7 +54,7 @@ if (is_array($result) && count($result)> 0) {
                     foreach ($menu['subItems'] as $key => $submenu) {
                         $is_external_link_two = '';
 						if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
-							$is_external_link_two = 'target="'. $menu['target'] .'"';
+							$is_external_link_two = 'target="'. $submenu['target'] .'"';
                         }
                         
                         $htmlmenu[] = '<li class="ip-menu-item">';

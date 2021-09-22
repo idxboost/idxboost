@@ -11,7 +11,9 @@
 	const IB_SP_PAGINATION = $('.js-ib-sp-pagination');
 	const IB_SP_COLUMN = $('.js-ib-sp');
 	var xhr_setting = false;
-	
+	var countClickAnonymous = 0;
+	var IB_HAS_LEFT_CLICKS = (__flex_g_settings.hasOwnProperty("signup_left_clicks") && (null != __flex_g_settings.signup_left_clicks));
+	var IB_CURRENT_LEFT_CLICKS;
 
 	// Fallback images
 	const IB_SP_IMAGE_INIT = `${window.location.origin}/wp-content/plugins/idxboost/images/single-property/temp.png`;
@@ -514,6 +516,100 @@
 					loadSPForms();
 					loadMap();
 					loadMainVideo();
+
+
+
+					if ("undefined" === typeof Cookies.get("_ib_disabled_forcereg")) {
+						if (true === IB_HAS_LEFT_CLICKS) {
+							IB_CURRENT_LEFT_CLICKS = (parseInt(Cookies.get("_ib_left_click_force_registration"), 10) - 1);
+							Cookies.set("_ib_left_click_force_registration", IB_CURRENT_LEFT_CLICKS);
+
+					if (
+					  parseInt(
+						Cookies.get("_ib_left_click_force_registration"),
+						10
+					  ) <= 0 &&
+					  "yes" === __flex_g_settings.anonymous
+					) {
+					  // no left click then open popup registration
+					  $("#modal_login")
+						.addClass("active_modal")
+						.find("[data-tab]")
+						.removeClass("active");
+
+					  $("#modal_login")
+						.addClass("active_modal")
+						.find("[data-tab]:eq(1)")
+						.addClass("active");
+
+					  $("#modal_login").find(".item_tab").removeClass("active");
+
+					  $("#tabRegister").addClass("active");
+
+					  $("#modal_login #msRst").empty().html($("#mstextRst").html());
+					  $("button.close-modal").addClass("ib-close-mproperty");
+					  $(".overlay_modal").css(
+						"background-color",
+						"rgba(0,0,0,0.8);"
+					  );
+
+					  $("#modal_login h2").html(
+						$("#modal_login")
+						  .find("[data-tab]:eq(1)")
+						  .data("text-force")
+					  );
+
+					  /*Asigamos el texto personalizado*/
+					  var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+					  $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+					  // reset to default clicks
+					  //IB_CURRENT_LEFT_CLICKS = IB_DEFAULT_LEFT_CLICKS;
+					}
+				  } else {
+					if ("yes" === __flex_g_settings.anonymous) {
+					  if (
+						__flex_g_settings.hasOwnProperty("force_registration") &&
+						1 == __flex_g_settings.force_registration
+					  ) {
+						$("#modal_login")
+						  .addClass("active_modal")
+						  .find("[data-tab]")
+						  .removeClass("active");
+
+						$("#modal_login")
+						  .addClass("active_modal")
+						  .find("[data-tab]:eq(1)")
+						  .addClass("active");
+
+						$("#modal_login").find(".item_tab").removeClass("active");
+
+						$("#tabRegister").addClass("active");
+
+						$("#modal_login #msRst")
+						  .empty()
+						  .html($("#mstextRst").html());
+						$("button.close-modal").addClass("ib-close-mproperty");
+						$(".overlay_modal").css(
+						  "background-color",
+						  "rgba(0,0,0,0.8);"
+						);
+
+						$("#modal_login h2").html(
+						  $("#modal_login")
+							.find("[data-tab]:eq(1)")
+							.data("text-force")
+						);
+
+						/*Asigamos el texto personalizado*/
+						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+						// }
+					  }
+					}
+				  }
+				}
+
 					
 				}
 
@@ -603,7 +699,7 @@
 	function generateSPSliders() {
 		
 		// Slider for Home section
-		const $sliderHome = $('.js-slider-home');
+		const $sliderHome = $('.ib-sp-page .js-slider-home');
 
 		if ($sliderHome.length) {
 		  $.each($sliderHome, function() {
@@ -1181,6 +1277,102 @@ IB_SP_LIST.on('click', '.propertie', function(event) {
 	const SP_ID = $(this).data('id');
 	loadSPDetail(SP_ID);
 });
+
+
+	$(".js-ib-sp-list").on("click", ".gs-next-arrow, .gs-prev-arrow", function () {
+		// Open Registration popup after 3 property pictures are showed [force registration]
+		if ("yes" === __flex_g_settings.anonymous) {
+			if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
+				countClickAnonymous++;
+		
+				if (countClickAnonymous >= 3) {
+					$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+					$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+					$("#modal_login").find(".item_tab").removeClass("active");
+					$("#tabRegister").addClass("active");
+					$("button.close-modal").addClass("ib-close-mproperty");
+					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+					$("#modal_login h2").html(
+					$("#modal_login").find("[data-tab]:eq(1)").data("text-force"));
+					/*Asigamos el texto personalizado*/
+					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+					countClickAnonymous = 0;
+				}
+			}
+		}
+
+		var $wSlider = $(this).parents('.ib-pislider');
+
+		if (!$wSlider.hasClass('gs-builded')) {
+			$wSlider.find('.ib-pifimg').removeClass('ib-pifimg');
+			$wSlider.find('.gs-container-navs').remove();
+			$wSlider.greatSlider({
+				type: 'fade',
+				nav: true,
+				bullets: false,
+				autoHeight: false,
+				lazyLoad: true,
+				startPosition: 2,
+				layout: {
+					arrowDefaultStyles: false
+				},
+				onLoadedItem: function(item, index, response) {
+					if ("success" != response) {
+						setTimeout(function () {
+							item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
+						}, 2000);
+					}
+				}
+			});
+		}
+	});
+
+	$(".js-ib-sp-list").on("click", ".gs-next-arrow", function() {
+		if ("yes" === __flex_g_settings.anonymous) {
+			if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
+				countClickAnonymous++;
+		
+				if (countClickAnonymous >= 3) {
+					$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');			
+					$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+					$("#modal_login").find(".item_tab").removeClass("active");
+					$("#tabRegister").addClass("active");
+					$("#modal_login #msRst").empty().html($("#mstextRst").html());
+					$("button.close-modal").addClass("ib-close-mproperty");
+					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+					$("#modal_login h2").html($("#modal_login").find('[data-tab]:eq(1)').data("text-force"));
+					countClickAnonymous = 0;
+				}
+			}
+		}
+
+		var $wSlider = $(this).parents('.ib-pislider');
+
+		if (!$wSlider.hasClass('gs-builded')) {
+			$wSlider.find('.ib-pifimg').removeClass('ib-pifimg');
+			$wSlider.find('.gs-container-navs').remove();
+			$wSlider.greatSlider({
+				type: 'fade',
+				nav: true,
+				bullets: false,
+				autoHeight: false,
+				lazyLoad: true,
+				startPosition: 2,
+				layout: {
+					arrowDefaultStyles: false
+				},
+				onLoadedItem: function(item, index, response) {
+					if ("success" != response) {
+						setTimeout(function () {
+							item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
+						}, 2000);
+					}
+				}
+			});
+		}
+	});
+
 
 
 })(jQuery);

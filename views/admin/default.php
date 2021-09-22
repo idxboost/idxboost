@@ -1,325 +1,294 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  #idx-upload-form form{
-    width: 100%;
-    max-width: 570px;
-    margin-left: 50px;
-  }
-  #idx-upload-form{
-    height: calc(100vh - 116px);
-    margin-bottom: 0;
-    background-image: url('<?php echo FLEX_IDX_URI; ?>images/rocket.png');
-    background-position: 110px 65px;
-    background-repeat: no-repeat;
-  }
-  #idx-upload-form .logo-idx{
-    margin-bottom: 30px;
-    margin-top: 40px;
-  }
-  #idx-upload-form h1{
-    font-size: 24px;
-    font-weight: 600;
-    margin-left: 50px;
-  }
-  #idx-upload-form input[type=text]{
-    -webkit-box-shadow: none;
-    background-color: #fff;
-    border: 1px solid #FFF;
-    box-shadow: none;
-    color: #32373c;
-    height: 47px;
-    padding: 3px 15px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-  }
-  #idx-upload-form .form-table label{
-    cursor: pointer;
-    font-weight: 600;
-    margin-bottom: 10px;
-    display: block;
-  }
-  #idx-upload-form .form-table td{
-    padding-left: 0;
-  }
-  #idx-upload-form .info-upload{
-    margin-top: 20px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-  }
-  #idx-upload-form .info-upload .info-item{
-    width: 150px;
-    height: 90px;
-    margin-right: 14px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    background-color: #606467;
-    transition: all .3s;
-    text-decoration: none;
-  }
-  #idx-upload-form .info-upload .info-item:hover{
-    background-color: #333;
-  }
-  #idx-upload-form .info-upload .info-item span{
-    display: block;
-    text-align: center;
-    color: #FFF;
-    font-weight: 400;
-    font-size: 14px;
-    margin: 3px 0;
-  }
-  #idx-upload-form .info-upload .info-item .icon-tuerca,
-  #idx-upload-form .info-upload .info-item .icon-filtro,
-  #idx-upload-form .info-upload .info-item .icon-edificio,
-  #idx-upload-form .info-upload .info-item .icon-customizer{
-    width: 45px;
-    height: 35px;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-image: url('<?php echo FLEX_IDX_URI; ?>images/icons-idx.png');
-  }
-  #idx-upload-form .info-upload .info-item .icon-tuerca{
-    background-position: -2px -1px;
-  }
-  #idx-upload-form .info-upload .info-item .icon-edificio{
-    background-position:-49px -3px;
-    width: 34px;
-    height: 35px;
-  }
-  #idx-upload-form .info-upload .info-item .icon-filtro{
-    width: 37px;
-    background-position: -92px -4px;
-  }
-  #idx-upload-form .info-upload .info-item .icon-customizer {
-    background-position: -200px 2px;
-  }
-  #idx-upload-form .btn-content-idx{
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-  }
-  #idx-upload-form .btn-content-idx:before{
-    content: "";
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: -webkit-gradient(linear, left top, right top, from(#fa6630), to(#be155e));
-    background: -webkit-linear-gradient(left, #fa6630, #be155e);
-    background: -o-linear-gradient(left, #fa6630, #be155e);
-    background: linear-gradient(to right, #fa6630, #be155e);
-    top: 0;
-    left: 0;
-    display: block;
-    transition: all .3s;
-    z-index: 0;
-  }
-  #idx-upload-form .btn-content-idx:after{
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: #333;
-    top: 0;
-    left: 0;
-    display: block;
-    transition: all .3s;
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-  }
-  #idx-upload-form .btn-content-idx:hover:after{
-    opacity: 1;
-  }
-  #idx-upload-form .btn-content-idx input{
-    background-color: transparent;
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: 0;
-    outline: 0;
-    width: 280px;
-    height: 54px;
-    color: #FFF;
-    font-size: 18px;
-    font-weight: 600;
-    padding-left: 55px;
-    padding-right: 45px;
-  }
-  #idx-upload-form .btn-content-idx .icon-update{
-    position: absolute;
-    background: url('<?php echo FLEX_IDX_URI; ?>images/icons-idx.png') no-repeat -142px -5px;
-    width: 24px;
-    height: 24px;
-    display: block;
-    left: 17px;
-    top: 17px;
-    z-index: 3;
-  }
-  #idx-upload-form .info-synchronize p{
-    font-size: 14px;
-    padding-left: 25px;
-    position: relative;
-  }
-  #idx-upload-form .info-synchronize ul{
-    position: relative;
-  }
-  #idx-upload-form .info-synchronize p:before{
-    content: "";
-    display: block;
-    background: url('<?php echo FLEX_IDX_URI; ?>images/icons-idx.png') no-repeat -181px -9px;
-    width: 18px;
-    height: 18px;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  #idx-upload-form .info-synchronize ul li{
-    position: relative;
-    padding-left: 15px;
-    margin-bottom: 3px;
-    font-size: 13px;
-  }
-  #idx-upload-form .info-synchronize ul li:before{
-    content: "";
-    width: 4px;
-    height: 4px;
-    background-color: #333;
-    position: absolute;
-    top: 3px;
-    left: 0;
-    display: block;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%;
+  /*NEW ADMIN STYLE*/
+  @media screen and (max-width: 782px){
+    .auto-fold #wpcontent {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
   }
 
-  @media (max-width: 540px){
-    #idx-upload-form h1,
-    #idx-upload-form form{
-      margin-left: 0;
-    }
-    #idx-upload-form .logo-idx img{
-      width: 100%;
-      max-width: 440px;
-    }
+  #wpbody-content{
+    width: 100%;
+    padding: 40px 0;
   }
-  @media (max-width: 480px){
-    #idx-upload-form h1,
-    #idx-upload-form form{
-      margin-left: 0;
-    }
-    #idx-upload-form .logo-idx img{
-      width: 100%;
-      max-width: 320px;
-    }
+
+  .wrap{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 490px;
+    text-align: center;
   }
-  @media (max-width: 320px){
-    #idx-upload-form .info-upload{
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-    }
-    #idx-upload-form .info-upload .info-item {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    #idx-upload-form .btn-content-idx{
-      width: 100%;
-    }
+
+  #wpwrap{
+    background: rgb(239,61,78);
+    background: linear-gradient(90deg, rgba(239,61,78,1) 0%, rgba(204,50,90,1) 60%, rgba(174,40,101,1) 100%);
   }
-  .flex_idx_omit_import_data {
-    margin-left: 30px;
+
+  .logo-idx{
+    width: 250px;
+    margin: 0 auto;
+  }
+
+  .logo-idx img{
+    width: auto;
+    max-width: 100%;
+  }
+
+  .flex-ms-wrapper h1{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 35px;
+    line-height: 1.1;
+    margin: 15px 0;
+    font-weight: bold;
+    color: #FFF
+  }
+
+  .flex-update-version{
+    color: #FFF;
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .flex-update-version a{
+    color: #FFF;
+  }
+
+  .flex-update-version strong{
+    font-weight: 600
+  }
+
+  #flex_idx_client_form .form-table{
+    margin-top: 15px
+  }
+
+  #flex_idx_client_form .form-table label{
+    display: none
+  }
+
+  #flex_idx_client_form .form-table #flex-idx-settings-client-id{
+    background: transparent;
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+    border-color: rgba(255,255,255,0.45);
+    color: #FFF;
+    padding: 10px 15px 10px 50px;
+    position: relative;
+    z-index: 2;
+    border-radius: 8px;
+  }
+
+  #flex_idx_client_form .form-table .flex-wrapper-text{
+    position: relative;
+  }
+
+  #flex_idx_client_form .form-table .flex-wrapper-text:before{
+    content: "";
+    background: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-icons.png') no-repeat -1px -34px;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 50%;
+    margin-top: -13px;
+    left: 15px;
+    z-index: 0;
+  }
+
+  .submit .btn-content-idx{
+    position: relative;
+    width: 100%;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #2b3547;
+    transition: all .3s
+  }
+
+  .submit .btn-content-idx:hover{
+    background-color: #333;
+  }
+
+  .submit .btn-content-idx:before{
+    content: "";
+    background: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-icons.png') no-repeat -37px -35px;
+    width: 24px;
+	  height: 24px;
+    position: absolute;
+    top: 50%;
+    margin-top: -12px;
+    left: 20px;
+    z-index: 0;
+  }
+
+  .submit .btn-content-idx .btn-site{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: transparent;
+    border: 0;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .flex-info-synchronize p{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #FFF;
+  }
+
+  #wpfooter{
+    display: none
+  }
+
+  .flex-ms-by{
+    display: inline-block;
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    margin: 50px auto 0 auto;
+  }
+
+  .flex-ms-by a{
+    display: inline-block;
+    position: relative;
+    width: 120px;
+    text-indent: -999999px;
+    background: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-icons.png') no-repeat -1px -2px;
+    width: 120px;
+    height: 23px;
+  }
+
+  @media screen and (min-width: 782px){
+    #wpcontent{
+      background-image: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-rocket.png');
+      background-position: 78px 78px;
+      background-repeat: no-repeat;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .wrap {
+      text-align: left;
+      margin: 0;
+      max-width: 89%
+    }
+
+    .logo-idx {
+      width: 100%;
+      margin: 0;
+    }
+
+    #wpbody-content{
+      padding-top: 70px
+    }
+
+    .flex-ms-wrapper{
+      padding-left: 60px;
+      max-width: 460px
+    }
+
+    .flex-ms-wrapper h1{
+      font-size: 50px;
+      letter-spacing: -1px;
+    }
+
+    .form-table td{
+      padding-left: 0;
+      padding-right: 0
+    }
+
+    #flex_idx_client_form .form-table #flex-idx-settings-client-id{
+      padding: 15px 15px 15px 75px
+    }
+
+    #flex_idx_client_form .form-table .flex-wrapper-text:before{
+      left: 28px; 
+    }
+
+    .submit .btn-content-idx {
+      width: 330px;
+      height: 65px;
+      border-radius: 13px;
+    }
+
+    .submit .btn-content-idx .btn-site{
+      padding-left: 60px;
+      font-size: 15px
+    }
+
+    .submit .btn-content-idx:before {
+      left: 30px;
+    }
+
+    .flex-info-synchronize p{
+      margin-bottom: 20px;
+    }
+
+    .flex-ms-by{
+      position: fixed;
+      right: 25px;
+      bottom: 25px
+    }
   }
 </style>
 <div class="wrap" id="idx-upload-form">
   <div id="flex-idx-status"></div>
   <div class="logo-idx">
-    <img src="<?php echo FLEX_IDX_URI; ?>images/logo-idx.png">
+    <img src="<?php echo FLEX_IDX_URI; ?>images/new-admin-logo.png">
   </div>
-  <h1>IDX Boost Main Settings</h1>
-  <form method="post" id="flex_idx_client_form">
-    <input type="hidden" name="action" value="flex_connect">
-    <table class="form-table">
-      <tbody>
-        <tr>
-          <td>
-            <label for="flex-idx-settings-client-id">Registration Key</label>
-            <input type="text" id="flex-idx-settings-client-id" name="idxboost_registration_key" value="<?php echo $idxboost_registration_key; ?>" class="widefat" required>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <?php if ('active' == get_option('idxboost_client_status')): ?>
-    <div class="info-upload">
-      <a href="<?php echo admin_url('customize.php', '/'); ?>" class="info-item">
-        <div class="icon-customizer"></div>
-        <span>Customizer</span>
-      </a>
-      <a href="<?php echo admin_url('edit.php?post_type=flex-idx-pages', '/'); ?>" class="info-item">
-        <div class="icon-tuerca"></div>
-        <span>My IDX Pages</span>
-      </a>
-      <a href="<?php echo admin_url('edit.php?post_type=flex-filter-pages', '/'); ?>" class="info-item">
-        <div class="icon-filtro"></div>
-        <span>My IDX Filters</span>
-      </a>
-      <a href="<?php echo admin_url('edit.php?post_type=flex-idx-building', '/'); ?>" class="info-item">
-        <div class="icon-edificio"></div>
-        <span>My IDX Buildings</span>
-      </a>
-    </div>
-    <?php endif; ?>
-
-    <p class="submit">
-      <span class="btn-content-idx">
-        <input type="submit" value="Save Changes" id="flex_idx_verify_credentials" class="btn-site">
-        <span class="icon-update"></span>
-      </span>
-    </p>
-
-    <?php
-    if (('active' == get_option('idxboost_client_status')) && (false === get_option('idxboost_import_initial_data'))):
-      $c_search_settings = get_option("idxboost_search_settings");
-      if (isset($c_search_settings["board_id"]) && ("1" == $c_search_settings["board_id"])):
-    ?>
-    <?php /*
-    <p>
-      <button id="flex_idx_import_data" type="button" style="padding:10px 30px;font-size:15px;background:#31a01e;border:0;color:#fff;cursor:pointer;font-weight:normal;">Import Data?</button>
-      <a href="#" id="flex_idx_omit_import_data" class="flex_idx_omit_import_data"> No, Thanks.</a>
-    </p> */ ?>
-    <?php endif; endif; ?>
-    <div class="info-synchronize">
-      <p>Important! Some edits from the Control Panel need to synchronized with your Wordpress dashboard to reflect in your website:</p>
-      <ul>
-        <li>All edits of personal information from My Account (Phone, email, etc...)</li>
-        <li>New Filter Pages &amp; Building Pages (Only the first time your create them, edits do not require synchronization.</li>
-      </ul>
-    </div>
-  </form>
+  <div class="flex-ms-wrapper">
+    <h1>IDXBoost <br>Wordpress Plugin</h1>
+    <span class="flex-update-version">You are using version <strong>3.44.01</strong> <a href="#">Click here for plugin updates</a></span>
+    <form method="post" id="flex_idx_client_form">
+      <input type="hidden" name="action" value="flex_connect">
+      <table class="form-table">
+        <tbody>
+          <tr>
+            <td>
+              <label for="flex-idx-settings-client-id">Registration Key</label>
+              <div class="flex-wrapper-text">
+                <input type="text" id="flex-idx-settings-client-id" name="idxboost_registration_key" value="<?php echo $idxboost_registration_key; ?>" class="widefat" required>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="submit">
+        <span class="btn-content-idx">
+          <input type="submit" value="Save Control Panel Changes" id="flex_idx_verify_credentials" class="btn-site">
+        </span>
+      </p>
+      <?php
+      if (('active' == get_option('idxboost_client_status')) && (false === get_option('idxboost_import_initial_data'))):
+        $c_search_settings = get_option("idxboost_search_settings");
+        if (isset($c_search_settings["board_id"]) && ("1" == $c_search_settings["board_id"])):
+      ?>
+      <?php /*
+      <p>
+        <button id="flex_idx_import_data" type="button" style="padding:10px 30px;font-size:15px;background:#31a01e;border:0;color:#fff;cursor:pointer;font-weight:normal;">Import Data?</button>
+        <a href="#" id="flex_idx_omit_import_data" class="flex_idx_omit_import_data"> No, Thanks.</a>
+      </p> */ ?>
+      <?php endif; endif; ?>
+      <div class="flex-info-synchronize">
+        <p>Important! Some edits from the Control Panel need to synchronized with your Wordpress dashboard to reflect in your website; All edits of personal information from My Account (Phone, email, etc...)</p>
+        <p>New Filter Pages & Building Pages (Only the first time your create them,  edits do not require synchronization.</p>
+      </div>
+    </form>
+    <span class="flex-ms-by">
+      create by <a href="https://www.tremgroup.com/" target="_blank">TREMGROUP</a>
+    </span>
+  </div>
 </div>

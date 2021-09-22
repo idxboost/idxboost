@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.1.0
+ * Version: 4.1.1
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -37,7 +37,6 @@ if (
   define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
   define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
   define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
-
 } else {
   define('FLEX_IDX_BASE_URL', 'http://api.idxboost.local');
   define('FLEX_IDX_CPANEL_URL', 'http://cpanel.idxboost.local');
@@ -56,7 +55,7 @@ if (
  */
 
 define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.dev');
-define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL.'/api/property-site-setting-get');
+define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-site-setting-get');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
 define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details');
 define('FLEX_IDX_BASE_STATISTICS', FLEX_IDX_BASE_URL . '/listings/recentsales/filter');
@@ -69,7 +68,7 @@ define('FLEX_IDX_API_AUTOCOMPLETE', FLEX_IDX_BASE_URL . '/autocomplete');
 define('FLEX_IDX_API_MARKET', FLEX_IDX_BASE_URL . '/filter_lookup');
 define('FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS', FLEX_IDX_BASE_URL . '/listings/exclusive');
 define('FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL', FLEX_IDX_BASE_URL . '/listings/commercial/exclusive');
-define('FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD', FLEX_IDX_BASE_URL . '/listings/agent_office_sold');	
+define('FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD', FLEX_IDX_BASE_URL . '/listings/agent_office_sold');
 define('FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS', FLEX_IDX_BASE_URL . '/listings/agent_office');
 define('FLEX_IDX_API_MARKET_RECENT_SALE', FLEX_IDX_BASE_URL . '/listings/recentsales');
 define('FLEX_IDX_API_MARKET_COLLECTION', FLEX_IDX_BASE_URL . '/filter_collection_lookup');
@@ -137,8 +136,8 @@ define('FLEX_IDX_API_LEAD_FETCH_ACTIVITIES', FLEX_IDX_BASE_URL . '/leads/fetch_a
 define('FLEX_IDX_API_LEAD_HIDE_TOOLTIP', FLEX_IDX_BASE_URL . '/leads/hide/tooltip');
 define('FLEX_IDX_API_AGENT_FETCH_CUSTOM_SETTINGS', FLEX_IDX_BASE_URL . '/crm/agents/settings');
 
-define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-info-agent');
-define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE. '/api/get-team');
+define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-info-agent');
+define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-team');
 
 define('IDX_BOOST_LEAD_TRACKING_EVENTS', FLEX_IDX_BASE_URL . '/tracking/events');
 define('IDX_BOOST_TRACK_COLLECTION_VIEWS', FLEX_IDX_BASE_URL . '/events/collections');
@@ -168,15 +167,15 @@ $flex_idx_token = flex_idx_generate_access_token();
 $flex_idx_lead         = is_flex_user_logged_in();
 
 
-	
+
 // init scripts for recaptcha
 add_action('wp_head', function () {
   global $flex_idx_info;
   if (is_admin()) {
     return;
   }
-  if (isset($flex_idx_info['agent']['has_enterprise_recaptcha'])) { 
-    if (!empty($flex_idx_info['agent']['has_enterprise_recaptcha'])) { 
+  if (isset($flex_idx_info['agent']['has_enterprise_recaptcha'])) {
+    if (!empty($flex_idx_info['agent']['has_enterprise_recaptcha'])) {
       // is recaptcha enterprise
       if (!isset($flex_idx_info['agent']['recaptcha_site_key']) || empty($flex_idx_info['agent']['recaptcha_site_key'])) {
         return;

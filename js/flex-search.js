@@ -289,18 +289,19 @@ var yDown = null;
                     }
 
                     var final_address = item.address_short + " " + al[0] + ", " + st;
-                    var final_address_parceada = item.address_short + "<span>" + st_print + "</span>";
+                    var final_address_parceada = '<div class="ms-title-address -address-top">'+item.address_short+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+st_print+'</div>';
                     //var final_address_parceada_new = "<span>"+item.address_short + " " + al[0] +  " " + al[1]+ "</span>";
                     var final_address_parceada_new = "<span>"+item.address_short + " " + st_print + "</span>";
 
                     listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="' + item.address_short + '" class="propertie">');
                     if (item.status == 1 && item.recently_listed === "yes") {
-                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
                     }
                     if (item.status == 6) {
-                        listingHTML.push('<div class="flex-property-new-listing">'+word_translate.pending+'</div>');
+                        listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
                     }
-                    listingHTML.push('<h2 title="' + final_address + '"><span>' + final_address_parceada + '</span></h2>');
+                    listingHTML.push('<h2 title="'+final_address+'" class="ms-property-address">' + final_address_parceada + '</h2>');
+                    
                     listingHTML.push('<ul class="features">');
                     listingHTML.push('<li class="address">' + final_address_parceada_new + '</li>');
                     listingHTML.push('<li class="price"><a href="' + flex_idx_search_params.propertyDetailPermalink + '/' + item.slug + '">$' + _.formatPrice(item.price) + '</a></li>');
@@ -332,6 +333,14 @@ var yDown = null;
                     } else {
                         listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
                     }
+
+                    if ( 
+                        response.payload.hasOwnProperty("board_info") &&
+                        response.board_info.hasOwnProperty("board_logo_url") &&
+                        response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null) {
+                        listingHTML.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
+                    }
+
                     listingHTML.push('</ul>');
                     var totgallery='';
 

@@ -207,8 +207,13 @@ $logo_broker='';
         </section>
       </div>
     </main>
-    
-    <input type="hidden" class="ib_collection_view" value="list" >
+    <?php
+    $type_view = "list";
+    if ( !empty($GLOBALS['result_detailt_building']['payload']['property_display_active']) ) { 
+      $type_view = $GLOBALS['result_detailt_building']['payload']['property_display_active'];
+    } 
+    ?>
+    <input type="hidden" class="ib_collection_view" value="<?php echo $type_view; ?>">
     <input type="hidden" class="ib_collection_tab" value="tab_sale" >
 <style type="text/css">
   .item_view_db{
@@ -310,10 +315,18 @@ $(document).on("click", '.flex-favorite-btn', function(event) {
               _self.attr("data-alert-token",data.token_alert);
           }
       });
+
+      /*SETTING ALL MLS IN PAGE*/
+      $('.js-flex-favorite-btn').each(function(){
+        if($(this).parent().attr("data-mls") == mls_num ){
+          $(this).addClass("active");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/
     } else {
       // remove
       _self.removeClass('flex-active-fav');
-      _self.find('span').removeClass('active');
+      _self.find('span').removeClass('active flex-active-fav');
 
       var token_alert = _self.attr("data-alert-token");
 
@@ -331,10 +344,16 @@ $(document).on("click", '.flex-favorite-btn', function(event) {
               _self.removeAttr('data-alert-token');
           }
       });
+      /*SETTING ALL MLS IN PAGE*/
+      $('.js-flex-favorite-btn').each(function(){
+        if($(this).parent().attr("data-mls") == mls_num ){
+          $(this).removeClass("active flex-active-fav");
+        }
+      });
+      /*SETTING ALL MLS IN PAGE*/      
     }
   }
 });
-
 });
 
 })(jQuery);

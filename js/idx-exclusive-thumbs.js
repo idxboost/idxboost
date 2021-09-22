@@ -34,19 +34,19 @@ $('.propertie').on('click',function(event){
 	                        listingHTML.push('<li data-geocode="' + item.lat + ':' + item.lng + '" data-class-id="' + item.class_id + '" data-mls="' + item.mls_num + '" data-address="'+item.address_short+'" class="propertie">');
 	                        if (item.hasOwnProperty("status")) {
 	                            if (item.status == "5") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
 	                            } else if (item.status == "2") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
 	                            }
 	                        } else {
 	                            if (item.recently_listed === "yes") {
-	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+	                                listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 	                            }
 	                        }
 	                        if (view_grid_type=='1'){
-	                            listingHTML.push('<h2 title="' + item.full_address + '"><span>'+item.full_address_top+'</span><span>'+item.full_address_bottom+'</span></h2>');
+	                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
 	                        }else{
-	                            listingHTML.push('<h2 title="' + item.full_address + '"><span>' + item.full_address + '</span></h2>');
+	                            listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address+'</div></h2>');
 	                        }
 
 	                        listingHTML.push('<ul class="features">');
@@ -86,6 +86,7 @@ $('.propertie').on('click',function(event){
 	                        } else {
 	                            listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
 	                        }
+													//listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
 	                        listingHTML.push('</ul>');
 	                        var totgallery='';
 	                        if (item.gallery.length <= 1) {

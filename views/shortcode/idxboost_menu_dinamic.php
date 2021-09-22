@@ -56,7 +56,7 @@ if (is_array($result) && count($result)> 0) {
 						$htmlmenu[] = '<li class="ip-menu-item">';
 						$is_external_link_two = '';
 						if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
-							$is_external_link_two = 'target="'. $menu['target'] .'"';
+							$is_external_link_two = 'target="'. $submenu['target'] .'"';
 						}
 						$htmlmenu[] = '<a class="ip-menu-link" href="'.$submenu['link'].'" '. $is_external_link_two .'>'.$submenu['label'].'</a>';
 						$htmlmenu[] = '</li>';

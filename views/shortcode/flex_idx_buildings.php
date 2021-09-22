@@ -4,7 +4,11 @@
   <p><?php echo __('You need to', IDXBOOST_DOMAIN_THEME_LANG); ?> <a class="flex-login-link" href="#"><?php echo __('login', IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __('to view this page', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
 </div>
 
-<?php else: ?>
+<?php else:
+
+global $flex_idx_info;
+
+?>
 <style type="text/css">
 #wrap-result.saved-list.view-list { display: block !important; }
 </style>
@@ -38,16 +42,20 @@
                   <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
                 </a>
               </li>
+              <?php if (true === $flex_idx_info['agent']['has_basic_idx']): ?>
               <li>
                 <a href="<?php echo $flex_idx_info['pages']['flex_idx_favorites']['guid']; ?>">
                   <span><?php echo $flex_idx_info['pages']['flex_idx_favorites']['post_title']; ?></span>
                 </a>
               </li>
+              <?php endif; ?>
+              <?php if (true === $flex_idx_info['agent']['has_basic_idx']): ?>
               <li>
                 <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['guid']; ?>">
                   <span><?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['post_title']; ?></span>
                 </a>
               </li>
+              <?php endif; ?>
               <li class="clidxboost-active">
                 <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
                   <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
@@ -78,7 +86,8 @@
                     <div class="flex-table-row-item text-center"><?php echo __('Date Saved', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     <div class="flex-table-row-item select-action text-center"><?php echo __('Action', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   </div>
-                  <?php foreach ($response['items'] as $property):
+                  <?php
+                   foreach ($response['items'] as $property):
                     $property_address = unserialize($property['address']);
                     $property_address = isset($property_address[0]) ? $property_address[0] : '';
                   ?>
@@ -102,7 +111,7 @@
                     <div class="flex-table-row-item text-center"><?php echo $property_address; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $property['year']; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $property['unitBuilding']; ?></div>
-                    <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($property['created_at']['date'])); ?></div>
+                    <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($property['created_at'])); ?></div>
                     <div class="flex-table-row-item select-action text-center">
                       <button data-building-id="<?php echo $property['codBuilding']; ?>" class="clidxboost-btn-remove dgt-remove-favorite">
                         <span><?php echo __('Remove', IDXBOOST_DOMAIN_THEME_LANG); ?></span>

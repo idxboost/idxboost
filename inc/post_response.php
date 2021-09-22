@@ -6,7 +6,7 @@ global $wp, $wpdb;
 
 
 //function dgt_mortgage_calculator_fn() {
-  $params = $_POST;
+$params = $_POST;
 
 if ($params['action']=='idx_update_building') {
       $item_building_cod=$wpdb->get_row("SELECT ID,IF(thumb.meta_value is null,'0','1') as thumb,thumb.meta_value as thumb_post  from {$wpdb->posts} inner join {$wpdb->postmeta} as meta on meta.post_id={$wpdb->posts}.ID and meta.meta_key='dgt_tg_idxboost_building'  and meta.meta_value='".$params['codebuild']."' LEFT join {$wpdb->postmeta} as thumb on thumb.post_id={$wpdb->posts}.ID  and thumb.meta_key='dgt_extra_gallery' limit 1;",ARRAY_A);
@@ -33,6 +33,10 @@ if (!empty($item_building_cod)) {
 }
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/respuesta.txt', $item_building_cod);
 die();
+}else if ($params['action']=='sync_cpanel_wp') {
+  $sync_data =flex_idx_connect_fn(true);
+  echo json_encode($sync_data);
+  exit;
 }else if ( isset($params['action'])) {  
   $sale_price   =  ($params['purchase_price']); 
   $down_percent = ($params['down_payment']);

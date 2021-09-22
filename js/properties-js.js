@@ -302,8 +302,15 @@ var yDown = null;
                     },
                     dataType: "json",
                     success: function(data) {
+                        var textLabel = _self.attr("data-save");
+                        if(textLabel !== "" && textLabel !== undefined){
+                            textLabel = textLabel;
+                        }else{
+                            textLabel = "Save";
+                        }
+
                         $('.chk_save').removeClass('working');
-                        $('.chk_save').removeAttr('data-alert-token').find('span').removeClass('active').text('save favorite');
+                        $('.chk_save').removeAttr('data-alert-token').find('span').removeClass('active').text(textLabel);
                     }
                 });
 
@@ -321,8 +328,17 @@ var yDown = null;
                     },
                     dataType: "json",
                     success: function(data) {
+
+                        var textLabel = _self.attr("data-remove");
+                        if(textLabel !== "" && textLabel !== undefined){
+                            textLabel = textLabel;
+                        }else{
+                            textLabel = "Remove";
+                        }
+
                       $('.chk_save').removeClass('working');
-                      $('.chk_save').attr('data-alert-token', data.token_alert).find('span').addClass('active').text('remove favorite');
+                      //$('.chk_save').attr('data-alert-token', data.token_alert).find('span').addClass('active').text('remove favorite');
+                        $('.chk_save').attr('data-alert-token', data.token_alert).find('span').addClass('active').text(textLabel);
                     }
                 });
             }

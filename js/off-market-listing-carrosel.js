@@ -105,9 +105,6 @@ function get_data_info_carrosell_offmarket_listing(){
 			}
 		});	
 	});
-
-
-
 }
 
 function idx_off_market_listing_slider_html(info_item,type){
@@ -117,16 +114,18 @@ function idx_off_market_listing_slider_html(info_item,type){
           html_response.push('<ul class="result-search slider-generator">');
             html_response.push('<li class="propertie" data-address="'+info_item.address+'"  data-id="'+info_item.id+'" data-mls="'+info_item.id+'" data-counter="0">');
             if (info_item.status=='5') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'!</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
             }else if (info_item.status=='2') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'!</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
             }else if (info_item.status !='1') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.pending+'!</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
             }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-            	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>');
+            	html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
             }
-              html_response.push('<h2 title="'+info_item.address+'"><span>'+info_item.address+'</span></h2>');
-              html_response.push('<ul class="features">');
+              
+						//html_response.push('<h2 title="'+info_item.address+'"><span>'+info_item.address+'</span></h2>');
+							html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+info_item.full_address_bottom+'</div></h2>');
+							html_response.push('<ul class="features">');
                 html_response.push('<li class="address">'+info_item.address+'</li>');
                 html_response.push('<li class="price">$'+_.formatPrice(info_item.listing_price)+'</li>');
                 html_response.push('<li class="pr down">2.05%</li>');
