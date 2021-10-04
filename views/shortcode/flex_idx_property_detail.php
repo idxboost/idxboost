@@ -198,7 +198,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                 <?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?>
                 </a>
                 <?php endif?>
-                <a href="javascript:void(0)" class="ib-pbtnphone">
+                <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
                   <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
                 </a>
                 <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>" class="btn link-search clidxboost-icon-search">

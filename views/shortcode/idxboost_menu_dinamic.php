@@ -32,11 +32,6 @@ if (is_array($result) && count($result)> 0) {
 		if (is_array($value['child']) && count($value['child'])>0) {
 			foreach ($value['child'] as $key => $menu) {
 				$active = '';
-				$aria_current = '';
-				// if( strpos($menu['link'], $slug[0]) !== false ) {
-				// 	$active = 'active';
-				// 	$aria_current = 'aria-current="page"';
-				// }
 
 				$has_class = '';
 				if (array_key_exists('subItems', $menu) && is_array($menu['subItems']) && count($menu['subItems'])>0) {
@@ -49,7 +44,7 @@ if (is_array($result) && count($result)> 0) {
 				}
 
 				$htmlmenu[] = '<li class="ip-menu-item '. $active .' '. $has_class .'">';
-				$htmlmenu[] = '<a class="ip-menu-link" href="'.$menu['link'].'" '. $aria_current .' '. $is_external_link .'>'.$menu['label'].'</a>';
+				$htmlmenu[] = '<a class="ip-menu-link" href="'.$menu['link'].'" '. $is_external_link .'>'.$menu['label'].'</a>';
 				if (array_key_exists('subItems', $menu) && is_array($menu['subItems']) && count($menu['subItems'])>0) {
 					$htmlmenu[] = '<ul class="ip-submenu">';
 					foreach ($menu['subItems'] as $key => $submenu) {

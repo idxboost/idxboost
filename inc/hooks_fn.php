@@ -267,6 +267,9 @@ add_action( 'wp_head', 'idx_boost_cms_assets_style', 100 );
 // CMS. Load SEO
 add_action( 'wp_head', 'custom_seo_page', 0, 0 );
 
+// CMS. Load custom style
+add_action( 'wp_head', 'idxboost_cms_custom_style', 101, 0 );
+
 // CMS. Load loader
 add_action( 'get_footer', 'idxboost_cms_loader', 101, 1 );
 

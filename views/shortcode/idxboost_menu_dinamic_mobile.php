@@ -46,7 +46,7 @@ if (is_array($result) && count($result)> 0) {
 
                 $htmlmenu[] = '<li class="ip-menu-item'. $has_class .'">';
                 $htmlmenu[] = '<div class="ip-menu-item-wrapper">';
-                $htmlmenu[] = '<a class="ip-menu-link" href="'.$menu['link'].'" '. $aria_current .' '. $is_external_link .'>'.$menu['label'].'</a>';
+                $htmlmenu[] = '<a class="ip-menu-link" href="'.$menu['link'].'" '. $is_external_link .'>'.$menu['label'].'</a>';
                 $htmlmenu[] = $submenu_toggle;
                 $htmlmenu[] = '</div>';
                 if (array_key_exists('subItems', $menu) && is_array($menu['subItems']) && count($menu['subItems'])>0) {

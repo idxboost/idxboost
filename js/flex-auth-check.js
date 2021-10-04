@@ -275,6 +275,11 @@ function idx_auto_save_building(lead_data){
 								query_filter=idxboostCollecBuil.payload.filter_query+' and is_rental=0 ';
 							}
 
+							var search_url = location.href;
+							if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+								var search_url = initial_href;
+							}
+
 							$.ajax({
 									type: "POST",
 									url: __flex_g_settings.ajaxUrl,
@@ -287,7 +292,7 @@ function idx_auto_save_building(lead_data){
 										lead_name:lead_data.first_name,
 										lead_lastname:lead_data.last_name,
 										lead_email:lead_data.email,                 
-										search_url:window.location.href
+										search_url:search_url
 									},
 								success: function(response) {
 										//console.log(response);

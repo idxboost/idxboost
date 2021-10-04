@@ -2010,12 +2010,12 @@ function custom_page_template($page_template)
 
         $metas = get_post_meta($post->ID, 'idx_page_type');
 
-        if ( is_array($metas) && $metas[0] == 'custom' ) {
+        if ( ! empty($metas) && $metas[0] == 'custom' ) {
             $page_template = FLEX_IDX_PATH . '/views/pages/custom-page-template.php';
         }
     
         if ( ! empty($flex_idx_info['agent']['has_cms_form']) && $flex_idx_info['agent']['has_cms_form'] != false ) {
-            if ( is_array($metas) && $metas[0] == 'landing' ) {
+            if ( ! empty($metas) && $metas[0] == 'landing' ) {
                 $page_template = FLEX_IDX_PATH . '/views/pages/landing-page-template.php';
             }
         }

@@ -3788,6 +3788,16 @@ function buildSearchFilterForm() {
 function saveFilterSearchForLead() {
 	// IB_SEARCH_FILTER
 	var search_url = location.href;
+	if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+		var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		if (pattern.test(initial_href)) {
+		    var search_url = initial_href;
+		}else{
+		    var search_url = __flex_idx_search_filter_v2.searchFilterPermalink+initial_href;
+		}
+	}
+
+
 	var search_count = IB_SEARCH_FILTER.attr("data-count");
 	var search_condition = IB_SEARCH_FILTER.attr("data-condition");
 	var search_name = IB_SEARCH_FILTER.attr("data-name");

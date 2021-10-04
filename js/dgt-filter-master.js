@@ -3811,6 +3811,14 @@ function saveFilterSearchForLead() {
 	// IB_SEARCH_FILTER
 	if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
 		var search_url = location.href;
+		if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+			var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+			if (pattern.test(initial_href)) {
+			    var search_url = initial_href;
+			}else{
+			    var search_url = flex_idx_filter_params.searchFilterPermalink+initial_href;
+			}
+		}
 		var search_count = IB_SEARCH_FILTER.find("#search_count").val();
 		var search_condition = IB_SEARCH_FILTER.find(".filter_condition").val();
 		var search_name = filter_metadata.title;

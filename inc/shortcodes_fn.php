@@ -157,12 +157,6 @@ if (!function_exists('ib_crm_listings_collection_slider_sc')) {
 if (!function_exists("idxboost_dinamic_menu_sc")) {
     function idxboost_dinamic_menu_sc($atts, $content = null)
     {
-        $atts = shortcode_atts(array(
-            'registration_key' => ""
-        ), $atts);
-
-        wp_enqueue_script("iboost-buyers-sellers-js");
-
         ob_start();
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_menu_dinamic.php')) {
@@ -180,12 +174,6 @@ if (!function_exists("idxboost_dinamic_menu_sc")) {
 if (!function_exists("idxboost_dinamic_menu_mobile_sc")) {
     function idxboost_dinamic_menu_mobile_sc($atts, $content = null)
     {
-        $atts = shortcode_atts(array(
-            'registration_key' => ""
-        ), $atts);
-
-        wp_enqueue_script("iboost-buyers-sellers-js");
-
         ob_start();
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_menu_dinamic_mobile.php')) {
@@ -276,8 +264,7 @@ if ( ! function_exists('idxboost_contact_page_sc') ) {
         global $flex_idx_info;
 
         if ( ! empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
-            
-            wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/contact.js', array(), false, true);
+            wp_enqueue_script('idx_boost_js_contact', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/contact.js', array('jquery', 'google-maps-api'), false, true);
             
             ob_start();
 
@@ -4534,39 +4521,3 @@ if (!function_exists('idx_page_shortcode_render')) {
         echo $content;
     }
 }
-
-// if (!function_exists('idx_page_shortcode_render')) {
-//     function idx_page_shortcode_render($content)
-//     {
-
-//         $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
-//         $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
-//         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
-//         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
-//         $pattern = '~\[idxboost_dinamic_listings type="property-sites"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_idxboost_dinamic_listings = do_shortcode('[list_property_collection column="two" mode="slider"]');
-//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-//         }
-
-//         $pattern = '~\[idxboost_dinamic_listings type="exclusive-listings"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_idxboost_dinamic_listings = do_shortcode('[flex_idx_filter type="2" mode="slider"]');
-//             $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-//         }
-
-
-//         $pattern = '~\[flex_idx_filter id="(.+?)" mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $variable_flex_idx_filter = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $variable_flex_idx_filter, $content);
-//         }
-
-//         $pattern = '~\[ib_search_filter id="(.+?)" mode="slider"\]~';
-//         if (preg_match($pattern, $content, $match)) {
-//             $ib_search_filter = do_shortcode($match[0]);
-//             $content = str_replace($match[0], $ib_search_filter, $content);
-//         }
-//         echo $content;
-//     }
-// }

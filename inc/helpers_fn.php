@@ -757,10 +757,10 @@ if (!function_exists('idx_boost_cms_assets_style')) {
             $head_json = @json_decode($response_service, true);
 
             // Load font setting
-            if ( is_array($head_json) && count($head_json) > 0 ) {
+            if (is_array($head_json) && count($head_json) > 0) {
                 $GLOBALS["crm_theme_setting"] = $head_json;
 
-                if ( array_key_exists("font", $head_json) ) {
+                if (array_key_exists("font", $head_json)) {
                     echo trim($head_json['font']);
                 }
             }
@@ -797,13 +797,21 @@ if (!function_exists('idx_boost_cms_assets_style')) {
             }
 
             // Load loader
-                
-            if ( is_array($head_json) && count($head_json) > 0 ) {
-                if ( 
+
+            if (is_array($head_json) && count($head_json) > 0) {
+                if (
                     array_key_exists("loader", $head_json) &&
                     array_key_exists("content", $head_json['loader'])
                 ) {
-                    update_option("cms_loader", trim($head_json['loader']['content'])) ;
+                    update_option("cms_loader", trim($head_json['loader']['content']));
+                }
+            }
+
+            // Load custom style
+
+            if (is_array($head_json) && count($head_json) > 0) {
+                if (array_key_exists("globalCss", $head_json)) {
+                    update_option("cms_custom_style", trim($head_json['globalCss']));
                 }
             }
 
@@ -816,7 +824,16 @@ if (!function_exists('idx_boost_cms_assets_style')) {
     }
 }
 
-if ( ! function_exists('idxboost_cms_loader') ) {
+if (!function_exists('idxboost_cms_custom_style')) {
+    function idxboost_cms_custom_style()
+    {
+        if (get_option("cms_custom_style")) {
+            echo '<style type="text/css">' . get_option("cms_custom_style") . '</style>';
+        }
+    }
+}
+
+if (!function_exists('idxboost_cms_loader')) {
     function idxboost_cms_loader()
     {
         echo get_option("cms_loader");
@@ -1614,7 +1631,7 @@ if (!function_exists('flex_include_html_partial')) {
         ob_start();
         global $flex_idx_info;
         $has_smart_property_alerts = false;
-        if (!empty($flex_idx_info['agent']['has_smart_property_alerts']) && $flex_idx_info['agent']['has_smart_property_alerts'] != false && $flex_idx_info['agent']['has_smart_property_alerts'] == 1 ) {
+        if (!empty($flex_idx_info['agent']['has_smart_property_alerts']) && $flex_idx_info['agent']['has_smart_property_alerts'] != false && $flex_idx_info['agent']['has_smart_property_alerts'] == 1) {
             $has_smart_property_alerts = true;
         }
 
@@ -2314,7 +2331,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)" rel="nofollow">
-                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $name; ?>
+                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $name; ?>
             </a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)): ?>
@@ -2461,7 +2478,7 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)"
-               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response["first_name"]; ?></a>
+               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $response["first_name"]; ?></a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)): ?>
                     <ul>
@@ -3156,6 +3173,17 @@ if (!function_exists('flex_idx_connect_fn')) {
                         continue;
                     }
                     */
+                    /*
+                    $user_id = wp_create_user( $idx_agent['contact_email'], $idx_agent['contact_first_name'], $idx_agent['contact_email'] );
+                    $user = new WP_User($user_id);
+                    $user->set_role('editor');
+                    wp_update_user([
+                        'ID' => $user_id,
+                        'first_name' => $idx_agent['contact_first_name'],
+                        'last_name' => $idx_agent['contact_last_name'],
+                    ]);
+                    */
+
                     $wp_idx_agent = wp_insert_post(array(
                         'post_title' => implode(' ', array($idx_agent['contact_first_name'], $idx_agent['contact_last_name'])),
                         'post_name' => $idx_agent['agent_slug'],
@@ -5195,7 +5223,7 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         $id_filter = $_POST['id_filter'];
         $limit = $_POST['limit'];
 
-        if ( empty($limit) || (is_numeric($limit) && intval($limit) ==0) || !is_numeric($limit) ) {
+        if (empty($limit) || (is_numeric($limit) && intval($limit) == 0) || !is_numeric($limit)) {
             $limit = "default";
         }
 
@@ -6960,6 +6988,36 @@ if (!function_exists('flex_idx_admin_render_launch_page')) {
         }
     }
 }
+
+
+// Add Custom Menu
+add_action('admin_menu', 'flex_idx_create_editor_root_menu');
+if (!function_exists('flex_idx_create_editor_root_menu')) {
+    function flex_idx_create_editor_root_menu()
+    {
+        $flex_idx_page = add_menu_page('IDX Boost - Settings', 'IDX Boost', 'editor', 'flex-idx-editor', 'flex_idx_admin_render_default_page', FLEX_IDX_URI . 'images/rocket.svg');
+
+        add_action('admin_print_scripts-' . $flex_idx_page, 'flex_idx_admin_enqueue_assets');
+        if (get_option('idxboost_client_status') == 'active') {
+            // $flex_idx_registration_launch = get_option('flex_idx_registration_launch');
+            // if ($flex_idx_registration_launch==false) {
+            //     $flex_idx_pages_admin_launch = add_submenu_page('flex-idx', 'IDX Boost - Launch', 'Launch My Site', 'administrator', 'flex-idx-launch', 'flex_idx_admin_render_launch_page');
+            // }
+            add_submenu_page('flex-idx-editor', 'Map Search Filters', 'Map Search Filters', 'editor', 'edit.php?post_type=flex-landing-pages', null);
+            add_submenu_page('flex-idx-editor', 'Display Filters', 'Display Filters', 'editor', 'edit.php?post_type=flex-filter-pages', null);
+            add_submenu_page('flex-idx-editor', 'My Buildings', 'My Buildings', 'editor', 'edit.php?post_type=flex-idx-building', null);
+            add_submenu_page('flex-idx-editor', 'My Master Plans', 'My Master Plans', 'editor', 'edit.php?post_type=idx-sub-area', null);
+            add_submenu_page('flex-idx-editor', 'Off Market Inventory', 'Off Market Inventory', 'editor', 'edit.php?post_type=idx-off-market', null);
+            add_submenu_page('flex-idx-editor', 'Page’s URL Slug', 'Page’s URL Slug', 'editor', 'edit.php?post_type=flex-idx-pages', null);
+            //add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
+            $flex_idx_pages_admin = add_submenu_page('flex-idx-editor', 'IDX Boost - Tools', 'My Tools', 'editor', 'flex-idx-tools', 'flex_idx_admin_render_tools_page');
+            //$flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Documentation', 'Documentation', 'administrator', 'flex-idx-settings', 'flex_idx_admin_render_documentation_page');
+            //$flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Import', 'Import Data', 'administrator', 'flex-idx-import-data', 'flex_idx_admin_render_importation_page');
+            add_action('admin_print_scripts-' . $flex_idx_pages_admin, 'flex_idx_admin_pages_list_enqueue_assets');
+        }
+    }
+}
+
 if (!function_exists('flex_idx_create_admin_root_menu')) {
     function flex_idx_create_admin_root_menu()
     {
@@ -6970,7 +7028,7 @@ if (!function_exists('flex_idx_create_admin_root_menu')) {
             // if ($flex_idx_registration_launch==false) {
             //     $flex_idx_pages_admin_launch = add_submenu_page('flex-idx', 'IDX Boost - Launch', 'Launch My Site', 'administrator', 'flex-idx-launch', 'flex_idx_admin_render_launch_page');
             // }
-            add_submenu_page('flex-idx', 'Map Search Filters', 'Map Search Filters', 'administrator', 'edit.php?post_type=flex-landing-pages', null);            
+            add_submenu_page('flex-idx', 'Map Search Filters', 'Map Search Filters', 'administrator', 'edit.php?post_type=flex-landing-pages', null);
             add_submenu_page('flex-idx', 'Display Filters', 'Display Filters', 'administrator', 'edit.php?post_type=flex-filter-pages', null);
             add_submenu_page('flex-idx', 'My Buildings', 'My Buildings', 'administrator', 'edit.php?post_type=flex-idx-building', null);
             add_submenu_page('flex-idx', 'My Master Plans', 'My Master Plans', 'administrator', 'edit.php?post_type=idx-sub-area', null);
@@ -7740,7 +7798,7 @@ if (!function_exists("custom_seo_page")) {
             $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
 
             if (
-                (is_array($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
+                (!empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
                 is_home() or is_front_page() or
                 ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
                 ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
@@ -7748,12 +7806,12 @@ if (!function_exists("custom_seo_page")) {
                 $page_type = '';
                 $post_id = '';
 
-                if ($metas[0] == 'custom') {
+                if ($metas && $metas[0] == 'custom') {
                     $page_type = 'custom';
                     $post_id = $post->ID;
                 }
 
-                if ($metas[0] == 'landing') {
+                if ($metas && $metas[0] == 'landing') {
                     $page_type = 'landing';
                     $post_id = $post->ID;
                 }
@@ -7962,7 +8020,6 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
 ehde/zUxo6UvS7UrBQIDAQAB
 -----END PUBLIC KEY-----
 EOD;
-
             require "JWT.php";
             $token = $_GET['token'];
             try {
@@ -7970,27 +8027,57 @@ EOD;
                 $decoded_array = (array)$decoded;
                 $page = $decoded_array['page'];
                 $userToLogin = get_user_by('email', $decoded_array['email']);
+                $role = '';
                 if ($userToLogin) {
                     wp_set_current_user($userToLogin->ID);
                     wp_set_auth_cookie($userToLogin->ID, false);
                     do_action('wp_login', $userToLogin->name, $userToLogin);
+                    if (in_array('administrator', $userToLogin->roles)) {
+                        $role = 'admin';
+                    } else {
+                        $role = 'editor';
+                    }
                 } else {
-                    $admins = get_users( array(
-                        'role__in' => 'administrator',
-                        'fields'   => array('user_login'),
+                    $editors = get_users(array(
+                        'role__in' => 'editor',
+                        'fields' => array('user_login'),
                     ));
 
-                    if (!empty($admins)) {
-                        $userToLogin = get_user_by('login', $admins[0]->user_login);
+                    if (!empty($editors)) {
+                        $userToLogin = get_user_by('login', $editors[0]->user_login);
                         if ($userToLogin) {
+                            $role = 'editor';
                             wp_set_current_user($userToLogin->ID);
                             wp_set_auth_cookie($userToLogin->ID, false);
                             do_action('wp_login', $userToLogin->name, $userToLogin);
                         }
+                    } else {
+
+                        $admins = get_users(array(
+                            'role__in' => 'administrator',
+                            'fields' => array('user_login'),
+                        ));
+                        if (!empty($admins)) {
+                            $userToLogin = get_user_by('login', $admins[0]->user_login);
+                            if ($userToLogin) {
+                                $role = 'admin';
+                                wp_set_current_user($userToLogin->ID);
+                                wp_set_auth_cookie($userToLogin->ID, false);
+                                do_action('wp_login', $userToLogin->name, $userToLogin);
+                            }
+                        }
                     }
                 }
                 if ($page == 'home') wp_redirect(home_url());
-                if ($page == 'admin') wp_redirect(admin_url() . '?page=flex-idx');
+                if ($page == 'admin' && $role == 'editor') {
+                    wp_redirect(admin_url() . '?page=flex-idx-editor');
+                }
+                if ($page == 'admin' && $role == 'admin') {
+                    wp_redirect(admin_url() . '?page=flex-idx');
+                }
+                if ($page == 'admin' && $role == '') {
+                    wp_redirect(home_url());
+                }
                 exit();
             } catch (Exception $ex) {
                 wp_redirect(home_url());

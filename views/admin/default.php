@@ -25,6 +25,7 @@
   #wpwrap{
     background: rgb(239,61,78);
     background: linear-gradient(90deg, rgba(239,61,78,1) 0%, rgba(204,50,90,1) 60%, rgba(174,40,101,1) 100%);
+    overflow-x: hidden;
   }
 
   .logo-idx{
@@ -169,11 +170,26 @@
   }
 
   @media screen and (min-width: 782px){
-    #wpcontent{
+    #wpbody-content{
+      padding-top: 0 !important;
+    }
+
+    #wpbody{
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: calc(100% - 180px);
+      height: calc(100vh - 50px);
       background-image: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-rocket.png');
       background-position: 78px 78px;
       background-repeat: no-repeat;
-      position: fixed;
+    }
+
+    #wpcontent{
+      /*background-image: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-rocket.png');
+      background-position: 78px 78px;
+      background-repeat: no-repeat;
+      position: fixed;*/
       top: 0;
       left: 0;
       width: 100%;
@@ -189,6 +205,7 @@
     .logo-idx {
       width: 100%;
       margin: 0;
+      margin-top: 50px
     }
 
     #wpbody-content{
