@@ -4660,15 +4660,15 @@ function handleFilterSearchLookup(event) {
 						}
 					}
 
-					IB_GMAP_FIT_TO_BOUNDS = false;
+					//IB_GMAP_FIT_TO_BOUNDS = false;
 				}
 			}
 
-			if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+			/*if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
 				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
 				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
 			}
-			console.log('[refresh]');
+			console.log('[refresh]');*/
 
 			// var mapCenter = IB_MAP.getCenter();
 			// var mapZoom = IB_MAP.getZoom();
@@ -6073,10 +6073,13 @@ $(function () {
 	});
 
 	var wmaxWidth = $(window).width();
-	console.log(wmaxWidth);
 	if(wmaxWidth>1023){
 		$("body").addClass("ms-hidden-ovf");
+		$("#flex_idx_search_filter").addClass("ib-vmap-active").removeClass("ib-vgrid-active");
+	}else{
+		$("#flex_idx_search_filter").removeClass("ib-vmap-active").addClass("ib-vgrid-active");
 	}
+
 }(jQuery));
 
 (function($) {
