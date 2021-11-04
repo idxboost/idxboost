@@ -678,7 +678,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
 
                   <?php if($property['remark'] != ''){ ?>
                     <div class="ib-pdescription property-description" id="property-description">
-                      <div class="ib-pdescription-title">Descrition</div>
+                      <div class="ib-pdescription-title"><?php echo __("Description", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                       <p><?php echo $property['remark']; ?></p>
                     </div>
                   <?php } ?>
@@ -1148,9 +1148,9 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                           <?php } ?>
                           <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
                           <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                          <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
+                          <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
                           <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
-                          <p><?php echo $property['board_info']["board_disclaimer"];?></p>
+                                  <p><?php $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
                           <?php } ?>
                           <?php }else{ ?>
                           <p>The multiple listing information is provided by the <?php echo $property["board_name"]; ?>® from a copyrighted compilation of listings.
@@ -1275,9 +1275,9 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                         <?php } ?>
                         <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
                         <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                        <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
+                        <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
                         <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
-                        <p><?php echo $property['board_info']["board_disclaimer"];?></p>
+                                <p><?php $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
                         <?php } ?>
                         <?php }else{ ?>
                         <p>The multiple listing information is provided by the <?php echo $property["board_name"]; ?>® from a copyrighted compilation of listings.

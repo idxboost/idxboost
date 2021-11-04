@@ -1,11 +1,11 @@
 <!-- modal property html -->
 <div id="flex_idx_modal_wrapper"></div>
 
-<?php 
+<?php
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 
                 $c_search_settings = get_option("idxboost_search_settings");
-                
+
                 $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
                 if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
                   $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
@@ -190,8 +190,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
       <div class="ib-mwrapper ib-mgeneric">
           <div class="ib-mgheader">
               <h4 class="ib-mghtitle"><?php echo __('Save search', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-              <p id="msSmartAlertText" 
-              data-text-alert="<?php echo __('Save your preferred areas for future reference', IDXBOOST_DOMAIN_THEME_LANG); ?>" 
+              <p id="msSmartAlertText"
+              data-text-alert="<?php echo __('Save your preferred areas for future reference', IDXBOOST_DOMAIN_THEME_LANG); ?>"
               data-text-default="<?php echo __('You will receive automatic updates every time there are new listings and price reductions', IDXBOOST_DOMAIN_THEME_LANG); ?>">
               </p>
           </div>
@@ -466,7 +466,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
               <div class="ib-pwinfo">
                 <div class="ib-pinfo">
                   <div class="ib-pilf">
-                    
+
                                  <ul class="ib-pilist">
                                     <li class="ib-pilitem ib-pilprice">
                                       <span class="ib-pipn">{{price}}{{ isRentalType this }}</span>
@@ -506,7 +506,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     <button class="ib-psbtn" aria-label="Print"><span class="ib-pstxt"><?php echo __("print", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
                                  </li>
                               </ul>
-          
+
                               <div class="ib-plist-details -border">
                                  <div class="ib-plist-card">
                                     <h2 class="ib-plist-card-title">Basic Information</h2>
@@ -558,7 +558,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 
                   {{#if remark}}
                     <div class="ib-pdescription">
-                      <div class="ib-pdescription-title">Descrition</div>
+                      <div class="ib-pdescription-title"><?php echo __("Description", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                       <p>{{remark}}</p>
                     </div>
                   {{/if}}
@@ -588,7 +588,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                           <span class="ib-plist-st">WF Description</span>
                                           <span class="ib-plist-pt">{{wv}}</span>
                                        </li>
-                                       {{/if}}                                       
+                                       {{/if}}
                                        <li>
                                           <span class="ib-plist-st">Pool</span>
                                           <span class="ib-plist-pt">{{pool}}</span>
@@ -653,13 +653,13 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                             <span class="ib-plist-st">Cooling Description</span>
                                             <span class="ib-plist-pt">{{more_info_info.cooling}}</span>
                                          </li>
-                                       {{/if}}                                       
+                                       {{/if}}
                                        {{#if more_info_info.appliance}}
                                          <li>
                                             <span class="ib-plist-st">Equipment Appliances</span>
                                             <span class="ib-plist-pt">{{more_info_info.appliance}}</span>
                                          </li>
-                                       {{/if}}   
+                                       {{/if}}
                                        {{#if more_info_info.floor_desc}}
                                          <li>
                                             <span class="ib-plist-st">Floor Description</span>
@@ -790,7 +790,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                             <span class="ib-plist-pt">{{lot_desc}}</span>
                                          </li>
                                         {{/if}}
-                                       
+
                                        {{#if more_info_info.lot_features}}
                                          <li>
                                             <span class="ib-plist-st">Lot Features</span>
@@ -821,7 +821,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                             <span class="ib-plist-pt">{{more_info_info.pets}}</span>
                                          </li>
                                        {{/if}}
-                                       
+
                                        {{#if more_info_info.pool_features}}
                                          <li>
                                             <span class="ib-plist-st">Pool Features</span>
@@ -962,7 +962,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                        {{/if}}
                                     </ul>
                                  </div>
-                                 
+
                               </div>
 
                               {{#if lat }}
@@ -976,7 +976,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                               {{/if}}
 
                               {{#if related_properties}}
-                              
+
                                 <div class="ib-pablock ib-bsproperties">
                                    <div class="ib-pasmtitle"><?php echo __("Similar Properties For sale", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                                   <ul class="ib-sproperties">
@@ -1030,8 +1030,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     {{/if}}
                     <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
                       <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
-                      <p>{{{board_info.board_disclaimer}}}</p>
+                    <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
+                        <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
                     <?php }else{ ?>
                       <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
                       The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
@@ -1041,10 +1041,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
                     <?php } ?>
                     <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
-                    
+
 
                 </div>
-                
+
               </div>
               <div class="ib-paside">
                 <button class="ib-float-form"><span></span></button>
@@ -1097,8 +1097,8 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     {{/if}}
                     <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
                       <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php }else if("13" == $flex_idx_info["board_id"]){ ?>
-                      <p>{{{board_info.board_disclaimer}}}</p>
+                    <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
+                        <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
                     <?php }else{ ?>
                       <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
                       The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
@@ -1108,7 +1108,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
                     <?php } ?>
                     <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
-                    
+
 
             </div>
 
@@ -1130,7 +1130,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         <li class="ib-piitem ib-pibaths">{{ bath }} <?php echo __("bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-pisqft">{{ formatSqft sqft }} <?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ address_short }} {{ address_large }}</li>
-        <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>  
+        <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
     </ul>
     <div class="ib-pislider {{ idxImageEmpty this }} gs-container-slider" data-img-cnt="{{ img_cnt }}" data-mls="{{ mls_num }}">
         <img class="ib-pifimg" src="{{ idxImage this }}" alt="{{ address_short }} {{ address_large }}">

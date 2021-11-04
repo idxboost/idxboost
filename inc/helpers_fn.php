@@ -7784,47 +7784,52 @@ if (!function_exists('update_seo_all_page')) {
     }
 }
 
-if (!function_exists("custom_seo_page")) {
+if ( ! function_exists("custom_seo_page") ) {
     function custom_seo_page()
     {
         global $post;
         global $flex_idx_info;
         global $wp;
+        $wp_theme = wp_get_theme();
         $wp_request = $wp->request;
 
-        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
+        if ( 
+            "Builder CMS" == $wp_theme->name &&
+            ! empty($flex_idx_info['agent']['has_cms']) && 
+            $flex_idx_info['agent']['has_cms'] != false
+        ) {
 
             $metas = get_post_meta($post->ID, 'idx_page_type');
             $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
 
             if (
-                (!empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
+                ( ! empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing') ) or
                 is_home() or is_front_page() or
-                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
-                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
+                ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about" ) or
+                ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact" )
             ) {
                 $page_type = '';
                 $post_id = '';
 
-                if ($metas && $metas[0] == 'custom') {
+                if ( $metas && $metas[0] == 'custom' ) {
                     $page_type = 'custom';
                     $post_id = $post->ID;
                 }
 
-                if ($metas && $metas[0] == 'landing') {
+                if ( $metas && $metas[0] == 'landing' ) {
                     $page_type = 'landing';
                     $post_id = $post->ID;
                 }
 
-                if (is_home() || is_front_page()) {
+                if ( is_home() || is_front_page() ) {
                     $page_type = 'home';
                 }
 
-                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") {
+                if ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about" ) {
                     $page_type = 'about';
                 }
 
-                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact") {
+                if ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact" ) {
                     $page_type = 'contact';
                 }
 
@@ -7844,7 +7849,7 @@ if (!function_exists("custom_seo_page")) {
                 $body = wp_remote_retrieve_body($response);
                 $content = json_decode($body, true);
 
-                if (!is_wp_error($response) or $content != NULL) {
+                if ( ! is_wp_error($response) or $content != NULL ) {
                     // validar que se use el seo, sino usar seo por defecto
                     if ($content['cmsSeo'] == 1) {
                         update_seo($content['seo']['title'], $content['seo']['description'], $content['socialShare']['title'], $content['socialShare']['image']);
@@ -7871,14 +7876,14 @@ if (!function_exists("custom_seo_page")) {
                 $body = wp_remote_retrieve_body($response);
                 $content = json_decode($body, true);
 
-                if (!is_wp_error($response) or $content != NULL) {
+                if ( ! is_wp_error($response) or $content != NULL ) {
                     update_seo_all_page($content['seo']['title']);
                 } else {
                     update_seo_default();
                 }
             }
 
-        } else {
+        } elseif ( "Builder CMS" == $wp_theme->name ) {
             update_seo_default();
         }
 

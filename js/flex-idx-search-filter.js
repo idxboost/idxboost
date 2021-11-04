@@ -4484,16 +4484,31 @@ function handleFilterSearchLookup(event) {
 					IB_POLYGON.setMap(null);
 				}
 
-				IB_POLYGON = new google.maps.Polygon({
-					paths: ib_generate_latlng_from_kml(params.kml_boundaries),
-					draggable: false,
-					editable: false,
-					strokeColor: '#31239a',
-					strokeOpacity: 0.8,
-					strokeWeight: 1,
-					fillColor: '#31239a',
-					fillOpacity: 0.1
-				});
+				if (params.hasOwnProperty("map_overlay_hidden")) {
+					IB_POLYGON = new google.maps.Polygon({
+						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
+						draggable: false,
+						editable: false,
+						strokeColor: '#31239a',
+						strokeOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.8,
+						strokeWeight: 1,
+						fillColor: '#31239a',
+						fillOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.1
+					});
+				} else { // older clients
+					IB_POLYGON = new google.maps.Polygon({
+						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
+						draggable: false,
+						editable: false,
+						strokeColor: '#31239a',
+						strokeOpacity: 0.8,
+						strokeWeight: 1,
+						fillColor: '#31239a',
+						fillOpacity: 0.1
+					});
+				}
+
+
 
 				if (typeof IB_DRAWING_POLYGON !== "undefined") {
 					IB_DRAWING_POLYGON.setMap(null);

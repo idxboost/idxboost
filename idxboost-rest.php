@@ -207,7 +207,6 @@ class IDXBoost_REST_API_Endpoints
                     'data' => []
                 ];
             } else {
-
                 $my_post = array(
                     'post_title' => $_POST['post_title'],
                     'post_content' => '',
@@ -215,11 +214,8 @@ class IDXBoost_REST_API_Endpoints
                     'post_author' => 1,
                     'post_type' => 'page'
                 );
-
                 $postId = wp_insert_post($my_post);
-
                 $post = get_post($postId);
-
                 add_post_meta($postId, 'idx_page_type', $_POST['page_type']);
                 add_post_meta($postId, 'idx_page_id', $_POST['page_id']);
                 $response = [
