@@ -346,14 +346,15 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
         curl_close($ch);
         ob_start();
         if (is_array($response)) {
-            ?>
+?>
 
             <!-- starts schools information -->
 
             <div class="list-details clidxboost-schools-container" id="clidxboost-schools-container">
                 <div class="list-amenities show school-list">
                     <h3 class="school-title"><?php echo __("Schools for", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                        {{address_short}}, <span>{{address_large}}</span></h3>
+                        {{address_short}}, <span>{{address_large}}</span>
+                    </h3>
                     <div class="clidxboost-niche-tab-filters">
                         <div class="clidxboost-niche-tab">
                             <button class="active" data-filter="all">
@@ -373,11 +374,11 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
                         </div>
                     </div>
                     <div class="clidxboost-header-niche">
-                        <div class="clidxboost-header-th"><?php echo __("School", IDXBOOST_DOMAIN_THEME_LANG); ?>  </div>
-                        <div class="clidxboost-header-th"><?php echo __("Rating", IDXBOOST_DOMAIN_THEME_LANG); ?>  </div>
-                        <div class="clidxboost-header-th"><?php echo __("Grades", IDXBOOST_DOMAIN_THEME_LANG); ?>  </div>
-                        <div class="clidxboost-header-th"><?php echo __("Safety", IDXBOOST_DOMAIN_THEME_LANG); ?>  </div>
-                        <div class="clidxboost-header-th"><?php echo __("Distance", IDXBOOST_DOMAIN_THEME_LANG); ?>  </div>
+                        <div class="clidxboost-header-th"><?php echo __("School", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
+                        <div class="clidxboost-header-th"><?php echo __("Rating", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
+                        <div class="clidxboost-header-th"><?php echo __("Grades", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
+                        <div class="clidxboost-header-th"><?php echo __("Safety", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
+                        <div class="clidxboost-header-th"><?php echo __("Distance", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
                         <div class="clidxboost-header-th"><?php echo __("Type", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     </div>
                     <div class="clidxboost-body-niche">
@@ -412,21 +413,18 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
                                 } elseif (strpos($valuegeome['name_school'], 'High')) {
                                     $filtextSchool = 'high';
                                 }
-                                ?>
+                        ?>
                                 <div class="clidxboost-td-niche <?php echo $filtextSchool; ?> clidxboost-td-niche-hide">
                                     <div class="clidxboost-data-item">
-                                        <a target="blank" rel="nofollow"
-                                           href="<?php echo $valuegeome['url']; ?>"><?php echo $valuegeome['name_school']; ?></a>
+                                        <a target="blank" rel="nofollow" href="<?php echo $valuegeome['url']; ?>"><?php echo $valuegeome['name_school']; ?></a>
                                     </div>
-                                    <div class="clidxboost-data-item"><img class="clidxboost-rangeSchools"
-                                                                           src="<?php echo $pathImageBest; ?>"></div>
+                                    <div class="clidxboost-data-item"><img class="clidxboost-rangeSchools" src="<?php echo $pathImageBest; ?>"></div>
                                     <div class="clidxboost-data-item"><?php echo $valuegeome['grades_offered']; ?></div>
-                                    <div class="clidxboost-data-item"><img class="clidxboost-safelySchools"
-                                                                           src="<?php echo $pathImageAca; ?> "></div>
-                                    <div class="clidxboost-data-item"><?php echo number_format(($valuegeome['distancePoint'] * 0.62137), 1, '.', ''); ?><?php echo __("Miles", IDXBOOST_DOMAIN_THEME_LANG); ?>   </div>
+                                    <div class="clidxboost-data-item"><img class="clidxboost-safelySchools" src="<?php echo $pathImageAca; ?> "></div>
+                                    <div class="clidxboost-data-item"><?php echo number_format(($valuegeome['distancePoint'] * 0.62137), 1, '.', ''); ?><?php echo __("Miles", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
                                     <div class="clidxboost-data-item"><?php echo $valuegeome['character']; ?></div>
                                 </div>
-                            <?php }
+                        <?php }
                         }
                         ?>
                         <div id="clidxboost-container-loadMore-niche" class="clidxboost-container-loadMore-niche">
@@ -435,8 +433,7 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
                         </div>
                         <div class="uc-listingSchools-disclaimer">
                             <p>
-                                <a class="uc-listingSchools-attributionLink" href="https://www.niche.com/k12"
-                                   target="_blank">
+                                <a class="uc-listingSchools-attributionLink" href="https://www.niche.com/k12" target="_blank">
                                     <?php echo __("K12 School Data", IDXBOOST_DOMAIN_THEME_LANG); ?>
                                 </a>
                                 <?php echo __("provided by", IDXBOOST_DOMAIN_THEME_LANG); ?>
@@ -450,8 +447,7 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
                             </p>
                             <p>
                                 <?php echo __("School data provided as-is by", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                <a class="uc-listingSchools-disclaimerLink" href="https://www.niche.com"
-                                   target="_blank">
+                                <a class="uc-listingSchools-disclaimerLink" href="https://www.niche.com" target="_blank">
                                     Niche</a>,
                                 <?php echo __("a third party. It is the responsibility of the user to evaluate all sources of information. Users should visit all school district web sites and visit all the schools in person to verify and consider all data, including eligibility.", IDXBOOST_DOMAIN_THEME_LANG); ?>
                             </p>
@@ -493,25 +489,27 @@ if (!function_exists('iboost_print_googlegtm_head_script')) {
 
                     global $flex_idx_info;
                     if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) {
-                        ?>
+            ?>
                         <!-- Google Tag Manager -->
-                        <script>(function (w, d, s, l, i) {
+                        <script>
+                            (function(w, d, s, l, i) {
                                 w[l] = w[l] || [];
                                 w[l].push({
-                                    'gtm.start':
-                                        new Date().getTime(), event: 'gtm.js'
+                                    'gtm.start': new Date().getTime(),
+                                    event: 'gtm.js'
                                 });
                                 var f = d.getElementsByTagName(s)[0],
-                                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                                    j = d.createElement(s),
+                                    dl = l != 'dataLayer' ? '&l=' + l : '';
                                 j.async = true;
                                 j.src =
                                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
                                 f.parentNode.insertBefore(j, f);
-                            })(window, document, 'script', 'dataLayer', '<?php echo $flex_idx_info['agent']['google_gtm']; ?>');</script>
+                            })(window, document, 'script', 'dataLayer', '<?php echo $flex_idx_info['agent']['google_gtm']; ?>');
+                        </script>
                         <!-- End Google Tag Manager -->
-                        <?php
+                    <?php
                     }
-
                 }
             }
         }
@@ -538,19 +536,14 @@ if (!function_exists('iboost_print_googlegtm_body_script')) {
                     if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) { ?>
                         <!-- Google Tag Manager (noscript) -->
                         <noscript>
-                            <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $flex_idx_info['agent']['google_gtm']; ?>"
-                                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+                            <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $flex_idx_info['agent']['google_gtm']; ?>" height="0" width="0" style="display:none;visibility:hidden"></iframe>
                         </noscript>
                         <!-- End Google Tag Manager (noscript) -->
                         <?php
                     }
-
                 }
             }
-
         }
-
-
     }
 }
 
@@ -814,13 +807,11 @@ if (!function_exists('idx_boost_cms_assets_style')) {
                     update_option("cms_custom_style", trim($head_json['globalCss']));
                 }
             }
-
         }
 
         if (get_option("favicon")) {
             echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
         }
-
     }
 }
 
@@ -1229,9 +1220,7 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                     $slug_building_exist =
                         array_values(
                             array_filter($result_slug_buildings, function ($sent) {
-                                return (
-                                    $sent['code'] == $GLOBALS["codeBuilding"]
-                                );
+                                return ($sent['code'] == $GLOBALS["codeBuilding"]);
                             })
                         );
                 }
@@ -1281,7 +1270,6 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                 if (!is_numeric($key_exist_tgbuilding)) {
                     $insert_pages_idxboost[] = "('" . addslashes($name) . "','tgbuilding','publish','" . $cod_buillding . "','" . generar_url_temp($name) . "')";
                     $response_data_new_items[] = array('name' => $name, 'address' => $address, 'lat' => $lat, 'lng' => $lng, 'year' => $year, 'unit' => $units, 'code' => $cod_buillding, 'gallery' => $gallery_tg, 'category' => $category, 'floor' => $floor, 'slug' => $path_building);
-
                 } else {
 
                     $id_building = $result_tgbuilding_wp[$key_exist_tgbuilding]['ID'];
@@ -1294,7 +1282,6 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                         if (is_numeric($keys_category) && array_key_exists($keys_category, $categorys_loop)) {
                             $update_relationship_cate[] = " WHEN object_id = '" . $id_building . "' THEN '" . $categorys_loop[$keys_category]['term_id'] . "' ";
                         }
-
                     } else {
                         //crea nuevo
                         /*cateogry*/
@@ -1317,7 +1304,6 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                     $meta_update['dgt_extra_unit']['query'][] = " WHEN meta_key='dgt_extra_unit' and post_id = '" . $id_building . "' THEN '" . addslashes($units) . "' ";
                     $meta_update['dgt_tg_idxboost_building']['query'][] = " WHEN meta_key='dgt_tg_idxboost_building' and post_id = '" . $id_building . "' THEN '" . $cod_buillding . "' ";
                     $meta_update['dgt_tg_gallery']['query'][] = " WHEN meta_key='dgt_tg_gallery' and post_id = '" . $id_building . "' THEN '" . addslashes($gallery_tg) . "' ";
-
                 }
             }
 
@@ -1358,8 +1344,8 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
             //inicio proceso guardar los nuevos items para sus metas
             if (!empty($response_data_new_items) && is_array($response_data_new_items) && count($response_data_new_items) > 0) {
                 $list_codes = '"' . implode('","', array_map(function ($item) {
-                        return $item['code'];
-                    }, $response_data_new_items)) . '"';
+                    return $item['code'];
+                }, $response_data_new_items)) . '"';
 
                 $result_tgbuilding_wp_new = $wpdb->get_results("SELECT post.ID,post.post_title as name,post.post_mime_type as code FROM wp_posts post where post_type='tgbuilding' and post.post_mime_type in (" . $list_codes . ");", ARRAY_A);
                 $list_build_new = [];
@@ -1409,7 +1395,6 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
             if (!empty($values_category) && is_array($values_category) && count($values_category) > 0) {
                 $query_insert_categories = $wpdb->query($struct_table_relationship . implode(',', $values_category));
             }
-
         }
 
 
@@ -1713,12 +1698,12 @@ if (!function_exists('flex_idx_get_info')) {
         #$list_agent_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "agent_%"', ARRAY_A);
         #$output['agent'] = flex_map_array($list_agent_info);
 
-        $output['agent']['has_dynamic_ads'] = isset($idxboost_agent_info['has_dynamic_ads']) ? (boolean)$idxboost_agent_info['has_dynamic_ads'] : false;
-        $output['agent']['has_seo_client'] = isset($idxboost_agent_info['has_seo_client']) ? (boolean)$idxboost_agent_info['has_seo_client'] : false;
+        $output['agent']['has_dynamic_ads'] = isset($idxboost_agent_info['has_dynamic_ads']) ? (bool)$idxboost_agent_info['has_dynamic_ads'] : false;
+        $output['agent']['has_seo_client'] = isset($idxboost_agent_info['has_seo_client']) ? (bool)$idxboost_agent_info['has_seo_client'] : false;
 
-        $output['agent']['has_basic_idx'] = isset($idxboost_agent_info['has_basic_idx']) ? (boolean)$idxboost_agent_info['has_basic_idx'] : false;
-        $output['agent']['has_building'] = isset($idxboost_agent_info['has_building']) ? (boolean)$idxboost_agent_info['has_building'] : false;
-        $output['agent']['has_boost_box_ads'] = isset($idxboost_agent_info['has_boost_box_ads']) ? (boolean)$idxboost_agent_info['has_boost_box_ads'] : false;
+        $output['agent']['has_basic_idx'] = isset($idxboost_agent_info['has_basic_idx']) ? (bool)$idxboost_agent_info['has_basic_idx'] : false;
+        $output['agent']['has_building'] = isset($idxboost_agent_info['has_building']) ? (bool)$idxboost_agent_info['has_building'] : false;
+        $output['agent']['has_boost_box_ads'] = isset($idxboost_agent_info['has_boost_box_ads']) ? (bool)$idxboost_agent_info['has_boost_box_ads'] : false;
 
         $output['agent']['hackbox'] = isset($idxboost_agent_info['hackbox']) ? $idxboost_agent_info['hackbox'] : '';
         $output['agent']['agent_first_name'] = isset($idxboost_agent_info['first_name']) ? $idxboost_agent_info['first_name'] : '';
@@ -1761,9 +1746,9 @@ if (!function_exists('flex_idx_get_info')) {
         $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
         $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
         $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
-        $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (boolean)$idxboost_agent_info['force_registration_forced'] : false;
+        $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (bool)$idxboost_agent_info['force_registration_forced'] : false;
 
-        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (boolean)$idxboost_agent_info['has_enterprise_recaptcha'] : false;
+        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (bool)$idxboost_agent_info['has_enterprise_recaptcha'] : false;
         $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
         $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
 
@@ -1940,88 +1925,87 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                                     }
 
                                     //listing view
-                                    ?>
+                        ?>
                                     <script type="text/javascript">
                                         <?php if (!empty($idx_info_lead)) { ?>
-                                        var idx_info_lead =<?php echo json_encode($idx_info_lead); ?>;
+                                            var idx_info_lead = <?php echo json_encode($idx_info_lead); ?>;
 
-                                        (function ($) {
-                                            //INICITIAL VARIABLES USER
-                                            $("#_ib_fn_inq").val(idx_info_lead.first_name);
-                                            $("#_ib_ln_inq").val(idx_info_lead.last_name);
-                                            $("#_ib_em_inq").val(idx_info_lead.email_address);
-                                            $("#_ib_ph_inq").val(idx_info_lead.phone_number);
+                                            (function($) {
+                                                //INICITIAL VARIABLES USER
+                                                $("#_ib_fn_inq").val(idx_info_lead.first_name);
+                                                $("#_ib_ln_inq").val(idx_info_lead.last_name);
+                                                $("#_ib_em_inq").val(idx_info_lead.email_address);
+                                                $("#_ib_ph_inq").val(idx_info_lead.phone_number);
 
-                                            $("._ib_fn_inq").val(idx_info_lead.first_name);
-                                            $("._ib_ln_inq").val(idx_info_lead.last_name);
-                                            $("._ib_em_inq").val(idx_info_lead.email_address);
-                                            $("._ib_ph_inq").val(idx_info_lead.phone_number);
+                                                $("._ib_fn_inq").val(idx_info_lead.first_name);
+                                                $("._ib_ln_inq").val(idx_info_lead.last_name);
+                                                $("._ib_em_inq").val(idx_info_lead.email_address);
+                                                $("._ib_ph_inq").val(idx_info_lead.phone_number);
 
-                                            //Building default label
-                                            var ob_form_building_footer;
-                                            ob_form_building_footer = $('.flex_idx_building_form');
+                                                //Building default label
+                                                var ob_form_building_footer;
+                                                ob_form_building_footer = $('.flex_idx_building_form');
 
-                                            if (ob_form_building_footer.length > 0) {
-                                                ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
-                                                ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
-                                            }
+                                                if (ob_form_building_footer.length > 0) {
+                                                    ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                    ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                    ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
+                                                    ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
+                                                }
 
-                                            //modal regular filter default label
-                                            var ob_form_modal;
-                                            ob_form_modal = $('.ib-propery-inquiry-f');
-                                            if (ob_form_modal.length > 0) {
-                                                ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
-                                                ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
-                                            }
+                                                //modal regular filter default label
+                                                var ob_form_modal;
+                                                ob_form_modal = $('.ib-propery-inquiry-f');
+                                                if (ob_form_modal.length > 0) {
+                                                    ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                    ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                    ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
+                                                    ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
+                                                }
 
-                                            //Off market listing default label
-                                            var ob_form_off_market_listing;
-                                            ob_form_off_market_listing = $('#flex-idx-property-form');
-                                            if (ob_form_off_market_listing.length > 0) {
-                                                ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
-                                                ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
-                                            }
-                                            //INICITIAL VARIABLES USER
+                                                //Off market listing default label
+                                                var ob_form_off_market_listing;
+                                                ob_form_off_market_listing = $('#flex-idx-property-form');
+                                                if (ob_form_off_market_listing.length > 0) {
+                                                    ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                    ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                    ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
+                                                    ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
+                                                }
+                                                //INICITIAL VARIABLES USER
 
-                                            var htmlMenuidx = [];
+                                                var htmlMenuidx = [];
 
-                                            htmlMenuidx.push('<li class="login show_modal_login_active">');
-                                            htmlMenuidx.push('<a href="javascript:void(0)" rel="nofollow">' + word_translate.welcome + ' ' + idx_info_lead.first_name + '</a>');
-                                            htmlMenuidx.push('<div class="menu_login_active">');
-                                            htmlMenuidx.push('<ul>');
-                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_favorites.guid + '">' + __flex_g_settings.page_setting.flex_idx_favorites.post_title + '</a></li>');
-                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_saved_searches.guid + '">' + __flex_g_settings.page_setting.flex_idx_saved_searches.post_title + '</a></li>');
-                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_profile.guid + '">' + __flex_g_settings.page_setting.flex_idx_profile.post_title + '</a></li>');
-                                            htmlMenuidx.push('<li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow">' + word_translate.logout + '</a></li>');
-                                            htmlMenuidx.push('</ul>');
-                                            htmlMenuidx.push('</div>');
-                                            htmlMenuidx.push('</li>');
+                                                htmlMenuidx.push('<li class="login show_modal_login_active">');
+                                                htmlMenuidx.push('<a href="javascript:void(0)" rel="nofollow">' + word_translate.welcome + ' ' + idx_info_lead.first_name + '</a>');
+                                                htmlMenuidx.push('<div class="menu_login_active">');
+                                                htmlMenuidx.push('<ul>');
+                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_favorites.guid + '">' + __flex_g_settings.page_setting.flex_idx_favorites.post_title + '</a></li>');
+                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_saved_searches.guid + '">' + __flex_g_settings.page_setting.flex_idx_saved_searches.post_title + '</a></li>');
+                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_profile.guid + '">' + __flex_g_settings.page_setting.flex_idx_profile.post_title + '</a></li>');
+                                                htmlMenuidx.push('<li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow">' + word_translate.logout + '</a></li>');
+                                                htmlMenuidx.push('</ul>');
+                                                htmlMenuidx.push('</div>');
+                                                htmlMenuidx.push('</li>');
 
 
-                                            $("#user-options").html(htmlMenuidx.join(''));
+                                                $("#user-options").html(htmlMenuidx.join(''));
 
-                                            __flex_g_settings.anonymous = "no";
+                                                __flex_g_settings.anonymous = "no";
 
-                                        })(jQuery);
+                                            })(jQuery);
 
                                         <?php } ?>
 
                                         <?php if (!empty($encode_token)) { ?>
-                                        Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>", {
-                                            expires: 30
-                                        });
+                                            Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>", {
+                                                expires: 30
+                                            });
                                         <?php
-                                        $_COOKIE['ib_lead_token'] = $encode_token;
+                                            $_COOKIE['ib_lead_token'] = $encode_token;
                                         } ?>
-
                                     </script>
-                                    <?php
+        <?php
                                 }
                             }
                         }
@@ -2327,16 +2311,16 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         $flex_idx_lead = is_flex_user_logged_in();
         $my_flex_pages = flex_user_list_pages();
         ob_start();
-// if ($window_width < 640) {
+        // if ($window_width < 640) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)" rel="nofollow">
                 <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $name; ?>
             </a>
             <div class="menu_login_active">
-                <?php if (!empty($my_flex_pages)): ?>
+                <?php if (!empty($my_flex_pages)) : ?>
                     <ul>
-                        <?php foreach ($my_flex_pages as $my_flex_page): ?>
+                        <?php foreach ($my_flex_pages as $my_flex_page) : ?>
                             <li>
                                 <a href="<?php echo $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a>
                             </li>
@@ -2350,7 +2334,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
                 <?php endif; ?>
             </div>
         </li>
-        <?php
+    <?php
         // }
         $response_html = ob_get_clean();
         $response["output"] = $response_html;
@@ -2474,27 +2458,25 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
             $response["first_name"] = isset($user_info["first_name"]) ? strip_tags($user_info["first_name"]) : "";
         }
 
-// if ($window_width < 640) {
-        ?>
+        // if ($window_width < 640) {
+    ?>
         <li class="login show_modal_login_active">
-            <a href="javascript:void(0)"
-               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $response["first_name"]; ?></a>
+            <a href="javascript:void(0)" rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $response["first_name"]; ?></a>
             <div class="menu_login_active">
-                <?php if (!empty($my_flex_pages)): ?>
+                <?php if (!empty($my_flex_pages)) : ?>
                     <ul>
-                        <?php foreach ($my_flex_pages as $my_flex_page): ?>
+                        <?php foreach ($my_flex_pages as $my_flex_page) : ?>
                             <li>
                                 <a href="<?php echo $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a>
                             </li>
                         <?php endforeach; ?>
-                        <li><a href="#" class="flex-logout-link" id="flex-logout-link"
-                               rel="nofollow"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                        <li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                     </ul>
                 <?php endif; ?>
             </div>
         </li>
         <?php
-// }
+        // }
 
         $response_html = ob_get_clean();
 
@@ -3137,9 +3119,7 @@ if (!function_exists('flex_idx_connect_fn')) {
                 $GLOBALS["cod_agent"] = $idx_agent["id"];
                 $exit_agent = array_values(
                     array_filter($wp_agents, function ($agent) {
-                        return (
-                            $agent['meta_value'] == $GLOBALS["cod_agent"]
-                        );
+                        return ($agent['meta_value'] == $GLOBALS["cod_agent"]);
                     })
                 );
 
@@ -3166,7 +3146,6 @@ if (!function_exists('flex_idx_connect_fn')) {
                     update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
                     update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
                     update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-
                 } else {
                     /*
                     if (in_array($idx_agent['id'], $wp_agents)) {
@@ -3204,10 +3183,7 @@ if (!function_exists('flex_idx_connect_fn')) {
                     update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
                     update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
                     update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-
-
                 }
-
             }
         }
 
@@ -3237,6 +3213,16 @@ if (!function_exists('flex_idx_connect_fn')) {
             }
 
             // update filters
+            $wp_agent_search_filter_codes = $wpdb->get_col("
+            SELECT t2.meta_value
+            FROM {$wpdb->posts} t1
+            INNER JOIN {$wpdb->postmeta} t2
+            ON t1.ID = t2.post_id
+            WHERE t1.post_type = 'flex-landing-pages' AND t1.post_status = 'publish'
+            AND t2.meta_key = '_flex_filter_page_id'
+            ");
+
+            /*
             $wp_agent_search_filters = $wpdb->get_col("
             SELECT post_content
             FROM {$wpdb->posts}
@@ -3252,6 +3238,7 @@ if (!function_exists('flex_idx_connect_fn')) {
                     $wp_agent_search_filter_codes[] = preg_replace("/[^a-zA-Z0-9]+/", "", $matches_sfilter[0]);
                 }
             }
+            */
 
             foreach ($response['agent_search_filters'] as $my_search_filter) {
                 if (in_array($my_search_filter['code'], $wp_agent_search_filter_codes)) {
@@ -3259,7 +3246,7 @@ if (!function_exists('flex_idx_connect_fn')) {
                 }
 
                 if (isset($my_search_filter["is_commercial"])) {
-                    $is_commercial = (boolean)$my_search_filter["is_commercial"];
+                    $is_commercial = (bool)$my_search_filter["is_commercial"];
 
                     if (true === $is_commercial) {
                         $wp_insert_filter = wp_insert_post(array(
@@ -3524,7 +3511,8 @@ if (!function_exists('flex_update_search_xhr_fn')) {
         $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
         $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        if ($notification_day == 0) $status_change = 0; else $status_change = 1;
+        if ($notification_day == 0) $status_change = 0;
+        else $status_change = 1;
         $sendParams = array(
             'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
@@ -3698,7 +3686,6 @@ if (!function_exists('idx_force_registration_building_xhr_fn')) {
 
                 if (empty($flex_idx_lead) && is_array($flex_idx_lead) && array_key_exists('lead_info', $flex_idx_lead) && array_key_exists('first_name', $flex_idx_lead['lead_info'])) {
                     $lead_name = $flex_idx_lead['lead_info']['first_name'];
-
                 }
                 if (empty($flex_idx_lead) && is_array($flex_idx_lead) && array_key_exists('lead_info', $flex_idx_lead) && array_key_exists('email_address', $flex_idx_lead['lead_info'])) {
                     $lead_email = $flex_idx_lead['lead_info']['email_address'];
@@ -5102,7 +5089,8 @@ function filter_search_recent_sales_xhr_fn()
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
-    if (!empty($_POST['limit'])) $limit = $_POST['limit']; else     $limit = 'default';
+    if (!empty($_POST['limit'])) $limit = $_POST['limit'];
+    else     $limit = 'default';
     $access_token = flex_idx_get_access_token();
     $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
     $flex_credentials_exp = explode('|', $flex_lead_credentials);
@@ -5180,7 +5168,6 @@ if (!function_exists('idxboost_collection_list_fn')) {
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
-
     }
 }
 
@@ -5210,7 +5197,6 @@ if (!function_exists('idxboost_sub_area_collection_list_fn')) {
         curl_close($ch);
         wp_send_json($response);
         exit;
-
     }
 }
 
@@ -5260,7 +5246,6 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         curl_close($ch);
         echo wp_send_json($response);
         exit;
-
     }
 }
 
@@ -5308,7 +5293,6 @@ if (!function_exists('filter_agent_office_xhr_fn')) {
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
-
     }
 }
 
@@ -5399,7 +5383,8 @@ function filter_search_exclusive_listing_xhr_fn()
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
-    if (!empty($_POST['limit'])) $limit = $_POST['limit']; else     $limit = 'default';
+    if (!empty($_POST['limit'])) $limit = $_POST['limit'];
+    else     $limit = 'default';
     $access_token = flex_idx_get_access_token();
     $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
     $flex_credentials_exp = explode('|', $flex_lead_credentials);
@@ -5511,7 +5496,8 @@ function flex_idx_filter_page_xhr_fn()
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
-    if (!empty($_POST['limit'])) $limit = $_POST['limit']; else     $limit = 'default';
+    if (!empty($_POST['limit'])) $limit = $_POST['limit'];
+    else     $limit = 'default';
     $access_token = flex_idx_get_access_token();
     $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
     $flex_credentials_exp = explode('|', $flex_lead_credentials);
@@ -5853,8 +5839,12 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_register_style('flex-idx-buildings', FLEX_IDX_URI . 'css/flex-idx-buildings.css', array(), iboost_get_mod_time("css/flex-idx-buildings.css"));
         wp_register_script('flex-idx-buildings-js', FLEX_IDX_URI . 'js/flex-idx-buildings.js', array('jquery'), iboost_get_mod_time("js/flex-idx-buildings.js"));
         // buyers and sellers
-        wp_register_script("iboost-buyers-sellers-js", FLEX_IDX_URI . "js/buyers-and-sellers.js", array("jquery", "google-maps-api"),
-            iboost_get_mod_time("js/buyers-and-sellers.js"));
+        wp_register_script(
+            "iboost-buyers-sellers-js",
+            FLEX_IDX_URI . "js/buyers-and-sellers.js",
+            array("jquery", "google-maps-api"),
+            iboost_get_mod_time("js/buyers-and-sellers.js")
+        );
         // sweetalert
         wp_enqueue_style('sweetalert-css', FLEX_IDX_URI . 'css/sweetalert.css', array(), iboost_get_mod_time("css/sweetalert.css"));
         wp_enqueue_script('sweetalert-js', FLEX_IDX_URI . 'js/sweetalert.min.js', array(), iboost_get_mod_time("js/sweetalert.min.js"), true);
@@ -6121,10 +6111,10 @@ if (!function_exists('flex_idx_register_assets')) {
             'force_registration' => $flex_idx_info["agent"]["force_registration"],
             'page_setting' => $flex_idx_info['pages'],
             'user_show_quizz' => $flex_idx_info["agent"]["user_show_quizz"],
-            'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (boolean)$flex_idx_info['agent']['has_dynamic_ads'] : false,
-            'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (boolean)$flex_idx_info['agent']['has_seo_client'] : false,
+            'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (bool)$flex_idx_info['agent']['has_dynamic_ads'] : false,
+            'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (bool)$flex_idx_info['agent']['has_seo_client'] : false,
             'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : "",
-            'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (boolean)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
+            'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (bool)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
             'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null
         ));
@@ -6168,8 +6158,12 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_register_script('flex-idx-filter-jquery-ui-touch', FLEX_IDX_URI . 'js/jquery.ui.touch-punch.min.js', array('flex-idx-filter-jquery-ui'), iboost_get_mod_time("js/jquery.ui.touch-punch.min.js"));
         // quick search assets
         wp_register_style('idxboost-quick-search-css', FLEX_IDX_URI . 'css/idxboost-quick-search.css', array(), iboost_get_mod_time("css/idxboost-quick-search.css"));
-        wp_register_script('idxboost-quick-search-js', FLEX_IDX_URI . 'js/idxboost-quick-search.js', array('jquery', 'underscore', 'underscore-mixins', 'flex-idx-filter-jquery-ui-touch'),
-            iboost_get_mod_time("js/idxboost-quick-search.js"));
+        wp_register_script(
+            'idxboost-quick-search-js',
+            FLEX_IDX_URI . 'js/idxboost-quick-search.js',
+            array('jquery', 'underscore', 'underscore-mixins', 'flex-idx-filter-jquery-ui-touch'),
+            iboost_get_mod_time("js/idxboost-quick-search.js")
+        );
         wp_register_script('idxboost_filter_js', FLEX_IDX_URI . 'js/idxboost_filter.js', array(), iboost_get_mod_time("js/idxboost_filter.js"));
 
         //wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.js',array('jquery'));
@@ -6857,7 +6851,6 @@ if (!function_exists('greatsliderLoad')) {
                 wp_enqueue_script('idx_boost_js_home', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/home.js', array(), false, true);
             }
             $page_slug = explode("/", trim($_SERVER["REQUEST_URI"], '/'));
-
         }
 
         //wp_enqueue_script('modal-properties', FLEX_IDX_URI . 'js/modal-properties.js');
@@ -6890,7 +6883,6 @@ if (!function_exists('flex_idx_admin_register_assets')) {
         wp_localize_script('flex-idx-tools-js', 'idx_admin_tools', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
         ));
-
     }
 }
 if (!function_exists('flex_idx_admin_enqueue_assets')) {
@@ -7347,50 +7339,40 @@ if (!function_exists('flex_idx_profile_extend_fn')) {
             <tr>
                 <th><label for="flex_idx_profile_phone">Phone Number</label></th>
                 <td>
-                    <input type="text" name="flex_idx_profile_phone" id="flex_idx_profile_phone"
-                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_phone', $user->ID)); ?>"
-                           class="regular-text"/><br/>
+                    <input type="text" name="flex_idx_profile_phone" id="flex_idx_profile_phone" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_phone', $user->ID)); ?>" class="regular-text" /><br />
                     <span class="description">Please enter your Phone number.</span>
                 </td>
             </tr>
             <tr>
                 <th><label for="flex_idx_profile_address">Address</label></th>
                 <td>
-                    <input type="text" name="flex_idx_profile_address" id="flex_idx_profile_address"
-                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_address', $user->ID)); ?>"
-                           class="regular-text"/><br/>
+                    <input type="text" name="flex_idx_profile_address" id="flex_idx_profile_address" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_address', $user->ID)); ?>" class="regular-text" /><br />
                     <span class="description">Please enter your Address.</span>
                 </td>
             </tr>
             <tr>
                 <th><label for="flex_idx_profile_city">City</label></th>
                 <td>
-                    <input type="text" name="flex_idx_profile_city" id="flex_idx_profile_city"
-                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_city', $user->ID)); ?>"
-                           class="regular-text"/><br/>
+                    <input type="text" name="flex_idx_profile_city" id="flex_idx_profile_city" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_city', $user->ID)); ?>" class="regular-text" /><br />
                     <span class="description">Please enter your City.</span>
                 </td>
             </tr>
             <tr>
                 <th><label for="flex_idx_profile_state">State</label></th>
                 <td>
-                    <input type="text" name="flex_idx_profile_state" id="flex_idx_profile_state"
-                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_state', $user->ID)); ?>"
-                           class="regular-text"/><br/>
+                    <input type="text" name="flex_idx_profile_state" id="flex_idx_profile_state" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_state', $user->ID)); ?>" class="regular-text" /><br />
                     <span class="description">Please enter your State.</span>
                 </td>
             </tr>
             <tr>
                 <th><label for="flex_idx_profile_zip">Zip Code</label></th>
                 <td>
-                    <input type="text" name="flex_idx_profile_zip" id="flex_idx_profile_zip"
-                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_zip', $user->ID)); ?>"
-                           class="regular-text"/><br/>
+                    <input type="text" name="flex_idx_profile_zip" id="flex_idx_profile_zip" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_zip', $user->ID)); ?>" class="regular-text" /><br />
                     <span class="description">Please enter your Zip Code.</span>
                 </td>
             </tr>
         </table>
-        <?php
+    <?php
     }
 }
 if (!function_exists('flex_idx_profile_save_fn')) {
@@ -7635,7 +7617,6 @@ if (!function_exists('idxboost_front_page_template')) {
     }
 
     add_filter('template_include', 'idxboost_front_page_template');
-
 }
 
 
@@ -7662,15 +7643,11 @@ if (!function_exists('idxboost_get_header_dinamic')) {
                 } else {
                     include FLEX_IDX_PATH . '/views/shortcode/idxboost_header_dinamic.php';
                 }
-
             }
-
         }
-
     }
 
     add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
-
 }
 
 if (!function_exists('idx_edit_post')) {
@@ -7678,7 +7655,9 @@ if (!function_exists('idx_edit_post')) {
     {
         $meta = get_post_meta($post_ID, 'idx_page_type', true);
         if ($meta == 'custom' || $meta == 'landing') {
-            wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/update-page-fromWp', array(
+            wp_remote_post(
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/api/update-page-fromWp',
+                array(
                     'method' => 'POST',
                     'headers' => [
                         'Content-Type' => 'application/json',
@@ -7740,9 +7719,7 @@ if (!function_exists('idxboost_footer_header_dinamic')) {
                     include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
                 }
             }
-
         }
-
     }
 
     add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
@@ -7784,7 +7761,7 @@ if (!function_exists('update_seo_all_page')) {
     }
 }
 
-if ( ! function_exists("custom_seo_page") ) {
+if (!function_exists("custom_seo_page")) {
     function custom_seo_page()
     {
         global $post;
@@ -7793,9 +7770,9 @@ if ( ! function_exists("custom_seo_page") ) {
         $wp_theme = wp_get_theme();
         $wp_request = $wp->request;
 
-        if ( 
+        if (
             "Builder CMS" == $wp_theme->name &&
-            ! empty($flex_idx_info['agent']['has_cms']) && 
+            !empty($flex_idx_info['agent']['has_cms']) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
 
@@ -7803,37 +7780,39 @@ if ( ! function_exists("custom_seo_page") ) {
             $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
 
             if (
-                ( ! empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing') ) or
+                (!empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
                 is_home() or is_front_page() or
-                ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about" ) or
-                ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact" )
+                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
+                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
             ) {
                 $page_type = '';
                 $post_id = '';
 
-                if ( $metas && $metas[0] == 'custom' ) {
+                if ($metas && $metas[0] == 'custom') {
                     $page_type = 'custom';
                     $post_id = $post->ID;
                 }
 
-                if ( $metas && $metas[0] == 'landing' ) {
+                if ($metas && $metas[0] == 'landing') {
                     $page_type = 'landing';
                     $post_id = $post->ID;
                 }
 
-                if ( is_home() || is_front_page() ) {
+                if (is_home() || is_front_page()) {
                     $page_type = 'home';
                 }
 
-                if ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about" ) {
+                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") {
                     $page_type = 'about';
                 }
 
-                if ( $post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact" ) {
+                if ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact") {
                     $page_type = 'contact';
                 }
 
-                $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo', array(
+                $response = wp_remote_post(
+                    IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
+                    array(
                         'method' => 'POST',
                         'headers' => [
                             'Content-Type' => 'application/json',
@@ -7849,7 +7828,7 @@ if ( ! function_exists("custom_seo_page") ) {
                 $body = wp_remote_retrieve_body($response);
                 $content = json_decode($body, true);
 
-                if ( ! is_wp_error($response) or $content != NULL ) {
+                if (!is_wp_error($response) or $content != NULL) {
                     // validar que se use el seo, sino usar seo por defecto
                     if ($content['cmsSeo'] == 1) {
                         update_seo($content['seo']['title'], $content['seo']['description'], $content['socialShare']['title'], $content['socialShare']['image']);
@@ -7860,7 +7839,9 @@ if ( ! function_exists("custom_seo_page") ) {
                     update_seo_default();
                 }
             } else {
-                $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo', array(
+                $response = wp_remote_post(
+                    IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
+                    array(
                         'method' => 'POST',
                         'headers' => [
                             'Content-Type' => 'application/json',
@@ -7876,17 +7857,15 @@ if ( ! function_exists("custom_seo_page") ) {
                 $body = wp_remote_retrieve_body($response);
                 $content = json_decode($body, true);
 
-                if ( ! is_wp_error($response) or $content != NULL ) {
+                if (!is_wp_error($response) or $content != NULL) {
                     update_seo_all_page($content['seo']['title']);
                 } else {
                     update_seo_default();
                 }
             }
-
-        } elseif ( "Builder CMS" == $wp_theme->name ) {
+        } elseif ("Builder CMS" == $wp_theme->name) {
             update_seo_default();
         }
-
     }
 }
 
@@ -7914,7 +7893,6 @@ if (!function_exists('idxboost_save_options_after_update')) {
             $data_parameters['idx_map_style'] = '';
             fc_idx_save_tools_admin($data_parameters);
         }
-
     }
 
     add_action('upgrader_process_complete', 'idxboost_save_options_after_update', 10, 2);
@@ -7938,78 +7916,78 @@ if (!function_exists("flex_idx_get_building_noscript_inventory")) {
             foreach ($arrebed as $keybed => $valbed) {
                 $countar = $countar + 1; ?>
                 <h2 class="title-thumbs"><?php
-                    if ($valbed == 0) {
-                        echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG);
-                    } else {
-                        if ($type_data == 'for_rent') {
-                            echo $valbed . __(' Bedroom Apartments ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
-                        } else {
-                            echo $valbed . __(' Bedroom Condos ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
-                        }
-                    }
+                                            if ($valbed == 0) {
+                                                echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG);
+                                            } else {
+                                                if ($type_data == 'for_rent') {
+                                                    echo $valbed . __(' Bedroom Apartments ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
+                                                } else {
+                                                    echo $valbed . __(' Bedroom Condos ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
+                                                }
+                                            }
 
-                    ?></h2>
+                                            ?></h2>
                 <div class="tbl_properties_wrapper">
                     <table class="display" id="dataTable-pending-<?php echo $countar; ?>" cellspacing="0" width="100%">
                         <thead>
-                        <tr>
-                            <th class="dt-center sorting"><?php echo __('unit', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                            <th class="dt-center sorting class_asking_prince"><?php echo __('Asking Price', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                            <th class="dt-center sorting">% / $</th>
-                            <th class="dt-center sorting"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                / <?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                            <th class="dt-center sorting show-desktop"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                            <th class="dt-center sorting show-desktop"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                / Sq.Ft.
-                            </th>
-                            <th class="dt-center sorting show-desktop"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                        </tr>
+                            <tr>
+                                <th class="dt-center sorting"><?php echo __('unit', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                                <th class="dt-center sorting class_asking_prince"><?php echo __('Asking Price', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                                <th class="dt-center sorting">% / $</th>
+                                <th class="dt-center sorting"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                                    / <?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                                <th class="dt-center sorting show-desktop"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                                <th class="dt-center sorting show-desktop"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                                    / Sq.Ft.
+                                </th>
+                                <th class="dt-center sorting show-desktop"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        foreach ($result_data_collection as $key => $value) {
-                            if ($value['bed'] == $valbed) { ?>
-                                <tr class="flex-tbl-link"
-                                    data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $value['slug']; ?>">
-                                    <td>
-                                        <div class="unit propertie" data-mls="<?php echo $value['mls_num']; ?>">
-                                            <button class="clidxboost-btn-check flex-favorite-btn">
-                                                <span class="clidxboost-icon-check clidxboost-icon-check-list"></span>
-                                            </button>
-                                            <span><?php echo $value['unit']; ?></span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="asking-number blue">
-                                            $<?php echo number_format($value['price']); ?></div>
-                                    </td>
-                                    <td>
-                                        <div class="porcentaje <?php if ($value['reduced'] !== '' && $value['reduced'] < 0): ?>red<?php elseif ($value['reduced'] !== '' && $value['reduced'] >= 0): ?>green<?php else: ?>black<?php endif; ?>"><?php if (strlen($value['reduced']) != 0) echo $value['reduced'] . '%'; else echo 'N/A'; ?></div>
-                                    </td>
-                                    <td>
-                                        <div class="beds"><?php echo $value['bed']; ?> / <?php echo $value['bath']; ?>
-                                            / <?php echo $value['baths_half']; ?></div>
-                                    </td>
-                                    <td class="table-beds show-desktop">
-                                        <div class="beds"><?php echo $value['sqft']; ?> Sq.Ft.</div>
-                                    </td>
-                                    <td class="table-beds show-desktop">
-                                        <div class="price">
-                                            $<?php echo ($value['sqft'] > 0) ? number_format($value['price'] / $value['sqft']) : 0; ?></div>
-                                    </td>
-                                    <td class="table-beds show-desktop">
-                                        <div class="dayson"><?php echo $value['days_market']; ?></div>
-                                    </td>
-                                </tr>
+                            <?php
+                            foreach ($result_data_collection as $key => $value) {
+                                if ($value['bed'] == $valbed) { ?>
+                                    <tr class="flex-tbl-link" data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $value['slug']; ?>">
+                                        <td>
+                                            <div class="unit propertie" data-mls="<?php echo $value['mls_num']; ?>">
+                                                <button class="clidxboost-btn-check flex-favorite-btn">
+                                                    <span class="clidxboost-icon-check clidxboost-icon-check-list"></span>
+                                                </button>
+                                                <span><?php echo $value['unit']; ?></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="asking-number blue">
+                                                $<?php echo number_format($value['price']); ?></div>
+                                        </td>
+                                        <td>
+                                            <div class="porcentaje <?php if ($value['reduced'] !== '' && $value['reduced'] < 0) : ?>red<?php elseif ($value['reduced'] !== '' && $value['reduced'] >= 0) : ?>green<?php else : ?>black<?php endif; ?>"><?php if (strlen($value['reduced']) != 0) echo $value['reduced'] . '%';
+                                                                                                                                                                                                                                                        else echo 'N/A'; ?></div>
+                                        </td>
+                                        <td>
+                                            <div class="beds"><?php echo $value['bed']; ?> / <?php echo $value['bath']; ?>
+                                                / <?php echo $value['baths_half']; ?></div>
+                                        </td>
+                                        <td class="table-beds show-desktop">
+                                            <div class="beds"><?php echo $value['sqft']; ?> Sq.Ft.</div>
+                                        </td>
+                                        <td class="table-beds show-desktop">
+                                            <div class="price">
+                                                $<?php echo ($value['sqft'] > 0) ? number_format($value['price'] / $value['sqft']) : 0; ?></div>
+                                        </td>
+                                        <td class="table-beds show-desktop">
+                                            <div class="dayson"><?php echo $value['days_market']; ?></div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             <?php } ?>
-                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
             <?php } ?>
         </noscript>
 
-        <?php
+<?php
     }
 }
 
