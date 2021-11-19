@@ -4,6 +4,11 @@
   $log_building_name = isset($response["payload"]["name_building"]) ? $response["payload"]["name_building"] : "";
   $log_building_address = isset($response["payload"]["address_building"]) ? unserialize($response["payload"]["address_building"])[0] : "";
   $log_building_city = isset($response["payload"]["city_building_name"]) ? $response["payload"]["city_building_name"] : "";
+
+  $cta = [];
+  if ( is_array($response) && array_key_exists("payload",$response) && is_array($response["payload"]) && array_key_exists("cta",$response["payload"]) ) {
+    $cta =  @json_decode($response['payload']["cta"],true);
+  }
   
   $wp_request = $wp->request;
   $wp_request_exp = explode('/', $wp_request);
@@ -51,17 +56,17 @@
     }
   }
 
+
   if (array_key_exists('payload', $response)) { 
     if (array_key_exists('property_display_sold', $response['payload'])) { 
         $property_display_sold=$response['payload']['property_display_sold'];
-        if (@count($response['payload']['properties']['sale']['items']) <= 0 || @count($response['payload']['properties']['rent']['items']) <= 0) { 
-          if ($property_display_sold=='list') 
+          if ($property_display_sold=='list')
             $response['payload']['modo_view']=2;  
           else
             $response['payload']['modo_view']=1;
-        }
     }
   }
+  
 
   if (array_key_exists('payload', $response)) { 
     if (array_key_exists('property_display_active', $response['payload'])) { 
@@ -272,7 +277,94 @@
             </div>
           </div>
           <div class="main-content">
-          <?php if(!empty($response['payload']['description_building'])){  ?>
+            <?php  if (is_array($cta) && count($cta) > 0  && array_key_exists("activeCTAs", $cta) && $cta["activeCTAs"] ) { 
+              
+              $format_cta = "";
+              if ( !empty($cta["format"]) ) {
+                $format_cta  = $cta["format"];
+              }
+
+              $columns_cta = "ip-columns-3";
+              if ( !empty($cta["columns"]) ) {
+                $columns_cta  = $cta["columns"];
+              }
+
+              ?>
+
+              <div class="ib-cta-wrapper <?php echo $columns_cta; ?> <?php echo $format_cta; ?>" style="
+
+              ">
+                <?php
+                  if ( array_key_exists("items", $cta) && is_array($cta["items"]) && count($cta["items"])> 0 ) {  
+                  foreach ($cta["items"] as $keycta => $itemcta) { ?>
+                    <div class="ib-cta-item" 
+                    style="
+                    <?php if( array_key_exists("background", $itemcta["button"]["style"])) { ?>
+                      --ip-button-background-color: <?php echo $itemcta["button"]["style"]["background"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("border", $itemcta["button"]["style"])) { ?>
+                      --ip-button-border-color: <?php echo $itemcta["button"]["style"]["border"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("color", $itemcta["button"]["style"])) { ?>
+                      --ip-button-text-color: <?php echo $itemcta["button"]["style"]["color"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("hoverBackground", $itemcta["button"]["style"])) { ?>
+                      --ip-button-background-color-hover: <?php echo $itemcta["button"]["style"]["hoverBackground"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("hoverBorder", $itemcta["button"]["style"])) { ?>
+                      --ip-button-border-color-hover: <?php echo $itemcta["button"]["style"]["hoverBorder"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("borderRadius", $itemcta["button"]["style"])) { ?>
+                      --ip-button-border-radius: <?php echo $itemcta["button"]["style"]["borderRadius"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("background", $itemcta["button"]["style"])) { ?>
+                      --ip-button-text-color-hover: <?php echo $itemcta["button"]["style"]["background"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("background", $itemcta["containerStyles"]["container"])) { ?>
+                      --ib-cta-background-color: <?php echo $itemcta["containerStyles"]["container"]["background"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("background", $itemcta["containerStyles"]["icon"])) { ?>
+                      --ip-icon-background-color: <?php echo $itemcta["containerStyles"]["icon"]["background"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("hoverBackground", $itemcta["containerStyles"]["icon"])) { ?>
+                      --ip-icon-hover-background-color: <?php echo $itemcta["containerStyles"]["icon"]["hoverBackground"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("borderRadius", $itemcta["containerStyles"]["container"])) { ?>
+                      --ip-cta-border-radius: <?php echo $itemcta["containerStyles"]["container"]["borderRadius"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("borderColor", $itemcta["containerStyles"]["container"])) { ?>
+                      --ip-cta-border-color: <?php echo $itemcta["containerStyles"]["container"]["borderColor"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("color", $itemcta["title"])) { ?>
+                      --ip-cta-title-color: <?php echo $itemcta["title"]["color"]; ?>;
+                    <?php } ?>
+                    <?php if( array_key_exists("color", $itemcta["subtitle"])) { ?>
+                      --ip-cta-text-color: <?php echo $itemcta["subtitle"]["color"]; ?>;
+                    <?php } ?>
+                    ">
+                        <div class="ib-cta-background">
+                            <img src="<?php echo $itemcta["imageIcon"]["path"]; ?>" alt="<?php echo $itemcta["imageIcon"]["name"]; ?>" />
+                        </div>
+                        <div class="ib-cta-content">
+                            <header class="ip-title heading-3xs"><?php echo $itemcta["title"]["text"]; ?></header>
+                            <p class="ip-text body-sm"><?php echo $itemcta["subtitle"]["text"]; ?></p>
+
+                            <?php  if (array_key_exists("file", $itemcta) && is_array($itemcta["file"]) && array_key_exists("path", $itemcta["file"]) && !empty($itemcta["file"]["path"]) ) { ?>
+                              <div class="ip-wrap-btn">
+                                  <button  class="ip-button js-cta-download" type="button" id="button-modal-handler" id_file="<?php echo $keycta;?>"><span><?php echo $itemcta["button"]["text"]; ?></span></button>
+                                  <?php  if (array_key_exists("file", $itemcta) && is_array($itemcta["file"]) && array_key_exists("path", $itemcta["file"]) && !empty($itemcta["file"]["path"]) ) { ?>
+                                    <a class="js-download-cta-file js-download-<?php echo $keycta; ?>" href="<?php echo $itemcta['file']['path'];  ?>" style="display: none;"  target="_blank" download="" rel="nofollow">download</a>
+                                  <?php } ?>
+                              </div>
+                            <?php } ?>
+                        </div>
+                    </div>                    
+                <?php  } ?>
+                <?php } ?>
+              </div>
+            <?php } ?>
+
+            <?php if(!empty($response['payload']['description_building'])){  ?>
             <div class="ms-wrap-property-description">
               <div class="property-description" id="property-description">
                 <p><?php echo $response['payload']['description_building']; ?></p>
@@ -280,6 +372,8 @@
               <button class="ms-btn" data-before="<?php echo __('Read More', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-after="<?php echo __('Read less', IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ms-read"><?php echo __('Read More', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
             </div>
             <?php } ?>
+
+
             <div class="list-details r-hidden">
               <ul class="list-detail">
                 <?php  if( !empty($response['payload']['bed_building']) ) { ?>
@@ -981,9 +1075,24 @@
 </script>
 
 <script>
-  function idxsharefb(){
+  /*function idxsharefb(){
     window.open('http://www.facebook.com/sharer/sharer.php?u='+window.location.href, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
-  }
+  }*/
+  function idxsharefb(event){
+		event.preventDefault();
+		var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
+		//params
+		var params = {
+			u: $(this).attr("data-share-url");
+		};
+		for(var prop in params) {
+			shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
+		}
+		var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+		if (wo.focus) {
+			wo.focus();
+		}
+	}
 </script>
 <?php endif; ?>
 <script type="text/javascript">

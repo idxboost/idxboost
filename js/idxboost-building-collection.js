@@ -15,6 +15,26 @@ var IB_SEARCH_FILTER_PAGE_TITLE = '';
 
 (function($) {
 
+$(".js-cta-download").click(function(){
+  var id_file = $(this).attr("id_file");
+
+  if(idxboost_force_registration && __flex_g_settings.anonymous == "yes"){
+    $(".ms-btn-login").click();
+  }else{
+    var file = $(".js-download-"+id_file).attr("href");
+    var link = document.createElement('a');
+    link.href = file;
+    link.target="_blank";
+    link.download = "file_" + new Date() + ".pdf";
+    link.click();
+    link.remove();
+  }
+});
+
+$(".js-download-cta-file").click(function(){
+  console.log("click");
+});
+
 function ib_change_view_object_device(object,tabbuil,object_val){
   var viebuil='list';
   if (object.val() != undefined && object.val() !=0 ){
