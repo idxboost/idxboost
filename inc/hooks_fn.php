@@ -267,11 +267,17 @@ add_action( 'wp_head', 'idx_boost_cms_assets_style', 100 );
 // CMS. Load SEO
 add_action( 'wp_head', 'custom_seo_page', 0, 0 );
 
+// CMS. Load Integrations In heade
+add_action( 'wp_head', 'idxboost_integrations_head', 0, 0 );
+
 // CMS. Load custom style
 add_action( 'wp_head', 'idxboost_cms_custom_style', 101, 0 );
 
 // CMS. Load loader
 add_action( 'get_footer', 'idxboost_cms_loader', 101, 1 );
+
+// CMS. Load tripwire
+add_action( 'get_footer', 'idxboost_cms_tripwire', 101, 1 );
 
 // CMS. Update post
 add_action( 'edit_post', 'idx_edit_post', 10, 2 );

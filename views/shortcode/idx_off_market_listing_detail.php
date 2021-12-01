@@ -208,12 +208,15 @@ if ($status_school != false) {
     <div class="container">
       <ul class="property-information" data-inf="price:<?php echo isset($property['is_sold']) ? $property['price_sold'] : $property['price']; ?>|beds:<?php echo $property['bed']; ?>|baths:<?php echo $property['bath']; ?>|sqft:<?php echo $property['sqft']; ?>">
         <li class="price-property">$<?php echo number_format($property['price']); ?> <span>
-          <?php if ($property['status'] == "5"): // rented ?>
+          <?php 
+          if ($property['status'] == "5"): // rented ?>
           <?php echo __("rented price", IDXBOOST_DOMAIN_THEME_LANG); ?>
           <?php elseif($property['status'] == "2"): // sold ?>
           <?php echo __("sold price", IDXBOOST_DOMAIN_THEME_LANG); ?>
           <?php elseif($property['status'] == "6"): // pending ?>
           <?php echo __("pending price", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          <?php elseif($property['status'] == "0"): // pending ?>
+          <?php echo __("Inactive", IDXBOOST_DOMAIN_THEME_LANG); ?>          
           <?php else: ?>
           <?php echo __("asking price", IDXBOOST_DOMAIN_THEME_LANG); ?>
           <?php endif; ?>
@@ -224,7 +227,8 @@ if ($status_school != false) {
           <?php else: ?>
           <span class="up-price"><?php echo $property['reduced']; ?>%</span>
           <?php endif; ?>
-          <?php endif; ?>
+          <?php endif; 
+          ?>
           </span>
         </li>
         <li><?php echo $property['bed']; ?> <span><?php if ($property['bed']>1) { echo __("Bedrooms", IDXBOOST_DOMAIN_THEME_LANG); }else{ echo __("Bedroom", IDXBOOST_DOMAIN_THEME_LANG); } ?> </span></li>
@@ -268,6 +272,10 @@ if ($status_school != false) {
             <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Rented", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
             <?php elseif ($property['status'] == "2"): // closed ?>
             <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Closed", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
+            <?php elseif ($property['status'] == "6"): // closed ?>
+            <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Pending", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>            
+            <?php elseif ($property['status'] == "0"): // closed ?>
+            <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Inactive", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>            
             <?php else: ?>
             <li><span><?php echo __("Status", IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo __("Active", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
             <?php endif; ?>

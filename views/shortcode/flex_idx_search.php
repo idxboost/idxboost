@@ -71,6 +71,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 <form id="flex_idx_search_filter_form" method="post">
   <input type="hidden" name="sale_type" value="">
   <input type="hidden" name="property_type" value="">
+  <input type="hidden" name="status_type" value="<?php echo isset($_GET["status_type"]) ? sanitize_text_field($_GET["status_type"]) : ''; ?>">
   <input type="hidden" name="filter_search_keyword_label" value="">
   <input type="hidden" name="filter_search_keyword_type" value="">
   <input type="hidden" name="waterfront_options" value="">
@@ -1356,6 +1357,28 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             </div>
           </div>
         </div>
+
+         <!-- LISTING STATUS (Mobile) -->
+         <?php if (isset($flex_idx_info['search']['idx_listings_type']) && 1 === $flex_idx_info['search']['idx_listings_type']): ?>
+        <div class="ib-block-status-search-only ib-item-collapse"><!--si lo quieres ocultar le pones la clase ms-hidden a este nivel-->
+          <h2 class="ib-header-collapse"><?php echo __('Listing Status', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+          <div class="ib-body-collpase">
+            <div class="ib-wrap-fm">
+              <ul class="ib-wrap-fm ib-cl-2 ms-sf" id="ib-flex-m-listing-status">
+                <li class="ib-item-wrap-fm ib-btn-chk-fm">
+                  <input class="ib-m-types-checkboxes" type="checkbox" value="contingent" id="ib-lst-inner_2_2">
+                  <label for="ib-lst-inner_2_2">Contingent</label>
+                </li>
+                <li class="ib-item-wrap-fm ib-btn-chk-fm">
+                  <input class="ib-m-types-checkboxes" type="checkbox" value="pending" id="ib-lst-inner_3_2">
+                  <label for="ib-lst-inner_3_2">Pending</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <?php endif; ?>
+        
         <!--PARKING SPACES-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Parking Spaces', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>

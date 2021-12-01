@@ -3192,6 +3192,78 @@ function buildSearchFilterForm() {
 			IB_SEARCH_FILTER_FORM.trigger("submit");
 		});
 	}
+	
+	// mobile
+	$("#ib-lst-inner_2_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// mobile
+	$("#ib-lst-inner_3_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_3").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
 
 	if (IB_LB_TYPES_OPTIONS.length) {
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
@@ -3952,6 +4024,26 @@ function handleFilterSearchLookup(event) {
 			// }
 
 			var params = response.params;
+
+			// control load params (status type)
+			if (params.hasOwnProperty("status_type") && params.status_type.length) {
+				var params_status_type = params.status_type.split(",");
+
+				if (params.status_type.length) {
+					if (-1 != $.inArray("contingent", params_status_type)) {
+						$("#ib-lst-inner_2").prop("checked", true);
+						$("#ib-lst-inner_2_2").prop("checked", true);
+					}
+
+					if (-1 != $.inArray("pending", params_status_type)) {
+						$("#ib-lst-inner_3").prop("checked", true);
+						$("#ib-lst-inner_3_2").prop("checked", true);
+					}
+				}
+
+				console.log(params_status_type);
+			}
+			
 			var pagination = response.pagination;
 			var items = response.items;
 			var map_items = response.map_items;

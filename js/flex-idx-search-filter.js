@@ -3200,10 +3200,12 @@ function buildSearchFilterForm() {
 
 			if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.params.property_types.length) {
 				IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
+				console.log(lbl_ptypes);
 				lbl_ptypes.length = 0;
 			} else {
 				// IB_LBL_TYPES_NTF.html("Homes, Condominiums, Townhouses");
 				IB_LBL_TYPES_NTF.html(word_translate.any_type);
+				console.log('all');
 			}
 
 			IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(chk_list.join(","));
@@ -4313,10 +4315,13 @@ function handleFilterSearchLookup(event) {
 				IB_LB_TYPES_OPTIONS.find("input").each(function (index, node) {
 					//console.log(typeof node.value, ": " + node.value, isNaN(node.value));
 
-					// var currentValue = ("tw" != node.value) ? parseInt(node.value, 10) : node.value;
-					var currentValue = (false === isNaN(node.value)) ? (node.value + "") : node.value;
+					//var currentValue = ! isNaN(node.value) ? parseInt(node.value, 10) : node.value;
+					//console.log(currentValue);
+					//console.log(params.property_type);
+					// var currentValue = (false === isNaN(node.value)) ? (node.value + "") : node.value;
+					var currentValue = node.value;
 
-					if (-1 !== $.inArray(currentValue, params.property_type)) {
+					if (-1 != $.inArray(currentValue, params.property_type)) {
 						node.checked = true;
 					}
 				});
@@ -4696,6 +4701,8 @@ function handleFilterSearchLookup(event) {
 
 // @todo domReady check for mobile remove boundaries
 $(function () {
+	$(".ib-block-status-search-only").hide();
+
 	$(document).on("click", ".ib-removeb-tg", function() {
 		IB_GMAP_FINISHED_POLYGON = false;
 
