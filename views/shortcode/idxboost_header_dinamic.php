@@ -39,7 +39,8 @@ if (is_array($result) && count($result) > 0) {
     if (array_key_exists('data', $result) && array_key_exists('header', $result['data']) && !empty($result['data']['header']['content'])) {
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_menu]", $variable, $result['data']['header']['content']);
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_menu_mobile]", $idxboost_dinamic_menu_mobile, $result['data']['header']['content']);
-        $result['data']['header']['content'] = str_replace('[idxboost_dinamic_credential_lead]', $idxboost_dinamic_credential_lead_dinamic, $result['data']['header']['content']);
+        $result['data']['header']['content'] = str_replace("[idxboost_dinamic_credential_lead]", $idxboost_dinamic_credential_lead_dinamic, $result['data']['header']['content']);
+        $result['data']['header']['content'] = str_replace("[idxboost_lead_activities]", do_shortcode('[idxboost_lead_activities]'), $result['data']['header']['content']);
     }
     echo $result['data']['header']['content'];
 }

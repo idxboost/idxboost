@@ -2370,7 +2370,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)" rel="nofollow">
-                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $name; ?>
+                <?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG)."&nbsp;"; ?><?php echo $name; ?>
             </a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)) : ?>
@@ -2517,7 +2517,7 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         ?>
         <li class="login show_modal_login_active">
             <a href="javascript:void(0)"
-               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo $response["first_name"]; ?></a>
+               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG)."&nbsp;"; ?><?php echo $response["first_name"]; ?></a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)) : ?>
                     <ul>
@@ -6172,6 +6172,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (bool)$flex_idx_info['agent']['has_seo_client'] : false,
             'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : "",
             'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (bool)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
+            'has_cms' => isset($flex_idx_info['agent']['has_cms']) ? (bool)$flex_idx_info['agent']['has_cms'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
             'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null
         ));

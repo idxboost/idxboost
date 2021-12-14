@@ -664,7 +664,10 @@ function validate_price(evt) {
 				success: function (response) {
 					if (response.success === true) {
 						// console.dir(seriaLogin);
-
+						if (__flex_g_settings.has_cms == "1") {
+							$(".ip-login").addClass("ip-d-none");
+						}
+						
 						if (typeof dataLayer !== "undefined") {
 							dataLayer.push({'event': 'email_signin'});
 						}
@@ -979,6 +982,12 @@ function validate_price(evt) {
 				$("#ms-new-password-text").show();
 				$("#ms-recovery-password-text").hide();
 			}
+
+			if (__flex_g_settings.anonymous == "no") {
+				if (__flex_g_settings.has_cms == "1") {
+					$(".ip-login").addClass("ip-d-none");
+				}
+			}
 		});
 
 		// handle sign in
@@ -1065,6 +1074,10 @@ function validate_price(evt) {
 					if (true === response.success) {
 						if (typeof dataLayer !== "undefined") {
 							dataLayer.push({'event': 'email_register'});
+						}
+
+						if (__flex_g_settings.has_cms == "1") {
+							$(".ip-login").addClass("ip-d-none");
 						}
 
 						if (true === IB_HAS_LEFT_CLICKS) {

@@ -4482,11 +4482,12 @@ if (!function_exists('idx_page_404')) {
 if (!function_exists('idx_page_shortcode_render')) {
     function idx_page_shortcode_render($content)
     {
-
         $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
         $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
+        $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
+        
 
         $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[1-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {

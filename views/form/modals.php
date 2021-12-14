@@ -1411,6 +1411,12 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                                 fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
                               }
 
+
+                              if (__flex_g_settings.has_cms == "1") {
+                                $(".ip-login").addClass("ip-d-none");
+                              }
+                                  
+
                               jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
                               
                               if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
@@ -1781,6 +1787,10 @@ function fb_login() {
 
                                   if (response.lead_info.last_name.length) {
                                     fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
+                                  }
+
+                                  if (__flex_g_settings.has_cms == "1") {
+                                    $(".ip-login").addClass("ip-d-none");
                                   }
 
                                   jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));

@@ -20,6 +20,7 @@ $(".js-cta-download").click(function(){
 
   if(idxboost_force_registration && __flex_g_settings.anonymous == "yes"){
     $(".ms-btn-login").click();
+    $(".register .lg-register").click(); // For CMS
   }else{
     var file = $(".js-download-"+id_file).attr("href");
     var link = document.createElement('a');
