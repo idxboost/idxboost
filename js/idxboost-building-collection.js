@@ -1180,8 +1180,8 @@ function idxboostListCollectionForSold(element){
     htmlgrid +='<li class="pr down">2.05%</li>';
     htmlgrid +='<li class="beds">'+element['bed']+' <span>'+word_translate.beds+' </span></li>';
     htmlgrid +='<li class="baths">'+element['bath']+' <span>'+word_translate.baths+' </span></li>';
-    htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>';
-    htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m2)</span></li>';
+    htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>';
+    htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m²)</span></li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
     if ( 
@@ -1479,8 +1479,8 @@ function idx_slider_building_html(info_item){
         html_response.push('<li class="pr down">2.05%</li>');
         html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
         html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-        html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
-        html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+        html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>');
+        html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
         html_response.push('<li class="mx-address">'+info_item.full_address_top+' '+info_item.full_address_bottom+'</li>');
         html_response.push('<li class="build-year"><span>Built </span>2015</li>');
         html_response.push('<li class="development"><span></span></li>');

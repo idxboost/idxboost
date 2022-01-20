@@ -1,7 +1,6 @@
 <?php
 global $flex_idx_info;
 
-
 $data = array(
     'registration_key' => get_option('idxboost_registration_key')
 );
@@ -16,20 +15,19 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
 // Set HTTP Header for POST request
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($payload))
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($payload))
 );
 
 $result = @json_decode(curl_exec($ch),true);
-
 
 $htmlmenu =[];
 
 if (is_array($result) && count($result)> 0) {
     $htmlmenu[] = '<ul>';
-    foreach ($result as $key => $value) {
 
-        if (is_array($value['child']) && count($value['child'])>0) {
+    foreach ($result as $key => $value) {
+        if (is_array($value['child']) && count($value['child']) > 0) {
             foreach ($value['child'] as $key => $menu) {
 
                 $has_class = '';
@@ -67,7 +65,12 @@ if (is_array($result) && count($result)> 0) {
 
             }
         }
+
+        if (array_key_exists("cta", $value) && is_array($value['cta']) && count($value['cta'] ) > 0) {
+			$htmlmenu[] = $value["cta"]["content"];
+		}
     }
+    
     $htmlmenu[] = '</ul>';
 }
 

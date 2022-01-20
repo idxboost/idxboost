@@ -1,3 +1,6 @@
+<?php
+$current_year = date('Y');
+?>
 <style>
 .ib-price-range-wrap { display: none; }
 #ui-id-1 {max-width:500px !important;}
@@ -312,7 +315,7 @@
                     <div class="ib-item-wrap-fm ib-wrap-content-select">
                         <label for="year-inner-min" class="ms-hidden"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         <select class="ib-comm-year-inner-min ib-ryear-lbl-lt" id="year-inner-min">
-                        <?php for($min_year = 1900; $min_year <= 2020; $min_year++): ?>
+                        <?php for($min_year = 1900; $min_year <= $current_year; $min_year++): ?>
                         <option value="<?php echo $min_year; ?>"><?php echo $min_year; ?></option>
                         <?php endfor; ?>
                       </select>
@@ -321,7 +324,7 @@
                       <div class="ib-item-wrap-fm ib-wrap-content-select">
                           <label for="year-inner-max" class="ms-hidden"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                           <select class="ib-comm-year-inner-max ib-ryear-lbl-rt" id="year-inner-max">
-                        <?php for($max_year = 2020; $max_year >= 1900; $max_year--): ?>
+                        <?php for($max_year = $current_year; $max_year >= 1900; $max_year--): ?>
                         <option value="<?php echo $max_year; ?>"><?php echo $max_year; ?></option>
                         <?php endfor; ?>
                         </select>

@@ -15,6 +15,56 @@ global $flex_idx_info, $flex_idx_lead;
   }
 </script>
 
+<!--MODAL EDIT ALERT FORM HISTORY MENU-->
+<div class="ib-modal-master" data-id="edit-search" id="ib-fsearch-edit-modal">
+  <div class="ib-mmcontent">
+    <div class="ib-mwrapper ib-mgeneric">
+      <div class="ib-mgheader">
+        <h4 class="ib-mghtitle">Edit Search</h4>
+      </div>
+      <div class="ib-mgcontent">
+        <form method="post" class="flex-edit-search-modals">
+          <input type="hidden" name="action" value="update_criterial_alert">
+
+          <input type="hidden" name="token_alert" class="token_alert_update_criterial" value="">
+          <ul class="ib-msavesearch">
+            <li class="ib-mssitem"><span class="ib-mssitxt">Email Updates</span>
+              <div class="ib-mgiwrapper ib-mgwselect">
+                <label class="ms-hidden" for="ib-mgwselect-edit">Email Updates</label>
+                <select class="ib-mssselect" name="notification_day" id="ib-mgwselect-edit">
+                  <option value="--">No Alert</option>
+                  <option value="1" selected="">Daily</option>
+                  <option value="7">Weekly</option>
+                  <option value="30">Monthly</option>
+                </select>
+              </div>
+            </li>
+            <li class="ib-mssitem"><span class="ib-mssitxt">Only Update me On</span>
+              <ul class="ib-mssupdate">
+                <li class="ib-mssuitem">
+                  <input class="ib-msscheckbox" type="checkbox" id="ib-check-new-listing-edit" name="notification_type_edit[]" value="new_listing" checked>
+                  <label class="ib-msslabel" for="ib-check-new-listing-edit">New Listing (Always)</label>
+                </li>
+                <li class="ib-mssuitem">
+                  <input class="ib-msscheckbox" type="checkbox" id="ib-check-price-change-edit" name="notification_type_edit[]" value="price_change" checked>
+                  <label class="ib-msslabel" for="ib-check-price-change-edit">Price Change</label>
+                </li>
+                <li class="ib-mssuitem">
+                  <input class="ib-msscheckbox" type="checkbox" id="ib-check-status-change-edit" name="notification_type_edit[]" value="status_change" checked>
+                  <label class="ib-msslabel" for="ib-check-status-change-edit">Status Change</label>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <button class="ib-mgsubmit">Save Search</button>
+        </form>
+      </div>
+    </div>
+    <div class="ib-mmclose js-close-mds" role="button" aria-label="Close"><span class="ib-mmctxt">Close</span></div>
+  </div>
+  <div class="ib-mmbg"></div>
+</div>
+
 <!--MODAL GALLERY-->
 <div id="content-modals">
 
@@ -546,7 +596,7 @@ global $flex_idx_info, $flex_idx_lead;
   <!-- ADD FAVORITES -->
   <div class="overlay_modal" id="modal_add_favorities">
     <div class="modal_cm">
-      <button data-id="modal_add_favorities" class="close close-modal" data-frame="modal_mobile">Close <span></span></button>
+      <button data-id="modal_add_favorities" class="close close-modal" data-frame="modal_mobile"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
       <div class="content_md">
         <div class="body_md">
           <div class="confirm-message">
@@ -683,11 +733,11 @@ global $flex_idx_info, $flex_idx_lead;
                 $wp_request = $wp->request;
                 $wp_request_exp = explode('/', $wp_request);
                 ?>
-<fieldset>
+              <fieldset>
                     <legend><?php echo __('Email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>              
 
 
-<input type="hidden" name="share_permalink" value="<?php echo $flex_idx_info["website_url"]; ?>/<?php echo $wp_request; ?>">
+              <input type="hidden" name="share_permalink" value="<?php echo $flex_idx_info["website_url"]; ?>/<?php echo $wp_request; ?>">
               <?php if (isset($wp_request_exp[0]) && $wp_request_exp[0] === 'building'): ?>
               <input type="hidden" name="share_type" value="building">
               <input type="hidden" name="building_ID" value="<?php echo get_post_meta(get_the_ID(), '_flex_building_page_id', true); ?>">
@@ -715,10 +765,10 @@ global $flex_idx_info, $flex_idx_lead;
                 }
                 ?>
               
-<fieldset>
+              <fieldset>
                     <legend><?php echo __('Email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
 
-<input type="hidden" name="share_type" value="property">
+              <input type="hidden" name="share_type" value="property">
               <input type="hidden" name="mls_number" value="<?php echo $mls_num; ?>">
               <input type="hidden" name="status" value="">
               <input type="hidden" name="type_property" value="<?php echo $type_lookup; ?>">
@@ -738,7 +788,7 @@ global $flex_idx_info, $flex_idx_lead;
                   <li class="gfield">
                     
                     <div class="ginput_container ginput_container_email">
-		      <label class="gfield_label" for="ms-friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+		                  <label class="gfield_label" for="ms-friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <input id="ms-friend-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="medium" name="friend_name" placeholder="<?php echo __("Friend&#039s Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="">
                     </div>
                   </li>
@@ -746,21 +796,21 @@ global $flex_idx_info, $flex_idx_lead;
                   <li class="gfield">
                     
                     <div class="ginput_container ginput_container_email">		
-		      <label for="ms-your-name" class="gfield_label"><?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+		                  <label for="ms-your-name" class="gfield_label"><?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <input id="ms-your-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="medium" name="your_name" placeholder="<?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="">
                     </div>
                   </li>
                   <li class="gfield">
                     
                     <div class="ginput_container ginput_container_email">
-			<label for="ms-your-email" class="gfield_label"><?php echo __("Your Email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+			                <label for="ms-your-email" class="gfield_label"><?php echo __("Your Email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <input id="ms-your-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="medium" name="your_email" placeholder="<?php echo __("Your Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="">
                     </div>
                   </li>
                   <li class="gfield comments">
                     
                     <div class="ginput_container">
-			<label class="gfield_label" for="ms-friend-comments"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+			                <label class="gfield_label" for="ms-friend-comments"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <textarea id="ms-friend-comments" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" cols="50" name="comments" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" type="text"></textarea>
                     </div>
                   </li>
@@ -770,7 +820,7 @@ global $flex_idx_info, $flex_idx_lead;
                   <input class="gform_button button gform_submit_button_6" type="submit" value="<?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?>">
                 </div>
               </div>
-		</fieldset>
+		          </fieldset>
             </form>
           </div>
         </div>
@@ -779,6 +829,114 @@ global $flex_idx_info, $flex_idx_lead;
     <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_email_to_friend">
     </div>
   </div>
+
+  <!--
+  <div class="overlay_modal" id="modal_email_to_friend">
+    <div class="modal_cm">
+      <div class="ms-wrapper-modal">
+        <div class="ms-modal-header">
+          <span class="ms-title"><?php echo __("Email to a Friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+        </div>
+        <div class="ms-modal-body">
+          <form id="form-email-friend" class="iboost-secured-recaptcha-form" method="post">
+            <?php
+              global $wp, $post;
+              $wp_request = $wp->request;
+              $wp_request_exp = explode('/', $wp_request);
+            ?>
+            <input type="hidden" name="share_permalink" value="<?php echo $flex_idx_info["website_url"]; ?>/<?php echo $wp_request; ?>">
+            <?php if (isset($wp_request_exp[0]) && $wp_request_exp[0] === 'building'): ?>
+              <input type="hidden" name="share_type" value="building">
+              <input type="hidden" name="building_ID" value="<?php echo get_post_meta(get_the_ID(), '_flex_building_page_id', true); ?>">
+            <?php elseif(isset($wp_request_exp[0]) && $wp_request_exp[0] === 'property'):
+              list($page, $slug) = $wp_request_exp;
+
+              if (strstr($slug, '-rx-')) {
+                $exp_slug = explode('-', $slug);
+                $mls_num  = 'rx-' . end($exp_slug);
+              } else {
+                $exp_slug = explode('-', $slug);
+                $mls_num  = end($exp_slug);
+              }
+
+              $type_lookup = 'active';
+
+              if (preg_match('/^[sold\-(.*)]+/', $slug)) {
+                $type_lookup = 'sold';
+              } else if (preg_match('/^[rent\-(.*)]+/', $slug)) {
+                $type_lookup = 'rent';
+              } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
+                $type_lookup = 'pending';
+              } else {
+                $type_lookup = 'active';
+              }
+            ?>
+            
+              <input type="hidden" name="share_type" value="property">
+              <input type="hidden" name="mls_number" value="<?php echo $mls_num; ?>">
+              <input type="hidden" name="status" value="">
+              <input type="hidden" name="type_property" value="<?php echo $type_lookup; ?>">
+            <?php endif; ?>
+            <input type="hidden" name="action" value="flex_share_with_friend">
+
+            <div class="ms-flex">
+              <div class="ms-form-item">
+                <div class="ms-wrapper-img" id="mfImg"></div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-wrapper-details">
+                  <span class="ms-price-label"><span id="mfPrice">$0</span></span>
+                  <span class="ms-bed-label"><span id="mfBed">0</span> <?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ms-bath-label"><span id="mfBath">0</span> <?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ms-sqft-label"><span id="mfSqft">0</span> Sqft</span>
+                  <span class="ms-address-label"><span id="mfAddress">--</span></span>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <label class="ms-hidden" for="ms-friend-email"><?php echo __("Friend&#039s email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="ms-friend-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="friend_email" placeholder="<?php echo __("Friend&#039s Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label class="ms-hidden" for="ms-friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="ms-friend-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="friend_name" placeholder="<?php echo __("Friend&#039s Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label for="ms-your-email" class="ms-hidden"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="ms-your-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="your_email" placeholder="<?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label for="ms-your-name" class="ms-hidden"><?php echo __("Enter your name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="ms-your-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="your_name" placeholder="<?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
+                </div>
+              </div>
+              <div class="ms-form-item -full">
+                <div class="ms-group-input">
+                  <label for="ms-friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <textarea data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ms-friend-comments" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" cols="50" name="comments" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" type="text"><?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?></textarea>  
+                </div>
+              </div>
+              <div class="ms-wrapper-btn">
+                <button class="ms-btn" aria-label="Submit">
+                  <span><?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button data-id="modal_email_to_friend" class="close close-modal" data-frame="modal_mobile"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
+    </div>
+    <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_email_to_friend"></div>
+  </div>-->
 
   <!-- MORTGAGE CALCULATOR -->
   <div class="overlay_modal" id="modal_calculator">
@@ -790,7 +948,7 @@ global $flex_idx_info, $flex_idx_lead;
         </div>
         <div class="ib-mg-detail">
           <p style="margin-top: 0;"><?php echo __('Monthly Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-          <span id="monthly-amount" class="text-bold mtotal mortgage_amount_txt"></span>
+          <span id="monthly-amount" class="text-bold mtotal js-est-payment"></span>
           <p><?php echo __('Estimate includes principal and interest, taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
         </div>
         <div class="body_md">
@@ -809,25 +967,36 @@ global $flex_idx_info, $flex_idx_lead;
                     </div>
                   </li>
                   <li class="gfield">
-                    <label class="gfield_label" for="term_txt"><?php echo __("Year Term", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <div class="ginput_container ginput_container_years">
-                      <select class="medium term_txt" id="term_txt">
-                        <option value="30">30 Years</option>
-                        <option value="15">15 Years</option>
-                      </select>
+                    <label class="gfield_label" for="term_txt"><?php echo __('Year Term', IDXBOOST_DOMAIN_THEME_LANG); ?> (<?php echo __('Years', IDXBOOST_DOMAIN_THEME_LANG); ?>)</label>
+                    <div class="ginput_container ginput_container_years">  
+                      <input class="ib-mcsyears ib-property-mc-ty" id="term_txt" value="30">
+                      <div class="ms-wrapper-dropdown-menu medium">
+                        <button id="calculatorYears"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                        <ul id="calculatorYearsList" class="ms-dropdown-menu" role="menu">
+                          <li><a href="#" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a href="#" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a href="#" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                        </ul>
+                      </div>
+                      <!--<select class="medium term_txt" id="term_txt">
+                        <option value="30"><?php //echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                        <option value="15"><?php //echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                      </select>-->
                     </div>
                   </li>
                   <li class="gfield">
-                    <label class="gfield_label" for="interest_rate_txt"><?php echo __("Interest Rate", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <div class="ginput_container ginput_container_rate">
-                      <input class="medium interest_rate_txt" id="interest_rate_txt" max="95" min="0" name="input_3" step="any" type="number" value="4">
-                      </input>
+                    <label class="gfield_label" for="interest_rate_txt"><?php echo __("Interest Rate(%)", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <div class="ginput_container ginput_container_rate ms-item-input">
+                      <input id="interest_rate_txt" class="ib-mcidpayment medium interest_rate_txt" data-default="3.215" value="3.215" step="any" type="text" max="100" min="0">
+                      <span>%</span>
                     </div>
                   </li>
                   <li class="gfield">
-                    <label class="gfield_label" for="down_payment_txt"><?php echo __("Down Payment", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <div class="ginput_container ginput_container_payment">
-                      <input class="medium down_payment_txt" max="95" min="0" name="input_2 down_payment_txt" step="any" type="number" value="30" id="down_payment_txt">
+                    <label class="gfield_label" for="down_payment_txt"><?php echo __("Down Payment(%)", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <div class="ginput_container ginput_container_payment ms-item-input">
+                      <input id="down_payment_txt" class="ib-mcidpayment medium down_payment_txt" data-default="20" value="20" step="any" type="text" max="100" min="0">
+                      <span>%</span>
                     </div>
                   </li>
                 </ul>
@@ -915,13 +1084,13 @@ global $flex_idx_info, $flex_idx_lead;
   <!-- ALERTS -->
   <div class="overlay_modal" id="modal_subscribe">
     <div class="modal_cm">
-      <button data-id="modal_subscribe" class="close close-modal" data-frame="modal_mobile">Close <span></span></button>
+      <button data-id="modal_subscribe" class="close close-modal" data-frame="modal_mobile"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
       <div class="content_md">
         <div class="body_md">
           <div class="confirm-message alt-ss">
-            <span class="alt-ss-title">Subscribe Alert</span>
+            <span class="alt-ss-title"><?php echo __('Subscribe Alert', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <p></p>
-            <a href="#" class="btn-link">Continue searching for homes</a>
+            <a href="#" class="btn-link"><?php echo __('Continue searching for homes', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
           </div>
         </div>
       </div>
@@ -1413,7 +1582,8 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
 
 
                               if (__flex_g_settings.has_cms == "1") {
-                                $(".ip-login").addClass("ip-d-none");
+                                jQuery("body").addClass("logged");
+                                jQuery(".js-login").addClass("ip-d-none");
                               }
                                   
 
@@ -1790,7 +1960,8 @@ function fb_login() {
                                   }
 
                                   if (__flex_g_settings.has_cms == "1") {
-                                    $(".ip-login").addClass("ip-d-none");
+                                    jQuery("body").addClass("logged");
+                                    jQuery(".js-login").addClass("ip-d-none");
                                   }
 
                                   jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
@@ -2073,7 +2244,7 @@ function fb_logout() {
                         <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
                         <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span>
                       </label>
-                      <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default ib-input-only-numeric" placeholder="Phone number" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                      <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default ib-input-only-numeric" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                     </div>
                   </div>
                   <button class="pr-redbtn pr-populate-phone pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
@@ -2378,7 +2549,7 @@ $(function() {
     <li class="beds">{{bed}} <?php echo __('beds', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span></li>
     <li class="baths">{{bath}} {{DFformatBathsHalf baths_half}} <span><?php echo __('baths', IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
     <li class="living-size"> <span>{{DFformatSqft sqft}} <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-    <li class="price-sf"><span>{{DFformatPrice price_sqft}} </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>({{DFformatPrice price_sqft_m2}}  m2)</span></li>
+    <li class="price-sf"><span>{{DFformatPrice price_sqft}} </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>({{DFformatPrice price_sqft_m2}} m²)</span></li>
 
     {{{DFhandleDevelopment this}}}
 
@@ -2403,7 +2574,7 @@ $(function() {
     <li class="address">{{{DFhandleFormatAddress this}}}</li>
     <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental}}</li>
     <li class="beds">{{class_name}} <span></span></li>
-    <li class="living-size"> <span>{{DFformatSqft lot_size}} </span><?php echo __('sqft', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>({{DFformatSqft living_size_m2}}  m2)</span></li>
+    <li class="living-size"> <span>{{DFformatSqft lot_size}} </span><?php echo __('sqft', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>({{DFformatSqft living_size_m2}} m²)</span></li>
   </ul>
 
   {{{DFidxGalleryImages this}}}

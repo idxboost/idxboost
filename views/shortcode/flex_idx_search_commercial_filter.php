@@ -245,71 +245,80 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 </div>-->
 
 <div class="ib-modal-master" data-id="calculator" id="ib-mortage-calculator">
-  <div class="ib-mmcontent">
-    <div class="ib-mwrapper ib-mgeneric">
-      <div class="ib-mgheader">
-        <h4 class="ib-mghtitle"><?php echo __('Estimated Monthly Payment', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-      </div>
-      <div class="ib-mg-detail">
-        <p style="margin-top: 0;"><?php echo __('Monthly Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-        <span class="ib-price-mont ib-mcdinumbers ib-calc-mc-monthly"></span>
-        <div id="chart-container"></div>
-        <p><?php echo __('Estimate includes principal and interest, taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-      </div>
-      <div class="ib-mgcontent">
-        <div class="mb-mcform">
-          <form method="post" class="ib-property-mortgage-f">
-            <ul class="ib-mcinputs">
-              <li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Purchase Price', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                <div class="ib-mgiwrapper ib-property-mc-pp">
-                  <label class="ms-hidden" for="ib-property-mc-pp"><?php echo __('Purchase Price', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="ib-property-mc-pp" class="ib-mcipurchase ib-property-mc-pp" value="" type="text" readonly>
-                </div>
-              </li>
-              <li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Year Term', IDXBOOST_DOMAIN_THEME_LANG); ?> (<?php echo __('Years', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span>
-                <div class="ib-mgiwrapper ib-mgwselect">
-                  <label class="ms-hidden" for="ib-property-mc-ty"><?php echo __('Select year', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <select class="ib-mcsyears ib-property-mc-ty" id="ib-property-mc-ty">
-                    <option value="30"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                    <option value="15"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                  </select>
-                </div>
-              </li>
-              <li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Interest Rate', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                <div class="ib-mgiwrapper">
-                  <label class="ms-hidden" for="ib-property-mc-ir"><?php echo __('Interest Rate', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-mcidpayment ib-property-mc-ir" value="4" step="any" type="number" max="95" min="0">
-                </div>
-              </li>
-              <li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Down Payment', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                <div class="ib-mgiwrapper">
-                  <label class="ms-hidden" for="ib-property-mc-dp"><?php echo __('Down Payment', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-mcidpayment ib-property-mc-dp" value="30" step="any" type="number" max="95" min="0">
-                </div>
-              </li>
-            </ul>
-            <button type="button" class="ib-mgsubmit ib-property-mortage-submit"><?php echo __('Calculate', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-          </form>
-        </div>
-        <div class="mb-mcdata">
-          <!--<ul class="ib-mcdlist">
-            <li class="ib-mcditem"><span class="ib-mcditxt">Mortgage Amount</span><span class="ib-mcdinumbers ib-calc-mc-mortgage">$185,500</span></li>
-            <li class="ib-mcditem"><span class="ib-mcditxt">Down Payment Amount</span><span class="ib-mcdinumbers ib-calc-mc-down-payment">$79,500</span></li>
-            <li class="ib-mcditem ib-mcdibig"><span class="ib-mcditxt">Monthly Amount</span><span class="ib-mcdinumbers ib-calc-mc-monthly">$885.61</span></li>
-            <li class="ib-mcditem ib-mcdibig">
-              <div class="ib-mcditxt">Total Monthly Amount <span class="ib-mcdibold">(Principal &amp; Interest, and PMI)</span></div><span class="ib-mcdinumbers ib-calc-mc-totalmonthly">$885.61</span>
-            </li>
-            </ul>-->
-          <p><?php echo __("Let's us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>" title="Call Us <?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?>"><?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?></a></p>
-        </div>
-      </div>
-      <div class="ib-img-calculator"></div>
-    </div>
-    <div class="ib-mmclose"><span class="ib-mmctxt">Close</span></div>
-  </div>
-  <div class="ib-mmbg"></div>
+	<div class="ib-mmcontent">
+		<div class="ib-mwrapper ib-mgeneric">
+			<div class="ib-mgheader">
+				<h4 class="ib-mghtitle"><?php echo __('Estimated Monthly Payment', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+			</div>
+			<div class="ib-mg-detail">
+				<p style="margin-top: 0;"><?php echo __('Monthly Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+				<span class="ib-price-mont ib-mcdinumbers ib-calc-mc-monthly"></span>
+				<div id="chart-container"></div>
+				<p><?php echo __('Estimate includes principal and interest, taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+			</div>
+			<div class="ib-mgcontent">
+				<div class="mb-mcform">
+					<form method="post" class="ib-property-mortgage-f">
+						<ul class="ib-mcinputs">
+							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Purchase Price', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+								<div class="ib-mgiwrapper ib-property-mc-pp">
+									<label class="ms-hidden" for="ib-property-mc-pp"><?php echo __('Purchase Price', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+									<input id="ib-property-mc-pp" class="ib-mcipurchase ib-property-mc-pp" value="" type="text" readonly>
+								</div>
+							</li>
+							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Year Term', IDXBOOST_DOMAIN_THEME_LANG); ?> (<?php echo __('Years', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span>
+								<div class="ib-mgiwrapper ib-mgwselect">
+									<label class="ms-hidden" for="ib-property-mc-ty"><?php echo __('Select year', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input class="ib-mcsyears ib-property-mc-ty" id="ib-property-mc-ty" value="30">
+                  <div class="ms-wrapper-dropdown-menu">
+                    <button id="calculatorYears">30 Years</button>
+                    <ul id="calculatorYearsList" class="ms-dropdown-menu" role="menu">
+                      <li><a href="#" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a href="#" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a href="#" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                    </ul>
+                  </div>
+									<!--<select class="ib-mcsyears ib-property-mc-ty" id="ib-property-mc-ty">
+										<option value="30"><?php //echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+										<option value="15"><?php //echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+									</select>-->
+								</div>
+							</li>
+							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Interest Rate(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+								<div class="ib-mgiwrapper">
+									<label class="ms-hidden" for="ib-property-mc-ir"><?php echo __('Interest Rate(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+									<div class="ms-item-input">
+										<input class="ib-mcidpayment ib-property-mc-ir" data-default="3.215" value="3.215" step="any" type="text" max="100" min="0">
+										<span>%</span>
+									</div>
+								</div>
+							</li>
+							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Down Payment(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+								<div class="ib-mgiwrapper">
+									<label class="ms-hidden" for="ib-property-mc-dp"><?php echo __('Down Payment(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+									<div class="ms-item-input">
+										<input class="ib-mcidpayment ib-property-mc-dp" data-default="20" value="20" step="any" type="text" max="100" min="0">
+										<span>%</span>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<button type="button" class="ib-mgsubmit ib-property-mortage-submit"><?php echo __('Calculate', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+					</form>
+				</div>
+				<div class="mb-mcdata">
+					<p><?php echo __("Let's us know the best time for showing.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>" title="Call Us <?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?>"><?php echo flex_agent_format_phone_number(preg_replace('/[^\d]/', '', $flex_idx_info['agent']['agent_contact_phone_number'])); ?></a></p>
+				</div>
+			</div>
+			<div class="ib-img-calculator"></div>
+		</div>
+		<div class="ib-mmclose"><span class="ib-mmctxt">Close</span></div>
+	</div>
+	<div class="ib-mmbg"></div>
 </div>
 
+<!--EMAIL TO A FRIEND-->
 <div class="ib-modal-master" data-id="email-to-friend" id="ib-email-to-friend">
   <div class="ib-mmcontent">
     <div class="ib-mwrapper ib-mgeneric">
@@ -318,32 +327,29 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
       </div>
       <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
         <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
-        <div class="ib-mgcontent">
-          <?php echo __('Recommend this to a friend, just enter their email below.', IDXBOOST_DOMAIN_THEME_LANG); ?>
-          <div class="ib-meblock">
-            <span class="ib-mgitxt"><?php echo __('Friend&#039s Information', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+        <div class="ib-mgcontent"><?php echo __('Recommend this to a friend, just enter their email below.', IDXBOOST_DOMAIN_THEME_LANG); ?>
+          <div class="ib-meblock"><span class="ib-mgitxt"><?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <div class="ib-mgiwrapper">
-              <label for="friend_email" class="ms-hidden"><?php echo __('Friend&#039s Information', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <label class="ms-hidden" for="friend_email"><?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
               <input id="friend_email" class="ib-meinput" name="friend_email" type="email" placeholder="<?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
             <div class="ib-mgiwrapper">
-              <label for="friend_name" class="ms-hidden"><?php echo __('Friend&#039s Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <label class="ms-hidden" for="friend_name"><?php echo __('Friend&#039s Name*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
               <input id="friend_name" class="ib-meinput" name="friend_name" type="text" placeholder="<?php echo __('Friend&#039s Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
           </div>
-          <div class="ib-meblock">
-            <span class="ib-mgitxt"><?php echo __('Your Information', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <div class="ib-meblock"><span class="ib-mgitxt"><?php echo __('Your Information', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <div class="ib-mgiwrapper">
-              <label for="_sf_name" class="ms-hidden"><?php echo __('Your Information', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-              <input id="_sf_name" class="ib-meinput" id="_sf_name" name="your_name" type="text" placeholder="<?php echo __('Your Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
+              <label class="ms-hidden" for="_sf_name"><?php echo __('Your Name*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <input class="ib-meinput" id="_sf_name" name="your_name" type="text" placeholder="<?php echo __('Your Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
             <div class="ib-mgiwrapper">
-              <label for="_sf_email" class="ms-hidden"><?php echo __('Your Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <label class="ms-hidden" for="_sf_email"><?php echo __('Your Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
               <input class="ib-meinput" id="_sf_email" name="your_email" type="email" placeholder="<?php echo __('Your Email*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
             <div class="ib-mgiwrapper ib-mgtextarea">
-              <label for="ib-metextarea" class="ms-hidden"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-              <textarea id="ib-metextarea" class="ib-metextarea" name="comments" type="text" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>" required></textarea>
+              <label class="ms-hidden" for="ib-metextarea"><?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <textarea class="ib-metextarea" name="comments" type="text" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>" required></textarea>
             </div>
           </div>
           <span class="ib-merequired"><?php echo __('* Required fields', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -355,6 +361,79 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
   </div>
   <div class="ib-mmbg"></div>
 </div>
+
+<!--
+<div class="ib-modal-master" data-id="email-to-friend" id="ib-email-to-friend">
+  <div class="ib-mmcontent">
+    <div class="ib-mwrapper ib-mgeneric">
+      <div class="ms-wrapper-modal">
+        <div class="ms-modal-header">
+          <span class="ms-title"><?php echo __("Email to a Friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+        </div>
+        <div class="ms-modal-body">
+          <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
+            <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
+            <input type="hidden" name="status" class="ib-property-share-property-status" value="">
+
+            <div class="ms-flex">
+              <div class="ms-form-item">
+                <div class="ms-wrapper-img" id="mfImg"></div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-wrapper-details">
+                  <span class="ms-price-label"><span id="mfPrice">$0</span></span>
+                  <span class="ms-bed-label"><span id="mfBed">0</span> <?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ms-bath-label"><span id="mfBath">0</span> <?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ms-sqft-label"><span id="mfSqft">0</span> Sqft</span>
+                  <span class="ms-address-label"><span id="mfAddress">--</span></span>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <label class="ms-hidden" for="friend_email"><?php echo __('Friend Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="friend_email" name="friend_email" type="email" placeholder="<?php echo __('Friend Email', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label class="ms-hidden" for="friend_name"><?php echo __('Friend Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input id="friend_name" class="ib-meinput" name="friend_name" type="text" placeholder="<?php echo __('Friend Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label class="ms-hidden" for="_sf_email"><?php echo __('Enter your email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input class="ib-meinput" id="_sf_email" name="your_email" type="email" placeholder="<?php echo __('Enter your email', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
+                </div>
+              </div>
+              <div class="ms-form-item">
+                <div class="ms-group-input">
+                  <label class="ms-hidden" for="_sf_name"><?php echo __('Enter your name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input class="ib-meinput" id="_sf_name" name="your_name" type="text" placeholder="<?php echo __('Enter your name', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
+                </div>
+              </div>
+              <div class="ms-form-item -full">
+                <div class="ms-group-input">
+                  <label for="ms-friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <textarea id="ms-friend-comments" data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>" class="ib-metextarea" name="comments" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?></textarea>
+                </div>
+              </div>
+              <div class="ms-wrapper-btn">
+                <button type="submit" class="ib-mgsubmit ms-btn" aria-label="Submit">
+                  <span><?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="ib-mmclose" role="button" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>"><span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+  </div>
+  <div class="ib-mmbg"></div>
+</div>-->
 
 <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
   <div class="ib-mmcontent">
@@ -419,7 +498,9 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         </form>
       </div>
     </div>
-    <div class="ib-mmclose" role="button" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>"><span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+    <button class="ib-mmclose" role="button" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+      <span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+    </button>
   </div>
   <div class="ib-mmbg"></div>
 </div>
@@ -431,11 +512,25 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
           <div class="ib-pcheader">
             <div class="ib-pwheader">
               <header class="ib-pheader">
-                <h2 class="ib-ptitle">{{address_short}}</h2><span class="ib-pstitle">{{address_large}}</span>
+                <h2 class="ib-ptitle">{{address_short}}</h2>
+                <span class="ib-pstitle">{{address_large}}</span>
               </header>
               <div class="ib-phcta">
                 <div class="ib-phomodal">
                   <a href="tel:<?php echo $idx_contact_phone; ?>" class="ib-pbtnphone">{{agentPhone this}}</a>
+                  <div class="ms-wrapper-btn-new-share">
+										<div class="ms-wrapper">
+                      <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+											<ul class="ms-share-list">
+                        <li class="ib-pscitem ib-psemailfriend" data-status="{{status_type}}" data-mls="{{mls_num}}" data-permalink="" data-lg="{{lng}}" data-lt="{{lat}}">
+                          <a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                        </li>
+												<li><a href="" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+												<li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
+												<li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsitw" data-address="{{ address_short }} {{ address_large}}" data-price="{{price}}" data-type="{{class_id}}" data-rental="{{is_rental}}" data-mls="{{mls_num}}">Twitter</a></li>
+											</ul>
+										</div>
+									</div>
                   <div class="ib-requestinfo ib-phbtn"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-pbtnopen ib-phbtn" data-permalink="{{ propertyPermalink slug }}"><?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
@@ -500,13 +595,27 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     <li class="ib-pilitem ib-pilsize ms-hidden-pc"><span class="ib-pilnumber">{{price_sqft}}</span><span class="ib-piltxt"><?php echo __("$/Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span> <span class="ib-piltxt -min"><?php echo __("$/Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
                                  </ul>
 
+                                <div class="ms-wrapper-btn-new-share">
+																	<div class="ms-wrapper">
+                                    <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+																		<ul class="ms-share-list">
+																			<li class="ib-pscitem ib-psemailfriend" data-status="Active" data-mls="A11132797" data-permalink="">
+																				<a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend">Email to a friend</a>
+																			</li>
+																			<li><a href="" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+																			<li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsifb">Facebook</a></li>
+																			<li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsitw" data-address="13711 SW 84th St #E Miami, FL 33183" data-price="$320,000" data-type="Condominiums" data-rental="0" data-mls="A11132797">Twitter</a></li>
+																		</ul>
+																	</div>
+																</div>
+
                                  <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{mls_num}}" data-token-alert="{{token_alert}}">
                                     <div class="ib-pftxt">{{ idxFavoriteText this }}</div>
                                     <div class="ib-pftxt -text-min">Save</div>
                                   </div>
-                  </div>
+                                </div>
 
-                              <ul class="ib-psc">
+                              <ul class="ib-psc" style="display: none">
                                  <li class="ib-pscitem ib-pshared">
                                     <div class="ib-psbtn"><span class="ib-pstxt"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
                                     <div class="ib-plsocials">
@@ -527,43 +636,42 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
           
                               <div class="ib-plist-details -border">
                                  <div class="ib-plist-card">
-                                    <h2 class="ib-plist-card-title">Basic Information</h2>
+                                    <h2 class="ib-plist-card-title"><?php echo __('Basic Information', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
                                     <ul class="ib-plist-list">
                                        <li>
-                                          <span class="ib-plist-st">MLS #</span>
+                                          <span class="ib-plist-st"><?php echo __('MLS', IDXBOOST_DOMAIN_THEME_LANG); ?> #</span>
                                           <span class="ib-plist-pt">{{mls_num}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Type</span>
+                                          <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{property_type}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Status</span>
+                                          <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{status_name}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Suddivision/Complex</span>
+                                          <span class="ib-plist-st"><?php echo __('Suddivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{subdivision}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Year Built</span>
+                                          <span class="ib-plist-st"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{year}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Total Sqft</span>
+                                          <span class="ib-plist-st"><?php echo __('Total Sqft', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{ total_sqft }}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Date Listed</span>
+                                          <span class="ib-plist-st"><?php echo __('Date Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{list_date}}</span>
                                        </li>
                                        {{#if days_market}}
                                        <li>
-                                          <span class="ib-plist-st">Days on Market</span>
+                                          <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{days_market}}</span>
                                        </li>
                                        {{/if}}
-
                                     </ul>
                                  </div>
                               </div>
@@ -595,65 +703,65 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                   {{/if}}
 
                                  <div class="ib-plist-card">
-                                    <h2 class="ib-plist-card-title">Exterior Features</h2>
+                                    <h2 class="ib-plist-card-title"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
                                     <ul class="ib-plist-list">
                                        <li>
-                                          <span class="ib-plist-st">Waterfront</span>
+                                          <span class="ib-plist-st"><?php echo __("Waterfront", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{water_front}}</span>
                                        </li>
                                        {{#if wv}}
                                        <li>
-                                          <span class="ib-plist-st">WF Description</span>
+                                          <span class="ib-plist-st"><?php echo __("WF Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{wv}}</span>
                                        </li>
                                        {{/if}}                                       
                                        <li>
-                                          <span class="ib-plist-st">Pool</span>
+                                          <span class="ib-plist-st"><?php echo __("Pool", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{pool}}</span>
                                        </li>
                                        {{#if more_info_info.view}}
                                          <li>
-                                            <span class="ib-plist-st">View</span>
+                                            <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.view}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.construction}}
                                        <li>
-                                          <span class="ib-plist-st">Construction Type</span>
+                                          <span class="ib-plist-st"><?php echo __("Construction Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.construction}}</span>
                                        </li>
                                        {{/if}}
                                        {{#if more_info_info.architectural_style}}
                                          <li>
-                                            <span class="ib-plist-st">Design Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Design Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.architectural_style}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if feature_exterior}}
                                          <li>
-                                            <span class="ib-plist-st">Exterior Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{#each feature_exterior}}{{this}}, {{/each}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if has_parking}}
                                        <li>
-                                          <span class="ib-plist-st">Parking Spaces</span>
+                                          <span class="ib-plist-st"><?php echo __("Parking Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{parking}}</span>
                                        </li>
                                        {{/if}}
                                        <li>
-                                          <span class="ib-plist-st">Parking Description</span>
+                                          <span class="ib-plist-st"><?php echo __("Parking Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{parking_desc}}</span>
                                        </li>
                                        {{#if more_info_info.roof}}
                                        <li>
-                                          <span class="ib-plist-st">Roof Description</span>
+                                          <span class="ib-plist-st"><?php echo __("Roof Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.roof}}</span>
                                        </li>
                                        {{/if}}
                                        {{#if more_info_info.style}}
                                        <li>
-                                          <span class="ib-plist-st">Style</span>
+                                          <span class="ib-plist-st"><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.style}}</span>
                                        </li>
                                        {{/if}}
@@ -663,36 +771,36 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     <h2 class="ib-plist-card-title"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
                                     <ul class="ib-plist-list">
                                        <li>
-                                          <span class="ib-plist-st">Adjusted Sqft</span>
+                                          <span class="ib-plist-st"><?php echo __("Adjusted Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{sqft}}</span>
                                        </li>
                                        {{#if more_info_info.cooling}}
                                          <li>
-                                            <span class="ib-plist-st">Cooling Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Cooling Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.cooling}}</span>
                                          </li>
                                        {{/if}}                                       
                                        {{#if more_info_info.appliance}}
                                          <li>
-                                            <span class="ib-plist-st">Equipment Appliances</span>
+                                            <span class="ib-plist-st"><?php echo __("Equipment Appliances", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.appliance}}</span>
                                          </li>
                                        {{/if}}   
                                        {{#if more_info_info.floor_desc}}
                                          <li>
-                                            <span class="ib-plist-st">Floor Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Floor Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.floor_desc}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.heating}}
                                        <li>
-                                          <span class="ib-plist-st">Heating Description</span>
+                                          <span class="ib-plist-st"><?php echo __("Heating Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.heating}}</span>
                                        </li>
                                        {{/if}}
                                        {{#if feature_interior}}
                                          <li>
-                                            <span class="ib-plist-st">Interior Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{#each feature_interior}}{{this}} , {{/each}}</span>
                                          </li>
                                        {{/if}}
@@ -707,19 +815,19 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     <ul class="ib-plist-list">
                                        {{#if more_info_info.addres}}
                                          <li>
-                                            <span class="ib-plist-st">Address</span>
+                                            <span class="ib-plist-st"><?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.addres}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if lot_size}}
                                        <li>
-                                          <span class="ib-plist-st">Aprox. Lot Size</span>
+                                          <span class="ib-plist-st"><?php echo __("Aprox. Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{lot_size}}</span>
                                        </li>
                                        {{/if}}
                                        {{#if more_info_info.architectural_style}}
                                          <li>
-                                            <span class="ib-plist-st">Architectural Style</span>
+                                            <span class="ib-plist-st"><?php echo __("Architectural Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.architectural_style}}</span>
                                          </li>
                                        {{/if}}
@@ -728,253 +836,253 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 
                                        {{#if more_info_info.assoc_fee_paid}}
                                          <li>
-                                            <span class="ib-plist-st">Association Fee Frequency</span>
+                                            <span class="ib-plist-st"><?php echo __("Association Fee Frequency", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.assoc_fee_paid}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.attached_garage}}
                                          <li>
-                                            <span class="ib-plist-st">Attached Garage</span>
+                                            <span class="ib-plist-st"><?php echo __("Attached Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.attached_garage}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.city}}
                                          <li>
-                                            <span class="ib-plist-st">City</span>
+                                            <span class="ib-plist-st"><?php echo __("City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.city}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.community_features}}
                                          <li>
-                                            <span class="ib-plist-st">Community Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Community Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.community_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.construction}}
                                          <li>
-                                            <span class="ib-plist-st">Construction Materials</span>
+                                            <span class="ib-plist-st"><?php echo __("Construction Materials", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.construction}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.county}}
                                        <li>
-                                          <span class="ib-plist-st">County</span>
+                                          <span class="ib-plist-st"><?php echo __("County", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.county}}</span>
                                        </li>
                                        {{/if}}
                                        {{#if more_info_info.covered_spaces}}
                                          <li>
-                                            <span class="ib-plist-st">Covered Spaces</span>
+                                            <span class="ib-plist-st"><?php echo __("Covered Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.covered_spaces}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.faces}}
                                          <li>
-                                            <span class="ib-plist-st">Direction Faces</span>
+                                            <span class="ib-plist-st"><?php echo __("Direction Faces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.faces}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.frontage_lenght}}
                                          <li>
-                                            <span class="ib-plist-st">FrontageLength</span>
+                                            <span class="ib-plist-st"><?php echo __("FrontageLength", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.frontage_lenght}}</span>
                                          </li>
                                        {{/if}}
                                        <li>
-                                          <span class="ib-plist-st">Furnished Info</span>
+                                          <span class="ib-plist-st"><?php echo __("Furnished Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{furnished}}</span>
                                        </li>
                                        {{#if more_info_info.garage}}
                                          <li>
-                                            <span class="ib-plist-st">Garage</span>
+                                            <span class="ib-plist-st"><?php echo __("Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.garage}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.levels}}
                                          <li>
-                                            <span class="ib-plist-st">Levels</span>
+                                            <span class="ib-plist-st"><?php echo __("Levels", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.levels}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.terms}}
                                          <li>
-                                            <span class="ib-plist-st">Listing Terms</span>
+                                            <span class="ib-plist-st"><?php echo __("Listing Terms", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.terms}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if lot_desc}}
                                          <li>
-                                            <span class="ib-plist-st">Lot Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Lot Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{lot_desc}}</span>
                                          </li>
                                         {{/if}}
                                        
                                        {{#if more_info_info.lot_features}}
                                          <li>
-                                            <span class="ib-plist-st">Lot Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Lot Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.lot_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.ocupant_type}}
                                          <li>
-                                            <span class="ib-plist-st">Occupant Type</span>
+                                            <span class="ib-plist-st"><?php echo __("Occupant Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.ocupant_type}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.parking_features}}
                                          <li>
-                                            <span class="ib-plist-st">Parking Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Parking Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.parking_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.patio_features}}
                                          <li>
-                                            <span class="ib-plist-st">Patio And Porch Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Patio And Porch Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.patio_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.pets}}
                                          <li>
-                                            <span class="ib-plist-st">Pets Allowed</span>
+                                            <span class="ib-plist-st"><?php echo __("Pets Allowed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.pets}}</span>
                                          </li>
                                        {{/if}}
                                        
                                        {{#if more_info_info.pool_features}}
                                          <li>
-                                            <span class="ib-plist-st">Pool Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Pool Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.pool_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.possession}}
                                          <li>
-                                            <span class="ib-plist-st">Possession</span>
+                                            <span class="ib-plist-st"><?php echo __("Possession", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.possession}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.postal_city}}
                                          <li>
-                                            <span class="ib-plist-st">Postal City </span>
+                                            <span class="ib-plist-st"><?php echo __("Postal City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.postal_city}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.public_section}}
                                          <li>
-                                            <span class="ib-plist-st">Public Survey Section</span>
+                                            <span class="ib-plist-st"><?php echo __("Public Survey Section", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.public_section}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.public_survey_township}}
                                          <li>
-                                            <span class="ib-plist-st">Public Survey Township</span>
+                                            <span class="ib-plist-st"><?php echo __("Public Survey Township", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.public_survey_township}}</span>
                                          </li>
                                        {{/if}}
 
                                        {{#if more_info_info.roof}}
                                          <li>
-                                            <span class="ib-plist-st">Roof</span>
+                                            <span class="ib-plist-st"><?php echo __("Roof", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.roof}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.senior_community}}
                                          <li>
-                                            <span class="ib-plist-st">Senior Community</span>
+                                            <span class="ib-plist-st"><?php echo __("Senior Community", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.senior_community}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.sewer}}
                                          <li>
-                                            <span class="ib-plist-st">Sewer Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Sewer Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.sewer}}</span>
                                          </li>
                                        {{/if}}
                                        <li>
-                                          <span class="ib-plist-st">Short Sale</span>
+                                          <span class="ib-plist-st"><?php echo __("Short Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{short_sale}}</span>
                                        </li>
                                        {{#if more_info_info.stories}}
                                          <li>
-                                            <span class="ib-plist-st">Stories</span>
+                                            <span class="ib-plist-st"><?php echo __("Stories", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.stories}}</span>
                                          </li>
                                        {{/if}}
                                        {{#unless is_commercial}}
                                          {{#if assoc_fee}}
                                          <li>
-                                            <span class="ib-plist-st">HOA Fees</span>
+                                            <span class="ib-plist-st"><?php echo __("HOA Fees", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{assoc_fee}}</span>
                                          </li>
                                          {{/if}}
                                        {{/unless}}
                                        <li>
-                                          <span class="ib-plist-st">Subdivision Complex</span>
+                                          <span class="ib-plist-st"><?php echo __("Subdivision Complex", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{complex}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st">Subdivision Info</span>
+                                          <span class="ib-plist-st"><?php echo __("Subdivision Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{subdivision}}</span>
                                        </li>
                                          <li>
-                                            <span class="ib-plist-st">Tax Amount</span>
+                                            <span class="ib-plist-st"><?php echo __("Tax Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{tax_amount}}</span>
                                          </li>
                                        {{#if more_info_info.tax_information}}
                                        <li>
-                                          <span class="ib-plist-st">Tax Legal desc</span>
+                                          <span class="ib-plist-st"><?php echo __("Tax Legal desc", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{more_info_info.tax_information}}</span>
                                        </li>
                                        {{/if}}
                                        <li>
-                                          <span class="ib-plist-st">Tax Year</span>
+                                          <span class="ib-plist-st"><?php echo __("Tax Year", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{tax_year}}</span>
                                        </li>
                                        {{#if more_info_info.terms}}
                                          <li>
-                                            <span class="ib-plist-st">Terms Considered</span>
+                                            <span class="ib-plist-st"><?php echo __("Terms Considered", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.terms}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.type_property}}
                                          <li>
-                                            <span class="ib-plist-st">Type of Property</span>
+                                            <span class="ib-plist-st"><?php echo __("Type of Property", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.type_property}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.view}}
                                          <li>
-                                            <span class="ib-plist-st">View</span>
+                                            <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.view}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.waterfront_frontage}}
                                          <li>
-                                            <span class="ib-plist-st">Water Description</span>
+                                            <span class="ib-plist-st"><?php echo __("Water Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.waterfront_frontage}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.water_source}}
                                          <li>
-                                            <span class="ib-plist-st">Water Source</span>
+                                            <span class="ib-plist-st"><?php echo __("Water Source", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.water_source}}</span>
                                          </li>
                                        {{/if}}
 
                                        {{#if more_info_info.window_features}}
                                          <li>
-                                            <span class="ib-plist-st">Window Features</span>
+                                            <span class="ib-plist-st"><?php echo __("Window Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.window_features}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.year_built_details}}
                                          <li>
-                                            <span class="ib-plist-st">Year Built Details</span>
+                                            <span class="ib-plist-st"><?php echo __("Year Built Details", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.year_built_details}}</span>
                                          </li>
                                        {{/if}}
                                        {{#if more_info_info.zoning}}
                                          <li>
-                                            <span class="ib-plist-st">Zoning</span>
+                                            <span class="ib-plist-st"><?php echo __("Zoning", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt">{{more_info_info.zoning}}</span>
                                          </li>
                                        {{/if}}
@@ -1031,10 +1139,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     <div class="ib-idx-info">
                       <div class="ms-msg">
                         {{#if board_info.last_check_timestamp}}
-                          <span>IDXBoost last checked {{board_info.last_check_timestamp}}</span>
+                          <span><?php echo __("IDXBoost last checked", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_info.last_check_timestamp}}</span>
                         {{/if}}
                         {{#if last_updated}}
-                          <span>Data was last updated {{last_updated}}</span>
+                          <span><?php echo __("Data was last updated", IDXBOOST_DOMAIN_THEME_LANG); ?> {{last_updated}}</span>
                         {{/if}}
                       </div>
                     </div>
@@ -1047,20 +1155,17 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       </div>
                     {{/if}}
                     <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-                      <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                      <p><?php echo __("The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of:", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-bdcourtesy">{{office_name}}</span></p>
                     <?php } else if ("13" == $flex_idx_info["board_id"]) { ?>
                       <p>{{{board_info.board_disclaimer}}}</p>
                     <?php } else { ?>
-                      <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                      The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                      All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                      other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                      All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                      Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                      <p><?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings.", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                      <?php echo __("The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
+                      <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                      Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span></p>
                     <?php } ?>
-                    <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+                    <p><?php echo __("Real Estate IDX Powered by", IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
                     
-
                 </div>
                 
               </div>
@@ -1107,26 +1212,22 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                 </div>
               </div>
 
-                  <div class="ib-bdisclaimer ib-bdisclaimer-mobile">
-                    {{#if board_info.board_logo_url}}
-                      <div class="ms-logo-board">
-                        <img src="{{board_info.board_logo_url}}">
-                      </div>
-                    {{/if}}
-                    <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-                      <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
-                        <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
-                    <?php } else { ?>
-                      <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                      The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                      All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                      other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                      All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                      Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php } ?>
-                    <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
-            </div>
+              <div class="ib-bdisclaimer ib-bdisclaimer-mobile">
+                {{#if board_info.board_logo_url}}
+                  <div class="ms-logo-board">
+                    <img src="{{board_info.board_logo_url}}">
+                  </div>
+                {{/if}}
+                <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
+                  <p><?php echo __("The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
+                  <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
+                <?php } else { ?>
+                  <p><?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
+                  <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                <?php } ?>
+                <p><?php echo __("Real Estate IDX Powered by", IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+              </div>
 
             <button class="ib-btn-request ib-active-float-form"><?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </div>

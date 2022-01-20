@@ -8,6 +8,8 @@ var idxboost_filter_countacti = false,
 	idxboostcondition = '';
 var dataAlert;
 
+var current_year = (new Date()).getFullYear();
+
 if ( (typeof filter_metadata) && filter_metadata.hasOwnProperty("condition") ) {
 	idxboostcondition = filter_metadata.condition;
 }
@@ -1860,7 +1862,7 @@ function buildMobileForm() {
 			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
 		}
 
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		if (ib_search_filter_frag.length) {
 			ib_min_year.html(ib_search_filter_frag.join(""));
@@ -1874,7 +1876,7 @@ function buildMobileForm() {
 		ib_search_filter_dropdown.splice(-1, 1);
 
 		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -2624,8 +2626,8 @@ function getLandSizeValues(min, max) {
 						} else {
 							listingHTML.push('<li class="baths">' + item.bath + ' <span>' + textbath + ' </span></li>');
 						}
-						listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m2)</span></li>');
-						listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m2)</span></li>');
+						listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m²)</span></li>');
+						listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m²)</span></li>');
 						if (item.development !== '') {
 							listingHTML.push('<li class="development"><span>' + item.development + '</span></li>');
 						} else if (item.complex !== '') {
@@ -2750,7 +2752,7 @@ function getLandSizeValues(min, max) {
 					if ( ($('#idx_min_baths').val() != null || $('#idx_max_baths').val() != null) && ($('#idx_min_baths').val() != '--' || $('#idx_max_baths').val() != '--') )
 							idx_param_url.push('bath='+$('#idx_min_baths').val()+'~'+$('#idx_max_baths').val());                        
 
-					if ( ($('#idx_min_year').val() != null || $('#idx_max_year').val() != null) && ($('#idx_min_year').val() != '--' || $('#idx_max_year').val() != '--') && ($('#idx_min_year').val() != '1900' || $('#idx_max_year').val() != '2020') )
+					if ( ($('#idx_min_year').val() != null || $('#idx_max_year').val() != null) && ($('#idx_min_year').val() != '--' || $('#idx_max_year').val() != '--') && ($('#idx_min_year').val() != '1900' || $('#idx_max_year').val() != current_year) )
 							idx_param_url.push('yearbuilt='+$('#idx_min_year').val()+'~'+$('#idx_max_year').val());                        
 
 					if ( ($('#idx_min_sqft').val() != null || $('#idx_max_sqft').val() != null) && ($('#idx_min_sqft').val() != '--' || $('#idx_max_sqft').val() != '--') && ($('#idx_min_sqft').val() != '0' || $('#idx_max_sqft').val() != '80000') )
@@ -3010,8 +3012,8 @@ function getLandSizeValues(min, max) {
 					}
 					infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> ' + textpropertybed + '</span></li>');
 					infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> ' + textpropertybath + '</span></li>');
-					infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
-					infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
+					infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m²)</span></li>');
+					infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m²)</span></li>');
 					infobox_content.push('</ul>');
 					infobox_content.push('<div class="mapviwe-img">');
 					infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');
@@ -3052,8 +3054,8 @@ function getLandSizeValues(min, max) {
 				}
 				infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> ' + textpropertyitembed + '</span></li>');
 				infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> ' + textpropertyitembath + '</span></li>');
-				infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
-				infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
+				infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m²)</span></li>');
+				infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m²)</span></li>');
 				infobox_content.push('</ul>');
 				infobox_content.push('<div class="mapviwe-img">');
 				infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');

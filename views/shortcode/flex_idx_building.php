@@ -511,7 +511,7 @@
                 <?php } ?>
 
                 <?php if (!in_array('size_m2_in', $default_floor_plan) ){ ?>
-                  <th class="dt-center sorting"><?php echo __('Size M2 Inside', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                  <th class="dt-center sorting"><?php echo __('Size m² Inside', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
                 <?php } ?>
 
                 <?php if (!in_array('size_sqft', $default_floor_plan) ){ ?>
@@ -519,7 +519,7 @@
                 <?php } ?>
 
                 <?php if (!in_array('size_m2', $default_floor_plan) ){ ?>
-                  <th class="dt-center sorting"><?php echo __('Size M2 Exterior', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                  <th class="dt-center sorting"><?php echo __('Size m² Exterior', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
                 <?php } ?>
 
                 <?php if (!in_array('file', $default_floor_plan) ){ ?>

@@ -8,6 +8,8 @@ if (typeof originalPositionY === "undefined") {
 var IB_HAS_LEFT_CLICKS = (__flex_g_settings.hasOwnProperty("signup_left_clicks") && (null != __flex_g_settings.signup_left_clicks));
 var IB_CURRENT_LEFT_CLICKS;
 
+var current_year = (new Date()).getFullYear();
+
 // if (true === IB_HAS_LEFT_CLICKS) {
 //     var IB_DEFAULT_LEFT_CLICKS = parseInt(__flex_g_settings.signup_left_clicks, 10);
 //     var IB_CURRENT_LEFT_CLICKS = parseInt(__flex_g_settings.signup_left_clicks, 10);
@@ -781,9 +783,9 @@ var infoWindow;
 
 function calculate_mortgage(price, percent, year, interest) {
 	price = price.replace(/[^\d]/g, "");
-	percent = percent.replace(/[^\d]/g, "");
+	percent = parseFloat(percent);
 	year = year.replace(/[^\d]/g, "");
-	interest = interest.replace(/[^\d]/g, "");
+	interest = parseFloat(interest);
 
 	var month_factor = 0;
 	var month_term = year * 12;
@@ -2264,7 +2266,7 @@ function buildMobileForm() {
 			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
 		}
 
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		if (ib_search_filter_frag.length) {
 			ib_min_year.html(ib_search_filter_frag.join(""));
@@ -2278,7 +2280,7 @@ function buildMobileForm() {
 		ib_search_filter_dropdown.splice(-1, 1);
 
 		// ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -4697,11 +4699,11 @@ function buildSearchFilterForm() {
 				var min_val = IB_RG_YEARBUILT_VALUES[ui.values[0]];
 				var max_val = IB_RG_YEARBUILT_VALUES[ui.values[1]];
 
-				if ( (1900 == min_val) || (2020 == min_val)) {
+				if ( (1900 == min_val) || (current_year == min_val)) {
 					min_val = '1900';
 				}
 				
-				if ( (1900 == max_val) || (2020 == max_val)) {
+				if ( (1900 == max_val) || (current_year == max_val)) {
 					max_val = '';
 				}
 
@@ -5280,7 +5282,7 @@ function handleFilterSearchLookup(event) {
 			}
 
 			if (IB_RG_YEAR_LBL_RT.length) {
-				var max_year = (null == params.max_year) ? "2020" : params.max_year;
+				var max_year = (null == params.max_year) ? current_year : params.max_year;
 				IB_RG_YEAR_LBL_RT.val(max_year);
 			}
 
@@ -5510,16 +5512,29 @@ function handleFilterSearchLookup(event) {
 					IB_POLYGON.setMap(null);
 				}
 
-				IB_POLYGON = new google.maps.Polygon({
-					paths: ib_generate_latlng_from_kml(params.kml_boundaries),
-					draggable: false,
-					editable: false,
-					strokeColor: '#31239a',
-					strokeOpacity: 0.8,
-					strokeWeight: 1,
-					fillColor: '#31239a',
-					fillOpacity: 0.1
-				});
+				if (params.hasOwnProperty("map_overlay_hidden")) {
+					IB_POLYGON = new google.maps.Polygon({
+						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
+						draggable: false,
+						editable: false,
+						strokeColor: '#31239a',
+						strokeOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.8,
+						strokeWeight: 1,
+						fillColor: '#31239a',
+						fillOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.1
+					});
+				} else { // older clients
+					IB_POLYGON = new google.maps.Polygon({
+						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
+						draggable: false,
+						editable: false,
+						strokeColor: '#31239a',
+						strokeOpacity: 0.8,
+						strokeWeight: 1,
+						fillColor: '#31239a',
+						fillOpacity: 0.1
+					});
+				}
 
 				if (typeof IB_DRAWING_POLYGON !== "undefined") {
 					IB_DRAWING_POLYGON.setMap(null);
@@ -6596,13 +6611,60 @@ $(function () {
 			$(".ib-property-share-property-status:eq(0)").val(propertyStatus);
 
 			$("#ib-email-to-friend").addClass("ib-md-active");
-
+			
 			var fn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
 			var ln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
 			var em = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
-
-			$("#_sf_name").val(fn + " " + ln);
+			
+			if (fn.lenght || ln.length) {
+				$("#_sf_name").val(fn + " " + ln);
+			}
+			
 			$("#_sf_email").val(em);
+
+			/*var urlSite = window.location.hostname;
+			var imgProp = $(".ib-pvphotos.ib-pvlitem .gs-item-slider:first-child .gs-wrapper-content").html();
+			var itemPrice = $(".ib-pwinfo .ib-pilprice .ib-pipn").html();
+			var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
+			var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
+			var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
+			var itemAddress = itemAddress = $(".ib-property-detail .ib-ptitle").html()+", "+$(".ib-property-detail .ib-pstitle").html();
+			var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
+
+			var itemLg = $(this).attr("data-lg");
+			var itemLt = $(this).attr("data-lt");
+
+			if(imgProp === undefined){
+				var myLatLng  = {
+					lat: parseFloat(itemLt),
+					lng: parseFloat(itemLg)
+				};
+				var map = new google.maps.Map(document.getElementById('mfImg'), {
+					zoom: 18,
+					center: myLatLng,
+					styles: style_map,
+					gestureHandling: 'cooperative',
+					panControl: false,
+					scrollwheel: false,
+					disableDoubleClickZoom: true,
+					disableDefaultUI: true,
+					streetViewControl: true,
+				});
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map
+				});
+
+			}else if(imgProp !== ""){
+				$("#mfImg").html(imgProp);
+			}
+
+			$("#mfPrice").html(itemPrice);
+			$("#mfBed").html(itemBeds);
+			$("#mfBath").html(itemBaths);
+			$("#mfSqft").html(itemSqft);
+			$("#mfAddress").html(itemAddress);
+			$("#ms-friend-comments").val(itemComment);*/
 		});
 
 		$(".ib-property-share-friend-f").on("submit", function(event) {

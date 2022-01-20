@@ -421,7 +421,7 @@ msgid "Your info has been saved"
 msgstr "Votre information a été sauvegardée"
 
 #: inc/helpers_fn.php:4459
-msgid "Enter you new Password"
+msgid "Enter your new Password"
 msgstr "Entrer le mot de passe"
 
 #: inc/helpers_fn.php:4460

@@ -4,6 +4,30 @@ var initial_title;
 var initial_href;
 var dataAlert;
 
+function ib_local_ovewrite_ptypes(ptypes) {
+	var r = [];
+
+	for (var i = 0, l = ptypes.length; i < l; i++) {
+		if (2 == ptypes[i]) {
+			r.push({ label: "Single Family Home", value: 2 });
+		}
+		if (1 == ptypes[i]) {
+			r.push({ label: "Condominiums", value: 1 });
+		}
+		if ("tw" == ptypes[i]) {
+			r.push({ label: "Townhouses", value: "tw" });
+		}
+		if ("mf" == ptypes[i]) {
+			r.push({ label: "Multi-Family", value: "mf" });
+		}
+		if ("valand" == ptypes[i]) {
+			r.push({ label: "Vacant Land", value: "valand" });
+		}
+	}
+
+	return r;
+}
+
 if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
 	var myLazyLoad;
 }
@@ -14,6 +38,8 @@ if (typeof originalPositionY === "undefined") {
 
 var IB_HAS_LEFT_CLICKS = (__flex_g_settings.hasOwnProperty("signup_left_clicks") && (null != __flex_g_settings.signup_left_clicks));
 var IB_CURRENT_LEFT_CLICKS;
+
+var current_year = (new Date()).getFullYear();
 
 //delete feature hopa
 if ([1,2,3].includes(parseFloat(__flex_idx_search_filter.boardId) ) ===false ) {
@@ -752,9 +778,9 @@ var infoWindow;
 
 function calculate_mortgage(price, percent, year, interest) {
 	price = price.replace(/[^\d]/g, "");
-	percent = percent.replace(/[^\d]/g, "");
+	percent = parseFloat(percent);
 	year = year.replace(/[^\d]/g, "");
-	interest = interest.replace(/[^\d]/g, "");
+	interest = parseFloat(interest);
 
 	var month_factor = 0;
 	var month_term = year * 12;
@@ -2163,7 +2189,7 @@ function buildMobileForm() {
 			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
 		}
 
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		if (ib_search_filter_frag.length) {
 			ib_min_year.html(ib_search_filter_frag.join(""));
@@ -2177,7 +2203,7 @@ function buildMobileForm() {
 		ib_search_filter_dropdown.splice(-1, 1);
 
 		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
-		ib_search_filter_frag.push('<option value="2020">2020</option>');
+		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -3607,11 +3633,11 @@ function buildSearchFilterForm() {
 				var min_val = IB_RG_YEARBUILT_VALUES[ui.values[0]];
 				var max_val = IB_RG_YEARBUILT_VALUES[ui.values[1]];
 
-				if ( (1900 == min_val) || (2020 == min_val)) {
+				if ( (1900 == min_val) || (current_year == min_val)) {
 					min_val = '1900';
 				}
 				
-				if ( (1900 == max_val) || (2020 == max_val)) {
+				if ( (1900 == max_val) || (current_year == max_val)) {
 					max_val = '';
 				}
 
@@ -3745,6 +3771,9 @@ function handleFilterSearchLookup(event) {
 			device_width: window.innerWidth
 		},
 		success: function(response) {
+			__flex_g_settings.params.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
+			__flex_idx_search_filter.search.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
+
 			if ("no" === __flex_g_settings.anonymous) {
 				if (false === is_search_filter_viewed) {
 					is_search_filter_viewed = true;
@@ -3805,9 +3834,9 @@ function handleFilterSearchLookup(event) {
 						html_response.push('<li class="pr down">2.05%</li>');
 						html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
 						html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-						html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+						html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>');
+						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
+						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
 
 	                    if ( 
 	                      response.hasOwnProperty("board_info") &&
@@ -4370,7 +4399,7 @@ function handleFilterSearchLookup(event) {
 			}
 
 			if (IB_RG_YEAR_LBL_RT.length) {
-				var max_year = (null == params.max_year) ? "2020" : params.max_year;
+				var max_year = (null == params.max_year) ? current_year : params.max_year;
 				IB_RG_YEAR_LBL_RT.val(max_year);
 			}
 
@@ -5583,24 +5612,71 @@ $(function () {
             $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
         });
 
-        // open email to a friend modal
-        IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
-            var mlsNumber = $(this).data("mls");
-            var propertyStatus = $(this).data("status");
+				// open email to a friend modal
+				IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
+					var mlsNumber = $(this).data("mls");
+					var propertyStatus = $(this).data("status");
 
-            $(".ib-property-share-friend-f:eq(0)").trigger("reset");
-            $(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
-            $(".ib-property-share-property-status:eq(0)").val(propertyStatus);
+					$(".ib-property-share-friend-f:eq(0)").trigger("reset");
+					$(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
+					$(".ib-property-share-property-status:eq(0)").val(propertyStatus);
 
-            $("#ib-email-to-friend").addClass("ib-md-active");
+					$("#ib-email-to-friend").addClass("ib-md-active");
+					
+					var fn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
+					var ln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
+					var em = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
+					
+					if (fn.lenght || ln.length) {
+						$("#_sf_name").val(fn + " " + ln);
+					}
+					
+					$("#_sf_email").val(em);
 
-            var fn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
-            var ln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
-            var em = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
+					/*var urlSite = window.location.hostname;
+					var imgProp = $(".ib-pvphotos.ib-pvlitem .gs-item-slider:first-child .gs-wrapper-content").html();
+					var itemPrice = $(".ib-pwinfo .ib-pilprice .ib-pipn").html();
+					var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
+					var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
+					var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
+					var itemAddress = itemAddress = $(".ib-property-detail .ib-ptitle").html()+", "+$(".ib-property-detail .ib-pstitle").html();
+					var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
 
-            $("#_sf_name").val(fn + " " + ln);
-            $("#_sf_email").val(em);
-        });
+					var itemLg = $(this).attr("data-lg");
+					var itemLt = $(this).attr("data-lt");
+
+					if(imgProp === undefined){
+						var myLatLng  = {
+							lat: parseFloat(itemLt),
+							lng: parseFloat(itemLg)
+						};
+						var map = new google.maps.Map(document.getElementById('mfImg'), {
+							zoom: 18,
+							center: myLatLng,
+							styles: style_map,
+							gestureHandling: 'cooperative',
+							panControl: false,
+							scrollwheel: false,
+							disableDoubleClickZoom: true,
+							disableDefaultUI: true,
+							streetViewControl: true,
+						});
+						var marker = new google.maps.Marker({
+							position: myLatLng,
+							map: map
+						});
+
+					}else if(imgProp !== ""){
+						$("#mfImg").html(imgProp);
+					}
+
+					$("#mfPrice").html(itemPrice);
+					$("#mfBed").html(itemBeds);
+					$("#mfBath").html(itemBaths);
+					$("#mfSqft").html(itemSqft);
+					$("#mfAddress").html(itemAddress);
+					$("#ms-friend-comments").val(itemComment);*/
+				});
 
         $(".ib-property-share-friend-f").on("submit", function(event) {
             event.preventDefault();

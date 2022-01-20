@@ -131,8 +131,8 @@ function idx_off_market_listing_slider_html(info_item,type){
                 html_response.push('<li class="pr down">2.05%</li>');
                 html_response.push('<li class="beds">'+info_item.bedrooms+'  <span>'+word_translate.beds+' </span></li>');
                 html_response.push('<li class="baths">'+info_item.full_bathrooms+' <span>'+word_translate.baths+' </span></li>');
-                html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m2)</span></li>');
-                html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'<span>($244 m2)</span></li>');
+                html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>');
+                html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
                 html_response.push('<li class="build-year"><span>Built </span>2015</li>');
                 html_response.push('<li class="development"><span></span></li>');
               html_response.push('</ul>');

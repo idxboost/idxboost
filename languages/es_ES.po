@@ -535,7 +535,7 @@ msgid "Your info has been saved"
 msgstr "Tu información ha sido guardada."
 
 #: inc/helpers_fn.old.php:5168 inc/helpers_fn.php:5168
-msgid "Enter you new Password"
+msgid "Enter your new Password"
 msgstr "Nueva contraseña"
 
 #: inc/helpers_fn.old.php:5169 inc/helpers_fn.php:5169

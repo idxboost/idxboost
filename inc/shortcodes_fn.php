@@ -1211,8 +1211,10 @@ if (!function_exists('flex_idx_search_sc')) {
                     $min_year = $range_year_exp[0];
                     $max_year = $range_year_exp[1];
 
+                    $current_year = date('Y');
+
                     $min_year = ($range_year_exp[0] == 1900) ? '--' : $range_year_exp[0];
-                    $max_year = ($range_year_exp[1] == 2020) ? '--' : $range_year_exp[1];
+                    $max_year = ($range_year_exp[1] == $current_year) ? '--' : $range_year_exp[1];
                     break;
                 case 'water_desc':
                     $water_desc = str_replace('water_desc-', '', $param);

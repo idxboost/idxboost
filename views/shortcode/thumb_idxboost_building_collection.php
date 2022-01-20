@@ -73,8 +73,8 @@
                   <li class="pr down">2.05%</li>
                   <li class="beds"><?php echo $value['bed']; ?>  <span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
                   <li class="baths"><?php echo $value['bath']; ?> <span><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
-                  <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m2)</span></li>
-                  <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m2)</span></li>
+                  <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m²)</span></li>
+                  <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m²)</span></li>
                   <li class="build-year"><span><?php echo __("Built", IDXBOOST_DOMAIN_THEME_LANG); ?> </span>2015</li>
                   <li class="development"><span>Star Island Corr</span></li>
                   
@@ -131,8 +131,8 @@
                 <li class="pr down">2.05%</li>
                 <li class="beds"><?php echo $value['bed']; ?>  <span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
                 <li class="baths"><?php echo $value['bath']; ?> <span><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
-                <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m2)</span></li>
-                <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m2)</span></li>
+                <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m²)</span></li>
+                <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m²)</span></li>
                 <li class="build-year"><span><?php echo __("Built", IDXBOOST_DOMAIN_THEME_LANG); ?> </span>2015</li>
                 <li class="development"><span>Star Island Corr</span></li>
                 
@@ -180,8 +180,8 @@
                 <li class="pr down">2.05%</li>
                 <li class="beds"><?php echo $value['bed']; ?>  <span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
                 <li class="baths"><?php echo $value['bath']; ?> <span><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
-                <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m2)</span></li>
-                <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m2)</span></li>
+                <li class="living-size"> <span><?php echo $value['living_size_m2']; ?></span><?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>(452 m²)</span></li>
+                <li class="price-sf"><span>$<?php echo $value['price_sqft_m2']; ?> </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>($244 m²)</span></li>
                 <li class="build-year"><span><?php echo __("Built", IDXBOOST_DOMAIN_THEME_LANG); ?> </span>2015</li>
                 <li class="development"><span>Star Island Corr</span></li>
               </ul>

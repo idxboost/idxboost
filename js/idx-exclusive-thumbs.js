@@ -77,8 +77,8 @@ $('.propertie').on('click',function(event){
 	                        } else {
 	                            listingHTML.push('<li class="baths">' + item.bath + ' <span>' + textbath + ' </span></li>');
 	                        }
-	                        listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m2)</span></li>');
-	                        listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m2)</span></li>');
+	                        listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m²)</span></li>');
+	                        listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m²)</span></li>');
 	                        if (item.development !== '') {
 	                            listingHTML.push('<li class="development"><span>' + item.development + '</span></li>');
 	                        } else if (item.complex !== '') {

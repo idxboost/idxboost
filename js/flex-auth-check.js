@@ -383,6 +383,47 @@ function validate_price(evt) {
 	$.fn.calculatemortgage = function () {
 		$('#submit-mortgage').addClass('loading');
 
+		var price = $(".ib-price-calculator").attr("data-price");
+        var percent = $("#down_payment_txt").val();
+        var year = $("#term_txt").val();
+         var interest = $("#interest_rate_txt").val();
+
+	    price = price.replace(/[^\d]/g, "");
+	    percent = parseFloat(percent);
+	    year = year.replace(/[^\d]/g, "");
+	    interest = parseFloat(interest);
+
+	    var month_factor = 0;
+	    var month_term = year * 12;
+	    var down_payment = price * (percent / 100);
+	    
+	    interest = interest / 100;
+	    
+	    var month_interest = interest / 12;
+	    
+	    var financing_price = price - down_payment;
+	    var base_rate = 1 + month_interest;
+	    var denominator = base_rate;
+	    
+	    for (var i = 0; i < (year * 12); i++) {
+	      month_factor += (1 / denominator);
+	      denominator *= base_rate;
+	    }
+	    
+	    var month_payment = financing_price / month_factor;
+	    var pmi_per_month = 0;
+	    
+	    if (percent < 20) {
+	      pmi_per_month = 55 * (financing_price / 100000);
+	    }
+	    
+	    var total_monthly = month_payment + pmi_per_month;
+	    
+	    $(".ib-price-calculator").text("$" + (total_monthly).toFixed(2) +"/mo");
+	    $('.js-est-payment').text('$' + (total_monthly).toFixed(2) );
+
+
+/*
 		$.ajax({
 			url: __flex_g_settings.ajaxUrl,
 			type: "POST",
@@ -405,6 +446,7 @@ function validate_price(evt) {
 				alert(thrownError);
 			}
 		})
+		*/
 	};
 
 	$(function () {
@@ -566,7 +608,7 @@ function validate_price(evt) {
       }
     });
 
-
+		//MODAL EMAIL TO A FRIEND ACTUAL
 		$(document).on('click', '.show-modal', function () {
 			var $idModal = $(this).attr('data-modal'); //Identificador del Modal a mostrar
 			var $positionModal = $(this).attr('data-position'); //Posición en la que se encuentra el Modal
@@ -575,6 +617,7 @@ function validate_price(evt) {
 			if (typeof ($modalImg) != 'undefined') {
 				$('#' + $idModal).find('.lazy-img').attr('src', $modalImg).removeAttr('data-src');
 			}
+
 			if ($modal.hasClass('active_modal')) {
 				$('.overlay_modal').removeClass('active_modal');
 			} else {
@@ -585,10 +628,57 @@ function validate_price(evt) {
 					$bodyHtml.addClass('modal_mobile');
 				}
 			}
+
 			var mapImg = $("#min-map").attr("data-map-img");
 			if (typeof (mapImg) != 'undefined') {
 				$("#min-map").css("background-image", "url('" + mapImg + "')").removeAttr("data-map-img");
 			}
+
+			/*if($idModal == "modal_email_to_friend"){
+				var urlSite = window.location.hostname;
+				var imgProp = $("#full-slider .gs-wrapper-content:first-child").html();
+				var itemPrice = $(".ib-price-calculator").attr("data-price");
+				var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
+				var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
+				var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
+				var itemAddress = itemAddress = $(".ib-wrapper-top-map .ib-ptitle").html()+", "+$(".ib-wrapper-top-map .ib-pstitle").html();
+				var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
+
+				var itemLg = $(this).attr("data-lg");
+				var itemLt = $(this).attr("data-lt");
+
+				if(imgProp === undefined){
+					var myLatLng  = {
+						lat: parseFloat(itemLt),
+						lng: parseFloat(itemLg)
+					};
+					var map = new google.maps.Map(document.getElementById('mfImg'), {
+						zoom: 18,
+						center: myLatLng,
+						styles: style_map,
+						gestureHandling: 'cooperative',
+						panControl: false,
+						scrollwheel: false,
+						disableDoubleClickZoom: true,
+						disableDefaultUI: true,
+						streetViewControl: true,
+					});
+					var marker = new google.maps.Marker({
+						position: myLatLng,
+						map: map
+					});
+
+				}else if(imgProp !== ""){
+					$("#mfImg").html(imgProp);
+				}
+
+				$("#mfPrice").html(itemPrice);
+				$("#mfBed").html(itemBeds);
+				$("#mfBath").html(itemBaths);
+				$("#mfSqft").html(itemSqft);
+				$("#mfAddress").html(itemAddress);
+				$("#ms-friend-comments").val(itemComment);
+			}*/
 		});
 
 		// handle socket auth
@@ -665,7 +755,8 @@ function validate_price(evt) {
 					if (response.success === true) {
 						// console.dir(seriaLogin);
 						if (__flex_g_settings.has_cms == "1") {
-							$(".ip-login").addClass("ip-d-none");
+							jQuery("body").addClass("logged");
+							jQuery(".js-login").addClass("ip-d-none");
 						}
 						
 						if (typeof dataLayer !== "undefined") {
@@ -985,7 +1076,8 @@ function validate_price(evt) {
 
 			if (__flex_g_settings.anonymous == "no") {
 				if (__flex_g_settings.has_cms == "1") {
-					$(".ip-login").addClass("ip-d-none");
+					$("body").addClass("logged");
+					$(".js-login").addClass("ip-d-none");
 				}
 			}
 		});
@@ -1077,7 +1169,8 @@ function validate_price(evt) {
 						}
 
 						if (__flex_g_settings.has_cms == "1") {
-							$(".ip-login").addClass("ip-d-none");
+							jQuery("body").addClass("logged");
+							jQuery(".js-login").addClass("ip-d-none");
 						}
 
 						if (true === IB_HAS_LEFT_CLICKS) {
@@ -2670,5 +2763,87 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 			Cookies.remove("_ib_user_email");
 		}
 	});
-	
-	})(jQuery);
+
+	/*MENU DE AÑOS CALCULADORA*/
+	$(document).on("click", "#calculatorYears", function(event) {
+		event.preventDefault();
+		$("#calculatorYearsList").slideToggle("fast");
+	});
+
+	$(document).on("click", "#calculatorYearsList .-js-item-cl", function(event) {
+		event.preventDefault();
+		var itemValue = $(this).attr("data-value");
+		var itemText = $(this).text();
+		$(".ib-property-mc-ty").val(itemValue);
+		$("#calculatorYears").text(itemText);
+		$("#calculatorYearsList").css('display','none');
+	});
+
+	/*VALIDANDO CALCULADORA
+	$(".ib-mcidpayment").on("keypress keyup blur", function(event) {
+		$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+		if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+
+	$(".ib-property-mc-ir,.ib-property-mc-dp").on("blur", function() {
+		//Obtenemos el valor maximo y el valor actual
+		var maxValue = parseInt($(this).attr("max"));
+		var inputValue = parseInt($(this).val());
+		var defaultValue = parseInt($(this).attr("data-default"));
+		if(inputValue > maxValue){
+			$(this).val(maxValue);
+		}
+	});*/
+
+	/*MOSTRAR Y OCULTAR MENU DE COMPARTIR*/
+	$(document).on("click", ".ms-wrapper-btn-new-share .ms-share-btn", function() {
+		$(this).parents(".ms-wrapper-btn-new-share").toggleClass("active");
+	});
+
+	$(document).click(function (e) {
+		e.stopPropagation();
+		var container = $(".ms-wrapper-btn-new-share");
+		if (container.has(e.target).length === 0) {
+			$(".ms-wrapper-btn-new-share").removeClass("active");
+		}
+
+		var calculatorList = $(".ms-wrapper-dropdown-menu");
+		if (calculatorList.has(e.target).length === 0) {
+			$("#calculatorYearsList").css('display','none');
+		}
+	});
+
+	// COPY ADDRESS LINK TO CLIPBOARD
+	var $temp = $('<input>')
+	$(document).on("click", ".-clipboard", function(e) {
+		e.preventDefault()
+		var $url = $(location).attr("href")
+		$("body").append($temp)
+		$temp.val($url).select()
+		document.execCommand("copy")
+		$temp.remove()
+		$(".-copied").text("URL copied!").show().delay(2000).fadeOut()
+	});
+
+	var inputElementValue = $('.ib-mcidpayment');
+	if(inputElementValue.length){
+		inputElementValue.inputmask({
+			alias: 'numeric', 
+			allowMinus: false,  
+			digits: 3, 
+			max: 100,
+		});
+	}
+
+	/*INPUT NO VACIO*/
+	$(".ib-property-mc-ir, .ib-property-mc-dp, .interest_rate_txt, .down_payment_txt").on("blur", function() {
+		var inputValue = $(this).val();
+		var minValue = 0;
+		if(inputValue == "" || inputValue == undefined || inputValue < 0){
+			$(this).val(minValue);
+		}
+	});
+
+})(jQuery);

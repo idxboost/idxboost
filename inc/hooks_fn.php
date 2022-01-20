@@ -276,6 +276,9 @@ add_action( 'wp_head', 'idxboost_cms_custom_style', 101, 0 );
 // CMS. Load loader
 add_action( 'get_footer', 'idxboost_cms_loader', 101, 1 );
 
+// CMS. Load cta modal
+add_action( 'get_footer', 'idxboost_cms_cta_modal', 101, 1 );
+
 // CMS. Load tripwire
 add_action( 'get_footer', 'idxboost_cms_tripwire', 101, 1 );
 
@@ -287,3 +290,6 @@ add_action( 'admin_init', 'hide_editor', 10, 2 );
 
 // Hook general init to login users if an autologin code is specified
 add_action('init', 'idx_autologin_authenticate');
+
+add_action('wp_ajax_update_criterial_alert', 'update_criterial_alert_xhr_fn');
+add_action('wp_ajax_nopriv_update_criterial_alert', 'update_criterial_alert_xhr_fn');

@@ -1,6 +1,6 @@
 <?php  global $flex_idx_lead ?>
 
-<div class="ip-login">
+<div class="ip-login js-login">
     <?php if ( false === $flex_idx_lead ) : ?>
         <ul class="ip-login-wrap item-no-hea" id="user-options">
             <li class="ip-login-item login" data-modal="modal_login" data-tab="tabLogin">

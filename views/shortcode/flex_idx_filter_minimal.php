@@ -550,8 +550,8 @@ if($idxboost_ver_bool==false){ ?>
                                 echo __('Bath', IDXBOOST_DOMAIN_THEME_LANG);
                               }
                               ?></span></li>
-                            <li class="living-size"> <span><?php echo number_format($property['sqft']); ?></span>Sq.Ft <span>(<?php echo $property['living_size_m2']; ?> m2)</span></li>
-                            <li class="price-sf"><span>$<?php echo $property['price_sqft']; ?></span>/ Sq.Ft<span>($<?php echo $property['price_sqft_m2']; ?> m2)</span></li>
+                            <li class="living-size"> <span><?php echo number_format($property['sqft']); ?></span>Sq.Ft <span>(<?php echo $property['living_size_m2']; ?> m²)</span></li>
+                            <li class="price-sf"><span>$<?php echo $property['price_sqft']; ?></span>/ Sq.Ft<span>($<?php echo $property['price_sqft_m2']; ?> m²)</span></li>
                             <?php if (!empty($property['subdivision'])): ?>
                                 <li class="development"><span><?php echo $property['subdivision']; ?></span></li>
                             <?php elseif (!empty($property['development'])): ?>

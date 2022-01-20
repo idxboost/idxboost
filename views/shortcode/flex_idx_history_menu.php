@@ -74,6 +74,57 @@
 <script>
 (function ($) {
   $(function() {
+  	//show modal edit search
+    $(document).on('click', '.js-edit-mds', function () {
+      document.getElementById("ib-check-price-change-edit").checked = false;
+      document.getElementById("ib-check-new-listing-edit").checked = false;
+      document.getElementById("ib-check-status-change-edit").checked = false;
+
+      var vtypenotify=$(this).attr("data-typeno").split(",");
+      $("#ib-fsearch-edit-modal").addClass("ib-md-active");
+      $("#ib-mgwselect-edit").val($(this).attr("data-interval"));
+      $(".token_alert_update_criterial").val( $(this).attr("data-token-alert") );
+      
+      if( vtypenotify.includes("new_listing") ){
+        document.getElementById("ib-check-new-listing-edit").checked = true;
+      }
+
+      if( vtypenotify.includes("status_change") ){
+        document.getElementById("ib-check-status-change-edit").checked = true;
+      }
+
+      if( vtypenotify.includes("price_change") ){
+        document.getElementById("ib-check-price-change-edit").checked = true;
+      }
+
+    });
+
+    $(".flex-edit-search-modals").submit(function(event){
+      event.preventDefault();
+      $.ajax({
+        url: __flex_g_settings.ajaxUrl,
+        method: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          if (data.status) {
+            $(".ms-tab-searches").click();
+            $('#modal_properties_send .body_md .ico_ok').text(data.message);
+            active_modal($('#modal_properties_send'));
+          }
+                        
+                        
+
+        }
+      });
+    });
+
+    //Close modal edit search
+    $(document).on('click', '.js-close-mds', function () {
+      $("#ib-fsearch-edit-modal").removeClass("ib-md-active");
+    });
+    
     // for switch tabs (history, favorites, searches)
     $("#_ib_lead_activity_tab").on("click", "button", function() {
       // if ($(this).hasClass("active")) {
@@ -276,15 +327,17 @@
                 var lead_listing_views_html = [];
 
                 for (var i = 0, l = lead_listing_views.length; i < l; i++) {
-                  lead_listing_views_html.push('<div class="ms-item ms-condo">');
+                  lead_listing_views_html.push('<div class="ms-item ms-condo -align-st">');
                   lead_listing_views_html.push('<div class="ms-wrap-img">');
                   lead_listing_views_html.push('<span class="ms-count">'+formatShortPriceX(lead_listing_views[i].search_count)+'</span> <span class="ms-listing">'+word_translate.listings+'</span>');
                   lead_listing_views_html.push('</div>');
                   lead_listing_views_html.push('<div class="ms-property-detail">');
                   lead_listing_views_html.push('<h3 class="ms-title">'+lead_listing_views[i].name+'</h3>');
                   lead_listing_views_html.push('<h4 class="ms-date">'+word_translate.saved_on+' '+lead_listing_views[i].f_date+'</h4>');
+                  lead_listing_views_html.push('<span class="ms-note">'+lead_listing_views[i].interval_name+' - '+lead_listing_views[i].notification_types+'.</span>');
                   lead_listing_views_html.push('</div>');
-                  lead_listing_views_html.push('<div class="ms-property-actions">');
+                  lead_listing_views_html.push('<div class="ms-property-actions -flex">');
+                  lead_listing_views_html.push('<button data-id="'+lead_listing_views[i].id+'" data-token-alert="'+lead_listing_views[i].token_alert+'" class="ms-edit js-edit-mds" data-interval="'+lead_listing_views[i].alert_interval+'" data-typeno="'+lead_listing_views[i].alert_notification_types+'"  aria-label="'+word_translate.edit+'"><span>'+word_translate.edit+'</span></button>');
                   lead_listing_views_html.push('<button data-id="'+lead_listing_views[i].id+'" data-token-alert="'+lead_listing_views[i].token_alert+'" class="ib-la-rss ms-delete" aria-label="'+word_translate.delete+'"><span>'+word_translate.delete+'</span></button>');
                   lead_listing_views_html.push('</div>');
                   lead_listing_views_html.push('<a href="'+lead_listing_views[i].search_url+'" target="_blank" class="ms-link">'+lead_listing_views[i].name +'</a>');

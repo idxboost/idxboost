@@ -324,8 +324,8 @@ var yDown = null;
                     } else {
                         listingHTML.push('<li class="baths">' + item.bath + ' <span>'+textitembath+' </span></li>');
                     }
-                    listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m2)</span></li>');
-                    listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m2)</span></li>');
+                    listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m²)</span></li>');
+                    listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m²)</span></li>');
                     if (item.development !== '' && item.development != null ) {
                         listingHTML.push('<li class="development"><span>' + item.development + '</span></li>');
                     } else if (item.complex !== '' && item.complex != 'null' ) {
@@ -3502,8 +3502,8 @@ var yDown = null;
 
                     infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> '+textpropertygroupbed+'</span></li>');
                     infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> '+textpropertygroupbath+'</span></li>');
-                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m2)</span></li>');
-                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + property_group.price_sqft_m2 + ' m2)</span></li>');
+                    infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m²)</span></li>');
+                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + property_group.price_sqft_m2 + ' m²)</span></li>');
                     infobox_content.push('</ul>');
                     infobox_content.push('<div class="mapviwe-img">');
                     infobox_content.push('<img title="' + property_group.address_short + ', ' + property_group.address_large + '" alt="' + property_group.address_short + ', ' + property_group.address_large + '" src="' + property_group.gallery[0] + '">');
@@ -3535,8 +3535,8 @@ var yDown = null;
                 if (property.item.bath>1) { textpropertyitembath=word_translate.baths; }else{ textpropertyitembath=word_translate.bath; }
                 infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> '+textpropertyitembed+'</span></li>');
                 infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> '+textpropertyitembath+'</span></li>');
-                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> '+word_translate.sqft+'<span>(' + property.item.living_size_m2 + ' m2)</span></li>');
-                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + property.item.price_sqft_m2 + ' m2)</span></li>');
+                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> '+word_translate.sqft+'<span>(' + property.item.living_size_m2 + ' m²)</span></li>');
+                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + property.item.price_sqft_m2 + ' m²)</span></li>');
                 infobox_content.push('</ul>');
                 infobox_content.push('<div class="mapviwe-img">');
                 infobox_content.push('<img title="' + property.item.address_short + ', ' + property.item.address_large + '" alt="' + property.item.address_short + ', ' + property.item.address_large + '" src="' + property.item.gallery[0] + '">');

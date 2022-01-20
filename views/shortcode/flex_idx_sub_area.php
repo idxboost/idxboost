@@ -198,21 +198,21 @@
     <div class="ms-community-wrap-nav">
       <nav class="ms-community-nav">
         <ul>
-          <?php if( !empty($description_building) ) { ?><li><a href="#overview" title="Overview">Overview</a></li><?php } ?>
-          <?php if( !empty($amenities_build) ) { ?><li><a href="#amenites" title="Amenities">Amenities</a></li><?php } ?>
-          <li class="js-available-homes" ><a href="#available-homes" title="Available Homes">Available Homes</a></li>
+          <?php if( !empty($description_building) ) { ?><li><a href="#overview" title="<?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
+          <?php if( !empty($amenities_build) ) { ?><li><a href="#amenites" title="<?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
+          <li class="js-available-homes" ><a href="#available-homes" title="<?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
           
           <?php if ( $exist_section_location ) { ?>          
-          <li><a href="#location" title="Location">Location</a></li>
+          <li><a href="#location" title="<?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>
 
 
         <?php if( !empty($exist_floor_plan) ){ ?>
-          <li><a href="#floorplans" title="Floorplans">Floorplans</a></li>
+          <li><a href="#floorplans" title="<?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>
           
           <?php if( $exist_section_download ){ ?>
-            <li><a href="#downloads" title="Downloads">Downloads</a></li>
+            <li><a href="#downloads" title="<?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>          
         </ul>
       </nav>
@@ -234,18 +234,18 @@
         </div>
 
         <div class="ms-wrap-btn">
-          <button class="ms-btn-action active" data-type="photo">Photos</button>
+          <button class="ms-btn-action active" data-type="photo"><?php echo __("Photos", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           <?php if ( !empty($response['payload']['video'])) {
           echo '<button class="ms-btn-action" data-type="video" data-video="'.$response['payload']['video'].'">Video</button>';  
           }
           ?>
 
         <?php if($exist_geo_location ) { ?>
-          <button class="ms-btn-action" data-type="map" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>" data-map="videoMap">Map</button>
+          <button class="ms-btn-action" data-type="map" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>" data-map="videoMap"><?php echo __("Map", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         <?php } ?>
 
         </div>
-        <button class="ms-full-screen">Full Screen</button>
+        <button class="ms-full-screen"><?php echo __("Full Screen", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
       </div>
 
       <div class="ms-community-wrap-submenu ms-animate" id="communityInfo">
@@ -327,7 +327,7 @@
             </li>
           </ul>
           <button class="ms-float-btn ms-btn-favorite">My favorite</button>-->
-          <button class="ms-float-btn ms-btn-form">Inquire</button>
+          <button class="ms-float-btn ms-btn-form"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </div>
 
         <div id="boostBoxCentral">
@@ -347,7 +347,7 @@
     <?php if (!empty($amenities_build)) { ?>
 
       <section class="ms-section ms-animate" id="amenites">
-        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Amenites</h2>
+        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> <?php echo __("Amenites", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
         <div class="ms-community-body">
           <ul class="ms-community-amenities">
                 <?php foreach ($amenities_build  as $key => $value) { ?>
@@ -360,14 +360,14 @@
     <?php } ?>
 
     <div class="ib-container-collection-sub-area ms-sb-section" id="available-homes">
-      <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Available Homes</h2>
+      <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> <?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
       <?php echo do_shortcode('[idxboost_sub_area_inventory building_id="'.$atts['building_id'].'" load="ajax" template="detail-collection" ]'); ?>
     </div>
 
     <?php if($exist_section_location ) { ?>
 
     <section class="ms-section ms-animate" id="location">
-      <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Location</h2>
+      <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> <?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
       
       <?php if($exist_geo_location ) { ?>
         <div class="ms-community-wrap-map">
@@ -386,7 +386,7 @@
     <?php    
     if ($exist_floor_plan) { ?>
       <section class="ms-section ms-animate" id="floorplans">
-        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Floorplans</h2>
+        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> <?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
         <?php if (!empty($floor_plan_grid_keyplan)) { ?>
             <div class="ms-community-wrap-floorplans">
                 <img data-real-type="image" data-img="<?php echo $floor_plan_grid_keyplan; ?>" src="<?php echo $floor_plan_grid_keyplan; ?>" alt="<?php echo $sub_area_name; ?>" class="ms-lazy">
@@ -443,7 +443,7 @@
                           <?php } ?>
 
                           <?php if (!in_array('size_m2_in', $default_floor_plan) ){ ?>
-                            <th class="dt-center sorting"><?php echo __('Size M2 Inside', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting"><?php echo __('Size m² Inside', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
                           <?php } ?>
 
                           <?php if (!in_array('size_sqft', $default_floor_plan) ){ ?>
@@ -451,7 +451,7 @@
                           <?php } ?>
 
                           <?php if (!in_array('size_m2', $default_floor_plan) ){ ?>
-                            <th class="dt-center sorting"><?php echo __('Size M2 Exterior', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting"><?php echo __('Size m² Exterior', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
                           <?php } ?>
 
                           <?php if (!in_array('file', $default_floor_plan) ){ ?>
@@ -568,26 +568,26 @@
     
     <?php  if( $exist_section_download ) { ?>
       <section class="ms-section ms-animate" id="downloads">
-        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> Downloads</h2>
+        <h2 class="ms-sub-title"><?php echo $sub_area_name; ?> <?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
         <?php if( $exis_sheet_download ){ ?>
             <div class="cbtns">
             <?php if( !empty($response['payload']['sheet_one']) ) { ?>
               <div>
-                <h4 class="ms-title">Fact Sheet</h4>
-                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_one']; ?>" target="_blank">VIEW FACT SHEET</a>
+                <h4 class="ms-title"><?php echo __("Fact Sheet", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_one']; ?>" target="_blank"><?php echo __("VIEW FACT SHEET", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
               </div>      
             <?php } ?>
             <?php if( !empty($response['payload']['sheet_two']) ) { ?>
               <div>
-                <h4 class="ms-title">Brochure Sheet</h4>
-                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_two']; ?>" target="_blank">VIEW BROCHURE</a>
+                <h4 class="ms-title"><?php echo __("Brochure Sheet", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_two']; ?>" target="_blank"><?php echo __("VIEW BROCHURE", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
               </div>
             <?php } ?>
             <?php if( !empty($response['payload']['sheet_three']) ) { ?>
               <div>
-                <h4 class="ms-title">Floorplans Sheet</h4>
-                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_three']; ?>" target="_blank">VIEW FLOORPLANS</a>
+                <h4 class="ms-title"><?php echo __("Floorplans Sheet", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                <a class="bmodal" download="" href="<?php echo $response['payload']['sheet_three']; ?>" target="_blank"><?php echo __("VIEW FLOORPLANS", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
               </div>
             <?php } ?>
           </div>
@@ -663,11 +663,11 @@
           <?php echo do_shortcode('[flex_idx_contact_form id_form="form_contact_sub_area"]'); ?>
           <button class="ms-commuty-close-modal" data-modal="float-block">Close modal</button>
           <script type="text/javascript">
-            jQuery(".flex-content-form .pt-name .medium").attr('placeholder','Name*');
-            jQuery(".flex-content-form .pt-lname .medium").attr('placeholder','Last Name*');
-            jQuery(".flex-content-form .pt-email .medium").attr('placeholder','Email*');
-            jQuery(".flex-content-form .pt-phone .medium").attr('placeholder','Phone');
-            jQuery(".flex-content-form .textarea").attr('placeholder','Comment');
+            jQuery(".flex-content-form .pt-name .medium").attr('placeholder','<?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+            jQuery(".flex-content-form .pt-lname .medium").attr('placeholder','<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+            jQuery(".flex-content-form .pt-email .medium").attr('placeholder','<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+            jQuery(".flex-content-form .pt-phone .medium").attr('placeholder','<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>');
+            jQuery(".flex-content-form .textarea").attr('placeholder','<?php echo __("Comment", IDXBOOST_DOMAIN_THEME_LANG); ?>');
           </script>
         </div>
       </div>
@@ -680,7 +680,7 @@
   <div id="ms-modal-sp-slider">
     <div class="ms-wrap-slider" id="ms-gen-slider"></div>
   </div>
-  <button class="ms-close">Close</button>
+  <button class="ms-close"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
 </div>
 <?php endif; ?>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

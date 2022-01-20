@@ -917,7 +917,7 @@
 	}
 
 	function loadMainVideo() {
-		const IB_SP_VIDEO_WELCOME = $('.sp-main-video');
+		const IB_SP_VIDEO_WELCOME = $('.sps-main-video');
 
 		if (IB_SP_VIDEO_WELCOME.length) {
 			IB_SP_VIDEO_WELCOME.html('<div id="player"></div>');

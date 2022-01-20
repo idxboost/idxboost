@@ -471,10 +471,12 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
 }
 
 function calculate_mortgage(price, percent, year, interest) {
+	console.log("mortgage calculator");
+	
 	price = price.replace(/[^\d]/g, "");
-	percent = percent.replace(/[^\d]/g, "");
+	percent = parseFloat(percent);
 	year = year.replace(/[^\d]/g, "");
-	interest = interest.replace(/[^\d]/g, "");
+	interest = parseFloat(interest);
 
 	var month_factor = 0;
 	var month_term = year * 12;
@@ -1270,9 +1272,51 @@ window.loadPropertyInModal = loadPropertyInModal;
 
             $(".ib-property-share-friend-f:eq(0)").trigger("reset");
             $(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
-
-            console.log('open email to a friend modal');
             $("#ib-email-to-friend").addClass("ib-md-active");
+
+						/*var urlSite = window.location.hostname;
+						var imgProp = $(".ib-pvphotos.ib-pvlitem .gs-item-slider:first-child .gs-wrapper-content").html();
+						var itemPrice = $(".ib-pwinfo .ib-pilprice .ib-pipn").html();
+						var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
+						var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
+						var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
+						var itemAddress = itemAddress = $(".ib-property-detail .ib-ptitle").html()+", "+$(".ib-property-detail .ib-pstitle").html();
+						var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
+
+						var itemLg = $(this).attr("data-lg");
+						var itemLt = $(this).attr("data-lt");
+
+						if(imgProp === undefined){
+							var myLatLng  = {
+								lat: parseFloat(itemLt),
+								lng: parseFloat(itemLg)
+							};
+							var map = new google.maps.Map(document.getElementById('mfImg'), {
+								zoom: 18,
+								center: myLatLng,
+								styles: style_map,
+								gestureHandling: 'cooperative',
+								panControl: false,
+								scrollwheel: false,
+								disableDoubleClickZoom: true,
+								disableDefaultUI: true,
+								streetViewControl: true,
+							});
+							var marker = new google.maps.Marker({
+								position: myLatLng,
+								map: map
+							});
+
+						}else if(imgProp !== ""){
+							$("#mfImg").html(imgProp);
+						}
+
+						$("#mfPrice").html(itemPrice);
+						$("#mfBed").html(itemBeds);
+						$("#mfBath").html(itemBaths);
+						$("#mfSqft").html(itemSqft);
+						$("#mfAddress").html(itemAddress);
+						$("#ms-friend-comments").val(itemComment);*/
         });
 
         $(".ib-property-share-friend-f").on("submit", function(event) {

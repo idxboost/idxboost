@@ -135,6 +135,48 @@ if (!function_exists("idxboost_agent_contact_inquiry_xhr_fn")) {
     }
 }
 
+if (!function_exists("update_criterial_alert_xhr_fn")) {
+    function update_criterial_alert_xhr_fn()
+    {
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        
+        $token_alert = isset($_POST["token_alert"]) ? trim(strip_tags($_POST["token_alert"])) : "";
+        $notification_day = isset($_POST["notification_day"]) ? trim(strip_tags($_POST["notification_day"])) : "1";
+        $notification_type_edit = $_POST["notification_type_edit"] ? $_POST["notification_type_edit"] : [];
+        $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
+        $params = [
+            'ib_tags' => $tags,
+            'recaptcha_response' => $recaptcha_response,
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "referer" => $referer,
+            "origin" => $origin,
+            "agent" => $agent,
+            "token_alert" => $token_alert,
+            "data-interval" => $notification_day,
+            "data-notify" => implode(",", $notification_type_edit)
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, IDX_BOOST_UPDATE_CRITERIAL);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($output, true);
+        wp_send_json($response);
+        exit;
+    }
+}
+
 // for WP-Customizer
 if (!function_exists('func_customizer_idxboost')) {
     function func_customizer_idxboost($wp_customize)
@@ -806,6 +848,17 @@ if (!function_exists('idx_boost_cms_assets_style')) {
                 }
             }
 
+            // Load cta modal
+
+            if (is_array($head_json) && count($head_json) > 0) {
+                if (
+                    array_key_exists("cta", $head_json) &&
+                    array_key_exists("content", $head_json['cta'])
+                ) {
+                    update_option("cms_cta_modal", trim($head_json['cta']['content']));
+                }
+            }
+
             // Load custom style
 
             if (is_array($head_json) && count($head_json) > 0) {
@@ -834,6 +887,13 @@ if (!function_exists('idxboost_cms_loader')) {
     function idxboost_cms_loader()
     {
         echo get_option("cms_loader");
+    }
+}
+
+if (!function_exists('idxboost_cms_cta_modal')) {
+    function idxboost_cms_cta_modal()
+    {
+        echo get_option("cms_cta_modal");
     }
 }
 
@@ -5667,7 +5727,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'thank_you' => __('Thank you', IDXBOOST_DOMAIN_THEME_LANG),
             'baths' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
             'your_info_has_been_saved' => __('Your info has been saved', IDXBOOST_DOMAIN_THEME_LANG),
-            'enter_you_new_password' => __('Enter you new Password', IDXBOOST_DOMAIN_THEME_LANG),
+            'enter_you_new_password' => __('Enter your new Password', IDXBOOST_DOMAIN_THEME_LANG),
             'invalid_email_address' => __('invalid email address', IDXBOOST_DOMAIN_THEME_LANG),
             'please_fill_the_fields' => __('Please fill the fields', IDXBOOST_DOMAIN_THEME_LANG),
             'show' => __('Show %d to %d of %s results', IDXBOOST_DOMAIN_THEME_LANG),
@@ -5907,6 +5967,9 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_enqueue_script('sweetalert-js', FLEX_IDX_URI . 'js/sweetalert.min.js', array(), iboost_get_mod_time("js/sweetalert.min.js"), true);
         wp_localize_script('sweetalert-js', 'idx_translate_setting', $word_translate_setting);
 
+        //mask-input
+        wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/jquery.inputmask.bundle.min.js', array(), iboost_get_mod_time("js/jquery.inputmask.bundle.min.js"), true);
+        wp_localize_script('mask-input', 'idx_translate_setting', $word_translate_setting);
 
         // underscore
         // wp_register_script('underscore', FLEX_IDX_URI . 'vendor/underscore/underscore.js', array());
@@ -7391,52 +7454,52 @@ if (!function_exists('flex_idx_profile_extend_fn')) {
     function flex_idx_profile_extend_fn($user)
     {
         ?>
-        <h3>FlexIDX - Profile Info</h3>
+        <h3>IDXBoost - <?php echo __('Profile Info', IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
 
         <table class="form-table">
             <tr>
-                <th><label for="flex_idx_profile_phone">Phone Number</label></th>
+                <th><label for="flex_idx_profile_phone"><?php echo __('Phone Number', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
                 <td>
                     <input type="text" name="flex_idx_profile_phone" id="flex_idx_profile_phone"
                            value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_phone', $user->ID)); ?>"
                            class="regular-text"/><br/>
-                    <span class="description">Please enter your Phone number.</span>
+                    <span class="description"><?php echo __('Please enter your Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_address">Address</label></th>
+                <th><label for="flex_idx_profile_address"><?php echo __('Address', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
                 <td>
                     <input type="text" name="flex_idx_profile_address" id="flex_idx_profile_address"
                            value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_address', $user->ID)); ?>"
                            class="regular-text"/><br/>
-                    <span class="description">Please enter your Address.</span>
+                    <span class="description"><?php echo __('Please enter your Address', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_city">City</label></th>
+                <th><label for="flex_idx_profile_city"><?php echo __('City', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
                 <td>
                     <input type="text" name="flex_idx_profile_city" id="flex_idx_profile_city"
                            value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_city', $user->ID)); ?>"
                            class="regular-text"/><br/>
-                    <span class="description">Please enter your City.</span>
+                    <span class="description"><?php echo __('Please enter your City', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_state">State</label></th>
+                <th><label for="flex_idx_profile_state"><?php echo __('State', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
                 <td>
                     <input type="text" name="flex_idx_profile_state" id="flex_idx_profile_state"
                            value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_state', $user->ID)); ?>"
                            class="regular-text"/><br/>
-                    <span class="description">Please enter your State.</span>
+                    <span class="description"><?php echo __('Please enter your State', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_zip">Zip Code</label></th>
+                <th><label for="flex_idx_profile_zip"><?php echo __('Zip Code', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
                 <td>
                     <input type="text" name="flex_idx_profile_zip" id="flex_idx_profile_zip"
                            value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_zip', $user->ID)); ?>"
                            class="regular-text"/><br/>
-                    <span class="description">Please enter your Zip Code.</span>
+                    <span class="description"><?php echo __('Please enter your Zip Code', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
         </table>

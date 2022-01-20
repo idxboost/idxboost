@@ -7,7 +7,7 @@ get_header('idx-agent');
       <div class="gwr gwr-breadcrumb">
         <nav class="flex-breadcrumb" aria-label="breadcrumb">
           <ol>
-            <li><a href="<?php echo site_url(); ?>" title="Home">Home</a></li>
+            <li><a href="<?php echo site_url(); ?>" title="<?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
             <li aria-current="page"><?php echo get_the_title(); ?></li>
           </ol>
         </nav>
@@ -15,7 +15,7 @@ get_header('idx-agent');
       <div class="gwr c-flex">
         <article class="flex-block-description">
           <div class="flex-blog-header">
-            <h1 class="flex-page-title"><?php echo get_the_title(); ?> (Contact Page)</h1>
+            <h1 class="flex-page-title"><?php echo get_the_title(); ?> (<?php echo __("Contact Page", IDXBOOST_DOMAIN_THEME_LANG); ?>)</h1>
             <span class="date-publish"><?php echo get_the_date(); ?></span>
             <!--
             <div class="flex-block-share mini">

@@ -2,7 +2,7 @@
   <div class="gwr gwr-breadcrumb">
     <div class="flex-breadcrumb">
       <ol>
-        <li><a href="<?php echo $flex_idx_info["website_url"]; ?>" title="Home"><?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+        <li><a href="<?php echo $flex_idx_info["website_url"]; ?>" title="<?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Home", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <li><?php echo __(the_title(), IDXBOOST_DOMAIN_THEME_LANG); ?></li>
       </ol>
     </div>
@@ -18,13 +18,13 @@
 
             <div class="ib-gmfilters">
               <div class="ib-gwsort">
-                <label class="ms-hidden" for="ib-gsort-b">Select option</label>
+                <label class="ms-hidden" for="ib-gsort-b"><?php echo __("Select option", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 <select class="ib-gsort ib-sort-ctrl" id="ib-gsort-b">
-                  <option value="list_date-desc">Newest Listings</option>
-                  <option value="price-desc">Highest Price</option>
-                  <option value="price-asc">Lowest Price</option>
-                  <option value="sqft-desc">Highest Sq.Ft</option>
-                  <option value="sqft-asc">Lowest Sq.Ft</option>
+                  <option value="list_date-desc"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="price-desc"><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="price-asc"><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="sqft-desc"><?php echo __("Highest", IDXBOOST_DOMAIN_THEME_LANG); ?> Sq.Ft</option>
+                  <option value="sqft-asc"><?php echo __("Lowest", IDXBOOST_DOMAIN_THEME_LANG); ?> Sq.Ft</option>
                 </select>
               </div>
 
@@ -53,10 +53,10 @@
         </div>
 
         <div class="ib-gnopro">
-          <span class="ib-gnpno">No matching results...</span>
-          Modify your <span class="ib-gnpoall">filter</span> 
-          preferences to get new results or 
-          <span class="ib-gnpclear">clear</span> your search.
+          <span class="ib-gnpno"><?php echo __("No matching results", IDXBOOST_DOMAIN_THEME_LANG); ?>...</span>
+          <?php echo __("Modify your", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="ib-gnpoall"><?php echo __("filter", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
+          <?php echo __("preferences to get new results or", IDXBOOST_DOMAIN_THEME_LANG); ?> 
+          <span class="ib-gnpclear"><?php echo __("clear", IDXBOOST_DOMAIN_THEME_LANG); ?></span> <?php echo __("your search", IDXBOOST_DOMAIN_THEME_LANG); ?>.
         </div>
       </div>
     </div>
@@ -91,13 +91,13 @@
             <div class="ib-phcta">
               <div class="ib-phomodal">
                 {{#if agentContactPhoneNumber}}
-                  <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}">Call Us</a>
+                  <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}"><?php echo __("Call Us", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                 {{/if}}
                 <div class="ib-requestinfo ib-phbtn sfm">{{stylesInput.headerSection.button.text}}</div>
                 {{#if websiteSlugnameDomain}}
-                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}">Open</div>
+                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}"><?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 {{/if}}
-                <div class="ib-pbtnclose ib-phbtn">Close</div>
+                <div class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
               </div>
             </div>
 
@@ -191,7 +191,7 @@
                         {{else}}
                           0
                         {{/if}}
-                        <span>Beds</span>
+                        <span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
 
                       <li>
@@ -200,7 +200,7 @@
                         {{else}}
                           0
                         {{/if}}
-                        <span>Baths</span>
+                        <span><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
                     
                       <li>
@@ -209,7 +209,7 @@
                         {{else}}
                           0
                         {{/if}}
-                        <span>Living Size</span>
+                        <span><?php echo __("Living Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
                     </ul>
                   {{/if}}
@@ -268,7 +268,7 @@
 
               {{#if (ifVisibility visibilityRegions.amenities)}}
                 <section class="sp-section" id="sp-amenities">
-                  <h2 class="sp-section-title">Amenities</h2>
+                  <h2 class="sp-section-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
                   {{#if propertyAmenities}}
                     <ul class="sp-amenities-list columns-{{stylesInput.amenities.columns}}">
@@ -305,7 +305,7 @@
                 <div class="sp-wrap-media">
                 {{#if (ifVisibility visibilityRegions.videoTour)}}
                   <div class="sp-tab-body" id="sp-media-tour">
-                    <h2 class="sp-section-title">Video Tour</h2>
+                    <h2 class="sp-section-title"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
                     <div id="sp-virtual">
                       {{#if propertyMetadata.propertyVideos}}
@@ -338,7 +338,7 @@
 
                 {{#if (ifVisibility visibilityRegions.floorplans)}}
                   <div class="sp-tab-body" id="sp-media-floorplan">
-                    <h2 class="sp-section-title">Floorplans</h2>
+                    <h2 class="sp-section-title"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
                     {{#if propertyFloorplans}}
                       <div id="sp-floorplans">
@@ -397,7 +397,7 @@
                 <div class="sp-section" id="sp-contact">
                   <div class="sp-wrap-form">
 
-                    <h2 class="sp-form-title">Contact Us</h2>
+                    <h2 class="sp-form-title"><?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
                     <div class="sp-contact-header">
                       {{#if agentPhotoProfile.ObjectURL}}
                         <div class="sp-wrap-img">
@@ -436,24 +436,24 @@
                           <input type="hidden" name="action" value="idxboost_contact_inquiry">
                           <ul>
                             <li>
-                              <label for="input_name">Enter your Name</label>
-                              <input type="text" placeholder="Name" name="name" id="input_name" required>
+                              <label for="input_name"><?php echo __("Enter your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input type="text" placeholder="<?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="name" id="input_name" required>
                             </li>
                             <li>
-                              <label for="input_lastname">Enter your last name</label>
-                              <input type="text" placeholder="Last Name" name="lastname" id="input_lastname" required>
+                              <label for="input_lastname"><?php echo __("Enter your last name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input type="text" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="lastname" id="input_lastname" required>
                             </li>
                             <li>
-                              <label for="input_email">Enter your email</label>
-                              <input type="email" placeholder="Email" name="email" id="input_email" required>
+                              <label for="input_email"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input type="email" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="email" id="input_email" required>
                             </li>
                             <li>
-                              <label for="input_phone">Enter your phone number</label>
-                              <input type="text" placeholder="Phone" name="phone" id="input_phone" required>
+                              <label for="input_phone"><?php echo __("Enter your phone number", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input type="text" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
                             </li>
                             <li>
-                              <label for="input_comment">Enter a comment</label>
-                              <textarea placeholder="Comments" name="message" cols="30" rows="10" id="input_comment" required></textarea>
+                              <label for="input_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <textarea placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" cols="30" rows="10" id="input_comment" required></textarea>
                             </li>
                           </ul>
                           <button class="sp-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
@@ -480,18 +480,18 @@
                 <ul class="sp-sub-menu-footer">
                   <li>
                     <a class="sp-show-modal" href="/terms-and-conditions/" 
-                      title="Go to Privacy page" data-modal=".js-ib-sp-modal-privacy">
-                      Privacy</a>
+                      title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
+                      <?php echo __("Privacy", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </li>
                   <li>
                     <a class="sp-show-modal" href="terms-and-conditions/#atospp-privacy" 
-                      title="Go to Terms of Service page" data-modal=".js-ib-sp-modal-privacy">
-                      Terms and Conditions</a>
+                      title="<?php echo __("Go to Terms of Service page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
+                      <?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </li>
                   <li>
                     <a class="sp-show-modal" href="/accessibility/" 
-                      title="Go to Accessibility page" data-modal=".js-ib-sp-modal-accessibility">
-                      Accessibility</a>
+                      title="<?php echo __("Go to Accessibility page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-accessibility">
+                      <?php echo __("Accessibility", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </li>
                 </ul>
 
@@ -526,9 +526,9 @@
             <div class="sp-modal-body">
               <h4 class="sp-modal-title">{{stylesInput.headerSection.button.text}}</h4>
               <p>
-                Call us now: 
+                <?php echo __("Call us now", IDXBOOST_DOMAIN_THEME_LANG); ?>: 
                 <a class="sp-black" href="tel:{{agentContactPhoneNumber}}">{{agentContactPhoneNumber}}</a> <br> 
-                Fill the form below and we'll contact <br> you back promptly.
+                <?php echo __("Fill the form below and we'll contact <br> you back promptly", IDXBOOST_DOMAIN_THEME_LANG); ?>.
               </p>
               <form class="js-ib-sp-contact-form" method="post" id="request-details-form">
                 <fieldset>
