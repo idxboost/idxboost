@@ -261,8 +261,54 @@ add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script', 0);
 // CMS. REST api
 add_action( 'rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints'] );
 
+function print_inline_js() {
+if (is_admin()) {
+    return;
+}
+
+    global $post, $wp;
+
+    if ('idx-agents' === $post->post_type):
+
+    $agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
+    $agent_slugname = $post->post_name;
+    $agent_permalink = implode('/' , [ site_url(), $agent_slugname ]);
+
+    $wp_request_exp = explode('/', $wp->request);
+
+    $is_agent_page_featured = false;
+
+    if (count($wp_request_exp) >= 2) {
+    if ('featured-properties' === $wp_request_exp[1]) {
+        $is_agent_page_featured = true;
+    }
+    }
+?>
+<script type="text/javascript">
+var IB_AGENT_REGISTRATION_KEY = '<?php echo $agent_registration_key; ?>';
+var IB_AGENT_SLUGNAME = '<?php echo $agent_slugname; ?>';
+var IB_AGENT_PERMALINK = '<?php echo $agent_permalink; ?>';
+<?php if (true === $is_agent_page_featured): ?>
+var IB_AGENT_FEATURED_PAGE = true;
+<?php endif; ?>
+</script>
+<?php
+endif;
+}
+
+add_action('wp_print_scripts', 'print_inline_js');
+
+// CMS. Register assets
+add_action('wp_enqueue_scripts', 'idxboost_cms_register_assets');
+
+// CMS. Enqueue assets
+add_action('wp_enqueue_scripts', 'idxboost_cms_enqueue_assets');
+
+// CMS. Setup
+add_action( 'wp_head', 'idxboost_cms_setup', 101 );
+
 // CMS. Load assets
-add_action( 'wp_head', 'idx_boost_cms_assets_style', 100 );
+add_action( 'wp_head', 'idxboost_cms_assets', 100 );
 
 // CMS. Load SEO
 add_action( 'wp_head', 'custom_seo_page', 0, 0 );
@@ -270,11 +316,9 @@ add_action( 'wp_head', 'custom_seo_page', 0, 0 );
 // CMS. Load Integrations In heade
 add_action( 'wp_head', 'idxboost_integrations_head', 0, 0 );
 
-// CMS. Load custom style
-add_action( 'wp_head', 'idxboost_cms_custom_style', 101, 0 );
-
 // CMS. Load loader
-add_action( 'get_footer', 'idxboost_cms_loader', 101, 1 );
+add_action( 'idx_dinamic_body', 'idxboost_cms_loader', 10, 1 );
+add_action( 'idx_cms_loader', 'idxboost_cms_loader', 10, 1 );
 
 // CMS. Load cta modal
 add_action( 'get_footer', 'idxboost_cms_cta_modal', 101, 1 );

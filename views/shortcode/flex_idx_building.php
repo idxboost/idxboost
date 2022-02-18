@@ -1,3 +1,12 @@
+<style>
+  .ms-wrapper-btn-new-share.active ul {
+    z-index: 5;
+  }
+
+  #full-main .main-content .property-description {
+    margin-bottom: 20px;
+  }
+</style>
 <?php
   global $flex_idx_info, $post, $flex_social_networks, $wp;
 
@@ -110,13 +119,30 @@
        }
     }
   }
+
+
+if (!empty($latAlternative) && !empty($lngAlternative)) {
+  $response['payload']['lat_building'] = $latAlternative;
+  $response['payload']['lng_building'] = $lngAlternative;
+}
 ?>
 <main class="property-details theme-3">
-  <div id="full-main">
+  <div id="full-main" class="ms-property-detail-page">
+
+    <!--
     <section class="title-conteiner gwr animated fixed-box">
       <div class="content-fixed simple-btn">
         <div class="content-fixed-title">
-          <h1 class="title-page" id="page_title" data-building-name="<?php echo $log_building_name; ?>" data-building-address="<?php echo $log_building_address; ?>" data-building-city="<?php echo $log_building_city; ?>" data-title="<?php echo $response['payload']['name_building']; ?>"><?php echo $response['payload']['name_building']; ?><span><?php echo $building_default_address; ?></span></h1>
+          <h1 class="title-page" 
+          id="page_title" 
+          data-building-name="<?php echo $log_building_name; ?>" 
+          data-building-address="<?php echo $log_building_address; ?>" 
+          data-building-city="<?php echo $log_building_city; ?>" 
+          data-title="<?php echo $response['payload']['name_building']; ?>">
+          <?php echo $response['payload']['name_building']; ?>
+          <span><?php echo $building_default_address; ?></span>
+          </h1>
+
           <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
           <div class="breadcrumb-options">
             <button class="btn-request" id="form-request-a">
@@ -126,15 +152,83 @@
         </div>
         <ul class="content-fixed-btn">
           <li>
-            <!--
-            <button class="clidxboost-icon-envelope show-modal" data-modal="modal_email_to_friend">
-            <span><?php echo __('Email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            </button>-->
             <button class="btn-request" id="form-request"><?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
         </ul>
       </div>
     </section>
+    -->
+
+
+    <section class="title-conteiner gwr animated fixed-box">
+      <div class="content-fixed">
+        <div class="content-fixed-title">
+          <h1 class="title-page" 
+            id="page_title" 
+            data-building-name="<?php echo $log_building_name; ?>" 
+            data-building-address="<?php echo $log_building_address; ?>" 
+            data-building-city="<?php echo $log_building_city; ?>" 
+            data-title="<?php echo $response['payload']['name_building']; ?>">
+            <?php echo $response['payload']['name_building']; ?>
+            <span><?php echo $building_default_address; ?></span>
+          </h1>
+          <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
+          <div class="breadcrumb-options">
+
+            <div class="ms-wrapper-btn-new-share">
+              <div class="ms-wrapper">
+                <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                <ul class="ms-share-list">
+                  <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                    <a rel="nofollow" href="javascript:void(0)" 
+                    class="ib-psbtn showfriendEmail" 
+                    data-modal="modal_email_to_friend" 
+                    data-origin="2"
+                    data-media="ib-pva-map"
+                    data-property="<?php echo $response['payload']['name_building']; ?>"
+                    data-beds="<?php echo $response['payload']['bed_building']; ?>"
+                    data-year="<?php echo $response['payload']['year_building']; ?>"
+                    data-city="<?php echo $response['payload']['city_building_name']; ?>"
+                    data-address="<?php echo $building_default_address; ?>"
+                    data-lg="<?php echo $response['payload']['lng_building']; ?>" 
+                    data-lt="<?php echo $response['payload']['lat_building']; ?>">
+                      <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </a>
+                  </li>
+                  <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                  <li>
+                    <a class="ib-plsitem ib-plsifb" 
+                    data-share-url="<?php echo $building_permalink; ?>" 
+                    data-share-title="<?php echo $post->post_title; ?>" 
+                    data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
+                    data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
+                    onclick="idxsharefb_building()" rel="nofollow">Faceboook</a></li>
+                  <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <button class="btn-request" id="form-request-a">
+              <?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </button>
+          </div>
+        </div>
+        <ul class="content-fixed-btn">
+          <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow"><span><?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+          <li>
+            <!--<button class="clidxboost-icon-envelope show-modal" data-modal="modal_email_to_friend">
+              <span><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+              </button>-->
+            <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
+              <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+
     <div class="header-print">
       <img src="<?php echo $logo_broker; ?>" alt="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>">
       <ul>
@@ -220,10 +314,45 @@
 
                 <li class="btn-save favorite">
                   <?php if ($response['payload']['is_favorite'] == 1) : ?>
-                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __("Remove Favorite", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php else : ?>
-                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __("Save Favorite", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php endif; ?>
+                </li>
+
+                <li class="ms-share-hidden">
+                  <div class="ms-wrapper-btn-new-share">
+                    <div class="ms-wrapper">
+                      <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                      <ul class="ms-share-list">
+                        <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                          <a rel="nofollow" href="javascript:void(0)" 
+                          class="ib-psbtn showfriendEmail" 
+                          data-modal="modal_email_to_friend" 
+                          data-origin="2"
+                          data-media="ib-pva-map"
+                          data-property="<?php echo $response['payload']['name_building']; ?>"
+                          data-beds="<?php echo $response['payload']['bed_building']; ?>"
+                          data-year="<?php echo $response['payload']['year_building']; ?>"
+                          data-city="<?php echo $response['payload']['city_building_name']; ?>"
+                          data-address="<?php echo $building_default_address; ?>"
+                          data-lg="<?php echo $response['payload']['lng_building']; ?>" 
+                          data-lt="<?php echo $response['payload']['lat_building']; ?>">
+                            <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                          </a>
+                        </li>
+                        <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                        <li>
+                          <a class="ib-plsitem ib-plsifb" 
+                          data-share-url="<?php echo $building_permalink; ?>" 
+                          data-share-title="<?php echo $post->post_title; ?>" 
+                          data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
+                          data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
+                          onclick="idxsharefb_building()" rel="nofollow">Faceboook</a></li>                        
+                        <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                      </ul>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -244,9 +373,11 @@
               </div>
             <?php }} ?>
 
-          <div class="panel-options">
+          <div class="panel-options" style="padding: 0">
             <div class="options-list">
-              <div class="shared-content">
+              
+                <!--
+              <div class="shared-content" style="display: none">
                 <button id="show-shared"><?php echo __("share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 <ul class="shared-list">
                   <li><a
@@ -255,27 +386,49 @@
                     data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>"
                     data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>"
                     class="ico-facebook property-detail-share-fb"
-                    onclick="idxsharefb()"
+                    onclick="idxsharefb_building()"
                     title="Faceboook"
                     rel="nofollow"><?php echo __("Faceboook", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                   <li><a class="ico-twitter" href="#" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" title="Twitter" rel="nofollow"><?php echo __("Twitter", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                 </ul>
               </div>
-              <ul class="action-list">
-                <li><a class="show-modal ico-envelope" href="javascript:void(0)" title="<?php echo __('email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal="modal_email_to_friend" rel="nofollow" id="email-friend"><?php echo __('email to a friend', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+              <ul class="action-list" style="display: none">
+                <li class="ib-pscitem -emailtofriendbuilding" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                  <a rel="nofollow" href="javascript:void(0)" 
+                  class="ib-psbtn showfriendEmail ico-envelope" 
+                  data-modal="modal_email_to_friend" 
+                  data-origin="2"
+                  data-media="ib-pva-map"
+                  data-property="<?php echo $response['payload']['name_building']; ?>"
+                  data-beds="<?php echo $response['payload']['bed_building']; ?>"
+                  data-year="<?php echo $response['payload']['year_building']; ?>"
+                  data-city="<?php echo $response['payload']['city_building_name']; ?>"
+                  data-address="<?php echo $building_default_address; ?>"
+                  data-lg="<?php echo $response['payload']['lng_building']; ?>" 
+                  data-lt="<?php echo $response['payload']['lat_building']; ?>">
+                    <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
+                </li>
+
                 <li><a class="ico-printer" href="javascript:void(0)" title="<?php echo __('print', IDXBOOST_DOMAIN_THEME_LANG); ?>" rel="nofollow" id="print-btn"><?php echo __('print', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
               </ul>
-              <ul class="property-information">
+              <ul class="property-information" style="position: relative; top: 0; transform: none; margin-right: 0; margin-left: auto; margin-bottom: -15px;">
                 <li class="btn-save favorite">
                   <?php if ($response['payload']['is_favorite'] == 1): ?>
-                  <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __('Remove Favorite', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                  <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __('Remove', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php else: ?>
-                  <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __('Save Favorite', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                  <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __('Save', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php endif; ?>
                 </li>
               </ul>
+                  -->
+
             </div>
+
+
           </div>
+
+
           <div class="main-content">
             <?php  if (is_array($cta) && count($cta) > 0  && array_key_exists("activeCTAs", $cta) && $cta["activeCTAs"] ) { 
               
@@ -642,7 +795,7 @@
               if (shortcode_exists('sc_news_to_building'))
                 echo do_shortcode('[sc_news_to_building id_building="' . get_the_ID() . '"]'); ?>
 
-              <div class="ms-form-detail msModalDetail">
+              <div class="ms-form-detail">
                 <div class="property-contact">
                   <div class="form-content large-form">
                     <div class="avatar-content">
@@ -727,10 +880,8 @@
                         </div>
                       </fieldset>
                     </form>
-                    <button class="msCloseModalDetail ms-close">Close</button>
                   </div>
                 </div>
-                <div class="ms-layout-modal mslayoutModalDetail"></div>
               </div>
             </div>
           </div>
@@ -769,7 +920,7 @@
 
             </ul>
 
-            <div class="form-content">
+            <!--<div class="form-content">
               <div class="avatar-content">
                 <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>" alt="<?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?>"></div>
                 <div class="avatar-information">
@@ -851,7 +1002,100 @@
                   </div>
                 </fieldset>
               </form>
+            </div>-->
+
+            <div class="ms-form-detail msModalDetail">
+              <div class="form-content">
+                <div class="avatar-content">
+                  <?php
+                    $agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
+                    $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
+                    ?>
+                  <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?>" alt="<?php echo $agent_info_name; ?>"></div>
+                  <div class="avatar-information">
+                    <h2><?php echo $agent_info_name; ?></h2>
+                    <?php if (!empty($agent_info_phone)): ?>
+                    <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="Call to <?php echo flex_agent_format_phone_number($agent_info_phone); ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG);?>. <?php echo $agent_info_phone; ?></a>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+                  <fieldset>
+                    <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
+                    <input type="hidden" name="ib_tags" value="">
+                    <input type="hidden" name="slug" value="<?php echo $building_slug; ?>">
+                    <input type="hidden" name="action" value="flex_idx_request_website_building_form">
+                    <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
+                    <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
+                    <div class="gform_body">
+                      <ul class="gform_fields">
+
+                        <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) {
+                          if ($flex_idx_info['agent']['track_gender'] == true) { ?>
+                            <li class="gfield">
+                              <label class="gfield_label"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <div class="ginput_container ginput_container_text sp-box">
+                                <select name="gender" class="gender medium">
+                                  <option value="<?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                  <option value="<?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                  <option value="<?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                                </select>
+                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_fn_inq medium" name="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                              </div>
+                            </li>
+                          <?php } else { ?>
+                            <li class="gfield">
+                              <div class="ginput_container ginput_container_text">
+                                <label class="gfield_label" for="first_name"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                                <input required class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                              </div>
+                            </li>
+                          <?php }
+                        } else { ?>
+                          <li class="gfield">
+                            <div class="ginput_container ginput_container_text">
+                              <label class="gfield_label" for="first_name"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input required class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            </div>
+                          </li>
+                        <?php } ?>
+                        <li class="gfield">
+                          <div class="ginput_container ginput_container_text">
+                            <label class="gfield_label"><?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_ln_inq medium" name="last_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                          </div>
+                        </li>
+                        <li class="gfield">
+                          <div class="ginput_container ginput_container_email">
+                            <label class="gfield_label"><?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_em_inq medium" name="email" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                          </div>
+                        </li>
+                        <li class="gfield">
+                          <div class="ginput_container ginput_container_email">
+                            <label class="gfield_label"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                          </div>
+                        </li>
+                        <li class="gfield comments">
+                          <div class="ginput_container">
+                            <label class="gfield_label"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                            <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="<?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
+                          </div>
+                        </li>
+                        <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                        <div class="gform_footer">
+                          <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request information', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                        </div>
+                      </ul>
+                    </div>
+                  </fieldset>
+                </form>
+                <button class="msCloseModalDetail ms-close">Close</button>
+              </div>
+              <div class="ms-layout-modal mslayoutModalDetail"></div>
             </div>
+
 
             <ul class="property-information ltd d-hidden">
               <?php if ($type_building == 0) { ?>
@@ -926,6 +1170,7 @@
             <input type="hidden" class="ib_building_unit" value="<?php echo $response['payload']['unit_building']; ?>">
 
           </div>
+          <button class="ib-btn-request btn-request ib-active-float-form">Contact Agent</button>
         </div>
       </section>
     </div>
@@ -1024,7 +1269,7 @@
         if ($(this).hasClass("flex_b_marked")) {
           // remove
           $(this).removeClass("flex_b_marked");
-          $(this).find("span").removeClass("active").html("SAVE FAVORITE");
+          $(this).find("span").removeClass("active").html("Save");
   
           //console.log('remove building from favorites');
   
@@ -1046,7 +1291,7 @@
   
           // add
           $(this).addClass("flex_b_marked");
-          $(this).find("span").addClass("active").html("REMOVE FAVORITE");
+          $(this).find("span").addClass("active").html("Remove");
   
           var building_permalink = $(this).data("permalink");
   
@@ -1075,10 +1320,11 @@
 </script>
 
 <script>
-  /*function idxsharefb(){
+  function idxsharefb_building(){
     window.open('http://www.facebook.com/sharer/sharer.php?u='+window.location.href, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
-  }*/
-  function idxsharefb(event){
+  }
+
+  /*function idxsharefb(event){
 		event.preventDefault();
 		var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
 		//params
@@ -1092,7 +1338,8 @@
 		if (wo.focus) {
 			wo.focus();
 		}
-	}
+	}*/
+  
 </script>
 <?php endif; ?>
 <script type="text/javascript">
@@ -1184,6 +1431,84 @@
   jQuery(document).on("click", ".msCloseModalDetail, .mslayoutModalDetail", function (e) {
     e.preventDefault();
     jQuery("body").removeClass("ms-active-aside-form");
+  });
+
+  /********************************* */
+  jQuery(document).on("click", ".-emailtofriendbuilding", function() {
+    var mlsNumber = jQuery(this).data("mls");
+    //jQuery(".ib-property-share-friend-f:eq(0)").trigger("reset");
+    jQuery(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
+    jQuery("#ib-email-to-friend").addClass("ib-md-active");
+  });
+
+  jQuery(".ib-property-share-friend-f").on("submit", function(event) {
+      event.preventDefault();
+      var _self = jQuery(this);
+
+      if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+          if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+              // pending...
+          } else { // regular recaptcha
+
+              grecaptcha.ready(function() {
+                  grecaptcha
+                  .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                  .then(function(token) {
+                      _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+      
+                      var formData = _self.serialize();
+                      var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                      var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+          
+                      jQuery.ajax({
+                          type: "POST",
+                          url: shareWithFriendEndpoint,
+                          data: {
+                              access_token: IB_ACCESS_TOKEN,
+                              flex_credentials: Cookies.get("ib_lead_token"),
+                              form_data: formData
+                          },
+                          success: function(response) {
+                              // ...
+                          }
+                      });
+          
+                      jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                      jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                  });
+              });
+          }
+
+      } else { // regular recaptcha
+
+        grecaptcha.ready(function() {
+            grecaptcha
+            .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+            .then(function(token) {
+                _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+                var formData = _self.serialize();
+                var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+    
+                jQuery.ajax({
+                    type: "POST",
+                    url: shareWithFriendEndpoint,
+                    data: {
+                        access_token: IB_ACCESS_TOKEN,
+                        flex_credentials: Cookies.get("ib_lead_token"),
+                        form_data: formData
+                    },
+                    success: function(response) {
+                    }
+                });
+    
+                jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                jQuery("#ib-email-thankyou").addClass("ib-md-active");
+            });
+        });
+
+      }
   });
 </script>
 

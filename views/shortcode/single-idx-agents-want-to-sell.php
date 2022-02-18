@@ -1,12 +1,14 @@
 <?php
-get_header('idx-agents');
+get_header('agents');
 
 global $post;
 
 $agent_registration_key = get_post_meta($post->ID, "_flex_agent_registration_key", true);
 
 ?>
-
+<style>
+body {padding-top:0 !important;}
+</style>
 <?php if (isset($agent_registration_key) && !empty($agent_registration_key)) : ?>
   <script>
     var IB_AGENT_REGISTRATION_KEY = "<?php echo $agent_registration_key; ?>";
@@ -28,7 +30,7 @@ while (have_posts()) : the_post(); ?>
   </section>
 
 <?php endwhile; ?>
-<?php get_footer('idx-agents'); ?>
+<?php get_footer('agents'); ?>
 <script type="text/javascript">
   var $dataUrl = jQuery('#main-wrap').attr('data-url');
   jQuery('.ib-form-bg').attr('src', $dataUrl);

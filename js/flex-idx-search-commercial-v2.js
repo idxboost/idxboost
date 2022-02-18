@@ -1,5 +1,6 @@
 var initial_title;
 var initial_href;
+var dataAlert;
 
 if (typeof originalPositionY === "undefined") {
 	var originalPositionY;
@@ -3822,6 +3823,124 @@ function buildSearchFilterForm() {
 		});
 	}
 
+	// mobile
+	$("#ib-lst-inner_2_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// mobile
+	$("#ib-lst-inner_3_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_3").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// handle hide pending contingent
+	$("#pendingContigentMin").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigent").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigentMin").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigentMobile").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMin").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
 	if (IB_LB_TYPES_OPTIONS.length) {
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
 			for (var i = 0, l = __flex_idx_search_filter_v2.commercial_types.length; i < l; i++) {
@@ -4615,6 +4734,20 @@ function handleFilterSearchLookup(event) {
 			IB_SEARCH_FILTER_FORM.find('[name="sort_type"]').val(params.sort_type);
 			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(params.currentpage);
 
+			if (params.hasOwnProperty('overwrite_show_hide_pending')) {
+				IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val(params.overwrite_show_hide_pending);
+
+				if ('yes' === params.overwrite_show_hide_pending) {
+					$("#pendingContigentMin").prop("checked", true);
+					$("#pendingContigent").prop("checked", true);
+					$("#pendingContigentMobile").prop("checked", true);
+				} else {
+					$("#pendingContigentMin").prop("checked", false);
+					$("#pendingContigent").prop("checked", false);
+					$("#pendingContigentMobile").prop("checked", false);
+				}
+			}
+
 			if (params.hasOwnProperty("property_type")) {
 				IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(params.property_type.join(","));
 			}
@@ -4966,6 +5099,13 @@ function handleFilterSearchLookup(event) {
 					mapTypeControlOptions: {
 						position: google.maps.ControlPosition.RIGHT_TOP,
 					}*/
+				});
+
+				IB_MAP.addListener("bounds_changed", function() {
+					if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+					}
 				});
 
 				IB_MAP.addListener("dragend", function() {
@@ -5707,7 +5847,7 @@ $(function () {
 			var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
 			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
 			var formData = $(this).serialize();
-			formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID;
+			formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID+'&type_filter=search_commercial_filter';
 
 			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
 			if ("no" === __flex_g_settings.anonymous) {

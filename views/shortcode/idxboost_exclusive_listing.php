@@ -1,4 +1,7 @@
 <?php
+  // for agent
+  global $agent_permalink;
+
   $idxboost_query_slug = $_SERVER['QUERY_STRING'];
   $idxboost_query_slug_array = explode('&', $idxboost_query_slug );
   $idxboost_ver_bool=true;
@@ -50,7 +53,10 @@
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
 <form method="post" id="flex-idx-filter-form" class="flex-idx-filter-form flex-idx-filter-form-<?php echo $class_multi; ?> idxboost-filter-form" data-filter-form-id="<?php echo $unique_filter_form_ID; ?>" filtemid="<?php echo $class_multi; ?>">
-  <?php if ($atts["type"]=='2') { ?>
+<?php if (isset($atts['registration_key'])): ?>
+  <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
+  <?php endif; ?> 
+<?php if ($atts["type"]=='2') { ?>
     <input type="hidden" name="action" value="filter_search_exclusive_listing">
   <?php }elseif($atts["type"]=='1'){ ?>
     <input type="hidden" name="action" value="filter_search_recent_sales">
@@ -252,11 +258,17 @@
             <?php
             $url_property='#';
             $class_for_recent = "view-detail view-detail-no-link";
+            $site_property=rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); 
             if ($is_recent_sales=='yes') {
               $class_for_recent = "view-detail";
+              if (isset($agent_permalink) && !empty($agent_permalink)) {
+                $url_property=$agent_permalink.'/property/'.$property['slug'];
+              } else {
+                $url_property=$site_property.'/'.$property['slug'];
+              }
             }
-              $site_property=rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); 
-              $url_property=$site_property.'/'.$property['slug'];
+              //$site_property=rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); 
+              // $url_property=$site_property.'/'.$property['slug'];
             ?>
               <?php if (isset($property["status"])): ?>
               <?php if (2 == $property["status"]): ?>

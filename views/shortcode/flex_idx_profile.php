@@ -51,6 +51,29 @@ global $flex_idx_info;
                 <div class="clidxboost-wrapper-smb">
                   <div class="clidxboost-content-select-mb">
                     <ul class="clidxboost-select-mb">
+                    <li class="clidxboost-active">
+                        <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_profile']['guid']) : $flex_idx_info['pages']['flex_idx_profile']['guid']; ?>">
+                          <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_favorites']['guid']) : $flex_idx_info['pages']['flex_idx_favorites']['guid']; ?>">
+                          <span><?php echo $flex_idx_info['pages']['flex_idx_favorites']['post_title']; ?></span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_saved_searches']['guid']) : $flex_idx_info['pages']['flex_idx_saved_searches']['guid']; ?>">
+                          <span><?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['post_title']; ?></span>
+                        </a>
+                      </li>
+                      <?php if (!isset($agent_registration_key)): ?>
+                      <li>
+                        <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
+                          <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
+                        </a>
+                      </li>
+                      <?php endif; ?>
+                      <?php /*
                       <li class="clidxboost-active">
                         <a href="<?php echo $flex_idx_info['pages']['flex_idx_profile']['guid'] ?>">
                           <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
@@ -75,6 +98,7 @@ global $flex_idx_info;
                           <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
                         </a>
                       </li>
+                      */ ?>
                     </ul>
                   </div>
                 </div>

@@ -93,22 +93,46 @@ Handlebars.registerHelper('formatSqft', function(sqft) {
 });
 
 Handlebars.registerHelper('propertyPermalink', function(slug) {
+	if (typeof IB_AGENT_PERMALINK !== "undefined") {
+		return IB_AGENT_PERMALINK + "/property/" + slug;
+	}
+
 	return __flex_idx_filter_regular.propertyDetailPermalink + "/" + slug;
 });
 
 Handlebars.registerHelper('agentPhoto', function(property) {
+	if (typeof IB_AGENT_AVATAR_IMAGE !== "undefined") {
+		if (IB_AGENT_AVATAR_IMAGE.length) {
+			return IB_AGENT_AVATAR_IMAGE;
+		} else {
+			return 'https://idxboost-spw-assets.idxboost.us/photos/avatar.jpg';
+		}
+	}
+
 	return __flex_idx_filter_regular.agentPhoto;
 });
 
 Handlebars.registerHelper('agentFullName', function(property) {
+	if (typeof IB_AGENT_FULL_NAME !== "undefined") {
+		return IB_AGENT_FULL_NAME;
+	}
+
 	return __flex_idx_filter_regular.agentFullName;
 });
 
 Handlebars.registerHelper('agentPhoneNumber', function(property) {
+	if (typeof IB_AGENT_PHONE_NUMBER !== "undefined") {
+		return IB_AGENT_PHONE_NUMBER.replace(/[^\d+]/g, "");
+	}
+
 	return __flex_idx_filter_regular.agentPhone.replace(/[^\d+]/g, "");
 });
 
 Handlebars.registerHelper('agentPhone', function(property) {
+	if (typeof IB_AGENT_PHONE_NUMBER !== "undefined") {
+		return IB_AGENT_PHONE_NUMBER;
+	}
+
 	return __flex_idx_filter_regular.agentPhone;
 });
 
@@ -368,7 +392,8 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
 			flex_credentials: Cookies.get("ib_lead_token"),
 			url_origin: location.origin,
 			url_referer: document.referrer,
-			user_agent: navigator.userAgent
+			user_agent: navigator.userAgent,
+			registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 		},
 		success: function(response) {
 			if ("add" === response.type) {
@@ -532,7 +557,8 @@ function loadPropertyInModal(mlsNumber) {
 		url: viewListingDetailEndpoint,
 		data: {
 			access_token: IB_ACCESS_TOKEN,
-			flex_credentials: Cookies.get("ib_lead_token")
+			flex_credentials: Cookies.get("ib_lead_token"),
+			registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 		},
 		success: function(response) {
 			if (jQuery("#_ib_lead_activity_tab").length) {
@@ -573,7 +599,12 @@ function loadPropertyInModal(mlsNumber) {
 
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
-			IB_TRACKING_IFRAME.setAttribute("src", __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+			if (typeof IB_AGENT_PERMALINK !== "undefined") {
+				IB_TRACKING_IFRAME.setAttribute("src", IB_AGENT_PERMALINK + "/property/" + response.slug);
+			} else {
+				IB_TRACKING_IFRAME.setAttribute("src", __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+			}
+			// IB_TRACKING_IFRAME.setAttribute("src", __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 			IB_TRACKING_IFRAME.style.width = "1px";
 			IB_TRACKING_IFRAME.style.height = "1px";
 			document.body.appendChild(IB_TRACKING_IFRAME);
@@ -954,7 +985,12 @@ function loadPropertyInModal(mlsNumber) {
 				// if ('share' in navigator) { // for mobile
 				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 					document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;
-					history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+					if (typeof IB_AGENT_PERMALINK !== "undefined") {
+						history.pushState(null, null, IB_AGENT_PERMALINK + "/property/" + response.slug);
+					} else {
+						history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+					}
+					// history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 				} else { // for desktop
 					var urlParams = new URLSearchParams(window.location.search);
 					urlParams.set("show", response.mls_num);
@@ -1269,54 +1305,9 @@ window.loadPropertyInModal = loadPropertyInModal;
         // open email to a friend modal
         IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
             var mlsNumber = $(this).data("mls");
-
             $(".ib-property-share-friend-f:eq(0)").trigger("reset");
             $(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
             $("#ib-email-to-friend").addClass("ib-md-active");
-
-						/*var urlSite = window.location.hostname;
-						var imgProp = $(".ib-pvphotos.ib-pvlitem .gs-item-slider:first-child .gs-wrapper-content").html();
-						var itemPrice = $(".ib-pwinfo .ib-pilprice .ib-pipn").html();
-						var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
-						var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
-						var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
-						var itemAddress = itemAddress = $(".ib-property-detail .ib-ptitle").html()+", "+$(".ib-property-detail .ib-pstitle").html();
-						var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
-
-						var itemLg = $(this).attr("data-lg");
-						var itemLt = $(this).attr("data-lt");
-
-						if(imgProp === undefined){
-							var myLatLng  = {
-								lat: parseFloat(itemLt),
-								lng: parseFloat(itemLg)
-							};
-							var map = new google.maps.Map(document.getElementById('mfImg'), {
-								zoom: 18,
-								center: myLatLng,
-								styles: style_map,
-								gestureHandling: 'cooperative',
-								panControl: false,
-								scrollwheel: false,
-								disableDoubleClickZoom: true,
-								disableDefaultUI: true,
-								streetViewControl: true,
-							});
-							var marker = new google.maps.Marker({
-								position: myLatLng,
-								map: map
-							});
-
-						}else if(imgProp !== ""){
-							$("#mfImg").html(imgProp);
-						}
-
-						$("#mfPrice").html(itemPrice);
-						$("#mfBed").html(itemBeds);
-						$("#mfBath").html(itemBaths);
-						$("#mfSqft").html(itemSqft);
-						$("#mfAddress").html(itemAddress);
-						$("#ms-friend-comments").val(itemComment);*/
         });
 
         $(".ib-property-share-friend-f").on("submit", function(event) {
@@ -1337,6 +1328,14 @@ window.loadPropertyInModal = loadPropertyInModal;
                             var formData = _self.serialize();
                             var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
                             var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+
+                            var building_id = $("#idxboost_collection_xr").find('[name="building_id"]').val();
+
+                            if ( building_id != undefined ) {
+                            	shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendBuildingEndpoint.replace(/{{codBuilding}}/g, building_id);
+                            	formData = formData+"&url="+encodeURIComponent(window.location.href);
+                            }
+
                 
                             $.ajax({
                                 type: "POST",

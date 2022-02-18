@@ -10,7 +10,6 @@
   <?php } ?>
   <div class="wrap-result view-grid">
     <div class="gs-container-slider ib-properties-slider"></div>
-
 </div>
 
 <input type="hidden" class="ib_type_filter" value="<?php echo $atts['type']; ?>">

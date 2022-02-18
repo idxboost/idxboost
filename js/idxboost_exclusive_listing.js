@@ -1198,7 +1198,8 @@ if(scrollTopElement.length){
 							mls_num: mls_num,
 							subject:property_subject,
 							search_url: window.location.href,
-							type_action: 'add'
+							type_action: 'add',
+							registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 						},
 						dataType: "json",
 						success: function(data) {
@@ -1222,7 +1223,8 @@ if(scrollTopElement.length){
 							class_id: class_id,
 							mls_num: mls_num,
 							type_action: 'remove',
-							token_alert: token_alert
+							token_alert: token_alert,
+							registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 						},
 						dataType: "json",
 						success: function(data) {
@@ -1840,7 +1842,12 @@ if(scrollTopElement.length){
 
 						//listingHTML.push('<a href="' +  flex_idx_filter_params.propertyDetailPermalink + '/' + item.slug + '" class="view-detail">'+final_address_parceada_new+'</a>');
 						if (is_recent_sales=='yes'){
-							listingHTML.push('<a href="'+flex_idx_filter_params.propertyDetailPermalink+'/'+item.slug+'" class="view-detail">'+final_address_parceada_new+'</a>');
+							if (typeof IB_AGENT_PERMALINK !== "undefined") {
+								listingHTML.push('<a href="'+IB_AGENT_PERMALINK+'/property/'+item.slug+'" class="view-detail">'+final_address_parceada_new+'</a>');
+							} else {
+								listingHTML.push('<a href="'+flex_idx_filter_params.propertyDetailPermalink+'/'+item.slug+'" class="view-detail">'+final_address_parceada_new+'</a>');
+							}
+							// listingHTML.push('<a href="'+flex_idx_filter_params.propertyDetailPermalink+'/'+item.slug+'" class="view-detail">'+final_address_parceada_new+'</a>');
 						}else{
 							listingHTML.push('<a href="' + flex_idx_filter_params.propertyDetailPermalink + '/' +item.slug + '" class="view-detail view-detail-no-link">'+final_address_parceada_new+'</a>');
 						}                        
@@ -2278,7 +2285,14 @@ if(scrollTopElement.length){
 					infobox_content.push('<div class="mapviwe-img">');
 					infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');
 					infobox_content.push('</div>');
-					infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property_group.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property_group.slug + '" title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '">' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '</a>');
+					if (typeof IB_AGENT_PERMALINK !== "undefined") {
+						infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property_group.mls_num + '" href="' + IB_AGENT_PERMALINK + '/property/' + property_group.slug + '" title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '">' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '</a>');
+
+					} else {
+						infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property_group.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property_group.slug + '" title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '">' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '</a>');
+					}
+
+					// infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property_group.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property_group.slug + '" title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '">' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '</a>');
 					infobox_content.push('</div>');
 				}
 				infobox_content.push('</div>');
@@ -2320,7 +2334,12 @@ if(scrollTopElement.length){
 				infobox_content.push('<div class="mapviwe-img">');
 				infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');
 				infobox_content.push('</div>');
-				infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property.item.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property.item.slug + '" title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '">' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '</a>');
+				if (typeof IB_AGENT_PERMALINK !== "undefined") {
+					infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property.item.mls_num + '" href="' + IB_AGENT_PERMALINK + '/property/' + property.item.slug + '" title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '">' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '</a>');
+				} else {
+					infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property.item.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property.item.slug + '" title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '">' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '</a>');
+				}
+				// infobox_content.push('<a class="ib-load-property-iw" data-mls="' + property.item.mls_num + '" href="' + flex_idx_filter_params.propertyDetailPermalink + '/' + property.item.slug + '" title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '">' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '</a>');
 				infobox_content.push('</div>');
 				infobox_content.push('</div>');
 				infobox_content.push('</div>');

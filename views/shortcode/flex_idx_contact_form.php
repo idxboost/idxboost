@@ -1,4 +1,7 @@
 <form id="<?php echo $atts['id_form']; ?>" class="form-search gtm_general_contact_form iboost-secured-recaptcha-form" method="post">
+<?php if (!empty($atts['registration_key'])): ?>
+<input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
+<?php endif; ?>
 <fieldset>
     <legend>Contact</legend>  
 

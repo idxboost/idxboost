@@ -58,6 +58,9 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 ?>
 
 <form id="flex_idx_search_filter_form" method="post">
+  <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
+  <input type="hidden" name="overwrite_show_hide_pending" value="<?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?>yes<?php else: ?>no<?php endif; ?>">
+  <?php endif ?>
   <input type="hidden" name="sale_type" value="">
   <input type="hidden" name="property_type" value="">
   <input type="hidden" name="filter_search_keyword_label" value="">
@@ -313,7 +316,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 	<div class="ib-mmbg"></div>
 </div>
 
-<!--EMAIL TO A FRIEND-->
+<!--
 <div class="ib-modal-master" data-id="email-to-friend" id="ib-email-to-friend">
   <div class="ib-mmcontent">
     <div class="ib-mwrapper ib-mgeneric">
@@ -322,29 +325,31 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
       </div>
       <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
         <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
+        <input type="hidden" name="status" class="ib-property-share-property-status" value="">
+
         <div class="ib-mgcontent"><?php echo __('Recommend this to a friend, just enter their email below.', IDXBOOST_DOMAIN_THEME_LANG); ?>
-          <div class="ib-meblock"><span class="ib-mgitxt"><?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <div class="ib-meblock"><span class="ib-mgitxt"><?php echo __('Friend&#039s Information', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <div class="ib-mgiwrapper">
-              <label class="ms-hidden" for="friend_email"><?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-              <input id="friend_email" class="ib-meinput" name="friend_email" type="email" placeholder="<?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
+              <label class="ms-hidden" for="friend-email-a"><?php echo __('Friends Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <input class="ib-meinput" name="friend_email" type="email" placeholder="<?php echo __('Friend&#039s Email*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" id="friend-email-a" required>
             </div>
             <div class="ib-mgiwrapper">
-              <label class="ms-hidden" for="friend_name"><?php echo __('Friend&#039s Name*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-              <input id="friend_name" class="ib-meinput" name="friend_name" type="text" placeholder="<?php echo __('Friend&#039s Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
+              <label class="ms-hidden" for="friend-name-a"><?php echo __('Friends Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <input class="ib-meinput" name="friend_name" type="text" placeholder="<?php echo __('Friend&#039s Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" id="friend-name-a" required>
             </div>
           </div>
           <div class="ib-meblock"><span class="ib-mgitxt"><?php echo __('Your Information', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <div class="ib-mgiwrapper">
-              <label class="ms-hidden" for="_sf_name"><?php echo __('Your Name*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <label class="ms-hidden" for="_sf_name"><?php echo __('Your Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
               <input class="ib-meinput" id="_sf_name" name="your_name" type="text" placeholder="<?php echo __('Your Name*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
             <div class="ib-mgiwrapper">
-              <label class="ms-hidden" for="_sf_email"><?php echo __('Your Email*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <label class="ms-hidden" for="_sf_email"><?php echo __('Your Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
               <input class="ib-meinput" id="_sf_email" name="your_email" type="email" placeholder="<?php echo __('Your Email*', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
             </div>
             <div class="ib-mgiwrapper ib-mgtextarea">
-              <label class="ms-hidden" for="ib-metextarea"><?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-              <textarea class="ib-metextarea" name="comments" type="text" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>" required></textarea>
+              <label class="ms-hidden" for="ib-metextarea-a"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <textarea class="ib-metextarea" name="comments" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ib-metextarea-a" required></textarea>
             </div>
           </div>
           <span class="ib-merequired"><?php echo __('* Required fields', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -357,79 +362,6 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
   <div class="ib-mmbg"></div>
 </div>
 
-<!--
-<div class="ib-modal-master" data-id="email-to-friend" id="ib-email-to-friend">
-  <div class="ib-mmcontent">
-    <div class="ib-mwrapper ib-mgeneric">
-      <div class="ms-wrapper-modal">
-        <div class="ms-modal-header">
-          <span class="ms-title"><?php echo __("Email to a Friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
-        </div>
-        <div class="ms-modal-body">
-          <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
-            <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
-            <input type="hidden" name="status" class="ib-property-share-property-status" value="">
-
-            <div class="ms-flex">
-              <div class="ms-form-item">
-                <div class="ms-wrapper-img" id="mfImg"></div>
-              </div>
-              <div class="ms-form-item">
-                <div class="ms-wrapper-details">
-                  <span class="ms-price-label"><span id="mfPrice">$0</span></span>
-                  <span class="ms-bed-label"><span id="mfBed">0</span> <?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ms-bath-label"><span id="mfBath">0</span> <?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ms-sqft-label"><span id="mfSqft">0</span> Sqft</span>
-                  <span class="ms-address-label"><span id="mfAddress">--</span></span>
-                </div>
-              </div>
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <label class="ms-hidden" for="friend_email"><?php echo __('Friend Email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="friend_email" name="friend_email" type="email" placeholder="<?php echo __('Friend Email', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
-                </div>
-              </div>
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label class="ms-hidden" for="friend_name"><?php echo __('Friend Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="friend_name" class="ib-meinput" name="friend_name" type="text" placeholder="<?php echo __('Friend Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="" required>
-                </div>
-              </div>
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label class="ms-hidden" for="_sf_email"><?php echo __('Enter your email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="_sf_email" name="your_email" type="email" placeholder="<?php echo __('Enter your email', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
-                </div>
-              </div>
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label class="ms-hidden" for="_sf_name"><?php echo __('Enter your name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="_sf_name" name="your_name" type="text" placeholder="<?php echo __('Enter your name', IDXBOOST_DOMAIN_THEME_LANG); ?>" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
-                </div>
-              </div>
-              <div class="ms-form-item -full">
-                <div class="ms-group-input">
-                  <label for="ms-friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <textarea id="ms-friend-comments" data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>" class="ib-metextarea" name="comments" placeholder="<?php echo __('Comments*', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?></textarea>
-                </div>
-              </div>
-              <div class="ms-wrapper-btn">
-                <button type="submit" class="ib-mgsubmit ms-btn" aria-label="Submit">
-                  <span><?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="ib-mmclose" role="button" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>"><span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-  </div>
-  <div class="ib-mmbg"></div>
-</div>-->
-
 <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
   <div class="ib-mmcontent">
     <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG); ?> </span><span class="ib-mssucces ib-mstxt"><?php echo __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
@@ -437,6 +369,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
   </div>
   <div class="ib-mmbg"></div>
 </div>
+-->
 
 <div class="ib-modal-master" data-id="save-search" id="ib-fsearch-save-modal">
   <div class="ib-mmcontent">
@@ -509,8 +442,21 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 										<div class="ms-wrapper">
 											<button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
 											<ul class="ms-share-list">
-                        <li class="ib-pscitem ib-psemailfriend" data-status="{{status_type}}" data-mls="{{mls_num}}" data-permalink="" data-lg="{{lng}}" data-lt="{{lat}}">
-                          <a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                        <li class="ib-pscitem ib-psemailfriend" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                          <a rel="nofollow" href="javascript:void(0)" 
+                          class="ib-psbtn showfriendEmail" 
+                          data-modal="modal_email_to_friend" 
+                          data-origin="1"
+                          data-media="{{ markClassActiveTab this }}"
+                          data-price="{{price}}{{ isRentalType this }}"
+                          data-beds="{{bed}}"
+                          data-baths="{{bath}}"
+                          data-sqft="{{sqft}}"
+                          data-address="{{address_short}}, {{address_large}}"
+                          data-lg="{{lng}}" 
+                          data-lt="{{lat}}">
+                            <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                          </a>
                         </li>
 												<li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
 												<li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
@@ -586,10 +532,23 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 																	<div class="ms-wrapper">
                                     <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
 																		<ul class="ms-share-list">
-																			<li class="ib-pscitem ib-psemailfriend" data-status="Active" data-mls="A11132797" data-permalink="">
-																				<a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend">Email to a friend</a>
-																			</li>
-																			<<li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                                      <li class="ib-pscitem ib-psemailfriend" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                                        <a rel="nofollow" href="javascript:void(0)" 
+                                        class="ib-psbtn showfriendEmail" 
+                                        data-modal="modal_email_to_friend" 
+                                        data-origin="1"
+                                        data-media="{{ markClassActiveTab this }}"
+                                        data-price="{{price}}{{ isRentalType this }}"
+                                        data-beds="{{bed}}"
+                                        data-baths="{{bath}}"
+                                        data-sqft="{{sqft}}"
+                                        data-address="{{address_short}}, {{address_large}}"
+                                        data-lg="{{lng}}" 
+                                        data-lt="{{lat}}">
+                                          <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                                        </a>
+                                      </li>
+																			<li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
 																			<li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsifb">Facebook</a></li>
 																			<li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsitw" data-address="13711 SW 84th St #E Miami, FL 33183" data-price="$320,000" data-type="Condominiums" data-rental="0" data-mls="A11132797">Twitter</a></li>
 																		</ul>
@@ -1391,14 +1350,21 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                 </div>
                 */ ?>
         <!--TYPE-->
-        <div class="ib-item-collapse">
+        <div class="ib-item-collapse -mb">
           <h2 class="ib-header-collapse"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
           <div class="ib-body-collpase">
             <div class="ib-wrap-fm">
-              <ul class="ib-wrap-fm ib-cl-1" id="ib-flex-m-types" style="max-height:218px;overflow-y:scroll;"></ul>
+              <ul class="ib-wrap-fm ib-cl-2" id="ib-flex-m-types" style="max-height:218px;overflow-y:scroll;"></ul>
             </div>
+            <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
+            <div class="ib-pending-contigent">
+              <input type="checkbox" id="pendingContigentMobile" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
+              <label for="pendingContigentMobile">Hide Pending / Contigent</label>
+            </div>
+            <?php endif; ?>
           </div>
         </div>
+
         <?php /*
                 <!--PARKING SPACES-->
                 <div class="ib-item-collapse">

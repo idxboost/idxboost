@@ -127,6 +127,12 @@
             <div class="ib-ficontent">
               <ul class="ib-wchecks ib-types-options" data-type="outer"></ul>
             </div>
+            <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
+            <div class="ib-pending-contigent">
+              <input type="checkbox" id="pendingContigentMin" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
+              <label class="ib-clabel" for="pendingContigentMin">Hide Pending / Contigent</label>
+            </div>
+            <?php endif; ?>
           </div>
         </li>
         <li class="ib-oitem ib-oadbanced">
@@ -293,11 +299,17 @@
                     <div class="ib-ficontent">
                       <ul class="ib-wchecks ib-types-options" data-type="inner"></ul>
                     </div>
+                    <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
+                    <div class="ib-pending-contigent">
+                      <input type="checkbox" id="pendingContigent" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
+                      <label class="ib-clabel" for="pendingContigent">Hide Pending / Contigent</label>
+                    </div>
+                    <?php endif; ?>
                   </div>
                   
-                  <!--LISTING STATUS (Desktop) -->
+                  <!--LISTING STATUS (Desktop) 
                   <?php if (isset($flex_idx_info['search']['idx_listings_type']) && 1 === $flex_idx_info['search']['idx_listings_type']): ?>
-                  <div class="ib-block-status-search-only ib-fitem -mp"><!--si lo quieres ocultar le pones la clase ms-hidden a este nivel-->
+                  <div class="ib-block-status-search-only ib-fitem -mp">
                     <div class="ib-fititle"><?php echo __('Listing Status', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     <div class="ib-ficontent">
                       <ul class="ib-wchecks ib-listing-status-options" data-type="inner">
@@ -306,7 +318,9 @@
                       </ul>
                     </div>
                   </div>
-                  <?php endif; ?>
+                  <?php endif; ?>-->
+
+
                 </div>
                 <div class="ib-fitem">
                   <div class="ib-fititle"><?php echo __('Features', IDXBOOST_DOMAIN_THEME_LANG); ?></div>

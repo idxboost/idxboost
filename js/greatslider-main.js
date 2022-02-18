@@ -278,8 +278,9 @@
 	/*----------------------------------------------------------------------------------*/
 	/* FULL MAP DETALLE DE PROPIEDAD
 	/*----------------------------------------------------------------------------------*/
-	var $fullSlider = $(".clidxboost-full-slider");
+	var $fullSlider = $(".clidxboost-full-slider").find("img");
 	if($fullSlider.length) {
+		$fullSlider = $(".clidxboost-full-slider");
 		const $totalItems = $fullSlider.find('.img-slider').length;
 		let $fsSlider = $fullSlider.greatSlider({
 			/*type: 'swipe',
@@ -353,7 +354,6 @@
 		    	}
 
 					// Creando la numeración en FS
-
 					/*var $ibmpNumbers = $("#full-slider").find('.ib-pvsinumber');
 					if (!$ibmpNumbers.length) {
 						$("#full-slider").find('.gs-container-items').append('<span class="ib-pvsinumber">' + ($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $("#full-slider").find('.ib-pvsitem').length + '</span>');
@@ -412,6 +412,39 @@
 				//}
 			}
 		});
+	}else{
+
+		if ($(".clidxboost-full-slider").length) {
+			if(!$("body").hasClass("flex-idx-building-template-default")){
+
+				var mapa = $("#map-result");
+				var lt = mapa.attr("data-lat");
+				var lg = mapa.attr("data-lng");
+	
+				if((lt.length > 0) && (lg.length > 0)){
+	
+					$("#full-slider").addClass("show-slider-psl active");
+				
+					var btnMap = $("#show-map");
+					var btnGalery = $("#show-gallery");
+					if(btnMap.length) {
+						btnMap.trigger("click");
+	
+						var parentExist = $("#full-main");
+						if(parentExist.length){
+							parentExist.find(".showfriendEmail").attr("data-media","ib-pva-map");
+						}
+					}
+		
+					if(btnGalery.length) {
+						btnGalery.css({"display":"none"});
+					}
+	
+				}else{
+					$("#full-slider").css({"display":"none"});
+				}
+			}
+		}
 	}
 
 	/*----------------------------------------------------------------------------------*/

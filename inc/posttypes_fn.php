@@ -77,6 +77,15 @@ if (!function_exists('flex_idx_setup_pages_fn')) {
 
 
         if (false == get_option('idxboost_dinamic_pages')) {
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'About Page',
+                'post_name' => 'about',
+                'post_content' => '[idxboost_about_page]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_about');
 
             $wp_flex_page = wp_insert_post(array(
                 'post_title' => 'Contact Page',
@@ -338,48 +347,89 @@ add_filter('single_template', 'function_single_sub_area');
 
 function function_idx_agent_page($single_template)
 {
-    global $post, $wp;
+    global $flex_idx_info, $post, $wp;
 
     if ($post->post_type == 'idx-agents') {
         $wp_request = $wp->request;
         $wp_request_exp = explode('/', $wp_request);
-        @list($agent_slug_name, $agent_page_name) = $wp_request_exp;
+        // print_r($wp_request_exp);exit;
+        // @list($agent_slug_name, $agent_page_name) = $wp_request_exp;
 
 
-        $flex_agent_id = get_post_meta($post->ID, '_flex_agent_id', true);
-        $flex_agent_slug = get_post_meta($post->ID, '_flex_agent_slug', true);
-        $flex_agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
+        // $flex_agent_id = get_post_meta($post->ID, '_flex_agent_id', true);
+        // $flex_agent_slug = get_post_meta($post->ID, '_flex_agent_slug', true);
+        // $flex_agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
 
-    
-        if (1 == count($wp_request_exp)) {
-            // for home and defaults
-            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';
-        } else {
-            switch ($agent_page_name) {
-                case 'search':
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-search.php';
-                    break;
+        if ($post->post_type == 'idx-agents') {
+            if (1 == count($wp_request_exp)) {
 
-                case 'listings':
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-listings.php';
-                    break;
-
-                case 'sold-listings':
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-sold-listings.php';
-                    break;
-
-                case 'about':
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-about.php';
-                    break;
-
-                case 'contact':
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-contact.php';
-                    break;
-
-                default:
-                    // for home and defaults
+                // For regular agent
+                if (
+                    isset($flex_idx_info['agent']['has_cms']) &&
+                    $flex_idx_info['agent']['has_cms'] &&
+                    isset($flex_idx_info['agent']['has_cms_team']) && 
+                    $flex_idx_info['agent']['has_cms_team'] &&
+                    isset($flex_idx_info['agent']['has_crm']) &&
+                    ! $flex_idx_info['agent']['has_crm']
+                ) {
+                    $single_template = FLEX_IDX_PATH . '/views/shortcode/idxboost-cms-page-agent.php';
+                } else {
+                    // For broker agent, home and defaults
                     $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';
-                    break;
+                }
+                
+            } else {
+                list($agent_slug_name, $agent_page_name) = $wp_request_exp;
+
+                if (3 === count($wp_request_exp)) {
+                    if ('property' === $agent_page_name) {
+                        $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-property.php';
+                    } else {
+                        $service_type = end($wp_request_exp);
+    
+                        switch($service_type) {
+                            case 'i-want-to-buy':
+                                $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-want-to-buy.php';
+                                break;
+                            case 'i-want-to-rent':
+                                $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-want-to-rent.php';
+                                break;
+                            case 'i-want-to-sell':
+                                $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-want-to-sell.php';
+                                break;
+                            case 'property-management':
+                                $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-property-management.php';
+                                break;
+                        }
+                    }
+                } else {
+                    switch ($agent_page_name) {
+                        case 'search':
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-search.php';
+                            break;
+        
+                        case 'featured-properties':
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-listings.php';
+                            break;
+        
+                        case 'recently-sold':
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-sold-listings.php';
+                            break;
+        
+                        case 'about':
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-about.php';
+                            break;
+        
+                        case 'contact':
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-contact.php';
+                            break;
+        
+                        default:
+                            // for home and defaults
+                            $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';
+                            break;
+                    }
+                }
             }
         }
     }

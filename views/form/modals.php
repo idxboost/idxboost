@@ -130,24 +130,24 @@ global $flex_idx_info, $flex_idx_lead;
             </div>
             <div class="form_content">
               <form id="formLogin" method="post">
-<fieldset>
+              <fieldset>
                   <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>                <input type="hidden" name="ib_tags" id="formLogin_ib_tags" value="">
                 <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
                 <input type="hidden" name="logon_type" value="email">
                 <input name="action" type="hidden" value="flex_idx_lead_signin">
                 <ul class="form_md" id="cntLoginForm">
                   <li class="form_input">
-		    <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+		                <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                     <input id="txt_user" autocomplete="disabled" autocorrect="off" autocapitalize="off" spellcheck="false" name="user_name" placeholder="<?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email" value="">
                   </li>
                   <li class="form_input">
-		    <label for="txt_pwd"><?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+		                <label for="txt_pwd"><?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                     <input id="txt_pwd" name="user_pass" autocomplete="new-password" placeholder="<?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="password" value="">
                     <span action="hide" class="showpassord"></span>
                   </li>
                 </ul>
                 <button class="btn_form" id="clidxboost-btn-user-login" type="submit"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-		</fieldset>
+		          </fieldset>
               </form>
             </div>
           </div>
@@ -163,8 +163,15 @@ global $flex_idx_info, $flex_idx_lead;
               <div id="push-registration">
 
                 <form id="formRegister" method="post" class="gtm_lead_registration">
-<fieldset>
-                    <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>                  <input type="hidden" name="ib_tags" id="formRegister_ib_tags" value="">
+                <?php
+                  global $agent_registration_key;
+
+                  if (isset($agent_registration_key)) : ?>
+                  <input type="hidden" name="registration_key" value="<?php echo $agent_registration_key; ?>">
+                <?php endif; ?>
+                <fieldset>
+                  <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
+                  <input type="hidden" name="ib_tags" id="formRegister_ib_tags" value="">
                   <input type="hidden" name="logon_type" id="formRegister_logonType" value="email">
                   <input type="hidden" name="register_password" id="formRegister_password" value="">
                   <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
@@ -311,7 +318,7 @@ global $flex_idx_info, $flex_idx_lead;
 
                   </ul>
                   <span id="agile-error-msg"></span>
-		</fieldset>
+                </fieldset>
                 </form>
               </div>
             </div>
@@ -327,7 +334,7 @@ global $flex_idx_info, $flex_idx_lead;
 
             <div class="form_content">
               <form  id="formReset" method="post" name="formReset">
-		<fieldset>
+		            <fieldset>
                   <legend><?php echo __('Reset password', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
                 <p id="ms-recovery-password-text"><?php echo __("Enter your email address and we'll send you a link to be able to change your password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
                 <p style="display: none" id="ms-new-password-text"><?php echo __("Enter your new password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
@@ -350,7 +357,7 @@ global $flex_idx_info, $flex_idx_lead;
 
                 <input name="action" class="action" type="hidden" value="flex_idx_lead_resetpass">
                 <input name="tokepa" class="tokepa" type="hidden" value="">
-		</fieldset>
+		            </fieldset>
               </form>
             </div>
           </div>
@@ -529,7 +536,7 @@ global $flex_idx_info, $flex_idx_lead;
         <div class="body_md">
           <div class="form_content">
             <form id="form-update-alert" method="POST">
-		<fieldset>
+		          <fieldset>
                 <legend><?php echo __('Save Search', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
               <div class="gform_body">
                 <ul class="gform_fields">
@@ -714,7 +721,7 @@ global $flex_idx_info, $flex_idx_lead;
     </div>
   </div>
 
-  <!-- SHARE TO FRIEND -->
+  <!-- SHARE TO FRIEND 
   <div class="overlay_modal" id="modal_email_to_friend">
     <div class="modal_cm">
       <button data-id="modal_email_to_friend" class="close close-modal" data-frame="modal_mobile"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
@@ -728,6 +735,12 @@ global $flex_idx_info, $flex_idx_lead;
           </p>
           <div class="form_content">
             <form id="form-email-friend" class="iboost-secured-recaptcha-form" method="post">
+            <?php
+                  global $agent_registration_key;
+
+                  if (isset($agent_registration_key)): ?>
+                  <input type="hidden" name="registration_key" value="<?php echo $agent_registration_key; ?>">
+                  <?php endif; ?>
               <?php
                 global $wp, $post;
                 $wp_request = $wp->request;
@@ -828,104 +841,71 @@ global $flex_idx_info, $flex_idx_lead;
     </div>
     <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_email_to_friend">
     </div>
-  </div>
+  </div>-->
 
-  <!--
-  <div class="overlay_modal" id="modal_email_to_friend">
-    <div class="modal_cm">
-      <div class="ms-wrapper-modal">
+  <div class="ib-modal-master" data-id="email-to-friend" id="ib-email-to-friend"
+    data-text-beds="<?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?>"
+    data-text-bath="<?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?>"
+    data-text-beds-full="<?php echo __("Bedrooms", IDXBOOST_DOMAIN_THEME_LANG); ?>"
+    data-text-year="<?php echo __("Year Built", IDXBOOST_DOMAIN_THEME_LANG); ?>"
+    data-text-address="<?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?>"
+    data-text-city="<?php echo __("City", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+    <div class="ib-mmcontent modal_cm">
+      <div class="ib-mwrapper ib-mgeneric ms-wrapper-modal">
         <div class="ms-modal-header">
           <span class="ms-title"><?php echo __("Email to a Friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
         </div>
         <div class="ms-modal-body">
-          <form id="form-email-friend" class="iboost-secured-recaptcha-form" method="post">
-            <?php
-              global $wp, $post;
-              $wp_request = $wp->request;
-              $wp_request_exp = explode('/', $wp_request);
-            ?>
-            <input type="hidden" name="share_permalink" value="<?php echo $flex_idx_info["website_url"]; ?>/<?php echo $wp_request; ?>">
-            <?php if (isset($wp_request_exp[0]) && $wp_request_exp[0] === 'building'): ?>
-              <input type="hidden" name="share_type" value="building">
-              <input type="hidden" name="building_ID" value="<?php echo get_post_meta(get_the_ID(), '_flex_building_page_id', true); ?>">
-            <?php elseif(isset($wp_request_exp[0]) && $wp_request_exp[0] === 'property'):
-              list($page, $slug) = $wp_request_exp;
-
-              if (strstr($slug, '-rx-')) {
-                $exp_slug = explode('-', $slug);
-                $mls_num  = 'rx-' . end($exp_slug);
-              } else {
-                $exp_slug = explode('-', $slug);
-                $mls_num  = end($exp_slug);
-              }
-
-              $type_lookup = 'active';
-
-              if (preg_match('/^[sold\-(.*)]+/', $slug)) {
-                $type_lookup = 'sold';
-              } else if (preg_match('/^[rent\-(.*)]+/', $slug)) {
-                $type_lookup = 'rent';
-              } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
-                $type_lookup = 'pending';
-              } else {
-                $type_lookup = 'active';
-              }
-            ?>
-            
-              <input type="hidden" name="share_type" value="property">
-              <input type="hidden" name="mls_number" value="<?php echo $mls_num; ?>">
-              <input type="hidden" name="status" value="">
-              <input type="hidden" name="type_property" value="<?php echo $type_lookup; ?>">
-            <?php endif; ?>
-            <input type="hidden" name="action" value="flex_share_with_friend">
-
+          <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
+            <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
             <div class="ms-flex">
               <div class="ms-form-item">
-                <div class="ms-wrapper-img" id="mfImg"></div>
+                <div class="ms-wrapper-img" id="mediaModal"></div>
               </div>
+
               <div class="ms-form-item">
-                <div class="ms-wrapper-details">
-                  <span class="ms-price-label"><span id="mfPrice">$0</span></span>
-                  <span class="ms-bed-label"><span id="mfBed">0</span> <?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ms-bath-label"><span id="mfBath">0</span> <?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ms-sqft-label"><span id="mfSqft">0</span> Sqft</span>
-                  <span class="ms-address-label"><span id="mfAddress">--</span></span>
-                </div>
+                <div class="ms-wrapper-details" id="msInfoPropertyModal"></div>
               </div>
+
               <div class="ms-form-item">
                 <div class="ms-group-input">
                   <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <label class="ms-hidden" for="ms-friend-email"><?php echo __("Friend&#039s email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="ms-friend-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="friend_email" placeholder="<?php echo __("Friend&#039s Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="" required>
+                  <label class="ms-hidden" for="friend-email"><?php echo __("Friend&#039s email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input class="ib-meinput" id="friend-email" name="friend_email" placeholder="<?php echo __("Friend&#039s Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="" required>
                 </div>
               </div>
+
               <div class="ms-form-item">
                 <div class="ms-group-input">
-                  <label class="ms-hidden" for="ms-friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="ms-friend-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="friend_name" placeholder="<?php echo __("Friend&#039s Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="" required>
+                  <label class="ms-hidden" for="friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <input class="ib-meinput" id="friend-name" name="friend_name" placeholder="<?php echo __("Friend&#039s Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="" required>
                 </div>
               </div>
+
               <div class="ms-form-item">
                 <div class="ms-group-input">
                   <label for="ms-your-email" class="ms-hidden"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="ms-your-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="your_email" placeholder="<?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
+                  <input class="ib-meinput" id="your-email" name="your_email" placeholder="<?php echo __("Your Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
                 </div>
               </div>
+
               <div class="ms-form-item">
                 <div class="ms-group-input">
                   <label for="ms-your-name" class="ms-hidden"><?php echo __("Enter your name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input id="ms-your-name" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" name="your_name" placeholder="<?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
+                  <input class="ib-meinput" id="your-name" name="your_name" placeholder="<?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
                 </div>
               </div>
+
               <div class="ms-form-item -full">
                 <div class="ms-group-input">
-                  <label for="ms-friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <textarea data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ms-friend-comments" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" cols="50" name="comments" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" type="text"><?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?></textarea>  
+                  <label for="friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                  <textarea class="ib-metextarea" id="friend-comments" name="comments" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>*" data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>"></textarea>
                 </div>
               </div>
+
               <div class="ms-wrapper-btn">
-                <button class="ms-btn" aria-label="Submit">
+                <button class="ms-btn ib-mgsubmit" aria-label="<?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?>" type="submit">
                   <span><?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                 </button>
               </div>
@@ -933,10 +913,18 @@ global $flex_idx_info, $flex_idx_lead;
           </form>
         </div>
       </div>
-      <button data-id="modal_email_to_friend" class="close close-modal" data-frame="modal_mobile"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?> <span></span></button>
+      <div class="ib-mmclose"><span class="ib-mmctxt"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
     </div>
-    <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_email_to_friend"></div>
-  </div>-->
+    <div class="ib-mmbg"></div>
+  </div>
+
+  <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
+    <div class="ib-mmcontent">
+      <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __("Email Sent", IDXBOOST_DOMAIN_THEME_LANG); ?>! </span><span class="ib-mssucces ib-mstxt"><?php echo __("Your email was sent succesfully", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+      <div class="ib-mmclose"><span class="ib-mmctxt"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+    </div>
+    <div class="ib-mmbg"></div>
+  </div>
 
   <!-- MORTGAGE CALCULATOR -->
   <div class="overlay_modal" id="modal_calculator">
@@ -1264,63 +1252,16 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
     $("#formRegister_password").val(_value);
   });
 
+  /*
+  $("#form-email-friend").on("submit", function(event) {
+      event.preventDefault();
 
+      var _self = $(this);
 
-    $("#form-email-friend").on("submit", function(event) {
-        event.preventDefault();
-
-        var _self = $(this);
-
-        if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-          if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-              // pending...
-          } else { // regular recaptcha
-            grecaptcha.ready(function() {
-                grecaptcha
-                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
-                .then(function(token) {
-                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-
-                    var formData = _self.serialize();
-                    var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
-
-                    if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
-                      var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
-                      var dataSubmit={
-                              access_token: __flex_g_settings.accessToken,
-                              flex_credentials: Cookies.get("ib_lead_token"),
-                              form_data: formData
-                          };
-                    }else{
-                      var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
-                      var dataSubmit=formData;
-                    }
-            
-                      $.ajax({
-                          type: "POST",
-                          url: shareWithFriendEndpoint,
-                          data: dataSubmit,
-                          success: function(response) {
-                              // ...
-                              _self.trigger('reset');
-                              $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
-                          },
-                          error: function() {
-                          _self.trigger('reset');
-                          $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
-                        }
-                      });
-
-                    // $(this).trigger("reset");
-                    // $('.close').click();
-                    $("#modal_email_to_friend").removeClass("active_modal");
-                    $("html").removeClass("modal_mobile");
-                    
-                    swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
-                });
-            });
-        }
-      } else { // regular recaptcha
+      if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+            // pending...
+        } else { // regular recaptcha
           grecaptcha.ready(function() {
               grecaptcha
               .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
@@ -1352,9 +1293,9 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                             $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
                         },
                         error: function() {
-                          _self.trigger('reset');
-                          $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
-                        }
+                        _self.trigger('reset');
+                        $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                      }
                     });
 
                   // $(this).trigger("reset");
@@ -1366,79 +1307,127 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
               });
           });
       }
+    } else { // regular recaptcha
+        grecaptcha.ready(function() {
+            grecaptcha
+            .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+            .then(function(token) {
+                _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
 
-        // var formData = $(this).serialize();
-        // var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
+                var formData = _self.serialize();
+                var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
 
-        // if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
-        //   var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
-        //   var dataSubmit={
-        //           access_token: __flex_g_settings.accessToken,
-        //           flex_credentials: Cookies.get("ib_lead_token"),
-        //           form_data: formData
-        //       };
-        // }else{
-        //   var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
-        //   var dataSubmit=formData;
-        // }
- 
-        //   $.ajax({
-        //       type: "POST",
-        //       url: shareWithFriendEndpoint,
-        //       data: dataSubmit,
-        //       success: function(response) {
-        //           // ...
-        //       }
-        //   });
-
-        // $(this).trigger("reset");
-        // // $('.close').click();
-        // $("#modal_email_to_friend").removeClass("active_modal");
-        // $("html").removeClass("modal_mobile");
-        
-        // swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
-    });
-
-    $(".property-detail-share-fb").on("click", function(event) {
-        event.preventDefault();
-
-        console.log('sharing fb url');
-
-        var og_url = $(this).data('share-url');
-        var og_title = $(this).data('share-title');
-        var og_description = $(this).data('share-description');
-        var og_image = $(this).data('share-image');
-
-        FB.ui({
-            method: 'share_open_graph',
-            action_type: 'og.shares',
-            action_properties: JSON.stringify({
-                object : {
-                   'og:url': og_url, // your url to share
-                   'og:title': og_title,
-                   'og:description': og_description,
-                   'og:image': og_image
+                if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
+                  var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+                  var dataSubmit={
+                          access_token: __flex_g_settings.accessToken,
+                          flex_credentials: Cookies.get("ib_lead_token"),
+                          form_data: formData
+                      };
+                }else{
+                  var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
+                  var dataSubmit=formData;
                 }
-            })
+        
+                  $.ajax({
+                      type: "POST",
+                      url: shareWithFriendEndpoint,
+                      data: dataSubmit,
+                      success: function(response) {
+                          // ...
+                          _self.trigger('reset');
+                          $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                      },
+                      error: function() {
+                        _self.trigger('reset');
+                        $('#form-email-friend').find('input[name="recaptcha_response"]').remove();
+                      }
+                  });
+
+                // $(this).trigger("reset");
+                // $('.close').click();
+                $("#modal_email_to_friend").removeClass("active_modal");
+                $("html").removeClass("modal_mobile");
+                
+                swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
+            });
         });
-    });
+    }
+
+      // var formData = $(this).serialize();
+      // var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
+
+      // if (mlsNumber!=undefined && mlsNumber !='' && mlsNumber!="undefined") {
+      //   var shareWithFriendEndpoint = __flex_g_settings.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+      //   var dataSubmit={
+      //           access_token: __flex_g_settings.accessToken,
+      //           flex_credentials: Cookies.get("ib_lead_token"),
+      //           form_data: formData
+      //       };
+      // }else{
+      //   var shareWithFriendEndpoint = __flex_g_settings.ajaxUrl;
+      //   var dataSubmit=formData;
+      // }
+
+      //   $.ajax({
+      //       type: "POST",
+      //       url: shareWithFriendEndpoint,
+      //       data: dataSubmit,
+      //       success: function(response) {
+      //           // ...
+      //       }
+      //   });
+
+      // $(this).trigger("reset");
+      // // $('.close').click();
+      // $("#modal_email_to_friend").removeClass("active_modal");
+      // $("html").removeClass("modal_mobile");
+      
+      // swal(word_translate.good_job, word_translate.your_message_has_been_sent, "success");
+  });
+  */
+
+  $(".property-detail-share-fb").on("click", function(event) {
+      event.preventDefault();
+
+      console.log('sharing fb url');
+
+      var og_url = $(this).data('share-url');
+      var og_title = $(this).data('share-title');
+      var og_description = $(this).data('share-description');
+      var og_image = $(this).data('share-image');
+
+      FB.ui({
+          method: 'share_open_graph',
+          action_type: 'og.shares',
+          action_properties: JSON.stringify({
+              object : {
+                  'og:url': og_url, // your url to share
+                  'og:title': og_title,
+                  'og:description': og_description,
+                  'og:image': og_image
+              }
+          })
+      });
+  });
 
 
-    $(".ms-skip").on("click", function() {
-      if ("yes" === __flex_g_settings.has_facebook_login_enabled) {
-        if ($("#__signup_fb_phone").is(":visible")) {
-          alert("Please provide a phone number.");
-          return;
-        }
+  $(".ms-skip").on("click", function() {
+    if ("yes" === __flex_g_settings.has_facebook_login_enabled) {
+      if ($("#__signup_fb_phone").is(":visible")) {
+        alert("Please provide a phone number.");
+        return;
       }
+    }
 
-      if ($(this).hasClass('ms-close-step')) {
-        $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
-      } else {
-        $("#ib-push-registration-quizz-ct .facebook-registration").removeClass('ib-active').css({'display':'none'});
-        $("#ib-push-registration-quizz-ct .ib-pr-step").eq(0).addClass('ib-active active');
-      }
-    });
+    if ($(this).hasClass('ms-close-step')) {
+      $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
+    } else {
+      $("#ib-push-registration-quizz-ct .facebook-registration").removeClass('ib-active').css({'display':'none'});
+      $("#ib-push-registration-quizz-ct .ib-pr-step").eq(0).addClass('ib-active active');
+    }
+  });
+  
 });
 
 })(jQuery);
@@ -1511,7 +1500,8 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
                     user_info: google_user_info,
                     logon_type: "google",
                     action: "flex_idx_lead_signin",
-                    ib_tags: jQuery("formRegister_ib_tags").val()
+                    ib_tags: jQuery("formRegister_ib_tags").val(),
+                    registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null                    
                 },
                 dataType: "json",
                 success: function(response) {
@@ -1891,7 +1881,8 @@ function fb_login() {
                         __property_signup_price: jQuery('.ib_property_signup_price:eq(0)').val(),
                         source_registration_title: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? IB_SEARCH_FILTER_PAGE_TITLE : null,
                         source_registration_url: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? location.href : null,
-                        ib_tags: jQuery("formRegister_ib_tags").val()
+                        ib_tags: jQuery("formRegister_ib_tags").val(),
+                        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
                     },
                     dataType: "json",
                     success: function(response) {

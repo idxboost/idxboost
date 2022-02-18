@@ -1,7 +1,10 @@
 <article class="ib-form-buyandsell">
   <img class="ib-form-bg" src="/" alt="<?php echo __("What are you looking to rent?", IDXBOOST_DOMAIN_THEME_LANG); ?>">
   <form class="ib-fbscontainer gtm_i_want_to_rent iboost-secured-recaptcha-form" method="post" id="lead_submission_rent_form">
-    <input type="hidden" name="ib_tags" value="">
+  <?php if (!empty($atts['registration_key'])): ?>
+    <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
+    <?php endif; ?> 
+  <input type="hidden" name="ib_tags" value="">
 
 <fieldset>
       <legend><?php echo __("What are you looking to rent?", IDXBOOST_DOMAIN_THEME_LANG); ?></legend>

@@ -1,5 +1,6 @@
 var initial_title;
 var initial_href;
+var dataAlert;
 
 if (typeof originalPositionY === "undefined") {
 	var originalPositionY;
@@ -4765,7 +4766,7 @@ function saveFilterSearchForLead() {
 				search_count: search_count,
 				search_condition: search_condition,
 				search_name: search_name,
-				search_params: search_filter_params
+				search_params: JSON.stringify(dataAlert.params)
 			},
 			success: function(response) {
 				// console.log("The search filter has been saved successfully.");
@@ -4834,6 +4835,8 @@ function handleFilterSearchLookup(event) {
 			}
 
 			ib_xhr_running = false;
+
+			dataAlert=response;
 
 			// dataLayer Tracking Collection
 			if (typeof dataLayer !== "undefined") {
@@ -5071,6 +5074,20 @@ function handleFilterSearchLookup(event) {
 			IB_SEARCH_FILTER_FORM.find('[name="max_year"]').val(params.max_year);
 			IB_SEARCH_FILTER_FORM.find('[name="sort_type"]').val(params.sort_type);
 			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(params.currentpage);
+
+			if (params.hasOwnProperty('overwrite_show_hide_pending')) {
+				IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val(params.overwrite_show_hide_pending);
+
+				if ('yes' === params.overwrite_show_hide_pending) {
+					$("#pendingContigentMin").prop("checked", true);
+					$("#pendingContigent").prop("checked", true);
+					$("#pendingContigentMobile").prop("checked", true);
+				} else {
+					$("#pendingContigentMin").prop("checked", false);
+					$("#pendingContigent").prop("checked", false);
+					$("#pendingContigentMobile").prop("checked", false);
+				}
+			}
 
 			if (params.hasOwnProperty("property_type")) {
 				// if (Array.isArray(params.property_type)) {
@@ -6437,7 +6454,7 @@ $(function () {
 				urlParams.delete("show");
 	
 				if ("" === urlParams.toString()) {
-					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+					history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
 				} else {
 					history.pushState(null, null, '?' + urlParams.toString());
 				}
@@ -6474,7 +6491,7 @@ $(function () {
 			var search_filter_params = IB_SEARCH_FILTER.attr("data-params");
 			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
 			var formData = $(this).serialize();
-			formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+search_filter_params+'&search_filter_ID='+search_filter_ID;
+			formData=formData+'&search_url='+search_url+'&search_count='+search_count+'&search_condition='+search_condition+'&search_filter_params='+JSON.stringify(dataAlert.params)+'&search_filter_ID='+search_filter_ID+'&type_filter=search_commercial_filter';
 
 			var search_filter_ID = IB_SEARCH_FILTER.data("filter-id");
 			if ("no" === __flex_g_settings.anonymous) {
@@ -7008,6 +7025,52 @@ $(function () {
 		});
 	}
 
+	// handle hide pending contingent
+	$("#pendingContigentMin").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigent").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigentMin").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigentMobile").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMin").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
 	if (IB_CLEAR_BTN.length) {
 		IB_CLEAR_BTN.on("click", function() {
 			location.href = __flex_idx_search_filter.searchFilterPermalink;
@@ -7149,7 +7212,7 @@ $(function () {
 		// refresh page
 		$("#ib-apply-clear").on("click", function() {
 			window.scrollTo(0,0);
-			location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+			location.href = __flex_idx_search_filter.searchFilterPermalink;
 		});
 
 		// hide more filter [mobile]

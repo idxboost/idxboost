@@ -608,7 +608,7 @@ function validate_price(evt) {
       }
     });
 
-		//MODAL EMAIL TO A FRIEND ACTUAL
+
 		$(document).on('click', '.show-modal', function () {
 			var $idModal = $(this).attr('data-modal'); //Identificador del Modal a mostrar
 			var $positionModal = $(this).attr('data-position'); //Posición en la que se encuentra el Modal
@@ -633,53 +633,89 @@ function validate_price(evt) {
 			if (typeof (mapImg) != 'undefined') {
 				$("#min-map").css("background-image", "url('" + mapImg + "')").removeAttr("data-map-img");
 			}
-
-			/*if($idModal == "modal_email_to_friend"){
-				var urlSite = window.location.hostname;
-				var imgProp = $("#full-slider .gs-wrapper-content:first-child").html();
-				var itemPrice = $(".ib-price-calculator").attr("data-price");
-				var itemBeds = $(".ib-pilbeds .ib-pilnumber").html();
-				var itemBaths = $(".ib-pilbaths .ib-pilnumber").html();
-				var itemSqft = $(".ib-pilsize .ib-pilnumber").html();
-				var itemAddress = itemAddress = $(".ib-wrapper-top-map .ib-ptitle").html()+", "+$(".ib-wrapper-top-map .ib-pstitle").html();
-				var itemComment = $("#ms-friend-comments").attr("data-comment")+" "+urlSite+": "+itemAddress;
-
-				var itemLg = $(this).attr("data-lg");
-				var itemLt = $(this).attr("data-lt");
-
-				if(imgProp === undefined){
-					var myLatLng  = {
-						lat: parseFloat(itemLt),
-						lng: parseFloat(itemLg)
-					};
-					var map = new google.maps.Map(document.getElementById('mfImg'), {
-						zoom: 18,
-						center: myLatLng,
-						styles: style_map,
-						gestureHandling: 'cooperative',
-						panControl: false,
-						scrollwheel: false,
-						disableDoubleClickZoom: true,
-						disableDefaultUI: true,
-						streetViewControl: true,
-					});
-					var marker = new google.maps.Marker({
-						position: myLatLng,
-						map: map
-					});
-
-				}else if(imgProp !== ""){
-					$("#mfImg").html(imgProp);
-				}
-
-				$("#mfPrice").html(itemPrice);
-				$("#mfBed").html(itemBeds);
-				$("#mfBath").html(itemBaths);
-				$("#mfSqft").html(itemSqft);
-				$("#mfAddress").html(itemAddress);
-				$("#ms-friend-comments").val(itemComment);
-			}*/
 		});
+
+		/*==================================================*/
+		/*=============== EMAIL TO A FRIEND ================*/
+		/*==================================================*/
+		$(document).on("click", ".showfriendEmail", function () {
+
+			var imgProp = "";
+
+			//RECUPERANDO VALORES DE CONSULTA
+			var itemLg = $(this).attr("data-lg");
+			var itemLt = $(this).attr("data-lt");
+			var modalOrigin =  $(this).attr("data-origin");
+			var mediaElement = $(this).attr("data-media");
+
+			//RECUPERAMOS LOS TEXTOS
+			var textBeds = $("#ib-email-to-friend").attr("data-text-beds");
+			var textBath = $("#ib-email-to-friend").attr("data-text-bath");
+			var textYear = $("#ib-email-to-friend").attr("data-text-year");
+			var textCity = $("#ib-email-to-friend").attr("data-text-city");
+			var textAddress = $("#ib-email-to-friend").attr("data-text-address");
+			var textBedsFull = $("#ib-email-to-friend").attr("data-text-beds-full");
+			
+			//FORMATO DEL BLOQUE MEDIA (IMAGEN O MAPA)
+			switch (mediaElement) {
+				case 'ib-pva-photos':
+					imgProp = $(this).parents("#full-main").find("#full-slider .gs-wrapper-content:first-child").html();
+					if(imgProp === undefined){
+						imgProp = $(this).parents("#flex_idx_modal_wrapper").find(".ib-modal-master .ib-property-detail .ib-pvslider .gs-item-slider:first-child").html();
+					}
+					$("#mediaModal").html(imgProp);
+					break;
+		
+				case 'ib-pva-map':
+					loadMapModal(itemLt,itemLg);
+					break;
+			}
+		
+			//FORMATO DE LA INFORMACION A MOSTRAR
+			switch (modalOrigin) {
+				case '1':
+					//RECUPERAMOS LAS VARIABLES
+					var itemPrice = $(this).attr("data-price");
+					var itemBeds = $(this).attr("data-beds");
+					var itemBaths = $(this).attr("data-baths");
+					var itemSqft = $(this).attr("data-sqft");
+					var itemAddress = $(this).attr("data-address");
+		
+					//GENERAMOS LA INFORMACION DE LA PROPIEDAD
+					$("#msInfoPropertyModal").html(
+						'<span class="ms-price-label"><span>'+itemPrice+'</span></span>'+
+						'<span class="ms-bed-label"><span>'+itemBeds+'</span>&nbsp;'+textBeds+'</span>'+
+						'<span class="ms-bath-label"><span>'+itemBaths+'</span>&nbsp;'+textBath+'</span>'+
+						'<span class="ms-sqft-label"><span>'+itemSqft+'</span> Sqft</span>'+
+						'<span class="ms-address-label"><span>'+itemAddress+'</span></span>'
+					);
+
+					$("#friend-comments").val($("#friend-comments").attr("data-comment")+" "+window.location.hostname+": "+itemAddress);
+				break;
+		
+				case '2':
+		
+					//RECUPERAMOS LAS VARIABLES
+					var itemName = $(this).attr("data-property");
+					var itemBeds = $(this).attr("data-beds");
+					var itemYear = $(this).attr("data-year");
+					var itemCity = $(this).attr("data-city");
+					var itemAddress = $(this).attr("data-address");
+		
+					//GENERAMOS LA INFORMACION DE LA PROPIEDAD
+					$("#msInfoPropertyModal").html(
+						'<span class="ms-price-label"><span>'+itemName+'</span></span>'+
+						'<span class="ms-bed-label">'+textBedsFull+':&nbsp;<span>'+itemBeds+'</span></span>'+
+						'<span class="ms-bed-label">'+textYear+':&nbsp;<span>'+itemYear+'</span></span>'+
+						'<span class="ms-bed-label">'+textAddress+':&nbsp;<span>'+itemAddress+'</span></span>'+
+						'<span class="ms-bed-label">'+textCity+':&nbsp;<span>'+itemCity+'</span></span>'
+					);
+
+					$("#friend-comments").val($("#friend-comments").attr("data-comment")+" "+window.location.hostname+": "+itemAddress);
+				break;
+			}
+		});
+		
 
 		// handle socket auth
 		/*
@@ -2847,3 +2883,28 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 	});
 
 })(jQuery);
+
+function loadMapModal(itemLt,itemLg){
+
+	console.log("itemLt="+itemLt+"/itemLg="+itemLg);
+
+	var myLatLng  = {
+		lat: parseFloat(itemLt),
+		lng: parseFloat(itemLg)
+	};
+	var map = new google.maps.Map(document.getElementById('mediaModal'), {
+		zoom: 18,
+		center: myLatLng,
+		styles: style_map,
+		gestureHandling: 'cooperative',
+		panControl: false,
+		scrollwheel: false,
+		disableDoubleClickZoom: true,
+		disableDefaultUI: true,
+		streetViewControl: true,
+	});
+	var marker = new google.maps.Marker({
+		position: myLatLng,
+		map: map
+	});
+}

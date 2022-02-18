@@ -146,6 +146,7 @@ function get_data_info(){
 				action: "ib_slider_filter_regular",
 				type_filter: itemFilter.ib_type_filter,
 				id_filter:itemFilter.ib_id_filter,
+        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null,
         limit:itemFilter.limit
 			},
 			dataType: "json",
@@ -163,9 +164,7 @@ function get_data_info(){
 				response.items.forEach(function(item){
 					html_exclusive_listing.push(idx_slider_html(item,'exclusve',vboard_info));
 					html_listing.push(idx_slider_html(item,'exclusve',vboard_info));
-				});	
-
-        //console.log(html_listing);
+				});
         
 				if (html_listing.length>0){
 					$(itemFilter.obj_container).html(html_listing.join(' ')).ready(function(){ idxboostTypeIcon(); });
@@ -240,14 +239,31 @@ function idx_slider_html(info_item,type,vboard_info){
 
                 if (info_item.status!='2') {
 	                if (info_item.is_favorite==1){
-	                	html_response.push('<button class="clidxboost-btn-check" aria-label="Remove '+info_item.address_short+' of Favorites"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
+                    if (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") {
+                      html_response.push('<button class="clidxboost-btn-check" aria-label="Remove '+info_item.address_short+' of Favorites"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-registration-key="'+IB_AGENT_REGISTRATION_KEY+'" data-alert-token="'+info_item.token_alert+'"></span></button>');
+                    } else {
+                      html_response.push('<button class="clidxboost-btn-check" aria-label="Remove '+info_item.address_short+' of Favorites"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
+                    }
+	                	//html_response.push('<button class="clidxboost-btn-check" aria-label="Remove '+info_item.address_short+' of Favorites"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
 	                }else{
-	                	html_response.push('<button class="clidxboost-btn-check" aria-label="Add '+info_item.address_short+' to Favorite"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
+                    if (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") {
+                      html_response.push('<button class="clidxboost-btn-check" aria-label="Add '+info_item.address_short+' to Favorite"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list" data-registration-key="'+IB_AGENT_REGISTRATION_KEY+'"></span></button>');
+
+                    } else {
+                      html_response.push('<button class="clidxboost-btn-check" aria-label="Add '+info_item.address_short+' to Favorite"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
+
+                    }
+	                	// html_response.push('<button class="clidxboost-btn-check" aria-label="Add '+info_item.address_short+' to Favorite"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
 	                }
                 }
                 
               html_response.push('</div>');
-              html_response.push('<a class="ib-view-detailt" href="'+slug_post+'" rel="nofollow">'+word_translate.details+' of '+info_item.address_short+'</a>');
+              if (typeof IB_AGENT_PERMALINK !== "undefined") {
+                html_response.push('<a class="ib-view-detailt" href="'+IB_AGENT_PERMALINK+'/property/'+ info_item.slug +'" rel="nofollow">'+word_translate.details+' of '+info_item.address_short+'</a>');
+              } else {
+                html_response.push('<a class="ib-view-detailt" href="'+slug_post+'" rel="nofollow">'+word_translate.details+' of '+info_item.address_short+'</a>');
+              }
+              // html_response.push('<a class="ib-view-detailt" href="'+slug_post+'" rel="nofollow">'+word_translate.details+' of '+info_item.address_short+'</a>');
             html_response.push('</li>');
           html_response.push('</ul>');
           return html_response.join('');
@@ -356,7 +372,8 @@ $(document).ready(function(event){
                             mls_num: mls_num,
                             subject:property_subject,
                             search_url: window.location.href,
-                            type_action: 'add'
+                            type_action: 'add',
+                            registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
                         },
                         dataType: "json",
                         success: function(data) {
@@ -374,7 +391,8 @@ $(document).ready(function(event){
                             class_id: class_id,
                             mls_num: mls_num,
                             type_action: 'remove',
-                            token_alert: token_alert
+                            token_alert: token_alert,
+                            registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
                         },
                         dataType: "json",
                         success: function(data) {

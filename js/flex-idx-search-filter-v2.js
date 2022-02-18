@@ -202,6 +202,10 @@ Handlebars.registerHelper("idxFavoriteClass", function(property) {
 });
 
 Handlebars.registerHelper("idxPermalinkModal", function(slug) {
+	if (typeof IB_AGENT_PERMALINK !== "undefined") {
+		return IB_AGENT_PERMALINK + "/property/" + slug;
+	}
+
 	return __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + slug;
 });
 
@@ -330,22 +334,46 @@ Handlebars.registerHelper('idxSliderLoop', function(property) {
 });
 
 Handlebars.registerHelper('propertyPermalink', function(slug) {
+	if (typeof IB_AGENT_PERMALINK !== "undefined") {
+		return IB_AGENT_PERMALINK + "/property/" + slug;
+	}
+
 	return __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + slug;
 });
 
 Handlebars.registerHelper('agentPhoto', function(property) {
+	if (typeof IB_AGENT_AVATAR_IMAGE !== "undefined") {
+		if (IB_AGENT_AVATAR_IMAGE.length) {
+			return IB_AGENT_AVATAR_IMAGE;
+		} else {
+			return 'https://idxboost-spw-assets.idxboost.us/photos/avatar.jpg';
+		}
+	}
+
 	return __flex_idx_search_filter_v2.agentPhoto;
 });
 
 Handlebars.registerHelper('agentFullName', function(property) {
+	if (typeof IB_AGENT_FULL_NAME !== "undefined") {
+		return IB_AGENT_FULL_NAME;
+	}
+
 	return __flex_idx_search_filter_v2.agentFullName;
 });
 
 Handlebars.registerHelper('agentPhoneNumber', function(property) {
+	if (typeof IB_AGENT_PHONE_NUMBER !== "undefined") {
+		return IB_AGENT_PHONE_NUMBER.replace(/[^\d+]/g, "");;
+	}
+
 	return __flex_idx_search_filter_v2.agentPhone.replace(/[^\d+]/g, "");
 });
 
 Handlebars.registerHelper('agentPhone', function(property) {
+	if (typeof IB_AGENT_PHONE_NUMBER !== "undefined") {
+		return IB_AGENT_PHONE_NUMBER;
+	}
+
 	return __flex_idx_search_filter_v2.agentPhone;
 });
 
@@ -1292,7 +1320,8 @@ function loadPropertyInModal(mlsNumber) {
 		url: viewListingDetailEndpoint,
 		data: {
 			access_token: IB_ACCESS_TOKEN,
-			flex_credentials: Cookies.get("ib_lead_token")
+			flex_credentials: Cookies.get("ib_lead_token"),
+			registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 		},
 		success: function(response) {
 			if (response.hasOwnProperty('price')) {
@@ -1340,7 +1369,12 @@ function loadPropertyInModal(mlsNumber) {
 			
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
-			IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + response.slug);
+			if (typeof IB_AGENT_PERMALINK !== "undefined") {
+				IB_TRACKING_IFRAME.setAttribute("src", IB_AGENT_PERMALINK + "/property/" + response.slug);
+			} else {
+				IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + response.slug);
+			}
+			// IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + response.slug);
 			IB_TRACKING_IFRAME.style.width = "1px";
 			IB_TRACKING_IFRAME.style.height = "1px";
 			document.body.appendChild(IB_TRACKING_IFRAME);
@@ -1712,7 +1746,12 @@ function loadPropertyInModal(mlsNumber) {
 				//if ('share' in navigator) { // for mobile
 				if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 					document.title = 'Checkout this property #' + response.mls_num + ' ' + response.address_short + ' ' + response.address_large;
-					history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+					if (typeof IB_AGENT_PERMALINK !== "undefined") {
+						history.pushState(null, null, IB_AGENT_PERMALINK + "/property/" + response.slug);
+					} else {
+						history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
+					}
+					// history.pushState(null, null, __flex_g_settings.propertyDetailPermalink + "/" + response.slug);
 				} else { // for desktop
 					var urlParams = new URLSearchParams(window.location.search);
 					urlParams.set("show", response.mls_num);
@@ -1864,7 +1903,8 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
 			flex_credentials: Cookies.get("ib_lead_token"),
 			url_origin: location.origin,
 			url_referer: document.referrer,
-			user_agent: navigator.userAgent
+			user_agent: navigator.userAgent,
+			registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
 		},
 		success: function(response) {
 			if ("add" === response.type) {
@@ -3267,6 +3307,52 @@ function buildSearchFilterForm() {
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
 
+	// handle hide pending contingent
+	$("#pendingContigentMin").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigent").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigentMin").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigentMobile").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMin").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
 	if (IB_LB_TYPES_OPTIONS.length) {
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
 			for (var i = 0, l = __flex_idx_search_filter_v2.search.property_types.length; i < l; i++) {
@@ -4194,6 +4280,20 @@ function handleFilterSearchLookup(event) {
 			IB_SEARCH_FILTER_FORM.find('[name="sort_type"]').val(params.sort_type);
 			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(params.currentpage);
 
+			if (params.hasOwnProperty('overwrite_show_hide_pending')) {
+				IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val(params.overwrite_show_hide_pending);
+
+				if ('yes' === params.overwrite_show_hide_pending) {
+					$("#pendingContigentMin").prop("checked", true);
+					$("#pendingContigent").prop("checked", true);
+					$("#pendingContigentMobile").prop("checked", true);
+				} else {
+					$("#pendingContigentMin").prop("checked", false);
+					$("#pendingContigent").prop("checked", false);
+					$("#pendingContigentMobile").prop("checked", false);
+				}
+			}
+
 			if (params.hasOwnProperty("property_type")) {
 				IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(params.property_type.join(","));
 			}
@@ -4417,9 +4517,11 @@ function handleFilterSearchLookup(event) {
 					initial_title = document.title;
 					initial_href = '?' + decodeURIComponent(slug);
 				} else {
-					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+					// history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
+					history.pushState(null, null, (typeof IB_AGENT_PERMALINK !== "undefined") ? (IB_AGENT_PERMALINK + '/search') : __flex_idx_search_filter_v2.searchFilterPermalink.searchFilterPermalink);
 					initial_title = document.title;
-					initial_href = __flex_idx_search_filter_v2.searchFilterPermalink;
+					initial_href = (typeof IB_AGENT_PERMALINK !== "undefined") ? (IB_AGENT_PERMALINK + '/search') : __flex_idx_search_filter_v2.searchFilterPermalink;
+					// initial_href = __flex_idx_search_filter_v2.searchFilterPermalink;
 				}
 			} else {
 				initial_title = document.title;
@@ -4448,6 +4550,13 @@ function handleFilterSearchLookup(event) {
 					mapTypeControlOptions: {
 						position: google.maps.ControlPosition.RIGHT_TOP,
 					}*/
+				});
+
+				IB_MAP.addListener("bounds_changed", function() {
+					if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+					}
 				});
 
 				// idleListener = IB_MAP.addListener("idle", function() {
@@ -5854,7 +5963,12 @@ $(function () {
 
 	if (IB_CLEAR_BTN.length) {
 		IB_CLEAR_BTN.on("click", function() {
-			location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+			// location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+			if (typeof IB_AGENT_PERMALINK !== "undefined") {
+				location.href = IB_AGENT_PERMALINK + '/search';
+			} else {
+				location.href = (typeof IB_AGENT_PERMALINK !== "undefined") ? (IB_AGENT_PERMALINK + '/search') : __flex_idx_search_filter_v2.searchFilterPermalink;
+			}
 		});
 	}
 
@@ -5983,7 +6097,8 @@ $(function () {
 				});
 				setTimeout(function () { $("#flex_idx_search_filter_form").trigger("submit"); }, 250);
 			} else {
-				location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+				// location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
+				location.href = (typeof IB_AGENT_PERMALINK !== "undefined") ? (IB_AGENT_PERMALINK + '/search') : __flex_idx_search_filter_v2.searchFilterPermalink;
 			}
 		});
 

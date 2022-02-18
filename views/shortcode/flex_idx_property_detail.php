@@ -198,8 +198,21 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                   <div class="ms-wrapper">
                     <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                     <ul class="ms-share-list">
-                      <li class="ib-pscitem ib-psemailfriend">
-                        <a href="javascript:void(0)" class="ib-psbtn show-modal" data-modal="modal_email_to_friend" rel="nofollow" data-lg="<?php echo $property['lng']; ?>" data-lt="<?php echo $property['lat']; ?>"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                      <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                        <a rel="nofollow" href="javascript:void(0)" 
+                          class="ib-psbtn showfriendEmail" 
+                          data-modal="modal_email_to_friend" 
+                          data-origin="1"
+                          data-media="ib-pva-photos"
+                          data-price="$<?php echo number_format($property['price']); ?>"
+                          data-beds="<?php echo $property['bed']; ?>"
+                          data-baths="<?php echo $property['bath']; ?>"
+                          data-sqft="<?php echo number_format($property['sqft']); ?>"
+                          data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                          data-lg="<?php echo $property['lng']; ?>" 
+                          data-lt="<?php echo $property['lat']; ?>">
+                            <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                        </a>
                       </li>
                       <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                       <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Faceboook</a></li>
@@ -216,9 +229,15 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                 <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
                   <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
                 </a>
-                <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>" class="btn link-search clidxboost-icon-search">
-                <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                </a>
+                <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
+            <a href="<?php echo $agent_permalink; ?>/search" class="btn link-search clidxboost-icon-search">
+            <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </a>
+          <?php else: ?>
+            <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>" class="btn link-search clidxboost-icon-search">
+            <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </a>
+          <?php endif; ?>
                 <?php if (1 == $property['status']): ?>
                 <?php if ($property['is_favorite']): ?>
                 <button class="chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
@@ -404,8 +423,21 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                       <div class="ms-wrapper">
                         <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                         <ul class="ms-share-list">
-                          <li class="ib-pscitem ib-psemailfriend">
-                            <a href="javascript:void(0)" class="ib-psbtn show-modal" data-modal="modal_email_to_friend" rel="nofollow"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                          <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                            <a rel="nofollow" href="javascript:void(0)" 
+                              class="ib-psbtn showfriendEmail" 
+                              data-modal="modal_email_to_friend" 
+                              data-origin="1"
+                              data-media="ib-pva-photos"
+                              data-price="$<?php echo number_format($property['price']); ?>"
+                              data-beds="<?php echo $property['bed']; ?>"
+                              data-baths="<?php echo $property['bath']; ?>"
+                              data-sqft="<?php echo number_format($property['sqft']); ?>"
+                              data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                              data-lg="<?php echo $property['lng']; ?>" 
+                              data-lt="<?php echo $property['lat']; ?>">
+                                <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                            </a>
                           </li>
                           <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                           <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Faceboook</a></li>
@@ -845,7 +877,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                        <?php if( !empty($property["lot_size"])){ ?>
                                        <li>
                                           <span class="ib-plist-st"><?php echo __("Aprox. Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt"><?php echo $property["lot_size"]; ?></span>
+                                          <span class="ib-plist-pt"><?php echo number_format($property["lot_size"]); ?></span>
                                        </li>      
                                        <?php } ?>                                                                     
                                        <?php if (is_array($more_info_property) && array_key_exists("architectural_style", $more_info_property) && !empty($more_info_property["architectural_style"])) { ?>
@@ -1043,7 +1075,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                        </li>
                                          <li>
                                             <span class="ib-plist-st"><?php echo __("Tax Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                            <span class="ib-plist-pt"><?php echo "$".$property["tax_amount"]; ?></span>
+                                            <span class="ib-plist-pt"><?php echo "$".number_format($property["tax_amount"]); ?></span>
                                          </li>
                                        <?php if (is_array($more_info_property) && array_key_exists("tax_information", $more_info_property) && !empty($more_info_property["tax_information"])) { ?>
                                        <li>
@@ -1127,9 +1159,15 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                           <li>
                             <article>
                               <h3 class="ms-title">
-                                <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>" title="<?php echo str_replace('# ', '#', $rel_item['address_short']); ?>">
-                                <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>
-                                </a>
+                              <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
+                        <a href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>" title="<?php echo str_replace('# ', '#', $rel_item['address_short']); ?>">
+                          <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>
+                        </a>
+                      <?php else: ?>
+                        <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>" title="<?php echo str_replace('# ', '#', $rel_item['address_short']); ?>">
+                          <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>
+                        </a>
+                      <?php endif; ?>
                               </h3>
                               <ul>
                                 <li class="address"><span><?php echo $rel_item['address_large']; ?></span></li>
@@ -1146,9 +1184,15 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                 <li> <span><?php echo $rel_item['bath']; ?><?php if ($rel_item['baths_half'] > 0) : ?>.5<?php endif; ?></span> <?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                                 <li> <span><?php echo number_format($rel_item['sqft']); ?> </span><?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
                               </ul>
-                              <a class="layout-img" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
-                              <img class="lazy-img" data-src="<?php echo $rel_item['gallery'][0]; ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
-                              </a>
+                              <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
+                        <a class="layout-img" href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>">
+                        <img class="lazy-img" data-src="<?php echo $rel_item['gallery'][0]; ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
+                      </a>
+                      <?php else: ?>
+                      <a class="layout-img" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
+                        <img class="lazy-img" data-src="<?php echo $rel_item['gallery'][0]; ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
+                      </a>
+                      <?php endif; ?>
                             </article>
                           </li>
                           <?php endforeach; ?>
@@ -1726,7 +1770,102 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
         e.preventDefault();
         $("body").removeClass("ms-active-aside-form");
       });
-  
+
+      /**********************************/
+      jQuery(document).on("click", "#ib-email-to-friend .ib-mmclose", function() {
+        jQuery("#ib-email-to-friend").addClass('ib-md-hiding');
+        setTimeout(function() {
+          jQuery("#ib-email-to-friend").removeClass('ib-md-active ib-md-hiding');
+        }, 250);
+      });
+
+      jQuery(document).on("click", ".-emailtofriendbuilding", function() {
+        var mlsNumber = jQuery(this).data("mls");
+        //jQuery(".ib-property-share-friend-f:eq(0)").trigger("reset");
+        jQuery(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
+        jQuery("#ib-email-to-friend").addClass("ib-md-active");
+      });
+
+      jQuery(".ib-property-share-friend-f").on("submit", function(event) {
+          event.preventDefault();
+          var _self = jQuery(this);
+
+          if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+              if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+                  // pending...
+              } else { // regular recaptcha
+
+                  grecaptcha.ready(function() {
+                      grecaptcha
+                      .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                      .then(function(token) {
+                          _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+          
+                          var formData = _self.serialize();
+                          var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                          //var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(<?php echo $property["mls_num"]; ?>, mlsNumber);
+                          var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+              
+                          jQuery.ajax({
+                              type: "POST",
+                              url: shareWithFriendEndpoint,
+                              data: {
+                                  access_token: IB_ACCESS_TOKEN,
+                                  flex_credentials: Cookies.get("ib_lead_token"),
+                                  form_data: formData
+                              },
+                              success: function(response) {
+                                  // ...
+                              }
+                          });
+              
+                          jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                          jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                      });
+                  });
+              }
+
+          } else { // regular recaptcha
+
+            grecaptcha.ready(function() {
+                grecaptcha
+                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                .then(function(token) {
+                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+                    var formData = _self.serialize();
+                    var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                    //var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(<?php echo $property["mls_num"]; ?>, mlsNumber);
+                    var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+        
+                    jQuery.ajax({
+                        type: "POST",
+                        url: shareWithFriendEndpoint,
+                        data: {
+                            access_token: IB_ACCESS_TOKEN,
+                            flex_credentials: Cookies.get("ib_lead_token"),
+                            form_data: formData
+                        },
+                        success: function(response) {
+                        }
+                    });
+        
+                    jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                    jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                });
+            });
+
+          }
+      });
+
+      jQuery(document).on("click", "#ib-email-thankyou .ib-mmclose", function() {
+        jQuery("#ib-email-thankyou").addClass('ib-md-hiding');
+        setTimeout(function() {
+          jQuery("#ib-email-thankyou").removeClass('ib-md-active ib-md-hiding');
+        }, 250);
+      });
+
     });
-  })(jQuery);
+
+})(jQuery);
 </script>

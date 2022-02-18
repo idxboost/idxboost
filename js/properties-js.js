@@ -298,7 +298,8 @@ var yDown = null;
                         class_id: class_id,
                         mls_num: mls_num,
                         type_action: 'remove',
-                        token_alert: token_alert
+                        token_alert: token_alert,
+                        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
                     },
                     dataType: "json",
                     success: function(data) {
@@ -324,7 +325,8 @@ var yDown = null;
                         class_id: class_id,
                         mls_num: mls_num,
                         subject: vsubject,
-                        type_action: 'add'
+                        type_action: 'add',
+                        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
                     },
                     dataType: "json",
                     success: function(data) {

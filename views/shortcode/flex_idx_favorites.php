@@ -33,6 +33,29 @@
         <div class="clidxboost-wrapper-smb">
           <div class="clidxboost-content-select-mb">
             <ul class="clidxboost-select-mb">
+            <li>
+                  <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_profile']['guid']) : $flex_idx_info['pages']['flex_idx_profile']['guid']; ?>">
+                    <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
+                  </a>
+                </li>
+                <li class="clidxboost-active">
+                  <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_favorites']['guid']) : $flex_idx_info['pages']['flex_idx_favorites']['guid']; ?>">
+                    <span><?php echo $flex_idx_info['pages']['flex_idx_favorites']['post_title']; ?></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="<?php echo isset($agent_permalink) ? str_replace(site_url(), $agent_permalink, $flex_idx_info['pages']['flex_idx_saved_searches']['guid']) : $flex_idx_info['pages']['flex_idx_saved_searches']['guid']; ?>">
+                    <span><?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['post_title']; ?></span>
+                  </a>
+                </li>
+                <?php if (!isset($agent_registration_key)): ?>
+                <li>
+                  <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
+                    <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
+                  </a>
+                </li>
+                <?php endif; ?>
+              <?php /*
               <li>
                 <a href="<?php echo $flex_idx_info['pages']['flex_idx_profile']['guid'] ?>">
                   <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
@@ -52,7 +75,7 @@
                 <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
                   <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
                 </a>
-              </li>
+              </li> */ ?>
             </ul>
           </div>
         </div>
@@ -162,7 +185,13 @@
                     </ul>
                   </div>
                   */ ?>
-                  <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>" class="view-item"></a>
+                  <?php /* <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>" class="view-item"></a> */ ?>
+                  <?php
+                    $property_url = isset($agent_permalink) ?
+                      ($agent_permalink . '/property/' . $property['slug']) :
+                      rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/") . '/' . $property['slug'];
+                  ?>
+                  <a href="<?php echo $property_url; ?>" class="view-item"></a>
                   </div>
                   <?php endforeach; ?>
                 </div>

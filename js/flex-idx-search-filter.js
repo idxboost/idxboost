@@ -3145,6 +3145,8 @@ function buildSearchFilterForm() {
 		});
 	}
 
+
+
 	if (IB_LB_TYPES_OPTIONS.length) {
 		// console.log(IB_LB_TYPES_OPTIONS);
 		// console.log(__flex_idx_search_filter.search.property_types);
@@ -4224,6 +4226,20 @@ function handleFilterSearchLookup(event) {
 			IB_SEARCH_FILTER_FORM.find('[name="max_year"]').val(params.max_year);
 			IB_SEARCH_FILTER_FORM.find('[name="sort_type"]').val(params.sort_type);
 			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(params.currentpage);
+
+			if (params.hasOwnProperty('overwrite_show_hide_pending')) {
+				IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val(params.overwrite_show_hide_pending);
+
+				if ('yes' === params.overwrite_show_hide_pending) {
+					$("#pendingContigentMin").prop("checked", true);
+					$("#pendingContigent").prop("checked", true);
+					$("#pendingContigentMobile").prop("checked", true);
+				} else {
+					$("#pendingContigentMin").prop("checked", false);
+					$("#pendingContigent").prop("checked", false);
+					$("#pendingContigentMobile").prop("checked", false);
+				}
+			}
 
 			if (params.hasOwnProperty("property_type")) {
 				if (Array.isArray(params.property_type)) {
@@ -6418,6 +6434,54 @@ $(function () {
 			IB_SEARCH_FILTER_FORM.trigger("submit");
 		});
 	}
+
+
+	// handle hide pending contingent
+	$("#pendingContigentMin").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigent").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigentMin").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigentMobile").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMin").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+	
 
 	if (IB_CLEAR_BTN.length) {
 		IB_CLEAR_BTN.on("click", function() {

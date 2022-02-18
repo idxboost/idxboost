@@ -1,15 +1,40 @@
-<?php if (empty($property) && !is_array($property) ): ?>
 <style>
-  /*.flex-property-not-available { max-width: 1200px; margin-left: auto; margin-right: auto; }
-  .flex-property-not-available h2 { font-size: 40px; text-align: center; margin: 40px auto; }*/
+  @media screen and (min-width: 1024px){
+    .ms-share-hidden{
+      display: none !important
+    }
+  }
+
+  @media (max-width: 767px){
+    #full-main.general-stf .container .panel-options{
+      display: none !important
+    }
+
+    .ms-share-hidden .ms-wrapper-btn-new-share {
+      padding-left: 15px !important;
+    }
+  }
+
+  #full-main.general-stf .ib-active-float-form{
+    bottom: 10px
+  }
+
+  .ms-active-aside-form #full-main.general-stf .form-content {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px;
+    padding-top: 50px;
+  }
 </style>
 
-<div class="gwr idx-mmg">
-  <div class="message-alert idx_color_primary flex-property-not-available">
-    <p>The property you requested is not available.</p>
+<?php if (empty($property) && !is_array($property) ): ?>
+  <div class="gwr idx-mmg">
+    <div class="message-alert idx_color_primary flex-property-not-available">
+      <p>The property you requested is not available.</p>
+    </div>
   </div>
-</div>
-
 <?php else: ?>
 <?php if ((!empty($flex_idx_info["agent"]["google_analytics"])) && (!empty($flex_idx_info["agent"]["google_adwords"]))): ?>
 <script>
@@ -138,25 +163,77 @@ if ($status_school != false) {
 	  $outtemporali=json_decode($outputlatlong,true);
 }
   ?>
-<div id="full-main">
+<div id="full-main" class="general-stf">
+
   <section class="title-conteiner gwr animated fixed-box">
     <div class="content-fixed">
       <div class="content-fixed-title">
         <h1 class="title-page"><?php echo $property['name']; ?><span><?php  echo $property['address']; ?></span></h1>
         <div class="breadcrumb-options">
+
+          <div class="ms-wrapper-btn-new-share">
+            <div class="ms-wrapper">
+              <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+              <ul class="ms-share-list">
+                <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                  <a rel="nofollow" href="javascript:void(0)" 
+                    class="ib-psbtn showfriendEmail" 
+                    data-modal="modal_email_to_friend" 
+                    data-origin="1"
+                    data-media="ib-pva-photos"
+                    data-price="$<?php echo number_format($property['price']); ?>"
+                    data-beds="<?php echo $property['bed']; ?>"
+                    data-baths="<?php echo $property['bath']; ?>"
+                    data-sqft="<?php echo number_format($property['sqft']); ?>"
+                    data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                    data-lg="<?php echo $property['lng']; ?>" 
+                    data-lt="<?php echo $property['lat']; ?>">
+                      <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
+                </li>
+                <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Faceboook</a></li>
+                <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+              </ul>
+            </div>
+          </div>
+
           <?php if (wp_get_referer()): ?>
-          <a href="<?php echo wp_get_referer(); ?>" class="btn link-back clidxboost-icon-arrow-select"<?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+          <a href="<?php echo wp_get_referer(); ?>" class="btn link-back clidxboost-icon-arrow-select">
+          <?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </a>
           <?php endif?>
-          <a href="#flex-idx-property-form" class="btn-request"><?php echo __("Request information", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-          <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>"  class="btn link-search clidxboost-icon-search"><?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+          <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
+            <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
+          </a>
+          <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>" class="btn link-search clidxboost-icon-search">
+          <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </a>
+          <?php if (1 == $property['status']): ?>
+          <?php if ($property['is_favorite']): ?>
+          <button class="chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+          <span class="active"></span>
+          </button>
+          <?php else: ?>
+          <button class="chk_save chk_save_property btn-active-favorite" data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" class="dgt-mark-favorite" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+          <span></span>
+          </button>
+          <?php endif;?>
+          <?php endif; ?>
         </div>
       </div>
       <ul class="content-fixed-btn">
         <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow"><span><?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-        <li><button class="clidxboost-icon-envelope show-modal" data-modal="modal_email_to_friend"><span><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
+        <li>
+          <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
+            <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
+          </a>
+        </li>
       </ul>
     </div>
   </section>
+
+
   <div class="header-print">
     <img src="<?php echo $logo_broker; ?>" title="FlexIdx">
     <ul>
@@ -235,10 +312,41 @@ if ($status_school != false) {
         <li><?php echo $property['bath']; ?> <span><?php if($property['bath']>1){ echo __("Bathrooms", IDXBOOST_DOMAIN_THEME_LANG); }else{ echo __("Bathroom", IDXBOOST_DOMAIN_THEME_LANG); } ?> </span></li>
         <li><?php echo $property['baths_half']; ?> <span><?php if ($property['baths_half']>1) { echo __("Half Baths", IDXBOOST_DOMAIN_THEME_LANG); }else{ echo __("Half Bath", IDXBOOST_DOMAIN_THEME_LANG); } ?></span></li>
         <li><?php echo number_format($property['sqft']); ?> <span><?php echo __("size sq.ft", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span></li>
+
+
+        <li class="ms-share-hidden">
+          <div class="ms-wrapper-btn-new-share">
+            <div class="ms-wrapper">
+              <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+              <ul class="ms-share-list">
+                <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                  <a rel="nofollow" href="javascript:void(0)" 
+                    class="ib-psbtn showfriendEmail" 
+                    data-modal="modal_email_to_friend" 
+                    data-origin="1"
+                    data-media="ib-pva-photos"
+                    data-price="$<?php echo number_format($property['price']); ?>"
+                    data-beds="<?php echo $property['bed']; ?>"
+                    data-baths="<?php echo $property['bath']; ?>"
+                    data-sqft="<?php echo number_format($property['sqft']); ?>"
+                    data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                    data-lg="<?php echo $property['lng']; ?>" 
+                    data-lt="<?php echo $property['lat']; ?>">
+                      <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
+                </li>
+                <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Faceboook</a></li>
+                <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
       </ul>
       <div class="panel-options">
-        <a style="display:none;" class="show-modal btn clidxboost-btn-blue" href="#" title="Schedule a showing now" data-modal="modal_schedule" rel="nofollow" id="schedule-now"><?php echo __("Schedule a showing now", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-        <div class="options-list">
+        <!--<a style="display:none;" class="show-modal btn clidxboost-btn-blue" href="#" title="Schedule a showing now" data-modal="modal_schedule" rel="nofollow" id="schedule-now"><?php echo __("Schedule a showing now", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <div class="options-list" style="display: none">
           <div class="shared-content">
             <button id="show-shared"><?php echo __("share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
             <ul class="shared-list">
@@ -254,7 +362,7 @@ if ($status_school != false) {
             <li><a class="show-modal ico-envelope" href="javascript:void(0)" title="Email to a firend" data-modal="modal_email_to_friend" rel="nofollow" id="email-friend"><?php echo __("email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
             <li><a class="ico-printer" href="javascript:void(0)" title="Print" rel="nofollow" id="print-btn"><?php echo __("print", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
           </ul>
-        </div>
+        </div>-->
       </div>
       <div class="main-content">
         <?php if($property['descriptionEspe'] != ''){ ?>
@@ -463,98 +571,108 @@ if ($status_school != false) {
         </div>
       </div>
     </div>
-    <div class="aside">
-      <div class="form-content">
-        <div class="avatar-content">
-          <?php
-            $agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
-            $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
-            ?>
-          <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?>" alt="<?php echo $agent_info_name; ?>"></div>
-          <div class="avatar-information">
-            <h2><?php echo $agent_info_name; ?></h2>
-            <?php if (!empty($agent_info_phone)): ?>
-            <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="Call to <?php echo flex_agent_format_phone_number($agent_info_phone); ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG);?>. <?php echo flex_agent_format_phone_number($agent_info_phone); ?></a>
-            <?php endif; ?>
+    <div class="aside ib-mb-show">
+      <div class="ms-form-detail msModalDetail">
+        <div class="form-content">
+          <div class="avatar-content">
+            <?php
+              $agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
+              $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
+              ?>
+            <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?>" alt="<?php echo $agent_info_name; ?>"></div>
+            <div class="avatar-information">
+              <h2><?php echo $agent_info_name; ?></h2>
+              <?php if (!empty($agent_info_phone)): ?>
+              <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="Call to <?php echo flex_agent_format_phone_number($agent_info_phone); ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG);?>. <?php echo $agent_info_phone; ?></a>
+              <?php endif; ?>
+            </div>
           </div>
-        </div>
-        <form method="post" id="flex-idx-property-form" class="gtm_more_info_property iboost-secured-recaptcha-form">
-          <input type="hidden" name="ib_tags" value="">
-          <input type="hidden" name="action" value="flex_idx_request_property_form">
-          <input type="hidden" name="origin" value="<?php echo $property_permalink; ?>">
-          <input type="hidden" name="price" id="flex_idx_form_price" value="<?php echo intval($property['price']); ?>">
-          <input type="hidden" id="flex_idx_form_mls_num" name="mls_num" value="<?php echo $property['mls_num']; ?>">
-          <input type="hidden" name="flex_idx_type_form" value="off_market_listing">
-          <input type="hidden" name="flex_idx_address" value="<?php echo $property['address']; ?>">
-          <input type="hidden"  class="name_share" value="<?php echo $property['address']; ?>">
-          <input type="hidden"  class="link_share" value="<?php echo $property_permalink; ?>">
-          <input type="hidden"  class="picture_share" value="<?php echo $property['gallery'][0]; ?>">
-          <input type="hidden"  class="caption_sahre" value="<?php echo $property['descriptionEspe']; ?>">
-          <input type="hidden"  class="description_share" value="<?php echo $property['descriptionEspe']; ?>">
-          <div class="gform_body">
-            <ul class="gform_fields">
-              <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) { 
-                if ($flex_idx_info['agent']['track_gender']==true) {  ?>
-              <li class="gfield">
-                <label class="gfield_label" for="first_name"><?php echo __("Gender", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_text sp-box">
-                  <select name="gender" class="gender">
-                    <option value="<?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG);?>"><?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG);?></option>
-                    <option value="<?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG);?>"><?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG);?></option>
-                    <option value="<?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG);?>"><?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG);?></option>
-                  </select>
-                  <input required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])): ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif;?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG);?>*">
-                </div>
-              </li>
-              <?php }else{ ?>
-              <li class="gfield">
-                <label class="gfield_label" for="first_name"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_text">
-                  <input required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])): ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif;?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                </div>
-              </li>
-              <?php  } }else{ ?>
-              <li class="gfield">
-                <label class="gfield_label" for="first_name"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_text">
-                  <input required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])): ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif;?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                </div>
-              </li>
-              <?php } ?>
-              <li class="gfield">
-                <label class="gfield_label" for="first_name"><?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_text">
-                  <input class="medium" name="last_name" id="last_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])): ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif;?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                </div>
-              </li>
-              <li class="gfield">
-                <label class="gfield_label" for="email"><?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_email">
-                  <input required class="medium" name="email" id="email" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])): ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif;?>" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                </div>
-              </li>
-              <li class="gfield">
-                <label class="gfield_label" for="phone"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container ginput_container_email">
-                  <input class="medium" name="phone" id="phone" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])): ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif;?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
-                </div>
-              </li>
-              <li class="gfield comments">
-                <label class="gfield_label" for="message"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <div class="ginput_container">
-                  <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo str_replace('# ', '#', $property['address']); ?></textarea>
-                </div>
-              </li>
-              <li class="gfield requiredFields">* <?php echo __("Required Fields", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-              <div class="gform_footer">
-                <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __("Request Information", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+          <form method="post" id="flex-idx-property-form" class="gtm_more_info_property iboost-secured-recaptcha-form">
+            <fieldset>
+              <legend><?php echo $agent_info_name; ?></legend>
+              <input type="hidden" name="ib_tags" value="">
+              <input type="hidden" name="action" value="flex_idx_request_property_form">
+              <input type="hidden" name="origin" value="<?php echo $property_permalink; ?>">
+              <input type="hidden" name="price" id="flex_idx_form_price" value="<?php echo intval($property['price']); ?>">
+              <input type="hidden" id="flex_idx_form_mls_num" name="mls_num" value="<?php echo $property['mls_num']; ?>">
+              <input type="hidden"  class="name_share" value="<?php echo $property['address_short']; ?>">
+              <input type="hidden"  class="link_share" value="<?php echo $property_permalink; ?>">
+              <input type="hidden"  class="picture_share" value="<?php echo $property['gallery'][0]; ?>">
+              <input type="hidden"  class="caption_sahre" value="<?php echo $property['remark']; ?>">
+              <input type="hidden"  class="description_share" value="<?php echo $property['remark']; ?>">
+              <div class="gform_body">
+                <ul class="gform_fields">
+                  <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) { 
+                    if ($flex_idx_info['agent']['track_gender']==true) {  ?>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_text sp-box">
+                      <label class="gfield_label" for="ms-gender"><?php echo __("Gender", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <select name="gender" class="gender" id="ms-gender">
+                        <option value="<?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mr.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                        <option value="<?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Mrs.', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                        <option value="<?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Miss', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                      </select>
+                      <input required class="medium" name="first_name" id="first_name" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <?php } else { ?>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_text">
+                      <label class="gfield_label" for="_ib_fn_inq"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input required class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <?php  }
+                    } else { ?>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_text">
+                      <label class="gfield_label" for="_ib_fn_inq"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input required class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <?php } ?>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_text">
+                      <label class="gfield_label" for="_ib_ln_inq"><?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input class="medium" name="last_name" id="_ib_ln_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_email">
+                      <label class="gfield_label" for="_ib_em_inq"><?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input required class="medium" name="email" id="_ib_em_inq" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <li class="gfield">
+                    <div class="ginput_container ginput_container_email">
+                      <label class="gfield_label" for="_ib_ph_inq"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input class="medium" name="phone" id="_ib_ph_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                    </div>
+                  </li>
+                  <li class="gfield comments">
+                    <div class="ginput_container">
+                      <label class="gfield_label" for="ms-message"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <textarea class="medium textarea" name="message" id="ms-message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo str_replace('# ', '#', $property['address_short']); ?> <?php echo $property['address_large']; ?></textarea>
+                    </div>
+                  </li>
+                  <li class="gfield requiredFields">* <?php echo __("Required Fields", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                  <li class="gform_footer">
+                    <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __("Request Information", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  </li>
+                </ul>
               </div>
-            </ul>
-          </div>
-        </form>
+            </fieldset>
+          </form>
+          <button class="msCloseModalDetail ms-close">Close</button>
+        </div>
+        <div class="ms-layout-modal mslayoutModalDetail"></div>
       </div>
     </div>
   </div>
+
+  <button class="ib-btn-request ib-active-float-form">
+    <?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?>
+  </button>
 </section>
 </div>
 <div id="printMessageBox"><?php echo __("Please wait while we create your document", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
@@ -695,6 +813,109 @@ if ($status_school != false) {
         });
 
       }
+
+      jQuery(document).on("click", ".ib-active-float-form", function (e) {
+        e.preventDefault();
+        jQuery("body").addClass("ms-active-aside-form");
+      });
+
+      jQuery(document).on("click", ".msCloseModalDetail, .mslayoutModalDetail", function (e) {
+        e.preventDefault();
+        jQuery("body").removeClass("ms-active-aside-form");
+      });
+
+      jQuery(document).on("click", "#ib-email-to-friend .ib-mmclose", function() {
+        jQuery("#ib-email-to-friend").addClass('ib-md-hiding');
+        setTimeout(function() {
+          jQuery("#ib-email-to-friend").removeClass('ib-md-active ib-md-hiding');
+        }, 250);
+      });
+
+      jQuery(document).on("click", ".-emailtofriendbuilding", function() {
+        var mlsNumber = jQuery(this).data("mls");
+        //jQuery(".ib-property-share-friend-f:eq(0)").trigger("reset");
+        jQuery(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
+        jQuery("#ib-email-to-friend").addClass("ib-md-active");
+      });
+
+      jQuery(".ib-property-share-friend-f").on("submit", function(event) {
+          event.preventDefault();
+          var _self = jQuery(this);
+
+          if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+              if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+                  // pending...
+              } else { // regular recaptcha
+
+                  grecaptcha.ready(function() {
+                      grecaptcha
+                      .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                      .then(function(token) {
+                          _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+          
+                          var formData = _self.serialize();
+                          var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                          //var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(<?php echo $property["mls_num"]; ?>, mlsNumber);
+                          var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+              
+                          jQuery.ajax({
+                              type: "POST",
+                              url: shareWithFriendEndpoint,
+                              data: {
+                                  access_token: IB_ACCESS_TOKEN,
+                                  flex_credentials: Cookies.get("ib_lead_token"),
+                                  form_data: formData
+                              },
+                              success: function(response) {
+                                  // ...
+                              }
+                          });
+              
+                          jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                          jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                      });
+                  });
+              }
+
+          } else { // regular recaptcha
+
+            grecaptcha.ready(function() {
+                grecaptcha
+                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'share_property_with_friend' })
+                .then(function(token) {
+                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+                    var formData = _self.serialize();
+                    var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                    //var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(<?php echo $property["mls_num"]; ?>, mlsNumber);
+                    var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+        
+                    jQuery.ajax({
+                        type: "POST",
+                        url: shareWithFriendEndpoint,
+                        data: {
+                            access_token: IB_ACCESS_TOKEN,
+                            flex_credentials: Cookies.get("ib_lead_token"),
+                            form_data: formData
+                        },
+                        success: function(response) {
+                        }
+                    });
+        
+                    jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                    jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                });
+            });
+
+          }
+      });
+
+      jQuery(document).on("click", "#ib-email-thankyou .ib-mmclose", function() {
+        jQuery("#ib-email-thankyou").addClass('ib-md-hiding');
+        setTimeout(function() {
+          jQuery("#ib-email-thankyou").removeClass('ib-md-active ib-md-hiding');
+        }, 250);
+      });
 
     });
   })(jQuery);

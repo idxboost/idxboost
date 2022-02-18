@@ -71,7 +71,8 @@
 
     function handleRedirectTo(term, type) {
         var rentalType = $("#flex_ac_rental_slug").val();
-        var redirectTo = __flex_g_settings.searchUrl;
+        // var redirectTo = __flex_g_settings.searchUrl;
+        var redirectTo = (typeof IB_AGENT_PERMALINK !== "undefined") ?  (IB_AGENT_PERMALINK + "/search") : __flex_g_settings.searchUrl;
 
         redirectTo += "?for=" + ( (0 == rentalType) ? "sale" : "rent" );
 
