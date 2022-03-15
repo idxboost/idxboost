@@ -326,6 +326,9 @@ add_action( 'get_footer', 'idxboost_cms_cta_modal', 101, 1 );
 // CMS. Load tripwire
 add_action( 'get_footer', 'idxboost_cms_tripwire', 101, 1 );
 
+// CMS. Load translate
+add_action( 'get_footer', 'idxboost_cms_translate', 101, 1 );
+
 // CMS. Update post
 add_action( 'edit_post', 'idx_edit_post', 10, 2 );
 

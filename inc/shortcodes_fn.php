@@ -594,15 +594,32 @@ if (!function_exists('ib_search_filter_sc')) {
         ob_start();
 
         // wp_enqueue_style('flex-idx-search-filter-css');
-
         if (isset($atts["is_commercial"]) && (1 == $atts["is_commercial"])) {
+            
             wp_enqueue_script('flex-idx-search-commercial-filter');
 
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php';
+            if ('slider' == $atts['mode']) {
+                // Permite validar si el shortcode se ejecuta en modo slider, 
+                // para no agregar la clase ms-hidden-ovf en el body
+                wp_localize_script('flex-idx-search-commercial-filter', 'ib_search_filter_extra', [
+                    'mode' => "slider",
+                    "limit" => $atts["limit"]
+                    ]
+                );
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_slider.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_slider.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_filter_slider.php';
+                }
             } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_commercial_filter.php';
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_commercial_filter.php';
+                }
             }
+
         } else {
             wp_enqueue_script('flex-idx-search-filter');
 
@@ -4558,7 +4575,7 @@ if (!function_exists('idx_page_shortcode_render')) {
             $content = str_replace($match[0], $variable_flex_idx_filter, $content);
         }
 
-        $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
+        $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?(\sis_commercial=\"[0-9]\")?\]~';
         if (preg_match($pattern, $content, $match)) {
             $ib_search_filter = do_shortcode($match[0]);
             $content = str_replace($match[0], $ib_search_filter, $content);

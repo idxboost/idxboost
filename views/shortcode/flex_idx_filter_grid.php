@@ -282,6 +282,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
             <li id="filter-by" class="clidxboost-icon-arrow-select">
                 <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
                   <option value="list_date-desc" <?php selected($response['order'], 'list_date-desc'); ?>><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="last_updated-desc" <?php selected($response['order'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                   <option value="price-desc" <?php selected($response['order'], 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                   <option value="price-asc" <?php selected($response['order'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                   <option value="sqft-desc" <?php selected($response['order'], 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -300,6 +301,8 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                     <option <?php selected($response['order'], 'list_date-desc'); ?> value="list_date-desc"><?php echo __('Newest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <option <?php selected($response['order'], 'list_date-asc'); ?> value="list_date-asc"><?php echo __('Oldest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <?php endif; ?>
+                    <option value="last_updated-desc" <?php selected($response['order'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                    
                     <option <?php selected($response['order'], 'list_date-asc'); ?> value="city_name-asc"><?php echo __('City Name', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <?php if ($filter_type_fl == 1): ?>
                     <option <?php selected($response['order'], 'date_close-desc'); ?> value="date_close-desc"><?php echo __('Date Sold', IDXBOOST_DOMAIN_THEME_LANG); ?></option>

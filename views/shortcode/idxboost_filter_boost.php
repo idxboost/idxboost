@@ -61,6 +61,7 @@
           <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
               <option value="list_date-desc" <?php selected($atts["order_by"], "list_date-desc"); ?> ><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="last_updated-desc" <?php selected($atts["order_by"], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-desc" <?php selected($atts["order_by"], "price-desc"); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-asc" <?php selected($atts["order_by"], "price-asc"); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="lot_size-desc" <?php selected($atts["order_by"], "lot_size-desc"); ?>><?php echo __("Highest Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -85,7 +86,7 @@
         <ul id="head-list">
           <li class="address"><?php echo __('Address', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="price"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-          <li class="beds"><?php echo __('', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+          <li class="beds"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
           <li class="living-size"><?php echo __('Lot Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         </ul>
         <ul id="result-search" class="slider-generator result-search-commercial" style="overflow-y:auto;">

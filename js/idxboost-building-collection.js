@@ -1469,7 +1469,11 @@ function idx_slider_building_html(info_item){
     }else if (info_item.status !='1') {
       html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
     }else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-      html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
+      if (info_item.min_ago > 0 && info_item.min_ago_txt !="" ) {
+        html_response.push('<div class="flex-property-new-listing">'+info_item.min_ago_txt+'</div>');
+      }else{
+       html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
+      }
     }
 
     //html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span> <span>'+info_item.full_address_bottom+'</span></h2>');

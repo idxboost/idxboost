@@ -407,6 +407,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 			<select id="flex_filter_sort">
 
 				<option value="list_date-desc" <?php selected($order, 'list_date-desc'); ?>><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+				<option value="last_updated-desc" <?php selected($order, 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="price-desc" <?php selected($order, 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="price-asc" <?php selected($order, 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<?php /*<option value="bed-desc" <?php selected($order, 'bed-desc'); ?>>Beds (High to Low)</option>

@@ -5334,6 +5334,7 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         $type_filter = $_POST['type_filter'];
         $id_filter = $_POST['id_filter'];
         $limit = $_POST['limit'];
+        $registration_key = isset($_POST['registration_key']) ? $_POST['registration_key'] : null;
 
         if (empty($limit) || (is_numeric($limit) && intval($limit) == 0) || !is_numeric($limit)) {
             $limit = "default";
@@ -5343,6 +5344,7 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         $sendParams = array(
             'filter_id' => $id_filter,
             'listing_type' => $type_filter,
+            'registration_key' => $registration_key,
             //'order' => $order,
             'order' => 'price-desc',
             'mode' => 'slider',
@@ -6049,7 +6051,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'handlebars',
             'google-maps-api',
             'google-maps-utility-library-richmarker',
-            'google-maps-utility-library-infobubble'
+            'google-maps-utility-library-infobubble',
+            'flex-lazyload-plugin'
         ), iboost_get_mod_time("js/flex-idx-search-commercial-filter.js"));
 
         wp_register_script('flex-idx-search-commercial-v2', FLEX_IDX_URI . 'js/flex-idx-search-commercial-v2.js', array(
@@ -7790,7 +7793,7 @@ if ( ! function_exists('idxboost_cms_setup') ) {
     {
         global $flex_idx_info, $post;
         
-        $idxboost_cms_theme = '';
+        $idxboost_cms_theme = 'standard';
         if ( get_option("idxboost_cms_company") == 'compass' ) $idxboost_cms_theme = 'ip-theme-compass';
         if ( get_option("idxboost_cms_company") == 'resf' ) $idxboost_cms_theme = 'ip-theme-resf';
 
@@ -7853,6 +7856,18 @@ if ( ! function_exists('idxboost_cms_register_assets') ) {
                 array( 'carbonite' ),
             );
 
+            wp_register_style(
+                'carbonite-addons-translate',
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/addons/translate.css',
+                array( 'carbonite' ),
+            );
+
+            wp_register_style(
+                'carbonite-addons-tripwire',
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/css/addons/tripwire.css',
+                array( 'carbonite' ),
+            );
+
             // Register scripts
 
             wp_register_script(
@@ -7882,6 +7897,22 @@ if ( ! function_exists('idxboost_cms_register_assets') ) {
             wp_register_script(
                 'carbonite-pages-agent',
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/agent.js',
+                array( 'carbonite' ),
+                '',
+                true
+            );
+
+            wp_register_script(
+                'carbonite-addons-translate',
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/addons/translate.js',
+                array( 'carbonite' ),
+                '',
+                true
+            );
+
+            wp_register_script(
+                'carbonite-addons-tripwire',
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/addons/tripwire.js',
                 array( 'carbonite' ),
                 '',
                 true
@@ -7944,6 +7975,12 @@ if ( ! function_exists('idxboost_cms_enqueue_assets') ) {
                 wp_enqueue_style('carbonite-pages-agent');
                 wp_enqueue_script('carbonite-pages-agent');
                 $idxboost_cms_custom_style_dep = 'carbonite-pages-agent';
+            }
+
+            if ( get_option("cms_translate_settings") ) {
+                $idxboost_cms_custom_style_dep = 'carbonite-addons-translate';
+                wp_enqueue_style('carbonite-addons-translate');
+                wp_enqueue_script('carbonite-addons-translate');
             }
 
             wp_add_inline_style(
@@ -8034,6 +8071,20 @@ if ( ! function_exists('idxboost_cms_assets') ) {
                     update_option("cms_loader", trim($head_json['loader']['content']));
                 }
 
+                // Get translate settings
+                update_option("cms_translate_settings", "");
+                
+                if ( 
+                    array_key_exists("translate", $head_json) && 
+                    ! empty($head_json['translate']) &&
+                    array_key_exists("isVisible", $head_json['translate']) &&
+                    true === $head_json['translate']['isVisible'] &&
+                    array_key_exists("list", $head_json['translate']) &&
+                    ! empty($head_json['translate']['list'])
+                ) {
+                    update_option("cms_translate_settings", $head_json['translate']);
+                }
+
                 // Load cta modal
                 if (
                     array_key_exists("cta", $head_json) &&
@@ -8092,6 +8143,9 @@ if ( ! function_exists('idxboost_cms_tripwire') ) {
             $content = json_decode($body, true);
 
             if ( !is_wp_error($response) or $content != NULL ) {
+
+                wp_enqueue_style('carbonite-addons-tripwire');
+                wp_enqueue_script('carbonite-addons-tripwire');
                 
                 if ( $content['data']['applyTo'] == 'entire-site' ) {
                     echo $content['content'];
@@ -8105,6 +8159,29 @@ if ( ! function_exists('idxboost_cms_tripwire') ) {
 
             }
 
+        }
+    }
+}
+
+if ( ! function_exists('idxboost_cms_translate') ) {
+    function idxboost_cms_translate() {
+        if ( get_option('cms_translate_settings') ) {
+            $languages = get_option("cms_translate_settings")["list"];
+            ?>
+                <div id="google_translate_element"></div>
+                <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit"></script>
+                <script>
+                    function googleTranslateInit() {
+                        new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        includedLanguages: '<?php echo implode(',', $languages); ?>',
+                        multilanguagePage: true,
+                        autoDisplay: true,
+                        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    }
+                </script>
+            <?php
         }
     }
 }

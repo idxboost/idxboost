@@ -168,8 +168,12 @@ Handlebars.registerHelper('formatBathsHalf', function(baths_half) {
 });
 
 Handlebars.registerHelper('handleStatusProperty', function(property) {
-	if ("yes" === property.recently_listed) {
-		return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
+	if ("yes" === property.recently_listed || property.min_ago_txt !="" ) {
+		if (property.min_ago > 0 && property.min_ago_txt !="" ) {
+			return '<li class="ib-piitem ib-pstatus">'+property.min_ago_txt+'</li>';
+		}else{
+			return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
+		}
 	} else if (1 != property.status) {
 		return '<li class="ib-piitem ib-pstatus">'+property.status_name+'</li>';
 	}

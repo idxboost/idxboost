@@ -640,7 +640,11 @@ Handlebars.registerHelper('DFformatBathsHalf', function(baths_half) {
 
 Handlebars.registerHelper('DFhandleStatusProperty', function(property) {
 	if ("yes" === property.recently_listed) {
-		return '<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
+		if (property.min_ago > 0 && property.min_ago_txt !="" ) {
+			return '<div class="flex-property-new-listing">'+property.min_ago_txt+'</div>';
+		}else{
+			return '<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>';
+		}		
 	} else if (1 != property.status) {
 		return '<div class="flex-property-new-listing">'+property.status_name+'</div>';
 	}

@@ -122,6 +122,8 @@
           <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
               <!--<option value="list_date-desc" <?php /*selected($$atts['sort'], 'list_date-desc'); */?>><?php /*echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); */?></option>-->
+              <option value="last_updated-desc" <?php selected($atts['sort'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              
               <option value="price-desc" <?php selected($atts['sort'], 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-asc" <?php selected($atts['sort'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="sqft-desc" <?php selected($atts['sort'], 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>

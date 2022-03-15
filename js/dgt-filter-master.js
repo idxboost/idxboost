@@ -2591,8 +2591,12 @@ function getLandSizeValues(min, max) {
 								listingHTML.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
 							}else if(item.status != "1"){
 								listingHTML.push('<div class="flex-property-new-listing">'+item.status_name+'</div>');
-							}else if(item.recently_listed === "yes") {
-								listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
+							}else if(item.recently_listed === "yes" || item.min_ago_txt !=""  ) {
+								if (item.min_ago > 0 && item.min_ago_txt !="" ) {
+									listingHTML.push('<div class="flex-property-new-listing">'+item.min_ago_txt+'</div>');
+								}else{
+									listingHTML.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
+								}
 							}
 						//}
 

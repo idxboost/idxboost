@@ -178,10 +178,14 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             <label class="ms-hidden" for="ib-gsort-b"><?php echo __('Select option', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             <select class="ib-gsort ib-sort-ctrl" id="ib-gsort-b">
               <option value="list_date-desc"><?php echo __('Newest Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="last_updated-desc"><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-desc"><?php echo __('Highest Price', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-asc"><?php echo __('Lowest Price', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="lot_size-desc"><?php echo __('Highest Sq.Ft', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="lot_size-asc"><?php echo __('Lowest Sq.Ft', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="check_price_change_timestamp-desc"><?php echo __('Just Reduced', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price_sqft-desc"><?php echo __('Highest Price/Sq.Ft', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price_sqft-asc"><?php echo __('Lowest Price/Sq.Ft', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
             </select>
           </div>
         </div>
@@ -214,7 +218,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
         <?php } ?>
         <?php
         if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-          <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+          <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
           <?php } else {
           if (
             is_array($flex_idx_info) &&
@@ -223,7 +227,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             !empty($flex_idx_info["board_info"]["board_disclaimer"])
           ) {
           ?>
-              <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
+          <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
           <?php } ?>
         <?php } ?>
         <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
@@ -1099,20 +1103,18 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                       </div>
                     {{/if}}
                     <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-                      <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                    <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
                     <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
-                        <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
+                    <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
                     <?php } else { ?>
-                      <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                      The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                      All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                      other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                      All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                      Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
+                    <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
+                    The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
+                    All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
+                    other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
+                    All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                    Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
                     <?php } ?>
                     <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
-                    
-
                 </div>
                 
               </div>
@@ -1159,28 +1161,26 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                 </div>
               </div>
 
-                  <div class="ib-bdisclaimer ib-bdisclaimer-mobile">
-                    {{#if board_info.board_logo_url}}
-                      <div class="ms-logo-board">
-                        <img src="{{board_info.board_logo_url}}">
-                      </div>
-                    {{/if}}
-                    <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-                      <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
-                        <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?></p>
-                    <?php } else { ?>
-                      <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
-                      The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
-                      All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
-                      other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
-                      All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
-                      Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
-                    <?php } ?>
-                    <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
-                    
-
-            </div>
+              <div class="ib-bdisclaimer ib-bdisclaimer-mobile">
+              {{#if board_info.board_logo_url}}
+                <div class="ms-logo-board">
+                  <img src="{{board_info.board_logo_url}}">
+                </div>
+              {{/if}}
+              <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
+                <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
+              <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
+                <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
+              <?php } else { ?>
+                <p>The multiple listing information is provided by the  {{board_name}}® from a copyrighted compilation of listings.
+                The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present  {{board_name}}®.
+                All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose
+                other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.
+                All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified.
+                Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
+              <?php } ?>
+                <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
+              </div>
 
             <button class="ib-btn-request ib-active-float-form"><?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </div>
