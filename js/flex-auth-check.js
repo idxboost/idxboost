@@ -547,6 +547,99 @@ function validate_price(evt) {
 			// });
 		});
 
+
+	    $(document).on("submit", "#flex-idx-property-form-rental", function (event) {
+	      // $("#flex-idx-property-form").on("submit", function(event) {
+	      event.stopPropagation();
+	      event.preventDefault();
+
+	      var _self = $(this);
+
+	      var message = jQuery(this).find("input[name='message']:eq(0)").val();
+	      var comments = jQuery(this).find("textarea[name='comments']").val();
+	      var sleep = jQuery(this).find("input[name='sleep']:eq(0)").val();
+	      var rental_stay = jQuery(this).find("input[name='rental_stay']:eq(0)").val();
+
+	      var commentsd = "";
+	      if(sleep){
+	        commentsd += "Sleeps: "+sleep+". ";
+	      }
+	      if(rental_stay){
+	        commentsd += "Rentals Stay: "+rental_stay+". ";
+	      }
+	      
+	      commentsd += comments;
+
+	      jQuery(this).find( "[name='message']" ).val(commentsd);
+	      
+
+	      if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+	        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+	            // pending...
+	        } else { // regular recaptcha
+	            grecaptcha.ready(function() {
+	                grecaptcha
+	                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
+	                .then(function(token) {
+	                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+	                    $.ajax({
+	                      url: __flex_g_settings.ajaxUrl,
+	                      method: "POST",
+	                      data: _self.serialize(),
+	                      dataType: "json",
+	                      success: function (data) {
+	                        $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+	                        active_modal($('#modal_properties_send'));
+	                        setTimeout(function () {
+	                          $('#modal_properties_send').find('.close').click();
+	                        }, 2000);
+	                      }
+	                    });
+	                });
+	            });
+	        }
+	      } else { // regular recaptcha
+	          grecaptcha.ready(function() {
+	              grecaptcha
+	              .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
+	              .then(function(token) {
+	                  _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+	                  $.ajax({
+	                    url: __flex_g_settings.ajaxUrl,
+	                    method: "POST",
+	                    data: _self.serialize(),
+	                    dataType: "json",
+	                    success: function (data) {
+	                      $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+	                      active_modal($('#modal_properties_send'));
+	                      setTimeout(function () {
+	                        $('#modal_properties_send').find('.close').click();
+	                      }, 2000);
+	                    }
+	                  });
+	              });
+	          });
+	      }
+
+
+	      // $.ajax({
+	      //   url: __flex_g_settings.ajaxUrl,
+	      //   method: "POST",
+	      //   data: _self.serialize(),
+	      //   dataType: "json",
+	      //   success: function (data) {
+	      //     //data.message
+	      //     $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+	      //     active_modal($('#modal_properties_send'));
+	      //     setTimeout(function () {
+	      //       $('#modal_properties_send').find('.close').click();
+	      //     }, 2000);
+	      //   }
+	      // });
+	    });
+	    
 		/*------------------------------------------------------------------------------------------*/
 		/* Mostrar y cerrar modales
 		/*------------------------------------------------------------------------------------------*/
