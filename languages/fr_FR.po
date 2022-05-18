@@ -2128,8 +2128,8 @@ msgid "share"
 msgstr "Partager"
 
 #: views/shortcode/flex_idx_building.php:250
-msgid "Facebook"
-msgstr "Facebook"
+msgid "Faceboook"
+msgstr "Faceboook"
 
 #: views/shortcode/flex_idx_building.php:251
 msgid "Twitter"

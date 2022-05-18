@@ -2792,7 +2792,7 @@ msgstr "Compartir"
 
 #: views/shortcode/flex_idx_building.php:244
 #: views/shortcode/idx_building_template_pre_construction.php:261
-msgid "Facebook"
+msgid "Faceboook"
 msgstr "Facebook"
 
 #: views/shortcode/flex_idx_building.php:245

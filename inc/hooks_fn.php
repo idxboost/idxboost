@@ -17,6 +17,7 @@ add_action('wp_footer', 'flex_include_html_partial');
 // setup admin root menu
 add_action('admin_menu', 'flex_idx_create_admin_root_menu');
 
+
 add_action('wp_ajax_flex_statistics_filter_sold', 'flex_statistics_filter_sold_xhr_fn');
 add_action('wp_ajax_nopriv_flex_statistics_filter_sold', 'flex_statistics_filter_sold_xhr_fn');
 
@@ -36,14 +37,15 @@ add_action('wp_ajax_nopriv_idxboost_get_data_slider', 'idxboost_get_data_slider_
 add_action('wp_ajax_ib_slider_filter_regular', 'ib_slider_filter_regular_xhr_fn');
 add_action('wp_ajax_nopriv_ib_slider_filter_regular', 'ib_slider_filter_regular_xhr_fn');
 
+
 add_action('wp_ajax_idxboost_agent_contact_inquiry', 'idxboost_agent_contact_inquiry_xhr_fn');
 add_action('wp_ajax_nopriv_idxboost_agent_contact_inquiry', 'idxboost_agent_contact_inquiry_xhr_fn');
 
-add_action('wp_ajax_idxboost_collection_list', 'idxboost_collection_list_fn');
-add_action('wp_ajax_nopriv_idxboost_collection_list', 'idxboost_collection_list_fn');
+add_action("wp_ajax_idxboost_collection_list", "idxboost_collection_list_fn");
+add_action("wp_ajax_nopriv_idxboost_collection_list", "idxboost_collection_list_fn");
 
-add_action('wp_ajax_idxboost_sub_area_collection_list', 'idxboost_sub_area_collection_list_fn');
-add_action('wp_ajax_nopriv_idxboost_sub_area_collection_list', 'idxboost_sub_area_collection_list_fn');
+add_action("wp_ajax_idxboost_sub_area_collection_list", "idxboost_sub_area_collection_list_fn");
+add_action("wp_ajax_nopriv_idxboost_sub_area_collection_list", "idxboost_sub_area_collection_list_fn");
 
 add_action('wp_ajax_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
 add_action('wp_ajax_nopriv_ib_boost_commercial', 'ib_boost_commercial_xhr_fn');
@@ -54,14 +56,14 @@ add_action('wp_ajax_nopriv_ib_boost_dinamic_data', 'ib_boost_dinamic_data_xhr_fn
 add_action('wp_ajax_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
 add_action('wp_ajax_nopriv_ib_boost_dinamic_data_agent_office', 'ib_boost_dinamic_data_agent_office_xhr_fn');
 
-add_action('wp_ajax_idxboost_collection_off_market', 'idxboost_collection_off_market_fn');
-add_action('wp_ajax_nopriv_idxboost_collection_off_market', 'idxboost_collection_off_market_fn');
+add_action("wp_ajax_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
+add_action("wp_ajax_nopriv_idxboost_collection_off_market", "idxboost_collection_off_market_fn");
 
-add_action('wp_ajax_idxboost_exclusive_slider', 'idx_exclusive_operation_slider_xhr_fn');
-add_action('wp_ajax_nopriv_idxboost_exclusive_slider', 'idx_exclusive_operation_slider_xhr_fn');
+add_action("wp_ajax_idxboost_exclusive_slider", "idx_exclusive_operation_slider_xhr_fn");
+add_action("wp_ajax_nopriv_idxboost_exclusive_slider", "idx_exclusive_operation_slider_xhr_fn");
 
-add_action('wp_ajax_track_force_registration_building', 'idx_force_registration_building_xhr_fn');
-add_action('wp_ajax_nopriv_track_force_registration_building', 'idx_force_registration_building_xhr_fn');
+add_action("wp_ajax_track_force_registration_building", "idx_force_registration_building_xhr_fn");
+add_action("wp_ajax_nopriv_track_force_registration_building", "idx_force_registration_building_xhr_fn");
 
 // search properties
 add_action('wp_ajax_flex_search', 'flex_idx_search_xhr_fn');
@@ -95,12 +97,12 @@ add_action('wp_ajax_idxboost_new_filter_save_search_xhr_fn', 'idxboost_new_filte
 add_action('wp_ajax_nopriv_idxboost_new_filter_save_search_xhr_fn', 'idxboost_new_filter_save_search_xhr_fn');
 
 // mortgage calculator
-add_action('wp_ajax_dgt_mortgage_calculator', 'dgt_mortgage_calculator_fn');
-add_action('wp_ajax_nopriv_dgt_mortgage_calculator', 'dgt_mortgage_calculator_fn');
+add_action("wp_ajax_dgt_mortgage_calculator", "dgt_mortgage_calculator_fn");
+add_action("wp_ajax_nopriv_dgt_mortgage_calculator", "dgt_mortgage_calculator_fn");
 
 // registration quizz save
-add_action('wp_ajax_ib_register_quizz_save', 'ib_register_quizz_save_fn');
-add_action('wp_ajax_nopriv_ib_register_quizz_save', 'ib_register_quizz_save_fn');
+add_action("wp_ajax_ib_register_quizz_save", "ib_register_quizz_save_fn");
+add_action("wp_ajax_nopriv_ib_register_quizz_save", "ib_register_quizz_save_fn");
 
 // filter page
 add_action('wp_ajax_flex_look_building_xhr_fn', 'flex_look_building_xhr_fn');
@@ -257,39 +259,41 @@ add_action('idx_gtm_head', 'iboost_print_googlegtm_head_script', 0);
 add_action('idx_gtm_body', 'iboost_print_googlegtm_body_script', 0);
 
 // CMS. REST api
-add_action('rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints']);
+add_action( 'rest_api_init', ['IDXBoost_REST_API_Endpoints', 'registerEndpoints'] );
 
-function print_inline_js()
-{
-    if (is_admin()) {
-        return;
-    }
+function print_inline_js() {
+if (is_admin()) {
+    return;
+}
 
     global $post, $wp;
 
-    if ('idx-agents' === $post->post_type) :
-        $agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
-        $agent_slugname         = $post->post_name;
-        $agent_permalink        = implode('/', [site_url(), $agent_slugname]);
-        $wp_request_exp         = explode('/', $wp->request);
-        $is_agent_page_featured = false;
+    if ('idx-agents' === $post->post_type):
 
-        if (count($wp_request_exp) >= 2) {
-            if ('featured-properties' === $wp_request_exp[1]) {
-                $is_agent_page_featured = true;
-            }
-        }
+    $agent_registration_key = get_post_meta($post->ID, '_flex_agent_registration_key', true);
+    $agent_slugname = $post->post_name;
+    $agent_permalink = implode('/' , [ site_url(), $agent_slugname ]);
+
+    $wp_request_exp = explode('/', $wp->request);
+
+    $is_agent_page_featured = false;
+
+    if (count($wp_request_exp) >= 2) {
+    if ('featured-properties' === $wp_request_exp[1]) {
+        $is_agent_page_featured = true;
+    }
+    }
 ?>
-        <script type="text/javascript">
-            var IB_AGENT_REGISTRATION_KEY = '<?php echo $agent_registration_key; ?>';
-            var IB_AGENT_SLUGNAME = '<?php echo $agent_slugname; ?>';
-            var IB_AGENT_PERMALINK = '<?php echo $agent_permalink; ?>';
-            <?php if (true === $is_agent_page_featured) : ?>
-                var IB_AGENT_FEATURED_PAGE = true;
-            <?php endif; ?>
-        </script>
+<script type="text/javascript">
+var IB_AGENT_REGISTRATION_KEY = '<?php echo $agent_registration_key; ?>';
+var IB_AGENT_SLUGNAME = '<?php echo $agent_slugname; ?>';
+var IB_AGENT_PERMALINK = '<?php echo $agent_permalink; ?>';
+<?php if (true === $is_agent_page_featured): ?>
+var IB_AGENT_FEATURED_PAGE = true;
+<?php endif; ?>
+</script>
 <?php
-    endif;
+endif;
 }
 
 add_action('wp_print_scripts', 'print_inline_js');
@@ -301,41 +305,38 @@ add_action('wp_enqueue_scripts', 'idxboost_cms_register_assets');
 add_action('wp_enqueue_scripts', 'idxboost_cms_enqueue_assets');
 
 // CMS. Setup
-add_action('wp_head', 'idxboost_cms_setup', 101);
+add_action( 'wp_head', 'idxboost_cms_setup', 101 );
 
 // CMS. Load assets
-add_action('wp_head', 'idxboost_cms_assets', 100);
+add_action( 'wp_head', 'idxboost_cms_assets', 100 );
 
 // CMS. Load SEO
-add_action('wp_head', 'custom_seo_page', 0, 0);
+add_action( 'wp_head', 'custom_seo_page', 0, 0 );
 
 // CMS. Load Integrations In heade
-add_action('wp_head', 'idxboost_integrations_head', 0, 0);
+add_action( 'wp_head', 'idxboost_integrations_head', 0, 0 );
 
 // CMS. Load loader
-add_action('idx_dinamic_body', 'idxboost_cms_loader', 10, 1);
-add_action('idx_cms_loader', 'idxboost_cms_loader', 10, 1);
+add_action( 'idx_dinamic_body', 'idxboost_cms_loader', 10, 1 );
+add_action( 'idx_cms_loader', 'idxboost_cms_loader', 10, 1 );
 
 // CMS. Load cta modal
-add_action('get_footer', 'idxboost_cms_cta_modal', 101, 1);
+add_action( 'get_footer', 'idxboost_cms_cta_modal', 101, 1 );
 
 // CMS. Load tripwire
-add_action('get_footer', 'idxboost_cms_tripwire', 101, 1);
+add_action( 'get_footer', 'idxboost_cms_tripwire', 101, 1 );
 
 // CMS. Load translate
-add_action('get_footer', 'idxboost_cms_translate', 101, 1);
+add_action( 'get_footer', 'idxboost_cms_translate', 101, 1 );
 
 // CMS. Update post
-add_action('edit_post', 'idx_edit_post', 10, 2);
+add_action( 'edit_post', 'idx_edit_post', 10, 2 );
 
 // CMS. Disable WP editor for custom and landing pages
-add_action('admin_init', 'hide_editor', 10, 2);
+add_action( 'admin_init', 'hide_editor', 10, 2 );
 
 // Hook general init to login users if an autologin code is specified
 add_action('init', 'idx_autologin_authenticate');
 
 add_action('wp_ajax_update_criterial_alert', 'update_criterial_alert_xhr_fn');
 add_action('wp_ajax_nopriv_update_criterial_alert', 'update_criterial_alert_xhr_fn');
-
-// Remove canonical on flex-idx-pages post types
-add_action('wp', 'remove_canonical');

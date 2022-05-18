@@ -463,57 +463,6 @@ if (!function_exists("idxboost_buyers_form_sc")) {
     add_shortcode("idxboost_buyers_form", "idxboost_buyers_form_sc");
 }
 
-// shortcode_rentals
-if (!function_exists('ib_rentals_sc')) {
-    function ib_rentals_sc($atts, $content = null) {
-        global $flex_idx_info;
-
-        $atts = shortcode_atts(array(
-            'lat' => '',
-            'lng' => '',
-            'zoom' => ''
-        ), $atts);
-
-        ob_start();
-
-        wp_enqueue_script('react-rentals');
-        wp_enqueue_style('react-rentals-css');
-
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rentals_search.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rentals_search.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_rentals_search.php';
-        }
-
-        return ob_get_clean();
-    }
-
-    add_shortcode('ib_rentals', 'ib_rentals_sc');
-}
-
-
-if (!function_exists("idxboost_rentals_form_sc")) {
-    function idxboost_rentals_form_sc() {
-        wp_enqueue_script("iboost-buyers-sellers-js");
-
-        $atts = shortcode_atts(array(
-            'registration_key' => ''
-        ), $atts);
-
-        ob_start();
-
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_rentals_form.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_rentals_form.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/idxboost_rentals_form.php';
-        }
-
-        return ob_get_clean();
-    }
-
-    add_shortcode("idxboost_rentals_form", "idxboost_rentals_form_sc");
-}
-
 if (!function_exists("idxboost_rentals_form_sc")) {
     function idxboost_rentals_form_sc() {
         wp_enqueue_script("iboost-buyers-sellers-js");
@@ -1577,73 +1526,17 @@ if (!function_exists('fb_flex_idx_property_detail_sc')) {
                 'user_agent'  => $user_agent,
             ),
         );
-
-
-        if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
-            $ed = "";
-            $sd = "";
-            $extra_day_in = "";
-            $extra_day_out = "";
-            if (is_array($_GET) && count($_GET)> 0 ) {
-                if (array_key_exists("sd",$_GET)) {
-                    $sd = $_GET["sd"];
-                }
-
-                if (array_key_exists("ed",$_GET)) {
-                    $ed = $_GET["ed"];
-                }   
-
-                if (array_key_exists("extra_day_in",$_GET)) {
-                    $extra_day_in = $_GET["extra_day_in"];
-                }   
-
-                if (array_key_exists("extra_day_out",$_GET)) {
-                    $extra_day_out = $_GET["extra_day_out"];
-                }
-            }
-
-            $curl = curl_init();
-                curl_setopt_array($curl, array(
-                  CURLOPT_URL => FLEX_IDX_BASE_URL."/rentals_listings/{$slug}",
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => array(
-                    'type_search' => 'slug',
-                    'check_in'  => $sd,
-                    'check_out' => $ed,
-                    "extra_day_in" => $extra_day_in,
-                    "extra_day_out" => $extra_day_out,
-                    'access_token' => $access_token),
-            ));
-
-            $server_output = curl_exec($curl);
-            $response = json_decode($server_output, true);
-            curl_close($curl);
-            $current_url = home_url($wp_request);
-            $property    = (isset($response) && is_array($response) && count($response)>0 ) ? $response : array();
-        }else{
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
-            $response = json_decode($server_output, true);
-            $current_url = home_url($wp_request);
-            $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
-        }
-
-
-
-
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($server_output, true);
+        $current_url = home_url($wp_request);
+        $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
         return $property;
     }
 }
@@ -1800,22 +1693,15 @@ function insert_fb_in_head() {
 
     if (is_numeric($postproperty) && $postproperty>=0 ) {
         $data = fb_flex_idx_property_detail_sc([], null);  $GLOBALS['property']= $data;
-        if ( !is_array($data) || (is_array($data) && count($data) == 0) )  {
-            return false;
-        }
         $address_property=$data['address_short'].' '.$data['address_large'];
         $mls_num_property=$data['mls_num'];
         $city_name=$data['city_name'];
+        $is_rental=$data['is_rental'];
 
-        if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
-            $text_rental='For Vacation Rental';
-        }else{
-            $is_rental=$data['is_rental'];
-            if ($is_rental=='0') {
-                $text_rental='For Sale';
-            } else {
-                $text_rental='For Rent';
-            }
+        if ($is_rental=='0') {
+            $text_rental='For Sale';
+        } else {
+            $text_rental='For Rent';
         }
 
         if (empty($data) || !is_array($data) || (is_array($data) && count($data)==0) ) {
@@ -2013,6 +1899,24 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             ),
         );
 
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($server_output, true);
+
+        $current_url = home_url($wp_request);
+        $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+
+        wp_enqueue_script('flex-idx-property-js');
+
         $agent_info_name  = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
         $agent_last_name  = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
         $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
@@ -2025,172 +1929,48 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $agent_info_photo = $agent_avatar_image;
         }
 
+        if (empty($atts['registration_key'])) {
+            $property_permalink = rtrim($flex_idx_info['pages']['flex_idx_property_detail']['guid'], "/") . $prefix_property_slug . $property['slug'];
+        } else {
+            $property_permalink = site_url() . '/' . $slugname . '/' . $pagename . $prefix_property_slug . $property['slug'];
+        }
+
         // build facebook url share
         $site_title = get_bloginfo('name');
 
-        if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
+        $facebook_share_url    = '//www.facebook.com/sharer/sharer.php';
+        $facebook_share_params = http_build_query(array(
+            'u'           => $property_permalink,
+            'picture'     => $property['gallery'][0],
+            'title'       => $property['address_short'] . ' ' . $property['address_large'],
+            'caption'     => $site_title,
+            'description' => $property['remark'],
+        ));
 
-            $ed = "";
-            $sd = "";
-            $extra_day_in = "";
-            $extra_day_out = "";
-            if (is_array($_GET) && count($_GET)> 0 ) {
-                if (array_key_exists("sd",$_GET)) {
-                    $sd = $_GET["sd"];
-                }
+        $facebook_share_url .= '?' . $facebook_share_params;
 
-                if (array_key_exists("ed",$_GET)) {
-                    $ed = $_GET["ed"];
-                }   
+        // build twitter url share
+        $twitter_text = $property['address_short'] . ' ' . $property['address_large'];
 
-                if (array_key_exists("extra_day_in",$_GET)) {
-                    $extra_day_in = $_GET["extra_day_in"];
-                }   
+        $twitter_share_url_params = http_build_query(array(
+            'text' => $twitter_text,
+            'url'  => $property_permalink,
+        ));
 
-                if (array_key_exists("extra_day_out",$_GET)) {
-                    $extra_day_out = $_GET["extra_day_out"];
-                }                                   
-            }
+        $twitter_share_url = 'https://twitter.com/intent/tweet?' . $twitter_share_url_params;
 
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-              CURLOPT_URL => FLEX_IDX_BASE_URL."/rentals_listings/{$slug}",
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => '',
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 0,
-              CURLOPT_FOLLOWLOCATION => true,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => 'POST',
-              CURLOPT_POSTFIELDS => array(
-                'type_search' => 'slug',
-                'check_in'  => $sd,
-                'check_out' => $ed,
-                "extra_day_in" => $extra_day_in,
-                "extra_day_out" => $extra_day_out,
-                'access_token' => $access_token),
-            ));
+				$agent_info = get_option('idxboost_agent_info');
+				$registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
 
-            $response = curl_exec($curl);
-            curl_close($curl);
+        ob_start();
 
-            $property = [];
-            if ( !empty($response)) {
-                $property = @json_decode($response,true);
-                if (is_array($property) && count($property) > 0 ) {
-                    if (array_key_exists("error", $property)) {
-                        $property    = array();
-                    }
-                }
-            }
+				if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php')) {
+					include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php';
+				} else {
+					include FLEX_IDX_PATH . '/views/shortcode/flex_idx_property_detail.php';
+				}
 
-            if (is_array($property) && count($property) > 0 ) {
-
-                if (empty($atts['registration_key'])) {
-                    $property_permalink = rtrim($flex_idx_info['pages']['flex_idx_property_detail']['guid'], "/") . $prefix_property_slug . $property['slug'];
-                } else {
-                    $property_permalink = site_url() . '/' . $slugname . '/' . $pagename . $prefix_property_slug . $property['slug'];
-                }
-
-                $facebook_share_url    = '//www.facebook.com/sharer/sharer.php';
-                $facebook_share_params = http_build_query(array(
-                    'u'           => $property_permalink,
-                    'picture'     => $property['gallery'][0],
-                    'title'       => $property['address_short'] . ' ' . $property['address_large'],
-                    'caption'     => $site_title,
-                    'description' => $property['remarks'],
-                ));
-
-                $facebook_share_url .= '?' . $facebook_share_params;
-
-                // build twitter url share
-                $twitter_text = $property['address_short'] . ' ' . $property['address_large'];
-
-                $twitter_share_url_params = http_build_query(array(
-                    'text' => $twitter_text,
-                    'url'  => $property_permalink,
-                ));
-
-                $twitter_share_url = 'https://twitter.com/intent/tweet?' . $twitter_share_url_params;
-                
-                $agent_info = get_option('idxboost_agent_info');
-                $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
-                
-            }
-
-
-
-            ob_start();
-
-                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rental_property.php')) {
-                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rental_property.php';
-                    } else {
-                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_rental_property.php';
-                    }
-
-            $output = ob_get_clean();
-
-        }else{
-
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-            $server_output = curl_exec($ch);
-            curl_close($ch);
-
-            $response = json_decode($server_output, true);
-
-            $current_url = home_url($wp_request);
-            $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
-            
-            wp_enqueue_script('flex-idx-property-js');
-
-            if (empty($atts['registration_key'])) {
-                $property_permalink = rtrim($flex_idx_info['pages']['flex_idx_property_detail']['guid'], "/") . $prefix_property_slug . $property['slug'];
-            } else {
-                $property_permalink = site_url() . '/' . $slugname . '/' . $pagename . $prefix_property_slug . $property['slug'];
-            }
-
-            $facebook_share_url    = '//www.facebook.com/sharer/sharer.php';
-            $facebook_share_params = http_build_query(array(
-                'u'           => $property_permalink,
-                'picture'     => $property['gallery'][0],
-                'title'       => $property['address_short'] . ' ' . $property['address_large'],
-                'caption'     => $site_title,
-                'description' => $property['remark'],
-            ));
-
-            $facebook_share_url .= '?' . $facebook_share_params;
-
-            // build twitter url share
-            $twitter_text = $property['address_short'] . ' ' . $property['address_large'];
-
-            $twitter_share_url_params = http_build_query(array(
-                'text' => $twitter_text,
-                'url'  => $property_permalink,
-            ));
-
-            $twitter_share_url = 'https://twitter.com/intent/tweet?' . $twitter_share_url_params;
-
-                    $agent_info = get_option('idxboost_agent_info');
-                    $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
-
-            ob_start();
-
-    				if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php')) {
-    					include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php';
-    				} else {
-    					include FLEX_IDX_PATH . '/views/shortcode/flex_idx_property_detail.php';
-    				}
-
-            $output = ob_get_clean();
-        }
-
+        $output = ob_get_clean();
 
         return $output;
     }

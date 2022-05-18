@@ -202,7 +202,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     data-share-title="<?php echo $post->post_title; ?>" 
                     data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
                     data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
-                    onclick="idxsharefb_building()" rel="nofollow">Facebook</a></li>
+                    onclick="idxsharefb_building()" rel="nofollow">Faceboook</a></li>
                   <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
                 </ul>
               </div>
@@ -348,7 +348,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                           data-share-title="<?php echo $post->post_title; ?>" 
                           data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
                           data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
-                          onclick="idxsharefb_building()" rel="nofollow">Facebook</a></li>                        
+                          onclick="idxsharefb_building()" rel="nofollow">Faceboook</a></li>                        
                         <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
                       </ul>
                     </div>
@@ -387,8 +387,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>"
                     class="ico-facebook property-detail-share-fb"
                     onclick="idxsharefb_building()"
-                    title="Facebook"
-                    rel="nofollow"><?php echo __("Facebook", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                    title="Faceboook"
+                    rel="nofollow"><?php echo __("Faceboook", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                   <li><a class="ico-twitter" href="#" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" title="Twitter" rel="nofollow"><?php echo __("Twitter", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                 </ul>
               </div>
