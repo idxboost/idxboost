@@ -7,6 +7,7 @@ var textmp;
 var initial_title;
 var initial_href;
 var item_for_data_layer=[];
+var init_sold = 0,init_sale=0;
 
 /*tags*/
 var IB_SEARCH_FILTER_PAGE = true;
@@ -729,7 +730,43 @@ $(function() {
             //loadTitleBuilding('Pending');
           }
           /*botones tabs lateral mobile*/
-          ib_change_view( viebuil ,tabbuil );
+          if ( tabbuil == 'tab_sold' && init_sold == 0 ) {
+            init_sold = 1;
+            if (idxboostCollecBuil.payload.property_display_sold == "grid") {
+              if (__flex_g_settings.is_mobile =="1" ) {
+                $('.idxboost_collection_filterviews select').val("grid");
+              }else{
+                $('.idxboost_collection_filterviews .grid').click();
+              }
+            }else{
+              if (__flex_g_settings.is_mobile =="1" ) {
+                $('.idxboost_collection_filterviews select').val("list");
+              }else{
+                $('.idxboost_collection_filterviews .list').click();
+              }
+            }
+            
+          }else if ( ( ["tab_sale","tab_rent",'tab_pending'].includes(tabbuil) )  && init_sale == 0 ) {
+            init_sale = 1;
+            if (idxboostCollecBuil.payload.property_display_active == "grid") {
+              if (__flex_g_settings.is_mobile =="1" ) {
+                $('.idxboost_collection_filterviews select').val("grid");
+              }else{
+                $('.idxboost_collection_filterviews .grid').click();
+              }
+            }else{
+              if (__flex_g_settings.is_mobile =="1" ) {
+                $('.idxboost_collection_filterviews select').val("list");
+              }else{
+                $('.idxboost_collection_filterviews .list').click();
+              }
+            }
+            
+          }else{
+            ib_change_view( viebuil ,tabbuil );
+          }
+          
+
         });
 
 

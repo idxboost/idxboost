@@ -74,20 +74,6 @@ if ( is_array($result) && count($result) > 0 ) {
     ) {
         if ( array_key_exists("style", $GLOBALS['crm_theme_setting']) ) {
             echo 'document.body.style = "' . trim($GLOBALS['crm_theme_setting']["style"]) . '";';
-            
-            if ( 
-                array_key_exists("fontFamily", $GLOBALS['crm_theme_setting']) &&
-                $GLOBALS['crm_theme_setting']["fontFamily"] == "compass-sans-and-serif"
-            ) {
-                echo "document.body.classList.add('compass-sans-and-serif');";
-            }
-
-            if ( 
-                array_key_exists("fontFamily", $GLOBALS['crm_theme_setting']) &&
-                $GLOBALS['crm_theme_setting']["fontFamily"] == "dinengschrift-and-open-sans"
-            ) {
-                echo "document.body.classList.add('dinengschrift-and-open-sans');";
-            }
         }
     }
 

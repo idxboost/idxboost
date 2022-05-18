@@ -5,7 +5,7 @@ global $flex_idx_info;
 
 
 $data = array(
-    'registration_key' => get_option('idxboost_registration_key'),
+    "registration_key" => get_option('idxboost_registration_key'),
     "page_type" => 'contact'
 );
 
@@ -32,9 +32,7 @@ $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 if ($httpcode == 200) {
     if (json_decode($result)->content != null) {
-        echo '<div class="flex_ix_about_page">';
         echo json_decode($result)->content;
-        echo '</div>';
     } else {
         status_header( 404 );
         nocache_headers();

@@ -575,6 +575,9 @@
               <option value="price-asc" <?php selected($response['order'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="sqft-desc" <?php selected($response['order'], 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="sqft-asc" <?php selected($response['order'], 'sqft-asc'); ?>><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price_sqft-desc" <?php selected($response['order'], 'price_sqft-desc'); ?>><?php echo __("Highest Price/Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price_sqft-asc" <?php selected($response['order'], 'price_sqft-asc'); ?>><?php echo __("Lowest Price/Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+
           </select>
         </li>
         <li id="filter-views" class="filter-views filter-views-<?php echo $class_multi; ?> clidxboost-icon-arrow-select <?php echo $response['view']; ?>" filtemid="<?php echo $class_multi; ?>">
