@@ -376,9 +376,25 @@ global $flex_idx_info, $flex_idx_lead;
                 <?php endif; ?>
                 <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
                 <li>
-                  <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
+                <div id="g_id_onload"
+                            data-client_id="<?php echo $flex_idx_info["agent"]["google_client_id"]; ?>"
+                            data-context="signin"
+                            data-ux_mode="popup"
+                            data-callback="handleCredentialResponse"
+                            data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                          data-type="standard"
+                          data-shape="rectangular"
+                          data-theme="outline"
+                          data-text="$ {button.text}"
+                          data-size="large"
+                          data-logo_alignment="left"
+                          data-width="360"
+                    ></div>
+                  <?php /* <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
                     <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                  </a>
+                  </a> */ ?>
                 </li>
                 <?php endif; ?>
                 <li>
@@ -1434,6 +1450,359 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
 </script>
 
 <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+function handleCredentialResponse(token) {
+  if (!token || !token.hasOwnProperty("credential")) {
+    return;
+  }
+
+  var jwt = token.credential.split(".");
+  var profile = JSON.parse(atob(jwt[1]));
+
+  var google_user_info = {
+    'name': profile.name,
+    'first_name': profile.given_name,
+    'last_name': profile.family_name,
+    'email': profile.email,
+    'id': profile.sub,
+    'photo_profile_url': profile.hasOwnProperty("picture") ? profile.picture : ""
+  };
+
+  console.dir(google_user_info);
+
+  // hide registration form
+  jQuery("#modal_login").removeClass("active_modal");
+
+  swal({
+    title: word_translate.your_account_is_being_created,
+    text: word_translate.this_might_take_a_while_do_not_reload_thepage,
+    type: "info",
+    showConfirmButton: false,
+    closeOnClickOutside: false,
+    closeOnEsc: false
+  });
+
+  jQuery.ajax({
+                url: __flex_g_settings.ajaxUrl,
+                method: "POST",
+                data: {
+                    window_width: window.innerWidth,
+                    user_info: google_user_info,
+                    logon_type: "google",
+                    action: "flex_idx_lead_signin",
+                    ib_tags: jQuery("formRegister_ib_tags").val(),
+                    registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null                    
+                },
+                dataType: "json",
+                success: function(response) {
+                    var ib_log_message = response.message;
+
+                    IS_CUSTOM_SIGNUP = true;
+
+                    if (response.message=='Logged in succesfully.'){
+                        ib_log_message=word_translate.logged_in_succesfully;
+                        // if ("undefined" !== typeof redirectregister) {
+                        //     custom_modal_redirect(redirectregister);
+                        // }
+                    }else if(response.message=='Your account has been created successfully.'){
+                        ib_log_message=word_translate.your_account_has_been_created_successfully;
+                        // if ("undefined" !== typeof redirectregister) {
+                        //     custom_modal_redirect(redirectregister);
+                        // }
+                      // track google signup
+                      if (typeof dataLayer !== "undefined") {
+                        dataLayer.push({'event': 'google_signin'});
+                      }
+                    }else if(response.message=='Invalid credentials, try again.'){
+                        ib_log_message=word_translate.invalid_credentials_try_again;
+                    }
+
+                    if (response.success === true) {
+                      if ("signup" === response.logon_type) {
+                        if (typeof dataLayer !== "undefined") {
+                          dataLayer.push({'event': 'google_register'});
+                        }
+                      } else if ("signin" === response.logon_type) {
+                        if (typeof dataLayer !== "undefined") {
+                          dataLayer.push({'event': 'google_signin'});
+                        }
+                      }
+
+                      idx_auto_save_building(response);
+                      
+                      Cookies.set('ib_lead_token', response.lead_token, { expires: 30 });
+
+                        // if available history menu for lead
+                        if (jQuery("#ib-lead-history-menu-btn").length) {
+                          jQuery.ajax({
+                            url :__flex_g_settings.fetchLeadActivitiesEndpoint,
+                            method: "POST",
+                            data: {
+                              access_token: __flex_g_settings.accessToken,
+                              flex_credentials: Cookies.get("ib_lead_token")
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                              if ("yes" === response.lead_info.show_help_tooltip) {
+                                jQuery("#ib-lead-history-tooltip-help").show();
+                              }
+
+                              jQuery("#ib-lead-history-menu-btn").show();
+
+                              // fill generated values
+                              var fill_first_letter_name_values = [];
+
+                              if (response.lead_info.first_name.length) {
+                                fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
+                              }
+
+                              if (response.lead_info.last_name.length) {
+                                fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
+                              }
+
+
+                              if (__flex_g_settings.has_cms == "1") {
+                                jQuery("body").addClass("logged");
+                                jQuery(".js-login").addClass("ip-d-none");
+                              }
+                                  
+
+                              jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
+                              
+                              if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
+                                jQuery(".ib-lead-first-letter-name").css({
+                                  'background-color': 'transparent',
+                                  'background-image': 'url(' + response.lead_info.photo_url + ')',
+                                  'background-repeat': 'no-repeat',
+                                  'background-size': 'contain',
+                                  'background-position': 'center center',
+                                  'text-indent': '-9999px'
+                                });
+                              }
+
+                              jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
+                              jQuery(".ib-lead-firstname").html(word_translate.hello+" " + response.lead_info.first_name + "!");
+
+                              jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
+                              jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+                              jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
+                              jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
+                              jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
+                              jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
+
+                              // fill activity lead
+                              jQuery("#_ib_lead_activity_rows").empty();
+                              jQuery("#_ib_lead_activity_pagination").empty();
+
+                              if (response.lead_info.listing_views.length) {
+                                var lead_listing_views = response.lead_info.listing_views;
+                                var lead_listing_views_html = [];
+
+                                for (var i = 0, l = lead_listing_views.length; i < l; i++) {
+                                  lead_listing_views_html.push('<div class="ms-item">');
+                                  lead_listing_views_html.push('<div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper">');
+                                  lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
+                                  lead_listing_views_html.push('</div>');
+                                  lead_listing_views_html.push('<div class="ms-property-detail">');
+                                  lead_listing_views_html.push('<h3 class="ms-title">'+lead_listing_views[i].address_short+'</h3>');
+                                  lead_listing_views_html.push('<h4 class="ms-address">'+lead_listing_views[i].address_large+'</h4>');
+                                  lead_listing_views_html.push('<h5 class="ms-price">'+lead_listing_views[i].price+'</h5>');
+                                  lead_listing_views_html.push('<div class="ms-details">');
+                                    lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' '+word_translate.beds+'</span>');
+                                    lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' '+word_translate.baths+'</span>');
+                                    lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' '+word_translate.sqft+'</span>');
+                                  lead_listing_views_html.push('</div>');
+                                  lead_listing_views_html.push('</div>');
+                                  //lead_listing_views_html.push('<div class="ms-property-actions">');
+                                  //lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
+                                  //lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
+                                  //lead_listing_views_html.push('</div>');
+                                  lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
+                                  lead_listing_views_html.push('</div>');
+                                }
+
+                                jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
+                              }
+
+                              // build pagination
+                              if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+                                if (response.lead_info.listing_views_pagination.total_pages > 1) {
+                                  var lead_listing_views_paging = [];
+
+                                  if (response.lead_info.listing_views_pagination.has_prev_page) {
+                                    lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
+                                  }
+
+                                  lead_listing_views_paging.push('<div class="ib-paglinks">');
+
+                                  var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+
+                                  for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+                                    if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+                                      lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                    } else {
+                                      lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                    }
+                                  }
+
+                                  lead_listing_views_paging.push('</div>');
+
+                                  if (response.lead_info.listing_views_pagination.has_next_page) {
+                                    lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                                  }
+
+                                  jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                }
+                              }
+                            }
+                          });
+                        }
+
+                        // socket.subscribe(__flex_g_settings.pusher.presence_channel);
+                        if ("undefined" !== typeof socket) {
+                            socket.disconnect();
+
+                            socket = new Pusher(__flex_g_settings.pusher.app_key, {
+                              cluster: __flex_g_settings.pusher.app_cluster,
+                              encrypted: true,
+                              authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+                            });
+                            
+                            socket.subscribe(__flex_g_settings.pusher.presence_channel);
+                          }
+
+                        // callback [login]
+
+                        // jQuery(".close").click();
+
+                        // updates lead list menu HTML
+                        jQuery("#user-options").html(response.output);
+                        jQuery(".lg-wrap-login:eq(0)").html(response.output);
+                        jQuery(".lg-wrap-login:eq(0)").addClass("active");
+
+                        // // reset registration form
+                        // _self.trigger('reset');
+
+                        // save last logged in username
+                        Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
+
+                        // store first name
+                        Cookies.set("_ib_user_firstname", response.first_name);
+
+                        // store last name
+                        Cookies.set("_ib_user_lastname", response.last_name);
+
+                        // store phone
+                        Cookies.set("_ib_user_phone", response.phone);
+
+                        // store email
+                        Cookies.set("_ib_user_email", response.email);
+
+                        jQuery("#_ib_fn_inq").val(response.first_name);
+                        jQuery("#_ib_ln_inq").val(response.last_name);
+                        jQuery("#_ib_em_inq").val(response.email);
+                        jQuery("#_ib_ph_inq").val(response.phone);
+
+                        jQuery("._ib_fn_inq").val(response.first_name);
+                        jQuery("._ib_ln_inq").val(response.last_name);
+                        jQuery("._ib_em_inq").val(response.email);
+                        jQuery("._ib_ph_inq").val(response.phone);
+
+                        jQuery('html').removeClass('modal_mobile');
+
+                        // overwrite lead status globally
+                        __flex_g_settings.anonymous = "no";
+
+                        //if ("undefined" !== lastOpenedProperty) {
+                        if (typeof lastOpenedProperty !== "undefined") {
+                          if (typeof loadPropertyInModal !== "undefined") {
+                            window.loadPropertyInModal(lastOpenedProperty);
+                          }
+                        }
+
+                        if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
+                          // track listing view
+                          jQuery.ajax({
+                            type: "POST",
+                            url: __flex_g_settings.ajaxUrl,
+                            data: {
+                              action: "track_property_view",
+                              board_id: __flex_g_settings.boardId,
+                              mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
+                              mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")) )
+                            },
+                            success: function(response) {
+                              console.log("track done for property #" + lastOpenedProperty);
+                              Cookies.set("_ib_user_listing_views", JSON.stringify([]));
+                            }
+                          });
+                        }
+
+                        // notify user with success message
+
+                        swal({
+                          title: word_translate.congratulations,
+                          text: ib_log_message,
+                          type: "success",
+                          showConfirmButton: false,
+                          closeOnClickOutside: true,
+                          closeOnEsc: true,
+                          timer: 3000
+                        });
+
+                        setTimeout(function () {
+                            if (typeof originalPositionY !== "undefined") {
+                              if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
+                                console.log('restoring to: ' + originalPositionY);
+                                window.scrollTo(0,originalPositionY);
+                              }
+                            }
+                        }, 3000);
+
+                        if ( ("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
+                             ("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE) ) {
+                          // save filter for lead is it doesnt exists
+                          saveFilterSearchForLead();
+                        }
+
+                        //to generate the google tag conversion of sigened in user
+                        if (typeof gtagfucntion == 'function') {
+                          gtagfucntion();
+                        }
+
+                        setTimeout(function () {
+                            console.group('[googleSignup]');
+                              console.log(__flex_g_settings.user_show_quizz);
+                              console.dir(response);
+                            console.groupEnd('[googleSignup]');
+
+                            //if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                            //if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
+                              // @todo open view
+                              if ("signup" == response.logon_type) {
+
+                              jQuery("#__quizz_type").val("google");
+                              jQuery("#__quizz_type_phone_ct").show();
+                              jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
+                              jQuery("#__quizz_type_phone_ct").addClass("ib-active");
+                              jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                            }
+                          }, 3000);
+
+                        // setTimeout(function () {
+                        //   if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
+                        //     jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                        //   }
+                        // }, 3000);
+                    } else {
+                        sweetAlert("Oops...", ib_log_message, "error");
+                    }
+                }
+            });
+}
+</script>
+<?php /*
 <script src="https://apis.google.com/js/api:client.js"></script>
 <script>
   var googleUser = {};
@@ -1818,6 +2187,7 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
 
    startApp();
   </script>
+  */ ?>
 <?php endif; ?>
 
 <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>

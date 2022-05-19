@@ -248,20 +248,18 @@ if ( ! function_exists('idxboost_team_page_sc') ) {
         global $flex_idx_info;
 
         if ( ! empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
-            // if (! empty($flex_idx_info['agent']['has_cms_team']) && $flex_idx_info['agent']['has_cms_team'] != false ) {
-                
-                wp_enqueue_script('idx_boost_js_team', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/team.js', array(), false, true);
+            if (! empty($flex_idx_info['agent']['has_cms_team']) && $flex_idx_info['agent']['has_cms_team'] != false ) {
 
                 ob_start();
 
-                if ( file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_team_page.php') ) {
-                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_team_page.php';
+                if ( file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_team.php') ) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_team.php';
                 } else {
-                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_team_page.php';
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_team.php';
                 }
 
                 return ob_get_clean();
-            // }
+            }
         }
 
         idx_page_404();
