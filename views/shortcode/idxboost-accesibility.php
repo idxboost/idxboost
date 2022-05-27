@@ -6,62 +6,66 @@ $state=$response['data']['state'];
 
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_email_address']) : '';
-
 ?>
-
+<style>#termsUse .ms-wrapper-section article h2 {font-weight: bold;}</style>
 
 <div class="ms-access-content-terms">
     <h1><?php echo __('Accessibility', IDXBOOST_DOMAIN_THEME_LANG); ?></h1>
     <p>
       <strong><?php echo $companyName; ?></strong><?php echo __(' is committed to providing an accessible website. If you have difficulty accessing content, have difficulty viewing a file on the website, or notice any accessibility problems, please contact us to ', IDXBOOST_DOMAIN_THEME_LANG); ?><strong>( <a href="mailto:<?php echo $idx_contact_email; ?>"><?php echo $idx_contact_email; ?></a> <a href="tel:<?php echo $idx_contact_phone; ?>"><?php echo $idx_contact_phone; ?></a> )</strong>
-        <?php echo __('to specify the nature of the accessibility issue and any assistive technology you use. NAR will strive to provide the content you need in the format you require.', IDXBOOST_DOMAIN_THEME_LANG); ?>
+      <?php echo __('to specify the nature of the accessibility issue and any assistive technology you use. NAR will strive to provide the content you need in the format you require.', IDXBOOST_DOMAIN_THEME_LANG); ?>
     </p>
     <p>
       <strong><?php echo $companyName; ?></strong> <?php echo __('welcomes your suggestions and comments about improving ongoing efforts to increase the accessibility of this website.', IDXBOOST_DOMAIN_THEME_LANG); ?>
     </p>
 
-    <h2><?php echo __('Web Accessibility Help', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-    <p>
-        <?php echo __('There are actions you can take to adjust your web browser to make your web experience more accessible.', IDXBOOST_DOMAIN_THEME_LANG); ?>
-    </p>
-
+    <h2><?php echo __('Accessibility Resources for Developers, Document Authors, and Contractors', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+    <p><?php echo __('Social Security Administration software developers and electronic content authors use a variety of accessibility guides and training materials to make the content provided on ssa.gov accessible. SSA makes these resources available as a public service to assist anyone interested in developing and authoring accessible electronic content', IDXBOOST_DOMAIN_THEME_LANG); ?>. <br><a href="https://www.ssa.gov/accessibility/andi/help/install.html" target="_blank" rel="noopener noreferrer" title="Install ANDI, Submenu Closed"><?php echo __('Install ANDI', IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
     <div class="ms-access-accordion">
-
       <div class="accordion-item">
-        <a class="accordion-title"><?php echo __('I am blind or can\'t see very well', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <button class="accordion-title"><?php echo __('ANDI - Web Content Accessibility Test Tool', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         <div class="ms-access-content">
-          <p><?php echo __('If you have trouble seeing web pages, the US Social Security Administration offers these tips (link is external) for optimizing your computer and browser to improve your online experience.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+          <p><?php echo __('ANDI, the Accessible Name & Description Inspector is a lightweight accessibility tool you can use to check for 508 compliance as you design and develop web applications', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <p><?php echo __('Installation is as easy as adding a favorite or bookmark', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <p><?php echo __('ANDI is a simple interface that', IDXBOOST_DOMAIN_THEME_LANG); ?>:</p>
           <ul>
-          <li><a href="https://www.ssa.gov/accessibility/browseAloud.html" target="_blank"><?php echo __('Use your computer to read web pages out loud', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-          <li><a href="https://www.ssa.gov/accessibility/keyboard_nav.html" target="_blank"><?php echo __('Use the keyboard to navigate screens', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-          <li><a href="https://www.ssa.gov/accessibility/textsize.html" target="_blank"><?php echo __('Increase text size', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-          <li><a href="https://www.ssa.gov/accessibility/magnifyscreen.html" target="_blank"><?php echo __('Magnify your screen', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-          <li><a href="https://www.ssa.gov/accessibility/changecolors.html" target="_blank"><?php echo __('Change background and text colors', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-          <li><a href="https://www.ssa.gov/accessibility/mousepointer.html" target="_blank"><?php echo __('Make your mouse pointer more visible', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><?php echo __('Automatically detects potential accessibility issues', IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
+            <li><?php echo __('Discovers what a screen reader should say', IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
+            <li><?php echo __('Suggests ways to improve accessibility', IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
+            <li><?php echo __('Uses a design method that simplifies complex W3C specifications', IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
           </ul>
         </div>
       </div>
-
       <div class="accordion-item">
-        <a class="accordion-title"><?php echo __('I find a keyboard or mouse hard to use', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <button class="accordion-title"><?php echo __('Alternative Text Guide', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         <div class="ms-access-content">
-          <p><?php echo __('If you find a keyboard or mouse difficult to use, speech recognition software such as', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="<?php echo $websiteDomain; ?>" target="_blank"><?php echo $websiteDomain; ?></a> <?php echo __('may help you navigate web pages and online services. This software allows the user to move focus around a web page or application screen through voice controls.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+          <p><?php echo __('Alternative text can be applied to images, charts, diagrams, buttons, and other interface elements to convey information and purpose textually. Problems occur when alternative text is written incorrectly, confuses users, or does not provide the correct context. While the creation of alternative text is not an exact science, SSA strives to provide meaningful alternative text by following the practical guidance contained in this comprehensive reference guide', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <a href="https://www.ssa.gov/accessibility/files/SSA_Alternative_Text_Guide.pdf" target="_blank" rel="noopener noreferrer" auto-tracked="true" title="Download Guide, Submenu Closed"><?php echo __('Download Guide', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
         </div>
       </div>
-
       <div class="accordion-item">
-        <a class="accordion-title"><?php echo __('I am deaf or hard of hearing', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <button class="accordion-title"><?php echo __('Accessible Document Authoring & Testing', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         <div class="ms-access-content">
-          <p><?php echo __('If you are deaf or hard of hearing, there are several accessibility features available to you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-          <h4><?php echo __('Transcripts', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-          <p><?php echo __('A text transcript is a text equivalent of audio information that includes spoken words and non-spoken sounds such as sound effects. NAR is working on adding transcripts to all scripted video and audio content.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-          <h4><?php echo __('Captioning', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-          <p><?php echo __('A caption is transcript for the audio track of a video presentation that is synchronized with the video and audio tracks. Captions are generally rendered visually by being superimposed over the video, which benefits people who are deaf and hard-of-hearing, and anyone who cannot hear the audio (e.g., when in a crowded room). Most of NAR\'s video content includes captions.', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="https://support.google.com/youtube/answer/100078?hl=en" target="_blank"><?php echo __('Learn how to turn captioning on and off in YouTube.', IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
-          <h4><?php echo __('Volume controls', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-          <p><?php echo __('Your computer, tablet, or mobile device has volume control features. Each video and audio service has its own additional volume controls. Try adjusting both your device\'s volume controls and your media players\' volume controls to optimize your listening experience.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+          <p><?php echo __('On ssa.gov, the agency aims to provide an accessible HTML equivalent of all electronic documents provided on the site. In situations where this is not possible, the agencys goal is to provide each electronic document in an accessible format. Whereas the Section 508 accessibility standards currently do not provide specific technical guidance on what constitutes an accessible electronic document, the agency uses the following guides to author and test Word, PowerPoint, Excel and PDF documents for accessibility', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <ul>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/word2013/Word2016.html" target="_blank" rel="noopener noreferrer" title="Word 2016 Accessibility Checklist, Submenu Closed"><?php echo __('Word 2016 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/word2013/Word2013.html" target="_blank" rel="noopener noreferrer" title="Word 2013 Accessibility Checklist, Submenu Closed"><?php echo __('Word 2013 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/pdf/pdfchecklist.html" target="_blank" rel="noopener noreferrer" title="PDF Accessibility Checklist, Submenu Closed"><?php echo __('PDF Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/ppt/pptchecklist2016.html" target="_blank" rel="noopener noreferrer" title="PowerPoint 2016 Accessibility Checklist, Submenu Closed"><?php echo __('PowerPoint 2016 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/ppt/pptchecklist.html" target="_blank" rel="noopener noreferrer" title="PowerPoint 2013 Accessibility Checklist, Submenu Closed"><?php echo __('PowerPoint 2013 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/excel/excelchecklist2016.html" target="_blank" rel="noopener noreferrer" title="Excel 2016 Accessibility Checklist, Submenu Closed"><?php echo __('Excel 2016 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/excel/excelchecklist.html" target="_blank" rel="noopener noreferrer" title="Excel 2013 Accessibility Checklist, Submenu Closed"><?php echo __('Excel 2013 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a href="https://www.ssa.gov/accessibility/checklists/ol/outlookChecklist2016.html" target="_blank" rel="noopener noreferrer" title="Outlook 2016 Accessibility Checklist, Submenu Closed"><?php echo __('Outlook 2016 Accessibility Checklist', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+          </ul>
         </div>
       </div>
-
+      <div class="accordion-item">
+        <button class="accordion-title"><?php echo __('Resources for Contractors', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+        <div class="ms-access-content">
+          <p><?php echo __('Social Security Administration applies the Section 508 standards and other accessibility terms and conditions when we purchase information technology and communications products and services. The following information is provided to assist prospective vendors with responding to solicitations and with product design and development activities', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <a href="https://www.ssa.gov/accessibility/contractor_resources.html" target="_blank" title="Contractor Resources, Submenu Closed"><?php echo __('Contractor Resources', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        </div>
+      </div>
     </div>
 </div>
 
