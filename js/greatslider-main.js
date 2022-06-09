@@ -148,9 +148,9 @@
 	var $propertiesSlider = $(".clidxboost-properties-slider");
 	if($propertiesSlider.length) {
 		var initialItems, autoPlaySpeed, autoPlay  = "";
-    var dataItems = $propertiesSlider.parents("#featured-section").attr("data-item");
-    var autoPlayStatus = ($propertiesSlider.parents("#featured-section").attr("auto-play")) * 1;
-    var autoPlayspeed = $propertiesSlider.parents("#featured-section").attr("speed-slider");
+    var dataItems = $propertiesSlider.parents(".featured-section").attr("data-item");
+    var autoPlayStatus = ($propertiesSlider.parents(".featured-section").attr("auto-play")) * 1;
+    var autoPlayspeed = $propertiesSlider.parents(".featured-section").attr("speed-slider");
 
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
 			autoPlay = true;

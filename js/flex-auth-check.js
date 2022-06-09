@@ -260,7 +260,7 @@ function idx_auto_save_building(lead_data){
 								(__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ||
 								(typeof(idxboost_force_registration) != "undefined" && idxboost_force_registration != false )
 							) {
-						if(typeof(idxboostCollecBuil) !== 'undefined' && idxboostCollecBuil.success != false){
+						if(typeof(idxboostCollecBuil) !== 'undefined' && idxboostCollecBuil.hasOwnProperty("success") && idxboostCollecBuil.success != false){
 							var search_count=0;
 							var name_alert='';
 							var query_filter='';

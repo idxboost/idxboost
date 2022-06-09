@@ -277,7 +277,7 @@ function ib_init_script(){
                  data: jQuery('.idxboost_collection_xr').serialize(),
                  dataType: "json",
                  success: function(response) {
-                   if (response.success === true) {
+                   if ( response != null && response.hasOwnProperty("success") && response.success === true) {
                   idxboostCollecBuil=response;
 
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
@@ -1410,9 +1410,9 @@ function genMultiSliderBuilding(element){
   if($multiSlider.length) {
 
     var initialItems, autoPlaySpeed, autoPlay  = "";
-    var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
-    var autoPlayStatus = ($multiSlider.parents("#featured-section").attr("auto-play")) * 1;
-    var autoPlayspeed = $multiSlider.parents("#featured-section").attr("speed-slider");
+    var dataItems = $multiSlider.parents(".featured-section").attr("data-item");
+    var autoPlayStatus = ($multiSlider.parents(".featured-section").attr("auto-play")) * 1;
+    var autoPlayspeed = $multiSlider.parents(".featured-section").attr("speed-slider");
 
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
       autoPlay = true;

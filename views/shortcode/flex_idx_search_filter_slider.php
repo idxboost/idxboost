@@ -1657,7 +1657,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
   }
 </style>
 
-<section data-limit="<?php echo $atts["limit"]; ?>" data-gallery="<?php echo $atts['gallery']; ?>" data-item="<?php echo $atts['slider_item']; ?>" class="flex-block-description mtop-60 ib-filter-slider ib-filter-slider-2" data-filter="2" id="featured-section">
+<section data-limit="<?php echo $atts["limit"]; ?>" data-gallery="<?php echo $atts['gallery']; ?>" data-item="<?php echo $atts['slider_item']; ?>" class="flex-block-description mtop-60 ib-filter-slider ib-filter-slider-2 featured-section js-slider-filter-search" data-filter="2" id="featured-section">
   <?php if (!empty($atts['title'])) { ?>
     <h2 class="title-block single idx_txt_text_tit_property_front"><?php echo $atts['title']; ?></h2>
   <?php } ?>

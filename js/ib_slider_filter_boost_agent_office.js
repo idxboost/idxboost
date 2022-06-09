@@ -6,9 +6,9 @@ function genMultiSlider(element){
   if($multiSlider.length) {
 
     var initialItems, autoPlaySpeed, autoPlay  = "";
-    var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
-    var autoPlayStatus = ($multiSlider.parents("#featured-section").attr("auto-play")) * 1;
-    var autoPlayspeed = $multiSlider.parents("#featured-section").attr("speed-slider");
+    var dataItems = $multiSlider.parents(".featured-section").attr("data-item");
+    var autoPlayStatus = ($multiSlider.parents(".featured-section").attr("auto-play")) * 1;
+    var autoPlayspeed = $multiSlider.parents(".featured-section").attr("speed-slider");
 
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
       autoPlay = true;

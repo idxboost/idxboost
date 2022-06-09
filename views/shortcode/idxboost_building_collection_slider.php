@@ -4,7 +4,7 @@
 	$class_filter = md5($atts['id']);
 ?>
 
-<section data-gallery="<?php echo $gallery_val; ?>" data-item="<?php echo $atts['slider_item']; ?>" auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>" class="ms-shortcode-commercial flex-block-description mtop-60 ib-filter-slider ib-filter-slider-<?php echo $class_filter; ?>" data-filter="<?php echo $class_filter; ?>" id="featured-section">
+<section data-gallery="<?php echo $gallery_val; ?>" data-item="<?php echo $atts['slider_item']; ?>" auto-play="<?php echo $atts['slider_play']; ?>" speed-slider="<?php echo $atts['slider_speed']; ?>" class="featured-section ms-shortcode-commercial flex-block-description mtop-60 ib-filter-slider ib-filter-slider-<?php echo $class_filter; ?>" data-filter="<?php echo $class_filter; ?>" id="featured-section">
   <?php  if (!empty($atts['title'])) { ?>
   	<h2 class="title-block single idx_txt_text_tit_property_front"><?php echo $atts['title']; ?></h2>
   <?php } ?>

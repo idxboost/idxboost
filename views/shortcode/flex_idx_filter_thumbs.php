@@ -1,6 +1,6 @@
 <?php if (isset($featured_filter_page) && !empty($featured_filter_page)): ?>
 
-<section class="flex-block-description mtop-60" id="featured-section">
+<section class="flex-block-description mtop-60 featured-section" id="featured-section">
   <?php if (empty( get_theme_mod( 'idx_txt_text_tit_property_front' ) ))  $idx_txt_text_tit_property_front  = ''; else  $idx_txt_text_tit_property_front  = get_theme_mod( 'idx_txt_text_tit_property_front' ); ?>
   <h2 class="title-block single idx_txt_text_tit_property_front"><?php echo $idx_txt_text_tit_property_front; ?></h2>
   <div class="wrap-result view-grid">

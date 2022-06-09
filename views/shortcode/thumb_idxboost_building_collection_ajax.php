@@ -27,7 +27,7 @@
   idxboostCollecBuil=JSON.parse('<?php echo addslashes($server_output); ?>');
 </script>
 <div class="ib-inventory-building cw-featured-properties">
-  <div id="featured-section" class="flex-block-description">
+  <div id="featured-section" class="featured-section flex-block-description">
     
     <?php  if ( !empty($atts['title']) ) { ?>
       <h3 class="ib-cw-title"><?php echo $atts['title']; ?></h3>

@@ -2,7 +2,7 @@
 	$class_filter=ibCodRandow(5);
 ?>
 
-<section data-item="<?php echo $atts['slider_item']; ?>" class="flex-block-description mtop-60 ib-off-market-listing-slider ib-off-market-listing-slider-<?php echo $class_filter; ?>" data-filter="<?php echo $class_filter; ?>" id="featured-section">
+<section data-item="<?php echo $atts['slider_item']; ?>" class="featured-section flex-block-description mtop-60 ib-off-market-listing-slider ib-off-market-listing-slider-<?php echo $class_filter; ?>" data-filter="<?php echo $class_filter; ?>" id="featured-section">
 	
 	<form method="post" id="flex-idx-off-market-listing-form" class="flex-idx-off-market-listing-form" >
 	  <input type="hidden" name="action" value="idxboost_collection_off_market">

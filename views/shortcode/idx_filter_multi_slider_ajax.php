@@ -2,7 +2,7 @@
   $text_button_style='';
 ?>
 <div class="ib-inventory-building cw-featured-properties">
-  <div id="featured-section" class="flex-block-description">
+  <div id="featured-section" class="flex-block-description featured-section">
     
     <?php  if ( !empty($atts['title']) ) { ?>
       <h3 class="ib-cw-title"><?php echo $atts['title']; ?></h3>

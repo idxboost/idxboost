@@ -7,10 +7,10 @@ function genMultiSlider(element){
     
     //RECUPERANDO LOS PARAMETROS
     var initialItems, autoPlaySpeed, autoPlay  = "";
-    var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
-    var autoPlayStatus = ($multiSlider.parents("#featured-section").attr("auto-play")) * 1;
-    var autoPlayspeed = $multiSlider.parents("#featured-section").attr("speed-slider");
-    var styleFormat = ($multiSlider.parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
+    var dataItems = $multiSlider.parents(".featured-section").attr("data-item");
+    var autoPlayStatus = ($multiSlider.parents(".featured-section").attr("auto-play")) * 1;
+    var autoPlayspeed = $multiSlider.parents(".featured-section").attr("speed-slider");
+    var styleFormat = ($multiSlider.parents(".featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
 
     //VALIDAMOS LA EXISTENCIA DE LOS PARAMETROS
     if(autoPlayStatus !== "" && autoPlayStatus !== undefined && autoPlayStatus > 0){
@@ -49,7 +49,7 @@ function genMultiSlider(element){
         initialItems = initialItems;
       }
 
-      $multiSlider.parents("#featured-section").addClass("ms-colums-"+initialItems);
+      $multiSlider.parents(".featured-section").addClass("ms-colums-"+initialItems);
     }else{
       //generamos el slider
       $multiSlider.greatSlider({

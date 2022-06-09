@@ -490,6 +490,43 @@ if (!function_exists('ib_rentals_sc')) {
 }
 
 
+// code for SEARCH  FIFTY-FIFTY
+// Use code:  [ib_search-fifty filter="YZQXNGJH" lat="" lng="" zoom=""]
+if (!function_exists('ib_search_ff')) {
+    function ib_search_ff($atts, $content = null) {
+        global $flex_idx_info;
+
+        $atts = shortcode_atts(array(
+            'lat' => '',
+            'lng' => '',
+            'zoom' => '', 
+            'filter' => ''
+        ), $atts);
+
+        ob_start();
+
+        wp_enqueue_script('react-search-fifty-highcharts');
+        wp_enqueue_script('react-search-fifty-series-label');
+        wp_enqueue_script('react-search-fifty-exporting');
+        wp_enqueue_script('react-search-fifty-export-data');
+        wp_enqueue_script('react-search-fifty-accessibility');
+        wp_enqueue_script('react-search-fifty');
+        wp_enqueue_style('react-search-fifty-css');
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_fifty_fifty.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_fifty_fifty.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_fifty_fifty.php';
+        }
+
+        return ob_get_clean();
+    }
+    add_shortcode('ib_search-fifty', 'ib_search_ff');
+}
+
+
+
+
 if (!function_exists("idxboost_rentals_form_sc")) {
     function idxboost_rentals_form_sc() {
         wp_enqueue_script("iboost-buyers-sellers-js");

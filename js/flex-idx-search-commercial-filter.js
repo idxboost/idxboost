@@ -4857,8 +4857,8 @@ function handleFilterSearchLookup(event) {
 
 				for (var i = 0, l = response.items.length; i < l; i++) {
 
-					if ($("#featured-section").attr("data-limit").length) {
-						var nlimit = parseInt($("#featured-section").attr("data-limit"), 10);
+					if ($(".js-slider-filter-search").attr("data-limit").length) {
+						var nlimit = parseInt($(".js-slider-filter-search").attr("data-limit"), 10);
 						if (nlimit > 0) {
 							if (i >= nlimit) {
 								break;
@@ -4943,8 +4943,8 @@ function handleFilterSearchLookup(event) {
 					idxboostTypeIcon();
 
 					//RECUPERANDO LOS PARAMETROS QUE NECESITAMOS
-					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-item");
-					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
+					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-item");
+					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
 
 					//CONSULTAMOS LA CANTIDAD DE ITEMS A MOSTRAR
 					if(dataItems !== "" && dataItems !== undefined){
@@ -4970,7 +4970,7 @@ function handleFilterSearchLookup(event) {
 						}else{
 							initialItems = initialItems;
 						}
-						$('#search-filter-slider-' + response.params.token_id).parents("#featured-section").addClass("ms-colums-"+initialItems);
+						$('#search-filter-slider-' + response.params.token_id).parents(".featured-section").addClass("ms-colums-"+initialItems);
 					}else{
 						//GENERAMOS EL SLIDER
 						$('#search-filter-slider-' + response.params.token_id).greatSlider({

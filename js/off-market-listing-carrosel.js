@@ -6,7 +6,7 @@ function genMultiSliderOffMarketListing(element){
 	if($multiSlider.length) {
 
     var initialItems = "";
-		var dataItems = $multiSlider.parents("#featured-section").attr("data-item");
+		var dataItems = $multiSlider.parents(".featured-section").attr("data-item");
 
 		if(dataItems !== ""){
 			initialItems = dataItems * 1;

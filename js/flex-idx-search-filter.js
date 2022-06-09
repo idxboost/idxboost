@@ -3808,8 +3808,12 @@ function handleFilterSearchLookup(event) {
 
 				for (var i = 0, l = response.items.length; i < l; i++) {
 
-					if ($("#featured-section").attr("data-limit").length) {
-						var nlimit = parseInt($("#featured-section").attr("data-limit"), 10);
+					if (
+						typeof $(".js-slider-filter-search").attr("data-limit") !== 'undefined' && 
+						$(".js-slider-filter-search").attr("data-limit") !== false && 
+						$(".js-slider-filter-search").attr("data-limit").length
+					) {
+						var nlimit = parseInt($(".js-slider-filter-search").attr("data-limit"), 10);
 						if (nlimit > 0) {
 							if (i >= nlimit) {
 								break;
@@ -3831,7 +3835,7 @@ function handleFilterSearchLookup(event) {
 						html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
 					}
 
-					  //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
+						//html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
 
 						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.address_short+'</div></h2>');
 						html_response.push('<ul class="features">');
@@ -3844,17 +3848,17 @@ function handleFilterSearchLookup(event) {
 						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
 						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
 
-	                    if ( 
-	                      response.hasOwnProperty("board_info") &&
-	                      response.board_info.hasOwnProperty("board_logo_url") &&
-	                      response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null ) {
-	                      html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
-	                    }
+											if ( 
+												response.hasOwnProperty("board_info") &&
+												response.board_info.hasOwnProperty("board_logo_url") &&
+												response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null ) {
+												html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
+											}
 
 						//html_response.push('<li class="build-year"><span>Built </span>2015</li>');
 						//html_response.push('<li class="development"><span></span></li>');
-					  html_response.push('</ul>');
-					  html_response.push('<div class="wrap-slider">');
+						html_response.push('</ul>');
+						html_response.push('<div class="wrap-slider">');
 						html_response.push('<ul>');
 						if (0 == info_item.gallery.length) {
 							html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://www.idxboost.com/i/default_thumbnail.jpg"></li>');
@@ -3865,7 +3869,7 @@ function handleFilterSearchLookup(event) {
 									}else{
 									html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
 									}		
-							  });
+								});
 						}
 						html_response.push('</ul>');
 		
@@ -3882,10 +3886,10 @@ function handleFilterSearchLookup(event) {
 							}
 						}
 		
-					  html_response.push('</div>');
-					  html_response.push('<a class="ib-view-detailt" href="'+__flex_idx_search_filter.propertyDetailPermalink+ '/' + info_item.slug + '" rel="nofollow">'+word_translate.details+'</a>');
+						html_response.push('</div>');
+						html_response.push('<a class="ib-view-detailt" href="'+__flex_idx_search_filter.propertyDetailPermalink+ '/' + info_item.slug + '" rel="nofollow">'+word_translate.details+'</a>');
 					html_response.push('</li>');
-				  html_response.push('</ul>');
+					html_response.push('</ul>');
 				}
 
 				if (html_response.length) {
@@ -3894,8 +3898,8 @@ function handleFilterSearchLookup(event) {
 					idxboostTypeIcon();
 
 					//RECUPERANDO LOS PARAMETROS QUE NECESITAMOS
-					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-item");
-					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents("#featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
+					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-item");
+					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
 
 					//CONSULTAMOS LA CANTIDAD DE ITEMS A MOSTRAR
 					if(dataItems !== "" && dataItems !== undefined){
@@ -3921,7 +3925,7 @@ function handleFilterSearchLookup(event) {
 						}else{
 							initialItems = initialItems;
 						}
-						$('#search-filter-slider-' + response.params.token_id).parents("#featured-section").addClass("ms-colums-"+initialItems);
+						$('#search-filter-slider-' + response.params.token_id).parents(".featured-section").addClass("ms-colums-"+initialItems);
 					}else{
 						//GENERAMOS EL SLIDER
 						$('#search-filter-slider-' + response.params.token_id).greatSlider({

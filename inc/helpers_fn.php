@@ -6072,6 +6072,23 @@ if (!function_exists( 'flex_idx_register_assets' )) {
              'flex-auth-check'
         ), false, true);
 
+        // code for SEARCH  FIFTY-FIFTY
+        wp_register_style('react-search-fifty-css',FLEX_IDX_URI.'search_fifty/bundle.css',array() );
+        wp_register_script('react-search-fifty', FLEX_IDX_URI.'search_fifty/bundle.js', array(
+          'jquery',        
+          'google-maps-api',
+          'google-maps-utility-library-richmarker',
+          'google-maps-utility-library-infobubble',
+           'flex-auth-check'
+      ), false, true);
+
+      wp_register_script("react-search-fifty-highcharts", "https://code.highcharts.com/highcharts.js", array("jquery"));
+      wp_register_script("react-search-fifty-series-label", "https://code.highcharts.com/modules/series-label.js", array("jquery"));  
+      wp_register_script("react-search-fifty-exporting", "https://code.highcharts.com/modules/exporting.js", array("jquery"));  
+      wp_register_script("react-search-fifty-export-data", "https://code.highcharts.com/modules/export-data.js", array("jquery"));
+      wp_register_script("react-search-fifty-accessibility", "https://code.highcharts.com/modules/accessibility.js", array("jquery"));        
+      
+
         wp_register_script('flex-idx-search-filter', FLEX_IDX_URI . 'js/flex-idx-search-filter.js', array(
             'jquery',
             'flex-idx-filter-jquery-ui-touch',
