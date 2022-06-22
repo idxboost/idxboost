@@ -310,7 +310,7 @@
 	const IB_SP_MODAL_A11Y = $('.js-ib-sp-modal-accessibility');
 
 	// Scope for SP theme settings
-	const IB_SP_PAGE = '.js-ib-sp-page';
+	const IB_SP_PAGE = '.js-ib-sps-page';
 
 	/**
 	 * Close property modal website
@@ -354,7 +354,7 @@
 			*/
 			fontactive: function(fontFamily, fontDescription) {
 				document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-					item.style.setProperty('--sp-font-family', fontFamily);
+					item.style.setProperty('--sps-font-family', fontFamily);
 				});
     	},
 		});
@@ -362,11 +362,11 @@
 
 	function setSPButtonColors(buttonColors) {
 		document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-			item.style.setProperty('--sp-button-text-color', buttonColors.color);
-			item.style.setProperty('--sp-button-text-color-hover', buttonColors.hoverColor);
-			item.style.setProperty('--sp-button-background-color', buttonColors.backgroundColor);
-			item.style.setProperty('--sp-button-background-color-hover', buttonColors.backgroundHoverColor);
-			item.style.setProperty('--sp-button-border-color', buttonColors.borderColor);
+			item.style.setProperty('--sps-button-text-color', buttonColors.color);
+			item.style.setProperty('--sps-button-text-color-hover', buttonColors.hoverColor);
+			item.style.setProperty('--sps-button-background-color', buttonColors.backgroundColor);
+			item.style.setProperty('--sps-button-background-color-hover', buttonColors.backgroundHoverColor);
+			item.style.setProperty('--sps-button-border-color', buttonColors.borderColor);
 		});
 	}
 

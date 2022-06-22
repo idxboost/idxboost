@@ -105,13 +105,17 @@
         </div>
 
         <div class="ib-pcontent">
-          <div class="ib-sp-page js-ib-sp-page">
+          <div class="ib-sps-page js-ib-sps-page">
 
             <div class="sp-header" id="ib-spc-header"></div>
 
+            {{#if sections.themeSettings.globalCss}}
+            <style>{{ sections.themeSettings.globalCss }}</style>
+            {{/if}}
+
             <main>
               {{#if (ifVisibility visibilityRegions.headerSection)}}
-                <section class="sps-section-home sp-animate" id="sp-welcome"
+                <section class="sps-section-home sp-animate" id="sps-welcome"
                   style="
                     --sps-section-background-color:{{sections.home.style.section.background.color}};
                     --sps-section-background-opacity:{{sections.home.style.section.background.opacity}};
@@ -139,7 +143,7 @@
                     <div class="sps-section-background-overlay"></div>
                   </div>
                   
-                  <h2 class="sp-main-title">
+                  <h2 class="sps-main-title">
                     {{#if bannerHeadingOne}}
                       <span>"{{bannerHeadingOne}}"</span>
                     {{/if}}
@@ -149,23 +153,23 @@
                   </h2>
 
                   {{#if bannerHeadingThree}}
-                    <span class="sp-main-slogan">{{bannerHeadingThree}}</span>
+                    <span class="sps-main-slogan">{{bannerHeadingThree}}</span>
                   {{/if}}
 
-                  <button class="sp-btn sfm">{{stylesInput.headerSection.button.text}}</button>
+                  <button class="sps-btn sfm">{{stylesInput.headerSection.button.text}}</button>
                   
                 </section>
               {{/if}}
 
               {{#if (ifCondOR sections.details.showHeading sections.details.showDescription) }}
-                <section class="sp-section" id="sp-details">
+                <section class="sps-section" id="sps-details">
 
                   {{#if (ifVisibility sections.details.showHeading) }}
                     {{#if propertyMainDescription}}
-                      <h2 class="sp-section-title">{{propertyMainDescription}}</h2>
+                      <h2 class="sps-section-title">{{propertyMainDescription}}</h2>
                     {{/if}}
 
-                    <ul class="sp-list">
+                    <ul class="sps-list">
                       <li>
                         {{#if propertyPrice}}
                           {{formatPrice propertyPrice}} 
@@ -267,11 +271,11 @@
               {{/if}}
 
               {{#if (ifVisibility visibilityRegions.amenities)}}
-                <section class="sp-section" id="sp-amenities">
-                  <h2 class="sp-section-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                <section class="sps-section" id="sps-amenities">
+                  <h2 class="sps-section-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
                   {{#if propertyAmenities}}
-                    <ul class="sp-amenities-list columns-{{stylesInput.amenities.columns}}">
+                    <ul class="sps-amenities-list columns-{{stylesInput.amenities.columns}}">
                     {{#each propertyAmenities}} 
                       {{#if this}}
                         <li>{{this}}</li>
@@ -284,11 +288,11 @@
 
               {{#if (ifVisibility visibilityRegions.photoGallery)}}
                 {{#if propertyPhotoGallery}}
-                  <section class="sp-gallery sp-animate" id="sp-gallery">
-                    <ul class="sp-slider sp-sp-slider" id="sp-slider-galery">
+                  <section class="sps-gallery sp-animate" id="sps-gallery">
+                    <ul class="sps-slider sps-sps-slider" id="sps-slider-galery">
                       {{#each propertyPhotoGallery}}
-                        <li class="sp-sl-item">
-                          <a class="sp-item sp-modal-galery" href="#">
+                        <li class="sps-sl-item">
+                          <a class="sps-item sps-modal-galery" href="#">
                             <img class="sp-lazy" src="{{this.full}}" 
                               alt="{{this.altText}}" title="Titulo de la imagen" 
                               data-bg="{{this.full}}">
@@ -301,23 +305,23 @@
                 {{/if}}
               {{/if}}
               
-              <div class="sp-section sp-animate" id="sp-media">
-                <div class="sp-wrap-media">
+              <div class="sps-section sp-animate" id="sps-media">
+                <div class="sps-wrap-media">
                 {{#if (ifVisibility visibilityRegions.videoTour)}}
-                  <div class="sp-tab-body" id="sp-media-tour">
-                    <h2 class="sp-section-title"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                  <div class="sps-tab-body" id="sps-media-tour">
+                    <h2 class="sps-section-title"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
-                    <div id="sp-virtual">
+                    <div id="sps-virtual">
                       {{#if propertyMetadata.propertyVideos}}
-                        <div class="sp-slider-video" id="sp-slider-video">
+                        <div class="sps-slider-video" id="sps-slider-video">
                           {{#each propertyMetadata.propertyVideos}}
                             {{#if this.videoUrl}}
-                              <div class="sp-item sp-item-video" data-video="{{this.videoUrl}}" 
+                              <div class="sps-item sps-item-video" data-video="{{this.videoUrl}}" 
                                 data-title="{{this.videoName}}">
-                                <button class="sp-play-video">Play</button>
+                                <button class="sps-play-video">Play</button>
                               </div>
                             {{else}}
-                              <div class="sp-item sp-item-video" 
+                              <div class="sps-item sps-item-video" 
                                 data-video="<?php echo FLEX_IDX_URI; ?>images/single-property/medium-default-video.jpg" 
                                 src="<?php echo FLEX_IDX_URI; ?>images/single-property/temp.png">
                               </div>
@@ -325,8 +329,8 @@
                           {{/each}}
                         </div>
                       {{else}}
-                        <div class="sp-slider-video">
-                          <div class="sp-item sp-item-video">
+                        <div class="sps-slider-video">
+                          <div class="sps-item sps-item-video">
                             <img class="sp-lazy" alt="" 
                               src="<?php echo FLEX_IDX_URI; ?>images/single-property/medium-default-video.jpg">
                           </div>
@@ -337,24 +341,24 @@
                 {{/if}}
 
                 {{#if (ifVisibility visibilityRegions.floorplans)}}
-                  <div class="sp-tab-body" id="sp-media-floorplan">
-                    <h2 class="sp-section-title"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                  <div class="sps-tab-body" id="sps-media-floorplan">
+                    <h2 class="sps-section-title"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
 
                     {{#if propertyFloorplans}}
-                      <div id="sp-floorplans">
-                        <div class="sp-wrap-slider" id="sp-slider-wp">
-                          <div id="sp-slider-prop" class="sp-slider sp-sp-slider">
+                      <div id="sps-floorplans">
+                        <div class="sps-wrap-slider" id="sps-slider-wp">
+                          <div id="sps-slider-prop" class="sps-slider sps-sps-slider">
                           {{#each propertyFloorplans}}
-                            <div class="sp-item">
-                              <div class="sp-sl-item">
-                                <div class="sp-wrap-img sp-modal-galery" role="button" aria-label="Nombre del Floorplans #{{@index}}">
+                            <div class="sps-item">
+                              <div class="sps-sl-item">
+                                <div class="sps-wrap-img sps-modal-galery" role="button" aria-label="Nombre del Floorplans #{{@index}}">
                                   <img class="sp-lazy" alt="{{this.altText}}" src="{{this.full}}" draggable="false">
                                 </div>
-                                <div class="sp-wrap-btn">
-                                  <h3 class="sp-floorplan-title">
+                                <div class="sps-wrap-btn">
+                                  <h3 class="sps-floorplan-title">
                                     {{this.altText}}
                                   </h3>
-                                  <!--<a href="#" class="sp-link">Download PDF</a>-->
+                                  <!--<a href="#" class="sps-link">Download PDF</a>-->
                                 </div>
                               </div>
                             </div>
@@ -362,9 +366,9 @@
                           </div>
 
                           {{#if (propertyHasFloorplans propertyFloorplans)}}
-                            <div class="sp-wrap-action-btn">
-                              <button class="sp-btn-prev">Prev</button>
-                              <button class="sp-btn-next">Next</button>
+                            <div class="sps-wrap-action-btn">
+                              <button class="sps-btn-prev">Prev</button>
+                              <button class="sps-btn-next">Next</button>
                             </div>
                           {{/if}}
                         </div>
@@ -376,17 +380,17 @@
               </div>              
 
               {{#if (ifVisibility visibilityRegions.location)}}
-                <div class="sp-section" id="sp-location">
-                  <h2 class="sp-section-title">Location</h2>
+                <div class="sps-section" id="sps-location">
+                  <h2 class="sps-section-title">Location</h2>
                   {{#if propertyLocationCoords}}
-                  <div class="sp-map" id="googleMap" data-img="googleMap"
+                  <div class="sps-map" id="googleMap" data-img="googleMap"
                     data-zoom="{{#if propertyLocationCoords.zoom}} {{propertyLocationCoords.zoom}} {{else}}16{{/if}}"
                     data-lat="{{#if propertyLocationCoords.lat}} {{propertyLocationCoords.lat}} {{else}}43.542194{{/if}}" 
                     data-lng="{{#if propertyLocationCoords.lng}} {{propertyLocationCoords.lng}} {{else}}-5.676875{{/if}}">
                   </div>
                   {{else}}
-                    <div class="sp-map">
-                      <img class="sp-map-img" alt=""
+                    <div class="sps-map">
+                      <img class="sps-map-img" alt=""
                         src="<?php echo FLEX_IDX_URI; ?>images/single-property/medium-default-map.jpg">
                     </div>
                   {{/if}}
@@ -394,17 +398,17 @@
               {{/if}}
 
               {{#if (ifVisibility visibilityRegions.contactUs)}}
-                <div class="sp-section" id="sp-contact">
-                  <div class="sp-wrap-form">
+                <div class="sps-section" id="sps-contact">
+                  <div class="sps-wrap-form">
 
-                    <h2 class="sp-form-title"><?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-                    <div class="sp-contact-header">
+                    <h2 class="sps-form-title"><?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                    <div class="sps-contact-header">
                       {{#if agentPhotoProfile.ObjectURL}}
-                        <div class="sp-wrap-img">
+                        <div class="sps-wrap-img">
                           <img class="sp-lazy" alt="" src="{{ agentPhotoProfile.ObjectURL }}">
                         </div>
                       {{/if}}
-                      <ul class="sp-agent-info {{#unless agentPhotoProfile.ObjectURL }} sps-agent-info-alt {{/unless}}">
+                      <ul class="sps-agent-info {{#unless agentPhotoProfile.ObjectURL }} sps-agent-info-alt {{/unless}}">
                         <li>
                           {{#if agentName}}
                             <strong>{{agentName}}</strong>
@@ -428,7 +432,7 @@
                       </ul>
                     </div>
 
-                    <div class="sp-contact-body">
+                    <div class="sps-contact-body">
                       <form class="js-ib-sp-contact-form" method="post" id="contact-us-form">
                         <fieldset>
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
@@ -456,7 +460,7 @@
                               <textarea placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" cols="30" rows="10" id="input_comment" required></textarea>
                             </li>
                           </ul>
-                          <button class="sp-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
+                          <button class="sps-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
                         </fieldset>
                       </form>
                     </div>
@@ -466,8 +470,8 @@
               {{/if}}
             </main>
 
-            <div class="sp-section" id="sp-footer">
-              <div class="sp-footer-img {{#if brokerLogo }} sp-footer-img-alt {{/if }}">
+            <div class="sps-section" id="sps-footer">
+              <div class="sps-footer-img {{#if brokerLogo }} sps-footer-img-alt {{/if }}">
                 {{#if brokerLogo }}
                   <img class="sps-lazy" alt="" src="{{brokerLogo}}">
                 {{/if}}
@@ -476,8 +480,8 @@
                 {{/if }}
               </div>
 
-              <div class="sp-bottom-footer">
-                <ul class="sp-sub-menu-footer">
+              <div class="sps-bottom-footer">
+                <ul class="sps-sub-menu-footer">
                   <li>
                     <a class="sp-show-modal" href="/terms-and-conditions/" 
                       title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
@@ -495,10 +499,10 @@
                   </li>
                 </ul>
 
-                <p class="sp-copyright">&copy; Copyright <?php echo date('Y'); ?></p>
+                <p class="sps-copyright">&copy; Copyright <?php echo date('Y'); ?></p>
 
-                <div class="sp-trem">
-                  <div class="sp-trem-link">
+                <div class="sps-trem">
+                  <div class="sps-trem-link">
                     Design + Powered by 
                     <a href="https://www.idxboost.com" target="_blank" rel="noopener" 
                       title="Learn more about IDXBoost (Open new window)">
@@ -522,7 +526,7 @@
     <div class="ib-mmcontent">
       <div class="ib-mwrapper ib-mgeneric">
         <div class="ib-mgcontent">
-          <div class="ib-sp-page js-ib-sp-page">
+          <div class="ib-sps-page js-ib-sps-page">
             <div class="sp-modal-body">
               <h4 class="sp-modal-title">{{stylesInput.headerSection.button.text}}</h4>
               <p>
@@ -576,7 +580,7 @@
     <div class="ib-mmcontent">
       <div class="ib-mwrapper ib-mgeneric">
         <div class="ib-mgcontent">
-          <div class="ib-sp-page js-ib-sp-page">
+          <div class="ib-sps-page js-ib-sps-page">
             <div class="sp-body-modal">
               <div>
                 <h4 class="sp-title">TERMS AND CONDITIONS</h2>
@@ -647,7 +651,7 @@
     <div class="ib-mmcontent">
       <div class="ib-mwrapper ib-mgeneric">
         <div class="ib-mgcontent">
-          <div class="ib-sp-page js-ib-sp-page">
+          <div class="ib-sps-page js-ib-sps-page">
             <div class="sp-body-modal">
               <div class="sp-access-content-terms">
                 <h4 class="sp-title">ACCESSIBILITY</h4>

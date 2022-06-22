@@ -6184,7 +6184,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
-            'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']),
+            'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']), // overwrite search settings from global
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
@@ -6311,7 +6311,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (bool)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
             'has_cms' => isset($flex_idx_info['agent']['has_cms']) ? (bool)$flex_idx_info['agent']['has_cms'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
-            'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null
+            'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null,
+            'overwrite_settings' => get_option('idxboost_search_filter_settings')
         ));
 
         wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s', $flex_idx_info["agent"]["google_maps_api_key"]));

@@ -447,7 +447,7 @@
 	const IB_SP_MODAL_A11Y = $('.js-ib-sp-modal-accessibility');
 
 	// Scope for SP theme settings
-	const IB_SP_PAGE = '.js-ib-sp-page';
+	const IB_SP_PAGE = '.js-ib-sps-page';
 
 	/**
 	 * Open property modal website and load detail
@@ -631,23 +631,23 @@
 			document.querySelector(IB_SP_PAGE).classList.add('CompassSansSerif');
 			fontFamily = '"Compass Sans", Helvetica, Arial, sans-serif';
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-				item.style.setProperty('--sp-font-family', fontFamily);
+				item.style.setProperty('--sps-font-family', fontFamily);
 			});
 		} else if ( fontFamily == "'Compass Sans', Helvetica, Arial, sans-serif" ) {
 			fontFamily = '"Compass Sans", Helvetica, Arial, sans-serif';
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-				item.style.setProperty('--sp-font-family', fontFamily);
+				item.style.setProperty('--sps-font-family', fontFamily);
 			});
 		} else if ( fontFamily == "'Compass Serif', Times, 'Times New Roman', serif" ) {
 			fontFamily = '"Compass Serif", Times, "Times New Roman", serif';
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-				item.style.setProperty('--sp-font-family', fontFamily);
+				item.style.setProperty('--sps-font-family', fontFamily);
 			});
 		} else if ( fontFamily == "dinengschrift-and-open-sans" ) {
 			document.querySelector(IB_SP_PAGE).classList.add('dinengschrift-and-open-sans');
 			fontFamily = 'Open Sans, sans-serif';
 			document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-				item.style.setProperty('--sp-font-family', fontFamily);
+				item.style.setProperty('--sps-font-family', fontFamily);
 			});
 		} else {
 			let webFontLoaded = false;
@@ -674,7 +674,7 @@
 					*/
 					fontactive: function(fontFamily, fontDescription) {
 						document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-							item.style.setProperty('--sp-font-family', fontFamily);
+							item.style.setProperty('--sps-font-family', fontFamily);
 						});
 					},
 				});
@@ -685,11 +685,11 @@
 
 	function setSPButtonColors(buttonColors) {
 		document.querySelectorAll(IB_SP_PAGE).forEach(item => {
-			item.style.setProperty('--sp-button-text-color', buttonColors.color);
-			item.style.setProperty('--sp-button-text-color-hover', buttonColors.hoverColor);
-			item.style.setProperty('--sp-button-background-color', buttonColors.backgroundColor);
-			item.style.setProperty('--sp-button-background-color-hover', buttonColors.backgroundHoverColor);
-			item.style.setProperty('--sp-button-border-color', buttonColors.borderColor);
+			item.style.setProperty('--sps-button-text-color', buttonColors.color);
+			item.style.setProperty('--sps-button-text-color-hover', buttonColors.hoverColor);
+			item.style.setProperty('--sps-button-background-color', buttonColors.backgroundColor);
+			item.style.setProperty('--sps-button-background-color-hover', buttonColors.backgroundHoverColor);
+			item.style.setProperty('--sps-button-border-color', buttonColors.borderColor);
 		});
 	}
 
@@ -699,7 +699,7 @@
 	function generateSPSliders() {
 		
 		// Slider for Home section
-		const $sliderHome = $('.ib-sp-page .js-slider-home');
+		const $sliderHome = $('.ib-sps-page .js-slider-home');
 
 		if ($sliderHome.length) {
 		  $.each($sliderHome, function() {
@@ -719,7 +719,7 @@
 		  });
 		}
 
-		const $sliderVideoTour = $(".sp-video-slider");
+		const $sliderVideoTour = $(".sps-video-slider");
 		if ($sliderVideoTour.length) {
 			let $videoTourGS = $sliderVideoTour.greatSlider({
 				type: 'swipe',
@@ -732,12 +732,12 @@
 				
 				onInited: function() {
 					// Assign action to Next button
-					$sliderVideoTour.parents('#sp-virtual').find('.sp-btn-next').click(function() {
+					$sliderVideoTour.parents('#sps-virtual').find('.sps-btn-next').click(function() {
 						$videoTourGS.goTo('next');
 					});
 
 					// Assign action to Prev button
-					$sliderVideoTour.parents('#sp-virtual').find('.sp-btn-next').click(function() {
+					$sliderVideoTour.parents('#sps-virtual').find('.sps-btn-next').click(function() {
 						$videoTourGS.goTo('prev');
 					});
 				}
@@ -745,10 +745,10 @@
 		}
 
 		let sliderVideoItems = 0;
-		const $sliderVideo = $("#sp-slider-video");
+		const $sliderVideo = $("#sps-slider-video");
 
 		if ($sliderVideo.length) {
-			const videos = $sliderVideo.find(".sp-item-video");
+			const videos = $sliderVideo.find(".sps-item-video");
 			videos.each(function() {
 				sliderVideoItems += 1;
 				let newID = `video_item_${sliderVideoItems}`;
@@ -779,7 +779,7 @@
 						$(this)[0].controls = false;
 					});
 
-					$sliderVideo.find(".sp-play-video").each(function() {
+					$sliderVideo.find(".sps-play-video").each(function() {
 						$(this).removeClass('hide');
 					});
 				},
@@ -795,7 +795,7 @@
 						$(this).remove();
 					});
 
-					$sliderVideo.find(".sp-play-video").each(function() {
+					$sliderVideo.find(".sps-play-video").each(function() {
 						$(this).removeClass('hide');
 					});
 				},
@@ -809,14 +809,14 @@
 						$(this).remove();
 					});
 
-					$sliderVideo.find(".sp-play-video").each(function() {
+					$sliderVideo.find(".sps-play-video").each(function() {
 						$(this).removeClass('hide');
 					});
 				},
 			});
 		}
 
-		const $sliderFloorPlan = $("#sp-slider-prop");
+		const $sliderFloorPlan = $("#sps-slider-prop");
 		if ($sliderFloorPlan.length) {
 			const $floorPlanGS = $sliderFloorPlan.greatSlider({
 				type: 'swipe',
@@ -857,12 +857,12 @@
 					});
 
 					// Assign action to Next button
-					$sliderFloorPlan.parents("#sp-slider-wp").find('.sp-btn-next').click(function() {
+					$sliderFloorPlan.parents("#sps-slider-wp").find('.sps-btn-next').click(function() {
 						$floorPlanGS.goTo('next');
 					});
 
 					// Assign action to Prev button
-					$sliderFloorPlan.parents("#sp-slider-wp").find('.sp-btn-prev').click(function() {
+					$sliderFloorPlan.parents("#sps-slider-wp").find('.sps-btn-prev').click(function() {
 						$floorPlanGS.goTo('prev');
 					});
 
@@ -878,17 +878,17 @@
 
 	function setSliderTopPosition() {
 		let finalTop = 0;
-		let topPosition = $("#sp-slider-wp .gs-container-items").outerHeight() / 2;
+		let topPosition = $("#sps-slider-wp .gs-container-items").outerHeight() / 2;
 
 		finalTop = topPosition;
-		$("#sp-slider-wp .sp-wrap-action-btn").css({"top": finalTop});
+		$("#sps-slider-wp .sps-wrap-action-btn").css({"top": finalTop});
 
 		$(window).on('resize', function () {
 			let finalTop = 0;
-			let topPosition = $("#sp-slider-wp .gs-container-items").outerHeight() / 2;
+			let topPosition = $("#sps-slider-wp .gs-container-items").outerHeight() / 2;
 		
 			finalTop = topPosition;
-			$("#sp-slider-wp .sp-wrap-action-btn").css({"top": finalTop});
+			$("#sps-slider-wp .sps-wrap-action-btn").css({"top": finalTop});
 		});
 	}
 
@@ -969,8 +969,8 @@
 		}
 	}
 
-	IB_SP_MODALS.on('click', '.sp-play-video', function() {
-		var parent = $(this).parents(".sp-item-video");
+	IB_SP_MODALS.on('click', '.sps-play-video', function() {
+		var parent = $(this).parents(".sps-item-video");
 		var videoUrl = parent.attr("data-video");
 		var videoTitle = parent.attr("data-title");
 
@@ -1089,10 +1089,10 @@
 	});
 	
 	/****GENERANDO SLIDER TIPO MODAL****/
-  $(document).on('click', '.sp-modal-galery', function(e) {
+  $(document).on('click', '.sps-modal-galery', function(e) {
     e.preventDefault();
-    let parentId = $(this).parents(".sp-sp-slider").attr("id");
-    let elementSelected = $(this).parents('.sp-sl-item').index();
+    let parentId = $(this).parents(".sps-sps-slider").attr("id");
+    let elementSelected = $(this).parents('.sps-sl-item').index();
     sliderModal(`#${parentId}`, elementSelected);
     $("body").addClass("sps-active-mds");
   });

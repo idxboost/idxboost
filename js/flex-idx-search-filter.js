@@ -2052,6 +2052,7 @@ function buildMobileForm() {
 	// FOR TYPES [MOBILE]
 	if (ib_m_types.length) {
 		ib_search_filter_dropdown = ib_search_filter_params.property_types;
+		console.log('build property types for mobile');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -3154,30 +3155,31 @@ function buildSearchFilterForm() {
 	if (IB_LB_TYPES_OPTIONS.length) {
 		// console.log(IB_LB_TYPES_OPTIONS);
 		// console.log(__flex_idx_search_filter.search.property_types);
+		console.log('build options for desktop property types')
 
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
-			for (var i = 0, l = __flex_idx_search_filter.search.property_types.length; i < l; i++) {
+			for (var i = 0, l = __flex_g_settings.overwrite_settings.property_types.length; i < l; i++) {
 				var li = document.createElement("li");
 				li.classList.add("ib-citem");
 				var input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("id", "ib-ppt-"+node.getAttribute('data-type')+"_" + i);
-				input.setAttribute("value", __flex_idx_search_filter.search.property_types[i].value);
+				input.setAttribute("value", __flex_g_settings.overwrite_settings.property_types[i].value);
 				input.classList.add("ib-icheck");
 				var label = document.createElement("label");
 				label.classList.add("ib-clabel");
 				label.setAttribute("for", "ib-ppt-"+node.getAttribute('data-type')+"_" + i);
 				var text_label_trans='';
-					if(__flex_idx_search_filter.search.property_types[i].label=='Homes'){
+					if(__flex_g_settings.overwrite_settings.property_types[i].label=='Homes'){
 						text_label_trans=word_translate.homes;
-					}else if(__flex_idx_search_filter.search.property_types[i].label=='Condominiums'){
+					}else if(__flex_g_settings.overwrite_settings.property_types[i].label=='Condominiums'){
 						text_label_trans=word_translate.condominiums;
-					}else if(__flex_idx_search_filter.search.property_types[i].label=='Townhouses'){
+					}else if(__flex_g_settings.overwrite_settings.property_types[i].label=='Townhouses'){
 						text_label_trans=word_translate.townhouses;
-					}else if (__flex_idx_search_filter.search.property_types[i].label=='Single Family Homes'){
+					}else if (__flex_g_settings.overwrite_settings.property_types[i].label=='Single Family Homes'){
 						text_label_trans=word_translate.single_family_homes;
 					}else{
-						text_label_trans=__flex_idx_search_filter.search.property_types[i].label;
+						text_label_trans=__flex_g_settings.overwrite_settings.property_types[i].label;
 					}
 
 				label.innerHTML = text_label_trans;
@@ -3230,7 +3232,8 @@ function buildSearchFilterForm() {
 				lbl_ptypes.push("Vacant Land");
 			}
 
-			if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.params.property_types.length) {
+			// if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.params.property_types.length) {
+			if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.overwrite_settings.property_types.length) {
 				IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
 				console.log(lbl_ptypes);
 				lbl_ptypes.length = 0;
@@ -3777,8 +3780,9 @@ function handleFilterSearchLookup(event) {
 			device_width: window.innerWidth
 		},
 		success: function(response) {
-			__flex_g_settings.params.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
-			__flex_idx_search_filter.search.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
+			console.log('overwrite property type params');
+			// __flex_g_settings.params.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
+			// __flex_idx_search_filter.search.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
 
 			if ("no" === __flex_g_settings.anonymous) {
 				if (false === is_search_filter_viewed) {
@@ -4201,7 +4205,8 @@ function handleFilterSearchLookup(event) {
 					}
 				});
 
-				if (labelPropertyTypes.length === __flex_idx_search_filter.search.property_types.length) {
+				// if (labelPropertyTypes.length === __flex_idx_search_filter.search.property_types.length) {
+				if (labelPropertyTypes.length === __flex_g_settings.overwrite_settings.property_types.length) {
 					IB_LBL_TYPES_NTF.html(word_translate.any_type);
 				} else {
 					IB_LBL_TYPES_NTF.html(labelPropertyTypes.join(", "));
@@ -4373,6 +4378,10 @@ function handleFilterSearchLookup(event) {
 					//console.log(params.property_type);
 					// var currentValue = (false === isNaN(node.value)) ? (node.value + "") : node.value;
 					var currentValue = node.value;
+
+					if (/[0-9+]/.test(currentValue) !== false) {
+						currentValue = parseInt(currentValue, 10);
+					}
 
 					if (-1 != $.inArray(currentValue, params.property_type)) {
 						node.checked = true;
