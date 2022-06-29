@@ -3828,71 +3828,75 @@ function handleFilterSearchLookup(event) {
 					var info_item = response.items[i];
 
 					html_response.push('<ul class="result-search slider-generator">');
-					html_response.push('<li class="propertie" data-address="'+info_item.full_address+'"  data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
-					if (info_item.status=='5') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
-					}else if (info_item.status=='2') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
-					}else if (info_item.status !='1') {
-						html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
-					}else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
-					}
+						html_response.push('<li class="propertie" data-address="'+info_item.full_address+'"  data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
 
-						//html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-
-						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.address_short+'</div></h2>');
-						html_response.push('<ul class="features">');
-						html_response.push('<li class="address">'+info_item.address_large+'</li>');
-						html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
-						html_response.push('<li class="pr down">2.05%</li>');
-						html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
-						html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-						html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
-
-											if ( 
-												response.hasOwnProperty("board_info") &&
-												response.board_info.hasOwnProperty("board_logo_url") &&
-												response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null ) {
-												html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
-											}
-
-						//html_response.push('<li class="build-year"><span>Built </span>2015</li>');
-						//html_response.push('<li class="development"><span></span></li>');
-						html_response.push('</ul>');
-						html_response.push('<div class="wrap-slider">');
-						html_response.push('<ul>');
-						if (0 == info_item.gallery.length) {
-							html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://www.idxboost.com/i/default_thumbnail.jpg"></li>');
-						} else {
-							info_item.gallery.forEach(function(gallery,index_gallery){
-								if (index_gallery==0){
-									html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-									}else{
-									html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-									}		
-								});
-						}
-						html_response.push('</ul>');
-		
-						if (info_item.gallery.length>1){
-							html_response.push('<button class="prev flex-slider-prev"><span class="clidxboost-icon-arrow-select"></span></button>');
-							html_response.push('<button class="next flex-slider-next"><span class="clidxboost-icon-arrow-select"></span></button>');
-						}
-		
-						if (info_item.status!='2') {
-							if (info_item.is_favorite==1){
-								html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
-							}else{
-								html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
+							if ( 
+								info_item.hasOwnProperty('recently_listed') && 
+								("yes" === info_item.recently_listed || info_item.min_ago_txt != "") 
+							) {
+								if (info_item.min_ago > 0 && info_item.min_ago_txt != "" ) {
+									html_response.push('<div class="flex-property-new-listing">' + info_item.min_ago_txt + '</div>');
+								} else {
+									html_response.push('<div class="flex-property-new-listing">' + word_translate.new_listing + '</div>');
+								}
+							} else if (1 != info_item.status) {
+								html_response.push('<div class="flex-property-new-listing">' + info_item.status_name +'</div>');
 							}
-						}
+
+							html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address+'</div></h2>');
+							html_response.push('<ul class="features">');
+								html_response.push('<li class="address">'+info_item.address_large+'</li>');
+								html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
+								html_response.push('<li class="pr down">2.05%</li>');
+								html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
+								html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
+								// html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>('+ info_item.living_size_m2 +' m²)</span></li>');
+								html_response.push('<li class="living-size"> <span>'+_.formatPrice(info_item.sqft)+'</span>'+word_translate.sqft+'</li>');
+								// html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'<span>($'+ info_item.price_sqft_m2 +' m²)</span></li>');
+								html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'</li>');
+
+								if ( 
+									response.hasOwnProperty("board_info") &&
+									response.board_info.hasOwnProperty("board_logo_url") &&
+									response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null 
+								) {
+									html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
+								}
+
+								//html_response.push('<li class="build-year"><span>Built </span>2015</li>');
+								//html_response.push('<li class="development"><span></span></li>');
+							html_response.push('</ul>');
+							html_response.push('<div class="wrap-slider">');
+								html_response.push('<ul>');
+								if (0 == info_item.gallery.length) {
+									html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://www.idxboost.com/i/default_thumbnail.jpg"></li>');
+								} else {
+									info_item.gallery.forEach(function(gallery,index_gallery){
+										if (index_gallery==0){
+											html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+											}else{
+											html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
+											}		
+										});
+								}
+								html_response.push('</ul>');
 		
-						html_response.push('</div>');
-						html_response.push('<a class="ib-view-detailt" href="'+__flex_idx_search_filter.propertyDetailPermalink+ '/' + info_item.slug + '" rel="nofollow">'+word_translate.details+'</a>');
-					html_response.push('</li>');
+								if (info_item.gallery.length>1){
+									html_response.push('<button class="prev flex-slider-prev"><span class="clidxboost-icon-arrow-select"></span></button>');
+									html_response.push('<button class="next flex-slider-next"><span class="clidxboost-icon-arrow-select"></span></button>');
+								}
+		
+								if (info_item.status!='2') {
+									if (info_item.is_favorite==1){
+										html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
+									}else{
+										html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
+									}
+								}
+		
+							html_response.push('</div>');
+							html_response.push('<a class="ib-view-detailt" href="'+__flex_idx_search_filter.propertyDetailPermalink+ '/' + info_item.slug + '" rel="nofollow">'+word_translate.details+'</a>');
+						html_response.push('</li>');
 					html_response.push('</ul>');
 				}
 

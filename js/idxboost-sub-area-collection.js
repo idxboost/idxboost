@@ -1101,8 +1101,10 @@ function idxboostListCollectionForSold(element,ibstatus){
     htmlgrid +='<li class="pr down">2.05%</li>';
     htmlgrid +='<li class="beds">'+element['bed']+' <span>'+word_translate.beds+' </span></li>';
     htmlgrid +='<li class="baths">'+element['bath']+' <span>'+word_translate.baths+' </span></li>';
-    htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>';
-    htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m²)</span></li>';
+    // htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+' <span>(' + element['living_size_m2'] + ' m²)</span></li>';
+    htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+'</li>';
+    // htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m²)</span></li>';
+    htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'</li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
         if ( 

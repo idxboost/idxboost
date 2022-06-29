@@ -4882,16 +4882,17 @@ function handleFilterSearchLookup(event) {
 
 					  //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
 
-						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.address_short+'</div></h2>');
+						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address+'</div></h2>');
 						html_response.push('<ul class="features">');
 						html_response.push('<li class="address">'+info_item.address_large+'</li>');
 						html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
 						html_response.push('<li class="pr down">2.05%</li>');
-						html_response.push('<li class="beds">'+info_item.bed+'  <span>'+word_translate.beds+' </span></li>');
-						html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-						html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>(452 m²)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft_m2+' </span>/ '+word_translate.sqft+'<span>($244 m²)</span></li>');
+						html_response.push('<li class="beds">'+info_item.property_class_name+'</li>');
+						// html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
+						// html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>('+ info_item.living_size_m2 +' m²)</span></li>');
+						html_response.push('<li class="living-size"> <span>'+_.formatPrice(info_item.lot_size)+'</span> Lot Size</li>');
+						// html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'<span>($'+ info_item.price_sqft_m2 +' m²)</span></li>');
+						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'</li>');
 
 	                    if ( 
 	                      response.hasOwnProperty("board_info") &&
