@@ -171,100 +171,42 @@
 
                     <ul class="sps-list">
                       <li>
-                        {{#if propertyPrice}}
-                          {{formatPrice propertyPrice}} 
-                        {{else}}
-                          $0
+                        {{propertyPrice}}
+
+                        {{#if propertyPriceLabel}}
+                          <span>{{ propertyPriceLabel }}</span>
                         {{/if}}
-                        <span>
-                          {{#if stylesInput.propertyInformation.priceLabel}}
-                            {{#if stylesInput.propertyInformation.customLabel}}
-                              {{stylesInput.propertyInformation.customLabel}}
-                            {{else}}
-                              {{replaceDashBySpace stylesInput.propertyInformation.priceLabel}}
-                            {{/if}}
-                          {{else}}
-                            Price
-                          {{/if}}
-                        </span>
                       </li>
 
                       <li>
-                        {{#if propertyBeds}}
-                          {{propertyBeds}}
-                        {{else}}
-                          0
+                        {{propertyBeds}}
+
+                        {{#if propertyBedsLabel}}
+                          <span>{{ propertyBedsLabel }}</span>
                         {{/if}}
-                        <span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
 
                       <li>
-                        {{#if propertyBaths}}
-                          {{propertyBaths}}
-                        {{else}}
-                          0
+                        {{propertyBaths}}
+
+                        {{#if propertyBathsLabel}}
+                          <span>{{ propertyBathsLabel }}</span>
                         {{/if}}
-                        <span><?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
                     
                       <li>
-                        {{#if propertyLivingSize}}
-                          {{formatSqft propertyLivingSize}}
-                        {{else}}
-                          0
+                        {{propertyLivingSize}}
+
+                        {{#if propertyLivingSizeLabel}}
+                          <span>{{ propertyLivingSizeLabel }}</span>
                         {{/if}}
-                        <span><?php echo __("Living Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </li>
                     </ul>
                   {{/if}}
 
                   {{#if (ifVisibility sections.details.showDescription) }}
                     {{#if propertySecondaryDescription}}
-                      {{#each propertySecondaryDescription.blocks}}
-
-                        {{#ifequals this.type "header"}}
-                          {{#ifequals this.level 2}}
-                            <h2 class="sps-h2">{{ this.data.text }}</h2>
-                          {{/ifequals}}
-
-                          {{#ifequals this.level 3}}
-                            <h3 class="sps-h3">{{ block.data.text }}</h3>
-                          {{/ifequals}}
-
-                          {{#ifequals this.level 4}}
-                            <h4 class="sps-h4">{{ block.data.text }}</h4>
-                          {{/ifequals}}
-
-                          {{#ifequals this.level 5}}
-                            <h5 class="sps-h5">{{ block.data.text }}</h5>
-                          {{/ifequals}}
-                        {{/ifequals}}
-
-                        {{#ifequals this.type "paragraph"}}
-                          <div class="sps-paragraph">
-                            <p>{{{this.data.text}}}</p>
-                          </div>
-                        {{/ifequals}}
-
-                        {{#ifequals this.type "list"}}
-                          {{#ifequals this.data.style "ordered"}}
-                            <ol class="sps-olist">
-                              {{#each this.data.items}}
-                                <li>{{{this}}}</li>
-                              {{/each}}
-                            </ol>
-                          {{/ifequals}}
-
-                          {{#ifequals this.data.style "unordered"}}
-                            <ul class="sps-ulist">
-                              {{#each this.data.items}}
-                                <li>{{{this}}}</li>
-                              {{/each}}
-                            </ul>
-                          {{/ifequals}}
-                        {{/ifequals}}
-
-                      {{/each}}
+                      {{{ propertySecondaryDescription }}}
                     {{/if}}
                   {{/if}}
                 </section>

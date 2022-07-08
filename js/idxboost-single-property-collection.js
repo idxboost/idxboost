@@ -125,7 +125,7 @@
 					            listHTML.push('<li class="propertie"  data-id="'+item.propertyId+'" data-counter="0">');
 
 												let websiteName = item.websiteName ? item.websiteName : '';
-												let propertyPrice = item.propertyPrice != '0' ? _.formatPrice(item.propertyPrice) : '';
+												let propertyPrice = item.propertyPrice != '' ? item.propertyPrice : '';
 												let propertyBeds = item.propertyBeds != '0' ? item.propertyBeds+'  <span>'+word_translate.beds+' </span>' : '';
 												let propertyBaths = item.propertyBaths != '0' ? item.propertyBaths+'  <span>'+word_translate.baths+' </span>' : '';
 												let propertyLivingSize = item.propertyLivingSize != '0' ? '<span>'+_.formatPrice(item.propertyLivingSize)+'</span>'+word_translate.sqft+'<span></span>' : '';
@@ -133,7 +133,7 @@
 												listHTML.push('<h2 title="'+websiteName+'">'+websiteName+'</h2>');
 					              listHTML.push('<ul class="features">');
 												listHTML.push('<li class="address">'+websiteName+'</li>');
-												if (item.propertyPrice != '0') { listHTML.push('<li class="price">$'+propertyPrice+'</li>'); }
+												if (item.propertyPrice != '') { listHTML.push('<li class="price">'+propertyPrice+'</li>'); }
 												listHTML.push('<li class="pr down"></li>');
 												if (item.propertyBeds != '0') { listHTML.push('<li class="beds">'+propertyBeds+'</li>'); }
 												if (item.propertyBaths != '0') { listHTML.push('<li class="baths">'+propertyBaths+'</li>'); }
@@ -173,8 +173,8 @@
 									<ul class="ib-piinfo">
 										${
 											(() => {
-												if (item.propertyPrice != '0') {
-													return `<li class="ib-piitem ib-piprice">$${_.formatPrice(item.propertyPrice)}</li>`
+												if (item.propertyPrice != '') {
+													return `<li class="ib-piitem ib-piprice">${item.propertyPrice}</li>`
 												} else {
 													return ''
 												}
@@ -505,7 +505,6 @@
 			method: "POST",
 			dataType: "json",
 			success: function(response) {
-				response.propertySecondaryDescription = JSON.parse(response.propertySecondaryDescription);
 
 				if (IB_SP_MODALS.length && IB_SP_HANDLEBARS_TPL.length) {
 					let template = Handlebars.compile(IB_SP_HANDLEBARS_TPL.html());
@@ -516,8 +515,6 @@
 					loadSPForms();
 					loadMap();
 					loadMainVideo();
-
-
 
 					if ("undefined" === typeof Cookies.get("_ib_disabled_forcereg")) {
 						if (true === IB_HAS_LEFT_CLICKS) {
