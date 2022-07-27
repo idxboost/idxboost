@@ -357,6 +357,25 @@ Handlebars.registerHelper("propertyHasNoImages", function(property) {
 	}
 });
 
+Handlebars.registerHelper('isNotSingleorCondos', function(property) {
+	if ( (property.tw == "1" || property.mf == "1" || property.is_vacant == "1") ) {
+		if (property.more_info_info.style !="")  {
+			return '<li><span class="ib-plist-st">'+word_translate.style+'</span><span class="ib-plist-pt">'+property.more_info_info.style+'</span></li>';
+		}
+	}
+	return '';
+});
+
+Handlebars.registerHelper('isSingleorCondos', function(property) {
+	if (  !(property.tw == "1" || property.mf == "1" || property.is_vacant == "1") ) {
+		if (property.more_info_info.style !="")  {
+			return '<li><span class="ib-plist-st">'+word_translate.style+'</span><span class="ib-plist-pt">'+property.more_info_info.style+'</span></li>';
+		}
+	}
+	return '';
+});
+
+
 Handlebars.registerHelper('markPhotosActive', function(property) {
 	if ( parseInt(property.img_cnt, 10) > 0 ) {
 		return "ib-pvi-active";

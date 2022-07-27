@@ -5745,6 +5745,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         $word_translate_setting = array('cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG));
 
         $custom_strings = array(
+            'style' => __('Style', IDXBOOST_DOMAIN_THEME_LANG),
             'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
             'city' => __('City', IDXBOOST_DOMAIN_THEME_LANG),
             'close' => __('Close', IDXBOOST_DOMAIN_THEME_LANG),

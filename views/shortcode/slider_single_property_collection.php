@@ -344,23 +344,23 @@
                           <ul>
                             <li>
                               <label for="input_name">Enter your Name</label>
-                              <input type="text" placeholder="Name" name="name" id="input_name" required>
+                              <input type="text" placeholder="First Name *" name="name" id="input_name" required>
                             </li>
                             <li>
                               <label for="input_lastname">Enter your last name</label>
-                              <input type="text" placeholder="Last Name" name="lastname" id="input_lastname" required>
+                              <input type="text" placeholder="Last Name *" name="lastname" id="input_lastname" required>
                             </li>
                             <li>
                               <label for="input_email">Enter your email</label>
-                              <input type="email" placeholder="Email" name="email" id="input_email" required>
+                              <input type="email" placeholder="Email *" name="email" id="input_email" required>
                             </li>
                             <li>
                               <label for="input_phone">Enter your phone number</label>
-                              <input type="text" placeholder="Phone" name="phone" id="input_phone" required>
+                              <input type="text" placeholder="Phone *" name="phone" id="input_phone" required>
                             </li>
                             <li>
                               <label for="input_comment">Enter a comment</label>
-                              <textarea placeholder="Comments" name="message" cols="30" rows="10" id="input_comment" required></textarea>
+                              <textarea placeholder="Comments *" name="message" cols="30" rows="10" id="input_comment" required></textarea>
                             </li>
                           </ul>
                           <button class="sps-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
@@ -444,23 +444,23 @@
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <div class="sp-input-form">
                     <label for="inputName">Enter your Name</label>
-                    <input type="text" placeholder="Name" name="name" id="inputName" required>
+                    <input type="text" placeholder="First Name *" name="name" id="inputName" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputLastName">Enter your Last Name</label>
-                    <input type="text" placeholder="Last Name" name="lastname" id="inputLastName" required>
+                    <input type="text" placeholder="Last Name *" name="lastname" id="inputLastName" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputEmail">Enter your Email</label>
-                    <input type="email" placeholder="Email" name="email" id="inputEmail" required>
+                    <input type="email" placeholder="Email *" name="email" id="inputEmail" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputPhone">Enter your Phone number</label>
-                    <input type="phone" placeholder="Phone" name="phone" id="inputPhone" required>
+                    <input type="phone" placeholder="Phone *" name="phone" id="inputPhone" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputComment">Enter your Comment</label>
-                    <textarea placeholder="Comments" name="message" id="inputComment" required></textarea>
+                    <textarea placeholder="Comments *" name="message" id="inputComment" required></textarea>
                   </div>
                   <div class="sp-input-form">
                     <button class="sp-button" type="submit">{{stylesInput.headerSection.button.text}}</button>

@@ -270,7 +270,7 @@
               }
 
               // build pagination
-              if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+              if (response.lead_info.hasOwnProperty('saved_listings_pagination')) {
               if (response.lead_info.saved_listings_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
@@ -348,7 +348,7 @@
               }
 
               // build pagination
-              if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+              if (response.lead_info.hasOwnProperty('saved_searches_pagination')) {
               if (response.lead_info.saved_searches_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
@@ -444,7 +444,7 @@
               }
 
               // build pagination
-              if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+              if (response.lead_info.hasOwnProperty('saved_listings_pagination')) {
               if (response.lead_info.saved_listings_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
@@ -518,7 +518,7 @@
               }
 
               // build pagination
-              if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+              if (response.lead_info.hasOwnProperty('saved_searches_pagination')) {
               if (response.lead_info.saved_searches_pagination.total_pages > 1) {
                 var lead_listing_views_paging = [];
 
@@ -662,9 +662,9 @@
         success: function(data) {
           console.log('property view hidden');
           // if not available items, redirect page to 1
-          if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
+          // if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
             jQuery("#_ib_lead_activity_tab button:eq(0)").click();
-          }
+          // }
         }
       });
     });
@@ -694,9 +694,9 @@
         success: function(data) {
           console.log('saved search removed');
           // if not available items, redirect page to 1
-          if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
+          // if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
             jQuery("#_ib_lead_activity_tab button:eq(1)").click();
-          }
+          // }
         }
       });
     });
@@ -726,9 +726,9 @@
         success: function(data) {
           console.log('saved search removed');
           // if not available items, redirect page to 1
-          if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
+          // if (0 === jQuery("#_ib_lead_activity_rows").children().length) {
             jQuery("#_ib_lead_activity_tab button:eq(2)").click();
-          }
+          // }
         }
       });
     });

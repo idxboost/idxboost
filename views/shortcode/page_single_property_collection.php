@@ -383,23 +383,23 @@
                           <ul>
                             <li>
                               <label for="input_name"><?php echo __("Enter your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input type="text" placeholder="<?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="name" id="input_name" required>
+                              <input type="text" placeholder="<?php echo __("First Name *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="name" id="input_name" required>
                             </li>
                             <li>
                               <label for="input_lastname"><?php echo __("Enter your last name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input type="text" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="lastname" id="input_lastname" required>
+                              <input type="text" placeholder="<?php echo __("Last Name *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="lastname" id="input_lastname" required>
                             </li>
                             <li>
                               <label for="input_email"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input type="email" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="email" id="input_email" required>
+                              <input type="email" placeholder="<?php echo __("Email *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="email" id="input_email" required>
                             </li>
                             <li>
                               <label for="input_phone"><?php echo __("Enter your phone number", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input type="text" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
+                              <input type="text" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
                             </li>
                             <li>
                               <label for="input_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <textarea placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" cols="30" rows="10" id="input_comment" required></textarea>
+                              <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" cols="30" rows="10" id="input_comment" required></textarea>
                             </li>
                           </ul>
                           <button class="sps-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
@@ -483,23 +483,23 @@
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <div class="sp-input-form">
                     <label for="inputName">Enter your Name</label>
-                    <input type="text" placeholder="Name" name="name" id="inputName" required>
+                    <input type="text" placeholder="First Name *" name="name" id="inputName" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputLastName">Enter your Last Name</label>
-                    <input type="text" placeholder="Last Name" name="lastname" id="inputLastName" required>
+                    <input type="text" placeholder="Last Name *" name="lastname" id="inputLastName" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputEmail">Enter your Email</label>
-                    <input type="email" placeholder="Email" name="email" id="inputEmail" required>
+                    <input type="email" placeholder="Email *" name="email" id="inputEmail" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputPhone">Enter your Phone number</label>
-                    <input type="phone" placeholder="Phone" name="phone" id="inputPhone" required>
+                    <input type="phone" placeholder="Phone *" name="phone" id="inputPhone" required>
                   </div>
                   <div class="sp-input-form">
                     <label for="inputComment">Enter your Comment</label>
-                    <textarea placeholder="Comments" name="message" id="inputComment" required></textarea>
+                    <textarea placeholder="Comments *" name="message" id="inputComment" required></textarea>
                   </div>
                   <div class="sp-input-form">
                     <button class="sp-button" type="submit">{{stylesInput.headerSection.button.text}}</button>

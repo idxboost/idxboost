@@ -614,6 +614,9 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{property_type}}</span>
                                        </li>
+
+                                       {{{isNotSingleorCondos this }}}
+
                                        <li>
                                           <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{status_name}}</span>
@@ -727,12 +730,9 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <span class="ib-plist-pt">{{more_info_info.roof}}</span>
                                        </li>
                                        {{/if}}
-                                       {{#if more_info_info.style}}
-                                       <li>
-                                          <span class="ib-plist-st"><?php echo __('Style', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt">{{more_info_info.style}}</span>
-                                       </li>
-                                       {{/if}}
+
+                                       {{{ isSingleorCondos this }}}
+
                                     </ul>
                                  </div>
                                  <div class="ib-plist-card">
