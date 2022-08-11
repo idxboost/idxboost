@@ -15,7 +15,7 @@
          echo $atts['zoom'];
      } ?>"
      data-filter="<?php if (empty($atts['filter'])) {
-         echo 'ZTM1Y2RK';
+         echo '';
      } else {
          echo $atts['filter'];
      } ?>">

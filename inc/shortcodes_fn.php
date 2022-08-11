@@ -469,7 +469,8 @@ if (!function_exists('ib_rentals_sc')) {
         $atts = shortcode_atts(array(
             'lat' => '',
             'lng' => '',
-            'zoom' => ''
+            'zoom' => '', 
+            'board_id' => ''
         ), $atts);
 
         ob_start();
@@ -510,6 +511,7 @@ if (!function_exists('ib_search_ff')) {
         wp_enqueue_script('react-search-fifty-exporting');
         wp_enqueue_script('react-search-fifty-export-data');
         wp_enqueue_script('react-search-fifty-accessibility');
+        wp_enqueue_script('react-search-fifty-display');        
         wp_enqueue_script('react-search-fifty');
         wp_enqueue_style('react-search-fifty-css');
 

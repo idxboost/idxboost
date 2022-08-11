@@ -6087,7 +6087,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
       wp_register_script("react-search-fifty-series-label", "https://code.highcharts.com/modules/series-label.js", array("jquery"));  
       wp_register_script("react-search-fifty-exporting", "https://code.highcharts.com/modules/exporting.js", array("jquery"));  
       wp_register_script("react-search-fifty-export-data", "https://code.highcharts.com/modules/export-data.js", array("jquery"));
-      wp_register_script("react-search-fifty-accessibility", "https://code.highcharts.com/modules/accessibility.js", array("jquery"));        
+      wp_register_script("react-search-fifty-accessibility", "https://code.highcharts.com/modules/accessibility.js", array("jquery"));    
+      wp_register_script("react-search-fifty-display", "https://code.highcharts.com/modules/no-data-to-display.js", array("jquery"));   
       
 
         wp_register_script('flex-idx-search-filter', FLEX_IDX_URI . 'js/flex-idx-search-filter.js', array(
@@ -6193,6 +6194,40 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
             'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
         ));
+
+        // load script for react search fifty
+        wp_localize_script('react-search-fifty', '__flex_idx_search_filter', array(
+            "updateEventUri" => IDX_BOOST_TRACK_COLLECTION_VIEWS,
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'hackbox' => $flex_idx_info["agent"]["hackbox"],
+            'list_offmarket' => '',
+            'agentFullName' => $flex_idx_info["agent"]["agent_first_name"] . " " . $flex_idx_info["agent"]["agent_last_name"],
+            'agentPhoto' => $flex_idx_info["agent"]["agent_contact_photo_profile"],
+            'agentPhone' => $flex_idx_info["agent"]["agent_contact_phone_number"],
+            'lookupSearchFilter' => FLEX_IDX_API_SEARCH_FILTER,
+            'lookupSearchCommercialFilter' => FLEX_IDX_API_SEARCH_COMMERCIAL_FILTER,
+            'lookupListingsDetail' => FLEX_IDX_API_SEARCH_LISTING,
+            'trackListingsDetail' => FLEX_IDX_API_SEARCH_TRACK,
+            'saveListings' => FLEX_IDX_API_SEARCH_FILTER_SAVE,
+            'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
+            'requestInformationEndpoint' => FLEX_IDX_API_REQUEST_INFO_PROPERTY,
+            'requestDataOffmarket' => FLEX_IDX_API_REQUEST_GET_OFF_MARKET_LISTING,
+            'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
+            'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
+            'accessToken' => flex_idx_get_access_token(),
+            'boardId' => $flex_idx_info['board_id'],
+            'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']),
+            'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
+            'searchFilterPermalink' => get_permalink(),
+            'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
+            'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
+            'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+        ));        
+        // load script for react search fifty
+
 
         wp_localize_script('flex-idx-search-commercial-filter', '__flex_idx_search_filter', array(
             'commercial_types' => $flex_idx_info['commercial_types'],

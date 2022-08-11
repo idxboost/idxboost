@@ -13,6 +13,11 @@
          echo '13';
      } else {
          echo $atts['zoom'];
+     } ?>"
+     data-boardid="<?php if (empty($atts['board_id'])) {
+         echo '101';
+     } else {
+         echo $atts['board_id'];
      } ?>">
 </div>
 
