@@ -161,8 +161,6 @@ if (!function_exists("idxboost_dinamic_menu_sc")) {
             'registration_key' => ""
         ), $atts);
 
-        wp_enqueue_script("iboost-buyers-sellers-js");
-
         ob_start();
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_menu_dinamic.php')) {
@@ -183,8 +181,6 @@ if (!function_exists("idxboost_dinamic_menu_mobile_sc")) {
         $atts = shortcode_atts(array(
             'registration_key' => ""
         ), $atts);
-
-        wp_enqueue_script("iboost-buyers-sellers-js");
         
         ob_start();
 
@@ -1836,7 +1832,17 @@ function insert_fb_in_head() {
     $postsubarea  = strpos($url,'/'.$sub_area_slug.'/');
 
     if (is_numeric($postproperty) && $postproperty>=0 ) {
-        $data = fb_flex_idx_property_detail_sc([], null);  $GLOBALS['property']= $data;
+
+        $property_head = [];
+
+        if (is_array($GLOBALS) && count($GLOBALS) > 0 && array_key_exists("property", $GLOBALS) && is_array($GLOBALS["property"]) && count($GLOBALS["property"]) > 0  ) {
+            $property_head = $GLOBALS["property"];
+        }else{
+            $property_head = title_flex_idx_property_detail_sc([], null);
+        }
+
+        $data = $property_head;  
+        //$GLOBALS['property']= $data;
         if ( !is_array($data) || (is_array($data) && count($data) == 0) )  {
             return false;
         }
@@ -4184,8 +4190,6 @@ if (!function_exists('flex_idx_saved_searches_sc')) {
 
         wp_enqueue_style('dgt-flex-listing-save-profile-css');
         wp_enqueue_script('flex-idx-saved-searches');
-        
-        // wp_enqueue_script('flex-idx-saved-searches-js');
 
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 

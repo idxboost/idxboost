@@ -31,7 +31,13 @@
 <?php if (empty($property)): ?>
 <div class="gwr idx-mmg">
   <div class="message-alert idx_color_primary flex-property-not-available">
-    <p>The property you requested with MLS <?php echo $GLOBALS['property_mls']; ?>. is not available.</p>
+    <!--<p>The property you requested with MLS <?php echo $GLOBALS['property_mls']; ?>. is not available.</p>-->
+    <?php
+             global $wp_query;
+            $wp_query->set_404();
+            status_header( 404 );
+            get_template_part( 404 ); exit();    
+    ?>
   </div>
 </div>
 <?php else: ?>

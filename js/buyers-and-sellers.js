@@ -333,21 +333,4 @@ jQuery(function () {
     }
 });
 
-google.maps.event.addDomListener(window, 'load', function() {
-    console.log('window ready');
-    // lead_address_acgoogle = document.getElementById("lead_address_acgoogle");
-
-    // if (null !== lead_address_acgoogle) {
-    //     var lead_address_acgoogle_autocomplete = new google.maps.places.Autocomplete(lead_address_acgoogle);
-        
-    //     lead_address_acgoogle_autocomplete.setComponentRestrictions({
-    //         "country": ["us"]
-    //     });
-
-    //     setTimeout(function() {
-    //         lead_address_acgoogle.setAttribute("autocomplete", "disabled");
-    //     }, 1000);
-    // }
-});
-
 })(jQuery);

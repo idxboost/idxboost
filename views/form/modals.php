@@ -78,7 +78,7 @@ global $flex_idx_info, $flex_idx_lead;
             <li class="close-modal"><button><span class="icon-close"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
           </ul>
           <span class="numeration"><span>2</span> <?php echo __('of', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>14</span></span>
-          <img src="/" class="img" alt="Idxboost">
+          <img src="/" class="img" alt="Idxboost" width="1" height="1">
           <button class="prev nav" aria-label="Prev"><span class="icon-arrow-select"></span></button>
           <button class="next nav" aria-label="Next"><span class="icon-arrow-select"> </span></button>
         </div>

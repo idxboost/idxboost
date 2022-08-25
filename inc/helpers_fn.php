@@ -1,5 +1,160 @@
 <?php
 
+function custom_title($title_parts) {
+    $title_property = "";
+    if ($title_parts["title"] == "Property Details" ){
+        $detail_property = title_flex_idx_property_detail_sc([], null);
+        if (is_array($detail_property) && count($detail_property) > 0 ) {
+            $title_property = str_replace('# ', '#', $detail_property['address_short'])." ".str_replace(' ,', ',', $detail_property['address_large']);
+            $title_parts['title'] = $title_property;
+        }
+    }
+    return $title_parts;
+}
+add_filter( 'document_title_parts', 'custom_title' );
+
+if (!function_exists('title_flex_idx_property_detail_sc')) {
+    function title_flex_idx_property_detail_sc($atts, $content = null)
+    {
+        global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
+
+        if (true !== $flex_idx_info['agent']['has_basic_idx']) {
+            return "";
+        }
+
+        $access_token = flex_idx_get_access_token();
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+
+        $wp_request     = $wp->request;
+        $wp_request_exp = explode('/', $wp_request);
+
+        list($page, $slug) = $wp_request_exp;
+
+        if (strstr($slug, '-rx-')) {
+            $exp_slug = explode('-', $slug);
+            $mls_num  = 'rx-' . end($exp_slug);
+        } else {
+            $exp_slug = explode('-', $slug);
+            $mls_num  = end($exp_slug);
+        }
+
+        $type_lookup = 'active';
+
+        if (preg_match('/^[sold\-(.*)]+/', $slug)) {
+            $type_lookup = 'sold';
+        } else if (preg_match('/^[rented\-(.*)]+/', $slug)) {
+            $type_lookup = 'rent';
+        } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
+            $type_lookup = 'pending';
+        } else {
+            $type_lookup = 'active';
+        }
+        
+        $AddressPrint='';
+        if (!empty($mls_num) && $mls_num!=null) {
+            $getTheAddress = str_replace('-'.$mls_num, "", $slug );
+            $AddressPrint = str_replace("-", " ", $getTheAddress);
+            
+            $GLOBALS['property_mls'] = $mls_num;
+            $GLOBALS['property_address'] = $AddressPrint;
+        }
+
+        $ip_address = get_client_ip_server();
+        $referer    = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin     = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+        $sendParams = array(
+            'mls_num'          => $mls_num,
+            'type_lookup'      => $type_lookup,
+            'access_token'     => $access_token,
+            'flex_credentials' => $flex_lead_credentials,
+            'data'             => array(
+                'ip_address'  => $ip_address,
+                'url_referer' => $referer,
+                'url_origin'  => $origin,
+                'user_agent'  => $user_agent,
+            ),
+        );
+
+
+        if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
+            $ed = "";
+            $sd = "";
+            $extra_day_in = "";
+            $extra_day_out = "";
+            if (is_array($_GET) && count($_GET)> 0 ) {
+                if (array_key_exists("sd",$_GET)) {
+                    $sd = $_GET["sd"];
+                }
+
+                if (array_key_exists("ed",$_GET)) {
+                    $ed = $_GET["ed"];
+                }   
+
+                if (array_key_exists("extra_day_in",$_GET)) {
+                    $extra_day_in = $_GET["extra_day_in"];
+                }   
+
+                if (array_key_exists("extra_day_out",$_GET)) {
+                    $extra_day_out = $_GET["extra_day_out"];
+                }
+            }
+
+            $curl = curl_init();
+                curl_setopt_array($curl, array(
+                  CURLOPT_URL => FLEX_IDX_BASE_URL."/rentals_listings/{$slug}",
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS => array(
+                    'type_search' => 'slug',
+                    'check_in'  => $sd,
+                    'check_out' => $ed,
+                    "extra_day_in" => $extra_day_in,
+                    "extra_day_out" => $extra_day_out,
+                    'access_token' => $access_token),
+            ));
+
+            $server_output = curl_exec($curl);
+            $response = json_decode($server_output, true);
+            curl_close($curl);
+            $current_url = home_url($wp_request);
+            $property    = (isset($response) && is_array($response) && count($response)>0 ) ? $response : array();
+            $GLOBALS["property"] = $property;
+        }else{
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+            $server_output = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($server_output, true);
+            $current_url = home_url($wp_request);
+            $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+            $GLOBALS["property"] = $property;
+        }
+
+
+
+
+        return $property;
+    }
+}
+
+
 if (!function_exists( 'iboost_get_mod_time' )) {
     function iboost_get_mod_time($filename)
     {
@@ -2063,7 +2218,7 @@ if (!function_exists( 'flex_idx_posttype_pages_fn' )) {
                 'with_front' => false,
                 'slug' => $building_slug,
             ),
-            'supports' => array('title', 'page-attributes', 'post-formats'),
+            'supports' => array('title','editor' ,'page-attributes', 'post-formats'),
             'capability_type' => 'post'
         ));
         register_post_type('flex-idx-pages', array(
@@ -5998,9 +6153,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
         );
         // main styles
-        wp_register_style('flex-idx-main-project', FLEX_IDX_URI . 'css/main.css', array(), iboost_get_mod_time("css/main.css"));
+        wp_register_style('flex-idx-main-project', FLEX_IDX_URI . 'css/main.min.css', array(), iboost_get_mod_time("css/main.min.css"));
         // buildings
-        wp_register_style('flex-idx-buildings', FLEX_IDX_URI . 'css/flex-idx-buildings.css', array(), iboost_get_mod_time("css/flex-idx-buildings.css"));
         wp_register_script('flex-idx-buildings-js', FLEX_IDX_URI . 'js/flex-idx-buildings.js', array('jquery'), iboost_get_mod_time("js/flex-idx-buildings.js"));
         // buyers and sellers
         wp_register_script(
@@ -6010,16 +6164,15 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             iboost_get_mod_time("js/buyers-and-sellers.js")
         );
         // sweetalert
-        wp_enqueue_style('sweetalert-css', FLEX_IDX_URI . 'css/sweetalert.css', array(), iboost_get_mod_time("css/sweetalert.css"));
+        wp_enqueue_style('sweetalert-css', FLEX_IDX_URI . 'css/sweetalert.min.css', array(), iboost_get_mod_time("css/sweetalert.min.css"));
         wp_enqueue_script('sweetalert-js', FLEX_IDX_URI . 'js/sweetalert.min.js', array(), iboost_get_mod_time("js/sweetalert.min.js"), true);
         wp_localize_script('sweetalert-js', 'idx_translate_setting', $word_translate_setting);
 
         //mask-input
-        wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/jquery.inputmask.bundle.min.js', array(), iboost_get_mod_time("js/jquery.inputmask.bundle.min.js"), true);
+        wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/jquery.inputmask.min.js', array(), iboost_get_mod_time("js/jquery.inputmask.min.js"), true);
         wp_localize_script('mask-input', 'idx_translate_setting', $word_translate_setting);
 
         // underscore
-        // wp_register_script('underscore', FLEX_IDX_URI . 'vendor/underscore/underscore.js', array());
         wp_register_script('underscore-mixins', FLEX_IDX_URI . 'js/underscore.mixins.js', array('underscore'), iboost_get_mod_time("js/underscore.mixins.js"));
         // mortgage calculator
         wp_register_script('flex-idx-property-js-only', FLEX_IDX_URI . 'js/property-calculater.js', array('jquery'), iboost_get_mod_time("js/property-calculater.js"));
@@ -6041,14 +6194,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_register_script('idx-mini-search-new', FLEX_IDX_URI . 'js/idx-mini-search-new.js', array('jquery', 'underscore', 'flex-auth-check'), iboost_get_mod_time("js/idx-mini-search-new.js"));
 
         // handlebars
-        wp_register_script('handlebars', FLEX_IDX_URI . 'js/handlebars-v4.1.2.js', array(), iboost_get_mod_time("js/handlebars-v4.1.2.js"));
-        // flex idx search filter
-        // wp_register_style('flex-idx-search-filter-fonts', 'https://file.myfontastic.com/SYf8h6NoBXoNYppF4gDLt/icons.css');
-        // wp_register_style("flex-idx-search-filter-map-css", FLEX_IDX_URI . "css/flex-idx-search-filter-map.css");
-        // wp_register_style('flex-idx-search-filter-css', FLEX_IDX_URI . 'css/flex-idx-search-filter.css', array(
-        //     // 'flex-idx-search-filter-fonts',
-        //     "flex-idx-search-filter-map-css"
-        // ));
+        wp_register_script('handlebars', FLEX_IDX_URI . 'js/handlebars-v4.1.2.min.js', array(), iboost_get_mod_time("js/handlebars-v4.1.2.min.js"));
         wp_register_script('flex-idx-search-filter-slider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array(
             'jquery'
         ), iboost_get_mod_time("js/greatslider.jquery.min.js"));
@@ -6290,7 +6436,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         // register for ib search box
         wp_register_script("ib-search-box", FLEX_IDX_URI . "js/ib-search-box.js", array("jquery"));
         // css for favorites
-        wp_register_style('flex-favorites-css', FLEX_IDX_URI . 'css/jquery-ui-timepicker-addon.css');
+        wp_register_style('flex-favorites-css', FLEX_IDX_URI . 'css/jquery-ui-timepicker-addon.min.css');
         $translation_array = $custom_strings;
         wp_localize_script('flex-auth-check', 'word_translate', $translation_array);
 
@@ -6355,10 +6501,9 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_register_script('google-maps-utility-library-richmarker', FLEX_IDX_URI . 'js/richmarker-compiled.js', array('google-maps-api'), iboost_get_mod_time("js/richmarker-compiled.js"));
         wp_register_script('google-maps-utility-library-infobubble', FLEX_IDX_URI . 'js/infobubble-compiled.js', array('google-maps-api'), iboost_get_mod_time("js/infobubble-compiled.js"));
         // styles for infowindows [google maps]
-        wp_register_style('flex-idx-css-map', FLEX_IDX_URI . 'css/infowindows.css', array(), iboost_get_mod_time("css/infowindows.css"));
+        wp_register_style('flex-idx-css-map', FLEX_IDX_URI . 'css/infowindows.min.css', array(), iboost_get_mod_time("css/infowindows.min.css"));
         // property detail [start]
-        wp_register_style('flex-idx-search-css', FLEX_IDX_URI . 'css/flex-search.css', array(), iboost_get_mod_time("css/flex-search.css"));
-        wp_register_style('flex-main-css', FLEX_IDX_URI . 'css/main.css', array(), iboost_get_mod_time("css/main.css"));
+        wp_register_style('flex-main-css', FLEX_IDX_URI . 'css/main.min.css', array(), iboost_get_mod_time("css/main.min.css"));
         wp_register_script('flex-idx-property-js', FLEX_IDX_URI . 'js/properties-js.js', array(
             'flex-idx-filter-js-scroll',
             'flex-idx-filter-jquery-ui',
@@ -6378,19 +6523,15 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         ), iboost_get_mod_time("js/flex-idx-single-autocomplete.js"));
         // flex autocomplete [end]
 
-        wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.css', array(), iboost_get_mod_time("css/main.css"));
+        wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.css', array(), iboost_get_mod_time("css/main.min.css"));
 
-        /*wp_register_script('greatslider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array('jquery'));
-        wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery'));
-        wp_register_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery', 'greatslider'));*/
         // filter pages [start]
-        wp_register_script('flex-idx-filter-project-master-tem', FLEX_IDX_URI . 'js/dgt-project-master.js', array('jquery'), iboost_get_mod_time("js/dgt-project-master.js"), true);
-        wp_register_style('flex-idx-filter-pages-css', FLEX_IDX_URI . 'css/infowindows.css', array('flex-idx-search-css'), iboost_get_mod_time("css/infowindows.css"));
+        wp_register_style('flex-idx-filter-pages-css', FLEX_IDX_URI . 'css/infowindows.min.css', array(), iboost_get_mod_time("css/infowindows.min.css"));
         wp_register_script('flex-idx-filter-js-scroll', FLEX_IDX_URI . 'js/perfect-scrollbar.jquery.min.js', array('jquery'), iboost_get_mod_time("js/perfect-scrollbar.jquery.min.js"));
         wp_register_script('flex-idx-filter-jquery-ui', FLEX_IDX_URI . 'js/jquery-ui.min.js', array('jquery'), iboost_get_mod_time("js/jquery-ui.min.js"));
         wp_register_script('flex-idx-filter-jquery-ui-touch', FLEX_IDX_URI . 'js/jquery.ui.touch-punch.min.js', array('flex-idx-filter-jquery-ui'), iboost_get_mod_time("js/jquery.ui.touch-punch.min.js"));
         // quick search assets
-        wp_register_style('idxboost-quick-search-css', FLEX_IDX_URI . 'css/idxboost-quick-search.css', array(), iboost_get_mod_time("css/idxboost-quick-search.css"));
+        wp_register_style('idxboost-quick-search-css', FLEX_IDX_URI . 'css/idxboost-quick-search.min.css', array(), iboost_get_mod_time("css/idxboost-quick-search.min.css"));
         wp_register_script(
             'idxboost-quick-search-js',
             FLEX_IDX_URI . 'js/idxboost-quick-search.js',
@@ -6399,12 +6540,11 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         );
         wp_register_script('idxboost_filter_js', FLEX_IDX_URI . 'js/idxboost_filter.js', array(), iboost_get_mod_time("js/idxboost_filter.js"));
 
-        //wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.js',array('jquery'));
-        wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.js', array(
+        wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.min.js', array(
             'jquery',
             'flex-idx-search-filter-slider',
             'handlebars',
-        ), iboost_get_mod_time("js/idxboost_handlers_modals.js"));
+        ), iboost_get_mod_time("js/idxboost_handlers_modals.min.js"));
 
         wp_register_script('flex-idx-filter-js', FLEX_IDX_URI . 'js/dgt-filter-master.js', array(
             'underscore',
@@ -6724,7 +6864,6 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_register_script('flex-fusioncharts-core', FLEX_IDX_URI . 'js/fusioncharts.js', array(), iboost_get_mod_time("js/fusioncharts.js"));
         wp_register_script('flex-fusioncharts-plugin', FLEX_IDX_URI . 'js/fusioncharts.charts.js', array('flex-fusioncharts-core'), iboost_get_mod_time("js/fusioncharts.charts.js"));
         wp_register_script('flex-propertiesbuilding-plugin', FLEX_IDX_URI . 'js/properties-js.js', array(), iboost_get_mod_time("js/properties-js.js"));
-        wp_register_script('flex-dgtmasterbuilding-plugin', FLEX_IDX_URI . 'js/dgt-master.min.js', array(), iboost_get_mod_time("js/dgt-master.min.js"));
         wp_register_script('flex-idx-building-js', FLEX_IDX_URI . 'js/dgt-building-js.js', array(
             'flex-idx-filter-js-scroll',
             'flex-idx-filter-jquery-ui',
@@ -6986,7 +7125,6 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'siteUrl' => $flex_idx_info["website_url"]
         ));
         // saved searches
-        // wp_register_script('flex-idx-saved-searches', FLEX_IDX_URI . 'js/flex-idx-saved-searches.js', array('flex-idx-search-results-js'));
         wp_register_script('flex-idx-saved-searches', FLEX_IDX_URI . 'js/flex-idx-saved-searches.js', array(), iboost_get_mod_time("js/flex-idx-saved-searches.js"));
         wp_localize_script('flex-idx-saved-searches', 'flex_idx_saved_searches', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -7022,7 +7160,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
         ));
 
-        wp_register_style("idxboost-quick-search-v2-theme", FLEX_IDX_URI . "css/idxboost-quick-search-v2.css", array(), iboost_get_mod_time("css/idxboost-quick-search-v2.css"));
+        wp_register_style("idxboost-quick-search-v2-theme", FLEX_IDX_URI . "css/idxboost-quick-search-v2.min.css", array(), iboost_get_mod_time("css/idxboost-quick-search-v2.min.css"));
         wp_register_script("idxboost-quick-search-v2", FLEX_IDX_URI . "js/idxboost-quick-search-v2.js", array(
             "jquery",
             "underscore",
@@ -7069,8 +7207,8 @@ if (!function_exists( 'greatsliderLoad' )) {
     {
         wp_enqueue_script('flex-print-area', FLEX_IDX_URI . 'js/jquery.PrintArea.js', array('flex-pusher-js', 'flex-cookies-manager', 'jquery'), iboost_get_mod_time("js/jquery.PrintArea.js"), true);
         wp_register_script('greatslider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array("jquery"), iboost_get_mod_time("js/greatslider.jquery.min.js"));
-        wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.js', array("jquery"), iboost_get_mod_time("js/greatslider-main.js"));
-        wp_enqueue_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery', 'greatslider'), iboost_get_mod_time("js/greatslider-main.js"), true);
+        wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.min.js', array("jquery"), iboost_get_mod_time("js/greatslider-main.min.js"));
+        wp_enqueue_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.min.js', array('jquery', 'greatslider'), iboost_get_mod_time("js/greatslider-main.min.js"), true);
     }
 }
 
@@ -7080,13 +7218,12 @@ add_action('wp_footer', 'greatsliderLoad');
 if (!function_exists( 'flex_idx_admin_register_assets' )) {
     function flex_idx_admin_register_assets()
     {
-        wp_register_style('flex-idx-admin', FLEX_IDX_URI . 'css/flex-idx-admin.css');
+        wp_register_style('flex-idx-admin', FLEX_IDX_URI . 'css/flex-idx-admin.min.css');
         // cookies manager
         wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/js.cookie.min.js', array(), iboost_get_mod_time("js/js.cookie.min.js"), true);
         wp_register_script('flex-idx-admin-js', FLEX_IDX_URI . 'js/flex-idx-admin.js', array('jquery', 'flex-cookies-manager'));
         wp_register_script('flex-idx-admin-import-js', FLEX_IDX_URI . 'js/idxboost_import_admin.js', array('jquery'));
         wp_register_script('flex-idx-tools-js', FLEX_IDX_URI . 'js/flex-idx-tools.js', array('jquery'));
-        wp_register_style('flex-idx-admin-pages', FLEX_IDX_URI . 'css/flex-idx-admin-pages.css');
         wp_register_script('flex-idx-admin-pages-js', FLEX_IDX_URI . 'js/flex-idx-admin-pages.js', array('jquery'));
         wp_localize_script('flex-idx-admin-js', 'flex_idx_admin_js', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -7118,7 +7255,6 @@ if (!function_exists( 'flex_idx_admin_pages_list_enqueue_assets' )) {
     function flex_idx_admin_pages_list_enqueue_assets()
     {
         wp_enqueue_style('flex-idx-admin');
-        wp_enqueue_style('flex-idx-admin-pages');
         wp_enqueue_script('flex-idx-admin-pages-js');
         wp_enqueue_script('flex-idx-admin-import-js');
     }
@@ -8202,7 +8338,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
             $body = wp_remote_retrieve_body($response);
             $content = json_decode($body, true);
 
-            if (!is_wp_error($response) or $content != NULL) {
+            if (!is_wp_error($response) && !empty($content) && $content != NULL) {
 
                 wp_enqueue_style('carbonite-addons-tripwire');
                 wp_enqueue_script('carbonite-addons-tripwire');
@@ -8504,28 +8640,32 @@ if (!function_exists("custom_seo_page")) {
                     update_seo_default();
                 }
             } else {
-                $response = wp_remote_post(
-                    IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
-                    array(
-                        'method' => 'POST',
-                        'headers' => [
-                            'Content-Type' => 'application/json',
-                        ],
-                        'body' => wp_json_encode(array(
-                            'registration_key' => get_option('idxboost_registration_key'),
-                            "page_type" => 'home',
-                            "post_id" => ''
-                        ))
-                    )
-                );
 
-                $body = wp_remote_retrieve_body($response);
-                $content = json_decode($body, true);
-
-                if (!is_wp_error($response) or $content != NULL) {
-                    update_seo_all_page($content['seo']['title']);
-                } else {
-                    update_seo_default();
+                if ( ! (
+                    $post->post_type == 'flex-idx-pages' && 
+                    in_array($type_filter, ['flex_idx_building','flex_idx_property_detail'])  
+                ) ) {
+                    $response = wp_remote_post(
+                        IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
+                        array(
+                            'method' => 'POST',
+                            'headers' => [
+                                'Content-Type' => 'application/json',
+                            ],
+                            'body' => wp_json_encode(array(
+                                'registration_key' => get_option('idxboost_registration_key'),
+                                "page_type" => 'home',
+                                "post_id" => ''
+                            ))
+                        )
+                    );
+                    $body = wp_remote_retrieve_body($response);
+                    $content = json_decode($body, true);
+                    if (!is_wp_error($response) or $content != NULL) {
+                        update_seo_all_page($content['seo']['title']);
+                    } else {
+                        update_seo_default();
+                    }
                 }
             }
         } elseif ("Builder CMS" == $wp_theme->name) {
