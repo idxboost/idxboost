@@ -6194,7 +6194,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_register_script('idx-mini-search-new', FLEX_IDX_URI . 'js/idx-mini-search-new.js', array('jquery', 'underscore', 'flex-auth-check'), iboost_get_mod_time("js/idx-mini-search-new.js"));
 
         // handlebars
-        wp_register_script('handlebars', FLEX_IDX_URI . 'js/handlebars-v4.1.2.min.js', array(), iboost_get_mod_time("js/handlebars-v4.1.2.min.js"));
+        wp_register_script('handlebars', FLEX_IDX_URI . 'js/handlebars-v4.1.2.js', array(), iboost_get_mod_time("js/handlebars-v4.1.2.js"));
         wp_register_script('flex-idx-search-filter-slider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array(
             'jquery'
         ), iboost_get_mod_time("js/greatslider.jquery.min.js"));
@@ -6540,11 +6540,11 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         );
         wp_register_script('idxboost_filter_js', FLEX_IDX_URI . 'js/idxboost_filter.js', array(), iboost_get_mod_time("js/idxboost_filter.js"));
 
-        wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.min.js', array(
+        wp_register_script('flex-idx-filter-handler', FLEX_IDX_URI . 'js/idxboost_handlers_modals.js', array(
             'jquery',
             'flex-idx-search-filter-slider',
             'handlebars',
-        ), iboost_get_mod_time("js/idxboost_handlers_modals.min.js"));
+        ), iboost_get_mod_time("js/idxboost_handlers_modals.js"));
 
         wp_register_script('flex-idx-filter-js', FLEX_IDX_URI . 'js/dgt-filter-master.js', array(
             'underscore',
