@@ -20,6 +20,9 @@ add_action('admin_menu', 'flex_idx_create_admin_root_menu');
 add_action('wp_ajax_flex_statistics_filter_sold', 'flex_statistics_filter_sold_xhr_fn');
 add_action('wp_ajax_nopriv_flex_statistics_filter_sold', 'flex_statistics_filter_sold_xhr_fn');
 
+add_action('wp_ajax_flex_statistics_filter_custom_sold', 'flex_statistics_filter_custom_sold_xhr_fn');
+add_action('wp_ajax_nopriv_flex_statistics_filter_custom_sold', 'flex_statistics_filter_custom_sold_xhr_fn');
+
 // share with friend a building
 add_action('wp_ajax_flex_share_with_friend', 'flex_share_with_friend_xhr_fn');
 add_action('wp_ajax_nopriv_flex_share_with_friend', 'flex_share_with_friend_xhr_fn');

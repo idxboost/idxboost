@@ -2443,6 +2443,154 @@ if (!function_exists('idx_sold_properties_filter_sc')) {
 }
 
 
+if (!function_exists('idx_sold_properties_filter_custom_sc')) {
+    function idx_sold_properties_filter_custom_sc($atts, $content = null)
+    {
+        global $flex_idx_info, $post;
+
+        if (true !== $flex_idx_info['agent']['has_basic_idx']) {
+            return "";
+        }
+
+        $atts = shortcode_atts(array(
+            'city_id'   => '3',
+            'price_min'   => '0',
+            'price_max'   => '1000000',
+            'sort'   => 'price-desc',
+            'class_id'   => '2',
+            'view'   => 'grid',
+            'property_style'   => 'no_waterfront',
+            'limit'   => 'default',
+            'intervaldate' => 3,
+            'slug-base' => '#',
+            'close_date_start'   => '20200101',
+            'close_date_end'   => '20200331',
+        ), $atts);
+
+
+        $access_token          = flex_idx_get_access_token();
+        $typeworked='0';
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+        wp_enqueue_style('flex-idx-filter-pages-css');
+        wp_register_script('idx-filter-sold', FLEX_IDX_URI . 'js/idx-filter-sold-statistics-custom.js', array(
+            'underscore',
+            'underscore-mixins',
+            'flex-idx-filter-js-scroll',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-lazyload-plugin',
+            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+        ), iboost_get_mod_time("js/idx-filter-sold-statistics-custom.js"));
+
+        wp_enqueue_script('idx-filter-sold');
+                
+
+        $class_multi=time();
+
+        if( !empty($_GET) ){
+            $price='0';
+            $price_array=[];
+            if( array_key_exists('price',$_GET) ){
+                $price= $_GET['price'];
+                $price_array=explode('~',$price);
+                if( is_array($price_array) && count($price_array) > 0 ){
+                    $atts['price_min']=$price_array[0];
+                    $atts['price_max']=$price_array[1];
+                }
+            }
+
+            if( array_key_exists('city',$_GET) ){
+                $atts['city_id']=$_GET['city'];
+            }
+
+            if( array_key_exists('property_type',$_GET) ){
+                $atts['class_id']=$_GET['property_type'];
+            }
+
+            if( array_key_exists('property_style',$_GET) ){
+                $atts['property_style']=$_GET['property_style'];
+            }            
+
+            if( array_key_exists('intervaldate',$_GET) ){
+                $atts['intervaldate']=$_GET['intervaldate'];
+            }            
+
+            if( array_key_exists('sort',$_GET) ){
+                $atts['sort']=$_GET['sort'];
+            }
+            if( array_key_exists('close_date',$_GET) ){
+                $close_date= $_GET['close_date'];
+                $close_date_array=explode('~',$close_date);
+                if( is_array($close_date_array) && count($close_date_array) > 0 ){
+                    $atts['close_date_start']=$close_date_array[0];
+                    $atts['close_date_end']=$close_date_array[1];
+                }
+            }
+        }
+
+        if (empty($atts['property_style'])) {
+            $atts['property_style'] = "no_waterfront";
+        }
+
+    $price_select='1';
+
+    if($atts['price_min'] == '0' && $atts['price_max'] == '1000000'){
+        $price_select="1";
+    }else if($atts['price_min'] == '1000001' && $atts['price_max'] == '2000000'){
+        $price_select="2";
+    }else if($atts['price_min'] == '2000001' && $atts['price_max'] == '3000000'){
+        $price_select="3";
+    }else if($atts['price_min'] == '3000001' && $atts['price_max'] == '5000000'){
+        $price_select="4";
+    }else if($atts['price_min'] == '5000001' && $atts['price_max'] == '7500000'){
+        $price_select="5";
+    }else if($atts['price_min'] == '8000001' ){
+        $price_select="6";
+    }else if($atts['price_min'] == '0' && $atts['price_max'] == '100000000'){
+        $price_select="7";
+    }
+
+    $slugbase = get_permalink( $post->ID );
+    if ( $post->post_parent ) { 
+        $slugbase = get_permalink( $post->post_parent );
+    } 
+
+
+        wp_localize_script('idx-filter-sold', 'flex_idx_sold_statistics', array(
+            'ajaxUrl'        => admin_url('admin-ajax.php'),
+            'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),            
+            'wpsite'                => get_permalink(),
+            'class_form'   => $class_multi,
+            'city_id'   => $atts['city_id'],
+            'price_min'   => $atts['price_min'],
+            'price_max'   => $atts['price_max'],
+            'sort'   => $atts['sort'],
+            'class_id'   => $atts['class_id'],
+            'page'   => 1,
+            'parent_url' => $slugbase,
+            'intervaldate' => $atts['intervaldate'],
+            'property_style'   => $atts['property_style'],
+            'close_date_start'   => $atts['close_date_start'],
+            'close_date_end'   => $atts['close_date_end'],
+        ));
+
+        ob_start();
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/sold_properties_filter_statistics.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/sold_properties_filter_statistics.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/sold_properties_filter_statistics.php';
+                }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('sold_properties_filter_statistics', 'idx_sold_properties_filter_custom_sc');
+}
+
 if (!function_exists('flex_idx_agent_contact_form_sc')) {
     function flex_idx_agent_contact_form_sc($atts, $content = null)
     {

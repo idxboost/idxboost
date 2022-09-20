@@ -733,10 +733,19 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                  <span class="ib-plist-pt"><?php echo number_format($property["total_sqft"]); ?></span>
                               </li>
 
-                              <li>
-                                <span class="ib-plist-st"><?php echo __('Date Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                <span class="ib-plist-pt"><?php echo date('m/d/Y', $property['list_date']); ?></span>
-                              </li>
+                              <?php if ($type_lookup == "sold") { ?>
+                                <li>
+                                  <span class="ib-plist-st"><?php echo __('Date Closed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                  <span class="ib-plist-pt"><?php echo date('m/d/Y', $property['date_close']); ?></span>
+                                </li>                                
+                              <?php }else{ ?>
+                                <li>
+                                  <span class="ib-plist-st"><?php echo __('Date Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                  <span class="ib-plist-pt"><?php echo date('m/d/Y', $property['list_date']); ?></span>
+                                </li>
+                              <?php } ?>
+
+
                               <?php if( !empty($property['days_market']) ){  ?>
                               <li>
                                 <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>

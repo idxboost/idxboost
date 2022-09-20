@@ -4678,6 +4678,76 @@ if (!function_exists( 'flex_idx_favorite_building_xhr_fn' )) {
     }
 }
 
+if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
+    function flex_statistics_filter_custom_sold_xhr_fn()
+    {
+        global $wpdb;
+        $response = ['status' => false];
+        $access_token = flex_idx_get_access_token();
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $ip_address = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $page = isset($_POST['page']) ? trim(strip_tags($_POST['page'])) : '1';
+        $class_id = isset($_POST['class_id']) ? trim(strip_tags($_POST['class_id'])) : '';
+        $city_id = isset($_POST['city_id']) ? trim(strip_tags($_POST['city_id'])) : '';
+        $price_min = isset($_POST['price_min']) ? trim(strip_tags($_POST['price_min'])) : '';
+        $price_max = isset($_POST['price_max']) ? trim(strip_tags($_POST['price_max'])) : '';
+        $property_type = isset($_POST['property_type']) ? trim(strip_tags($_POST['property_type'])) : '';
+        $property_style = isset($_POST['property_style']) ? trim(strip_tags($_POST['property_style'])) : '';
+        $order = isset($_POST['order']) ? trim(strip_tags($_POST['order'])) : 'list_date-desc';
+        
+        $close_date_interval = isset($_POST['close_date_interval']) ? trim(strip_tags($_POST['close_date_interval'])) : 3;
+
+        $date_now = new DateTime("now", new DateTimeZone('America/New_York'));
+        $close_date_start = $date_now->format("Ymd");
+
+        //fecha de caducidad en formato Z
+        $date_now->setTimezone(new \DateTimeZone("Z"));
+        $close_date_start = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
+
+        $date_now->sub(new DateInterval("P{$close_date_interval}M")); //agregar tiempo max de logeo
+        $close_date_end = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
+
+        $sendParams = array(
+            'access_token' => $access_token,
+            'flex_credentials' => $flex_lead_credentials,
+            'page' => $page,
+            'class_id' => $class_id,
+            'city_id' => $city_id,
+            'price_min' => $price_min,
+            'price_max' => $price_max,
+            'property_type' => $property_type,
+            'property_style' => $property_style,
+            'order' => $order,
+            'close_date_inverval' => $close_date_interval,
+            'close_date_start' => $close_date_start,
+            'close_date_end' => $close_date_end,
+            'ip_address' => $ip_address,
+            'url_referer' => $referer,
+            'url_origin' => $origin,
+            'user_agent' => $user_agent,
+            'type_property' => 3,
+        );
+
+
+        $ch = curl_init();
+        //curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_STATISTICS);
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_STATISTICS_CUSTOM);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($server_output, true);
+
+        wp_send_json($response);
+        exit;
+    }
+}
+
 if (!function_exists( 'flex_statistics_filter_sold_xhr_fn' )) {
     function flex_statistics_filter_sold_xhr_fn()
     {
