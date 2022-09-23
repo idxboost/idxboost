@@ -71,22 +71,24 @@
                 <label for="thecityid">Neighborhood</label>
                         <select class="ms-select fc-select f-neighborhood" name="thecityid" id="thecityid">
                             <option value="12" <?php if($atts['city_id']=='12') echo 'selected'; ?> >Coconut Grove</option>
-                            <option value="474" <?php if($atts['city_id']=='474') echo 'selected'; ?>>Aventura Real Estate</option>
+                            <option value="474" <?php if($atts['city_id']=='474') echo 'selected'; ?>>Aventura</option>
                             <option value="202" <?php if($atts['city_id']=='202') echo 'selected'; ?>>Edgewater</option>
                             <option value="475" <?php if($atts['city_id']=='475') echo 'selected'; ?>>Bal Harbour</option>
                             <option value="499" <?php if($atts['city_id']=='499') echo 'selected'; ?>>Fort Lauderdale</option>
                             <option value="144" <?php if($atts['city_id']=='144') echo 'selected'; ?>>Brickell</option>
-                            <option value="486" <?php if($atts['city_id']=='486') echo 'selected'; ?>>Coral Gables Real Estate</option>
-                            <option value="520" <?php if($atts['city_id']=='520') echo 'selected'; ?>>Key Biscayne Real Estate</option>
-                            <option value="61" <?php if($atts['city_id']=='61') echo 'selected'; ?>>Downtown Miami Real Estate</option>
-                            <option value="533" <?php if($atts['city_id']=='533') echo 'selected'; ?>>Miami Beach Real Estate</option>
-                            <option value="552" <?php if($atts['city_id']=='552') echo 'selected'; ?>>Palmetto Bay Real Estate</option>
-                            <option value="568" <?php if($atts['city_id']=='568') echo 'selected'; ?>>South Miami Real Estate</option>
-                            <option value="557" <?php if($atts['city_id']=='557') echo 'selected'; ?>>Pinecrest Real Estate</option>
+                            <option value="486" <?php if($atts['city_id']=='486') echo 'selected'; ?>>Coral Gables</option>
+                            <option value="520" <?php if($atts['city_id']=='520') echo 'selected'; ?>>Key Biscayne</option>
+                            <option value="61" <?php if($atts['city_id']=='61') echo 'selected'; ?>>Downtown Miami</option>
+                            <option value="533" <?php if($atts['city_id']=='533') echo 'selected'; ?>>Miami Beach</option>
+                            <option value="552" <?php if($atts['city_id']=='552') echo 'selected'; ?>>Palmetto Bay</option>
+                            <option value="568" <?php if($atts['city_id']=='568') echo 'selected'; ?>>South Miami</option>
+                            <option value="557" <?php if($atts['city_id']=='557') echo 'selected'; ?>>Pinecrest</option>
                             <option value="229" <?php if($atts['city_id']=='229') echo 'selected'; ?>>South of Fifth</option>
                             <option value="230" <?php if($atts['city_id']=='230') echo 'selected'; ?>>South Beach</option>
                             <option value="572" <?php if($atts['city_id']=='572') echo 'selected'; ?>>Sunny Isles</option>                            
-                            <option value="574" <?php if($atts['city_id']=='574') echo 'selected'; ?>>Surfside Real Estate</option>
+                            <option value="574" <?php if($atts['city_id']=='574') echo 'selected'; ?>>Surfside</option>
+                            <option value="497" <?php if($atts['city_id']=='497') echo 'selected'; ?>>Fisher Island</option>
+                            <option value="100" <?php if($atts['city_id']=='100') echo 'selected'; ?>>Venetian</option>
                         </select>
               </div>
               <div class="ms-item fg">
@@ -99,9 +101,24 @@
                   
                   if($atts['property_style']=='no_waterfront'){
                    echo "No Waterfront";
-                  }                  
+                  }  
+
+
+                  if($atts['property_style']=='all'){
+                   echo "All Properties";
+                  }  
+
+                  if($atts['property_style']=='new'){
+                   echo "new";
+                  }  
+
                   ?></button>
                   <ul class="ms-dropdown-list fc-dropdown__menu" id="thestyle">
+                    <li class="ms-li fc-dropdown__item ms-chk -radio">
+                      <input class="fc-dropdown__check thestylefield js-pstyle" id="all" name="thestyle[]" type="radio" value="1" <?php if($atts['property_style']=='all') echo 'checked';?> >
+                      <label for="all">All Properties</label>
+                    </li>
+
                     <li class="ms-li fc-dropdown__item ms-chk -radio">
                       <input class="fc-dropdown__check thestylefield js-pstyle" id="waterfront" name="thestyle[]" type="radio" value="1" <?php if($atts['property_style']=='waterfront') echo 'checked';?> >
                       <label for="waterfront">Waterfront</label>

@@ -411,7 +411,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 
 <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
   <div class="ib-mmcontent">
-    <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG); ?> </span><span class="ib-mssucces ib-mstxt"><?php echo __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+    <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG); ?> </span><span class="ib-mssucces ib-mstxt"><?php echo __('Your email was sent successfully', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
     <button class="ib-mmclose" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>">
       <span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
     </button>
@@ -622,7 +622,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <span class="ib-plist-pt">{{status_name}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st"><?php echo __('Suddivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                          <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{subdivision}}</span>
                                        </li>
                                        <li>

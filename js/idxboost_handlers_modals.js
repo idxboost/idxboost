@@ -83,6 +83,32 @@ _.mixin({
   }
 });
 
+Handlebars.registerHelper('idxBoardDisclaimer', function(property) {
+  window.property = property;
+  let disclaimerHtml = "";
+  if (
+    property.hasOwnProperty("board_info") && 
+    property.board_info.hasOwnProperty("board_disclaimer") && 
+    !(property.board_info.board_disclaimer in ["" , null,undefined,"undefined","null"] )
+   ) {
+    let disclaimer = property.board_info.board_disclaimer.replace("{officeName}", property.office_name);
+    disclaimerHtml = '<p>'+disclaimer+'<a class="ib-phone-office" href="tel:'+property.phone_office+'">Ph.'+property.phone_office+'</a></p>';
+  }
+  return disclaimerHtml;
+}); 
+
+Handlebars.registerHelper('idxBoardDisclaimerExist', function(property) {
+  let res = false;  
+  if (
+    property.hasOwnProperty("board_info") && 
+    property.board_info.hasOwnProperty("board_disclaimer") && 
+    !(property.board_info.board_disclaimer in ["" , null,undefined,"undefined","null"] )
+   ) {
+    res = true;
+  }
+  return res;
+}); 
+
 Handlebars.registerHelper('formatPrice', function (price) {
   return "$" + _.formatPrice(price);
 });

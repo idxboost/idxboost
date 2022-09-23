@@ -227,12 +227,9 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
           <div class="ms-logo-board">
             <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
           </div>
-        <?php } ?>
-        <?php
-        if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-          <p><?php echo __("The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-          <?php } else {
-          if (
+        <?php } 
+
+        if (
             is_array($flex_idx_info) &&
             array_key_exists("board_info", $flex_idx_info) &&
             array_key_exists("board_disclaimer", $flex_idx_info["board_info"]) &&
@@ -241,7 +238,6 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
           ?>
               <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
           <?php } ?>
-        <?php } ?>
         <p><?php echo __('Real Estate IDX Powered by', IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>
     <?php } ?>
@@ -379,7 +375,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 </div>
 <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
   <div class="ib-mmcontent">
-    <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG); ?> </span><span class="ib-mssucces ib-mstxt"><?php echo __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+    <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG); ?> </span><span class="ib-mssucces ib-mstxt"><?php echo __('Your email was sent successfully', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
     <button class="ib-mmclose" aria-label="<?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?>"><span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
   </div>
   <div class="ib-mmbg"></div>
@@ -617,7 +613,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <span class="ib-plist-pt">{{status_name}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st"><?php echo __('Suddivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                          <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{subdivision}}</span>
                                        </li>
                                        <li>
@@ -1118,16 +1114,16 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                         <img src="{{board_info.board_logo_url}}">
                       </div>
                     {{/if}}
-                    <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-                    <p><?php echo __("The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-                    <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
-                    <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-                    <?php } else { ?>
-                    <p>
-                    <?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
-                    <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a>
-                    </p>
-                    <?php } ?>
+                    
+
+                    {{#if (idxBoardDisclaimerExist this) }}   
+                        {{{ idxBoardDisclaimer this }}}
+                    {{else}}
+                      <p>
+                      <?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
+                      <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a>
+                      </p>
+                    {{/if}}
                     <p><?php echo __("Real Estate IDX Powered by", IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
                 </div>
                 
@@ -1184,16 +1180,16 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                   <img src="{{board_info.board_logo_url}}">
                 </div>
               {{/if}}
-              <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
-              <p><?php echo __("The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-              <?php } else if ("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]) { ?>
-              <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-              <?php } else { ?>
-              <p>
-              <?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
+
+                    {{#if (idxBoardDisclaimerExist this) }}   
+                        {{{ idxBoardDisclaimer this }}}
+                    {{else}}
+                      <p>
+                      <?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
               <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a>
-              </p>
-              <?php } ?>
+                      </p>
+                    {{/if}}
+
               <p><?php echo __("Real Estate IDX Powered by", IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
             </div>
 

@@ -721,7 +721,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                  <span class="ib-plist-pt"><?php echo $property['status_name']; ?></span>
                               </li>
                               <li>
-                                 <span class="ib-plist-st"><?php echo __('Suddivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                 <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                  <span class="ib-plist-pt"><?php echo $property['subdivision']; ?></span>
                               </li>
                               <li>
@@ -1249,12 +1249,8 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                             <img src="<?php echo $property['board_info']["board_logo_url"];?>">
                           </div>
                           <?php } ?>
-                          <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
-                          <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>"><?php echo $property["phone_office"]; ?></a></p>
-                          <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
                           <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
                           <p><?php $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>"><?php echo $property["phone_office"]; ?></a></p>
-                          <?php } ?>
                           <?php }else{ ?>
                           <p>The multiple listing information is provided by the <?php echo $property["board_name"]; ?>® from a copyrighted compilation of listings.
                             The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present <?php echo $property["board_name"]; ?>®.
@@ -1376,12 +1372,8 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                           <img src="<?php echo $property['board_info']["board_logo_url"];?>">
                         </div>
                         <?php } ?>
-                        <?php if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])){ ?>
-                        <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>"><?php echo $property["phone_office"]; ?></a></p>
-                        <?php }else if("13" == $flex_idx_info["board_id"] || "20" == $flex_idx_info["board_id"]){ ?>
                         <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
                         <p><?php $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>"><?php echo $property["phone_office"]; ?></a></p>
-                        <?php } ?>
                         <?php }else{ ?>
                         <p>The multiple listing information is provided by the <?php echo $property["board_name"]; ?>® from a copyrighted compilation of listings.
                           The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present <?php echo $property["board_name"]; ?>®.

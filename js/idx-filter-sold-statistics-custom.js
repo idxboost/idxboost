@@ -984,6 +984,12 @@ var bounds;
                         myLazyLoad.update();
                     }
                     setInitialStateSlider();
+                    if (response.items.length == 0 ) {
+                        $(idxboostresult).html("<span>No Properties Available</span>");
+                        $("#sub-filters").hide();
+                    }else{
+                        $("#sub-filters").show();
+                    }
                 }
             });
     }
@@ -1328,10 +1334,10 @@ function toSeoUrl(url) {
 
     jQuery('.js-pstyle').on('click', function() {
 
-        var textStyle = 'regular';
-        var textDropdown = '';
-        if (jQuery("#regular").is(":checked"))
-          textStyle = 'regular', textDropdown = 'All Properties';
+        var textStyle = 'all';
+        var textDropdown = 'all';
+        if (jQuery("#all").is(":checked"))
+          textStyle = 'all', textDropdown = 'All Properties';
     
         if (jQuery("#new").is(":checked"))
           textStyle = 'new', textDropdown = 'New';

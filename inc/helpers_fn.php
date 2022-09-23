@@ -5969,6 +5969,10 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         global $flex_idx_lead, $flex_idx_info, $wpdb;
         $word_translate_setting = array('cancel' => __('Cancel', IDXBOOST_DOMAIN_THEME_LANG));
 
+        $search_filter_settings = get_option('idxboost_search_filter_settings');
+        $idxboost_agent_info = get_option('idxboost_agent_info');
+        $search_filter_settings['google_maps_api_key'] = $idxboost_agent_info['google_maps_api_key'];
+
         $custom_strings = array(
             'style' => __('Style', IDXBOOST_DOMAIN_THEME_LANG),
             'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
@@ -6005,7 +6009,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'show' => __('Show %d to %d of %s results', IDXBOOST_DOMAIN_THEME_LANG),
             'reset_password' => __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG),
             'invalid_credentials_try_again' => __('Invalid credentials, try again.', IDXBOOST_DOMAIN_THEME_LANG),
-            'logged_in_succesfully' => __('Logged in succesfully.', IDXBOOST_DOMAIN_THEME_LANG),
+            'logged_in_succesfully' => __('Logged in successfully.', IDXBOOST_DOMAIN_THEME_LANG),
             'your_account_has_been_created_successfully' => __('Your account has been created successfully.', IDXBOOST_DOMAIN_THEME_LANG),
             'the_user_already_exists_try_another_email_address' => __('The user already exists, try another email address.', IDXBOOST_DOMAIN_THEME_LANG),
             'rented' => __('rented', IDXBOOST_DOMAIN_THEME_LANG),
@@ -6019,7 +6023,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'edit' => __('Edit', IDXBOOST_DOMAIN_THEME_LANG),
             'remove' => __('Remove', IDXBOOST_DOMAIN_THEME_LANG),
             'email_sent' => __('Email Sent!', IDXBOOST_DOMAIN_THEME_LANG),
-            'your_email_was_sent_succesfully' => __('Your email was sent succesfully', IDXBOOST_DOMAIN_THEME_LANG),
+            'your_email_was_sent_succesfully' => __('Your email was sent successfully', IDXBOOST_DOMAIN_THEME_LANG),
             'to' => __('to', IDXBOOST_DOMAIN_THEME_LANG),
             'of' => __('of', IDXBOOST_DOMAIN_THEME_LANG),
             'pag' => __('pag', IDXBOOST_DOMAIN_THEME_LANG),
@@ -6564,7 +6568,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'has_cms' => isset($flex_idx_info['agent']['has_cms']) ? (bool)$flex_idx_info['agent']['has_cms'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
             'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null,
-            'overwrite_settings' => get_option('idxboost_search_filter_settings')
+            'overwrite_settings' => $search_filter_settings
         ));
 
         wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s', $flex_idx_info["agent"]["google_maps_api_key"]));

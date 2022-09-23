@@ -936,7 +936,7 @@ global $flex_idx_info, $flex_idx_lead;
 
   <div class="ib-modal-master" data-id="submit" id="ib-email-thankyou">
     <div class="ib-mmcontent">
-      <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __("Email Sent", IDXBOOST_DOMAIN_THEME_LANG); ?>! </span><span class="ib-mssucces ib-mstxt"><?php echo __("Your email was sent succesfully", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+      <div class="ib-mgeneric ib-msubmit"><span class="ib-mssent ib-mstxt ib-icon-check"><?php echo __("Email Sent", IDXBOOST_DOMAIN_THEME_LANG); ?>! </span><span class="ib-mssucces ib-mstxt"><?php echo __("Your email was sent successfully", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
       <div class="ib-mmclose"><span class="ib-mmctxt"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
     </div>
     <div class="ib-mmbg"></div>
@@ -1054,7 +1054,7 @@ global $flex_idx_info, $flex_idx_lead;
           <div class="confirm-message">
             <span class="confirmation-icon"></span>
             <span class="ms-confirmation-title"><?php echo __("Email Sent!", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            <p><?php echo __("Your email was sent succesfully", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+            <p><?php echo __("Your email was sent successfully", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
           </div>
         </div>
       </div>

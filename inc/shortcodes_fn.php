@@ -2455,13 +2455,14 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
         $atts = shortcode_atts(array(
             'city_id'   => '3',
             'price_min'   => '0',
-            'price_max'   => '1000000',
+            'price_max'   => '100000000',
             'sort'   => 'price-desc',
             'class_id'   => '2',
             'view'   => 'grid',
-            'property_style'   => 'no_waterfront',
+            'property_style'   => 'all',
             'limit'   => 'default',
-            'intervaldate' => 3,
+            'intervaldate' => 6,
+            'path_parent' => '#',
             'slug-base' => '#',
             'close_date_start'   => '20200101',
             'close_date_end'   => '20200331',
@@ -2553,10 +2554,13 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
         $price_select="7";
     }
 
+    /*
     $slugbase = get_permalink( $post->ID );
     if ( $post->post_parent ) { 
         $slugbase = get_permalink( $post->post_parent );
     } 
+    */
+    $slugbase = $atts["path_parent"];
 
 
         wp_localize_script('idx-filter-sold', 'flex_idx_sold_statistics', array(
