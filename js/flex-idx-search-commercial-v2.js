@@ -436,10 +436,10 @@ Handlebars.registerHelper('idxBoardDisclaimer', function(property) {
 	if (
 		property.hasOwnProperty("board_info") && 
 		property.board_info.hasOwnProperty("board_disclaimer") && 
-		!(property.board_info.board_disclaimer in ["" , null,undefined,"undefined","null"] )
+		!( ["" , null,undefined,"undefined","null"].includes(property.board_info.board_disclaimer)  )
 	 ) {
 	 	let disclaimer = property.board_info.board_disclaimer.replace("{officeName}", property.office_name);
-		disclaimerHtml = '<p>'+disclaimer+'<a class="ib-phone-office" href="tel:'+property.phone_office+'">Ph.'+property.phone_office+'</a></p>';
+		disclaimerHtml = '<p>'+disclaimer+'</p>';
 	}
 	return disclaimerHtml;
 });	
@@ -449,7 +449,7 @@ Handlebars.registerHelper('idxBoardDisclaimerExist', function(property) {
 	if (
 		property.hasOwnProperty("board_info") && 
 		property.board_info.hasOwnProperty("board_disclaimer") && 
-		!(property.board_info.board_disclaimer in ["" , null,undefined,"undefined","null"] )
+		!( ["" , null,undefined,"undefined","null"].includes(property.board_info.board_disclaimer)  )
 	 ) {
 		res = true;
 	}
