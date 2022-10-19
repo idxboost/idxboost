@@ -343,15 +343,44 @@ add_action('wp_ajax_nopriv_update_criterial_alert', 'update_criterial_alert_xhr_
 // Remove canonical on flex-idx-pages post types
 add_action('wp', 'remove_canonical');
 
-// code for SEARCH  FIFTY-FIFTY
+
+// code for SEARCH FILTER
 add_filter('script_loader_tag', 'add_type_attribute' , 10, 3);
 
 function add_type_attribute($tag, $handle, $src) {
     // if not your script, do nothing and return original $tag
-    if ( 'react-search-fifty' !== $handle ) {
+    if ( 'react-search-filter-js' !== $handle ) {
         return $tag;
     }
     // change the script tag by adding type="module" and return it.
     $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
     return $tag;
 }
+
+
+// code for VACATION RENTALS
+add_filter('script_loader_tag', 'add_type_attribute_vacation_rentals_fn' , 10, 3);
+
+function add_type_attribute_vacation_rentals_fn($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'react-vacation-rentals-js' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+}
+
+// code for QUICK SEARCH
+add_filter('script_loader_tag', 'add_type_attribute_quick_search_fn' , 10, 3);
+
+function add_type_attribute_quick_search_fn($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'react-quick-search-rentals-js' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+}
+

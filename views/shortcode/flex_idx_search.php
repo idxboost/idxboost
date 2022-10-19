@@ -240,7 +240,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
           <?php } ?>
         <p><?php echo __('Real Estate IDX Powered by', IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>
-    <?php } ?>
+      <?php } ?>
   </div>
 </div>
 

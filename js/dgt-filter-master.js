@@ -3614,6 +3614,8 @@ function getLandSizeValues(min, max) {
 				slide: function(event, ui) {
 					var min = sqft_slider_values[ui.values[0]];
 					var max = sqft_slider_values[ui.values[1]];
+					var min_lot_size = sqft_slider_values[ui.values[0]];
+					var max_lot_size = sqft_slider_values[ui.values[1]];
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3626,6 +3628,15 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
 
 					$('#living_from').val(min);
 					$('#living_to').val(max);
@@ -3642,6 +3653,8 @@ function getLandSizeValues(min, max) {
 
 					var min = $('#idx_min_sqft').val();
 					var max = $('#idx_max_sqft').val();
+					var min_lot_size = $('#idx_min_sqft').val();
+					var max_lot_size = $('#idx_max_sqft').val();
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3654,6 +3667,14 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
 
 					$('#living_from').val(min);
 					$('#living_to').val(max);
@@ -3664,6 +3685,8 @@ function getLandSizeValues(min, max) {
 
 					var min = sqft_slider_values[ui.values[0]];
 					var max = sqft_slider_values[ui.values[1]];
+					var min_lot_size = sqft_slider_values[ui.values[0]];
+					var max_lot_size = sqft_slider_values[ui.values[1]];
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3676,6 +3699,14 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
 
 					$('#living_from').val(min);
 					$('#living_to').val(max);
@@ -3699,6 +3730,8 @@ function getLandSizeValues(min, max) {
 				slide: function(event, ui) {
 					var min = lotsize_slider_values[ui.values[0]];
 					var max = lotsize_slider_values[ui.values[1]];
+					var min_lot_size = lotsize_slider_values[ui.values[0]];
+					var max_lot_size = lotsize_slider_values[ui.values[1]];
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3711,6 +3744,16 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                    
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
 					$('#land_from').val(min);
 					$('#land_to').val(max);
 				},
@@ -3725,6 +3768,8 @@ function getLandSizeValues(min, max) {
 
 					var min = $('#idx_min_lotsize').val();
 					var max = $('#idx_max_lotsize').val();
+					var min_lot_size = $('#idx_min_lotsize').val();
+					var max_lot_size = $('#idx_max_lotsize').val();					
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3737,6 +3782,16 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+
 					$('#land_from').val(min);
 					$('#land_to').val(max);
 				},
@@ -3746,6 +3801,8 @@ function getLandSizeValues(min, max) {
 
 					var min = lotsize_slider_values[ui.values[0]];
 					var max = lotsize_slider_values[ui.values[1]];
+					var min_lot_size = lotsize_slider_values[ui.values[0]];
+					var max_lot_size = lotsize_slider_values[ui.values[1]];
 
 					if ( (0 == min) || ("--" == min)) {
 						min = '0 '+word_translate.sqft;
@@ -3758,6 +3815,16 @@ function getLandSizeValues(min, max) {
 					} else {
 						max = _.formatPrice(max) + " "+word_translate.sqft;
 					}
+
+	                if (min_lot_size >= 20000) {
+	                    min = (min_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+	                if (max_lot_size >= 20000) {
+	                    max = (max_lot_size/43560).toFixed(2)+ " Acre";
+	                }
+
+
 					$('#land_from').val(min);
 					$('#land_to').val(max);
 

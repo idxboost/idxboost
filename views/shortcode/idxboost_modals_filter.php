@@ -1086,7 +1086,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       </div>
                     </div>
                   <?php } ?>
-
+                  
                   <div class="ib-bdisclaimer ib-bdisclaimer-desktop">
                     {{#if board_info.board_logo_url}}
                       <div class="ms-logo-board">

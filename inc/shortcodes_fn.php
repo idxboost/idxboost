@@ -457,9 +457,10 @@ if (!function_exists("idxboost_buyers_form_sc")) {
     add_shortcode("idxboost_buyers_form", "idxboost_buyers_form_sc");
 }
 
-// shortcode_rentals
-if (!function_exists('ib_rentals_sc')) {
-    function ib_rentals_sc($atts, $content = null) {
+// shortcode for VACATIONAL RENTAL OLD
+// Use code:  [ib_vacation_rentals_old board_id="" lat="" lng="" zoom=""]
+if (!function_exists('ib_vacation_rentals_old_fn')) {
+    function ib_vacation_rentals_old_fn($atts, $content = null) {
         global $flex_idx_info;
 
         $atts = shortcode_atts(array(
@@ -471,55 +472,112 @@ if (!function_exists('ib_rentals_sc')) {
 
         ob_start();
 
-        wp_enqueue_script('react-rentals');
-        wp_enqueue_style('react-rentals-css');
+        wp_enqueue_script('react-vacation-rentals-old-js');
+        wp_enqueue_style('react-vacation-rentals-old-css');
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rentals_search.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_rentals_search.php';
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php';
         } else {
-            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_rentals_search.php';
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_vacation_rentals.php';
         }
 
         return ob_get_clean();
     }
 
-    add_shortcode('ib_rentals', 'ib_rentals_sc');
+    add_shortcode('ib_vacation_rentals_old', 'ib_vacation_rentals_old_fn');
 }
 
 
-// code for SEARCH  FIFTY-FIFTY
-// Use code:  [ib_search-fifty filter="YZQXNGJH" lat="" lng="" zoom=""]
-if (!function_exists('ib_search_ff')) {
-    function ib_search_ff($atts, $content = null) {
+
+// shortcode for VACATIONAL RENTAL
+// Use code:  [ib_vacation_rentals board_id="" lat="" lng="" zoom=""]
+if (!function_exists('ib_vacation_rentals_fn')) {
+    function ib_vacation_rentals_fn($atts, $content = null) {
         global $flex_idx_info;
 
         $atts = shortcode_atts(array(
             'lat' => '',
             'lng' => '',
             'zoom' => '', 
+            'board_id' => ''
+        ), $atts);
+
+        ob_start();
+
+        wp_enqueue_script('react-vacation-rentals-js');
+        wp_enqueue_style('react-vacation-rentals-css');
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_vacation_rentals.php';
+        }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('ib_vacation_rentals', 'ib_vacation_rentals_fn');
+}
+
+
+// shortcode for SEARCH FILTER
+// Use code:  [ib_search_filter_react filter=""]
+if (!function_exists('ib_search_filter_fn')) {
+    function ib_search_filter_fn($atts, $content = null) {
+        global $flex_idx_info;
+
+        $atts = shortcode_atts(array(
             'filter' => ''
         ), $atts);
 
         ob_start();
 
-        wp_enqueue_script('react-search-fifty-highcharts');
-        wp_enqueue_script('react-search-fifty-series-label');
-        wp_enqueue_script('react-search-fifty-exporting');
-        wp_enqueue_script('react-search-fifty-export-data');
-        wp_enqueue_script('react-search-fifty-accessibility');
-        wp_enqueue_script('react-search-fifty-display');        
-        wp_enqueue_script('react-search-fifty');
-        wp_enqueue_style('react-search-fifty-css');
+        wp_enqueue_script('react-search-filter-highcharts');
+        wp_enqueue_script('react-search-filter-series-label');
+        wp_enqueue_script('react-search-filter-exporting');
+        wp_enqueue_script('react-search-filter-export-data');
+        wp_enqueue_script('react-search-filter-accessibility');
+        wp_enqueue_script('react-search-filter-display');        
+        wp_enqueue_script('react-search-filter-js');
+        wp_enqueue_style('react-search-filter-css');
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_fifty_fifty.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_fifty_fifty.php';
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_react.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter_react.php';
         } else {
-            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_fifty_fifty.php';
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_filter_react.php';
         }
 
         return ob_get_clean();
     }
-    add_shortcode('ib_search-fifty', 'ib_search_ff');
+    add_shortcode('ib_search_filter_react', 'ib_search_filter_fn');
+}
+
+
+// Shortcode for Quick Search Rentals
+// Use code:  [ib_quick_search_rentals board_id=""]
+if (!function_exists('ib_quick_search_rentals_fn')) {
+    function ib_quick_search_rentals_fn($atts, $content = null) {
+        global $flex_idx_info;
+
+        $atts = shortcode_atts(array(            
+            'board_id' => ''
+        ), $atts);
+
+        ob_start();
+
+        wp_enqueue_script('react-quick-search-rentals-js');
+        wp_enqueue_style('react-quick-search-rentals-css');
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_quick_search_rentals.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_quick_search_rentals.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_quick_search_rentals.php';
+        }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('ib_quick_search_rentals', 'ib_quick_search_rentals_fn');
 }
 
 
@@ -2456,7 +2514,7 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
             'city_id'   => '3',
             'price_min'   => '0',
             'price_max'   => '100000000',
-            'sort'   => 'price-desc',
+            'sort'   => 'price_sqft-desc',
             'class_id'   => '2',
             'view'   => 'grid',
             'property_style'   => 'all',
@@ -2546,12 +2604,14 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
         $price_select="3";
     }else if($atts['price_min'] == '3000001' && $atts['price_max'] == '5000000'){
         $price_select="4";
-    }else if($atts['price_min'] == '5000001' && $atts['price_max'] == '7500000'){
+    }else if($atts['price_min'] == '5000001' && $atts['price_max'] == '8000000'){
         $price_select="5";
     }else if($atts['price_min'] == '8000001' ){
         $price_select="6";
     }else if($atts['price_min'] == '0' && $atts['price_max'] == '100000000'){
         $price_select="7";
+    }else if($atts['price_min'] == '1000000' && $atts['price_max'] == '100000000' ){
+        $price_select="8";
     }
 
     /*
@@ -4969,6 +5029,11 @@ if (!function_exists('idx_page_shortcode_render')) {
         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
         $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
         
+        $pattern = '~\[ib_quick_search_rentals board_id="(.+?)"\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $ib_quick_search_rentals = do_shortcode($match[0]);
+            $content = str_replace($match[0], $ib_quick_search_rentals, $content);
+        }
 
         $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
         if (preg_match($pattern, $content, $match)) {

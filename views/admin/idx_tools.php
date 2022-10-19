@@ -2,14 +2,8 @@
 	wp_enqueue_script('flex-idx-tools-js');
     wp_enqueue_style('flex-idx-admin');
 
-        $environment_deco=['status'=>false,'environment'=>'production'];
-        $idx_boost_setting=FLEX_IDX_PATH.'feed/idx_boost_setting.json';
-        if (file_exists($idx_boost_setting)) {
-            $environment=file_get_contents($idx_boost_setting);
-            if (!empty($environment)) {
-                $environment_deco= json_decode($environment,true);
-            }
-        }
+    $idxboost_tools_initials = get_option('idxboost_tools_initials');
+    
 ?>
 <div class="wrap">
     <h1>IDX Boost - Tools</h1>
@@ -37,10 +31,10 @@
                     <td>
                         <select class="idx_environment_site" name="idx_environment_site" style="width: 250px; font-size: 15px; text-align: center;" >
                             <option 
-                            <?php  if ($environment_deco['environment']=='production' ) { echo 'selected'; } ?>
+                            <?php  if ( $idxboost_tools_initials =='production' ) { echo 'selected'; } ?>
                             value="production">Production</option>
                             <option 
-                            <?php  if ($environment_deco['environment']=='staging' ) {echo 'selected';} ?>
+                            <?php  if ( $idxboost_tools_initials =='staging' ) {echo 'selected';} ?>
                             value="staging">Staging</option>
                         </select>
                         <p class="description">Enter the environment site.</p>

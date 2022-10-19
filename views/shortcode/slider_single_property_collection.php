@@ -383,6 +383,10 @@
                 {{/if }}
               </div>
 
+              {{#if agentDisclaimer }}
+                <p>{{agentDisclaimer}}</p>
+              {{/if }}
+
               <div class="sps-bottom-footer">
                 <ul class="sps-sub-menu-footer">
                   <li>

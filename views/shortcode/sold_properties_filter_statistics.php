@@ -138,6 +138,7 @@
                 <label for="thepricerange">Price Range</label>
                 <select class="ms-select fc-select f-pricerange" name="the_pricerange" id="the_pricerange">
                   <option value="1" <?php if($price_select=='1') echo 'selected'; ?> >Up to 1M</option>
+                  <!--<option value="8" <?php if($price_select=='8') echo 'selected'; ?>>1M+</option>-->
                   <option value="2" <?php if($price_select=='2') echo 'selected'; ?>>1M to 2M</option>
                   <option value="3" <?php if($price_select=='3') echo 'selected'; ?>>2M to 3M</option>
                   <option value="4" <?php if($price_select=='4') echo 'selected'; ?>>3M to 5M</option>
@@ -188,6 +189,8 @@
             <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
               <!--<option value="list_date-desc" <?php /*selected($$atts['sort'], 'list_date-desc'); */?>><?php /*echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); */?></option>-->
+              <option value="price_sqft-desc" <?php selected($atts['sort'], 'price_sqft-desc'); ?>><?php echo __("Highest Price/Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price_sqft-asc" <?php selected($atts['sort'], 'price_sqft-asc'); ?>><?php echo __("Lowest Price/Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="last_updated-desc" <?php selected($atts['sort'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-desc" <?php selected($atts['sort'], 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-asc" <?php selected($atts['sort'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>

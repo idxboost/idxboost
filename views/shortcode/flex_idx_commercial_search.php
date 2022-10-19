@@ -201,7 +201,6 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
     </div>
 
     <?php if (in_array($flex_idx_info["board_id"], [13, 14, 20])) { ?>
-
       <div class="ib-bdisclaimer">
         <?php
         if (
@@ -232,7 +231,8 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
         <?php } ?>
         <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>
-    <?php } ?>
+      <?php } ?>
+
   </div>
 </div>
 
@@ -1095,6 +1095,8 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                       </div>
                     </div>
                   <?php } ?>
+
+
 
                   <div class="ib-bdisclaimer ib-bdisclaimer-desktop">
                     {{#if board_info.board_logo_url}}

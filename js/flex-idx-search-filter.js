@@ -4,6 +4,8 @@ var initial_title;
 var initial_href;
 var dataAlert;
 
+var disableSearchEvent = false;
+
 function ib_local_ovewrite_ptypes(ptypes) {
 	var r = [];
 
@@ -662,12 +664,16 @@ function handleKeyPressAutocompleteEvent(event) {
 		setTimeout(function () {
 			document.activeElement.blur();
 		}, 100);
+
+		disableSearchEvent = true;
 	}
 
 	ib_autocomplete.autocomplete("option", "source", handleLookupAutocomplete);
 }
 
 function handleKeyUpAutocompleteEvent(event) {
+	disableSearchEvent = false;
+
 	if (event.keyCode == 40 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 37) {
 		return;
 	}
@@ -727,6 +733,10 @@ function handleKeyUpAutocompleteEvent(event) {
 }
 
 function handleClearAutocompleteEvent() {
+	if (disableSearchEvent) {
+		return;
+	}
+
 	ib_autocomplete.autocomplete("option", "source", ib_autocomplete_cities);
 	ib_autocomplete.autocomplete( "search", "" );
 }
@@ -1774,7 +1784,7 @@ function loadPropertyInModal(mlsNumber) {
 					__flex_g_settings.hasOwnProperty("force_registration") &&
 					1 == __flex_g_settings.force_registration
 				  ) {
-					console.log("is forced registration");
+					// console.log("is forced registration");
 					// if ($(".register").length) {
 					// $(".register").click();
 					$("#modal_login")
@@ -1843,7 +1853,7 @@ function loadPropertyInModal(mlsNumber) {
 					$('.ib-propery-inquiry-f:eq(0)').find('input[name="recaptcha_response"]').remove();
 					grecaptcha.execute(__flex_g_settings.google_recaptcha_public_key).then(function(token) {
 						$('.ib-propery-inquiry-f:eq(0)').append('<input type="hidden" name="recaptcha_response" value="' + token + '">');
-						console.dir(token);
+						// console.dir(token);
 					});
 				}
 			}
@@ -2097,7 +2107,7 @@ function buildMobileForm() {
 	// FOR TYPES [MOBILE]
 	if (ib_m_types.length) {
 		ib_search_filter_dropdown = ib_search_filter_params.property_types;
-		console.log('build property types for mobile');
+		// console.log('build property types for mobile');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -2771,7 +2781,7 @@ function buildSearchFilterForm() {
 				var mlsNumber = $(this).data("mls");
 
 				originalPositionY = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
-				console.log('opening...');
+				// console.log('opening...');
 
 				loadPropertyInModal(mlsNumber);
 			});
@@ -2876,7 +2886,7 @@ function buildSearchFilterForm() {
 			if ($(event.target).hasClass("ib-pfavorite")) {
 				if ("yes" === __flex_g_settings.anonymous) {
 					originalPositionY = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
-					console.log('opening...');
+					// console.log('opening...');
 
 					$("#modal_login").addClass("active_modal")
 					.find('[data-tab]').removeClass('active');
@@ -2918,7 +2928,7 @@ function buildSearchFilterForm() {
 				event.preventDefault();
 
 				originalPositionY = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
-				console.log('opening...');
+				// console.log('opening...');
 
 				var mlsNumber = $(event.target).parent().data("mls");
 				loadPropertyInModal(mlsNumber);
@@ -3200,7 +3210,7 @@ function buildSearchFilterForm() {
 	if (IB_LB_TYPES_OPTIONS.length) {
 		// console.log(IB_LB_TYPES_OPTIONS);
 		// console.log(__flex_idx_search_filter.search.property_types);
-		console.log('build options for desktop property types')
+		// console.log('build options for desktop property types')
 
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
 			for (var i = 0, l = __flex_g_settings.overwrite_settings.property_types.length; i < l; i++) {
@@ -3280,12 +3290,12 @@ function buildSearchFilterForm() {
 			// if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.params.property_types.length) {
 			if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.overwrite_settings.property_types.length) {
 				IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
-				console.log(lbl_ptypes);
+				// console.log(lbl_ptypes);
 				lbl_ptypes.length = 0;
 			} else {
 				// IB_LBL_TYPES_NTF.html("Homes, Condominiums, Townhouses");
 				IB_LBL_TYPES_NTF.html(word_translate.any_type);
-				console.log('all');
+				// console.log('all');
 			}
 
 			IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(chk_list.join(","));
@@ -3597,6 +3607,8 @@ function buildSearchFilterForm() {
 			
 			var min = IB_RG_LIVINGSIZE_VALUES[values[0]];
 			var max = IB_RG_LIVINGSIZE_VALUES[values[1]];
+            var min_lot_size = IB_RG_LIVINGSIZE_VALUES[values[0]];
+            var max_lot_size = IB_RG_LIVINGSIZE_VALUES[values[1]];
 
 			if ( (0 == min) || ("--" == min)) {
 				min = '0 '+word_translate.sqft;
@@ -3608,6 +3620,14 @@ function buildSearchFilterForm() {
 				max = word_translate.any_size;
 			} else {
 				max = _.formatPrice(max) + " "+word_translate.sqft;
+			}
+
+			if (min_lot_size >= 20000) {
+				min = (min_lot_size/43560).toFixed(2)+ " Acre";
+			}
+
+			if (max_lot_size >= 20000) {
+				max = (max_lot_size/43560).toFixed(2)+ " Acre";
 			}
 
 			IB_RG_LIVING_LBL_LT.val(min);
@@ -3654,6 +3674,8 @@ function buildSearchFilterForm() {
 			
 			var min = IB_RG_LANDSIZE_VALUES[values[0]];
 			var max = IB_RG_LANDSIZE_VALUES[values[1]];
+			var min_lot_size = IB_RG_LANDSIZE_VALUES[values[0]];
+            var max_lot_size = IB_RG_LANDSIZE_VALUES[values[1]];
 
 			if ( (0 == min) || ("--" == min)) {
 				min = '0 '+word_translate.sqft;
@@ -3665,6 +3687,14 @@ function buildSearchFilterForm() {
 				max = word_translate.any_size;
 			} else {
 				max = _.formatPrice(max) + " "+word_translate.sqft;
+			}
+
+			if (min_lot_size >= 20000) {
+				min = (min_lot_size/43560).toFixed(2)+ " Acre";
+			}
+
+			if (max_lot_size >= 20000) {
+				max = (max_lot_size/43560).toFixed(2)+ " Acre";
 			}
 
 			IB_RG_LAND_LBL_LT.val(min);
@@ -3825,7 +3855,7 @@ function handleFilterSearchLookup(event) {
 			device_width: window.innerWidth
 		},
 		success: function(response) {
-			console.log('overwrite property type params');
+			// console.log('overwrite property type params');
 			// __flex_g_settings.params.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
 			// __flex_idx_search_filter.search.property_types = ib_local_ovewrite_ptypes(response.params.property_type);
 
@@ -4487,21 +4517,33 @@ function handleFilterSearchLookup(event) {
 
 			if (IB_RG_LIVING_LBL_LT.length) {
 				var min_living_size = _.formatPrice(params.min_living_size) + ' '+word_translate.sqft;
+				if (parseFloat(params.min_living_size) >= 20000) {
+					min_living_size = (parseFloat(params.min_living_size)/43560).toFixed(2)+ " Acre";
+                }                    
 				IB_RG_LIVING_LBL_LT.val(min_living_size);
 			}
 
 			if (IB_RG_LIVING_LBL_RT.length) {
 				var max_living_size = (null == params.max_living_size) ? word_translate.any_size : (_.formatPrice(params.max_living_size) + " "+word_translate.sqft);
+				if ( parseFloat(params.max_living_size) >= 20000) {
+					max_living_size = (parseFloat(params.max_living_size)/43560).toFixed(2)+ " Acre";
+                }                    				
 				IB_RG_LIVING_LBL_RT.val(max_living_size);
 			}
 
 			if (IB_RG_LAND_LBL_LT.length) {
 				var min_lot_size = _.formatPrice(params.min_lot_size) + ' '+word_translate.sqft;
+				if (parseFloat(params.min_lot_size) >= 20000) {
+					min_lot_size = (parseFloat(params.min_lot_size)/43560).toFixed(2)+ " Acre";
+                }
 				IB_RG_LAND_LBL_LT.val(min_lot_size);
 			}
 
 			if (IB_RG_LAND_LBL_RT.length) {
 				var max_lot_size = (null == params.max_lot_size) ? word_translate.any_size : (_.formatPrice(params.max_lot_size) + " "+word_translate.sqft);
+                if ( parseFloat(params.max_lot_size) >= 20000) {
+                	max_lot_size = (parseFloat(params.max_lot_size)/43560).toFixed(2)+ " Acre";
+                }
 				IB_RG_LAND_LBL_RT.val(max_lot_size);
 			}
 
@@ -5555,7 +5597,7 @@ $(function () {
 			}
 
 			if (typeof originalPositionY !== "undefined") {
-				console.log('restoring to: ' + originalPositionY);
+				// console.log('restoring to: ' + originalPositionY);
 				window.scrollTo(0,originalPositionY);
 			}
 		});
