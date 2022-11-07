@@ -250,22 +250,30 @@ Handlebars.registerHelper('formatLotSize', function(lot_size) {
 //     }
 // });
 
-// Handlebars.registerHelper('formatAcres', function(lot_size) {
-//     var acre = 43560;
+    Handlebars.registerHelper('formatAcres', function(inputval,metodo = null) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            if (metodo == "total") {
+                return _.formatPrice(inputval)+" Sq.Ft / "+parseFloat((inputval/43560).toFixed(2))+ " Acre";
+            }else{
+                return parseFloat((inputval/43560).toFixed(2))+ " Acre";
+            }
+        }else{
+               return _.formatPrice(inputval);
+        }
+    });
 
-//     return 0;
-
-//     if (lot_size > 0) {
-//         if (lot_size < 43560) {
-//             return 0;
-//         } else {
-//             return Math.round((lot_size / acre) * 100) / 100;
-//         }
-//     } else {
-//         return 0;
-//     }
-// });
-
+    Handlebars.registerHelper('hasAcre', function(inputval) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            return true;
+        }else{
+               return false;
+        }
+    });
+    
 Handlebars.registerHelper("idxFavoriteClass", function(property) {
 	var options = ["ib-pfheart","ib-pfstar","ib-pfcube"];
 	var currentClass = options[__flex_idx_search_filter_v2.search.view_icon_type];
@@ -533,9 +541,7 @@ function handleSubmitAutocompleteForm(event) {
 	if ("" !== inputValue) {
 		ib_autocomplete.autocomplete("close");
 
-		if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-			setAutocompleteTerm(inputValue, "zip");
-		} else {
+		if (19 == __flex_g_settings.boardId) {
 			var matchCity;
 
 			for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
@@ -552,6 +558,28 @@ function handleSubmitAutocompleteForm(event) {
 				setAutocompleteTerm(matchCity.label, "city");
 			} else {
 				setAutocompleteTerm(inputValue, null);
+			}
+		} else {
+			if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+				setAutocompleteTerm(inputValue, "zip");
+			} else {
+				var matchCity;
+
+				for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+					var term = ib_autocomplete_cities[i];
+					var match = new RegExp("^" + term.label + "$", "i");
+
+					if (false !== match.test(inputValue)) {
+						matchCity = term;
+						break;
+					}
+				}
+
+				if ("undefined" !== typeof matchCity) {
+					setAutocompleteTerm(matchCity.label, "city");
+				} else {
+					setAutocompleteTerm(inputValue, null);
+				}
 			}
 		}
 	}
@@ -637,11 +665,9 @@ function handleKeyUpAutocompleteEvent(event) {
 			document.activeElement.blur();
 		}, 100);
 
-		if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-			setAutocompleteTerm(inputValue, "zip");
-		} else {
+		if (19 == __flex_g_settings.boardId) {
 			var matchCity;
-
+	
 			for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
 				var term = ib_autocomplete_cities[i];
 				var match = new RegExp("^" + term.label + "$", "i");
@@ -656,6 +682,28 @@ function handleKeyUpAutocompleteEvent(event) {
 				setAutocompleteTerm(matchCity.label, "city");
 			} else {
 				setAutocompleteTerm(inputValue, null);
+			}
+		} else {
+			if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+				setAutocompleteTerm(inputValue, "zip");
+			} else {
+				var matchCity;
+	
+				for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+					var term = ib_autocomplete_cities[i];
+					var match = new RegExp("^" + term.label + "$", "i");
+	
+					if (false !== match.test(inputValue)) {
+						matchCity = term;
+						break;
+					}
+				}
+	
+				if ("undefined" !== typeof matchCity) {
+					setAutocompleteTerm(matchCity.label, "city");
+				} else {
+					setAutocompleteTerm(inputValue, null);
+				}
 			}
 		}
 	}

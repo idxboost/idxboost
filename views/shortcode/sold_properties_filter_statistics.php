@@ -35,26 +35,26 @@
               <ul class="ms-month-list">
                 <li class="ms-item">
                   <div class="ms-chk -radio">
-                    <input id="m3" type="radio" name="month" value="3" class="f-interval-date" <?php if($atts['intervaldate']=='3') echo 'checked'; ?> >
-                    <label for="m3">3 Months</label>
+                    <input id="m3" type="radio" name="month" value="3" class="f-interval-date" <?php if($atts['intervaldate']=='0-3') echo 'checked'; ?> >
+                    <label for="m3">0-3 Months Back</label>
                   </div>
                 </li>
                 <li class="ms-item">
                   <div class="ms-chk -radio">
-                    <input id="m6" type="radio" name="month" value="6" class="f-interval-date" <?php if($atts['intervaldate']=='6') echo 'checked'; ?>>
-                    <label for="m6">6 Months</label>
+                    <input id="m6" type="radio" name="month" value="6" class="f-interval-date" <?php if($atts['intervaldate']=='3-6') echo 'checked'; ?>>
+                    <label for="m6">3-6 Months Back</label>
                   </div>
                 </li>
                 <li class="ms-item">
                   <div class="ms-chk -radio">
-                    <input id="m12" type="radio" name="month" value="12" class="f-interval-date" <?php if($atts['intervaldate']=='12') echo 'checked'; ?> >
-                    <label for="m12">12 Months</label>
+                    <input id="m12" type="radio" name="month" value="12" class="f-interval-date" <?php if($atts['intervaldate']=='6-12') echo 'checked'; ?> >
+                    <label for="m12">6-12 Months Back</label>
                   </div>
                 </li>
                 <li class="ms-item">
                   <div class="ms-chk -radio">
-                    <input id="m24" type="radio" name="month" value="24" class="f-interval-date" <?php if($atts['intervaldate']=='24') echo 'checked'; ?> >
-                    <label for="m24">24 Months</label>
+                    <input id="m24" type="radio" name="month" value="24" class="f-interval-date" <?php if($atts['intervaldate']=='12-24') echo 'checked'; ?> >
+                    <label for="m24">12-24 Months Back</label>
                   </div>
                 </li>
               </ul>
@@ -79,6 +79,7 @@
                             <option value="486" <?php if($atts['city_id']=='486') echo 'selected'; ?>>Coral Gables</option>
                             <option value="520" <?php if($atts['city_id']=='520') echo 'selected'; ?>>Key Biscayne</option>
                             <option value="61" <?php if($atts['city_id']=='61') echo 'selected'; ?>>Downtown Miami</option>
+                            <option value="173" <?php if($atts['city_id']=='173') echo 'selected'; ?>>High Pines and Ponce Davis</option>
                             <option value="533" <?php if($atts['city_id']=='533') echo 'selected'; ?>>Miami Beach</option>
                             <option value="552" <?php if($atts['city_id']=='552') echo 'selected'; ?>>Palmetto Bay</option>
                             <option value="568" <?php if($atts['city_id']=='568') echo 'selected'; ?>>South Miami</option>
@@ -137,13 +138,14 @@
               <div class="ms-item fg">
                 <label for="thepricerange">Price Range</label>
                 <select class="ms-select fc-select f-pricerange" name="the_pricerange" id="the_pricerange">
-                  <option value="1" <?php if($price_select=='1') echo 'selected'; ?> >Up to 1M</option>
-                  <!--<option value="8" <?php if($price_select=='8') echo 'selected'; ?>>1M+</option>-->
+                  <option value="1" <?php if($price_select=='1') echo 'selected'; ?> >Up to $1 M</option>
+                  <!--
                   <option value="2" <?php if($price_select=='2') echo 'selected'; ?>>1M to 2M</option>
-                  <option value="3" <?php if($price_select=='3') echo 'selected'; ?>>2M to 3M</option>
-                  <option value="4" <?php if($price_select=='4') echo 'selected'; ?>>3M to 5M</option>
-                  <option value="5" <?php if($price_select=='5') echo 'selected'; ?>>5M to 8M</option>
-                  <option value="6" <?php if($price_select=='6') echo 'selected'; ?>>8M+</option>
+                  <option value="3" <?php if($price_select=='3') echo 'selected'; ?>>2M to 3M</option>-->
+                  <option value="8" <?php if($price_select=='8') echo 'selected'; ?>>$1 M to $3 M</option>
+                  <option value="4" <?php if($price_select=='4') echo 'selected'; ?>>$3 M to $5 M</option>
+                  <option value="5" <?php if($price_select=='5') echo 'selected'; ?>>$5 M to $8 M</option>
+                  <option value="6" <?php if($price_select=='6') echo 'selected'; ?>>$8 M+</option>
                   <option value="7" <?php if($price_select=='7') echo 'selected'; ?>>All Ranges</option>
                 </select>
               </div>

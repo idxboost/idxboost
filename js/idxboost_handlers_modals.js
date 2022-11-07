@@ -265,6 +265,26 @@ Handlebars.registerHelper('markMapActive', function (property) {
   }
 });
 
+    Handlebars.registerHelper('formatAcres', function(inputval) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            return parseFloat((inputval/43560).toFixed(2))+ " Acre";
+        }else{
+               return _.formatPrice(inputval);
+        }
+    });
+
+    Handlebars.registerHelper('hasAcre', function(inputval) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            return true;
+        }else{
+               return false;
+        }
+    });
+    
 Handlebars.registerHelper("idxFavoriteClass", function (property) {
   var options = ["ib-pfheart", "ib-pfstar", "ib-pfcube"];
   var currentClass = options[__flex_idx_filter_regular.search.view_icon_type];

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.4.0
+ * Version: 4.4.1
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -16,44 +16,46 @@ defined('ABSPATH') or exit;
  */
 define('FLEX_IDX_PATH', plugin_dir_path(__FILE__));
 define('FLEX_IDX_URI', plugin_dir_url(__FILE__));
+define( 'UPLOAD_DIR_WP', trailingslashit( WP_CONTENT_DIR ) . 'uploads/' );
+
+
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
 
 
 // check if running on localhost
 if (
-  isset($_SERVER['HTTP_CLIENT_IP']) ||
-  isset($_SERVER['HTTP_X_FORWARDED_FOR']) ||
-  !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) ||
-    php_sapi_name() === 'cli-server')
+    isset($_SERVER['HTTP_CLIENT_IP']) ||
+    isset($_SERVER['HTTP_X_FORWARDED_FOR']) ||
+    !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) ||
+        php_sapi_name() === 'cli-server')
 ) {
-
-  define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
-  define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
-  define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.com');
-  define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
-  define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
-  define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
-  define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
-  define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
-  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
-  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
+    define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
+    define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
+    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.com');
+    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
+    define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
+    define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
+    define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
+    define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
+    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
+    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
 } else {
-  define('FLEX_IDX_BASE_URL', 'http://api.idxboost.local');
-  define('FLEX_IDX_CPANEL_URL', 'http://cpanel.idxboost.local');
-  define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'http://backoffice.idxboost.local');
-  define('FLEX_IDX_ALERTS_SUBSCRIBE', 'http://alerts.idxboost.l/consumer/subscribe');
-  define('FLEX_IDX_ALERTS_REGISTER', 'http://alerts.idxboost.l/alert/register');
-  define('FLEX_IDX_ALERTS_UPDATE', 'http://alerts.idxboost.l/alert/update_alert_parameters');
-  define('FLEX_IDX_ALERTS_UNREGISTER', 'http://alerts.idxboost.l/alert/unregister');
-  define('IDX_BOOTS_NICHE', 'http://alerts.idxboost.l/niche/filter/parameters');
-  define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'http://api-single-property.idxboost.l');
-  define('IDX_BOOST_SPW_BUILDER_SERVICE', 'http://api-cms.idxboost.l');
+    define('FLEX_IDX_BASE_URL', 'https://api.idxboost.dev');
+    define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.dev');
+    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'http://backoffice.idxboost.local');
+    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'http://alerts.idxboost.local/consumer/subscribe');
+    define('FLEX_IDX_ALERTS_REGISTER', 'http://alerts.idxboost.local/alert/register');
+    define('FLEX_IDX_ALERTS_UPDATE', 'http://alerts.idxboost.local/alert/update_alert_parameters');
+    define('FLEX_IDX_ALERTS_UNREGISTER', 'http://alerts.idxboost.local/alert/unregister');
+    define('IDX_BOOTS_NICHE', 'http://alerts.idxboost.local/niche/filter/parameters');
+    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'http://api-single-property.idxboost.local');
+    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'http://api-cms.idxboost.local');
 }
+
 
 /**
  * API endpoints
  */
-
 define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-site-setting-get');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
@@ -137,10 +139,8 @@ define('FLEX_IDX_API_TRACK_PROPERTY_VIEW', FLEX_IDX_BASE_URL . '/track/property/
 define('FLEX_IDX_API_LEAD_FETCH_ACTIVITIES', FLEX_IDX_BASE_URL . '/leads/fetch_activities');
 define('FLEX_IDX_API_LEAD_HIDE_TOOLTIP', FLEX_IDX_BASE_URL . '/leads/hide/tooltip');
 define('FLEX_IDX_API_AGENT_FETCH_CUSTOM_SETTINGS', FLEX_IDX_BASE_URL . '/crm/agents/settings');
-
 define('IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO', IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-info-agent');
 define('IDX_BOOST_SPW_BUILDER_SERVICE_TEAM_PAGE', IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-team');
-
 define('IDX_BOOST_LEAD_TRACKING_EVENTS', FLEX_IDX_BASE_URL . '/tracking/events');
 define('IDX_BOOST_TRACK_COLLECTION_VIEWS', FLEX_IDX_BASE_URL . '/events/collections');
 define('IDX_BOOST_UPDATE_CRITERIAL', FLEX_IDX_BASE_URL . '/tracking/update_lead_alert');
@@ -152,8 +152,8 @@ require FLEX_IDX_PATH . '/idxboost-updater.php';
 require FLEX_IDX_PATH . '/idxboost-rest.php';
 
 $flex_idx_token = null;
-$flex_idx_info = null;
-$flex_idx_lead = null;
+$flex_idx_info  = null;
+$flex_idx_lead  = null;
 
 /**
  * Define helpers
@@ -163,48 +163,48 @@ require FLEX_IDX_PATH . '/inc/helpers_fn.php';
 /**
  * Define global variables
  */
-$flex_idx_info         = flex_idx_get_info();
-
+$flex_idx_info  = flex_idx_get_info();
 $flex_idx_token = flex_idx_generate_access_token();
-
-$flex_idx_lead         = is_flex_user_logged_in();
-
+$flex_idx_lead  = is_flex_user_logged_in();
 
 
 // init scripts for recaptcha
+
 add_action('wp_head', function () {
-  global $flex_idx_info;
-  if (is_admin()) {
-    return;
-  }
-  if (isset($flex_idx_info['agent']['has_enterprise_recaptcha'])) {
-    if (!empty($flex_idx_info['agent']['has_enterprise_recaptcha'])) {
-      // is recaptcha enterprise
-      if (!isset($flex_idx_info['agent']['recaptcha_site_key']) || empty($flex_idx_info['agent']['recaptcha_site_key'])) {
+    global $flex_idx_info;
+
+    if (is_admin()) {
         return;
-      }
-      $output = <<<HTML
-      <script src="https://www.google.com/recaptcha/enterprise.js?render={$flex_idx_info['agent']['recaptcha_site_key']}"></script>
-HTML;
-    } else {
-      // regular recaptcha
-      if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
-        return;
-      }
-      $output = <<<HTML
-      <script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
-HTML;
     }
-  } else { // regular recaptcha fallback
-    if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
-      return;
-    }
-    $output = <<<HTML
+
+    if (isset($flex_idx_info['agent']['has_enterprise_recaptcha'])) {
+        if (!empty($flex_idx_info['agent']['has_enterprise_recaptcha'])) { // is recaptcha enterprise
+            if (!isset($flex_idx_info['agent']['recaptcha_site_key']) || empty($flex_idx_info['agent']['recaptcha_site_key'])) {
+                return;
+            }
+            $output = <<<HTML
+<script src="https://www.google.com/recaptcha/enterprise.js?render={$flex_idx_info['agent']['recaptcha_site_key']}"></script>
+HTML;
+        } else { // regular recaptcha
+            if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
+                return;
+            }
+
+            $output = <<<HTML
+    <script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
+HTML;
+        }
+    } else { // regular recaptcha fallback
+        if (empty($flex_idx_info['agent']['google_captcha_public_key'])) {
+            return;
+        }
+
+        $output = <<<HTML
 <script src="https://www.google.com/recaptcha/api.js?render={$flex_idx_info['agent']['google_captcha_public_key']}"></script>
 HTML;
-  }
+    }
 
-  echo $output;
+    echo $output;
 });
 
 

@@ -195,6 +195,31 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
         return _.formatPrice(sqft);
     });
 
+    Handlebars.registerHelper('formatAcres', function(inputval,metodo = null) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            if (metodo == "total") {
+                return _.formatPrice(inputval)+" Sq.Ft / "+parseFloat((inputval/43560).toFixed(2))+ " Acre";
+            }else{
+                return parseFloat((inputval/43560).toFixed(2))+ " Acre";
+            }
+        }else{
+               return _.formatPrice(inputval);
+        }
+    });
+
+    Handlebars.registerHelper('hasAcre', function(inputval) {
+        inputval= parseFloat( inputval.replaceAll(',',''));
+        
+        if (inputval >= 20000) {
+            return true;
+        }else{
+               return false;
+        }
+    });
+
+
     Handlebars.registerHelper("idxFavoriteClass", function (property) {
         var options = ["ib-pfheart", "ib-pfstar", "ib-pfcube"];
         var currentClass = options[__flex_idx_search_filter_v2.search.view_icon_type];
@@ -487,9 +512,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
         if ("" !== inputValue) {
             ib_autocomplete.autocomplete("close");
 
-            if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-                setAutocompleteTerm(inputValue, "zip", false, null);
-            } else {
+            if (19 == __flex_g_settings.boardId) {
                 var matchCity;
 
                 for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
@@ -506,6 +529,28 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                     setAutocompleteTerm(matchCity.label, "city", false, null);
                 } else {
                     setAutocompleteTerm(inputValue, null, false, null);
+                }
+            } else {
+                if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+                    setAutocompleteTerm(inputValue, "zip", false, null);
+                } else {
+                    var matchCity;
+    
+                    for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+                        var term = ib_autocomplete_cities[i];
+                        var match = new RegExp("^" + term.label + "$", "i");
+    
+                        if (false !== match.test(inputValue)) {
+                            matchCity = term;
+                            break;
+                        }
+                    }
+    
+                    if ("undefined" !== typeof matchCity) {
+                        setAutocompleteTerm(matchCity.label, "city", false, null);
+                    } else {
+                        setAutocompleteTerm(inputValue, null, false, null);
+                    }
                 }
             }
         }
@@ -612,9 +657,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                 document.activeElement.blur();
             }, 100);
 
-            if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-                setAutocompleteTerm(inputValue, "zip", false, null);
-            } else {
+            if (19 == __flex_g_settings.boardId) {
                 var matchCity;
 
                 for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
@@ -631,6 +674,28 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                     setAutocompleteTerm(matchCity.label, "city", false, null);
                 } else {
                     setAutocompleteTerm(inputValue, null, false, null);
+                }
+            } else {
+                if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+                    setAutocompleteTerm(inputValue, "zip", false, null);
+                } else {
+                    var matchCity;
+    
+                    for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+                        var term = ib_autocomplete_cities[i];
+                        var match = new RegExp("^" + term.label + "$", "i");
+    
+                        if (false !== match.test(inputValue)) {
+                            matchCity = term;
+                            break;
+                        }
+                    }
+    
+                    if ("undefined" !== typeof matchCity) {
+                        setAutocompleteTerm(matchCity.label, "city", false, null);
+                    } else {
+                        setAutocompleteTerm(inputValue, null, false, null);
+                    }
                 }
             }
         }

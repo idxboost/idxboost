@@ -612,8 +612,13 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <span class="ib-plist-pt">{{year}}</span>
                                        </li>
                                        <li>
-                                          <span class="ib-plist-st"><?php echo __('Total Sqft', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt">{{ total_sqft }}</span>
+                                          {{#if (hasAcre total_sqft) }}
+                                            <span class="ib-plist-st"><?php echo __('Total Size', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                          {{else}}
+                                            <span class="ib-plist-st"><?php echo __('Total Sqft', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                          {{/if}}
+
+                                          <span class="ib-plist-pt">{{ formatAcres total_sqft "total" }}</span>
                                        </li>
                                        <li>
                                           <span class="ib-plist-st"><?php echo __('Date Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -722,7 +727,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                     <ul class="ib-plist-list">
                                        <li>
                                           <span class="ib-plist-st"><?php echo __("Adjusted Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt">{{sqft}}</span>
+                                          <span class="ib-plist-pt">{{ formatAcres sqft }}</span>
                                        </li>
                                        {{#if more_info_info.cooling}}
                                          <li>
@@ -756,7 +761,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                        {{/if}}
                                        <li>
                                           <span class="ib-plist-st">Sqft</span>
-                                          <span class="ib-plist-pt">{{sqft}}</span>
+                                          <span class="ib-plist-pt">{{ formatAcres sqft }}</span>
                                        </li>
                                     </ul>
                                  </div>

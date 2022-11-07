@@ -457,6 +457,7 @@ var bounds;
         
         $('.f-pricerange').change(function(){
             var price_range=$(this).val();
+            console.log("price_range:"+ price_range);
             if(price_range =='1'){
                 flex_idx_sold_statistics.price_min=0;
                 flex_idx_sold_statistics.price_max=1000000;
@@ -479,6 +480,9 @@ var bounds;
             }else if(price_range =='7'){
                 flex_idx_sold_statistics.price_min=0;
                 flex_idx_sold_statistics.price_max=100000000;
+            }else if(price_range =='8'){
+                flex_idx_sold_statistics.price_min=1000001;
+                flex_idx_sold_statistics.price_max=3000000;
             }
             flex_idx_sold_statistics.page=1;
             idx_search_filter();
@@ -504,16 +508,16 @@ var bounds;
         $('.f-interval-date').click(function(){
             
             if (jQuery("#m3").is(":checked") )
-                flex_idx_sold_statistics.intervaldate=3;
+                flex_idx_sold_statistics.intervaldate="0-3";
 
             if (jQuery("#m6").is(":checked") )
-                flex_idx_sold_statistics.intervaldate=6;
+                flex_idx_sold_statistics.intervaldate="3-6";
             
             if (jQuery("#m12").is(":checked") )
-                flex_idx_sold_statistics.intervaldate=12;
+                flex_idx_sold_statistics.intervaldate="6-12";
 
             if (jQuery("#m24").is(":checked") )
-                flex_idx_sold_statistics.intervaldate=24;
+                flex_idx_sold_statistics.intervaldate="12-24";
 
             flex_idx_sold_statistics.page=1;
             idx_search_filter();

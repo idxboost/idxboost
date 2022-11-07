@@ -3832,7 +3832,14 @@ if (!function_exists( 'idxboost_history_building_xhr_fn' )) {
             'flex_credentials' => $flex_lead_credentials
         );
         $building_id = md5($building_id);
-        $path_feed = FLEX_IDX_PATH . 'feed/';
+        $path_feed = UPLOAD_DIR_WP . 'feed/';
+
+        if( !is_dir($path_feed) ) {
+            if (!mkdir($path_feed, 0777, true)) {
+                $response["upCache"] = 'Failed to create directories...';
+            }            
+        }
+
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
@@ -3850,7 +3857,7 @@ if (!function_exists( 'idxboost_history_building_xhr_fn' )) {
 if (!function_exists( 'get_feed_file_building_history_building_xhr_fn' )) {
     function get_feed_file_building_history_building_xhr_fn($building_id)
     {
-        $path_feed = FLEX_IDX_PATH . 'feed/';
+        $path_feed = UPLOAD_DIR_WP . 'feed/';
         $building_id = md5($building_id);
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
         $result = [];
@@ -4672,18 +4679,44 @@ if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
         $property_style = isset($_POST['property_style']) ? trim(strip_tags($_POST['property_style'])) : '';
         $order = isset($_POST['order']) ? trim(strip_tags($_POST['order'])) : 'list_date-desc';
         
-        $close_date_interval = isset($_POST['close_date_interval']) ? trim(strip_tags($_POST['close_date_interval'])) : 3;
+        $close_date_interval = isset($_POST['close_date_interval']) ? trim(strip_tags($_POST['close_date_interval'])) : "3-6";
+        $close_dt_arr = explode("-", $close_date_interval);
 
-        $date_now = new DateTime("now", new DateTimeZone('America/New_York'));
-        $close_date_start = $date_now->format("Ymd");
+        
+        $close_date_interval_print = intval( str_replace("-", "", $close_date_interval) );
 
-        //fecha de caducidad en formato Z
-        $date_now->setTimezone(new \DateTimeZone("Z"));
-        $close_date_start = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
 
+        $close_interval_start = 3;
+        $close_interval_end = 6;
+        if (is_array($close_dt_arr) && count($close_dt_arr) == 2 ) {
+            $close_interval_start = $close_dt_arr[0];
+            $close_interval_end = $close_dt_arr[1];
+        }
+
+        $date_now_4_firt = new DateTime("now", new DateTimeZone('America/New_York'));
+        $date_now_4_firt->setTimezone(new \DateTimeZone("Z"));
+        $date_now_4_firt->sub(new DateInterval("P{$close_interval_start}M"));
+        $close_date_start = strtotime($date_now_4_firt->format('Y-m-d\TH:i:s\Z'));
+        //$close_date_start = ($date_now_4_firt->format('Y-m-d\TH:i:s\Z'));
+        
+        $date_now_4_end = new DateTime("now", new DateTimeZone('America/New_York'));
+        $date_now_4_end->sub(new DateInterval("P{$close_interval_end}M")); //agregar tiempo max de logeo
+        $close_date_end = strtotime($date_now_4_end->format('Y-m-d\TH:i:s\Z'));
+        //$close_date_end = ($date_now_4_end->format('Y-m-d\TH:i:s\Z'));
+
+/*
+        var_dump("close_date_interval: ".$close_date_interval);
+        var_dump("de: ".$close_interval_start);
+        var_dump("hasta: ".$close_interval_end);
+        var_dump("fecha init: ".$close_date_start);
+        var_dump("fecha fin: ".$close_date_end);
+        die();        
+*/
+
+/*
         $date_now->sub(new DateInterval("P{$close_date_interval}M")); //agregar tiempo max de logeo
         $close_date_end = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
-
+*/
         $sendParams = array(
             'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
@@ -4695,7 +4728,7 @@ if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
             'property_type' => $property_type,
             'property_style' => $property_style,
             'order' => $order,
-            'close_date_inverval' => $close_date_interval,
+            'close_date_inverval' => $close_date_interval_print,
             'close_date_start' => $close_date_start,
             'close_date_end' => $close_date_end,
             'ip_address' => $ip_address,
@@ -5504,7 +5537,14 @@ if (!function_exists( 'idxboost_collection_list_fn' )) {
         $filter_id = $_POST['building_id'];
         $limit = $_POST['limit'];
         $building_id = md5($filter_id);
-        $path_feed = FLEX_IDX_PATH . 'feed/';
+        $path_feed = UPLOAD_DIR_WP . 'feed/';
+
+        if( !is_dir($path_feed) ) {
+            if (!mkdir($path_feed, 0777, true)) {
+                $response["upCache"] = 'Failed to create directories...';
+            }            
+        }
+
 
         $sendParams = array(
             'filter_id' => $filter_id,
@@ -5521,7 +5561,7 @@ if (!function_exists( 'idxboost_collection_list_fn' )) {
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
         $server_output = curl_exec($ch);
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
-        file_put_contents($post_building, $server_output);
+        $status=file_put_contents($post_building, $server_output);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -8623,8 +8663,11 @@ if (!function_exists('update_seo')) {
 if (!function_exists('update_seo_default')) {
     function update_seo_default()
     {
+        $exist_wpseo_metadesc = get_bloginfo('description');
+        $exist_yoast_wpseo_metadesc = get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true);
+        
         echo '<title>' . wp_title('|', 0, 'right') . get_bloginfo('name') . '</title>';
-        if (get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true)) {
+        if ( ! $exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc ) {
             echo '<meta name="description" content="' . get_bloginfo("description") . '">';
         }
     }
@@ -8633,8 +8676,11 @@ if (!function_exists('update_seo_default')) {
 if (!function_exists('update_seo_all_page')) {
     function update_seo_all_page($title)
     {
+        $exist_wpseo_metadesc = get_bloginfo('description');
+        $exist_yoast_wpseo_metadesc = get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true);
+        
         echo '<title>' . wp_title('|', 0, 'right') . $title . '</title>';
-        if (get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true)) {
+        if ( ! $exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc ) {
             echo '<meta name="description" content="' . get_bloginfo("description") . '">';
         }
     }

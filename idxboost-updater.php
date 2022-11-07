@@ -112,7 +112,7 @@ class IDXBoostUpdater
 			'short_description' => $this->plugin['Description'],
 			'sections' => [
 				'Description' => $this->plugin['Description'],
-				'Updates' => $this->github_response['body']
+				'Updates' => Parsedown::instance()->parse($this->github_response['body'])
 			],
 			'download_link' => $this->github_response['zipball_url']
 		];

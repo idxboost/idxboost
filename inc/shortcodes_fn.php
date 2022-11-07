@@ -2519,7 +2519,7 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
             'view'   => 'grid',
             'property_style'   => 'all',
             'limit'   => 'default',
-            'intervaldate' => 6,
+            'intervaldate' => "3-6",
             'path_parent' => '#',
             'slug-base' => '#',
             'close_date_start'   => '20200101',
@@ -2610,7 +2610,7 @@ if (!function_exists('idx_sold_properties_filter_custom_sc')) {
         $price_select="6";
     }else if($atts['price_min'] == '0' && $atts['price_max'] == '100000000'){
         $price_select="7";
-    }else if($atts['price_min'] == '1000000' && $atts['price_max'] == '100000000' ){
+    }else if($atts['price_min'] == '1000001' && $atts['price_max'] == '3000000' ){
         $price_select="8";
     }
 

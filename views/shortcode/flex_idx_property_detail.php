@@ -394,14 +394,49 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                   <?php } ?>
                   <?php if(1 == $property["is_commercial"]): ?>
                   <li class="ib-pilitem ib-pilsize">
-                    <span class="ib-pilnumber"><?php echo number_format($property['lot_size']); ?> </span>
+                    <span class="ib-pilnumber"><?php
+                                 $inputLotsize = floatval( str_replace ( ",", "", $property["lot_size"] ) );
+                                 $hasAcreLot = false;
+                                 if ($inputLotsize >= 20000) {
+                                  $res0 = floatval($inputLotsize/43560);
+                                  $res0dec = 0;
+                                  if(strpos($res0,".") !== false){
+                                    $res0dec = 2;
+                                  }
+                                  echo number_format($res0,$res0dec). " Acre";
+                                  $hasAcreLot = true;
+                                }else{
+                                echo number_format($property["lot_size"] ); 
+                                }
+
+?> </span>
                     <span class="ib-piltxt"><?php echo __("Approx Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span> 
                     <span class="ib-piltxt -min"><?php echo __("Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                   </li>
                   <?php else: ?>
                   <li class="ib-pilitem ib-pilsize">
-                    <span class="ib-pilnumber"><?php echo number_format($property['sqft']); ?></span>
-                    <span class="ib-piltxt"><?php echo __("Size sq.ft", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span> 
+                    <span class="ib-pilnumber"><?php                                 
+                                 $inputsqft = floatval( str_replace ( ",", "", $property["sqft"] ) );
+                                 $hasAcre = false;
+                                 if ($inputsqft >= 20000) {
+                                  $res1 = floatval($inputsqft/43560);
+                                  $res1dec = 0;
+                                  if(strpos($res1,".") !== false){
+                                      $res1dec = 2;
+                                  }
+                                  echo number_format($res1,$res1dec). " Acre";
+                                  $hasAcre = true;
+                                }else{
+                                echo number_format($property["sqft"] ); 
+                                }
+                     ?></span>
+                    <span class="ib-piltxt"><?php 
+                    if ($hasAcre) {
+                      echo __("Size", IDXBOOST_DOMAIN_THEME_LANG); 
+                    }else{
+                      echo __("Size sq.ft.", IDXBOOST_DOMAIN_THEME_LANG); 
+                    }
+                    ?></span> 
                     <span class="ib-piltxt -min"><?php echo __("Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                   </li>
                   <?php endif; ?>
@@ -729,8 +764,31 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                  <span class="ib-plist-pt"><?php echo $property['year']; ?></span>
                               </li>
                               <li>
-                                 <span class="ib-plist-st"><?php echo __('Total Sqft', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                 <span class="ib-plist-pt"><?php echo number_format($property["total_sqft"]); ?></span>
+                                <?php 
+                                 $inputvalTotalsqft = floatval( str_replace ( ",", "", $property["total_sqft"] ) );
+                                 $valetvalTotalsqft = number_format($property["total_sqft"] );
+                                 $hasAcreTotalsqft = false;
+                                 if ($inputvalTotalsqft >= 20000) {
+                                  $res2 = floatval($inputvalTotalsqft/43560);
+
+                                  $res2dec = 0;
+                                  if(strpos($res2,".") !== false){
+                                    $res2dec = 2;
+                                  }
+                                  $valetvalTotalsqft = number_format($property["total_sqft"] )." Sq.Ft / ".number_format( $res2 , $res2dec ). " Acre";
+                                  $hasAcreTotalsqft = true;
+                                }else{
+                                $valetvalTotalsqft = number_format($property["total_sqft"] ); 
+                                }
+                                ?>                                
+                                 <span class="ib-plist-st"><?php 
+                                 if ($hasAcreTotalsqft) {
+                                   echo __('Total Size', IDXBOOST_DOMAIN_THEME_LANG); 
+                                 }else{
+                                  echo __('Total Sqft', IDXBOOST_DOMAIN_THEME_LANG); 
+                                 }
+                                 ?></span>
+                                 <span class="ib-plist-pt"><?php echo $valetvalTotalsqft; ?></span>
                               </li>
 
                               <?php if ($type_lookup == "sold") { ?>
@@ -856,7 +914,20 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                     <ul class="ib-plist-list">
                                        <li>
                                           <span class="ib-plist-st"><?php echo __("Adjusted Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt"><?php echo number_format($property["sqft"]); ?></span>
+                                          <span class="ib-plist-pt"><?php 
+                                           $inputvalsqft = floatval( str_replace ( ",", "", $property["sqft"] ) );
+                                           if ($inputvalsqft >= 20000) {
+                                            $res3 = floatval($inputvalsqft/43560);
+                                            $res3dec = 0;
+                                            if(strpos($res3,".") !== false){
+                                              $res3dec = 2;
+                                            }
+
+                                            echo number_format($res3,$res3dec). " Acre";
+                                          }else{
+                                          echo number_format($property["sqft"] ); 
+                                          }                                          
+                                          ?></span>
                                        </li>
                                        <?php if (is_array($more_info_property) && array_key_exists("cooling", $more_info_property) && !empty($more_info_property["cooling"])) { ?>
                                          <li>
@@ -890,7 +961,23 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                        <?php } ?>
                                        <li>
                                           <span class="ib-plist-st"><?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                          <span class="ib-plist-pt"><?php echo number_format($property["sqft"]); ?></span>
+                                          <span class="ib-plist-pt"><?php 
+                                           
+                                           $inputsqft2 = floatval( str_replace ( ",", "", $property["sqft"] ) );
+                                           $hasAcre2 = false;
+                                           if ($inputsqft2 >= 20000) {
+                                            $res4 = floatval($inputsqft2/43560);
+                                            $res4dec = 0;
+
+                                            if(strpos($res4,".") !== false){
+                                              $res4dec = 2;
+                                            }
+                                            echo number_format($res4,$res4dec). " Acre";
+                                            $hasAcre2 = true;
+                                          }else{
+                                          echo number_format($property["sqft"] ); 
+                                          }
+                                          ?></span>
                                        </li>
                                     </ul>
                         </div>
@@ -1252,7 +1339,7 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                           <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
                           <p><?php $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>"><?php echo $property["phone_office"]; ?></a></p>
                           <?php }else{ ?>
-                            <p><?php echo __('The multiple listing information is provided by the', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property["board_name"]; ?>® <?php echo __('from a copyrighted compilation of listings. The compilation of listings and each individual listing are', IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __('present', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property["board_name"]; ?>®. <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <?php echo $property["office_name"]; ?> <a class="ib-phone-office" href="tel:<?php echo preg_replace('/[^\d]/', '', $property['phone_office']); ?>">Ph. <?php echo $property["phone_office"]; ?></p>
+                            <p><?php echo __('The multiple listing information is provided by the', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property["board_name"]; ?>® <?php echo __('from a copyrighted compilation of listings. The compilation of listings and each individual listing are', IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __('present', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property["board_name"]; ?>®. <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <?php echo $property["office_name"]; ?> </p>
                           <?php } ?>
                           <p><?php echo __('Real Estate IDX Powered by', IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
                         </div>

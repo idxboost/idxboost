@@ -23,11 +23,9 @@
         if ("" !== inputValue) {
             ib_autocomplete.autocomplete("close");
 
-            if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-                handleRedirectTo(inputValue, "zip");
-            } else {
+            if (19 == __flex_g_settings.boardId) {
                 var matchCity;
-
+    
                 for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
                     var term = ib_autocomplete_cities[i];
                     var match = new RegExp("^" + term.label + "$", "i");
@@ -42,6 +40,28 @@
                     handleRedirectTo(matchCity.label, "city");
                 } else {
                     handleRedirectTo(inputValue, null);
+                }
+            } else {
+                if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+                    handleRedirectTo(inputValue, "zip");
+                } else {
+                    var matchCity;
+    
+                    for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+                        var term = ib_autocomplete_cities[i];
+                        var match = new RegExp("^" + term.label + "$", "i");
+    
+                        if (false !== match.test(inputValue)) {
+                            matchCity = term;
+                            break;
+                        }
+                    }
+    
+                    if ("undefined" !== typeof matchCity) {
+                        handleRedirectTo(matchCity.label, "city");
+                    } else {
+                        handleRedirectTo(inputValue, null);
+                    }
                 }
             }
         }
@@ -146,11 +166,9 @@
                 document.activeElement.blur();
             }, 100);
 
-            if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
-                handleRedirectTo(inputValue, "zip");
-            } else {
+            if (19 == __flex_g_settings.boardId) {
                 var matchCity;
-
+    
                 for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
                     var term = ib_autocomplete_cities[i];
                     var match = new RegExp("^" + term.label + "$", "i");
@@ -165,6 +183,28 @@
                     handleRedirectTo(matchCity.label, "city");
                 } else {
                     handleRedirectTo(inputValue, null);
+                }
+            } else {
+                if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
+                    handleRedirectTo(inputValue, "zip");
+                } else {
+                    var matchCity;
+    
+                    for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
+                        var term = ib_autocomplete_cities[i];
+                        var match = new RegExp("^" + term.label + "$", "i");
+    
+                        if (false !== match.test(inputValue)) {
+                            matchCity = term;
+                            break;
+                        }
+                    }
+    
+                    if ("undefined" !== typeof matchCity) {
+                        handleRedirectTo(matchCity.label, "city");
+                    } else {
+                        handleRedirectTo(inputValue, null);
+                    }
                 }
             }
         }
