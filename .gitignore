@@ -3,6 +3,5 @@
 .DS_Store
 feed/*
 !feed/.gitkeep
-vendor
 composer.json
 composer.lock
