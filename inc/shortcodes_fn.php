@@ -1840,26 +1840,34 @@ if (!function_exists('fb_flex_idx_sub_area_social_sc')) {
 }
 
 function insert_fb_in_head() {
-    global $wpdb;
-    $host= $_SERVER["HTTP_HOST"]; $url= $_SERVER["REQUEST_URI"];
+    global $wpdb, $wp;
 
-    if( (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443 ){
-        $domain_host= "https://". $host . $url;
-    } else {
-        $domain_host= "http://". $host . $url;
-    }
-      $result_content_slug = $wpdb->get_results("
-      SELECT t1.post_name,t2.meta_value as idx_filter
-      FROM {$wpdb->posts} t1
-      inner join {$wpdb->postmeta} t2
-      on t1.ID = t2.post_id
-      where t1.post_type = 'flex-idx-pages' and t1.post_status = 'publish'
-      and 
-        ( t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_property_detail' ) or
-        ( t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_building' ) or
-        (t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_sub_area' )
-      limit 3
-      ",ARRAY_A);
+    // TODO: por que usaron esta validacion, ya existe la url y el path sanitizado usando site_url() y $wp->request?
+    // $host= $_SERVER["HTTP_HOST"]; $url= $_SERVER["REQUEST_URI"];
+
+    // if( (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443 ){
+    //     $domain_host= "https://". $host . $url;
+    // } else {
+    //     $domain_host= "http://". $host . $url;
+    // }
+
+    // https://josephcmsstg.wpengine.com/property/treetop-close-1-prince-charles-drive-new-providenceparadise-island-bahamas-51000
+    $domain_host = site_url() . '/' . $wp->request;
+
+    // TODO: no es necesario usar esto si ya en la url tienes el dato
+    /*
+    $result_content_slug = $wpdb->get_results("
+    SELECT t1.post_name,t2.meta_value as idx_filter
+    FROM {$wpdb->posts} t1
+    inner join {$wpdb->postmeta} t2
+    on t1.ID = t2.post_id
+    where t1.post_type = 'flex-idx-pages' and t1.post_status = 'publish'
+    and 
+    ( t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_property_detail' ) or
+    ( t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_building' ) or
+    (t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_sub_area' )
+    limit 3
+    ",ARRAY_A);
 
       $property_slug='property';
       $building_slug='building';
@@ -1879,17 +1887,39 @@ function insert_fb_in_head() {
       $keys_property=array_search('flex_idx_property_detail', array_column($result_content_slug, 'idx_filter'));     
       if (is_numeric($keys_property) )
           $property_slug=$result_content_slug[$keys_property]['post_name'];
+    */
     /*
         if (empty($building_slug) || $building_slug=='')
             $building_slug='building';
     */
 
-
+    // TODO: esta validacion esta mal, si en el ultimo segmento en slug dice building o property sobreescriria al property
+    /*
     $postproperty = strpos($url,'/'.$property_slug.'/');
     $postbuilding = strpos($url,'/'.$building_slug.'/');
     $postsubarea  = strpos($url,'/'.$sub_area_slug.'/');
+    */
 
-    if (is_numeric($postproperty) && $postproperty>=0 ) {
+    $wp_request_exp = explode('/', $wp->request);
+    $page_slug = current($wp_request_exp);
+
+    // echo '<!-- debug:uri ';
+    // var_dump($domain_host);
+    // var_dump($wp_request_exp);
+    // var_dump($page_slug);
+    // var_dump($page_slug);
+    // var_dump($keys_property);
+    // var_dump($property_slug);
+    // echo '-->';
+
+    // if (is_numeric($postproperty) && $postproperty>=0 ) {
+    if ('property' === $page_slug) {
+        // echo '<!-- debug:uri ';
+        // var_dump($domain_host);
+        // var_dump($wp_request_exp);
+        // var_dump($page_slug);
+        // var_dump($GLOBALS);
+        // echo '-->';
 
         $property_head = [];
 
@@ -1898,6 +1928,10 @@ function insert_fb_in_head() {
         }else{
             $property_head = title_flex_idx_property_detail_sc([], null);
         }
+
+        // echo '<!-- debug:og ';
+        // var_dump($property_head);
+        // echo '-->';
 
         $data = $property_head;  
         //$GLOBALS['property']= $data;
@@ -1963,7 +1997,9 @@ function insert_fb_in_head() {
       <meta name="description" content="<?php echo $addressPropertyDescription; ?>">
     <?php  } ?>
 
-    <?php if (is_numeric($postbuilding) && $postbuilding>=0 ) {
+    <?php
+    // if (is_numeric($postbuilding) && $postbuilding>=0 ) {
+        if ('building' === $page_slug) {
         $url_image='';
         $og_name_building='';
         $building_addresses='';
@@ -1992,7 +2028,9 @@ function insert_fb_in_head() {
     <?php  } ?>
 
 
-    <?php if (is_numeric($postsubarea) && $postsubarea>=0 ) {
+    <?php
+    //if (is_numeric($postsubarea) && $postsubarea>=0 ) {
+        if ('sub-area' === $page_slug) {
         $url_image='';
         $og_name_building='';
         $building_addresses='';
@@ -2022,7 +2060,7 @@ function insert_fb_in_head() {
 
 <?php
 }
-add_action( 'wp_head', 'insert_fb_in_head', 0 );
+add_action( 'wp_head', 'insert_fb_in_head', 0);
 
 if (!function_exists('idx_property_rel_canonical')) {
 function idx_property_rel_canonical() {
@@ -2174,6 +2212,8 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
             $response = curl_exec($curl);
             curl_close($curl);
+
+            wp_enqueue_script('flex-idx-property-js');
 
             $property = [];
             if ( !empty($response)) {

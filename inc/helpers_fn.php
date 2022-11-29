@@ -43,15 +43,28 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
 
         $type_lookup = 'active';
 
-        if (preg_match('/^[sold\-(.*)]+/', $slug)) {
+        // if (preg_match('/^[sold\-(.*)]+/', $slug)) {
+        if (preg_match('#^sold#', $slug) === 1) {
             $type_lookup = 'sold';
-        } else if (preg_match('/^[rented\-(.*)]+/', $slug)) {
+        // } else if (preg_match('/^[rented\-(.*)]+/', $slug)) {
+        } else if (preg_match('#^rented#', $slug) === 1) {
             $type_lookup = 'rent';
-        } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
+        // } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
+        } else if (preg_match('#^pending#', $slug) === 1) {
             $type_lookup = 'pending';
         } else {
             $type_lookup = 'active';
         }
+
+        //$type_lookup = 'active';
+
+        // var_dump(preg_match('/^[sold\-(.*)]+/', $slug));
+        // var_dump(preg_match('/^[rented\-(.*)]+/', $slug));
+        // var_dump(preg_match('/^[pending\-(.*)]+/', $slug));
+
+        // var_dump($type_lookup);
+        // var_dump($slug);
+        // exit;
         
         $AddressPrint='';
         if (!empty($mls_num) && $mls_num!=null) {
@@ -132,7 +145,6 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             $property    = (isset($response) && is_array($response) && count($response)>0 ) ? $response : array();
             $GLOBALS["property"] = $property;
         }else{
-
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -142,13 +154,19 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             $server_output = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($server_output, true);
+
+            // var_dump(FLEX_IDX_API_LOOKUP);
+            // var_dump($sendParams);
+            // var_dump($response);
+            // exit;
+
             $current_url = home_url($wp_request);
             $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
             $GLOBALS["property"] = $property;
+
+            // var_dump($GLOBALS['property']);
+            // exit;
         }
-
-
-
 
         return $property;
     }
@@ -6253,12 +6271,12 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             iboost_get_mod_time("js/buyers-and-sellers.js")
         );
         // sweetalert
-        wp_enqueue_style('sweetalert-css', FLEX_IDX_URI . 'css/sweetalert.min.css', array(), iboost_get_mod_time("css/sweetalert.min.css"));
-        wp_enqueue_script('sweetalert-js', FLEX_IDX_URI . 'js/sweetalert.min.js', array(), iboost_get_mod_time("js/sweetalert.min.js"), true);
+        wp_enqueue_style('sweetalert-css', FLEX_IDX_URI . 'css/vendor/sweetalert.min.css', array(), iboost_get_mod_time("css/vendor/sweetalert.min.css"));
+        wp_enqueue_script('sweetalert-js', FLEX_IDX_URI . 'js/vendor/sweetalert.min.js', array(), iboost_get_mod_time("js/vendor/sweetalert.min.js"), true);
         wp_localize_script('sweetalert-js', 'idx_translate_setting', $word_translate_setting);
 
         //mask-input
-        wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/jquery.inputmask.min.js', array(), iboost_get_mod_time("js/jquery.inputmask.min.js"), true);
+        wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/vendor/jquery.inputmask.min.js', array(), iboost_get_mod_time("js/vendor/jquery.inputmask.min.js"), true);
         wp_localize_script('mask-input', 'idx_translate_setting', $word_translate_setting);
 
         // underscore
@@ -6266,7 +6284,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         // mortgage calculator
         wp_register_script('flex-idx-property-js-only', FLEX_IDX_URI . 'js/property-calculater.js', array('jquery'), iboost_get_mod_time("js/property-calculater.js"));
         // cookies manager
-        wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/js.cookie.min.js', array(), iboost_get_mod_time("js/js.cookie.min.js"), true);
+        wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/vendor/js.cookie.min.js', array(), iboost_get_mod_time("js/vendor/js.cookie.min.js"), true);
         // pusher
         wp_register_script('flex-pusher-js', '//js.pusher.com/4.1/pusher.min.js', array(), false, true);
         // auth check
@@ -6284,10 +6302,10 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_register_script('idx-mini-search-new', FLEX_IDX_URI . 'js/idx-mini-search-new.js', array('jquery', 'underscore', 'flex-auth-check'), iboost_get_mod_time("js/idx-mini-search-new.js"));
 
         // handlebars
-        wp_register_script('handlebars', FLEX_IDX_URI . 'js/handlebars-v4.1.2.js', array(), iboost_get_mod_time("js/handlebars-v4.1.2.js"));
-        wp_register_script('flex-idx-search-filter-slider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array(
+        wp_register_script('handlebars', FLEX_IDX_URI . 'js/vendor/handlebars-v4.1.2.min.js', array(), iboost_get_mod_time("js/vendor/handlebars-v4.1.2.min.js"));
+        wp_register_script('flex-idx-search-filter-slider', FLEX_IDX_URI . 'js/vendor/greatslider.jquery.min.js', array(
             'jquery'
-        ), iboost_get_mod_time("js/greatslider.jquery.min.js"));
+        ), iboost_get_mod_time("js/vendor/greatslider.jquery.min.js"));
 
         // wp_register_script('flex-idx-search-filter-slideritems', FLEX_IDX_URI . 'js/flex-idx-search-filter-slideritems.js', array(
         //     'jquery',
@@ -6555,7 +6573,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         // register for ib search box
         wp_register_script("ib-search-box", FLEX_IDX_URI . "js/ib-search-box.js", array("jquery"));
         // css for favorites
-        wp_register_style('flex-favorites-css', FLEX_IDX_URI . 'css/jquery-ui-timepicker-addon.min.css');
+        wp_register_style('flex-favorites-css', FLEX_IDX_URI . 'css/vendor/jquery-ui-timepicker-addon.min.css');
         $translation_array = $custom_strings;
         wp_localize_script('flex-auth-check', 'word_translate', $translation_array);
 
@@ -6579,6 +6597,9 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'fetchLeadActivitiesEndpoint' => FLEX_IDX_API_LEAD_FETCH_ACTIVITIES,
             'hideTooltipLeadEndpoint' => FLEX_IDX_API_LEAD_HIDE_TOOLTIP,
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
+            
+            'request_form_rentals' => FLEX_IDX_API_INQUIRY_PROPERTY_FORM,
+
             'signup_left_clicks' => (isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : null),
             'force_registration_forced' => (isset($flex_idx_info["agent"]["force_registration_forced"]) && ("1" == $flex_idx_info["agent"]["force_registration_forced"])) ? "yes" : "no",
             'has_facebook_login_enabled' => (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && ("1" == $flex_idx_info["agent"]["facebook_login_enabled"])) ? "yes" : "no",
@@ -6617,8 +6638,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         ));
 
         wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s', $flex_idx_info["agent"]["google_maps_api_key"]));
-        wp_register_script('google-maps-utility-library-richmarker', FLEX_IDX_URI . 'js/richmarker-compiled.js', array('google-maps-api'), iboost_get_mod_time("js/richmarker-compiled.js"));
-        wp_register_script('google-maps-utility-library-infobubble', FLEX_IDX_URI . 'js/infobubble-compiled.js', array('google-maps-api'), iboost_get_mod_time("js/infobubble-compiled.js"));
+        wp_register_script('google-maps-utility-library-richmarker', FLEX_IDX_URI . 'js/vendor/richmarker.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/richmarker.min.js"));
+        wp_register_script('google-maps-utility-library-infobubble', FLEX_IDX_URI . 'js/vendor/infobubble.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/infobubble.min.js"));
         // styles for infowindows [google maps]
         wp_register_style('flex-idx-css-map', FLEX_IDX_URI . 'css/infowindows.min.css', array(), iboost_get_mod_time("css/infowindows.min.css"));
         // property detail [start]
@@ -6642,13 +6663,13 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         ), iboost_get_mod_time("js/flex-idx-single-autocomplete.js"));
         // flex autocomplete [end]
 
-        wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.css', array(), iboost_get_mod_time("css/main.min.css"));
+        wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.min.css', array(), iboost_get_mod_time("css/single-property.min.css"));
 
         // filter pages [start]
         wp_register_style('flex-idx-filter-pages-css', FLEX_IDX_URI . 'css/infowindows.min.css', array(), iboost_get_mod_time("css/infowindows.min.css"));
-        wp_register_script('flex-idx-filter-js-scroll', FLEX_IDX_URI . 'js/perfect-scrollbar.jquery.min.js', array('jquery'), iboost_get_mod_time("js/perfect-scrollbar.jquery.min.js"));
-        wp_register_script('flex-idx-filter-jquery-ui', FLEX_IDX_URI . 'js/jquery-ui.min.js', array('jquery'), iboost_get_mod_time("js/jquery-ui.min.js"));
-        wp_register_script('flex-idx-filter-jquery-ui-touch', FLEX_IDX_URI . 'js/jquery.ui.touch-punch.min.js', array('flex-idx-filter-jquery-ui'), iboost_get_mod_time("js/jquery.ui.touch-punch.min.js"));
+        wp_register_script('flex-idx-filter-js-scroll', FLEX_IDX_URI . 'js/vendor/perfect-scrollbar.jquery.min.js', array('jquery'), iboost_get_mod_time("js/vendor/perfect-scrollbar.jquery.min.js"));
+        wp_register_script('flex-idx-filter-jquery-ui', FLEX_IDX_URI . 'js/vendor/jquery-ui.min.js', array('jquery'), iboost_get_mod_time("js/vendor/jquery-ui.min.js"));
+        wp_register_script('flex-idx-filter-jquery-ui-touch', FLEX_IDX_URI . 'js/vendor/jquery.ui.touch-punch.min.js', array('flex-idx-filter-jquery-ui'), iboost_get_mod_time("js/vendor/jquery.ui.touch-punch.min.js"));
         // quick search assets
         wp_register_style('idxboost-quick-search-css', FLEX_IDX_URI . 'css/idxboost-quick-search.min.css', array(), iboost_get_mod_time("css/idxboost-quick-search.min.css"));
         wp_register_script(
@@ -6887,7 +6908,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-sub-area-collection.js"));
 
-        wp_register_script('get-video-id-js', FLEX_IDX_URI . 'js/get-video-id.min.js', '', iboost_get_mod_time("js/get-video-id.min.js"), true);
+        wp_register_script('get-video-id-js', FLEX_IDX_URI . 'js/vendor/get-video-id.min.js', '', iboost_get_mod_time("js/vendor/get-video-id.min.js"), true);
 
         wp_register_script('flex-idx-single-property-collection-js', FLEX_IDX_URI . 'js/idxboost-single-property-collection.js', array(
             'underscore-mixins',
@@ -6979,9 +7000,9 @@ if (!function_exists( 'flex_idx_register_assets' )) {
 
 
         wp_register_script('flex-condosbuilding-plugin', FLEX_IDX_URI . 'js/condo-js.js', array(), iboost_get_mod_time("js/condo-js.js"));
-        wp_register_script('flex-dataTablesbuilding-plugin', FLEX_IDX_URI . 'js/jquery.dataTables.min.js', array(), iboost_get_mod_time("js/jquery.dataTables.min.js"));
-        wp_register_script('flex-fusioncharts-core', FLEX_IDX_URI . 'js/fusioncharts.js', array(), iboost_get_mod_time("js/fusioncharts.js"));
-        wp_register_script('flex-fusioncharts-plugin', FLEX_IDX_URI . 'js/fusioncharts.charts.js', array('flex-fusioncharts-core'), iboost_get_mod_time("js/fusioncharts.charts.js"));
+        wp_register_script('flex-dataTablesbuilding-plugin', FLEX_IDX_URI . 'js/vendor/jquery.dataTables.min.js', array(), iboost_get_mod_time("js/vendor/jquery.dataTables.min.js"));
+        wp_register_script('flex-fusioncharts-core', FLEX_IDX_URI . 'js/vendor/fusioncharts.min.js', array(), iboost_get_mod_time("js/vendor/fusioncharts.min.js"));
+        wp_register_script('flex-fusioncharts-plugin', FLEX_IDX_URI . 'js/vendor/fusioncharts.charts.min.js', array('flex-fusioncharts-core'), iboost_get_mod_time("js/vendor/fusioncharts.charts.min.js"));
         wp_register_script('flex-propertiesbuilding-plugin', FLEX_IDX_URI . 'js/properties-js.js', array(), iboost_get_mod_time("js/properties-js.js"));
         wp_register_script('flex-idx-building-js', FLEX_IDX_URI . 'js/dgt-building-js.js', array(
             'flex-idx-filter-js-scroll',
@@ -7024,7 +7045,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'siteUrl' => $flex_idx_info["website_url"]
         ));
-        wp_register_script('flex-lazyload-plugin', FLEX_IDX_URI . 'js/lazyload.transpiled.min.js', array(), iboost_get_mod_time("js/lazyload.transpiled.min.js"));
+        wp_register_script('flex-lazyload-plugin', FLEX_IDX_URI . 'js/vendor/lazyload.min.js', array(), iboost_get_mod_time("js/vendor/lazyload.min.js"));
         wp_register_script('flex-idx-search-results-js', FLEX_IDX_URI . 'js/flex-search.js', array(
             'flex-lazyload-plugin',
             'underscore',
@@ -7231,7 +7252,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
             'sitewp' => get_permalink()
         ));
-        wp_register_script('flex-idx-jquery-ui-timepicker', FLEX_IDX_URI . 'js/jquery-ui-timepicker-addon.js', array('jquery'), iboost_get_mod_time("js/jquery-ui-timepicker-addon.js"));
+        wp_register_script('flex-idx-jquery-ui-timepicker', FLEX_IDX_URI . 'js/vendor/jquery-ui-timepicker-addon.min.js', array('jquery'), iboost_get_mod_time("js/vendor/jquery-ui-timepicker-addon.min.js"));
         // saved listings
         wp_register_script('flex-idx-saved-listing', FLEX_IDX_URI . 'js/flex-idx-saved-listing.js', array(
             'jquery',
@@ -7324,10 +7345,10 @@ if (!function_exists( 'ib_tables_sub_area_collection' )) {
 if (!function_exists( 'greatsliderLoad' )) {
     function greatsliderLoad()
     {
-        wp_enqueue_script('flex-print-area', FLEX_IDX_URI . 'js/jquery.PrintArea.js', array('flex-pusher-js', 'flex-cookies-manager', 'jquery'), iboost_get_mod_time("js/jquery.PrintArea.js"), true);
-        wp_register_script('greatslider', FLEX_IDX_URI . 'js/greatslider.jquery.min.js', array("jquery"), iboost_get_mod_time("js/greatslider.jquery.min.js"));
-        wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.min.js', array("jquery"), iboost_get_mod_time("js/greatslider-main.min.js"));
-        wp_enqueue_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.min.js', array('jquery', 'greatslider'), iboost_get_mod_time("js/greatslider-main.min.js"), true);
+        wp_enqueue_script('flex-print-area', FLEX_IDX_URI . 'js/vendor/jquery.print-area.min.js', array('flex-pusher-js', 'flex-cookies-manager', 'jquery'), iboost_get_mod_time("js/vendor/jquery.print-area.min.js"), true);
+        wp_register_script('greatslider', FLEX_IDX_URI . 'js/vendor/greatslider.jquery.min.js', array("jquery"), iboost_get_mod_time("js/vendor/greatslider.jquery.min.js"));
+        wp_register_script('flex-idx-slider-main', FLEX_IDX_URI . 'js/greatslider-main.js', array("jquery"), iboost_get_mod_time("js/greatslider-main.js"));
+        wp_enqueue_script('flex-idx-slider', FLEX_IDX_URI . 'js/greatslider-main.js', array('jquery', 'greatslider'), iboost_get_mod_time("js/greatslider-main.js"), true);
     }
 }
 
@@ -7339,7 +7360,7 @@ if (!function_exists( 'flex_idx_admin_register_assets' )) {
     {
         wp_register_style('flex-idx-admin', FLEX_IDX_URI . 'css/flex-idx-admin.min.css');
         // cookies manager
-        wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/js.cookie.min.js', array(), iboost_get_mod_time("js/js.cookie.min.js"), true);
+        wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/vendor/js.cookie.min.js', array(), iboost_get_mod_time("js/vendor/js.cookie.min.js"), true);
         wp_register_script('flex-idx-admin-js', FLEX_IDX_URI . 'js/flex-idx-admin.js', array('jquery', 'flex-cookies-manager'));
         wp_register_script('flex-idx-admin-import-js', FLEX_IDX_URI . 'js/idxboost_import_admin.js', array('jquery'));
         wp_register_script('flex-idx-tools-js', FLEX_IDX_URI . 'js/flex-idx-tools.js', array('jquery'));

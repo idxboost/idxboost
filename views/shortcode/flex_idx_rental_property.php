@@ -12,24 +12,62 @@
   </div>
 </div>
 <?php }else{ 
-  $anio = date("Y");
-  function getDates($year) {
-      $dates = array();
-      date("L", mktime(0,0,0, 7,7, $year)) ? $days = 366 : $days = 365;
-      for($i = 1; $i <= $days; $i++){
-          $month = date('m', mktime(0,0,0,1,$i,$year));
-          $wk = date('W', mktime(0,0,0,1,$i,$year));
-          $wkDay = date('D', mktime(0,0,0,1,$i,$year));
-          $day = date('d', mktime(0,0,0,1,$i,$year));
+  $enlace_actual = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+  $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
-          $dates[$month][$wk][$wkDay] = $day;
-      } 
-
-      return $dates;   
-  }
-  $dates = getDates( $anio ); 
   $months=["January","February","March","April","May","June","July","August","September","October","November","December"];
   $weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'); 
+  $more_availability_info = $property["more_availability_info"];
+
+  $Check_in_calendar = "";
+  $Check_out_calendar = "";
+  $Check_in_calendarRaw = "";
+
+  if (is_array($more_availability_info) && count($more_availability_info) > 0) {
+    $Check_in_calendar_arr = $more_availability_info[0];
+    $Check_out_calendar_arr = $more_availability_info[ count($more_availability_info) - 1 ];
+
+    if ( 
+      is_array($Check_in_calendar_arr) && array_key_exists("CheckInDate", $Check_in_calendar_arr) &&
+      is_array($Check_out_calendar_arr) && array_key_exists("CheckOutDate", $Check_out_calendar_arr) 
+     ) {
+      $Check_in_calendarRaw = $Check_in_calendar_arr["CheckInDate"];
+      $Check_out_calendar = $Check_out_calendar_arr["CheckOutDate"];
+    }
+  }
+
+  $date_now = new DateTime("now");
+  $date_now->modify('first day of this months');
+
+  $my_date_checkin = new DateTime($Check_in_calendarRaw);
+  $my_date_checkin->modify('first day of this months');
+
+  if ($date_now > $my_date_checkin) {
+    $my_date_checkin = $date_now;
+  }
+
+  $Check_in_calendarRaw = $my_date_checkin->format('Y-m-d');
+
+
+  //$my_date_end = $my_date_checkin;
+  $my_date_end = new DateTime($Check_in_calendarRaw);
+  $my_date_end->add(new DateInterval("P1Y")); 
+  $my_date_end->modify('last day of this month');
+  $Check_end_calendarRaw = $my_date_end->format('Y-m-d');
+
+  $diff = $my_date_checkin->diff($my_date_end);
+  $days = (int) $diff->days;
+
+  for ($i= 0 ; $i < $days; $i++) { 
+    $date_calendar = strtotime($Check_in_calendarRaw."+ {$i} day");
+          $month = date('m', $date_calendar );
+          $wk = date('W', $date_calendar );
+          $wkDay = date('D', $date_calendar ); 
+          $day = date('d', $date_calendar );
+          $aniof = date('Y', $date_calendar );
+          $dates[$aniof][$month][$wk][$wkDay] = $day;
+  }
+  
 ?>
     <div id="full-main" class="ms-property-detail-page">
       <section class="title-conteiner gwr animated fixed-box">
@@ -184,22 +222,15 @@
 
 
                   <?php 
-                  $more_rate_info = $property["more_rate_info"];
-
-                  $rate_week_available = array_values(
-                    array_filter($more_rate_info, function ($agent) {
-                      return ($agent['available'] == "1");
-                    })
-                  );
-
-                  if (is_array($rate_week_available) && count($rate_week_available) > 0 ) {
-                    foreach ($rate_week_available as &$week_available) {
+                  if (is_array($more_availability_info) && count($more_availability_info) > 0 ) {
+                    foreach ($more_availability_info as &$week_available) {
                       $week_available["check_in"] = new \DateTime($week_available["CheckInDate"],new \DateTimeZone("UTC"));
                       $week_available["check_out"] = new \DateTime($week_available["CheckOutDate"],new \DateTimeZone("UTC"));
                     }
-                  } ?>
+                  } 
+                  
 
-                  <?php if (is_array($rate_week_available) && count($rate_week_available) > 0 ) { ?>
+                  if (is_array($more_availability_info) && count($more_availability_info) > 0 ) { ?>
 
                     <div class="ib-plist-details -border">
                       <div class="ib-plist-card">
@@ -211,46 +242,58 @@
                           </div>
                         </div>                      
                         <div class="ib-wrapper-table">
-                              <?php foreach($dates as $month => $weeks) { ?>
-                                <div class="ib-item">
-                                  <table width="100%" border="0" cellspacing="1" cellpadding="2" id="list12">
-                                    <tr>
-                                      <td colspan="7" align="center"><?php echo $months[intval($month)-1]." {$anio}"; ?></td>
-                                    </tr>
+                              <?php
+                              foreach($dates  as $anio => $fmonths ) { 
+                                   foreach($fmonths as $month => $weeks) {  ?>
+                                    <div class="ib-item">
+                                      <table width="100%" border="0" cellspacing="1" cellpadding="2" id="list12">
+                                        <tr>
+                                          <td colspan="7" align="center"><?php echo $months[intval($month)-1]." {$anio}"; ?></td>
+                                        </tr>
 
-                                    <tr>
-                                      <th><?php echo implode('</th><th>', $weekdays); ?></th>
-                                    </tr>
-                                    <?php
-                                      foreach($weeks as $week => $days){ ?>
-                                      <tr>
-                                        <?php foreach($weekdays as $day){ 
-                                          $exist_available = [];
+                                        <tr>
+                                          <th><?php echo implode('</th><th>', $weekdays); ?></th>
+                                        </tr>
+                                        <?php
+                                          foreach($weeks as $week => $days){ ?>
+                                          <tr>
+                                            <?php foreach($weekdays as $day){ 
+                                              $exist_available = [];
 
-                                          if (isset($days[$day])) {
-                                            $GLOBALS["day_filter_search"]= new \DateTime("$anio-$month-$days[$day]",new \DateTimeZone("UTC"));
+                                              if (isset($days[$day])) {
+                                                $GLOBALS["day_filter_search"]= new \DateTime("$anio-$month-$days[$day]",new \DateTimeZone("UTC"));
+                                                $GLOBALS["day_now"] = new \DateTime("now 00:00:00");
 
-                                            $exist_available=
-                                            array_values(
-                                              array_filter($rate_week_available,function($item){
-                                                return ($item["check_in"] <= $GLOBALS["day_filter_search"] && $GLOBALS["day_filter_search"] <= $item["check_out"]);
-                                              })
-                                            );
-                                          }
+                                                $exist_available=
+                                                array_values(
+                                                  array_filter($more_availability_info,function($item){
+                                                    return (
+                                                        (  
+                                                          $item["check_in"] <= $GLOBALS["day_filter_search"] && $GLOBALS["day_filter_search"] <= $item["check_out"] 
+                                                        ) 
+                                                        &&
+                                                        ( $GLOBALS["day_filter_search"] >= $GLOBALS["day_now"]  )
 
-                                            $bgcolor = "";
-                                            if (is_array($exist_available) && count($exist_available) > 0) {
-                                              $bgcolor = 'bgcolor="#90EE90"';
-                                            }
+                                                    );
+                                                  })
+                                                );
+                                              }
 
-                                          ?>
-                                          <td <?php echo $bgcolor; ?> !important="" align="center" valign="middle" height="18px"><?php echo isset($days[$day]) ? $days[$day] : '&nbsp'; ?></td>
-                                        <?php } ?>
-                                      </tr>
-                                      <?php } ?>
-                                    </table>
-                                </div>
-                              <?php } ?>
+                                                $bgcolor = "";
+                                                if (is_array($exist_available) && count($exist_available) > 0) {
+                                                  $bgcolor = 'bgcolor="#90EE90"';
+                                                }
+
+                                              ?>
+                                              <td <?php echo $bgcolor; ?> !important="" align="center" valign="middle" height="18px"><?php echo isset($days[$day]) ? $days[$day] : '&nbsp'; ?></td>
+                                            <?php } ?>
+                                          </tr>
+                                          <?php } ?>
+                                        </table>
+                                    </div>
+                                  <?php } 
+                              }
+                              ?>
                         </div>
                       </div>
                     </div>
@@ -367,14 +410,18 @@
                     <input type="hidden" name="type_form" value="is_vacation_rentals">
                     <input type="hidden" name="bath" value="<?php echo $property['bath']; ?>">                    
                     <input type="hidden" name="rental_stay" value="<?php echo ( !empty($property["rental_stay"]) ? convertDate($property["rental_stay"]):"");?>">
+                    <input type="hidden" name="mls_num" value="<?php echo $property['mls_num']; ?>">
                     <input type="hidden" name="ib_tags" value="Vacation Rentals">
                     <input type="hidden" name="message" value="">
-                    <input type="hidden" name="permalink" value="">
+                    <input type="hidden" name="permalink" value="<?php echo $enlace_actual; ?>">
+                    <input type="hidden" name="lead_credentials" value="<?php echo $flex_lead_credentials; ?>">
+                    
                     <input type="hidden" name="action" value="flex_idx_request_property_form">
                     <input type="hidden" name="origin" value="<?php echo $property_permalink; ?>">
                     <input type="hidden" name="price" id="flex_idx_form_price" value="<?php echo intval($property['price']); ?>">
                     <input type="hidden" id="flex_idx_form_mls_num" name="mls_num" value="<?php echo $property['mls_num']; ?>">
                     <input type="hidden" class="name_share" name="address_short" value="<?php echo $property['address_short']; ?>">
+                    <input type="hidden" class="address_large" name="address_large" value="<?php echo $property['address_large']; ?>">
                     <input type="hidden" class="name_share" value="<?php echo $property['address_short']; ?>">
                     <input type="hidden" class="link_share" value="<?php echo $property_permalink; ?>">
                     <input type="hidden" class="picture_share" value="<?php echo $property['gallery'][0]? $property['gallery'][0]: ""; ?>">
@@ -388,31 +435,31 @@
                         <li class="gfield">
                           <div class="ginput_container ginput_container_text">
                             <label class="gfield_label" for="_ib_fn_inq"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input required="" class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
                           </div>
                         </li>
                         <li class="gfield">
                           <div class="ginput_container ginput_container_text">
                             <label class="gfield_label" for="_ib_ln_inq"><?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="last_name" id="_ib_ln_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input required="" class="medium" name="last_name" id="_ib_ln_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
                           </div>
                         </li>
                         <li class="gfield">
                           <div class="ginput_container ginput_container_email">
                             <label class="gfield_label" for="_ib_em_inq"><?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="email" id="_ib_em_inq" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input required="" class="medium" name="email" id="_ib_em_inq" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="70">
                           </div>
                         </li>
                         <li class="gfield">
                           <div class="ginput_container ginput_container_email">
                             <label class="gfield_label" for="_ib_ph_inq"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="phone" id="_ib_ph_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input required="" class="medium" name="phone" id="_ib_ph_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="15">
                           </div>
                         </li>
                         <li class="gfield comments">
                           <div class="ginput_container">
                             <label class="gfield_label" for="ms-message"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <textarea class="medium textarea" name="comments" id="ms-message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?> rows="10" cols="50">I am interested in <?php echo str_replace('# ', '#', $property['address_short']); ?>,<?php echo $property['address_large']; ?></textarea>
+                            <textarea maxlength="300" class="medium textarea" name="comments" id="ms-message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?> rows="10" cols="50">I am interested in <?php echo str_replace('# ', '#', $property['address_short']); ?>,<?php echo $property['address_large']; ?></textarea>
                           </div>
                         </li>
                         <li class="gfield requiredFields">* <?php echo __("Required Fields", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
@@ -652,6 +699,23 @@
         loadMapLocation();          
       });
       jQuery(window).scroll(function() { loadMapLocation(); });
+
+
+      jQuery("#_ib_fn_inq, #_ib_ln_inq").bind('keypress', function(event) {
+        var regex = new RegExp("^[a-zA-Z-ñ ]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        console.log(key, !regex.test(key) );
+        if (!regex.test(key) ) {
+          event.preventDefault();
+          return false;
+        }
+      });
+
+      function phoneMask() { 
+          var num = $(this).val().replace(/\D/g,''); 
+          $(this).val(num.substring(0,1) + '(' + num.substring(1,4) + ')' + num.substring(4,7) + '-' + num.substring(7,11)); 
+      }
+      jQuery('#_ib_ph_inq').keyup(phoneMask);
 
     </script>
 <?php } ?>

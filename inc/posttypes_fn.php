@@ -884,8 +884,8 @@ function func_idx_style($post)
     }
 
     ?>
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/color-picker.min.css" />
-    <script src="<?php echo FLEX_IDX_URI; ?>/js/color-picker.min.js"></script>
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css" />
+    <script src="<?php echo FLEX_IDX_URI; ?>/js/vendor/color-picker.min.js"></script>
     <div class="item_object">
         <label>Primary Plugin Color</label>
         <input class="idx_style_boton" name="idx_style_boton" id="idx_style_1" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_boton); ?>">
@@ -1464,8 +1464,8 @@ function func_idx_style_theme($post)
     }
 
 ?>
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/color-picker.min.css" />
-    <script src="<?php echo FLEX_IDX_URI; ?>/js/color-picker.min.js"></script>
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css" />
+    <script src="<?php echo FLEX_IDX_URI; ?>/js/vendor/color-picker.min.js"></script>
     <div class="item_object">
         <label>Color Text Menu</label>
         <input class="idx_style_texto_theme" name="idx_style_texto_theme" id="idx_style_2" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_texto_theme); ?>">

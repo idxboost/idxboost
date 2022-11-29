@@ -768,18 +768,24 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                                  $inputvalTotalsqft = floatval( str_replace ( ",", "", $property["total_sqft"] ) );
                                  $valetvalTotalsqft = number_format($property["total_sqft"] );
                                  $hasAcreTotalsqft = false;
-                                 if ($inputvalTotalsqft >= 20000) {
-                                  $res2 = floatval($inputvalTotalsqft/43560);
+                                 
+                                 if ( !in_array($inputvalTotalsqft,[0,undefined,"","0"] ) ) {
+                                     if ($inputvalTotalsqft >= 20000) {
+                                      $res2 = floatval($inputvalTotalsqft/43560);
 
-                                  $res2dec = 0;
-                                  if(strpos($res2,".") !== false){
-                                    $res2dec = 2;
-                                  }
-                                  $valetvalTotalsqft = number_format($property["total_sqft"] )." Sq.Ft / ".number_format( $res2 , $res2dec ). " Acre";
-                                  $hasAcreTotalsqft = true;
-                                }else{
-                                $valetvalTotalsqft = number_format($property["total_sqft"] ); 
-                                }
+                                      $res2dec = 0;
+                                      if(strpos($res2,".") !== false){
+                                        $res2dec = 2;
+                                      }
+                                      $valetvalTotalsqft = number_format($property["total_sqft"] )." Sq.Ft / ".number_format( $res2 , $res2dec ). " Acre";
+                                      $hasAcreTotalsqft = true;
+                                    }else{
+                                    $valetvalTotalsqft = number_format($property["total_sqft"] ); 
+                                    }
+                                 }else{
+                                  $valetvalTotalsqft = "N/A";
+                                 }
+                                 
                                 ?>                                
                                  <span class="ib-plist-st"><?php 
                                  if ($hasAcreTotalsqft) {
