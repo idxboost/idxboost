@@ -1,7 +1,7 @@
 <div id="ib-wrapper-residentials" class="ib-wrapper-residentials"    
-     data-filter="<?php if (empty($atts['filter'])) {
+     data-filter="<?php if (empty($atts['id'])) {
          echo '';
      } else {
-         echo $atts['filter'];
+         echo $atts['id'];
      } ?>">
 </div>

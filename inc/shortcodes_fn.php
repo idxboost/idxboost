@@ -459,7 +459,7 @@ if (!function_exists("idxboost_buyers_form_sc")) {
 
 // shortcode for VACATIONAL RENTAL OLD
 // Use code:  [ib_vacation_rentals_old board_id="" lat="" lng="" zoom=""]
-if (!function_exists('ib_vacation_rentals_old_fn')) {
+/* if (!function_exists('ib_vacation_rentals_old_fn')) {
     function ib_vacation_rentals_old_fn($atts, $content = null) {
         global $flex_idx_info;
 
@@ -485,11 +485,11 @@ if (!function_exists('ib_vacation_rentals_old_fn')) {
     }
 
     add_shortcode('ib_vacation_rentals_old', 'ib_vacation_rentals_old_fn');
-}
+} */
 
 
 
-// shortcode for VACATIONAL RENTAL
+// Shortcode for VACATIONAL RENTAL
 // Use code:  [ib_vacation_rentals board_id="" lat="" lng="" zoom=""]
 if (!function_exists('ib_vacation_rentals_fn')) {
     function ib_vacation_rentals_fn($atts, $content = null) {
@@ -520,14 +520,14 @@ if (!function_exists('ib_vacation_rentals_fn')) {
 }
 
 
-// shortcode for SEARCH FILTER
-// Use code:  [ib_search_filter_react filter=""]
+// Shortcode for SEARCH FILTER
+// Use code:  [ib_search_filter_react id=""]
 if (!function_exists('ib_search_filter_fn')) {
     function ib_search_filter_fn($atts, $content = null) {
         global $flex_idx_info;
 
         $atts = shortcode_atts(array(
-            'filter' => ''
+            'id' => ''
         ), $atts);
 
         ob_start();

@@ -344,6 +344,7 @@ add_action('wp_ajax_nopriv_update_criterial_alert', 'update_criterial_alert_xhr_
 add_action('wp', 'remove_canonical');
 
 
+// ******************* APPS REACT *******************//
 // code for SEARCH FILTER
 add_filter('script_loader_tag', 'add_type_attribute' , 10, 3);
 
@@ -383,4 +384,4 @@ function add_type_attribute_quick_search_fn($tag, $handle, $src) {
     $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
     return $tag;
 }
-
+// ******************* APPS REACT *******************//

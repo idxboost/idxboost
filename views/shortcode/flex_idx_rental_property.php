@@ -4,6 +4,11 @@
       top: 210px;
     }
   }
+  #full-main.ms-property-detail-page .breadcrumb-options .ms-wrapper-btn-new-share .ms-wrapper .ms-share-btn:hover {
+      background-color: var(--color-black) !important;
+      color: var(--color-white) !important; 
+  }
+
 </style>
 <?php if (empty($property)){ ?>
 <div class="gwr idx-mmg">
@@ -67,7 +72,6 @@
           $aniof = date('Y', $date_calendar );
           $dates[$aniof][$month][$wk][$wkDay] = $day;
   }
-  
 ?>
     <div id="full-main" class="ms-property-detail-page">
       <section class="title-conteiner gwr animated fixed-box">
@@ -435,13 +439,13 @@
                         <li class="gfield">
                           <div class="ginput_container ginput_container_text">
                             <label class="gfield_label" for="_ib_fn_inq"><?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
+                            <input required="" maxlength="50" class="medium" name="first_name" id="_ib_fn_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
                           </div>
                         </li>
                         <li class="gfield">
                           <div class="ginput_container ginput_container_text">
                             <label class="gfield_label" for="_ib_ln_inq"><?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="last_name" id="_ib_ln_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
+                            <input required="" maxlength="50" class="medium" name="last_name" id="_ib_ln_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['last_name'])) : ?><?php echo $flex_idx_lead['lead_info']['last_name']; ?><?php endif; ?>" placeholder="<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="50">
                           </div>
                         </li>
                         <li class="gfield">

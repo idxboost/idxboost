@@ -1981,6 +1981,20 @@ function media_selector_print_scripts()
                     ),
                 );
                 $wp_admin_bar->add_node($args);
+                // Schema Seo
+                $args = array(
+                    'id' => 'wpflexidx_toolbar-schemas',
+                    'title' => 'Schemas',
+                    'href' => admin_url('admin.php?page=flex-idx-schemas'),
+                    'parent' => 'wpflexidx_toolbar',
+                    'meta' => array(
+                        'class' => 'wpflexidx_toolbar-guides',
+                        'title' => 'Schemas',
+                    ),
+                );
+                $wp_admin_bar->add_node($args);
+
+
             }
 
             add_action('admin_bar_menu', 'flexidx_custom_toolbar_link', 999);
