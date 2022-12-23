@@ -213,31 +213,6 @@ if (!function_exists("idxboost_dinamic_credential_lead_dinamic_sc")) {
     add_shortcode("idxboost_dinamic_credential_lead_dinamic", "idxboost_dinamic_credential_lead_dinamic_sc");
 }
 
-if ( ! function_exists('idxboost_about_page_sc') ) {
-    function idxboost_about_page_sc($atts, $content = null)
-    {
-        global $flex_idx_info;
-
-        if ( ! empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false ) {
-            wp_enqueue_script('idx_boost_js_about', IDX_BOOST_SPW_BUILDER_SERVICE . '/assets/js/about.js', array(), false, true);
-
-            ob_start();
-
-            if ( file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_about_page.php') ) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_about_page.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idxboost_about_page.php';
-            }
-
-            return ob_get_clean();
-        }
-
-        idx_page_404();
-    }
-
-    add_shortcode("idxboost_about_page", "idxboost_about_page_sc");
-}
-
 if ( ! function_exists('idxboost_team_page_sc') ) {
     function idxboost_team_page_sc($atts, $content = null)
     {
@@ -499,7 +474,8 @@ if (!function_exists('ib_vacation_rentals_fn')) {
             'lat' => '',
             'lng' => '',
             'zoom' => '', 
-            'board_id' => ''
+            'board_id' => '',
+            'office_code' => '',
         ), $atts);
 
         ob_start();
@@ -2168,7 +2144,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
         $site_title = get_bloginfo('name');
 
         if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
-
+            $board_id = 100;
             $ed = "";
             $sd = "";
             $extra_day_in = "";
@@ -2188,7 +2164,12 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
                 if (array_key_exists("extra_day_out",$_GET)) {
                     $extra_day_out = $_GET["extra_day_out"];
-                }                                   
+                }
+
+                if (array_key_exists("board",$_GET)) {
+                    $board_id = $_GET["board"];
+                }   
+
             }
 
             $curl = curl_init();
@@ -2203,6 +2184,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
               CURLOPT_CUSTOMREQUEST => 'POST',
               CURLOPT_POSTFIELDS => array(
                 'type_search' => 'slug',
+                'board_id' => $board_id,
                 'check_in'  => $sd,
                 'check_out' => $ed,
                 "extra_day_in" => $extra_day_in,

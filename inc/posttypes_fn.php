@@ -75,17 +75,6 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
 
         if (false == get_option('idxboost_dinamic_pages')) {
             $wp_flex_page = wp_insert_post(array(
-                'post_title' => 'About Page',
-                'post_name' => 'about',
-                'post_content' => '[idxboost_about_page]',
-                'post_status' => $post_status,
-                'post_author' => $current_user_id,
-                'post_type' => $post_type
-            ));
-
-            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_about');
-
-            $wp_flex_page = wp_insert_post(array(
                 'post_title' => 'Contact Page',
                 'post_name' => 'contact',
                 'post_content' => '[idxboost_contact_page]',
@@ -117,6 +106,7 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
             ));
 
             update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_our_property_collection');
+            
             add_option('idxboost_dinamic_pages', 'yes');
         }
 
@@ -136,7 +126,6 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
 
             add_option('idxboost_import_initial_pages', 'yes');
         }
-
 
         if (false == get_option('idxboost_accesibility_initial_pages')) {
             $wp_flex_page = wp_insert_post(array(
@@ -165,7 +154,6 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
             update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_building');
             add_option('idxboost_building_initial_pages', 'yes');
         }
-
 
         if (false == get_option('idxboost_sub_area_initial_pages')) {
             $wp_flex_page = wp_insert_post(array(
