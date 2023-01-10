@@ -1874,7 +1874,7 @@ msgid "Check your mailbox"
 msgstr "Vérifiez votre messagerie"
 
 #: inc/helpers_fn.php:6191
-msgid "Password Change"
+msgid "Password Changed"
 msgstr "Mot de passe modifié"
 
 #: inc/helpers_fn.php:6192

@@ -1980,6 +1980,17 @@ function media_selector_print_scripts()
                         'title' => 'Schemas',
                     ),
                 );
+                // Quick Search Rental
+                $args = array(
+                    'id' => 'wpflexidx_toolbar-quick-search',
+                    'title' => 'Quick Search Rental',
+                    'href' => admin_url('admin.php?page=flex-idx-quick-seach'),
+                    'parent' => 'wpflexidx_toolbar',
+                    'meta' => array(
+                        'class' => 'wpflexidx_toolbar-guides',
+                        'title' => 'Quick Search Rental',
+                    ),
+                );
                 $wp_admin_bar->add_node($args);
 
 

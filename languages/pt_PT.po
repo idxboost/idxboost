@@ -1931,7 +1931,7 @@ msgstr ""
 #: inc/helpers_fn.php:6191
 #, fuzzy
 #| msgid "Password"
-msgid "Password Change"
+msgid "Password Changed"
 msgstr "Senha"
 
 #: inc/helpers_fn.php:6192

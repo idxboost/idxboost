@@ -432,50 +432,19 @@ if (!function_exists("idxboost_buyers_form_sc")) {
     add_shortcode("idxboost_buyers_form", "idxboost_buyers_form_sc");
 }
 
-// shortcode for VACATIONAL RENTAL OLD
-// Use code:  [ib_vacation_rentals_old board_id="" lat="" lng="" zoom=""]
-/* if (!function_exists('ib_vacation_rentals_old_fn')) {
-    function ib_vacation_rentals_old_fn($atts, $content = null) {
-        global $flex_idx_info;
-
-        $atts = shortcode_atts(array(
-            'lat' => '',
-            'lng' => '',
-            'zoom' => '', 
-            'board_id' => ''
-        ), $atts);
-
-        ob_start();
-
-        wp_enqueue_script('react-vacation-rentals-old-js');
-        wp_enqueue_style('react-vacation-rentals-old-css');
-
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_vacation_rentals.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_vacation_rentals.php';
-        }
-
-        return ob_get_clean();
-    }
-
-    add_shortcode('ib_vacation_rentals_old', 'ib_vacation_rentals_old_fn');
-} */
-
-
-
 // Shortcode for VACATIONAL RENTAL
-// Use code:  [ib_vacation_rentals board_id="" lat="" lng="" zoom=""]
+// Use code:  [ib_vacation_rentals board_id="" lat="" lng="" zoom="" office_code="" multicity="" multicity_check=""]
 if (!function_exists('ib_vacation_rentals_fn')) {
     function ib_vacation_rentals_fn($atts, $content = null) {
-        global $flex_idx_info;
-
+        
         $atts = shortcode_atts(array(
             'lat' => '',
             'lng' => '',
             'zoom' => '', 
             'board_id' => '',
             'office_code' => '',
+            'multicity' => '',
+            'multicity_check' => ''
         ), $atts);
 
         ob_start();
@@ -499,8 +468,7 @@ if (!function_exists('ib_vacation_rentals_fn')) {
 // Shortcode for SEARCH FILTER
 // Use code:  [ib_search_filter_react id=""]
 if (!function_exists('ib_search_filter_fn')) {
-    function ib_search_filter_fn($atts, $content = null) {
-        global $flex_idx_info;
+    function ib_search_filter_fn($atts, $content = null) {        
 
         $atts = shortcode_atts(array(
             'id' => ''
@@ -528,15 +496,17 @@ if (!function_exists('ib_search_filter_fn')) {
     add_shortcode('ib_search_filter_react', 'ib_search_filter_fn');
 }
 
-
 // Shortcode for Quick Search Rentals
-// Use code:  [ib_quick_search_rentals board_id=""]
+// Use code:  [ib_quick_search_rentals]
 if (!function_exists('ib_quick_search_rentals_fn')) {
-    function ib_quick_search_rentals_fn($atts, $content = null) {
-        global $flex_idx_info;
+    function ib_quick_search_rentals_fn($atts, $content = null) {  
 
+        $post_ID = 999999991;
+        $schema_data = get_post_meta($post_ID, '_quick_search', true);        
         $atts = shortcode_atts(array(            
-            'board_id' => ''
+            'board_id' => $schema_data['board_id'],
+            'multicity' => $schema_data['multicity'],
+            'multicity_check' => $schema_data['multicity_check'],
         ), $atts);
 
         ob_start();
@@ -5051,7 +5021,7 @@ if (!function_exists('idx_page_shortcode_render')) {
         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
         $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
         
-        $pattern = '~\[ib_quick_search_rentals board_id="(.+?)"\]~';
+        $pattern = '~\[ib_quick_search_rentals\]~';
         if (preg_match($pattern, $content, $match)) {
             $ib_quick_search_rentals = do_shortcode($match[0]);
             $content = str_replace($match[0], $ib_quick_search_rentals, $content);

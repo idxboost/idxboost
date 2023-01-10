@@ -135,14 +135,18 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
                   CURLOPT_FOLLOWLOCATION => true,
                   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                   CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => array(
-                    'type_search' => 'slug',
-                    'board_id' => $board_id,
-                    'check_in'  => $sd,
-                    'check_out' => $ed,
-                    "extra_day_in" => $extra_day_in,
-                    "extra_day_out" => $extra_day_out,
-                    'access_token' => $access_token),
+                  CURLOPT_POSTFIELDS => http_build_query(
+
+                      array(
+                        'type_search' => 'slug',
+                        'board_id' => $board_id,
+                        'check_in'  => $sd,
+                        'check_out' => $ed,
+                        "extra_day_in" => $extra_day_in,
+                        "extra_day_out" => $extra_day_out,
+                        'access_token' => $access_token
+                    )                    
+                  ),
             ));
 
             $server_output = curl_exec($curl);
@@ -6228,7 +6232,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'address' => __('Address', IDXBOOST_DOMAIN_THEME_LANG),
             'sqft' => __('Sq.Ft.', IDXBOOST_DOMAIN_THEME_LANG),
             'check_your_mailbox' => __('Check your mailbox', IDXBOOST_DOMAIN_THEME_LANG),
-            'password_change' => __('Password Change', IDXBOOST_DOMAIN_THEME_LANG),
+            'password_change' => __('Password Changed', IDXBOOST_DOMAIN_THEME_LANG),
             'deleted' => __('Deleted!', IDXBOOST_DOMAIN_THEME_LANG),
             'delete' => __('Delete', IDXBOOST_DOMAIN_THEME_LANG),
             'yes_delete_it' => __('Yes, delete it!', IDXBOOST_DOMAIN_THEME_LANG),
@@ -6579,7 +6583,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
             'events' => [
-                'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS
+                'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS,
+                'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS
             ],
             'domain_service' => FLEX_IDX_BASE_URL,
             'fetchLeadActivitiesEndpoint' => FLEX_IDX_API_LEAD_FETCH_ACTIVITIES,
@@ -7531,6 +7536,9 @@ if (!function_exists( 'flex_idx_create_admin_root_menu' )) {
 
             // Sub Menu for Schemas-SEO
             add_submenu_page('flex-idx', 'Schemas', 'Schemas', 'administrator', 'flex-idx-schemas', 'flex_idx_admin_render_schema_page');
+
+             // Sub Menu for Quick Search Rental
+             add_submenu_page('flex-idx', 'Quick Search Rental', 'Quick Search Rental', 'administrator', 'flex-idx-quick-search', 'flex_idx_admin_render_quick_search_page');
 
             //add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
             $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Tools', 'My Tools', 'administrator', 'flex-idx-tools', 'flex_idx_admin_render_tools_page');
@@ -9036,7 +9044,17 @@ if (!function_exists("remove_canonical")) {
         }
     }
 }
-
+// ------Quick Search Rental------
+if (!function_exists( 'flex_idx_admin_render_quick_search_page' )) {
+    function flex_idx_admin_render_quick_search_page()
+    {  
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/quick_search.php')) {
+            return include IDXBOOST_OVERRIDE_DIR . '/views/admin/quick_search.php';
+        } else {
+            return include FLEX_IDX_PATH . '/views/admin/quick_search.php';
+        }
+    }
+}
 
 // ------Schema - SEO------
 if (!function_exists( 'flex_idx_admin_render_schema_page' )) {
@@ -9059,7 +9077,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
         $access_token  = flex_idx_get_access_token();
         
                 
-        if(array_key_exists($name_post_type, $schema_data)){   
+        if(is_array($schema_data) && array_key_exists($name_post_type, $schema_data)){   
             
             flex_idx_generate_schema_organization($schema_data);
             flex_idx_generate_schema_real_estate_agent($schema_data);

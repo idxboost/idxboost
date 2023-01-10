@@ -27,5 +27,16 @@
          }
      } else {
          echo $atts['board_id'];
-     } ?>">
+     } ?>"
+     data-multicity="<?php if (empty($atts['multicity'])) {
+         echo '';
+     } else {
+         echo $atts['multicity'];
+     } ?>"
+     data-multicitycheck="<?php if (empty($atts['multicity_check'])) {
+         echo '';
+     } else {
+         echo $atts['multicity_check'];
+     } ?>"
+     >
 </div>
