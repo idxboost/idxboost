@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.4.6
+ * Version: 4.4.7
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -32,10 +32,7 @@ if (!function_exists('ib_get_assets_uri')) {
 }
 
 define('FLEX_IDX_URI', ib_get_assets_uri());
-
 define( 'UPLOAD_DIR_WP', trailingslashit( WP_CONTENT_DIR ) . 'uploads/' );
-
-
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
 
 
@@ -57,6 +54,7 @@ if (
     define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
     define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
     define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
+    define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 } else {
     define('FLEX_IDX_BASE_URL', 'https://api.idxboost.dev');
     define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.dev');
@@ -69,13 +67,13 @@ if (
     define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'http://api-single-property.idxboost.local');
     define('IDX_BOOST_SPW_BUILDER_SERVICE', 'http://api-cms.idxboost.local');
     define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
+    define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.dev');
 }
 
 
 /**
  * API endpoints
  */
-define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-site-setting-get');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
 define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details');
@@ -164,7 +162,7 @@ define('IDX_BOOST_LEAD_TRACKING_EVENTS', FLEX_IDX_BASE_URL . '/tracking/events')
 define('IDX_BOOST_TRACK_COLLECTION_VIEWS', FLEX_IDX_BASE_URL . '/events/collections');
 define('IDX_BOOST_UPDATE_CRITERIAL', FLEX_IDX_BASE_URL . '/tracking/update_lead_alert');
 define('IDX_BOOST_SCHEMA_SEO', FLEX_IDX_BASE_URL . '/search_post_type');
-define('IDXBOOST_LEAD_CHECK_SETTINGS', FLEX_IDX_BASE_URL . '/leads/check_settings');	
+define('IDXBOOST_LEAD_CHECK_SETTINGS', FLEX_IDX_BASE_URL . '/leads/check_settings');
 
 /**
  * Import Third Partie Libraries

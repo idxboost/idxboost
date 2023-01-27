@@ -433,18 +433,27 @@ if (!function_exists("idxboost_buyers_form_sc")) {
 }
 
 // Shortcode for VACATIONAL RENTAL
-// Use code:  [ib_vacation_rentals board_id="" lat="" lng="" zoom="" office_code="" multicity="" multicity_check=""]
+// Use code:  [ib_vacation_rentals]
 if (!function_exists('ib_vacation_rentals_fn')) {
     function ib_vacation_rentals_fn($atts, $content = null) {
-        
+
+        $post_ID = 999999991;
+        $settings_data = get_post_meta($post_ID, '_settings_rental', true);   
+       
         $atts = shortcode_atts(array(
-            'lat' => '',
-            'lng' => '',
-            'zoom' => '', 
-            'board_id' => '',
-            'office_code' => '',
-            'multicity' => '',
-            'multicity_check' => ''
+            'lat' => isset($settings_data['latitude'])?$settings_data['latitude']:'',
+            'lng' => isset($settings_data['longitud'])?$settings_data['longitud']:'',
+            'zoom' => isset($settings_data['zoom'])?$settings_data['zoom']:'', 
+            'office_code' => isset($settings_data['office_code'])?$settings_data['office_code']:'',
+            'board_id' => isset($settings_data['board_id'])?$settings_data['board_id']:'',
+            'multicity' => isset($settings_data['multicity'])?$settings_data['multicity']:'',
+            'multicity_check' => isset($settings_data['multicity_check'])?$settings_data['multicity_check']:'',
+            'switch_map' => isset($settings_data['switch_map'])?$settings_data['switch_map']:'',
+            'remove_map' => isset($settings_data['remove_map'])?$settings_data['remove_map']:'',
+            'autocomplete_tool_bar' => isset($settings_data['autocomplete_tool_bar'])?$settings_data['autocomplete_tool_bar']:'',
+            'autocomplete_more_filter' => isset($settings_data['autocomplete_more_filter'])?$settings_data['autocomplete_more_filter']:'',
+            'cities_tool_bar' => isset($settings_data['cities_tool_bar'])?$settings_data['cities_tool_bar']:'',
+            'cities_more_filter' => isset($settings_data['cities_more_filter'])?$settings_data['cities_more_filter']:'',
         ), $atts);
 
         ob_start();
@@ -502,11 +511,11 @@ if (!function_exists('ib_quick_search_rentals_fn')) {
     function ib_quick_search_rentals_fn($atts, $content = null) {  
 
         $post_ID = 999999991;
-        $schema_data = get_post_meta($post_ID, '_quick_search', true);        
+        $settings_data = get_post_meta($post_ID, '_settings_rental', true);        
         $atts = shortcode_atts(array(            
-            'board_id' => $schema_data['board_id'],
-            'multicity' => $schema_data['multicity'],
-            'multicity_check' => $schema_data['multicity_check'],
+            'board_id' => isset($settings_data['board_id'])?$settings_data['board_id']:'',
+            'multicity' => isset($settings_data['multicity'])?$settings_data['multicity']:'',
+            'multicity_check' => isset($settings_data['multicity_check'])?$settings_data['multicity_check']:'',
         ), $atts);
 
         ob_start();

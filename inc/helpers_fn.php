@@ -1848,6 +1848,8 @@ if (!function_exists( 'flex_idx_get_info' )) {
         $output['agent']['agent_contact_phone_number'] = isset($idxboost_agent_info['contact_phone_number']) ? $idxboost_agent_info['contact_phone_number'] : '';
         $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
         $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
+        $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';
+        $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
         $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
         $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
         $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
@@ -7533,13 +7535,16 @@ if (!function_exists( 'flex_idx_create_admin_root_menu' )) {
             add_submenu_page('flex-idx', 'My Master Plans', 'My Master Plans', 'administrator', 'edit.php?post_type=idx-sub-area', null);
             add_submenu_page('flex-idx', 'Off Market Inventory', 'Off Market Inventory', 'administrator', 'edit.php?post_type=idx-off-market', null);
             add_submenu_page('flex-idx', 'Page’s URL Slug', 'Page’s URL Slug', 'administrator', 'edit.php?post_type=flex-idx-pages', null);
-
+            
+            global $flex_idx_info; 
             // Sub Menu for Schemas-SEO
+            if($flex_idx_info['agent']['has_generate_schema']){
             add_submenu_page('flex-idx', 'Schemas', 'Schemas', 'administrator', 'flex-idx-schemas', 'flex_idx_admin_render_schema_page');
-
-             // Sub Menu for Quick Search Rental
-             add_submenu_page('flex-idx', 'Quick Search Rental', 'Quick Search Rental', 'administrator', 'flex-idx-quick-search', 'flex_idx_admin_render_quick_search_page');
-
+            }
+            // Sub Menu for Settings Rental                           
+            if($flex_idx_info['agent']['has_vacations_rentals']){
+             add_submenu_page('flex-idx', 'Settings Rental', 'Settings Rental', 'administrator', 'flex-idx-settings-rental', 'flex_idx_admin_render_settings_rental_page');
+            }
             //add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
             $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Tools', 'My Tools', 'administrator', 'flex-idx-tools', 'flex_idx_admin_render_tools_page');
             //$flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Documentation', 'Documentation', 'administrator', 'flex-idx-settings', 'flex_idx_admin_render_documentation_page');
@@ -9045,13 +9050,13 @@ if (!function_exists("remove_canonical")) {
     }
 }
 // ------Quick Search Rental------
-if (!function_exists( 'flex_idx_admin_render_quick_search_page' )) {
-    function flex_idx_admin_render_quick_search_page()
+if (!function_exists( 'flex_idx_admin_render_settings_rental_page' )) {
+    function flex_idx_admin_render_settings_rental_page()
     {  
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/quick_search.php')) {
-            return include IDXBOOST_OVERRIDE_DIR . '/views/admin/quick_search.php';
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/settings_rental.php')) {
+            return include IDXBOOST_OVERRIDE_DIR . '/views/admin/settings_rental.php';
         } else {
-            return include FLEX_IDX_PATH . '/views/admin/quick_search.php';
+            return include FLEX_IDX_PATH . '/views/admin/settings_rental.php';
         }
     }
 }

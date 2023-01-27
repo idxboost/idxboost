@@ -1895,7 +1895,7 @@ function media_selector_print_scripts()
             /*DINAMIC LABEL*/
 
             function flexidx_custom_toolbar_link($wp_admin_bar)
-            {
+            {                
                 $args = array(
                     'id' => 'wpflexidx_toolbar',
                     'title' => '<div class="idxboost-toggle-admin" style="background-image: url(' . FLEX_IDX_URI . 'images/rocket.svg);width: 15px;height: 24px;background-position: center;background-repeat: no-repeat;position: relative;background-size: contain;display: inline-block;vertical-align: middle;margin-top: -3px;margin-right: 7px;" ></div><span class="ab-label">' . 'IDX Boost - MLS Search Technology' . '</span></a>',
@@ -1969,7 +1969,10 @@ function media_selector_print_scripts()
                     ),
                 );
                 $wp_admin_bar->add_node($args);
+                global $flex_idx_info; 
+
                 // Schema Seo
+                if($flex_idx_info['agent']['has_generate_schema']){
                 $args = array(
                     'id' => 'wpflexidx_toolbar-schemas',
                     'title' => 'Schemas',
@@ -1980,19 +1983,24 @@ function media_selector_print_scripts()
                         'title' => 'Schemas',
                     ),
                 );
-                // Quick Search Rental
+                $wp_admin_bar->add_node($args);
+                }
+
+                // Settings Rental 
+                                
+                if($flex_idx_info['agent']['has_vacations_rentals']){
                 $args = array(
-                    'id' => 'wpflexidx_toolbar-quick-search',
-                    'title' => 'Quick Search Rental',
-                    'href' => admin_url('admin.php?page=flex-idx-quick-seach'),
+                    'id' => 'wpflexidx_toolbar-settings-rental',
+                    'title' => 'Settings for Rental',
+                    'href' => admin_url('admin.php?page=flex-idx-settings-rental'),
                     'parent' => 'wpflexidx_toolbar',
                     'meta' => array(
                         'class' => 'wpflexidx_toolbar-guides',
-                        'title' => 'Quick Search Rental',
+                        'title' => 'Settings for Rental',
                     ),
                 );
                 $wp_admin_bar->add_node($args);
-
+                }
 
             }
 

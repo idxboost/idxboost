@@ -135,7 +135,7 @@
   $schema_data = get_post_meta($post_ID, '_schema_seo', true);
   
   wp_enqueue_style('flex-idx-admin');
-  
+
   ?>
 <style>
   .container-switch {
@@ -413,7 +413,8 @@
               <label for="name_data">Name Organization</label>
             </th>
             <td>
-              <input class="name_data" name="name_data" type="text" id="name_data" value="<?php echo esc_html($schema_data['name_data']) ?>">
+              <input class="name_data" name="name_data" type="text" id="name_data" value="<?php
+               if (!empty($schema_data)){ echo esc_html($schema_data['name_data']);} ?>">
             </td>
           </tr>
           <tr class="ms-full">
@@ -421,7 +422,8 @@
               <label for="description_data">Description</label>
             </th>
             <td>
-              <textarea class="idx_map_style" name="description_data" id="description_data" style="margin-top: 0px;margin-bottom: 0px;width: 100%;"><?php echo esc_html($schema_data['description_data']) ?></textarea>
+              <textarea class="idx_map_style" name="description_data" id="description_data" style="margin-top: 0px;margin-bottom: 0px;width: 100%;"><?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['description_data']);} ?></textarea>
             </td>
           </tr>
           <tr class="ms-full">
@@ -429,7 +431,8 @@
               <label for="img_data">Imagen URL</label>
             </th>
             <td class="gallery ms-input-file">
-              <input class="img_data ms-file" readonly name="img_data" type="text" id="img_data" value="<?php echo esc_html($schema_data['img_data']) ?>">
+              <input class="img_data ms-file" readonly name="img_data" type="text" id="img_data" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['img_data']);} ?>">
               <input class="btn_gallery ms-file-btn" id="boton_crear_galeria" value="Select Imagen" type="button">
             </td>
           </tr>
@@ -444,7 +447,8 @@
               <label for="name_agent">Name</label>
             </th>
             <td>
-              <input class="name_agent" name="name_agent" type="text" id="name_agent" value="<?php echo esc_html($schema_data['name_agent']) ?>">
+              <input class="name_agent" name="name_agent" type="text" id="name_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['name_agent']);} ?>">
             </td>
           </tr>
           <tr class="ms-full">
@@ -452,7 +456,8 @@
               <label for="description_agent">Description</label>
             </th>
             <td>
-              <textarea class="idx_map_style" name="description_agent" id="description_agent" style="margin-top: 0px;margin-bottom: 0px;width: 100%;"><?php echo esc_html($schema_data['description_agent']) ?></textarea>
+              <textarea class="idx_map_style" name="description_agent" id="description_agent" style="margin-top: 0px;margin-bottom: 0px;width: 100%;"><?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['description_agent']);} ?></textarea>
             </td>
           </tr>
           <tr>
@@ -460,7 +465,8 @@
               <label for="tele_phone_agent">Phone</label>
             </th>
             <td>
-              <input class="tele_phone_agent" name="tele_phone_agent" type="text" id="tele_phone_agent" value="<?php echo esc_html($schema_data['tele_phone_agent']) ?>">                            
+              <input class="tele_phone_agent" name="tele_phone_agent" type="text" id="tele_phone_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['tele_phone_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -468,7 +474,8 @@
               <label for="email_agent">Email</label>
             </th>
             <td>
-              <input class="email_agent" name="email_agent" type="text" id="email_agent" value="<?php echo esc_html($schema_data['email_agent']) ?>">                            
+              <input class="email_agent" name="email_agent" type="text" id="email_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['email_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -476,7 +483,8 @@
               <label for="price_range_agent">Price Range</label>
             </th>
             <td>
-              <input class="price_range_agent" name="price_range_agent" type="text" id="price_range_agent" value="<?php echo esc_html($schema_data['price_range_agent']) ?>">                            
+              <input class="price_range_agent" name="price_range_agent" type="text" id="price_range_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['price_range_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -492,7 +500,8 @@
               <label for="street_address_agent">Street Address</label>
             </th>
             <td>
-              <input class="street_address_agent" name="street_address_agent" type="text" id="street_address_agent" value="<?php echo esc_html($schema_data['street_address_agent']) ?>">                            
+              <input class="street_address_agent" name="street_address_agent" type="text" id="street_address_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['street_address_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -500,7 +509,8 @@
               <label for="address_locality_agent">Address Locality</label>
             </th>
             <td>
-              <input class="address_locality_agent" name="address_locality_agent" type="text" id="address_locality_agent" value="<?php echo esc_html($schema_data['address_locality_agent']) ?>">                            
+              <input class="address_locality_agent" name="address_locality_agent" type="text" id="address_locality_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['address_locality_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -508,7 +518,8 @@
               <label for="address_region_agent">Address Region</label>
             </th>
             <td>
-              <input class="address_region_agent" name="address_region_agent" type="text" id="address_region_agent" value="<?php echo esc_html($schema_data['address_region_agent']) ?>">                            
+              <input class="address_region_agent" name="address_region_agent" type="text" id="address_region_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['address_region_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -516,7 +527,8 @@
               <label for="postal_code_agent">Postal Code</label>
             </th>
             <td>
-              <input class="postal_code_agent" name="postal_code_agent" type="text" id="postal_code_agent" value="<?php echo esc_html($schema_data['postal_code_agent']) ?>">                            
+              <input class="postal_code_agent" name="postal_code_agent" type="text" id="postal_code_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['postal_code_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -524,7 +536,8 @@
               <label for="address_country_agent">Country</label>
             </th>
             <td>
-              <input class="address_country_agent" name="address_country_agent" type="text" id="address_country_agent" value="<?php echo esc_html($schema_data['address_country_agent']) ?>">                            
+              <input class="address_country_agent" name="address_country_agent" type="text" id="address_country_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['address_country_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -532,7 +545,8 @@
               <label for="url_agent">URL Site</label>
             </th>
             <td>
-              <input class="url_agent" name="url_agent" type="text" id="url_agent" value="<?php echo esc_html($schema_data['url_agent']) ?>">                            
+              <input class="url_agent" name="url_agent" type="text" id="url_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['url_agent']);} ?>">                            
             </td>
           </tr>
           <tr class="ms-full">
@@ -540,7 +554,8 @@
               <label for="url_img_agent">Imagen URL</label>
             </th>
             <td class="gallery ms-input-file">
-              <input class="url_img_agent ms-file" readonly name="url_img_agent" type="text" id="url_img_agent" value="<?php echo esc_html($schema_data['url_img_agent']) ?>">
+              <input class="url_img_agent ms-file" readonly name="url_img_agent" type="text" id="url_img_agent" value="<?php 
+              if (!empty($schema_data)){echo esc_html($schema_data['url_img_agent']);} ?>">
               <input class="btn_gallery ms-file-btn" id="boton_gallery_agent" value="Select Imagen" type="button">
             </td>
           </tr>
@@ -565,7 +580,8 @@
               <label for="latitude_agent">Latitude</label>
             </th>
             <td>
-              <input class="latitude_agent" name="latitude_agent"  type="text" id="latitude_agent" value="<?php echo esc_html($schema_data['latitude_agent']) ?>">                            
+              <input class="latitude_agent" name="latitude_agent"  type="text" id="latitude_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['latitude_agent']);} ?>">                            
             </td>
           </tr>
           <tr>
@@ -573,7 +589,8 @@
               <label for="longitud_agent">Longitud</label>
             </th>
             <td>
-              <input class="longitud_agent" name="longitud_agent" type="text" id="longitud_agent" value="<?php echo esc_html($schema_data['longitud_agent']) ?>">                            
+              <input class="longitud_agent" name="longitud_agent" type="text" id="longitud_agent" value="<?php
+              if (!empty($schema_data)){ echo esc_html($schema_data['longitud_agent']);} ?>">                            
             </td>
           </tr>
         </tbody>
