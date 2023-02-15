@@ -226,8 +226,13 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             !empty($flex_idx_info["board_info"]["board_disclaimer"])
           ) {
           ?>
-          <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-          <?php } ?>
+          <p>
+            <?php 
+              $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]);
+              $disclaimer = str_replace('{office_phone}', '<a href="tel:'.$property["phone_office"].'">'.$property["phone_office"].'</a>', $disclaimer); 
+              echo $disclaimer;
+            ?>
+            <?php } ?>
         <?php } ?>
         <p>Real Estate IDX Powered by: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>

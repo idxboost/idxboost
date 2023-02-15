@@ -384,4 +384,18 @@ function add_type_attribute_quick_search_fn($tag, $handle, $src) {
     $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
     return $tag;
 }
+
+// code for QUICK SEARCH
+add_filter('script_loader_tag', 'add_type_attribute_display_filter_fn' , 10, 3);
+
+function add_type_attribute_display_filter_fn($tag, $handle, $src) {
+    // if not your script, do nothing and return original $tag
+    if ( 'react-display-filter-js' !== $handle ) {
+        return $tag;
+    }
+    // change the script tag by adding type="module" and return it.
+    $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+    return $tag;
+}
+
 // ******************* APPS REACT *******************//

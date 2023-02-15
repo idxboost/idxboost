@@ -6359,6 +6359,16 @@ if (!function_exists( 'flex_idx_register_assets' )) {
            'flex-auth-check'
         ), false, true);
 
+          //Register for DISPLAY FILTER
+          wp_register_style('react-display-filter-css',FLEX_IDX_URI.'react/display_filter/bundle.css',array() );
+          wp_register_script('react-display-filter-js', FLEX_IDX_URI.'react/display_filter/bundle.js', array(
+              'jquery',        
+              'google-maps-api',
+              'google-maps-utility-library-richmarker',
+              'google-maps-utility-library-infobubble',
+               'flex-auth-check'
+          ), false, true);
+
       //Register for SEARCH FILTER LIBS
       wp_register_script("react-search-filter-highcharts", "https://code.highcharts.com/highcharts.js", array("jquery"));
       wp_register_script("react-search-filter-series-label", "https://code.highcharts.com/modules/series-label.js", array("jquery"));  

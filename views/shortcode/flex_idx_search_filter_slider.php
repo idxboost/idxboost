@@ -204,8 +204,14 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
           !empty($flex_idx_info["board_info"]["board_disclaimer"])
           ) {
           ?>
-          <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-          <?php } ?>
+<p>
+              <?php
+                $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]);
+                $disclaimer = str_replace('{office_phone}', '<a href="tel:'.$property["phone_office"].'">'.$property["phone_office"].'</a>', $disclaimer); 
+                echo $disclaimer;
+              ?>
+            </p>
+                      <?php } ?>
         <?php } ?>
         <p><?php echo __('Real Estate IDX Powered by', IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>
@@ -1132,8 +1138,8 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                       </div>
                     <?php } ?>
                     <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
-                      <p><?php $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"], $flex_idx_info['board_info']["board_disclaimer"]); echo $disclaimer;?> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
-                    <?php }else{ ?>
+                      
+                      <?php }else{ ?>
                       <p>
                         <?php echo __("The multiple listing information is provided by the", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}® <?php echo __("from a copyrighted compilation of listings. The compilation of listings and each individual listing are", IDXBOOST_DOMAIN_THEME_LANG); ?> &copy;<?php echo date('Y'); ?>-<?php echo __("present", IDXBOOST_DOMAIN_THEME_LANG); ?> {{board_name}}®.
                         <?php echo __("All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of", IDXBOOST_DOMAIN_THEME_LANG); ?>: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a>

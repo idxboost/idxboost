@@ -535,6 +535,31 @@ if (!function_exists('ib_quick_search_rentals_fn')) {
     add_shortcode('ib_quick_search_rentals', 'ib_quick_search_rentals_fn');
 }
 
+// Shortcode for DISPLAY FILTER
+// Use code:  [ib_display_filter_react id=""]
+if (!function_exists('ib_display_filter_fn')) {
+    function ib_display_filter_fn($atts, $content = null) {        
+
+        $atts = shortcode_atts(array(
+            'id' => '',
+            'preview'=> ''
+        ), $atts);
+
+        ob_start();
+     
+        wp_enqueue_script('react-display-filter-js');
+        wp_enqueue_style('react-display-filter-css');
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_display_filter_react.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_display_filter_react.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_display_filter_react.php';
+        }
+
+        return ob_get_clean();
+    }
+    add_shortcode('ib_display_filter_react', 'ib_display_filter_fn');
+}
 
 
 
