@@ -8496,6 +8496,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/api/tripwires-default',
                 array(
                     'method' => 'POST',
+                    'timeout' => 60,
                     'headers' => [
                         'Content-Type' => 'application/json',
                     ],
@@ -8791,6 +8792,7 @@ if (!function_exists("custom_seo_page")) {
                     IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                     array(
                         'method' => 'POST',
+                        'timeout' => 60,
                         'headers' => [
                             'Content-Type' => 'application/json',
                         ],
@@ -8825,6 +8827,7 @@ if (!function_exists("custom_seo_page")) {
                         IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                         array(
                             'method' => 'POST',
+                            'timeout' => 60,
                             'headers' => [
                                 'Content-Type' => 'application/json',
                             ],
@@ -9181,7 +9184,9 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
 if (!function_exists( 'flex_idx_generate_schema_fetch' )) {
 
     function flex_idx_generate_schema_fetch($url,$arg){ 
-       
+        // overwrite
+        $arg['timeout'] = 60;
+
         $info = wp_remote_post($url, $arg);
         $info = (is_wp_error($info)) ? [] : wp_remote_retrieve_body($info);
         if (!empty($info)) {
