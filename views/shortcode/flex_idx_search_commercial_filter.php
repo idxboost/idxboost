@@ -527,6 +527,12 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 
             <div class="ib-pbia">
               <div class="ib-pwinfo">
+
+              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of {{office_name}}</div>
+              <?php } ?>
+
+
                 <div class="ib-pinfo">
                   <div class="ib-pilf">
                     
@@ -534,7 +540,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                     <li class="ib-pilitem ib-pilprice">
                                       <span class="ib-pipn">{{price}}{{ isRentalType this }}</span>
                                       <div class="ib-pipasking">
-                                        <!--<div class="ib-pipatxt -pc"><?php echo __("Asking Price", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>{{{ idxReduced reduced }}}</span></div>-->
+                                        <!--<div class="ib-pipatfxt -pc"><?php echo __("Asking Price", IDXBOOST_DOMAIN_THEME_LANG); ?> <span>{{{ idxReduced reduced }}}</span></div>-->
                                         <div class="ib-pipatxt -mobile js-est-payment"><?php echo __("Est. Payment", IDXBOOST_DOMAIN_THEME_LANG); ?><button class="ib-price-calculator"></button></div>
                                       </div>
                                     </li>

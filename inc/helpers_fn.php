@@ -1889,38 +1889,38 @@ if (!function_exists( 'flex_idx_get_info' )) {
         // social info
         #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
         #$output['social'] = flex_map_array($list_social_info);
-        $output['social']['facebook_social_url'] = $idxboost_agent_info['facebook_social_url'];
-        $output['social']['twitter_social_url'] = $idxboost_agent_info['twitter_social_url'];
-        $output['social']['gplus_social_url'] = $idxboost_agent_info['gplus_social_url'];
-        $output['social']['youtube_social_url'] = $idxboost_agent_info['youtube_social_url'];
-        $output['social']['instagram_social_url'] = $idxboost_agent_info['instagram_social_url'];
-        $output['social']['linkedin_social_url'] = $idxboost_agent_info['linkedin_social_url'];
-        $output['social']['pinterest_social_url'] = $idxboost_agent_info['pinterest_social_url'];
+        $output['social']['facebook_social_url'] = isset($idxboost_agent_info['facebook_social_url']) ? $idxboost_agent_info['facebook_social_url'] : '';
+        $output['social']['twitter_social_url'] = isset($idxboost_agent_info['twitter_social_url']) ? $idxboost_agent_info['twitter_social_url'] : '';
+        $output['social']['gplus_social_url'] = isset($idxboost_agent_info['gplus_social_url']) ? $idxboost_agent_info['gplus_social_url'] : '';
+        $output['social']['youtube_social_url'] = isset($idxboost_agent_info['youtube_social_url']) ? $idxboost_agent_info['youtube_social_url'] : '';
+        $output['social']['instagram_social_url'] = isset($idxboost_agent_info['instagram_social_url']) ? $idxboost_agent_info['instagram_social_url'] : '';
+        $output['social']['linkedin_social_url'] = isset($idxboost_agent_info['linkedin_social_url']) ? $idxboost_agent_info['linkedin_social_url'] : '';
+        $output['social']['pinterest_social_url'] = isset($idxboost_agent_info['pinterest_social_url']) ? $idxboost_agent_info['pinterest_social_url'] : '';
         // search info $idxboost_search_settings
         $output['board_id'] = isset($idxboost_search_settings['board_id']) ? $idxboost_search_settings['board_id'] : null;
         $output['board_info'] = isset($idxboost_search_settings['board_info']) ? $idxboost_search_settings['board_info'] : null;
-        $output['search']['amenities'] = $idxboost_search_settings['amenities'];
-        $output['search']['baths_range'] = $idxboost_search_settings['baths_range'];
-        $output['search']['beds_range'] = $idxboost_search_settings['beds_range'];
-        $output['search']['cities'] = $idxboost_search_settings['cities'];
-        $output['search']['default_sort'] = $idxboost_search_settings['default_sort'];
-        $output['search']['default_view'] = $idxboost_search_settings['default_view'];
-        $output['search']['living_size_range'] = $idxboost_search_settings['living_size_range'];
-        $output['search']['lot_size_range'] = $idxboost_search_settings['lot_size_range'];
-        $output['search']['parking_options'] = $idxboost_search_settings['parking_options'];
-        $output['search']['price_rent_range'] = $idxboost_search_settings['price_rent_range'];
-        $output['search']['price_sale_range'] = $idxboost_search_settings['price_sale_range'];
-        $output['search']['property_types'] = $idxboost_search_settings['property_types'];
-        $output['search']['rental_types'] = $idxboost_search_settings['default_rental_type'];
-        $output['search']['view_grid_type'] = $idxboost_search_settings['default_view_grid'];
-        $output['search']['view_icon_type'] = $idxboost_search_settings['default_view_icon'];
-        $output['search']['schools_ratio'] = $idxboost_search_settings['default_schools_ratio'];
-        $output['search']['waterfront_options'] = $idxboost_search_settings['waterfront_options'];
-        $output['search']['year_built_range'] = $idxboost_search_settings['year_built_range'];
-        $output['search']['default_language'] = $idxboost_search_settings['default_language'];
-        $output['search']['default_floor_plan'] = $idxboost_search_settings['default_floor_plan'];
-        $output['search']['idx_listings_type'] = (int)$idxboost_search_settings['idx_listings_type'];
-        $output['search']['hide_pending_content_options'] = (int)$idxboost_search_settings['hide_pending_content_options'];
+        $output['search']['amenities'] = isset($idxboost_search_settings['amenities']) ? $idxboost_search_settings['amenities'] : '';
+        $output['search']['baths_range'] = isset($idxboost_search_settings['baths_range']) ? $idxboost_search_settings['baths_range'] : '';
+        $output['search']['beds_range'] = isset($idxboost_search_settings['beds_range']) ? $idxboost_search_settings['beds_range'] : '';
+        $output['search']['cities'] = isset($idxboost_search_settings['cities']) ? $idxboost_search_settings['cities'] : '';
+        $output['search']['default_sort'] = isset($idxboost_search_settings['default_sort']) ? $idxboost_search_settings['default_sort'] : '';
+        $output['search']['default_view'] = isset($idxboost_search_settings['default_view']) ? $idxboost_search_settings['default_view'] : '';
+        $output['search']['living_size_range'] = isset($idxboost_search_settings['living_size_range']) ? $idxboost_search_settings['living_size_range'] : '';
+        $output['search']['lot_size_range'] = isset($idxboost_search_settings['lot_size_range']) ? $idxboost_search_settings['lot_size_range'] : '';
+        $output['search']['parking_options'] = isset($idxboost_search_settings['parking_options']) ? $idxboost_search_settings['parking_options'] : '';
+        $output['search']['price_rent_range'] = isset($idxboost_search_settings['price_rent_range']) ? $idxboost_search_settings['price_rent_range'] : '';
+        $output['search']['price_sale_range'] = isset($idxboost_search_settings['price_sale_range']) ? $idxboost_search_settings['price_sale_range'] : '';
+        $output['search']['property_types'] = isset($idxboost_search_settings['property_types']) ? $idxboost_search_settings['property_types'] : '';
+        $output['search']['rental_types'] = isset($idxboost_search_settings['default_rental_type']) ? $idxboost_search_settings['default_rental_type'] : '';
+        $output['search']['view_grid_type'] = isset($idxboost_search_settings['default_view_grid']) ? $idxboost_search_settings['default_view_grid'] : '';
+        $output['search']['view_icon_type'] = isset($idxboost_search_settings['default_view_icon']) ? $idxboost_search_settings['default_view_icon'] : '';
+        $output['search']['schools_ratio'] = isset($idxboost_search_settings['default_schools_ratio']) ? $idxboost_search_settings['default_schools_ratio'] : '';
+        $output['search']['waterfront_options'] = isset($idxboost_search_settings['waterfront_options']) ? $idxboost_search_settings['waterfront_options'] : '';
+        $output['search']['year_built_range'] = isset($idxboost_search_settings['year_built_range']) ? $idxboost_search_settings['year_built_range'] : '';
+        $output['search']['default_language'] = isset($idxboost_search_settings['default_language']) ? $idxboost_search_settings['default_language'] : '';
+        $output['search']['default_floor_plan'] = isset($idxboost_search_settings['default_floor_plan']) ? $idxboost_search_settings['default_floor_plan'] : '';
+        $output['search']['idx_listings_type'] = isset($idxboost_search_settings['idx_listings_type']) ?  $idxboost_search_settings['idx_listings_type'] : 0;
+        $output['search']['hide_pending_content_options'] = isset($idxboost_search_settings['hide_pending_content_options']) ? (int) $idxboost_search_settings['hide_pending_content_options'] : 0;
         /*$list_search_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "search_%"', ARRAY_A);
         $output['search'] = flex_map_array($list_search_info);
         if (!empty($output['search']) && isset($output['search']['search_idx_cities']) ) {
@@ -6019,6 +6019,11 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         $search_filter_settings['google_maps_api_key'] = $idxboost_agent_info['google_maps_api_key'];
         $search_filter_settings['translateServiceUrl'] = isset($idxboost_agent_info['translate_service_url']) ? $idxboost_agent_info['translate_service_url'] : '';
 
+        $board_info = [];
+        if ( is_array($flex_idx_info) && array_key_exists("board_info", $flex_idx_info) ){
+            $board_info = $flex_idx_info["board_info"];
+        }
+
         $custom_strings = array(
             'style' => __('Style', IDXBOOST_DOMAIN_THEME_LANG),
             'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
@@ -6594,6 +6599,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_localize_script('flex-auth-check', 'style_map_idxboost', $descr_tools_map_style);
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
+            'board_info' => $board_info,
             'events' => [
                 'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS,
                 'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS
@@ -6642,7 +6648,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'overwrite_settings' => $search_filter_settings
         ));
 
-        wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s', $flex_idx_info["agent"]["google_maps_api_key"]));
+        wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]));
         wp_register_script('google-maps-utility-library-richmarker', FLEX_IDX_URI . 'js/vendor/richmarker.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/richmarker.min.js"));
         wp_register_script('google-maps-utility-library-infobubble', FLEX_IDX_URI . 'js/vendor/infobubble.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/infobubble.min.js"));
         // styles for infowindows [google maps]
@@ -8257,7 +8263,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
             wp_register_script(
                 'carbonite-pages-contact',
                 IDX_BOOST_SPW_ASSETS . '/assets/js/pages/contact.js',
-                array( 'carbonite', 'google-maps-api' ),
+                array( 'carbonite'),
                 '',
                 true
             );
@@ -8496,7 +8502,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/api/tripwires-default',
                 array(
                     'method' => 'POST',
-                    'timeout' => 60,
+                    'timeout' => 10,
                     'headers' => [
                         'Content-Type' => 'application/json',
                     ],
@@ -8615,6 +8621,7 @@ if (!function_exists('idx_edit_post')) {
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/api/update-page-fromWp',
                 array(
                     'method' => 'POST',
+                    'timeout' => 10,
                     'headers' => [
                         'Content-Type' => 'application/json',
                     ],
@@ -8792,7 +8799,7 @@ if (!function_exists("custom_seo_page")) {
                     IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                     array(
                         'method' => 'POST',
-                        'timeout' => 60,
+                        'timeout' => 10,
                         'headers' => [
                             'Content-Type' => 'application/json',
                         ],
@@ -8827,7 +8834,7 @@ if (!function_exists("custom_seo_page")) {
                         IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                         array(
                             'method' => 'POST',
-                            'timeout' => 60,
+                            'timeout' => 10,
                             'headers' => [
                                 'Content-Type' => 'application/json',
                             ],
@@ -9107,6 +9114,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                 $data_search_filter = get_shortcode_attributes('ib_search_filter_react');                
                 $arg = array(
                     'method' => 'POST',
+                    'timeout' => 10,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
@@ -9132,6 +9140,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                    
                 $arg = array(
                     'method' => 'POST',
+                    'timeout' => 10,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
@@ -9159,6 +9168,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                 
                 $arg = array(
                     'method' => 'POST',
+                    'timeout' => 10,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
@@ -9184,9 +9194,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
 if (!function_exists( 'flex_idx_generate_schema_fetch' )) {
 
     function flex_idx_generate_schema_fetch($url,$arg){ 
-        // overwrite
-        $arg['timeout'] = 60;
-
+       
         $info = wp_remote_post($url, $arg);
         $info = (is_wp_error($info)) ? [] : wp_remote_retrieve_body($info);
         if (!empty($info)) {

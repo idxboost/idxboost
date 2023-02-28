@@ -7,7 +7,7 @@ $response = wp_remote_post(
     IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-template',
     array(
         'method'  => 'POST',
-        'timeout' => 60,
+        'timeout' => 10,
         'headers' => [
             'Content-Type' => 'application/json',
         ],

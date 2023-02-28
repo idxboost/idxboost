@@ -1,1 +1,0 @@
-!function(t){var s;t(function(){(s=t("#flex_idx_profile_form")).length&&s.on("submit",function(e){e.preventDefault(),t.ajax({url:flex_idx_profile.ajaxUrl,method:"POST",data:s.serialize(),dataType:"json",success:function(e){e.success&&swal({title:"Profile Updated!",text:e.message,type:"success",timer:3e3,showConfirmButton:!1})}})})})}(jQuery);

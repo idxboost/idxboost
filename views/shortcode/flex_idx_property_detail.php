@@ -192,7 +192,11 @@ $more_info_property = [];
 if (is_array($property) && array_key_exists("more_info_property", $property) && is_array($property["more_info_property"]) && count($property["more_info_property"]) > 0  ) {
   $more_info_property = $property["more_info_property"];
 }
-  ?>
+
+$agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
+$agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
+?>
+
       <div id="full-main" class="ms-property-detail-page">
         <section class="title-conteiner gwr animated fixed-box">
           <div class="content-fixed">
@@ -331,6 +335,15 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
             <div class="temporal-content"></div>
             <div class="gwr">
                <div class="container">
+
+              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { 
+                if($property['status'] == "2"){ ?>
+                  <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of <?php echo $property["office_name"]; ?>  | Sold by:  <?php echo $property["office_name_seller"]; ?> </div>
+                <?php }else{ ?>
+                  <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
+                <?php } ?>  
+              <?php } ?>
+
 
                 <ul class="property-information" data-inf="price:<?php echo isset($property['is_sold']) ? $property['price_sold'] : $property['price']; ?>|beds:<?php echo $property['bed']; ?>|baths:<?php echo $property['bath']; ?>|sqft:<?php echo $property['sqft']; ?>">
                   <li class="price-property">
@@ -1363,10 +1376,6 @@ if (is_array($property) && array_key_exists("more_info_property", $property) && 
                 <div class="ms-form-detail msModalDetail">
                   <div class="form-content">
                     <div class="avatar-content">
-                      <?php
-                        $agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
-                        $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
-                        ?>
                       <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?>" alt="<?php echo $agent_info_name; ?>"></div>
                       <div class="avatar-information">
                         <h2><?php echo $agent_info_name; ?></h2>

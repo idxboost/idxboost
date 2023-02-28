@@ -6,6 +6,15 @@
   #full-main .main-content .property-description {
     margin-bottom: 20px;
   }
+
+  @media screen and (min-width: 768px){
+    #full-main .container .property-information li.ms-share-hidden{
+      display: none
+    }
+  }
+
+  .ip-hackbox-btn { z-index: 2 !important;}
+
 </style>
 <?php
   global $flex_idx_info, $post, $flex_social_networks, $wp;
@@ -175,6 +184,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
           <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
           <div class="breadcrumb-options">
 
+            <button class="close-cover-video js-cover-close-property-video" data-youtube="">Close Video</button>
+
             <div class="ms-wrapper-btn-new-share">
               <div class="ms-wrapper">
                 <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
@@ -211,6 +222,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
             <button class="btn-request" id="form-request-a">
               <?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?>
             </button>
+
           </div>
         </div>
         <ul class="content-fixed-btn">
@@ -228,7 +240,6 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     </section>
 
 
-
     <div class="header-print">
       <img src="<?php echo $logo_broker; ?>" alt="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>">
       <ul>
@@ -238,58 +249,104 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     </div>
     <div id="imagen-print"></div>
     
-        <div id="full-slider" class="show-slider-psl js-gallery-building">
-          <?php
-          if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
-            if ($response['payload']["type_gallery"]== "2") {
-               if (count($response['payload']['gallery_building']) > 0) { ?>
-								<div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
-								<?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
-									<img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
-								<?php } ?>
-								</div>
-              <?php }
-            }elseif ($response['payload']["type_gallery"]=="1") { ?>
-              <!-- NUEVA ESTRUCTURA SLIDER -->
-                <div class="ms-slider-buildings">
-                  <div class="wrap-result view-grid ms-sm-grid">
-                    <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
-                      <div class="wrap-result view-grid">
-                        <div class="gs-container-slider ib-properties-slider"></div>
-                      </div>
-                    </div>
+    <div id="full-slider" class="show-slider-psl js-gallery-building">
+      <!-- VISTA BUILDING IMAGES -->
+      <?php
+      if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
+        if ($response['payload']["type_gallery"]== "2") {
+           if (count($response['payload']['gallery_building']) > 0) { ?>
+            <div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
+            <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
+                <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
+            <?php } ?>
+            </div>
+          <?php }
+        }elseif ($response['payload']["type_gallery"]=="1") { ?>
+          <!-- NUEVA ESTRUCTURA SLIDER -->
+            <div class="ms-slider-buildings">
+              <div class="wrap-result view-grid ms-sm-grid">
+                <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
+                  <div class="wrap-result view-grid">
+                    <div class="gs-container-slider ib-properties-slider"></div>
                   </div>
                 </div>
-              <!-- NUEVA ESTRUCTURA SLIDER -->
-              <?php
-            }            
-          } ?>
-          <div class="moptions">
-            <ul class="slider-option">
-              <li>
-                <button class="option-switch js-option-building js-option-building-photo active" type="photo" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-              </li>
-              <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
-                <li>
-                  <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                </li>
-              <?php else : ?>
-                <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
-                  $response['payload']['lat_building'] = $latAlternative;
-                  $response['payload']['lng_building'] = $lngAlternative; ?>
-                  <li>
-                    <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                  </li>
-                <?php } ?>
-              <?php endif; ?>
-            </ul>
-            <div id="min-map" data-map-img="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>&amp;zoom=14&amp;size=163x87&amp;maptype=roadmap&amp;scale=false&amp;format=png&amp;key=<?php echo $idx_social_mediamaps; ?>&amp;visual_refresh=true&amp;markers=size:mid%7Ccolor:0x0684c8%7Clabel:%7C<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>"></div>
-            <button class="full-screen" id="clidxboost-btn-flight">Full screen</button>
+              </div>
+            </div>
+          <!-- NUEVA ESTRUCTURA SLIDER -->
+          <?php
+        }
+      } ?>
+      <!-- VISTA MAPA -->
+      <div id="map-view">
+        <div id="map-result" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"></div>
+      </div>
+      <!-- VISTA VIDEO -->
+      <div id="video-view">
+        <div class="ms-wrapper-video-cover">
+
+          <div class="ms-header-video">
+            <button 
+            class="ms-video-play js-cover-play-property-video" 
+            aria-label="Play Video" 
+            data-video="<?php echo $response['payload']['media_gallery_video_url']; ?>" 
+            data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>" 
+            data-parent="#js-cover-full-property-video"></button>
+            <h5 class="ms-video-title"><?php echo $response['payload']['media_gallery_video_title']; ?></h5>
           </div>
-          <div id="map-view">
-            <div id="map-result" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"></div>
+
+          <!--video de fondo-->
+          <div class="ms-video-cover" id="js-temporal-video"></div>
+
+          <!--full video de fondo-->
+          <div class="ms-full-video" id="js-cover-full-property-video"></div>
+
+          <div class="ms-wrapper-close">
+            <button class="close-cover-video js-cover-close-property-video" aria-label="Close Video" data-youtube=""></button>
           </div>
         </div>
+      </div>
+
+      <div class="moptions">
+        <ul class="slider-option">
+          <li>
+            <button class="option-switch js-option-building js-option-building-photo active" type="photo" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          </li>
+          <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
+            <li>
+              <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            </li>
+          <?php else : ?>
+            <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
+              $response['payload']['lat_building'] = $latAlternative;
+              $response['payload']['lng_building'] = $lngAlternative; ?>
+              <li>
+                <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+              </li>
+            <?php } ?>
+          <?php endif; ?>
+          <?php if ((!empty($response['payload']['media_gallery_video_url']))) : ?>
+          <li>
+            <button 
+            class="option-switch js-show-video-cover-bl" 
+            type="video" 
+            id="show-video" 
+            data-view="video"
+            data-video="<?php echo $response['payload']['media_gallery_video_url']; ?>"
+            data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>"
+            data-autoplay="<?php echo $response['payload']['media_gallery_video_auto_play']; ?>"
+            data-gallery-type="<?php echo $response['payload']['media_gallery_type']; ?>"
+            data-parent="#js-temporal-video">
+              <?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+
+          </li>
+          <?php endif; ?>
+        </ul>
+        <div id="min-map" data-map-img="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>&amp;zoom=14&amp;size=163x87&amp;maptype=roadmap&amp;scale=false&amp;format=png&amp;key=<?php echo $idx_social_mediamaps; ?>&amp;visual_refresh=true&amp;markers=size:mid%7Ccolor:0x0684c8%7Clabel:%7C<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>"></div>
+        <button class="full-screen" id="clidxboost-btn-flight">Full screen</button>
+      </div>
+    </div>
+
+
 
       <section class="main">
         <div class="temporal-content-bl"></div>
@@ -569,8 +626,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
           <?php echo do_shortcode('[idxboost_building_inventory building_id="'.$atts['building_id'].'" load="ajax" ]'); ?>
 
 
-<?php
-//FLOOR PLAN THUMBS
+    <?php
+    //FLOOR PLAN THUMBS
                 if (array_key_exists('type_floor_plan', $response['payload']) && $response['payload']['type_floor_plan'] =='1') {
 
                   if (array_key_exists('floor_plan_view_thumbs', $response['payload']) && !empty($response['payload']['floor_plan_view_thumbs']) ) {
@@ -1193,6 +1250,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     <button class="ms-btn-detail">View detail</button>
   </div>
 
+  <input type="text" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
+  
 <script type="text/javascript">
   (function ($) {
   
@@ -1217,6 +1276,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 </style>
 
 <script type="text/javascript">
+  
   (function($) {
   
       function active_modal($modal) {
@@ -1393,7 +1453,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   }
 
   //script floor plan
-    jQuery(document).on('click', '.fp-btn', function (e) {
+  jQuery(document).on('click', '.fp-btn', function (e) {
     e.preventDefault();
     var $mlist = '';
     var $elementSelected = jQuery(this).parent().index();
@@ -1417,6 +1477,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     }
     gs.slider['fp-wrap-modal'].goTo($elementSelected + 1);
   });
+
   jQuery(document).on('click', '.fp-close-fp', function () {
     jQuery('body').removeClass('fp-active-modal');
   });
@@ -1510,6 +1571,26 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
       }
   });
+
+
+  /*RECUPERANDO VIDEO*/
+  setTimeout(function(){ 
+    
+    var galleryType = jQuery("#viewGallery").val() * 1;
+    switch(galleryType) {
+      case 0:
+        jQuery("#show-gallery").trigger("click");
+        break;
+      case 1:
+        jQuery("#show-map").trigger("click");
+        break;
+      case 2:
+        jQuery("#show-video").trigger("click");
+        break;
+    }
+  
+  }, 900);
+
 </script>
 
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

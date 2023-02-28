@@ -72,6 +72,8 @@
                         <select class="ms-select fc-select f-neighborhood" name="thecityid" id="thecityid">
                             <option value="12" <?php if($atts['city_id']=='12') echo 'selected'; ?> >Coconut Grove</option>
                             <option value="474" <?php if($atts['city_id']=='474') echo 'selected'; ?>>Aventura</option>
+                            <option value="447" <?php if($atts['city_id']=='447') echo 'selected'; ?>>Broward</option>
+                            <option value="1" <?php if($atts['city_id']=='1') echo 'selected'; ?>>Miami-Dade</option>
                             <option value="202" <?php if($atts['city_id']=='202') echo 'selected'; ?>>Edgewater</option>
                             <option value="475" <?php if($atts['city_id']=='475') echo 'selected'; ?>>Bal Harbour</option>
                             <option value="499" <?php if($atts['city_id']=='499') echo 'selected'; ?>>Fort Lauderdale</option>

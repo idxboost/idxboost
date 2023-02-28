@@ -1,48 +1,35 @@
-<?php get_header(); ?>
+<?php 
+get_header();
 
-<?php
 global $flex_idx_info;
 
-
-$data = array(
-    "registration_key" => get_option('idxboost_registration_key'),
-    "page_type" => 'contact'
+$response = wp_remote_post(
+    IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-template',
+    array(
+        'method'  => 'POST',
+        'timeout' => 10,
+        'headers' => [
+            'Content-Type' => 'application/json',
+        ],
+        'body' => wp_json_encode(array(
+            'registration_key' => get_option('idxboost_registration_key'),
+            'page_type'        => 'contact',
+        ))
+    )
 );
 
-$payload = json_encode($data);
-// Prepare new cURL resource
-$ch = curl_init(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-template');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+$body    = wp_remote_retrieve_body($response);
+$content = json_decode($body, true);
 
-// Set HTTP Header for POST request
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($payload))
-);
-
-// Submit the POST request
-$result = curl_exec($ch);
-
-$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-// Close cURL session handle
-curl_close($ch);
-if ($httpcode == 200) {
-    if (json_decode($result)->content != null) {
-        echo json_decode($result)->content;
-    } else {
-        status_header( 404 );
-        nocache_headers();
-        include( get_query_template( '404' ) );
-        die();
-    }
+if (is_wp_error($response) || $content == NULL) {
+    idx_page_404();
+    exit;
 } else {
-    status_header( 404 );
-    nocache_headers();
-    include( get_query_template( '404' ) );
-    die();
+    $show_map = $content['sections']['map']['isVisible'];
+
+    if ($show_map) {
+        wp_enqueue_script('google-maps-api');
+    }
+
+    echo $content['content'];
 }
-?>
