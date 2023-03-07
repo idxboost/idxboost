@@ -8502,7 +8502,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/api/tripwires-default',
                 array(
                     'method' => 'POST',
-                    'timeout' => 10,
+                    'timeout' => 60,
                     'headers' => [
                         'Content-Type' => 'application/json',
                     ],
@@ -8621,7 +8621,7 @@ if (!function_exists('idx_edit_post')) {
                 IDX_BOOST_SPW_BUILDER_SERVICE . '/api/update-page-fromWp',
                 array(
                     'method' => 'POST',
-                    'timeout' => 10,
+                    'timeout' => 60,
                     'headers' => [
                         'Content-Type' => 'application/json',
                     ],
@@ -8799,7 +8799,7 @@ if (!function_exists("custom_seo_page")) {
                     IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                     array(
                         'method' => 'POST',
-                        'timeout' => 10,
+                        'timeout' => 60,
                         'headers' => [
                             'Content-Type' => 'application/json',
                         ],
@@ -8834,7 +8834,7 @@ if (!function_exists("custom_seo_page")) {
                         IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                         array(
                             'method' => 'POST',
-                            'timeout' => 10,
+                            'timeout' => 60,
                             'headers' => [
                                 'Content-Type' => 'application/json',
                             ],
@@ -9114,7 +9114,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                 $data_search_filter = get_shortcode_attributes('ib_search_filter_react');                
                 $arg = array(
                     'method' => 'POST',
-                    'timeout' => 10,
+                    'timeout' => 60,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
@@ -9140,7 +9140,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                    
                 $arg = array(
                     'method' => 'POST',
-                    'timeout' => 10,
+                    'timeout' => 60,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
@@ -9168,7 +9168,7 @@ if (!function_exists( 'flex_idx_generate_schema_fn' )) {
                 
                 $arg = array(
                     'method' => 'POST',
-                    'timeout' => 10,
+                    'timeout' => 60,
                     'headers' => array(                       
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),

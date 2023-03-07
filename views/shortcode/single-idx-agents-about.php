@@ -17,7 +17,7 @@ $agent_slugname = $post->post_name;
 $agent_permalink = implode('/' , [ site_url(), $agent_slugname ]);
 
 // Agent Information
-$agent_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => 10]);
+$agent_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => 60]);
 $agent_info = (is_wp_error($agent_info)) ? [] : wp_remote_retrieve_body($agent_info);
 
 if (!empty($agent_info)) {

@@ -1389,7 +1389,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
             <div class="ib-pending-contigent">
               <input type="checkbox" id="pendingContigentMobile" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
-              <label for="pendingContigentMobile">Hide Pending / Contigent</label>
+              <label for="pendingContigentMobile"><?php echo __('Hide Pending / Continget', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </div>
             <?php endif; ?>
           </div>

@@ -130,7 +130,7 @@
             <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
             <div class="ib-pending-contigent">
               <input type="checkbox" id="pendingContigentMin" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
-              <label class="ib-clabel" for="pendingContigentMin">Hide Pending / Contigent</label>
+              <label class="ib-clabel" for="pendingContigentMin"><?php echo __('Hide Pending / Continget', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </div>
             <?php endif; ?>
           </div>
@@ -302,7 +302,7 @@
                     <?php if (isset($c_search_settings['idx_listings_type']) && (1 == $c_search_settings['idx_listings_type'])): ?>
                     <div class="ib-pending-contigent">
                       <input type="checkbox" id="pendingContigent" value="1" class="ib-icheck" <?php if (isset($c_search_settings['hide_pending_content_options']) && (1 == $c_search_settings['hide_pending_content_options'])): ?> checked <?php endif; ?>>
-                      <label class="ib-clabel" for="pendingContigent">Hide Pending / Contigent</label>
+                      <label class="ib-clabel" for="pendingContigent"><?php echo __('Hide Pending / Continget', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                     </div>
                     <?php endif; ?>
                   </div>

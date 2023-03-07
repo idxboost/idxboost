@@ -23,7 +23,7 @@ if (
     isset($agent_registration_key) && 
     ! empty($agent_registration_key) 
 ) {
-    $agent_full_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => 10]);
+    $agent_full_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => 60]);
     $agent_full_info = (is_wp_error($agent_full_info)) ? [] : wp_remote_retrieve_body($agent_full_info);
 
     if ( ! empty($agent_full_info) ) {

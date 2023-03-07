@@ -1364,7 +1364,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
             <!--
             <div class="ib-pending-contigent">
               <input type="checkbox" id="pendingContigentMobile" value="1" class="ib-icheck">
-              <label for="pendingContigentMobile">Hide Pending / Contigent</label>
+              <label for="pendingContigentMobile"><?php echo __('Hide Pending / Continget', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </div>
             -->
 
