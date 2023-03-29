@@ -77,6 +77,12 @@ if (isset($_POST)) {
     );
   }
 
+  if (isset($_POST['autocomplete_tabs_tool_bar'])) {
+    $store += array(
+      'autocomplete_tabs_tool_bar' => $_POST['autocomplete_tabs_tool_bar']
+    );
+  }
+
   if (!empty($store)) {
     update_post_meta($post_ID, '_settings_rental', $store);
   }
@@ -565,6 +571,34 @@ wp_enqueue_style('flex-idx-admin');
           </tr>    
         </tbody>
       </table>
+
+      <h2 class="schema-form-h2">Settings for Multi-selection & Autocomplete</h2>
+      <table class="form-table ms-schema-form-table ms-xd" id="id-agent-style">
+        <tbody>                   
+          <tr>
+            <th scope="row">
+              <label for="">&nbsp;</label>
+            </th>
+            <td>
+            <div class="container-switch">
+            <label class="switch">
+            <input type="checkbox" <?php 
+            if (!empty($settings_rental_data)) {
+            if(esc_html($settings_rental_data['autocomplete_tabs_tool_bar'])!=="") echo 'checked'; else echo '';
+            }
+            ?> id="autocomplete_tabs_tool_bar" name="autocomplete_tabs_tool_bar" value="1">
+            <span class="slider round"></span>
+            </label>
+            <span>Show/Hide</span>
+          </div>
+            </td>
+          </tr>
+          
+          
+            
+        </tbody>
+      </table>
+
 
       <h2 class="schema-form-h2">Options for Maps</h2>
       <ul class="ks-cboxtags">  

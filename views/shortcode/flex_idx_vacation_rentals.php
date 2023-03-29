@@ -63,6 +63,12 @@ data-citiesmorefilter="<?php if (empty($atts['cities_more_filter'])) {
     echo '';
 } else {
     echo $atts['cities_more_filter'];
+} 
+?>"
+data-autocompletetabstoolbar="<?php if (empty($atts['autocomplete_tabs_tool_bar'])) {
+    echo '';
+} else {
+    echo $atts['autocomplete_tabs_tool_bar'];
 } ?>"
 >
 

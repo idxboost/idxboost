@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.5.2
+ * Version: 4.5.3
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -16,6 +16,13 @@ defined('ABSPATH') or exit;
  */
 define('FLEX_IDX_PATH', plugin_dir_path(__FILE__));
 
+// load compiled assets:
+// (dev) define('IB_ASSETS_DEV', true); # si no esta definida la constante cargara produccion de la carpeta build
+// (dev) http://localhost/wp-content/plugins/idxboost/
+// (prod) http://localhost/wp-content/plugins/idxboost/build/1665525090
+
+define('IB_ASSETS_DEV', true);
+
 if (!function_exists('ib_get_assets_uri')) {
     function ib_get_assets_uri() {
         $assets_uri = plugin_dir_url(__FILE__);
@@ -25,6 +32,18 @@ if (!function_exists('ib_get_assets_uri')) {
         }
     
         return $assets_uri
+            . 'build/'
+            . file_get_contents(FLEX_IDX_PATH . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'manifest.json')
+            . '/';
+    }
+}
+
+if (!function_exists('ib_get_idx_path')) {
+    function ib_get_idx_path() {
+        if (defined('IB_ASSETS_DEV')) {
+            return FLEX_IDX_PATH;
+        }
+        return FLEX_IDX_PATH
             . 'build/'
             . file_get_contents(FLEX_IDX_PATH . DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'manifest.json')
             . '/';
@@ -58,15 +77,15 @@ if (
 } else {
     define('FLEX_IDX_BASE_URL', 'https://api.idxboost.dev');
     define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.dev');
-    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'http://backoffice.idxboost.local');
-    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'http://alerts.idxboost.local/consumer/subscribe');
-    define('FLEX_IDX_ALERTS_REGISTER', 'http://alerts.idxboost.local/alert/register');
-    define('FLEX_IDX_ALERTS_UPDATE', 'http://alerts.idxboost.local/alert/update_alert_parameters');
-    define('FLEX_IDX_ALERTS_UNREGISTER', 'http://alerts.idxboost.local/alert/unregister');
-    define('IDX_BOOTS_NICHE', 'http://alerts.idxboost.local/niche/filter/parameters');
-    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'http://api-single-property.idxboost.local');
-    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'http://api-cms.idxboost.local');
-    define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
+    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.dev');
+    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.idxboost.dev/consumer/subscribe');
+    define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.idxboost.dev/alert/register');
+    define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.idxboost.dev/alert/update_alert_parameters');
+    define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.idxboost.dev/alert/unregister');
+    define('IDX_BOOTS_NICHE', 'https://alerts.idxboost.dev/niche/filter/parameters');
+    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.dev');
+    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.dev');
+    define('IDX_BOOST_SPW_ASSETS', 'https://api-cms.idxboost.dev');
     define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.dev');
 }
 
@@ -75,6 +94,8 @@ if (
  * API endpoints
  */
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-site-setting-get');
+define('FLEX_IDX_DISPLAY_FILTER_V3', FLEX_IDX_BASE_URL . '/filter_lookup_v3');
+define('FLEX_IDX_DISPLAY_FILTER_V2_old', FLEX_IDX_BASE_URL . '/listings/recentsales');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/list-property');
 define('FLEX_IDX_GET_SINGLE_PROPERTY', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-details');
 define('FLEX_IDX_BASE_STATISTICS', FLEX_IDX_BASE_URL . '/listings/recentsales/filter');

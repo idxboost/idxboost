@@ -451,6 +451,7 @@ if (!function_exists('ib_vacation_rentals_fn')) {
             'autocomplete_more_filter' => isset($settings_data['autocomplete_more_filter'])?$settings_data['autocomplete_more_filter']:'',
             'cities_tool_bar' => isset($settings_data['cities_tool_bar'])?$settings_data['cities_tool_bar']:'',
             'cities_more_filter' => isset($settings_data['cities_more_filter'])?$settings_data['cities_more_filter']:'',
+            'autocomplete_tabs_tool_bar' => isset($settings_data['autocomplete_tabs_tool_bar'])?$settings_data['autocomplete_tabs_tool_bar']:'',
         ), $atts);
 
         ob_start();
