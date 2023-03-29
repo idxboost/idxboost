@@ -21,7 +21,7 @@ define('FLEX_IDX_PATH', plugin_dir_path(__FILE__));
 // (dev) http://localhost/wp-content/plugins/idxboost/
 // (prod) http://localhost/wp-content/plugins/idxboost/build/1665525090
 
-define('IB_ASSETS_DEV', true);
+// define('IB_ASSETS_DEV', true);
 
 if (!function_exists('ib_get_assets_uri')) {
     function ib_get_assets_uri() {
