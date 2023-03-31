@@ -782,7 +782,7 @@ $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
                                  $valetvalTotalsqft = number_format($property["total_sqft"] );
                                  $hasAcreTotalsqft = false;
                                  
-                                 if ( !in_array($inputvalTotalsqft,[0,undefined,"","0"] ) ) {
+                                 if ( !in_array($inputvalTotalsqft,[0,"undefined","","0"] ) ) {
                                      if ($inputvalTotalsqft >= 20000) {
                                       $res2 = floatval($inputvalTotalsqft/43560);
 
