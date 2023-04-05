@@ -1850,6 +1850,7 @@ if (!function_exists( 'flex_idx_get_info' )) {
         $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
         $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
         $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';
+        $output['agent']['has_quick_idxvacation_rentals'] = isset($idxboost_agent_info['has_quick_idxvacation_rentals']) ? $idxboost_agent_info['has_quick_idxvacation_rentals'] : '';
         $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
         $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
         $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
@@ -7133,6 +7134,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_localize_script('idxboost_slider_type', 'idx_param_slider', array(
             'endpoint_v3' => FLEX_IDX_DISPLAY_FILTER_V3,
             'endpoint_v2' => FLEX_IDX_DISPLAY_FILTER_V2_old,
+            'endpoint_v2_exclusive' => FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS,
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
             'saveListings' => FLEX_IDX_API_REGULAR_FILTER_SAVE,
@@ -7153,6 +7155,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_localize_script('ib_slider_filter', 'idx_param_slider', array(
             'endpoint_v3' => FLEX_IDX_DISPLAY_FILTER_V3,
             'endpoint_v2' => FLEX_IDX_DISPLAY_FILTER_V2_old,
+            'endpoint_v2_exclusive' => FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS,
             'accessToken' => flex_idx_get_access_token(),
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
