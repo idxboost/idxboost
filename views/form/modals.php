@@ -1717,7 +1717,7 @@ function handleCredentialResponse(token) {
                         //if ("undefined" !== lastOpenedProperty) {
                         if (typeof lastOpenedProperty !== "undefined") {
                           if (typeof loadPropertyInModal !== "undefined") {
-                            window.loadPropertyInModal(lastOpenedProperty);
+                            loadPropertyInModal(lastOpenedProperty);
                           }
                         }
 
@@ -2474,7 +2474,7 @@ function fb_login() {
                             //if ("undefined" !== lastOpenedProperty) {
                             if (typeof lastOpenedProperty !== "undefined") {
                               if (typeof loadPropertyInModal !== "undefined") {
-                                window.loadPropertyInModal(lastOpenedProperty);
+                                loadPropertyInModal(lastOpenedProperty);
                               }
                             }
 
