@@ -4941,7 +4941,7 @@ function handleFilterSearchLookup(event) {
 
 			if (true === IB_GMAP_FIT_TO_BOUNDS) {
 				if (!urlParams.has("rect") && !urlParams.has("zm")) {
-					if (location.search.length > 0) {
+					if (location.search.length > 0 && map_items.length) {
 						// console.log('[fit]');
 						IB_MAP.fitBounds(IB_BOUNDS);
 					}
