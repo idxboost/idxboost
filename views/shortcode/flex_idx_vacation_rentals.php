@@ -1,4 +1,10 @@
 <div id="ib-wrapper-rentals" class="ib-wrapper-rentals" 
+data-hiddenPhone="<?php if ($Phone_office) {
+    echo '1';
+} else {
+    echo '0';
+} ?>" 
+
 data-lat="<?php if (empty($atts['lat'])) {
     echo '';
 } else {

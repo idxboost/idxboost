@@ -1602,11 +1602,11 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                                     layout: {
                                         arrowDefaultStyles: false
                                     },
-                                    fullscreen: true,
+                                    /*fullscreen: true,
                                     layout: {
                                         fsButtonDefaultStyles: false,
                                         fsButtonClass: 'ib-btnfs'
-                                    },
+                                    },*/
                                     breakPoints: {
                                         640: {
                                             items: 2
@@ -1617,12 +1617,12 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                                     },
                                     onInited: function () {
 
-                                        var windowSize = $(window).width();
+                                        /*var windowSize = $(window).width();
                                         if (windowSize > 767) {
                                             IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function () {
                                                 IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
                                             });
-                                        }
+                                        }*/
 
                                         // Creando la numeración en FS
                                         const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
@@ -1654,7 +1654,12 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                                     }
                                 });
 
+                                jQuery(".ib-full-screen").removeClass("hidden");
                             }
+
+                        }else{
+
+                            jQuery(".ib-full-screen").addClass("hidden");
                         }
 
                         if (0 === parseInt(response.img_cnt, 10)) {
@@ -5546,7 +5551,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
             }
         });
 
-        $(document).on('click', '.clidxboost-niche-tab-filters button', function () {
+        $(document).on('click', '.clidxboost-niche-tab-filters button', function (event) {
             event.stopPropagation();
 
             $('.clidxboost-niche-tab-filters button').removeClass('active');
@@ -5750,7 +5755,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
 
             // IB_SAVE_SEARCH_MODALS.find('.ib-mgsubmit').click(function(){ IB_SAVE_SEARCH_MODALS.submit(); });
 
-            IB_MODAL_WRAPPER.on("click", ".ib-plsifb", function (event) {
+            $(document).on("click", ".ib-plsifb", function (event) {
                 event.preventDefault();
 
                 var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
@@ -5772,7 +5777,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
             });
 
             // share on twitter
-            IB_MODAL_WRAPPER.on("click", ".ib-plsitw", function (event) {
+            $(document).on("click", ".ib-plsitw", function (event) {
                 event.preventDefault();
 
                 var shareURL = "http://twitter.com/share?"; //url base
@@ -5844,7 +5849,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
             });
 
             // open email to a friend modal
-            IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function () {
+            $(document).on("click", ".ib-psemailfriend", function () {
                 var mlsNumber = $(this).data("mls");
                 var propertyStatus = $(this).data("status");
 
@@ -6013,7 +6018,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
             });
 
             // handle share property
-            IB_MODAL_WRAPPER.on("submit", ".ib-propery-inquiry-f", function (event) {
+            $(document).on("submit", ".ib-propery-inquiry-f", function (event) {
                 event.preventDefault();
 
                 var formData = $(this).serialize();

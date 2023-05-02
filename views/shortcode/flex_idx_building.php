@@ -136,43 +136,11 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 }
 ?>
 <main class="property-details theme-3">
-  <div id="full-main" class="ms-property-detail-page">
-
-    <!--
-    <section class="title-conteiner gwr animated fixed-box">
-      <div class="content-fixed simple-btn">
-        <div class="content-fixed-title">
-          <h1 class="title-page" 
-          id="page_title" 
-          data-building-name="<?php echo $log_building_name; ?>" 
-          data-building-address="<?php echo $log_building_address; ?>" 
-          data-building-city="<?php echo $log_building_city; ?>" 
-          data-title="<?php echo $response['payload']['name_building']; ?>">
-          <?php echo $response['payload']['name_building']; ?>
-          <span><?php echo $building_default_address; ?></span>
-          </h1>
-
-          <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
-          <div class="breadcrumb-options">
-            <button class="btn-request" id="form-request-a">
-              <?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?>
-            </button>
-          </div>
-        </div>
-        <ul class="content-fixed-btn">
-          <li>
-            <button class="btn-request" id="form-request"><?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-          </li>
-        </ul>
-      </div>
-    </section>
-    -->
-
-
+  <div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
     <section class="title-conteiner gwr animated fixed-box">
       <div class="content-fixed">
         <div class="content-fixed-title">
-          <h1 class="title-page" 
+          <h1 class="title-page ms-property-title" 
             id="page_title" 
             data-building-name="<?php echo $log_building_name; ?>" 
             data-building-address="<?php echo $log_building_address; ?>" 
@@ -182,47 +150,46 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
             <span><?php echo $building_default_address; ?></span>
           </h1>
           <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
+
           <div class="breadcrumb-options">
-
-            <button class="close-cover-video js-cover-close-property-video" data-youtube="">Close Video</button>
-
-            <div class="ms-wrapper-btn-new-share">
-              <div class="ms-wrapper">
-                <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                <ul class="ms-share-list">
-                  <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
-                    <a rel="nofollow" href="javascript:void(0)" 
-                    class="ib-psbtn showfriendEmail" 
-                    data-modal="modal_email_to_friend" 
-                    data-origin="2"
-                    data-media="ib-pva-map"
-                    data-property="<?php echo $response['payload']['name_building']; ?>"
-                    data-beds="<?php echo $response['payload']['bed_building']; ?>"
-                    data-year="<?php echo $response['payload']['year_building']; ?>"
-                    data-city="<?php echo $response['payload']['city_building_name']; ?>"
-                    data-address="<?php echo $building_default_address; ?>"
-                    data-lg="<?php echo $response['payload']['lng_building']; ?>" 
-                    data-lt="<?php echo $response['payload']['lat_building']; ?>">
+            <div class="ms-property-search">
+              <div class="ms-wrapper-btn-new-share">
+                <div class="ms-wrapper">
+                  <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                  <ul class="ms-share-list">
+                    <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                      <a rel="nofollow" href="javascript:void(0)" 
+                        class="ib-psbtn showfriendEmail" 
+                        data-modal="modal_email_to_friend" 
+                        data-origin="2"
+                        data-media="ib-pva-map"
+                        data-property="<?php echo $response['payload']['name_building']; ?>"
+                        data-beds="<?php echo $response['payload']['bed_building']; ?>"
+                        data-year="<?php echo $response['payload']['year_building']; ?>"
+                        data-city="<?php echo $response['payload']['city_building_name']; ?>"
+                        data-address="<?php echo $building_default_address; ?>"
+                        data-lg="<?php echo $response['payload']['lng_building']; ?>" 
+                        data-lt="<?php echo $response['payload']['lat_building']; ?>">
                       <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </a>
-                  </li>
-                  <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-                  <li>
-                    <a class="ib-plsitem ib-plsifb" 
-                    data-share-url="<?php echo $building_permalink; ?>" 
-                    data-share-title="<?php echo $post->post_title; ?>" 
-                    data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
-                    data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
-                    onclick="idxsharefb_building()" rel="nofollow">Facebook</a></li>
-                  <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
-                </ul>
+                      </a>
+                    </li>
+                    <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                    <li>
+                      <a class="ib-plsitem ib-plsifb" 
+                        data-share-url="<?php echo $building_permalink; ?>" 
+                        data-share-title="<?php echo $post->post_title; ?>" 
+                        data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
+                        data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
+                        onclick="idxsharefb_building()" rel="nofollow">Facebook</a>
+                    </li>
+                    <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
-
-            <button class="btn-request" id="form-request-a">
-              <?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?>
-            </button>
-
+            <div class="ms-property-call-action">
+              <button class="btn-request" id="form-request-a"><?php echo __("INQUIRE", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            </div>
           </div>
         </div>
         <ul class="content-fixed-btn">
@@ -232,14 +199,12 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
               <span><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
               </button>-->
             <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
-              <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
+            <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
             </a>
           </li>
         </ul>
       </div>
     </section>
-
-
     <div class="header-print">
       <img src="<?php echo $logo_broker; ?>" alt="<?php echo $property['address_short']; ?> <?php echo $property['address_large']; ?>">
       <ul>
@@ -248,21 +213,20 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
       </ul>
     </div>
     <div id="imagen-print"></div>
-    
     <div id="full-slider" class="show-slider-psl js-gallery-building">
+
       <!-- VISTA BUILDING IMAGES -->
       <?php
-      if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
-        if ($response['payload']["type_gallery"]== "2") {
-           if (count($response['payload']['gallery_building']) > 0) { ?>
+        if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
+          if ($response['payload']["type_gallery"]== "2") {
+            if (count($response['payload']['gallery_building']) > 0) { ?>
             <div class="gs-container-slider clidxboost-full-slider" alt="<?php echo $property['name']; ?> <?php  echo $property['address']; ?>">
-            <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
-                <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
-            <?php } ?>
+              <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
+              <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
+              <?php } ?>
             </div>
-          <?php }
-        }elseif ($response['payload']["type_gallery"]=="1") { ?>
-          <!-- NUEVA ESTRUCTURA SLIDER -->
+            <?php }}elseif ($response['payload']["type_gallery"]=="1") { ?>
+            <!-- NUEVA ESTRUCTURA SLIDER -->
             <div class="ms-slider-buildings">
               <div class="wrap-result view-grid ms-sm-grid">
                 <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
@@ -272,77 +236,69 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                 </div>
               </div>
             </div>
-          <!-- NUEVA ESTRUCTURA SLIDER -->
-          <?php
-        }
-      } ?>
+            <!-- NUEVA ESTRUCTURA SLIDER -->
+      <?php }} ?>
+
       <!-- VISTA MAPA -->
       <div id="map-view">
         <div id="map-result" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"></div>
       </div>
+
       <!-- VISTA VIDEO -->
       <div id="video-view">
         <div class="ms-wrapper-video-cover">
-
           <div class="ms-header-video">
             <button 
-            class="ms-video-play js-cover-play-property-video" 
+            class="ms-video-play js-open-full-screen" 
             aria-label="Play Video" 
+            data-type="video" 
             data-video="<?php echo $response['payload']['media_gallery_video_url']; ?>" 
-            data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>" 
-            data-parent="#js-cover-full-property-video"></button>
+            data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>"></button>
             <h5 class="ms-video-title"><?php echo $response['payload']['media_gallery_video_title']; ?></h5>
           </div>
-
           <!--video de fondo-->
           <div class="ms-video-cover" id="js-temporal-video"></div>
-
-          <!--full video de fondo-->
-          <div class="ms-full-video" id="js-cover-full-property-video"></div>
-
-          <div class="ms-wrapper-close">
-            <button class="close-cover-video js-cover-close-property-video" aria-label="Close Video" data-youtube=""></button>
-          </div>
+          <button class="ms-close js-close-temp-video-view" aria-label="Close View Video"></button>
         </div>
       </div>
 
+      <!-- OPCIONES -->
       <div class="moptions">
         <ul class="slider-option">
           <li>
-            <button class="option-switch js-option-building js-option-building-photo active" type="photo" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            <button class="option-switch js-option-building js-option-building-photo ms-gallery-fs" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
           <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
-            <li>
-              <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-            </li>
+          <li>
+            <button class="option-switch js-option-building js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          </li>
           <?php else : ?>
             <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
-              $response['payload']['lat_building'] = $latAlternative;
-              $response['payload']['lng_building'] = $lngAlternative; ?>
-              <li>
-                <button class="option-switch js-option-building js-option-building-map" type="map" id="show-map" data-view="map"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-              </li>
+            $response['payload']['lat_building'] = $latAlternative;
+            $response['payload']['lng_building'] = $lngAlternative; ?>
+            <li>
+              <button class="option-switch js-option-building js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $latAlternative; ?>" data-lng="<?php echo $lngAlternative; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            </li>
             <?php } ?>
           <?php endif; ?>
           <?php if ((!empty($response['payload']['media_gallery_video_url']))) : ?>
           <li>
             <button 
-            class="option-switch js-show-video-cover-bl" 
-            type="video" 
-            id="show-video" 
-            data-view="video"
-            data-video="<?php echo $response['payload']['media_gallery_video_url']; ?>"
-            data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>"
-            data-autoplay="<?php echo $response['payload']['media_gallery_video_auto_play']; ?>"
-            data-gallery-type="<?php echo $response['payload']['media_gallery_type']; ?>"
-            data-parent="#js-temporal-video">
-              <?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-
+              class="option-switch js-show-video-cover-bl ms-video-fs" 
+              data-type="video" 
+              id="show-video" 
+              data-view="video"
+              data-video="<?php echo $response['payload']['media_gallery_video_url']; ?>"
+              data-title="<?php echo $response['payload']['media_gallery_video_title']; ?>"
+              data-autoplay="<?php echo $response['payload']['media_gallery_video_auto_play']; ?>"
+              data-gallery-type="<?php echo $response['payload']['media_gallery_type']; ?>"
+              data-parent="#js-temporal-video">
+            <?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
           <?php endif; ?>
         </ul>
         <div id="min-map" data-map-img="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>&amp;zoom=14&amp;size=163x87&amp;maptype=roadmap&amp;scale=false&amp;format=png&amp;key=<?php echo $idx_social_mediamaps; ?>&amp;visual_refresh=true&amp;markers=size:mid%7Ccolor:0x0684c8%7Clabel:%7C<?php echo $response['payload']['lat_building']; ?>,<?php echo $response['payload']['lng_building']; ?>"></div>
-        <button class="full-screen" id="clidxboost-btn-flight">Full screen</button>
+        <button id="clidxboost-btn-flight" class="full-screen js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider">Full screen</button>
       </div>
     </div>
 
@@ -1250,8 +1206,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     <button class="ms-btn-detail">View detail</button>
   </div>
 
-  <input type="text" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
-  
+<input type="hidden" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
+
 <script type="text/javascript">
   (function ($) {
   

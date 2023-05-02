@@ -454,6 +454,11 @@ if (!function_exists('ib_vacation_rentals_fn')) {
             'autocomplete_tabs_tool_bar' => isset($settings_data['autocomplete_tabs_tool_bar'])?$settings_data['autocomplete_tabs_tool_bar']:'',
         ), $atts);
 
+        $Phone_office = false;
+      if( is_array($settings_data) && count($settings_data)>0 && array_key_exists("idx_hidden_phone", $settings_data) && $settings_data["idx_hidden_phone"] == "1" ){
+          $Phone_office = true;
+        }
+
         ob_start();
 
         wp_enqueue_script('react-vacation-rentals-js');

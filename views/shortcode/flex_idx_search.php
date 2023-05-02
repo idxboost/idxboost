@@ -446,44 +446,48 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 </div>
 
 <script id="ib-modal-template" type="text/x-handlebars-template">
-  <div class="ib-modal-master ib-mmpd ib-md-active">
+  <div class="ib-modal-master ib-mmpd ib-md-active ms-wrapper-actions-fs">
       <div class="ib-mmcontent">
         <article class="ib-property-detail ib-pdmodal">
           <div class="ib-pcheader">
             <div class="ib-pwheader">
               <header class="ib-pheader">
-                <h2 class="ib-ptitle">{{address_short}}</h2><span class="ib-pstitle">{{address_large}}</span>
+                <h2 class="ib-ptitle ms-property-title">{{address_short}} <span class="ib-pstitle">{{address_large}}</span></h2>
               </header>
               <div class="ib-phcta">
                 <div class="ib-phomodal">
                   <a href="tel:<?php echo $idx_contact_phone; ?>" class="ib-pbtnphone">{{agentPhone this}}</a>
-                  <div class="ms-wrapper-btn-new-share">
-										<div class="ms-wrapper">
-                      <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-											<ul class="ms-share-list">
-                        <li class="ib-pscitem ib-psemailfriend" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
-                          <a rel="nofollow" href="javascript:void(0)" 
-                          class="ib-psbtn showfriendEmail" 
-                          data-modal="modal_email_to_friend" 
-                          data-origin="1"
-                          data-media="{{ markClassActiveTab this }}"
-                          data-price="{{price}}{{ isRentalType this }}"
-                          data-beds="{{bed}}"
-                          data-baths="{{bath}}"
-                          data-sqft="{{sqft}}"
-                          data-address="{{address_short}}, {{address_large}}"
-                          data-lg="{{lng}}" 
-                          data-lt="{{lat}}">
-                            <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                          </a>
-                        </li>
-												<li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-												<li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
-												<li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsitw" data-address="{{ address_short }} {{ address_large}}" data-price="{{price}}" data-type="{{class_id}}" data-rental="{{is_rental}}" data-mls="{{mls_num}}">Twitter</a></li>
-											</ul>
-										</div>
-									</div>
-                  <div class="ib-requestinfo ib-phbtn"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                  <div class="ms-property-search">
+                    <div class="ms-wrapper-btn-new-share">
+                      <div class="ms-wrapper">
+                        <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                        <ul class="ms-share-list">
+                          <li class="ib-pscitem ib-psemailfriend" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
+                            <a rel="nofollow" href="javascript:void(0)" 
+                            class="ib-psbtn showfriendEmail" 
+                            data-modal="modal_email_to_friend" 
+                            data-origin="1"
+                            data-media="{{ markClassActiveTab this }}"
+                            data-price="{{price}}{{ isRentalType this }}"
+                            data-beds="{{bed}}"
+                            data-baths="{{bath}}"
+                            data-sqft="{{sqft}}"
+                            data-address="{{address_short}}, {{address_large}}"
+                            data-lg="{{lng}}" 
+                            data-lt="{{lat}}">
+                              <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                            </a>
+                          </li>
+                          <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                          <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
+                          <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsitw" data-address="{{ address_short }} {{ address_large}}" data-price="{{price}}" data-type="{{class_id}}" data-rental="{{is_rental}}" data-mls="{{mls_num}}">Twitter</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ms-property-call-action">
+                    <div class="ib-requestinfo ib-phbtn"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                  </div>
                   <div class="ib-pbtnopen ib-phbtn" data-permalink="{{ propertyPermalink slug }}"><?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 </div>
@@ -494,15 +498,15 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
             <div class="ib-pviews {{ markClassActiveTab this }}">
               <div class="ib-pvwcta">
                 <ul class="ib-pvcta">
-                  <li class="ib-pvitem {{ markPhotosActive this }}" data-id="photos"><?php echo __("Photos", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                  <li class="ib-pvitem {{ markMapActive this }}" data-id="map" data-loaded="no" data-lat="{{lat}}" data-lng="{{lng}}" data-><?php echo __("Map View", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                  <li class="ib-pvitem {{ markPhotosActive this }} ms-gallery-fs" data-id="photos"><?php echo __("Photos", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                  <li class="ib-pvitem {{ markMapActive this }} ms-map-fs" data-id="map" data-loaded="no" data-lat="{{lat}}" data-lng="{{lng}}" data-><?php echo __("Map View", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                   {{#if virtual_tour}}
                   <li class="ib-pvitem" data-id="video">
-                      <a class="ib-plvideo" href="{{virtual_tour}}" title="Video" target="_blank"><?php echo __("Video", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                    <a class="ib-plvideo ms-video-fs" href="{{virtual_tour}}" data-type="link" title="Virtual Tour" target="_blank"><?php echo __("Virtual Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </li>
                   {{/if}}
                 </ul>
-                <div class="ib-btnfs"></div>
+                <!--<div class="ib-btnfs"></div>-->
               </div>
               <div class="ib-pvlist">
                 <div class="ib-pvphotos ib-pvlitem">
@@ -525,6 +529,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                 {{/if}}
 
               </div>
+              <button class="ib-full-screen js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".ib-modal-master .ib-pvslider">Full screen</button>
             </div>
 
             <div class="ib-pbia">
@@ -1102,11 +1107,17 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                           <li class="ib-spditem ib-spbaths"><span class="ib-spdbold">{{bath}}</span> <?php echo __("Bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                                           <li class="ib-spditem ib-spsqft"><span class="ib-spdbold">{{ formatSqft sqft }}</span> <?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                                           <li class="ib-spditem ib-spsqft"><span class="ib-spdbold">${{ formatPriceSqft this }}</span> / <?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                                          <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                                            <li class="ib-ibditem ms-small-text" style="font-size: 11px;margin-top: 3px;width: 100%;"><?php echo __("Listing Provided by NWMLS", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+                                          <?php } ?>                                          
                                         </ul>
                                       </div>
                                       <div class="ib-spipb">
                                           <img class="ib-spimg" src="{{ thumbnail }}">
                                       </div>
+                                      <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                                        <img src="https://idxboost-spw-assets.idxboost.us/logos/nwmls.jpg" style="position: absolute;top: 5px;right: 5px;width: 45px;">
+                                      <?php } ?>                                                                            
                                       <a class="ib-splink" href="#" title="<?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}">
                                           <span class="ib-spltxt"><?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</span>
                                       </a>
@@ -1235,6 +1246,9 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
         <li class="ib-piitem ib-pibaths">{{ bath }}{{ formatBathsHalf baths_half }} <?php echo __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-pisqft">{{ formatSqft sqft }} <?php echo __('Sq.Ft.', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ full_address }}</li>
+        <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
+        <?php } ?>        
         {{{ handleStatusProperty this }}}
         <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
       </ul>

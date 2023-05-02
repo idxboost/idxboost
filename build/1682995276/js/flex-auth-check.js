@@ -826,7 +826,8 @@ function validate_price(evt) {
 		/*==================================================*/
 		$(document).on("click", ".showfriendEmail", function () {
 
-			var imgProp = "";
+			var imgProp = ""; var a = "";
+			$("#mediaModal").html("");
 
 			//RECUPERANDO VALORES DE CONSULTA
 			var itemLg = $(this).attr("data-lg");
@@ -845,11 +846,24 @@ function validate_price(evt) {
 			//FORMATO DEL BLOQUE MEDIA (IMAGEN O MAPA)
 			switch (mediaElement) {
 				case 'ib-pva-photos':
-					imgProp = $(this).parents("#full-main").find("#full-slider .gs-wrapper-content:first-child").html();
-					if(imgProp === undefined){
-						imgProp = $(this).parents("#flex_idx_modal_wrapper").find(".ib-modal-master .ib-property-detail .ib-pvslider .gs-item-slider:first-child").html();
+					imgProp = $(this).parents("#full-main");
+					
+					if(imgProp.length){
+						a = "full-main";
+						$("#mediaModal").html(imgProp.find("#full-slider .gs-wrapper-content:first-child").html());
+					}else{
+						a = "modal-wrapper";
+						imgProp = $(this).parents("#flex_idx_modal_wrapper");
+						if(imgProp.length){
+							$("#mediaModal").html(imgProp.find(".ib-modal-master .ib-property-detail .ib-pvslider .gs-item-slider:first-child").html());
+						}else{
+							a = "full-gallery";
+							imgProp = $("#fullScreenModal");
+							if(imgProp.length){
+								$("#mediaModal").html(imgProp.find("#fullGalleryView .gs-wrapper-content:first-child").html());
+							}
+						}
 					}
-					$("#mediaModal").html(imgProp);
 					break;
 		
 				case 'ib-pva-map':
@@ -2334,14 +2348,6 @@ function scrollFixedElement(elemento) {
 	});
 
 	/*------------------------------------------------------------------------------------------*/
-	/* Boton full screen
-	/*------------------------------------------------------------------------------------------*/
-	$(document).on('click', '#clidxboost-btn-flight', function () {
-		console.log("activando");
-		$(".clidxboost-full-slider .gs-fs").trigger("click");
-	});
-
-	/*------------------------------------------------------------------------------------------*/
 	/* Acciones de mostrar: Mapa/Slider/Video
 	/*------------------------------------------------------------------------------------------*/
 	$(document).on('click', '.option-switch', function () {
@@ -2349,139 +2355,35 @@ function scrollFixedElement(elemento) {
 		if ($(this).hasClass("active")) {
 			return;
 		}
+
 		$(".option-switch").removeClass("active");
+
 		$(this).addClass("active");
+		$("#full-slider").removeClass("viewGallery viewVideo viewMap");
 		var view = $(this).data('view');
+
 		switch (view) {
+
 			case 'gallery':
-				$("#map-view").removeClass('active');
+				/*$("#map-view").removeClass('active');
 				$("#full-slider").removeClass('active');
-				$("#video-view").removeClass('active');
+				$("#video-view").removeClass('active');*/
+				$("#full-slider").addClass("viewGallery");
 				break;
+
 			case 'video':
-				$("#map-view").removeClass('active');
+				/*$("#map-view").removeClass('active');
 				$("#full-slider").addClass('active');
-				$("#video-view").addClass('active');
+				$("#video-view").addClass('active');*/
+				$("#full-slider").addClass("viewVideo");
 				break;
+
 			case 'map':
+				$("#full-slider").addClass("viewMap");
 				showMap();
 				break;
 		}
 	});
-
-	/*------------------------------------------------------------------------------------------*/
-	/* Button Play de detail building - VIDEO
- 	/*------------------------------------------------------------------------------------------*/
-	jQuery(document).on('click', '.js-cover-play-property-video', function(event){
-		event.preventDefault();
-		var videoUrl = jQuery(this).attr("data-video");
-		var videoTitle = jQuery(this).attr("data-title");
-		var windowWidth = jQuery(window).width()
-
-		jQuery("body").addClass("-full-screen-video");
-		jQuery(this).parents(".ms-wrapper-video-cover").addClass("-playVideo");
-		jQuery("#full-slider").addClass("-playVideo");
-		jQuery(".js-cover-close-property-video").attr("data-youtube","");
-
-		if (videoUrl !== undefined) {
-			var videoUrl = videoUrl.toString();
-			if (videoUrl.indexOf('youtube') !== -1) {
-					var et = videoUrl.lastIndexOf('&')
-					if (et !== -1) {
-							videoUrl = videoUrl.substring(0, et)
-					}
-					var embed = videoUrl.indexOf('embed');
-					if (embed !== -1) {
-						videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl.substring(embed + 6, embed + 17);
-					}
-
-					//var srcVideo = 'https://www.youtube.com/embed/' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '?autoplay=1&muted=1&rel=0&showinfo=0&loop=1';
-					var srcVideo = 'https://www.youtube.com/embed/' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '?playlist=' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '&autoplay=1&controls=1&loop=1';
-
-					if(windowWidth < 1024){
-						jQuery("body").addClass("mobileYoutubeVideo");
-						player.seekTo(0).unMute();
-					}else{
-						jQuery("#js-cover-full-property-video").empty().html('<iframe id="videoPropertyCover" allow="autoplay; encrypted-media" src="'+srcVideo+'" title="'+videoTitle+'" frameborder="0" allowfullscreen></iframe>');
-					}
-
-					jQuery(".js-cover-close-property-video").attr("data-youtube","1");
-
-			} else if (videoUrl.indexOf('vimeo') !== -1) {
-					var srcVideo = 'https://player.vimeo.com/video/' + videoUrl.substring((videoUrl.indexOf('.com') + 5), videoUrl.length).replace('/', '');
-					jQuery("#js-cover-full-property-video").empty().html('<iframe id="videoPropertyCover" allow="autoplay; encrypted-media" src="'+srcVideo+'?autoplay=1&loop=1" title="'+videoTitle+'" frameborder="0" allowfullscreen></iframe>');
-
-				} else {
-					jQuery("#js-cover-full-property-video").empty().html('<video id="videoPropertyCover" src="'+videoUrl+'" title="'+videoTitle+'" controls autoplay loop playsinline controlsList="nodownload">');
-				
-				}
-		}
-
-		setTimeout(function(){
-			jQuery("body").addClass("-showVideo");
-		}, 900);
-	});
-
-	jQuery(document).on('click', '.js-cover-close-property-video', function(event){
-		event.preventDefault();
-		jQuery("#full-slider").removeClass("-playVideo");
-		jQuery(".ms-wrapper-video-cover").removeClass("-playVideo");
-		jQuery("body").removeClass("-full-screen-video");
-		var youtube = jQuery(this).attr("data-youtube");
-
-		setTimeout(function(){
-			jQuery("#js-cover-full-property-video #videoPropertyCover").remove();
-			jQuery("body").removeClass("-showVideo");
-		}, 900);
-
-		var windowWidth = jQuery(window).width()
-		if(windowWidth < 1024 && youtube == 1){
-			jQuery("body").removeClass("mobileYoutubeVideo");
-			player.seekTo(0).mute();
-		}
-	});
-
-	/********************************************************************************************/
-	$(document).on('click', '.js-show-video-cover-bl', function () {
-		//GENERAMOS EL VIDEO SEGÚN EL TIPO
-		var videoUrl = jQuery(this).attr("data-video");
-		var videoTitle = jQuery(this).attr("data-title");
-		var videoAutoplay = jQuery(this).attr("data-autoplay");
-		var videoGalleryType = jQuery(this).attr("data-gallery-type");
-		var videoParent = jQuery(this).attr("data-parent");
-		
-		if(!jQuery(videoParent).hasClass("loaded")){
-			jQuery(videoParent).html('<div id="player"></div>');
-			coverVideoGenerator(videoUrl,videoTitle,videoParent);
-			jQuery(videoParent).addClass("loaded");
-		}
-	});
-
-	/********************/
-	function coverVideoGenerator(videoUrl,videoTitle,videoParent){
-		var videoUrl = videoUrl.toString();
-		if (videoUrl.indexOf('youtube') !== -1) {
-			var et = videoUrl.lastIndexOf('&')
-			if(et !== -1){
-				videoUrl = videoUrl.substring(0, et)
-			}
-			var embed = videoUrl.indexOf('embed');
-			if (embed !== -1) {
-				videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl.substring(embed + 6, embed + 17);
-			}
-
-			var videoCode = videoUrl.substring(videoUrl.length - 11, videoUrl.length);
-			jQuery("body").append('<script>var tag=document.createElement("script");tag.src="https://www.youtube.com/iframe_api";var player,firstScriptTag=document.getElementsByTagName("script")[0];function onYouTubeIframeAPIReady(){player=new YT.Player("player",{width:"100%",videoId:"'+videoCode+'",playerVars:{autoplay:1,playsinline:1,loop:1,rel:0,showinfo:0,mute:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}})}function onPlayerReady(e){e.target.mute(),e.target.playVideo()}function onPlayerStateChange(e){e.data==YT.PlayerState.ENDED&&(player.seekTo(0),player.playVideo())}function stopVideo(){player.stopVideo()}firstScriptTag.parentNode.insertBefore(tag,firstScriptTag);</script>');
-
-		} else if (videoUrl.indexOf('vimeo') !== -1) {
-			var srcVideo = 'https://player.vimeo.com/video/' + videoUrl.substring((videoUrl.indexOf('.com') + 5), videoUrl.length).replace('/', '');
-			jQuery(videoParent).find("#player").html('<iframe allow="autoplay; encrypted-media" title="'+videoTitle+'" src="' + srcVideo + '?autoplay=1&amp;muted=1&loop=1" frameborder="0" allowfullscreen></iframe>');
-		} else {
-			jQuery(videoParent).find("#player").html('<video src="'+videoUrl+'" title="'+videoTitle+'" preload="none" loop muted autoplay playsinline>');
-		}
-	}
-	/********************/
-
 
 	/*------------------------------------------------------------------------------------------*/
 	/* Mini mapa que muestra el full map
@@ -2501,13 +2403,14 @@ function scrollFixedElement(elemento) {
 	/* Funcion que ejecuta el full map
 	/*------------------------------------------------------------------------------------------*/
 	function showMap() {
-		$("#map-view").addClass('active');
+		/*$("#map-view").addClass('active');
 		$(".option-switch").removeClass("active");
 		if (!$("#show-map").hasClass("active")) {
 			$("#show-map").addClass("active");
 			$("#full-slider").addClass('active');
 			$("#video-view").removeClass('active');
-		}
+		}*/
+
 		//mini map
 		var flex_map_mini_view = $("#map-result");
 
@@ -2645,7 +2548,7 @@ function scrollFixedElement(elemento) {
 			google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
 			map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
 		}
-}
+	}
 
 	function msShowMap() {
 		//mini map
@@ -2668,6 +2571,7 @@ function scrollFixedElement(elemento) {
 			map: miniMap
 		});
 	}
+
 	/*------------------------------------------------------------------------------------------*/
 	/* Login y register para los templates de LG
 	/*------------------------------------------------------------------------------------------*/
@@ -3199,6 +3103,7 @@ function loadMapModal(itemLt,itemLg){
 		lat: parseFloat(itemLt),
 		lng: parseFloat(itemLg)
 	};
+
 	var map = new google.maps.Map(document.getElementById('mediaModal'), {
 		zoom: 18,
 		center: myLatLng,
@@ -3210,6 +3115,7 @@ function loadMapModal(itemLt,itemLg){
 		disableDefaultUI: true,
 		streetViewControl: true,
 	});
+
 	var marker = new google.maps.Marker({
 		position: myLatLng,
 		map: map
@@ -3244,5 +3150,463 @@ jQuery(function() {
 				}
 			}
 		});
+	}
+});
+
+/***************************************************************************************/
+
+//GENERANDOR DE VIDEO
+function coverVideoGenerator(videoUrl,videoTitle,videoParent){
+	var videoUrl = videoUrl.toString();
+	if (videoUrl.indexOf('youtube') !== -1) {
+		var et = videoUrl.lastIndexOf('&')
+		if(et !== -1){
+			videoUrl = videoUrl.substring(0, et)
+		}
+		var embed = videoUrl.indexOf('embed');
+		if (embed !== -1) {
+			videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl.substring(embed + 6, embed + 17);
+		}
+
+		var videoCode = videoUrl.substring(videoUrl.length - 11, videoUrl.length);
+		jQuery("body").append('<script>var tag=document.createElement("script");tag.src="https://www.youtube.com/iframe_api";var player,firstScriptTag=document.getElementsByTagName("script")[0];function onYouTubeIframeAPIReady(){player=new YT.Player("player",{width:"100%",videoId:"'+videoCode+'",playerVars:{autoplay:1,playsinline:1,loop:1,rel:0,showinfo:0,mute:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}})}function onPlayerReady(e){e.target.mute(),e.target.playVideo()}function onPlayerStateChange(e){e.data==YT.PlayerState.ENDED&&(player.seekTo(0),player.playVideo())}function stopVideo(){player.stopVideo()}firstScriptTag.parentNode.insertBefore(tag,firstScriptTag);</script>');
+
+	} else if (videoUrl.indexOf('vimeo') !== -1) {
+		var srcVideo = 'https://player.vimeo.com/video/' + videoUrl.substring((videoUrl.indexOf('.com') + 5), videoUrl.length).replace('/', '');
+		jQuery(videoParent).find("#player").html('<iframe allow="autoplay; encrypted-media" title="'+videoTitle+'" src="' + srcVideo + '?autoplay=1&amp;muted=1&loop=1" frameborder="0" allowfullscreen></iframe>');
+	} else {
+		jQuery(videoParent).find("#player").html('<video src="'+videoUrl+'" title="'+videoTitle+'" preload="none" loop muted autoplay playsinline>');
+	}
+}
+
+//GENERADOR DE MAPA EN FULL SCREEN
+function generateMapFullScreen(latitud, longuitud){
+
+	if(!jQuery("#contentMap").length){
+
+		jQuery("#fullMapView").html('<div class="ms-wrapper-map"><div id="contentMap"></div></div>');
+
+		var myLatLng  = {
+			lat: parseFloat(latitud),
+			lng: parseFloat(longuitud)
+		};
+
+		var map = new google.maps.Map(document.getElementById('contentMap'), {
+			zoom: 18,
+			center: myLatLng,
+			styles: style_map,
+			gestureHandling: 'cooperative',
+			panControl: false,
+			scrollwheel: false,
+			disableDoubleClickZoom: true,
+			disableDefaultUI: true,
+			streetViewControl: true,
+		});
+
+		var marker = new google.maps.Marker({
+			position: myLatLng,
+			map: map
+		});
+
+		google.maps.event.addListenerOnce(map, 'tilesloaded', setupMapControls);
+
+		function handleSatelliteButton(event){
+			event.stopPropagation();
+			event.preventDefault();
+			map.setMapTypeId(google.maps.MapTypeId.HYBRID)
+		
+			if($(this).hasClass("is-active")){
+				$(this).removeClass("is-active");
+				map.setMapTypeId(google.maps.MapTypeId.ROADMAP)
+			}else{
+				$(this).addClass("is-active");
+				map.setMapTypeId(google.maps.MapTypeId.HYBRID)
+			}
+		}
+		
+		function handleZoomInButton(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			map.setZoom(map.getZoom() + 1);
+		}
+		
+		function handleZoomOutButton(event) {
+			event.stopPropagation();
+			event.preventDefault();
+			map.setZoom(map.getZoom() - 1);
+		}
+		
+		function handlefullscreenButton() {
+		
+			var elementToSendFullscreen = map.getDiv().firstChild;
+		
+			if (isFullscreen(elementToSendFullscreen)) {
+				exitFullscreen();
+			} else {
+				requestFullscreen(elementToSendFullscreen);
+			}
+		
+			document.onwebkitfullscreenchange = document.onmsfullscreenchange = document.onmozfullscreenchange = document.onfullscreenchange = function () {
+				if (isFullscreen(elementToSendFullscreen)) {
+					fullscreenControl.classList.add("is-fullscreen");
+				} else {
+					fullscreenControl.classList.remove("is-fullscreen");
+				}
+			};
+		}
+		
+		function isFullscreen(element) {
+			return (
+				(document.fullscreenElement ||
+					document.webkitFullscreenElement ||
+					document.mozFullScreenElement ||
+					document.msFullscreenElement) == element
+			);
+		}
+		
+		function requestFullscreen(element) {
+			if (element.requestFullscreen) {
+				element.requestFullscreen();
+			} else if (element.webkitRequestFullScreen) {
+				element.webkitRequestFullScreen();
+			} else if (element.mozRequestFullScreen) {
+				element.mozRequestFullScreen();
+			} else if (element.msRequestFullScreen) {
+				element.msRequestFullScreen();
+			}
+		}
+		
+		function exitFullscreen() {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			}
+		}
+		
+		function setupMapControls() {
+			// setup buttons wrapper
+			mapButtonsWrapper = document.createElement("div");
+			mapButtonsWrapper.classList.add('flex-map-controls-ct');
+		
+			// setup Full Screen button
+			fullscreenControl = document.createElement("div");
+			fullscreenControl.classList.add('flex-map-fullscreen');
+			mapButtonsWrapper.appendChild(fullscreenControl);
+		
+			// setup zoom in button
+			mapZoomInButton = document.createElement("div");
+			mapZoomInButton.classList.add('flex-map-zoomIn');
+			mapButtonsWrapper.appendChild(mapZoomInButton);
+		
+			// setup zoom out button
+			mapZoomOutButton = document.createElement("div");
+			mapZoomOutButton.classList.add('flex-map-zoomOut');
+			mapButtonsWrapper.appendChild(mapZoomOutButton);
+		
+			// setup Satellite button
+			satelliteMapButton = document.createElement("div");
+			satelliteMapButton.classList.add('flex-satellite-button');
+			mapButtonsWrapper.appendChild(satelliteMapButton);
+		
+			// add Buttons
+			google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
+			google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
+			google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+			google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
+			map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
+		}
+	}
+}
+
+//GENERADOR DE VIDEO EN FULL SCREEN
+function generateVideoFullScreen(videoUrl,videoTitle){
+	var videoUrl = videoUrl, videoTitle = videoTitle, windowWidth = jQuery(window).width();
+	if (videoUrl !== undefined) {
+		var videoUrl = videoUrl.toString();
+		if (videoUrl.indexOf('youtube') !== -1) {
+			var et = videoUrl.lastIndexOf('&')
+			if (et !== -1) {
+					videoUrl = videoUrl.substring(0, et)
+			}
+			var embed = videoUrl.indexOf('embed');
+			if (embed !== -1) {
+				videoUrl = 'https://www.youtube.com/watch?v=' + videoUrl.substring(embed + 6, embed + 17);
+			}
+
+			var srcVideo = 'https://www.youtube.com/embed/' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '?playlist=' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '&autoplay=1&controls=1&loop=1';
+
+			if(windowWidth < 1024){
+				jQuery("body").addClass("mobileVideo");
+				player.seekTo(0).unMute();
+			}else{
+				jQuery("#fullVideoView").empty().html('<div class="ms-wrapper-video"><div class="ms-video-player"><iframe id="videoPropertyCover" allow="autoplay; encrypted-media" src="'+srcVideo+'" title="'+videoTitle+'" frameborder="0" allowfullscreen></iframe></div></div>');
+			}
+
+		} else if (videoUrl.indexOf('vimeo') !== -1) {
+			var srcVideo = 'https://player.vimeo.com/video/' + videoUrl.substring((videoUrl.indexOf('.com') + 5), videoUrl.length).replace('/', '');
+			jQuery("#fullVideoView").empty().html('<div class="ms-wrapper-video"><div class="ms-video-player"><iframe id="videoPropertyCover" allow="autoplay; encrypted-media" src="'+srcVideo+'?autoplay=1&loop=1" title="'+videoTitle+'" frameborder="0" allowfullscreen></iframe></div></div>');
+		} else {
+			jQuery("#fullVideoView").empty().html('<div class="ms-wrapper-video"><div class="ms-video-player"><video id="videoPropertyCover" src="'+videoUrl+'" title="'+videoTitle+'" controls autoplay loop playsinline controlsList="nodownload"></div></div>');
+		}
+	}
+}
+
+//SLIDER PARA LA VISTA FULL SCREEN
+function generateSliderFullScreen(itemInit,galleyActive){
+	//GENERAMOS Y RECUPERAMOS VARIABLES
+	var count = 0;
+	var slider = jQuery("#fullGalleryView");
+	var sliderItems = "";
+
+	if(jQuery(galleyActive).hasClass("gs-builded")){
+		if(!slider.hasClass("slider-loaded")){
+			//AGREGAMOS LA CLASE DE VALIDACION
+			slider.addClass("slider-loaded");
+	
+			//RECUPERANDO LOS ELEMENTOS DE LA LISTA DEL SLIDER YA GENERADO
+			jQuery(galleyActive).find(".gs-item-slider img").each(function () {
+				count = count + 1;
+				var img = jQuery(this).attr("data-lazy");
+	
+				if(img !== "" && img !== undefined){
+					sliderItems = sliderItems + "<img src='"+img+"' data-number='"+count+"'>";
+				}else{
+					sliderItems = sliderItems + "<img src='"+jQuery(this).attr("src")+"' data-number='"+count+"'>";
+				}
+			});
+	
+			//AGREGAMOS LOS ELEMENTOS A LA ESTRUCTURA DEL SLIDER
+			slider.html(sliderItems);
+	
+			//GENERAMOS EL SLIDER
+			var sliderFullScreen = slider.greatSlider({
+				type: 'swipe',
+				nav: true,
+				bullets: false,
+				navSpeed: 150,
+				startPosition: itemInit,
+				onInited: function(){
+					slider.find(".gs-item-slider img").each(function() {
+						jQuery(this).parent().append('<span class="ms-label-number">'+jQuery(this).attr("data-number")+' of '+slider.find(".gs-item-slider").length+'</span>');
+					});
+				}
+			});
+	
+		}else{
+			//MOVEMOS EL SLIDER A LA POSICION DESEADA
+			gs.slider['fullGalleryView'].goTo(itemInit);
+		}
+	}
+}
+
+//ACTIVANDO FULL SCREEN
+function activeFullScreen(obj){
+
+	console.log("generando...");
+
+	var activeView = "";
+	var fullScreenModal = jQuery("#fullScreenModal");
+	jQuery("body").removeClass("showPhoto showMap showVideo");
+	jQuery("#fullScreenModal .ms-item").removeClass("active");
+	jQuery("#fullVideoView .ms-wrapper-video").remove();
+
+	var propertyName = "";
+	var actionPhoto = "";
+	var actionVideo = "";
+	var actionMap = "";
+
+	propertyName =  obj.element.parents(".ms-wrapper-actions-fs").find(".ms-property-title").html();
+	actionPhoto = obj.element.parents(".ms-wrapper-actions-fs").find(".ms-gallery-fs");
+	actionVideo = obj.element.parents(".ms-wrapper-actions-fs").find(".ms-video-fs");
+	actionMap = obj.element.parents(".ms-wrapper-actions-fs").find(".ms-map-fs");
+
+	if(!fullScreenModal.length){
+
+		if(actionPhoto.length){
+			var btnPhoto = '<button class="ms-item -photo-btn js-open-full-screen" data-type="photo" data-initial="1"><i class="ms-icon idx-icon-camera"></i> '+actionPhoto.text()+'</button>';
+		}else{
+			var btnPhoto = '';
+		}
+
+		if(actionVideo.length){
+			var btnType = actionVideo.attr("data-type");
+			if(btnType == "video"){
+				var btnVideo = '<button class="ms-item -video-btn js-open-full-screen" data-type="video" data-video="'+actionVideo.attr("data-video")+'" data-title="'+actionVideo.attr("data-title")+'"><i class="ms-icon idx-icon-play"></i> '+actionVideo.text()+'</button>';
+			}else if(btnType == "link"){
+				var btnVideo = '<a href="'+actionVideo.attr("href")+'" class="ms-item -video-btn" target="_blank"><i class="ms-icon idx-icon-virtual-tour-cr"></i> '+actionVideo.text()+'</a>';
+			}
+		}else{
+			var btnVideo = '';
+		}
+
+		if(actionMap.length){
+			var btnMap = '<button class="ms-item -map-btn js-open-full-screen" data-type="map" data-lat="'+actionMap.attr("data-lat")+'" data-lng="'+actionMap.attr("data-lng")+'"><i class="ms-icon idx-icon-map"></i> '+actionMap.text()+'</button>';
+		}else{
+			var btnMap = '';
+		}
+
+		jQuery("body").append(
+			'<div id="fullScreenModal" class="ms-modal">'+
+				'<div class="ms-modal-header">'+
+					'<div class="ms-wrapper-header">'+
+						'<h5 class="ms-title">'+propertyName+'</h5>'+
+						'<div class="ms-actions">'+
+							btnPhoto+btnMap+btnVideo+
+							obj.element.parents(".ms-wrapper-actions-fs").find(".ms-property-search").html()+
+							obj.element.parents(".ms-wrapper-actions-fs").find(".ms-property-call-action").html()+
+							'<button class="ms-close js-close-full-screen" aria-label="Close modal"></button>'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
+				'<div class="ms-modal-body">'+
+					'<div id="fullGalleryView" class="ms-wrapper-view"></div>'+
+					'<div id="fullMapView" class="ms-wrapper-view"></div>'+
+					'<div id="fullVideoView" class="ms-wrapper-view"></div>'+
+				'</div>'+
+			'</div>'
+		);
+	}
+
+	switch (obj.typeView) {
+		case 'photos':
+			activeView = "showPhoto";
+			jQuery("#fullScreenModal .-photo-btn").addClass("active");
+			generateSliderFullScreen(obj.itemInit, obj.galleyActive);
+			break;
+	
+		case 'map':
+			activeView = "showMap";
+			jQuery("#fullScreenModal .-map-btn").addClass("active");
+			generateMapFullScreen(obj.latitud,obj.longuitud);
+			break;
+
+		case 'video':
+			activeView = "showVideo";
+			jQuery("#fullScreenModal .-video-btn").addClass("active");
+			generateVideoFullScreen(obj.videoUrl,obj.videoTitle);
+			break;
+	}
+
+	jQuery("body").addClass("open-full-screen "+activeView);
+}
+
+//REMUEVE LA VISTA FULL SCREEN
+function removeFullScreen(){
+	//jQuery("#fullVideoView .ms-wrapper-video").remove();
+	jQuery("body").removeClass("showVideo showMap showPhoto open-full-screen");
+	//jQuery("#fullGalleryView").removeClass("slider-loaded");
+	setTimeout(function () {
+		gs.slider['fullGalleryView'].destroy();
+		jQuery("#fullScreenModal").remove();
+		//jQuery("#fullMapView .ms-wrapper-map").remove();
+	}, 900);
+
+	console.log("Borrando...");
+}
+
+//BOTON DE VIDEO EN LA LISTA DE OPCIONES PHOTO/MAPA/VIDEO FLOTANTE
+jQuery(document).on('click', '.js-show-video-cover-bl', function () {
+	//GENERAMOS EL VIDEO SEGUN EL TIPO
+	var videoUrl = jQuery(this).attr("data-video");
+	var videoTitle = jQuery(this).attr("data-title");
+	var videoParent = jQuery(this).attr("data-parent");
+	
+	if(!jQuery(videoParent).hasClass("loaded")){
+		jQuery(videoParent).html('<div id="player"></div>');
+		coverVideoGenerator(videoUrl,videoTitle,videoParent);
+		jQuery(videoParent).addClass("loaded");
+	}
+});
+
+//BOTON QYE REMUEVE EL MODAL DE FULL SCREEN EN LA VISTA VIDEO
+jQuery(document).on('click', '.js-close-full-screen', function(event){
+	event.preventDefault();
+	removeFullScreen();
+});
+
+//BOTON DE FULL SCREEN
+jQuery(document).on('click', '.js-open-full-screen', function (event) {
+	event.preventDefault();
+
+	if(!jQuery(this).hasClass("active")){
+
+		//LIMPIAMOS TODO ANTES DE GENERAR ALGO
+		var type = jQuery(this).attr("data-type");
+
+		switch (type) {
+			case 'photo':
+				let photo = {
+					typeView: 'photos',
+					galleyActive: jQuery(this).attr("data-gallery"),
+					itemInit: parseInt(jQuery(this).attr("data-initial")),
+					element: jQuery(this)
+				};
+				activeFullScreen(photo);
+				break;
+
+			case 'map':
+				let map = {
+					typeView: 'map',
+					latitud: jQuery(this).attr("data-lat"),
+					longuitud: jQuery(this).attr("data-lng"),
+					element: jQuery(this)
+				};
+				activeFullScreen(map);
+				break;
+
+			case 'video':
+				let video = {
+					typeView: 'video',
+					videoUrl: jQuery(this).attr("data-video"),
+					videoTitle: jQuery(this).attr("data-title"),
+					element: jQuery(this)
+				};
+				activeFullScreen(video);
+				break;
+		}
+
+	}
+});
+
+//ACTIVAMOS LA VISTA FULL SCREEN AL DAR CLICK EN ALGUNO DE LOS ELEMENTOS DEL SLIDER PRINCIPAL
+jQuery(document).on('click', '#full-slider .clidxboost-full-slider .gs-item-slider', function () {
+	let photo = {
+		typeView: 'photos',
+		galleyActive: '.clidxboost-full-slider',
+		itemInit: parseInt(jQuery(this).index() + 1),
+		element: jQuery(this)
+	};
+	activeFullScreen(photo);
+});
+
+jQuery(document).on('click', '.js-close-temp-video-view', function () {
+	jQuery("body").removeClass("mobileVideo");
+	player.mute();
+});
+
+//ACTIVAMOS LA VISTA FULL SCREEN AL DAR CLICK EN ALGUNO DE LOS ELEMENTOS DEL SLIDER PRINCIPAL
+jQuery(document).on('click', '.ib-modal-master .ib-pvslider .gs-item-slider', function () {
+	let photo = {
+		typeView: 'photos',
+		galleyActive: '.ib-modal-master .ib-pvslider',
+		itemInit: parseInt(jQuery(this).index() + 1),
+		element: jQuery(this)
+	};
+	activeFullScreen(photo);
+});
+
+jQuery(document).ready(function() {
+	var windowSize = jQuery(window).width();
+	var heightHeader = jQuery("header").outerHeight();
+	var heightHeaderAdd = heightHeader + 49;
+	if(windowSize > 1023){
+		jQuery("#flex-filters-theme .gwr-breadcrumb").css({'position':'fixed','z-index':'5','top':heightHeader});
+		jQuery("#flex-filters-theme .ib-filter-container.fixed-box").css({'position':'fixed','top':heightHeaderAdd});
+		jQuery("#flex-filters-theme").css({'margin-top':'49px'});
 	}
 });

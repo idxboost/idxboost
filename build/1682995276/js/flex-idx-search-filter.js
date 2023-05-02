@@ -1627,69 +1627,77 @@ if ("undefined" === typeof loadPropertyInModal) {
 
 						if (response.gallery.length) {
 
-							IB_MODAL_SLIDER = IB_MODAL_SLIDER.greatSlider({
-									type: 'swipe',
-								nav: true,
-								bullets: false,
-								lazyLoad: true,
-									navSpeed: 150,
-								layout: {
-									arrowDefaultStyles: false
-								},
-								fullscreen: true,
-								layout: {
-									fsButtonDefaultStyles: false,
-									fsButtonClass: 'ib-btnfs'
-								},
-								breakPoints: {
-									640: {
-										items: 2
-									},
-									1024: {
-										items: 3
-									}
-								},
+						IB_MODAL_SLIDER = IB_MODAL_SLIDER.greatSlider({
+								type: 'swipe',
+							  nav: true,
+							  bullets: false,
+							  lazyLoad: true,
+								navSpeed: 150,
+							  layout: {
+								  arrowDefaultStyles: false
+							  },
+							  //fullscreen: true,
+								fullscreen: false,
+							  layout: {
+								  fsButtonDefaultStyles: false,
+								  fsButtonClass: 'ib-btnfs'
+							  },
+							  breakPoints: {
+								  640: {
+									  items: 2
+								  },
+								  1024: {
+									  items: 3
+								  }
+							  },
+							  
 								onInited: function() {
 
-										var windowSize = $(window).width();
-										if(windowSize > 767){
-											IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
-												IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
-											});
-										}
+									/*var windowSize = $(window).width();
+									if(windowSize > 767){
+										IB_MODAL_WRAPPER.find('.gs-item-slider').on('click', function(){
+											IB_MODAL_SLIDER.fullscreen('in', $(this).index() + 1);
+										});
+									}
 
-										// Creando la numeración en FS
-										const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
-										if (!$ibmpNumbers.length) {
-											IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
-										} else {
-											IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-										}
+									// Creando la numeración en FS
+									const $ibmpNumbers = IB_MODAL_WRAPPER.find('.ib-pvsinumber');
+									if (!$ibmpNumbers.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsinumber">' + (IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length + '</span>');
+									} else {
+										IB_MODAL_WRAPPER.find('.ib-pvsinumber').text((IB_MODAL_WRAPPER.find('.gs-item-active').index() + 1) + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									}*/
 
-								},
-								onLoadedItem: function(item, index, response) {
-										if ("success" != response) {
-											setTimeout(function () {
-												item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
-											}, 2000);
-										}
-								},
-								onFullscreenIn: ()=> {
-										// creando el título en FS
-										const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
-										if (!$ibmpTitle.length) {
-											IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
-										}
-								},
-									onStepEnd: ($itemActivo, indexIA)=> {
-										//if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
-											IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-										//}
-								}
-							});
+							  },
 
-						}
+							  onLoadedItem: function(item, index, response) {
+									if ("success" != response) {
+										setTimeout(function () {
+											item.attr("src", "https://www.idxboost.com/i/default_thumbnail.jpg");
+										}, 2000);
+									}
+							  },
+
+							  onFullscreenIn: ()=> {
+									// creando el título en FS
+									/*const $ibmpTitle = IB_MODAL_WRAPPER.find('.ib-pvsititle');
+									if (!$ibmpTitle.length) {
+										IB_MODAL_WRAPPER.find('.gs-container-items').append('<span class="ib-pvsititle">' + $('.ib-ptitle').text() + ' ' + $('.ib-pstitle').text() + '</span>');
+									}*/
+							  },
+
+								onStepEnd: ($itemActivo, indexIA)=> {
+									//if (IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)").hasClass('gs-infs')) {
+										////IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
+									//}
+							  }
+						  });
+							jQuery(".ib-full-screen").removeClass("hidden");
 					}
+				}else{
+
+					jQuery(".ib-full-screen").addClass("hidden");
+				}
 
 					if (0 === parseInt(response.img_cnt, 10)) {
 						var myLatLng = { lat: parseFloat(response.lat), lng: parseFloat(response.lng) };
@@ -5776,7 +5784,7 @@ $(function () {
 
 		// IB_SAVE_SEARCH_MODALS.find('.ib-mgsubmit').click(function(){ IB_SAVE_SEARCH_MODALS.submit(); });
 
-		IB_MODAL_WRAPPER.on("click", ".ib-plsifb", function(event) {
+		$(document).on("click", ".ib-plsifb", function(event) {
 			event.preventDefault();
 
 			var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
@@ -5798,7 +5806,7 @@ $(function () {
 		});
 
 		// share on twitter
-		IB_MODAL_WRAPPER.on("click", ".ib-plsitw", function(event) {
+		$(document).on("click", ".ib-plsitw", function(event) {
 			event.preventDefault();
 
             var buildTextShare = [];
@@ -5868,7 +5876,7 @@ $(function () {
         });
 
 				// open email to a friend modal
-				IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function() {
+				$(document).on("click", ".ib-psemailfriend", function() {
 					var mlsNumber = $(this).data("mls");
 					var propertyStatus = $(this).data("status");
 

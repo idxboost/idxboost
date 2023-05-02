@@ -70,16 +70,29 @@ function handleSubmissionBuyForm(event) {
                         url: __flex_g_settings.ajaxUrl,
                         data: formData,
                         success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_buy_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
+                            if (response.hasOwnProperty("success")  ) {
+
+                                if(response.success) {
+                                    sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+                                    lead_submission_buy_form.find(":input").prop("disabled", true);
+                        
+                                    $(document).one("click", "button", function(event) {
+                                        if ($(event.target).hasClass("confirm")) {
+                                            setTimeout(function () {
+                                                document.location.reload();
+                                            }, 300);
+                                        }
+                                    });
+
+                                }else{
+                                    sweetAlert("Error", response.message, "error");
                                 }
-                            });
+
+
+                            }else{
+                                sweetAlert("Error", "Oops, an error occurred, please try again", "error");
+                            }
+
                         },
                         error: function() {
                             setTimeout(function () {
@@ -152,16 +165,29 @@ function handleSubmissionRentForm(event) {
                         url: __flex_g_settings.ajaxUrl,
                         data: formData,
                         success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_rent_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
+
+                            if (response.hasOwnProperty("success")  ) {
+                                if(response.success) {
+                                    sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+                                    lead_submission_rent_form.find(":input").prop("disabled", true);
+                                    $(document).one("click", "button", function(event) {
+                                        if ($(event.target).hasClass("confirm")) {
+                                            setTimeout(function () {
+                                                document.location.reload();
+                                            }, 300);
+                                        }
+                                    });
+                        
+
+                                }else{
+                                    sweetAlert("Error", response.message, "error");
                                 }
-                            });
+
+
+                            }else{
+                                sweetAlert("Error", "Oops, an error occurred, please try again", "error");
+                            }
+
                         },
                         error: function() {
                             setTimeout(function () {
@@ -234,16 +260,33 @@ function handleSubmissionSellForm(event) {
                         url: __flex_g_settings.ajaxUrl,
                         data: formData,
                         success: function(response) {
-                            sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
-                            lead_submission_sell_form.find(":input").prop("disabled", true);
-                
-                            $(document).one("click", "button", function(event) {
-                                if ($(event.target).hasClass("confirm")) {
-                                    setTimeout(function () {
-                                        document.location.reload();
-                                    }, 300);
+
+                            if (response.hasOwnProperty("success")  ) {
+
+                                if(response.success) {
+
+                                    sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
+                                    lead_submission_sell_form.find(":input").prop("disabled", true);
+                        
+                                    $(document).one("click", "button", function(event) {
+                                        if ($(event.target).hasClass("confirm")) {
+                                            setTimeout(function () {
+                                                document.location.reload();
+                                            }, 300);
+                                        }
+                                    });
+
+                                }else{
+                                    sweetAlert("Error", response.message, "error");
                                 }
-                            });
+
+
+                            }else{
+                                sweetAlert("Error", "Oops, an error occurred, please try again", "error");
+                            }
+
+
+
                         },
                         error: function() {
                             setTimeout(function () {

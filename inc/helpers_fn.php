@@ -3302,6 +3302,27 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
         
         $removed_agents = [];
 
+        if (is_array($response['slugs_settings']) && count($response['slugs_settings']) > 0 ) {
+            $wpsite = get_site_url();
+
+            if (array_key_exists("property", $response['slugs_settings'])) {
+                $Siteproperty = $response['slugs_settings']["property"];
+                $wpdb->query("UPDATE wp_posts set post_name='{$Siteproperty}',guid='{$wpsite}/{$Siteproperty}' where post_type='flex-idx-pages' and post_content = '[flex_idx_property_detail]'; ");
+            }
+
+            if (array_key_exists("building", $response['slugs_settings'])) {
+                $Sitebuilding = $response['slugs_settings']["building"];
+                $wpdb->query("UPDATE wp_posts set post_name='{$Sitebuilding}', guid='{$wpsite}/{$Sitebuilding}' where post_type='flex-idx-pages' and post_title = 'building'; ");
+            }
+
+            if (array_key_exists("search", $response['slugs_settings'])) {
+                $Sitesearch = $response['slugs_settings']["search"];
+                $wpdb->query("UPDATE wp_posts set post_name='{$Sitesearch}',guid='{$wpsite}/{$Sitesearch}' where post_type='flex-idx-pages' and post_content = '[ib_search]'; ");
+            }
+
+        }
+
+
         if (isset($response['active_agents']) && is_array($response['active_agents'])) {
             $wp_agents_list = $wpdb->get_results("
             SELECT t2.meta_value,t1.ID

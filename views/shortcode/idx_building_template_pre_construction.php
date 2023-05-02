@@ -135,7 +135,7 @@
   }
 ?>
 <main class="property-details theme-3">
-  <div id="full-main">
+  <div id="full-main" class="ms-wrapper-actions-fs">
     <section class="title-conteiner gwr animated fixed-box">
       <div class="content-fixed simple-btn">
         <div class="content-fixed-title ms-ptr-wrap-bd">
@@ -146,7 +146,7 @@
             </div>
           <?php  } ?>
 
-          <h1 class="title-page" data-title="<?php echo $response['payload']['name_building']; ?>"><?php echo $response['payload']['name_building']; ?><span><?php echo $building_default_address; ?></span></h1>
+          <h1 class="title-page ms-property-title" data-title="<?php echo $response['payload']['name_building']; ?>"><?php echo $response['payload']['name_building']; ?><span><?php echo $building_default_address; ?></span></h1>
           <input type="hidden" class="idx_name_building" value="<?php echo $response['payload']['name_building']; ?>">
           <div class="breadcrumb-options">
             <a href="javascript:void(0)" class="btn-request active-bl-form">

@@ -1,5 +1,10 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/wp-config.php';
+
+if (!defined('ABSPATH')) {
+    define('WP_USE_THEMES', false);
+    require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/wp-load.php';
+}
+
 global $wp, $wpdb;
 
 function calculateMortgage($sale_price, $down_percent, $year_term, $annual_interest_percent)

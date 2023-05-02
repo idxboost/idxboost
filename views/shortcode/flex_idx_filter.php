@@ -646,6 +646,11 @@
               <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
               <div class="ms-br-line">,</div>
               <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
+
+              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                <div>Listing Provided by NWMLS</div>
+              <?php } ?>
+
             </h2>
 
             <ul class="features">

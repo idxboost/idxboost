@@ -83,6 +83,13 @@ if (isset($_POST)) {
     );
   }
 
+  if(isset($_POST['idx-hidden-phone'])){ 
+    $store += array(
+      'idx_hidden_phone' => $_POST['idx-hidden-phone']
+    );            
+  }      
+
+
   if (!empty($store)) {
     update_post_meta($post_ID, '_settings_rental', $store);
   }
@@ -629,8 +636,26 @@ wp_enqueue_style('flex-idx-admin');
           </div>
         </li>        
         
-        
       </ul>
+
+      <h2 class="schema-form-h2">Settings For Office Number</h2>
+      <ul class="ks-cboxtags">  
+        <li>
+          <div class="container-switch">
+            <label class="switch">
+              <?php 
+              $checkedPhone = "";
+              if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("idx_hidden_phone", $settings_rental_data) && $settings_rental_data["idx_hidden_phone"] == "1" ){
+                $checkedPhone = "checked";
+              }
+              ?>
+            <input type="checkbox" id="idx-hidden-phone" name="idx-hidden-phone" value="1" <?php echo $checkedPhone; ?> >
+            <span class="slider round"></span>
+            </label>
+            <span>Show/Hide</span>
+          </div>
+        </li> 
+
 
       <input id="sendbtn" class="sendbtn" value="Save Changes" type="submit">
     </form>

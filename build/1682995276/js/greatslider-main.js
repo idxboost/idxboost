@@ -312,9 +312,9 @@
 		        items: 2
 		      },
 					
-					768:{
+					/*768:{
 						fullscreen: true,
-					},
+					},*/
 
 		      1360: {
 		        items: 3,
@@ -323,16 +323,16 @@
 
 		    onInited: function(){
 					var $showSlider = $fullSlider.parents('#full-slider');
-					if($showSlider.length) $showSlider.addClass('show-slider-psl');
+					if($showSlider.length) $showSlider.addClass('show-slider-psl viewGallery');
 
 					var windowSize = $(window).width();
 					var cantElement = $(".clidxboost-full-slider").find('.gs-item-slider').length;
-					if(windowSize > 767){
+					/*if(windowSize > 767){
 						// anidando FS con click sobre la imagen
 						$fullSlider.find('.gs-item-slider').on('click', function(){
 							$fsSlider.fullscreen('in', $(this).index() + 1);
 						});
-					}
+					}*/
 
 					if(windowSize < 640 && cantElement < 2){
 						$(".clidxboost-full-slider").addClass("-control-nav");
@@ -362,12 +362,12 @@
 					}*/
 
 					// Creando la numeración en FS
-					var $ibmpNumbers = $("#full-slider").find('.ib-pvsinumber');
+					/*var $ibmpNumbers = $("#full-slider").find('.ib-pvsinumber');
 					if (!$ibmpNumbers.length) {
 						$("#full-slider").find('.gs-container-items').append('<span class="ib-pvsinumber">' + ($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $totalItems + '</span>');
 					} else {
 						$("#full-slider").find('.ib-pvsinumber').text(($("#full-slider").find('.gs-item-active').index() + 1) + ' of ' + $totalItems)
-					}
+					}*/
 
 		    },
 
@@ -394,7 +394,7 @@
 					}
 				},
 
-		    onFullscreenIn: ()=> {
+		    /*onFullscreenIn: ()=> {
 				// creando el título en FS
 				const $ibmpTitle = $fullSlider.find('.ib-pvsititle');
 				if (!$ibmpTitle.length) {
@@ -410,7 +410,7 @@
 				//if ($fullSlider.hasClass('gs-infs')) {
 					$("#full-slider").find('.ib-pvsinumber').text(indexIA + ' of ' + $totalItems)
 				//}
-			}
+			}*/
 		});
 	}else{
 
@@ -423,7 +423,7 @@
 	
 				if((lt.length > 0) && (lg.length > 0)){
 	
-					$("#full-slider").addClass("show-slider-psl active");
+					$("#full-slider").addClass("show-slider-psl viewMap active");
 				
 					var btnMap = $("#show-map");
 					var btnGalery = $("#show-gallery");
@@ -618,7 +618,7 @@ function loadFullSlider(elemento){
 	    onInited: function(){
 	    	var $showSlider = $fullSliderModal.parents('#full-slider');
 	    	if($showSlider.length){
-	    		$showSlider.addClass('show-slider-psl');
+	    		$showSlider.addClass('show-slider-psl viewGallery');
 	    	}
 
 	    	var $a = 0;

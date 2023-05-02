@@ -29,7 +29,7 @@
 
 <script class="js-ib-sp-handlebars-template" id="ib-sp-handlebars-template" type="text/x-handlebars-template">
 
-  <div class="ib-modal-master ib-mmpd ib-md-active js-ib-sp-modal-website" id="ib-sp-modal-website">
+  <div class="ib-modal-master ib-mmpd ib-md-active js-ib-sp-modal-website ms-wrapper-actions-fs" id="ib-sp-modal-website">
     <div class="ib-mmcontent">
       <article class="ib-property-detail ib-pdmodal">
 
@@ -38,8 +38,7 @@
 
             <header class="ib-pheader">
               {{#ifequals stylesInput.logo.logoType "text"}}
-                <h2 class="ib-ptitle">{{websiteTitle}}</h2>
-                <span class="ib-pstitle">{{websiteTagline}}</span>
+                <h2 class="ib-ptitle ms-property-title">{{websiteTitle}} <span class="ib-pstitle">{{websiteTagline}}</span></h2>
               {{/ifequals}}
               {{#ifequals stylesInput.logo.logoType "image"}}
                 <div class="ib-logo">

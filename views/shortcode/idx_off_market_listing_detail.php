@@ -163,38 +163,40 @@ if ($status_school != false) {
 	  $outtemporali=json_decode($outputlatlong,true);
 }
   ?>
-<div id="full-main" class="general-stf">
+<div id="full-main" class="general-stf ms-wrapper-actions-fs">
 
   <section class="title-conteiner gwr animated fixed-box">
     <div class="content-fixed">
       <div class="content-fixed-title">
-        <h1 class="title-page"><?php echo $property['name']; ?><span><?php  echo $property['address']; ?></span></h1>
+        <h1 class="title-page ms-property-title"><?php echo $property['name']; ?><span><?php  echo $property['address']; ?></span></h1>
         <div class="breadcrumb-options">
 
-          <div class="ms-wrapper-btn-new-share">
-            <div class="ms-wrapper">
-              <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-              <ul class="ms-share-list">
-                <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
-                  <a rel="nofollow" href="javascript:void(0)" 
-                    class="ib-psbtn showfriendEmail" 
-                    data-modal="modal_email_to_friend" 
-                    data-origin="1"
-                    data-media="ib-pva-photos"
-                    data-price="$<?php echo number_format($property['price']); ?>"
-                    data-beds="<?php echo $property['bed']; ?>"
-                    data-baths="<?php echo $property['bath']; ?>"
-                    data-sqft="<?php echo number_format($property['sqft']); ?>"
-                    data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
-                    data-lg="<?php echo $property['lng']; ?>" 
-                    data-lt="<?php echo $property['lat']; ?>">
-                      <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                  </a>
-                </li>
-                <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-                <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Facebook</a></li>
-                <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
-              </ul>
+          <div class="ms-property-search">
+            <div class="ms-wrapper-btn-new-share">
+              <div class="ms-wrapper">
+                <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                <ul class="ms-share-list">
+                  <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                    <a rel="nofollow" href="javascript:void(0)" 
+                      class="ib-psbtn showfriendEmail" 
+                      data-modal="modal_email_to_friend" 
+                      data-origin="1"
+                      data-media="ib-pva-photos"
+                      data-price="$<?php echo number_format($property['price']); ?>"
+                      data-beds="<?php echo $property['bed']; ?>"
+                      data-baths="<?php echo $property['bath']; ?>"
+                      data-sqft="<?php echo number_format($property['sqft']); ?>"
+                      data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                      data-lg="<?php echo $property['lng']; ?>" 
+                      data-lt="<?php echo $property['lat']; ?>">
+                        <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </a>
+                  </li>
+                  <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                  <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Facebook</a></li>
+                  <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -203,9 +205,11 @@ if ($status_school != false) {
           <?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?>
           </a>
           <?php endif?>
-          <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
-            <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
-          </a>
+          <div class="ms-property-call-action">
+            <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
+              <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
+            </a>
+          </div>
           <a href="<?php echo $flex_idx_info["pages"]["flex_idx_search"]["guid"]; ?>" class="btn link-search clidxboost-icon-search">
           <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
           </a>
@@ -255,27 +259,29 @@ if ($status_school != false) {
       <?php } ?>
       <?php endif;?>
     </div>
+    
+    <div id="map-view">
+      <div id="map-result" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
+    </div>
+
     <div class="moptions">
       <ul class="slider-option">
         <li>
-          <button class="option-switch active" id="show-gallery" data-view="gallery"><?php echo __("photos", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          <button class="option-switch ms-gallery-fs active" id="show-gallery" data-view="gallery"><?php echo __("photos", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </li>
         <li>
-          <button class="option-switch" id="show-map" data-view="map"><?php echo __("map view", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          <button class="option-switch ms-map-fs" id="show-map" data-view="map" data-lat="" data-lng=""><?php echo __("map view", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </li>
         <?php if (!empty($property["virtual_tour"])): ?>
         <li>
-          <button class="option-switch" onclick="javascript:window.open('<?php echo strip_tags($property["virtual_tour"]); ?>');"><?php echo __("video", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          <a class="ms-video-fs" href="<?php echo strip_tags($property["virtual_tour"]); ?>" data-type="link" title="Virtual Tour" target="_blank"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
         </li>
         <?php endif; ?>
       </ul>
       <?php /*<div id="min-map" data-map-img="https://maps.googleapis.com/maps/api/staticmap?center=<?php echo $property['lat']; ?>,<?php echo $property['lng']; ?>&amp;zoom=14&amp;size=163x87&amp;maptype=roadmap&amp;scale=false&amp;format=png&amp;key=AIzaSyBbcWAf3LnqNPxdZ5TP5resRxl3I3BPZb8&amp;visual_refresh=true&amp;markers=size:mid%7Ccolor:0xff4646%7Clabel:%7C<?php echo $property['lat']; ?>,<?php echo $property['lng']; ?>">
     </div>
     */ ?>
-      <button class="full-screen" id="clidxboost-btn-flight"><?php echo __("Full screen", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-    </div>
-    <div id="map-view">
-      <div id="map-result" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
+      <button id="clidxboost-btn-flight" class="full-screen js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider">Full screen</button>
     </div>
   </div>
 <section class="main">

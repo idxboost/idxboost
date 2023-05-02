@@ -20,6 +20,14 @@
   $enlace_actual = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
+  $Phone_office_showing = false;
+  $settings_rental_data = get_post_meta(999999991, '_settings_rental', true);
+  if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("idx_hidden_phone", $settings_rental_data) && $settings_rental_data["idx_hidden_phone"] == "1" ){
+      $Phone_office_showing = true;
+    }
+
+
+
   $months=["January","February","March","April","May","June","July","August","September","October","November","December"];
   $weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'); 
   $more_availability_info = $property["more_availability_info"];
@@ -73,13 +81,13 @@
           $dates[$aniof][$month][$wk][$wkDay] = $day;
   }
 ?>
-    <div id="full-main" class="ms-property-detail-page">
+    <div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
       <section class="title-conteiner gwr animated fixed-box">
         <div class="content-fixed">
           <div class="content-fixed-title">
-            <h1 class="title-page"><?php echo str_replace('# ', '#', $property['address_short']); ?><span><?php echo $property['address_large']; ?></h1>
+            <h1 class="title-page ms-property-title"><?php echo str_replace('# ', '#', $property['address_short']); ?><span><?php echo $property['address_large']; ?></h1>
             <div class="breadcrumb-options">
-
+              <div class="ms-property-search">
                 <div class="ms-wrapper-btn-new-share">
                   <div class="ms-wrapper">
                     <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
@@ -107,18 +115,19 @@
                     </ul>
                   </div>
                 </div>
-
+              </div>
               <a href="<?php echo wp_get_referer(); ?>" class="btn link-back clidxboost-icon-arrow-select">Back to results</a>
-              <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></a>
+              <div class="ms-property-call-action">
+                <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></a>
+              </div>
               <a href="https://testlgv2.staging.wpengine.com/search" class="btn link-search clidxboost-icon-search">New Search</a>
             </div>
           </div>
           <ul class="content-fixed-btn">
             <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow"><span>Back to results</span></a></li>
             <li>
-
               <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
-              <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
+                <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
               </a>
             </li>
           </ul>
@@ -143,19 +152,21 @@
             <?php endforeach; ?>
           <?php endif; ?>          
         </div>
+        
+        <div id="map-view">
+            <div id="map-result" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
+        </div>
+
         <div class="moptions">
           <ul class="slider-option">
             <li>
-              <button class="option-switch active" id="show-gallery" data-view="gallery">photos</button>
+              <button class="option-switch active ms-gallery-fs" id="show-gallery" data-view="gallery">photos</button>
             </li>
             <li>
-              <button class="option-switch" id="show-map" data-view="map">map view</button>
+              <button class="option-switch ms-map-fs" id="show-map" data-view="map" data-view="map" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>">map view</button>
             </li>
           </ul>
-          <button class="full-screen" id="clidxboost-btn-flight">Full screen</button>
-        </div>
-        <div id="map-view">
-              <div id="map-result" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
+          <button id="clidxboost-btn-flight" class="full-screen js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider">Full screen</button>
         </div>
       </div>
 
@@ -370,7 +381,11 @@
                     <img class="lazy-img active" title="<?php echo $agent_info_name;?>" alt="<?php echo $agent_info_name;?>" src="<?php echo  $property["owner"]["photo"];?>"></div>
                   <div class="avatar-information">
                     <h2><?php echo $agent_info_name;?></h2>
-                    <a class="phone-avatar" href="tel:<?php echo $agent_info_phone;?>" title="Call to <?php echo $agent_info_phone;?>">Ph. <?php echo $agent_info_phone;?></a>
+                    <?php if ($Phone_office_showing) { ?>
+                      <a class="phone-avatar" href="tel:<?php echo $property['office_phone'];?>" title="Call to <?php echo flex_agent_format_phone_number($property["office_phone"]); ?>">Ph. <?php echo flex_agent_format_phone_number($property["office_phone"]); ?></a>
+                    <?php }else{ ?>
+                      <a class="phone-avatar" href="tel:<?php echo $agent_info_phone;?>" title="Call to <?php echo $agent_info_phone;?>">Ph. <?php echo $agent_info_phone;?></a>
+                    <?php } ?>
                   </div>
                 </div>
 

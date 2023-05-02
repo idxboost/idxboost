@@ -714,11 +714,11 @@ if ("undefined" === typeof loadPropertyInModal) {
               layout: {
                 arrowDefaultStyles: false
               },
-              fullscreen: true,
+              /*fullscreen: true,
               layout: {
                 fsButtonDefaultStyles: false,
                 fsButtonClass: 'ib-btnfs'
-              },
+              },*/
               breakPoints: {
                 640: {
                   items: 2
@@ -726,7 +726,7 @@ if ("undefined" === typeof loadPropertyInModal) {
                 1024: {
                   items: 3
                 }
-              },
+              }/*,
               onInited: function () {
                 var windowSize = $(window).width();
                 if (windowSize > 767) {
@@ -753,8 +753,12 @@ if ("undefined" === typeof loadPropertyInModal) {
               },
               onStepEnd: ($itemActivo, indexIA) => {
                 IB_MODAL_WRAPPER.find('.ib-pvsinumber').text(indexIA + ' of ' + IB_MODAL_WRAPPER.find('.ib-pvsitem').length)
-              }
+              }*/
             });
+            jQuery(".ib-full-screen").removeClass("hidden");
+          }else{
+
+            jQuery(".ib-full-screen").addClass("hidden");
           }
 
           if (0 === parseInt(response.img_cnt, 10)) {
@@ -1236,7 +1240,7 @@ if (IB_MODAL_WRAPPER.length) {
   });
 
   // share on facebook
-  IB_MODAL_WRAPPER.on("click", ".ib-plsifb", function (event) {
+  $(document).on("click", ".ib-plsifb", function (event) {
     event.preventDefault();
 
     var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
@@ -1258,7 +1262,7 @@ if (IB_MODAL_WRAPPER.length) {
   });
 
   // share on twitter
-  IB_MODAL_WRAPPER.on("click", ".ib-plsitw", function (event) {
+  $(document).on("click", ".ib-plsitw", function (event) {
     event.preventDefault();
 
     var shareURL = "http://twitter.com/share?"; //url base
@@ -1334,7 +1338,7 @@ if (IB_MODAL_WRAPPER.length) {
   });
 
   // open email to a friend modal
-  IB_MODAL_WRAPPER.on("click", ".ib-psemailfriend", function () {
+  $(document).on("click", ".ib-psemailfriend", function () {
     var mlsNumber = $(this).data("mls");
     $(".ib-property-share-friend-f:eq(0)").trigger("reset");
     $(".ib-property-share-mls-num:eq(0)").val(mlsNumber);
