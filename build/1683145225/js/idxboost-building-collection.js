@@ -297,11 +297,11 @@ function ib_init_script(){
                         }
                       }else{
                         $('.js-option-building').each(function(){
-                          if ( $(this).attr("type") == "map" ) {
+                          if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
                             $(this).click();
                             //$("#map-view").addClass("active");
-                          }else if($(this).attr("type") == "photo") {
+                          }else if($(this).attr("data-view") == "gallery") {
                             $(this).hide();
                           }
                         });
@@ -319,11 +319,11 @@ function ib_init_script(){
                     console.log("gallery for properties");
                     if ($(".js-gallery-building").length == 0) {
                         $('.js-option-building').each(function(){
-                          if ( $(this).attr("type") == "map" ) {
+                          if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
                             $(this).click();
                             //$("#map-view").addClass("active");
-                          }else if($(this).attr("type") == "photo") {
+                          }else if($(this).attr("data-view") == "gallery") {
                             $(this).hide();
                           }
                         });

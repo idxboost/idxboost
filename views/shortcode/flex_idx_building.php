@@ -1533,17 +1533,9 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   setTimeout(function(){ 
     
     var galleryType = jQuery("#viewGallery").val() * 1;
-    switch(galleryType) {
-      case 0:
-        jQuery("#show-gallery").trigger("click");
-        break;
-      case 1:
-        jQuery("#show-map").trigger("click");
-        break;
-      case 2:
-        jQuery("#show-video").trigger("click");
-        break;
-    }
+	  if(galleryType == 2){
+		 jQuery("#show-video").trigger("click");
+	  }
   
   }, 900);
 
