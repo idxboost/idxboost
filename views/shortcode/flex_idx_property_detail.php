@@ -440,7 +440,11 @@
                echo number_format($res1,$res1dec). " Acre";
                $hasAcre = true;
               }else{
-              echo number_format($property["sqft"] ); 
+                if (empty($property["sqft"])) {
+                  echo "N/A"; 
+                }else{
+                  echo number_format($property["sqft"] ); 
+                }
               }
               ?></span>
             <span class="ib-piltxt"><?php 
@@ -927,8 +931,12 @@
                     
                      echo number_format($res3,$res3dec). " Acre";
                     }else{
-                    echo number_format($property["sqft"] ); 
-                    }                                          
+                      if (empty($property["sqft"])) {
+                        echo "N/A"; 
+                      }else{
+                        echo number_format($property["sqft"] ); 
+                      }                      
+                    }
                     ?></span>
                 </li>
                 <?php if (is_array($more_info_property) && array_key_exists("cooling", $more_info_property) && !empty($more_info_property["cooling"])) { ?>
@@ -976,7 +984,11 @@
                      echo number_format($res4,$res4dec). " Acre";
                      $hasAcre2 = true;
                     }else{
-                    echo number_format($property["sqft"] ); 
+                      if (empty($property["sqft"])) {
+                        echo "N/A"; 
+                      }else{
+                        echo number_format($property["sqft"] ); 
+                      }                    
                     }
                     ?></span>
                 </li>
@@ -1369,6 +1381,11 @@
                 <input type="hidden"  class="picture_share" value="<?php echo $property['gallery'][0]; ?>">
                 <input type="hidden"  class="caption_sahre" value="<?php echo $property['remark']; ?>">
                 <input type="hidden"  class="description_share" value="<?php echo $property['remark']; ?>">
+
+                <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                  <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
+                <?php endif; ?>
+
                 <div class="gform_body">
                   <ul class="gform_fields">
                     <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) { 

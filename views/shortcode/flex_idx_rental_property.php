@@ -449,6 +449,10 @@
 
                     <input type="hidden" class="description_share" value="<?php echo $property['remarks']; ?>">
 
+                    <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                      <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
+                    <?php endif; ?>
+
                     <div class="gform_body">
                       <ul class="gform_fields">
                         <li class="gfield">

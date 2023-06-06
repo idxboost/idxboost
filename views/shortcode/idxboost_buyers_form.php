@@ -1,15 +1,28 @@
+<?php global $flex_idx_info; ?>
+
 <article class="ib-form-buyandsell">
   <img class="ib-form-bg" src="/" alt="<?php echo __("What are you looking to buy?", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+  
   <form class="ib-fbscontainer gtm_i_want_to_buy iboost-secured-recaptcha-form" method="post" id="lead_submission_buy_form">
-  <?php if (!empty($atts['registration_key'])): ?>
-    <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
+    <?php if (!empty($atts['registration_key'])): ?>
+      <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
     <?php endif; ?> 
-  <input type="hidden" name="ib_tags" value="">
+    
+    <input type="hidden" name="ib_tags" value="">
     <input type="hidden" name="action" value="lead_submission_buy">
+    
+    <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+      <input type="hidden" name="gclid_field" id="gclid_field_form_lead_submission_buy">
+    <?php endif; ?>
+    
     <div class="ib-form-wrapper">
+      
       <ul class="ib-fsteps">
+        
         <li class="ib-fsitem ib-fsitem-active">
-          <h1 class="ib-fstitle"><?php echo __("What are you looking to buy?", IDXBOOST_DOMAIN_THEME_LANG); ?></h1>
+          <h1 class="ib-fstitle">
+            <?php echo __("What are you looking to buy?", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h1>
           <ul class="ib-fsradios">
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="Condo" id="ib-form-condo" name="ib-ftobuy">
@@ -23,14 +36,13 @@
               <input class="ib-firadio" type="radio" value="Townhouse" id="ib-form-townhouse" name="ib-ftobuy">
               <label class="ib-filabel" for="ib-form-townhouse"><?php echo __("Townhouse", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </li>
-            <!--<li class="ib-fsritem">
-              <input class="ib-firadio" type="radio" value="Investment Property" id="ib-form-investment" name="ib-ftobuy">
-              <label class="ib-filabel" for="ib-form-investment"><?php echo __("Investment Property", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-            </li>-->
           </ul>
         </li>
+        
         <li class="ib-fsitem">
-          <h4 class="ib-fstitle"><?php echo __("What's your price range?", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+          <h4 class="ib-fstitle">
+            <?php echo __("What's your price range?", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h4>
           <ul class="ib-fsradios">
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="Below $1M" id="ib-form-bellow" name="ib-fprice">
@@ -50,8 +62,11 @@
             </li>
           </ul>
         </li>
+        
         <li class="ib-fsitem">
-          <h4 class="ib-fstitle"><?php echo __("How many bedrooms?", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+          <h4 class="ib-fstitle">
+            <?php echo __("How many bedrooms?", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h4>
           <ul class="ib-fsradios ib-fsrnumbers">
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="1" id="ib-form-onebeds" name="ib-fbedrooms">
@@ -71,8 +86,11 @@
             </li>
           </ul>
         </li>
+        
         <li class="ib-fsitem">
-          <h4 class="ib-fstitle"><?php echo __("How many bathrooms?", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+          <h4 class="ib-fstitle">
+            <?php echo __("How many bathrooms?", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h4>
           <ul class="ib-fsradios ib-fsrnumbers">
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="1" id="ib-form-onebaths" name="ib-fbathsrooms">
@@ -92,8 +110,11 @@
             </li>
           </ul>
         </li>
+        
         <li class="ib-fsitem">
-          <h4 class="ib-fstitle"><?php echo __("Timeline to purchase", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+          <h4 class="ib-fstitle">
+            <?php echo __("Timeline to purchase", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h4>
           <ul class="ib-fsradios">
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="Now" id="ib-form-now" name="ib-ftimepurchase">
@@ -109,8 +130,14 @@
             </li>
           </ul>
         </li>
+        
         <li class="ib-fsitem">
-          <h4 class="ib-fstitle"><?php echo __("Contact Information", IDXBOOST_DOMAIN_THEME_LANG); ?></h4><span class="ib-ftext"><?php echo __("Please provide your contact information below and we will be in touch very soon!", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <h4 class="ib-fstitle">
+            <?php echo __("Contact Information", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </h4>
+          <span class="ib-ftext">
+            <?php echo __("Please provide your contact information below and we will be in touch very soon!", IDXBOOST_DOMAIN_THEME_LANG); ?>
+          </span>
           <ul class="ib-fsinformation">
             <li class="ib-fsftem">
               <input required class="ib-fsinput" type="email" name="email" placeholder="<?php echo __("Email*", IDXBOOST_DOMAIN_THEME_LANG); ?>">
@@ -126,15 +153,23 @@
             </li>
           </ul>
         </li>
+      
       </ul>
-      <!--.ib-fbtns.ib-fbtns-backnext-->
-      <!--.ib-fbtns.ib-fbtns-submit-->
+      
       <div class="ib-fbtns ib-fbtns-continue">
-        <div class="ib-fbtn-continue ib-fbtn ib-fbtn-fnext"><?php echo __("Continue", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-        <div class="ib-fbtn-back ib-fbtn"><?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-        <div class="ib-fbtn-next ib-fbtn ib-fbtn-fnext"><?php echo __("Next", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-        <input class="ib-fsubmit ib-fbtn" id="lead_submission_buy_submit" type="submit" value="<?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+        <div class="ib-fbtn-continue ib-fbtn ib-fbtn-fnext">
+          <?php echo __("Continue", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </div>
+        <div class="ib-fbtn-back ib-fbtn">
+          <?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </div>
+        <div class="ib-fbtn-next ib-fbtn ib-fbtn-fnext">
+          <?php echo __("Next", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </div>
+        <input class="ib-fsubmit ib-fbtn" id="lead_submission_buy_submit" type="submit" 
+          value="<?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?>">
       </div>
+    
     </div>
   </form>
 </article>

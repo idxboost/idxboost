@@ -1176,11 +1176,14 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                   </div>
                   <div class="ib-pacform">
                     <form class="ib-cform ib-propery-inquiry-f gtm_more_info_property" method="post">
-                    <?php if (!empty($atts['registration_key'])): ?>
-                    <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
-                    <?php endif; ?>
+                      <?php if (!empty($atts['registration_key'])): ?>
+                        <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
+                      <?php endif; ?>
                       <input type="hidden" name="ib_tags" value="">
                       <input type="hidden" name="mls_number" value="{{mls_num}}">
+                      <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                        <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
+                      <?php endif; ?>
                       <ul class="ib-cffields">
                         <li class="ib-cffitem">
                           <input class="ib-cfinput" name="first_name" type="text" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadFirstName this }}" required>

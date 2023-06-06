@@ -459,6 +459,11 @@ if (!function_exists('ib_vacation_rentals_fn')) {
           $Phone_office = true;
         }
 
+        $high_light_check_in = false;
+      if( is_array($settings_data) && count($settings_data)>0 && array_key_exists("high_light_check_in", $settings_data) && $settings_data["high_light_check_in"] == "1" ){
+          $high_light_check_in = true;
+        }
+
         ob_start();
 
         wp_enqueue_script('react-vacation-rentals-js');
@@ -1616,6 +1621,13 @@ if (!function_exists('fb_flex_idx_property_detail_sc')) {
         } else {
             $type_lookup = 'active';
         }
+
+
+        $slug_search = "{$slug}";
+        if ($type_lookup != "active") {
+            $slug_search = str_replace("{$type_lookup}-","",$slug);
+        }        
+
         
         $AddressPrint='';
         if (!empty($mls_num) && $mls_num!=null) {
@@ -1634,6 +1646,8 @@ if (!function_exists('fb_flex_idx_property_detail_sc')) {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
+            'slug'             =>$slug_search,
+            'type_search'      => 'slug',
             'mls_num'          => $mls_num,
             'type_lookup'      => $type_lookup,
             'access_token'     => $access_token,
@@ -2108,6 +2122,11 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 						$prefix_property_slug = "/";
         }
 
+        $slug_search = "{$slug}";
+        if ($type_lookup != "active") {
+            $slug_search = str_replace("{$type_lookup}-","",$slug);
+        }                
+
         $ip_address = get_client_ip_server();
         $referer    = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
         $origin     = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
@@ -2116,6 +2135,8 @@ if (!function_exists('flex_idx_property_detail_sc')) {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
+            'slug'             => $slug_search,
+            'type_search'      => 'slug',            
             'mls_num'          => $mls_num,
             'type_lookup'      => $type_lookup,
             'access_token'     => $access_token,

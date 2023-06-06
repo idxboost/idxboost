@@ -5419,6 +5419,11 @@
             <input type="hidden" class="picture_share" value="//retsimages.s3.amazonaws.com/34/A10172834_1.jpg">
             <input type="hidden" class="caption_sahre" value="Be wowed at first glance from the dramatic red brick drive flanked by graceful palms to the Venetian-style arcade that ushers you inside. Feast your eyes on the soaring, light-filled expanse with its colorful frescos, intricate ceilings, and rich textures covering every surface. Built in 1924 by entrepreneur Carl Fisher and fully renovated in 2017, 46 Star Island Drive was born to show off. Casual and formal spaces inside blend seamlessly with a stunning outdoor oasis, offering magnificent spaces for intimate or large-scale gatherings. Escape from your escape to your luxurious master, a sanctuary worthy of retreat.">
             <input type="hidden" class="description_share" value="Be wowed at first glance from the dramatic red brick drive flanked by graceful palms to the Venetian-style arcade that ushers you inside. Feast your eyes on the soaring, light-filled expanse with its colorful frescos, intricate ceilings, and rich textures covering every surface. Built in 1924 by entrepreneur Carl Fisher and fully renovated in 2017, 46 Star Island Drive was born to show off. Casual and formal spaces inside blend seamlessly with a stunning outdoor oasis, offering magnificent spaces for intimate or large-scale gatherings. Escape from your escape to your luxurious master, a sanctuary worthy of retreat.">
+
+            <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+              <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
+            <?php endif; ?>
+
             <div class="gform_body">
               <ul class="gform_fields">
                 <li class="gfield">

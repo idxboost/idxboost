@@ -440,6 +440,11 @@
           <input type="hidden"  class="picture_share" value="<?php echo $property['gallery'][0]; ?>">
           <input type="hidden"  class="caption_sahre" value="<?php echo $property['remark']; ?>">
           <input type="hidden"  class="description_share" value="<?php echo $property['remark']; ?>">
+
+          <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+            <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
+          <?php endif; ?>
+
           <div class="gform_body">
             <ul class="gform_fields">
               <?php if (array_key_exists('track_gender', $flex_idx_info['agent'])) { 

@@ -89,6 +89,13 @@ if (isset($_POST)) {
     );            
   }      
 
+  if(isset($_POST['idx-hidden-high-light-checkin'])){ 
+    $store += array(
+      'high_light_check_in' => $_POST['idx-hidden-high-light-checkin']
+    );            
+  }      
+  
+
 
   if (!empty($store)) {
     update_post_meta($post_ID, '_settings_rental', $store);
@@ -653,6 +660,24 @@ wp_enqueue_style('flex-idx-admin');
             <span class="slider round"></span>
             </label>
             <span>Show/Hide</span>
+          </div>
+        </li> 
+
+      <h2 class="schema-form-h2">Highlight check in</h2>
+      <ul class="ks-cboxtags">  
+        <li>
+          <div class="container-switch">
+            <label class="switch">
+              <?php 
+              $checkedhigh_light_check_in = "";
+              if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("high_light_check_in", $settings_rental_data) && $settings_rental_data["high_light_check_in"] == "1" ){
+                $checkedhigh_light_check_in = "checked";
+              }
+              ?>
+            <input type="checkbox" id="idx-hidden-high-light-checkin" name="idx-hidden-high-light-checkin" value="1" <?php echo $checkedhigh_light_check_in; ?> >
+            <span class="slider round"></span>
+            </label>
+            <span>Active</span>
           </div>
         </li> 
 

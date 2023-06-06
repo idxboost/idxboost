@@ -56,6 +56,13 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             $type_lookup = 'active';
         }
 
+        
+        $slug_search = "{$slug}";
+        if ($type_lookup != "active") {
+            $slug_search = str_replace("{$type_lookup}-","",$slug);
+        }
+
+
         //$type_lookup = 'active';
 
         // var_dump(preg_match('/^[sold\-(.*)]+/', $slug));
@@ -83,7 +90,9 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
+            'slug'             => $slug_search,
             'mls_num'          => $mls_num,
+            'type_search'      => 'slug',
             'type_lookup'      => $type_lookup,
             'access_token'     => $access_token,
             'flex_credentials' => $flex_lead_credentials,
@@ -94,7 +103,6 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
                 'user_agent'  => $user_agent,
             ),
         );
-
 
         if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
             $board_id = 100;
@@ -833,6 +841,7 @@ if (!function_exists( 'iboost_load_property_xhr_fn' )) {
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
         $sendParams = array(
+            'type_search'      => 'mls_num',
             'mls_num' => $mls_num,
             'type_lookup' => $type_lookup,
             'access_token' => $access_token,
@@ -1803,141 +1812,147 @@ if (!function_exists( 'idxboost_array_sort_by_column' )) {
 if (!function_exists( 'flex_idx_get_info' )) {
     function flex_idx_get_info()
     {
-        global $wpdb;
-        // fetch info
-        $idxboost_commercial_types = get_option('idxboost_commercial_types');
-        $search_filter_settings = get_option('idxboost_search_filter_settings');
-        $idxboost_search_settings = get_option('idxboost_search_settings');
-        $idxboost_pusher_settings = get_option('idxboost_pusher_settings');
-        $idxboost_agent_info = get_option('idxboost_agent_info');
-        $template_name = get_template_directory();
-        $template_name = basename($template_name);
-        $output = array();
-        // basic info
-        $output['website_name'] = get_bloginfo('name');
-        $output['website_url'] = get_bloginfo('wpurl');
-        $output['template_name'] = $template_name;
-        $output['template_directory_url'] = get_template_directory_uri();
-        $output['url_logo'] = get_option('flex_idx_alerts_url_logo');
-        // pages info
-        $output['pages'] = idxboost_list_pages();
-        // agent info
-        #$list_agent_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "agent_%"', ARRAY_A);
-        #$output['agent'] = flex_map_array($list_agent_info);
+        global $wpdb,$idxboost_info_agent;
+        $output = [];
+        
+        if( !is_array($idxboost_info_agent) || (is_array($idxboost_info_agent) && count($idxboost_info_agent) == 0) ) {
+            // fetch info
+            $idxboost_commercial_types = get_option('idxboost_commercial_types');
+            $search_filter_settings = get_option('idxboost_search_filter_settings');
+            $idxboost_search_settings = get_option('idxboost_search_settings');
+            $idxboost_pusher_settings = get_option('idxboost_pusher_settings');
+            $idxboost_agent_info = get_option('idxboost_agent_info');
+            $template_name = get_template_directory();
+            $template_name = basename($template_name);
+            $output = array();
+            // basic info
+            $output['website_name'] = get_bloginfo('name');
+            $output['website_url'] = get_bloginfo('wpurl');
+            $output['template_name'] = $template_name;
+            $output['template_directory_url'] = get_template_directory_uri();
+            $output['url_logo'] = get_option('flex_idx_alerts_url_logo');
+            // pages info
+            $output['pages'] = idxboost_list_pages();
+            // agent info
+            #$list_agent_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "agent_%"', ARRAY_A);
+            #$output['agent'] = flex_map_array($list_agent_info);
 
-        $output['agent']['has_dynamic_ads'] = isset($idxboost_agent_info['has_dynamic_ads']) ? (bool)$idxboost_agent_info['has_dynamic_ads'] : false;
-        $output['agent']['has_seo_client'] = isset($idxboost_agent_info['has_seo_client']) ? (bool)$idxboost_agent_info['has_seo_client'] : false;
+            $output['agent']['has_dynamic_ads'] = isset($idxboost_agent_info['has_dynamic_ads']) ? (bool)$idxboost_agent_info['has_dynamic_ads'] : false;
+            $output['agent']['has_seo_client'] = isset($idxboost_agent_info['has_seo_client']) ? (bool)$idxboost_agent_info['has_seo_client'] : false;
 
-        $output['agent']['has_basic_idx'] = isset($idxboost_agent_info['has_basic_idx']) ? (bool)$idxboost_agent_info['has_basic_idx'] : false;
-        $output['agent']['has_building'] = isset($idxboost_agent_info['has_building']) ? (bool)$idxboost_agent_info['has_building'] : false;
-        $output['agent']['has_boost_box_ads'] = isset($idxboost_agent_info['has_boost_box_ads']) ? (bool)$idxboost_agent_info['has_boost_box_ads'] : false;
+            $output['agent']['has_basic_idx'] = isset($idxboost_agent_info['has_basic_idx']) ? (bool)$idxboost_agent_info['has_basic_idx'] : false;
+            $output['agent']['has_building'] = isset($idxboost_agent_info['has_building']) ? (bool)$idxboost_agent_info['has_building'] : false;
+            $output['agent']['has_boost_box_ads'] = isset($idxboost_agent_info['has_boost_box_ads']) ? (bool)$idxboost_agent_info['has_boost_box_ads'] : false;
 
-        $output['agent']['hackbox'] = isset($idxboost_agent_info['hackbox']) ? $idxboost_agent_info['hackbox'] : '';
-        $output['agent']['agent_first_name'] = isset($idxboost_agent_info['first_name']) ? $idxboost_agent_info['first_name'] : '';
-        $output['agent']['agent_last_name'] = isset($idxboost_agent_info['last_name']) ? $idxboost_agent_info['last_name'] : '';
-        $output['agent']['agent_email_address'] = isset($idxboost_agent_info['email_address']) ? $idxboost_agent_info['email_address'] : '';
-        $output['agent']['agent_phone_number'] = isset($idxboost_agent_info['phone_number']) ? $idxboost_agent_info['phone_number'] : '';
-        $output['agent']['agent_address'] = isset($idxboost_agent_info['address']) ? $idxboost_agent_info['address'] : '';
-        $output['agent']['agent_address2'] = isset($idxboost_agent_info['address2']) ? $idxboost_agent_info['address2'] : '';
-        $output['agent']['agent_city'] = isset($idxboost_agent_info['city']) ? $idxboost_agent_info['city'] : '';
-        $output['agent']['agent_state'] = isset($idxboost_agent_info['state']) ? $idxboost_agent_info['state'] : '';
-        $output['agent']['agent_zip_code'] = isset($idxboost_agent_info['zip_code']) ? $idxboost_agent_info['zip_code'] : '';
-        $output['agent']['agent_website_url'] = isset($idxboost_agent_info['website_url']) ? $idxboost_agent_info['website_url'] : '';
-        $output['agent']['agent_contact_first_name'] = isset($idxboost_agent_info['contact_first_name']) ? $idxboost_agent_info['contact_first_name'] : '';
-        $output['agent']['agent_contact_last_name'] = isset($idxboost_agent_info['contact_last_name']) ? $idxboost_agent_info['contact_last_name'] : '';
-        $output['agent']['agent_contact_email_address'] = isset($idxboost_agent_info['contact_email_address']) ? $idxboost_agent_info['contact_email_address'] : '';
-        $output['agent']['agent_contact_phone_number'] = isset($idxboost_agent_info['contact_phone_number']) ? $idxboost_agent_info['contact_phone_number'] : '';
-        $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
-        $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
-        $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';
-        $output['agent']['has_quick_idxvacation_rentals'] = isset($idxboost_agent_info['has_quick_idxvacation_rentals']) ? $idxboost_agent_info['has_quick_idxvacation_rentals'] : '';
-        $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
-        $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
-        $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
-        $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
-        $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
-        $output['agent']['agent_logo_file'] = isset($idxboost_agent_info['agent_logo_file']) ? $idxboost_agent_info['agent_logo_file'] : '';
-        $output['agent']['broker_logo_file'] = isset($idxboost_agent_info['broker_logo_file']) ? $idxboost_agent_info['broker_logo_file'] : '';
-        $output['agent']['agent_address_lat'] = isset($idxboost_agent_info['address_lat']) ? $idxboost_agent_info['address_lat'] : '';
-        $output['agent']['agent_address_lng'] = isset($idxboost_agent_info['address_lng']) ? $idxboost_agent_info['address_lng'] : '';
-        $output['agent']['force_registration'] = isset($idxboost_agent_info['force_registration']) ? (int)$idxboost_agent_info['force_registration'] : 0;
-        $output['agent']['user_show_quizz'] = isset($idxboost_agent_info['user_show_quizz']) ? (int)$idxboost_agent_info['user_show_quizz'] : 0;
-        $output['agent']['facebook_app_id'] = isset($idxboost_agent_info['facebook_app_id']) ? $idxboost_agent_info['facebook_app_id'] : "";
-        $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
-        $output['agent']['google_client_id'] = isset($idxboost_agent_info['google_client_id']) ? $idxboost_agent_info['google_client_id'] : "";
-        $output['agent']['google_client_id'] = isset($idxboost_agent_info['google_client_id']) ? $idxboost_agent_info['google_client_id'] : "";
-        $output['agent']['facebook_login_enabled'] = isset($idxboost_agent_info['facebook_login_enabled']) ? $idxboost_agent_info['facebook_login_enabled'] : false;
-        $output['agent']['google_login_enabled'] = isset($idxboost_agent_info['google_login_enabled']) ? $idxboost_agent_info['google_login_enabled'] : false;
-        $output['agent']['google_maps_api_key'] = isset($idxboost_agent_info['google_maps_api_key']) ? $idxboost_agent_info['google_maps_api_key'] : "";
-        $output['agent']['google_captcha_public_key'] = isset($idxboost_agent_info['google_captcha_public_key']) ? (string)$idxboost_agent_info['google_captcha_public_key'] : "";
-        //$output['agent']['google_captcha_private_key'] = isset($idxboost_agent_info['google_captcha_private_key']) ? (string) $idxboost_agent_info['google_captcha_private_key'] : "";
-        $output['agent']['google_analytics'] = isset($idxboost_agent_info['google_analytics']) ? $idxboost_agent_info['google_analytics'] : "";
-        $output['agent']['google_adwords'] = isset($idxboost_agent_info['google_adwords']) ? $idxboost_agent_info['google_adwords'] : "";
-        $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
-        $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
-        $output['agent']['stat_counter_security_id'] = isset($idxboost_agent_info['stat_counter_security_id']) ? $idxboost_agent_info['stat_counter_security_id'] : "";
-        $output['agent']['stat_counter_project_id'] = isset($idxboost_agent_info['stat_counter_project_id']) ? $idxboost_agent_info['stat_counter_project_id'] : "";
-        $output['agent']['follow_up_boss_api_key'] = isset($idxboost_agent_info['follow_up_boss_api_key']) ? $idxboost_agent_info['follow_up_boss_api_key'] : "";
-        $output['agent']['follow_up_boss_source'] = isset($idxboost_agent_info['follow_up_boss_source']) ? $idxboost_agent_info['follow_up_boss_source'] : "";
-        $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
-        $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (bool)$idxboost_agent_info['force_registration_forced'] : false;
+            $output['agent']['hackbox'] = isset($idxboost_agent_info['hackbox']) ? $idxboost_agent_info['hackbox'] : '';
+            $output['agent']['agent_first_name'] = isset($idxboost_agent_info['first_name']) ? $idxboost_agent_info['first_name'] : '';
+            $output['agent']['agent_last_name'] = isset($idxboost_agent_info['last_name']) ? $idxboost_agent_info['last_name'] : '';
+            $output['agent']['agent_email_address'] = isset($idxboost_agent_info['email_address']) ? $idxboost_agent_info['email_address'] : '';
+            $output['agent']['agent_phone_number'] = isset($idxboost_agent_info['phone_number']) ? $idxboost_agent_info['phone_number'] : '';
+            $output['agent']['agent_address'] = isset($idxboost_agent_info['address']) ? $idxboost_agent_info['address'] : '';
+            $output['agent']['agent_address2'] = isset($idxboost_agent_info['address2']) ? $idxboost_agent_info['address2'] : '';
+            $output['agent']['agent_city'] = isset($idxboost_agent_info['city']) ? $idxboost_agent_info['city'] : '';
+            $output['agent']['agent_state'] = isset($idxboost_agent_info['state']) ? $idxboost_agent_info['state'] : '';
+            $output['agent']['agent_zip_code'] = isset($idxboost_agent_info['zip_code']) ? $idxboost_agent_info['zip_code'] : '';
+            $output['agent']['agent_website_url'] = isset($idxboost_agent_info['website_url']) ? $idxboost_agent_info['website_url'] : '';
+            $output['agent']['agent_contact_first_name'] = isset($idxboost_agent_info['contact_first_name']) ? $idxboost_agent_info['contact_first_name'] : '';
+            $output['agent']['agent_contact_last_name'] = isset($idxboost_agent_info['contact_last_name']) ? $idxboost_agent_info['contact_last_name'] : '';
+            $output['agent']['agent_contact_email_address'] = isset($idxboost_agent_info['contact_email_address']) ? $idxboost_agent_info['contact_email_address'] : '';
+            $output['agent']['agent_contact_phone_number'] = isset($idxboost_agent_info['contact_phone_number']) ? $idxboost_agent_info['contact_phone_number'] : '';
+            $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
+            $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
+            $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';
+            $output['agent']['has_quick_idxvacation_rentals'] = isset($idxboost_agent_info['has_quick_idxvacation_rentals']) ? $idxboost_agent_info['has_quick_idxvacation_rentals'] : '';
+            $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
+            $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
+            $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
+            $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
+            $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
+            $output['agent']['agent_logo_file'] = isset($idxboost_agent_info['agent_logo_file']) ? $idxboost_agent_info['agent_logo_file'] : '';
+            $output['agent']['broker_logo_file'] = isset($idxboost_agent_info['broker_logo_file']) ? $idxboost_agent_info['broker_logo_file'] : '';
+            $output['agent']['agent_address_lat'] = isset($idxboost_agent_info['address_lat']) ? $idxboost_agent_info['address_lat'] : '';
+            $output['agent']['agent_address_lng'] = isset($idxboost_agent_info['address_lng']) ? $idxboost_agent_info['address_lng'] : '';
+            $output['agent']['force_registration'] = isset($idxboost_agent_info['force_registration']) ? (int)$idxboost_agent_info['force_registration'] : 0;
+            $output['agent']['user_show_quizz'] = isset($idxboost_agent_info['user_show_quizz']) ? (int)$idxboost_agent_info['user_show_quizz'] : 0;
+            $output['agent']['facebook_app_id'] = isset($idxboost_agent_info['facebook_app_id']) ? $idxboost_agent_info['facebook_app_id'] : "";
+            $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
+            $output['agent']['google_client_id'] = isset($idxboost_agent_info['google_client_id']) ? $idxboost_agent_info['google_client_id'] : "";
+            $output['agent']['google_client_id'] = isset($idxboost_agent_info['google_client_id']) ? $idxboost_agent_info['google_client_id'] : "";
+            $output['agent']['facebook_login_enabled'] = isset($idxboost_agent_info['facebook_login_enabled']) ? $idxboost_agent_info['facebook_login_enabled'] : false;
+            $output['agent']['google_login_enabled'] = isset($idxboost_agent_info['google_login_enabled']) ? $idxboost_agent_info['google_login_enabled'] : false;
+            $output['agent']['google_maps_api_key'] = isset($idxboost_agent_info['google_maps_api_key']) ? $idxboost_agent_info['google_maps_api_key'] : "";
+            $output['agent']['google_captcha_public_key'] = isset($idxboost_agent_info['google_captcha_public_key']) ? (string)$idxboost_agent_info['google_captcha_public_key'] : "";
+            //$output['agent']['google_captcha_private_key'] = isset($idxboost_agent_info['google_captcha_private_key']) ? (string) $idxboost_agent_info['google_captcha_private_key'] : "";
+            $output['agent']['google_analytics'] = isset($idxboost_agent_info['google_analytics']) ? $idxboost_agent_info['google_analytics'] : "";
+            $output['agent']['google_adwords'] = isset($idxboost_agent_info['google_adwords']) ? $idxboost_agent_info['google_adwords'] : "";
+            $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
+            $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
+            $output['agent']['stat_counter_security_id'] = isset($idxboost_agent_info['stat_counter_security_id']) ? $idxboost_agent_info['stat_counter_security_id'] : "";
+            $output['agent']['stat_counter_project_id'] = isset($idxboost_agent_info['stat_counter_project_id']) ? $idxboost_agent_info['stat_counter_project_id'] : "";
+            $output['agent']['follow_up_boss_api_key'] = isset($idxboost_agent_info['follow_up_boss_api_key']) ? $idxboost_agent_info['follow_up_boss_api_key'] : "";
+            $output['agent']['follow_up_boss_source'] = isset($idxboost_agent_info['follow_up_boss_source']) ? $idxboost_agent_info['follow_up_boss_source'] : "";
+            $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
+            $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (bool)$idxboost_agent_info['force_registration_forced'] : false;
 
-        $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (bool)$idxboost_agent_info['has_enterprise_recaptcha'] : false;
-        $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
-        $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
+            $output['agent']['has_enterprise_recaptcha'] = isset($idxboost_agent_info['has_enterprise_recaptcha']) ? (bool)$idxboost_agent_info['has_enterprise_recaptcha'] : false;
+            $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
+            $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
 
-        $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool) $idxboost_agent_info['has_crm'] : false;
+            $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool) $idxboost_agent_info['has_crm'] : false;
 
-        // social info
-        #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
-        #$output['social'] = flex_map_array($list_social_info);
-        $output['social']['facebook_social_url'] = isset($idxboost_agent_info['facebook_social_url']) ? $idxboost_agent_info['facebook_social_url'] : '';
-        $output['social']['twitter_social_url'] = isset($idxboost_agent_info['twitter_social_url']) ? $idxboost_agent_info['twitter_social_url'] : '';
-        $output['social']['gplus_social_url'] = isset($idxboost_agent_info['gplus_social_url']) ? $idxboost_agent_info['gplus_social_url'] : '';
-        $output['social']['youtube_social_url'] = isset($idxboost_agent_info['youtube_social_url']) ? $idxboost_agent_info['youtube_social_url'] : '';
-        $output['social']['instagram_social_url'] = isset($idxboost_agent_info['instagram_social_url']) ? $idxboost_agent_info['instagram_social_url'] : '';
-        $output['social']['linkedin_social_url'] = isset($idxboost_agent_info['linkedin_social_url']) ? $idxboost_agent_info['linkedin_social_url'] : '';
-        $output['social']['pinterest_social_url'] = isset($idxboost_agent_info['pinterest_social_url']) ? $idxboost_agent_info['pinterest_social_url'] : '';
-        // search info $idxboost_search_settings
-        $output['board_id'] = isset($idxboost_search_settings['board_id']) ? $idxboost_search_settings['board_id'] : null;
-        $output['board_info'] = isset($idxboost_search_settings['board_info']) ? $idxboost_search_settings['board_info'] : null;
-        $output['search']['amenities'] = isset($idxboost_search_settings['amenities']) ? $idxboost_search_settings['amenities'] : '';
-        $output['search']['baths_range'] = isset($idxboost_search_settings['baths_range']) ? $idxboost_search_settings['baths_range'] : '';
-        $output['search']['beds_range'] = isset($idxboost_search_settings['beds_range']) ? $idxboost_search_settings['beds_range'] : '';
-        $output['search']['cities'] = isset($idxboost_search_settings['cities']) ? $idxboost_search_settings['cities'] : '';
-        $output['search']['default_sort'] = isset($idxboost_search_settings['default_sort']) ? $idxboost_search_settings['default_sort'] : '';
-        $output['search']['default_view'] = isset($idxboost_search_settings['default_view']) ? $idxboost_search_settings['default_view'] : '';
-        $output['search']['living_size_range'] = isset($idxboost_search_settings['living_size_range']) ? $idxboost_search_settings['living_size_range'] : '';
-        $output['search']['lot_size_range'] = isset($idxboost_search_settings['lot_size_range']) ? $idxboost_search_settings['lot_size_range'] : '';
-        $output['search']['parking_options'] = isset($idxboost_search_settings['parking_options']) ? $idxboost_search_settings['parking_options'] : '';
-        $output['search']['price_rent_range'] = isset($idxboost_search_settings['price_rent_range']) ? $idxboost_search_settings['price_rent_range'] : '';
-        $output['search']['price_sale_range'] = isset($idxboost_search_settings['price_sale_range']) ? $idxboost_search_settings['price_sale_range'] : '';
-        $output['search']['property_types'] = isset($idxboost_search_settings['property_types']) ? $idxboost_search_settings['property_types'] : '';
-        $output['search']['rental_types'] = isset($idxboost_search_settings['default_rental_type']) ? $idxboost_search_settings['default_rental_type'] : '';
-        $output['search']['view_grid_type'] = isset($idxboost_search_settings['default_view_grid']) ? $idxboost_search_settings['default_view_grid'] : '';
-        $output['search']['view_icon_type'] = isset($idxboost_search_settings['default_view_icon']) ? $idxboost_search_settings['default_view_icon'] : '';
-        $output['search']['schools_ratio'] = isset($idxboost_search_settings['default_schools_ratio']) ? $idxboost_search_settings['default_schools_ratio'] : '';
-        $output['search']['waterfront_options'] = isset($idxboost_search_settings['waterfront_options']) ? $idxboost_search_settings['waterfront_options'] : '';
-        $output['search']['year_built_range'] = isset($idxboost_search_settings['year_built_range']) ? $idxboost_search_settings['year_built_range'] : '';
-        $output['search']['default_language'] = isset($idxboost_search_settings['default_language']) ? $idxboost_search_settings['default_language'] : '';
-        $output['search']['default_floor_plan'] = isset($idxboost_search_settings['default_floor_plan']) ? $idxboost_search_settings['default_floor_plan'] : '';
-        $output['search']['idx_listings_type'] = isset($idxboost_search_settings['idx_listings_type']) ?  $idxboost_search_settings['idx_listings_type'] : 0;
-        $output['search']['hide_pending_content_options'] = isset($idxboost_search_settings['hide_pending_content_options']) ? (int) $idxboost_search_settings['hide_pending_content_options'] : 0;
-        /*$list_search_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "search_%"', ARRAY_A);
-        $output['search'] = flex_map_array($list_search_info);
-        if (!empty($output['search']) && isset($output['search']['search_idx_cities']) ) {
-            idxboost_array_sort_by_column($output['search']['search_idx_cities'], 'name');
-        }*/
-        // pusher info
-        #$list_pusher_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "pusher_%"', ARRAY_A);
-        #$output['pusher'] = flex_map_array($list_pusher_info);
-        $output['pusher']['pusher_app_key'] = $idxboost_pusher_settings['app_key'];
-        $output['pusher']['pusher_app_cluster'] = $idxboost_pusher_settings['app_cluster'];
-        $output['pusher']['pusher_presence_channel'] = $idxboost_pusher_settings['presence_channel'];
+            // social info
+            #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
+            #$output['social'] = flex_map_array($list_social_info);
+            $output['social']['facebook_social_url'] = isset($idxboost_agent_info['facebook_social_url']) ? $idxboost_agent_info['facebook_social_url'] : '';
+            $output['social']['twitter_social_url'] = isset($idxboost_agent_info['twitter_social_url']) ? $idxboost_agent_info['twitter_social_url'] : '';
+            $output['social']['gplus_social_url'] = isset($idxboost_agent_info['gplus_social_url']) ? $idxboost_agent_info['gplus_social_url'] : '';
+            $output['social']['youtube_social_url'] = isset($idxboost_agent_info['youtube_social_url']) ? $idxboost_agent_info['youtube_social_url'] : '';
+            $output['social']['instagram_social_url'] = isset($idxboost_agent_info['instagram_social_url']) ? $idxboost_agent_info['instagram_social_url'] : '';
+            $output['social']['linkedin_social_url'] = isset($idxboost_agent_info['linkedin_social_url']) ? $idxboost_agent_info['linkedin_social_url'] : '';
+            $output['social']['pinterest_social_url'] = isset($idxboost_agent_info['pinterest_social_url']) ? $idxboost_agent_info['pinterest_social_url'] : '';
+            // search info $idxboost_search_settings
+            $output['board_id'] = isset($idxboost_search_settings['board_id']) ? $idxboost_search_settings['board_id'] : null;
+            $output['board_info'] = isset($idxboost_search_settings['board_info']) ? $idxboost_search_settings['board_info'] : null;
+            $output['search']['amenities'] = isset($idxboost_search_settings['amenities']) ? $idxboost_search_settings['amenities'] : '';
+            $output['search']['baths_range'] = isset($idxboost_search_settings['baths_range']) ? $idxboost_search_settings['baths_range'] : '';
+            $output['search']['beds_range'] = isset($idxboost_search_settings['beds_range']) ? $idxboost_search_settings['beds_range'] : '';
+            $output['search']['cities'] = isset($idxboost_search_settings['cities']) ? $idxboost_search_settings['cities'] : '';
+            $output['search']['default_sort'] = isset($idxboost_search_settings['default_sort']) ? $idxboost_search_settings['default_sort'] : '';
+            $output['search']['default_view'] = isset($idxboost_search_settings['default_view']) ? $idxboost_search_settings['default_view'] : '';
+            $output['search']['living_size_range'] = isset($idxboost_search_settings['living_size_range']) ? $idxboost_search_settings['living_size_range'] : '';
+            $output['search']['lot_size_range'] = isset($idxboost_search_settings['lot_size_range']) ? $idxboost_search_settings['lot_size_range'] : '';
+            $output['search']['parking_options'] = isset($idxboost_search_settings['parking_options']) ? $idxboost_search_settings['parking_options'] : '';
+            $output['search']['price_rent_range'] = isset($idxboost_search_settings['price_rent_range']) ? $idxboost_search_settings['price_rent_range'] : '';
+            $output['search']['price_sale_range'] = isset($idxboost_search_settings['price_sale_range']) ? $idxboost_search_settings['price_sale_range'] : '';
+            $output['search']['property_types'] = isset($idxboost_search_settings['property_types']) ? $idxboost_search_settings['property_types'] : '';
+            $output['search']['rental_types'] = isset($idxboost_search_settings['default_rental_type']) ? $idxboost_search_settings['default_rental_type'] : '';
+            $output['search']['view_grid_type'] = isset($idxboost_search_settings['default_view_grid']) ? $idxboost_search_settings['default_view_grid'] : '';
+            $output['search']['view_icon_type'] = isset($idxboost_search_settings['default_view_icon']) ? $idxboost_search_settings['default_view_icon'] : '';
+            $output['search']['schools_ratio'] = isset($idxboost_search_settings['default_schools_ratio']) ? $idxboost_search_settings['default_schools_ratio'] : '';
+            $output['search']['waterfront_options'] = isset($idxboost_search_settings['waterfront_options']) ? $idxboost_search_settings['waterfront_options'] : '';
+            $output['search']['year_built_range'] = isset($idxboost_search_settings['year_built_range']) ? $idxboost_search_settings['year_built_range'] : '';
+            $output['search']['default_language'] = isset($idxboost_search_settings['default_language']) ? $idxboost_search_settings['default_language'] : '';
+            $output['search']['default_floor_plan'] = isset($idxboost_search_settings['default_floor_plan']) ? $idxboost_search_settings['default_floor_plan'] : '';
+            $output['search']['idx_listings_type'] = isset($idxboost_search_settings['idx_listings_type']) ?  $idxboost_search_settings['idx_listings_type'] : 0;
+            $output['search']['hide_pending_content_options'] = isset($idxboost_search_settings['hide_pending_content_options']) ? (int) $idxboost_search_settings['hide_pending_content_options'] : 0;
+            /*$list_search_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "search_%"', ARRAY_A);
+            $output['search'] = flex_map_array($list_search_info);
+            if (!empty($output['search']) && isset($output['search']['search_idx_cities']) ) {
+                idxboost_array_sort_by_column($output['search']['search_idx_cities'], 'name');
+            }*/
+            // pusher info
+            #$list_pusher_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "pusher_%"', ARRAY_A);
+            #$output['pusher'] = flex_map_array($list_pusher_info);
+            $output['pusher']['pusher_app_key'] = $idxboost_pusher_settings['app_key'];
+            $output['pusher']['pusher_app_cluster'] = $idxboost_pusher_settings['app_cluster'];
+            $output['pusher']['pusher_presence_channel'] = $idxboost_pusher_settings['presence_channel'];
 
-        $output['commercial_types'] = $idxboost_commercial_types;
+            $output['commercial_types'] = $idxboost_commercial_types;
 
-        $output['search_filter_settings'] = $search_filter_settings;
+            $output['search_filter_settings'] = $search_filter_settings;
+            $idxboost_info_agent = $output;
+
+        }
 
         return $output;
     }
@@ -1946,20 +1961,22 @@ if (!function_exists( 'flex_idx_get_info' )) {
 if (!function_exists( 'idxboost_list_pages' )) {
     function idxboost_list_pages()
     {
-        global $wpdb;
-        $idxboost_pages = array();
-        $list_pages = $wpdb->get_results("
-        select ID, post_title, post_name, guid, t2.meta_value AS page_id
-        from {$wpdb->posts} t1
-        inner join {$wpdb->postmeta} t2
-        on t1.ID = t2.post_id
-        where t1.post_type = 'flex-idx-pages'
-        and t1.post_status = 'publish'
-        and t2.meta_key = '_flex_id_page'
-        ", ARRAY_A);
-        foreach ($list_pages as $idxboost_page) {
-            $idxboost_page['guid'] = implode('/', array(site_url(), $idxboost_page['post_name']));
-            $idxboost_pages[$idxboost_page["page_id"]] = $idxboost_page;
+        global $wpdb,$idxboost_pages;
+
+        if( !is_array($idxboost_pages) || (is_array($idxboost_pages) && count($idxboost_pages) == 0) ) {
+            $list_pages = $wpdb->get_results("
+                select ID, post_title, post_name, guid, t2.meta_value AS page_id
+                from {$wpdb->posts} t1
+                inner join {$wpdb->postmeta} t2
+                on t1.ID = t2.post_id
+                where t1.post_type = 'flex-idx-pages'
+                and t1.post_status = 'publish'
+                and t2.meta_key = '_flex_id_page'
+                ", ARRAY_A);
+            foreach ($list_pages as $idxboost_page) {
+                $idxboost_page['guid'] = implode('/', array(site_url(), $idxboost_page['post_name']));
+                $idxboost_pages[$idxboost_page["page_id"]] = $idxboost_page;
+            }          
         }
         return $idxboost_pages;
     }
@@ -3290,8 +3307,6 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
         curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_VERIFY_CREDENTIALS);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
 

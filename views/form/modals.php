@@ -178,6 +178,10 @@ global $flex_idx_info, $flex_idx_lead;
                   <input type="hidden" class="ib_property_signup_price" name="__property_signup_price" value="">
                   <input type="hidden" name="action" value="flex_idx_lead_signup">
 
+                  <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                    <input type="hidden" name="gclid_field" id="gclid_field_form_lead_registration">
+                  <?php endif; ?>
+
                   <ul class="pr-steps-container">
                     <li class="pr-step active">
                       <label class="ms-sub-text small" for="agilefield-9"><?php echo __('Register with your email address', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
@@ -673,6 +677,11 @@ global $flex_idx_info, $flex_idx_lead;
 		<fieldset>
                 <legend><?php echo __('Schedule a Consultation', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
               <input type="hidden" name="action" value="lead_submission_showing">
+
+              <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                <input type="hidden" name="gclid_field" id="gclid_field_form_scheduled">
+              <?php endif; ?>
+
               <div class="gform_body">
                 <ul class="gform_fields">
                   <li class="gfield">

@@ -1,4 +1,11 @@
 <div id="ib-wrapper-rentals" class="ib-wrapper-rentals" 
+
+data-highlightcheckin="<?php if ($high_light_check_in) {
+    echo '1';
+} else {
+    echo '0';
+} ?>" 
+
 data-hiddenPhone="<?php if ($Phone_office) {
     echo '1';
 } else {
