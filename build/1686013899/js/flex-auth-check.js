@@ -3340,7 +3340,7 @@ function generateVideoFullScreen(videoUrl,videoTitle){
 
 			var srcVideo = 'https://www.youtube.com/embed/' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '?playlist=' + videoUrl.substring(videoUrl.length - 11, videoUrl.length) + '&autoplay=1&controls=1&loop=1';
 
-			if(windowWidth < 1024){
+			if(windowWidth < 639){
 				jQuery("body").addClass("mobileVideo");
 				player.seekTo(0).unMute();
 			}else{
@@ -3428,8 +3428,17 @@ function activeFullScreen(obj){
 	if(!fullScreenModal.length){
 
 		if(actionPhoto.length){
-			var btnPhoto = '<button class="ms-item -photo-btn js-open-full-screen" data-type="photo" data-initial="1"><i class="ms-icon idx-icon-camera"></i> '+actionPhoto.text()+'</button>';
-		}else{
+      var btnPhoto = '<button class="ms-item -photo-btn js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider"><i class="ms-icon idx-icon-camera"></i> '+actionPhoto.text()+'</button>';
+      
+      if(jQuery("#buildingSlider").length){
+        var btnPhoto = '';
+      }
+      
+      if(jQuery(".ib-pvslider").length){
+        var btnPhoto = '<button class="ms-item -photo-btn js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider"><i class="ms-icon idx-icon-camera"></i> '+actionPhoto.text()+'</button>';
+      }
+
+     }else{
 			var btnPhoto = '';
 		}
 
@@ -3501,7 +3510,10 @@ function removeFullScreen(){
 	jQuery("body").removeClass("showVideo showMap showPhoto open-full-screen");
 	//jQuery("#fullGalleryView").removeClass("slider-loaded");
 	setTimeout(function () {
-		gs.slider['fullGalleryView'].destroy();
+    if(jQuery("#fullGalleryView").hasClass("gs-builded")){
+		  gs.slider['fullGalleryView'].destroy();
+    }
+
 		jQuery("#fullScreenModal").remove();
 		//jQuery("#fullMapView .ms-wrapper-map").remove();
 	}, 900);
