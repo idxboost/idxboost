@@ -3089,10 +3089,10 @@ function buildSearchFilterForm() {
 				// submit form
 				IB_SEARCH_FILTER_FORM.trigger("submit");
 
-				if ($(window).width() < 1023) {
+				//if ($(window).width() < 1023) {
 					//$('html, body').animate({scrollTop: $('.ib-wgrid').offset().top - 20}, 1000)
 					$('html, body').animate({scrollTop:0}, 1000);
-				}
+				//}
 			}
 		});
 	}

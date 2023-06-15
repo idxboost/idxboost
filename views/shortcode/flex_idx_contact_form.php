@@ -1,3 +1,4 @@
+<?php global $flex_idx_info;?>
 <form 
   class="form-search gtm_general_contact_form iboost-secured-recaptcha-form"
   id="<?php echo $atts['id_form']; ?>" method="post"
@@ -20,7 +21,7 @@
     <h3 class="ms-hidden"><?php echo __("Email Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     
     <?php  
-    global $flex_idx_info;
+    
     
     $nclass = "";
     if ( 

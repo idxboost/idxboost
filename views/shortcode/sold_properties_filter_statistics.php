@@ -74,6 +74,7 @@
                             <option value="474" <?php if($atts['city_id']=='474') echo 'selected'; ?>>Aventura</option>
                             <option value="447" <?php if($atts['city_id']=='447') echo 'selected'; ?>>Broward</option>
                             <option value="1" <?php if($atts['city_id']=='1') echo 'selected'; ?>>Miami-Dade</option>
+                            <option value="4" <?php if($atts['city_id']=='4') echo 'selected'; ?>>Miami Shore</option>
                             <option value="202" <?php if($atts['city_id']=='202') echo 'selected'; ?>>Edgewater</option>
                             <option value="475" <?php if($atts['city_id']=='475') echo 'selected'; ?>>Bal Harbour</option>
                             <option value="499" <?php if($atts['city_id']=='499') echo 'selected'; ?>>Fort Lauderdale</option>

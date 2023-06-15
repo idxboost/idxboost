@@ -8542,10 +8542,10 @@ if ( ! function_exists( 'idxboost_cms_assets' ) ) {
                     update_option("cms_cta_modal", trim($head_json['cta']['content']));
                 }
             }
-        }
 
-        if (get_option("favicon")) {
-            echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
+            if (get_option("favicon")) {
+                echo '<link rel="shortcut icon" href="' . get_bloginfo('wpurl') . '/' . get_option("favicon") . '" />';
+            }
         }
     }
 }
@@ -8966,14 +8966,14 @@ if ( ! function_exists( 'custom_seo_page' ) ) {
 }
 
 if (!function_exists( 'idxboost_save_options_after_update' )) {
-    $options = array(
-        'action' => 'update',
-        'type' => 'plugin',
-        'plugins' => array(0 => 'idxboost/idxboost.php')
-    );
-
     function idxboost_save_options_after_update($upgrader_object, $options)
     {
+        $options = array(
+            'action' => 'update',
+            'type' => 'plugin',
+            'plugins' => array(0 => 'idxboost/idxboost.php')
+        );
+
         if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array('idxboost/idxboost.php', $options['plugins'])) {
             $data_parameters = [];
             if (function_exists( 'is_wpe' )) {
