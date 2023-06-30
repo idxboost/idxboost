@@ -268,7 +268,7 @@
   </div>
   <div class="flex-ms-wrapper">
     <h1>IDXBoost <br>Wordpress Plugin</h1>
-    <span class="flex-update-version">You are using version <strong>4.3.6</strong> <a href="#">Click here for plugin updates</a></span>
+    <span class="flex-update-version">You are using version <strong>4.6.7</strong> <a href="#">Click here for plugin updates</a></span>
     <form method="post" id="flex_idx_client_form">
       <input type="hidden" name="action" value="flex_connect">
       <table class="form-table">

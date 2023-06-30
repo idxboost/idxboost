@@ -1,4 +1,5 @@
 <?php
+  $class_multi=time();
   $idxboost_query_slug = $_SERVER['QUERY_STRING'];
   $idxboost_query_slug_array = explode('&', $idxboost_query_slug );
   $idxboost_ver_bool=true;
@@ -30,40 +31,38 @@
   ?>
 <?php
   $filterid='';
-  $sta_view_grid_type='0'; 
-  if(array_key_exists('view_grid_type',$search_params)) $sta_view_grid_type=$search_params['view_grid_type'];
+  $sta_view_grid_type='0'; if(array_key_exists('view_grid_type',$search_params)) $sta_view_grid_type=$search_params['view_grid_type'];
+  if ($atts['method']==0)
+    $filterid=get_the_ID();
   ?>
 <script>
-  //var filter_metadata = <?php //echo trim(json_encode($response)); ?>;
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
 <?php
   global $post;
   $filter_favorite_idxboost=0;
+  $filter_type_fl = get_post_meta($post->ID, '_flex_filter_page_fl', true);
+  if (empty($filter_type_fl)) {
+    $filter_type_fl=$typeworked;
+  }
   $viewfilter='grid';
   ?>
 <div class="clidxboost-sc-filters ms-shortcode-agent-office idxboost-content-filter-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">
   <div id="wrap-subfilters" style="margin-top:15px;">
     <div class="gwr">
       <ul id="sub-filters">
-        <li id="link-favorites">
-          <a href="#" title="<?php echo __("My Saved Listings", IDXBOOST_DOMAIN_THEME_LANG); ?>" class="clidxboost-icon-favorite">
-          <span>
-          <span><?php echo number_format($response_canti['count']); ?></span><?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </a>
-        </li>
         <li id="filter-by" class="clidxboost-icon-arrow-select">
           <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">
-              <option value="list_date-desc" <?php selected($atts["order_by"], "list_date-desc"); ?> ><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="last_updated-desc" <?php selected($atts['order_by'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="price-desc" <?php selected($atts["order_by"], "price-desc"); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="price-asc" <?php selected($atts["order_by"], "price-asc"); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="sqft-desc" <?php selected($atts["order_by"], "sqft-desc"); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              <option value="sqft-asc" <?php selected($atts["order_by"], "sqft-asc"); ?>><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+          <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>">
+              <option value="list_date-desc" <?php selected($sendParams["order"], "list_date-desc"); ?> ><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="last_updated-desc" <?php selected($sendParams['order'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price-desc" <?php selected($sendParams["order"], "price-desc"); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="price-asc" <?php selected($sendParams["order"], "price-asc"); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="sqft-desc" <?php selected($sendParams["order"], "sqft-desc"); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+              <option value="sqft-asc" <?php selected($sendParams["order"], "sqft-asc"); ?>><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
           </select>
         </li>
-        <li id="filter-views" class="filter-views filter-views-<?php echo $class_multi; ?> clidxboost-icon-arrow-select <?php echo $response['view']; ?>" filtemid="<?php echo $class_multi; ?>">
+        <li id="filter-views" class="filter-views filter-views-<?php echo $class_multi; ?> clidxboost-icon-arrow-select <?php echo $sendParams['view']; ?>" filtemid="<?php echo $class_multi; ?>">
           <select>
             <option value="grid" selected><?php echo __("Grid", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
             <option value="list"><?php echo __("List", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -113,27 +112,11 @@
 <script type="text/javascript">
   var idxboost_force_registration=false;
 <?php 
-$registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
-
-if (
-      ($registration_is_forced != false) || 
-      (
-         !empty($response) && 
-         array_key_exists('force_registration', $response) &&  !empty($response['force_registration']) 
-      )
-   ) { ?>
-      idxboost_force_registration=true;
-    <?php  } ?>
+  $registration_is_forced = (isset($flex_idx_info['agent']['force_registration']) && (true == $flex_idx_info['agent']['force_registration']) ) ? true : false;
+ ?>
 
   var idxboost_hackbox_filter=[];
    
-   <?php
-      if( !empty($response) ) {
-        if(array_key_exists("hackbox", $response)){ ?>
-        idxboost_hackbox_filter= <?php echo json_encode($response["hackbox"]); ?>;
-       <?php } 
-      }
-    ?>
 
   jQuery(document).ready(function(){
     <?php if (!empty($filter_favorite_idxboost)) { ?>

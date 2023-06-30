@@ -763,9 +763,16 @@
                   }
                   }
                   ?>                              
+                
+                <?php
+                $status_name = $property['status_name'];
+                 if($property["status"] == "2"){
+                    $status_name = ($property["is_rental"] == "1") ? __('Rented', IDXBOOST_DOMAIN_THEME_LANG) : __('Sold', IDXBOOST_DOMAIN_THEME_LANG);
+                 }
+                ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property['status_name']; ?></span>
+                  <span class="ib-plist-pt"><?php echo $status_name; ?></span>
                 </li>
                 <li>
                   <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -1574,7 +1581,7 @@
   (function ($) {
     $(function() {
   
-      <?php if( (isset($flex_idx_info['agent']['has_dynamic_ads'])) && (true === $flex_idx_info['agent']['has_dynamic_ads']) ): ?>
+      <?php if( (isset($flex_idx_info['agent']['has_dynamic_remarketing'])) && (true === $flex_idx_info['agent']['has_dynamic_remarketing']) ): ?>
         <?php
     $property_price = $property['is_sold'] ? $property['price_sold'] : $property['price'];
     ?>

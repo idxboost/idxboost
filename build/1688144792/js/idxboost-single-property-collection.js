@@ -978,7 +978,7 @@
 		if (service == 'youtube') {
 			parent.append(`
         <iframe id="ytIframe" allow="autoplay; encrypted-media" 
-          src="https://www.youtube.com/embed/${id}?&autoplay=1&loop=1&rel=0&showinfo=0&enablejsapi=1&origin=${window.location.origin}&color=white&iv_load_policy=3&playlist=${id}" 
+          src="https://www.youtube.com/embed/${id}?&autoplay=1&loop=1&rel=0&showinfo=0&enablejsapi=1&origin=${window.location.origin}&color=white&iv_load_policy=3" 
           frameborder="0" allowfullscreen title="${videoTitle}">
         </iframe>
       `).ready(function () {

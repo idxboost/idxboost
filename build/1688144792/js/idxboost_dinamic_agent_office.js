@@ -696,9 +696,9 @@ Handlebars.registerHelper('DFformatPrice', function(price) {
 	return "$" + _.formatPrice(price);
 });
 
-Handlebars.registerHelper('DFrentalType', function(rentalType) {
+Handlebars.registerHelper('DFrentalType', function(rentalType,status = "1" ) {
 	var text_is_rental='';
-	if (rentalType=='1')
+	if (rentalType=='1' && status != '2')
 		text_is_rental='/'+word_translate.month;
 	return text_is_rental;
 });

@@ -17,20 +17,16 @@ var current_year = (new Date()).getFullYear();
 // }
 
 // overwrite amenities for commercial
-__flex_idx_search_filter.search.amenities = [
+__flex_idx_search_filter_v2.search.amenities = [
 	{ "name": "Foreclosure", code: "foreclosure" }, 
 	{ "name": "Occupied", code: "is_occupied" }, 
 	{ "name": "Short Sale", code: "short_sale" }, 
 	{ "name": "Vacant", code: "is_vacant" }
 ];
 
-// fix for gmap dragEnd, zoomEnd
-var get_off_market_position=0;
-var tot_oml_item=0;
+var idleListener;
 
 var countClickAnonymous = 0;
-
-var idleListener;
 
 var IB_USER_IS_DRAWING = false;
 var IB_TRACKING_IFRAME;
@@ -40,7 +36,6 @@ var ib_xhr_running = false;
 var IB_IS_SEARCH_FILTER_PAGE = true;
 var IB_GMAP_INIT = false;
 var IB_GMAP_FINISHED_POLYGON = false;
-var IB_GMAP_BOUNDS_LOADED = false;
 
 // for schools information
 var size_li_actives = 0;
@@ -86,7 +81,7 @@ var ib_comm_year_inner_max;
 var ib_comm_rate_inner_min;
 var ib_comm_rate_inner_max;
 /* [end] */
-	
+
 /** @todo vars for mobile inputs */
 var ib_min_price;
 var ib_max_price;
@@ -125,19 +120,10 @@ var ib_max_caprate;
 /** end */
 
 var IB_IS_FIRST_LOAD = true;
-
 var style_map=[];
 
 if(style_map_idxboost != undefined && style_map_idxboost != '') {
 	style_map=JSON.parse(style_map_idxboost);
-}
-
-if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
-	var myLazyLoad;
-}
-
-if (typeof originalPositionY === "undefined") {
-	var originalPositionY;
 }
 
 (function ($) {
@@ -205,37 +191,10 @@ _.mixin({
 });
 
 Handlebars.registerHelper('capturePositionHackbox', function(index) {
-	var html_market=[];
-	if (__flex_idx_search_filter.list_offmarket.status != undefined  ){
-		
-		tot_oml_item=parseInt(__flex_idx_search_filter.list_offmarket.tot_item);
-
-		html_market.push('<li class="ib-pitem"><div class="ib-pislider gs-container-slider gs-loaded" id="collection-markert">');
-		__flex_idx_search_filter.list_offmarket.data.forEach(function(item){
-			html_market.push('<div class="ib-item"><img class="ib-pifimg" src="'+item.image+'" alt="'+item.address+'"><h3 class="ib-title">'+item.address+'</h3><div class="ib-wrap-btn"><a target="_blank" href="" class="ib-mr-link idx_view_collection_market"><span>View Collection</span></a> <a target="_blank" href="https://management.urbanresource.com/page-property/'+item.property_id+'" class="ib-mr-link idx_view_detail_market"><span>'+word_translate.details+'</span></a></div></div>');
-		});
-		html_market.push('<div class="gs-navs-off-market"><div class="gs-om-arrows"><button class="gs-om-prev-arrow btn_prev_item" method="prev"></button><button class="gs-om-next-arrow btn_next_item" method="next"></button></div></div><span class="ib-label">Managed by Urban Resource</span></div></li>');
-	}    
-
-	if (1 == IB_SEARCH_FILTER.attr("data-count")) {
-		if (html_market.length>0){
-			return html_market.join('');
-		}else{
-			return '<li class="ib-pitem ib-pitem-marketing">' + __flex_idx_search_filter.hackbox.content + '</li>';
-		}
-		
+	if ((1 === index) && (__flex_idx_search_filter_v2.hackbox.status === true) ) {
+		return '<li class="ib-pitem ib-pitem-marketing">' + __flex_idx_search_filter_v2.hackbox.content + '</li>';
 	} else {
-		if ((0 === index) && ("" != __flex_idx_search_filter.hackbox.content) ) {
-			if (html_market.length>0){
-				return html_market.join('');
-			}else{
-				return '<li class="ib-pitem ib-pitem-marketing">' + __flex_idx_search_filter.hackbox.content + '</li>';
-			}            
-		} else {
-			return "";
-		}
-		
-		
+		return "";
 	}
 });
 
@@ -248,12 +207,12 @@ Handlebars.registerHelper('formatBathsHalf', function(baths_half) {
 });
 
 Handlebars.registerHelper('handleStatusProperty', function(property) {
-	if ("yes" === property.recently_listed || property.min_ago_txt !=""  ) {
+	if ("yes" === property.recently_listed || property.min_ago_txt !="" ) {
 		if (property.min_ago > 0 && property.min_ago_txt !="" ) {
 			return '<li class="ib-piitem ib-pstatus">'+property.min_ago_txt+'</li>';
 		}else{
 			return '<li class="ib-piitem ib-pstatus">'+word_translate.new_listing+'</li>';
-		}
+		}				
 	} else if (1 != property.status) {
 		return '<li class="ib-piitem ib-pstatus">'+property.status_name+'</li>';
 	}
@@ -276,17 +235,25 @@ Handlebars.registerHelper('formatSqft', function(sqft) {
         
     });
 
-Handlebars.registerHelper("idxPermalinkModal", function(slug) {
-	return __flex_idx_search_filter.propertyDetailPermalink + "/" + slug;
-});
-
 Handlebars.registerHelper('formatLotSize', function(lot_size) {
 	return _.formatPrice(lot_size);
 });
 
-Handlebars.registerHelper("idxPermalink", function(property) {
-	return __flex_idx_search_filter.propertyDetailPermalink + "/" + property.slug;
-});
+// _.mixin({
+//     formatAcres: function(lot_size) {
+//         var acre = 43560;
+
+//         if (lot_size > 0) {
+//             if (lot_size < 43560) {
+//                 return 0;
+//             } else {
+//                 return Math.round((lot_size / acre) * 100) / 100;
+//             }
+//         } else {
+//             return 0;
+//         }
+//     }
+// });
 
     Handlebars.registerHelper('formatAcres', function(inputval,metodo = null) {
         if ( ![null,"",undefined,"undefined",0,"0"].includes( inputval ) ){
@@ -321,7 +288,7 @@ Handlebars.registerHelper("idxPermalink", function(property) {
     
 Handlebars.registerHelper("idxFavoriteClass", function(property) {
 	var options = ["ib-pfheart","ib-pfstar","ib-pfcube"];
-	var currentClass = options[__flex_idx_search_filter.search.view_icon_type];
+	var currentClass = options[__flex_idx_search_filter_v2.search.view_icon_type];
 	var returnOptions = [];
 
 	returnOptions.push(currentClass);
@@ -333,8 +300,24 @@ Handlebars.registerHelper("idxFavoriteClass", function(property) {
 	return returnOptions.join(" ");
 });
 
+Handlebars.registerHelper("idxPermalinkModal", function(slug) {
+	return __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + slug;
+});
+
+Handlebars.registerHelper("idxPermalink", function(property) {
+	return __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + property.slug;
+});
+
 Handlebars.registerHelper("idxFavoriteText", function(property) {
 	return ("" === property.token_alert) ? word_translate.save : word_translate.remove;
+});
+
+Handlebars.registerHelper('formatPriceSqft', function(property) {
+	if ( ( property.sqft > 0 ) && ( property.price > 0 )  ) {
+		return _.formatPrice(property.price / property.sqft);
+	} else {
+		return "";
+	}
 });
 
 Handlebars.registerHelper("idxGalleryImages", function(property) {
@@ -346,7 +329,7 @@ Handlebars.registerHelper("idxGalleryImages", function(property) {
 		  images.push(
 			'<img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" src="' +
 			  property.gallery[i] +
-			  '" class="ib-pifimg" alt="'+property.full_address+'">'
+			  '" class="ib-pifimg" alt="'+property.full_address+'" alt="'+property.full_address+'">'
 		  );
 		} else {
 		  images.push(
@@ -361,15 +344,7 @@ Handlebars.registerHelper("idxGalleryImages", function(property) {
 	} else {
 	  return '<img src="https://www.idxboost.com/i/default_thumbnail.jpg" class="ib-pifimg" alt="'+property.full_address+'">';
 	}
-});
-
-Handlebars.registerHelper('formatPriceSqft', function(property) {
-	if ( ( property.sqft > 0 ) && ( property.price > 0 )  ) {
-		return _.formatPrice(property.price / property.sqft);
-	} else {
-		return "";
-	}
-});
+  });
 
 Handlebars.registerHelper('idxImage', function(property) {
 	if (property.img_cnt > 0) {
@@ -456,6 +431,8 @@ Handlebars.registerHelper("isRentalTypeListing", function(rentalType) {
 Handlebars.registerHelper("isRentalType", function(property) {
 	if (property.hasOwnProperty("is_rental") && "1" == property.is_rental) {
 		return '/'+word_translate.month;
+	} else {
+		return "";
 	}
 });
 
@@ -471,29 +448,6 @@ Handlebars.registerHelper('idxSliderLoop', function(property) {
 	}
 
 	return images.join("");
-
-	// if ( parseInt(property.img_cnt, 10) > 0 ) {
-	//     var sliderItems = [];
-	//     var count = parseInt(property.img_cnt, 10);
-
-	//     for (var index = 1; index < count; index++) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, index) +'">');
-	//     }
-
-	//     if (count == 1) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 1) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//     } else if (count == 2) {
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 1) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="'+ _.getMLSListImage(property.mls_num, property.image, 2) +'">');
-	//         sliderItems.push('<img class="ib-pvsitem" src="https://www.idxboost.com/i/default_thumbnail.jpg">');
-	//     }
-
-	//     return sliderItems.join("");
-	// } else {
-	//     return [];
-	// }
 });
 
 Handlebars.registerHelper('idxBoardDisclaimer', function(property) {
@@ -504,7 +458,6 @@ Handlebars.registerHelper('idxBoardDisclaimer', function(property) {
 		property.board_info.hasOwnProperty("board_disclaimer") && 
 		!( ["" , null,undefined,"undefined","null"].includes(property.board_info.board_disclaimer)  )
 	 ) {
-
 		let disclaimer = property.board_info.board_disclaimer.replace("{officeName}", property.office_name);
 		disclaimer = disclaimer.replace("{office_phone}", '<a href="tel:'+property.phone_office+'">'+property.phone_office+'</a>');
 		disclaimerHtml = '<p>' + disclaimer + '</p>';
@@ -525,23 +478,23 @@ Handlebars.registerHelper('idxBoardDisclaimerExist', function(property) {
 });	
 
 Handlebars.registerHelper('propertyPermalink', function(slug) {
-	return __flex_idx_search_filter.propertyDetailPermalink + "/" + slug;
+	return __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + slug;
 });
 
 Handlebars.registerHelper('agentPhoto', function(property) {
-	return __flex_idx_search_filter.agentPhoto;
+	return __flex_idx_search_filter_v2.agentPhoto;
 });
 
 Handlebars.registerHelper('agentFullName', function(property) {
-	return __flex_idx_search_filter.agentFullName;
+	return __flex_idx_search_filter_v2.agentFullName;
 });
 
 Handlebars.registerHelper('agentPhoneNumber', function(property) {
-	return __flex_idx_search_filter.agentPhone.replace(/[^\d+]/g, "");
+	return __flex_idx_search_filter_v2.agentPhone.replace(/[^\d+]/g, "");
 });
 
 Handlebars.registerHelper('agentPhone', function(property) {
-	return __flex_idx_search_filter.agentPhone;
+	return __flex_idx_search_filter_v2.agentPhone;
 });
 
 Handlebars.registerHelper('idxReduced', function(reduced) {
@@ -555,26 +508,26 @@ Handlebars.registerHelper('idxReduced', function(reduced) {
 });
 
 Handlebars.registerHelper('leadFirstName', function(property) {
-	return __flex_idx_search_filter.leadFirstName;
+	return __flex_idx_search_filter_v2.leadFirstName;
 });
 
 Handlebars.registerHelper('leadLastName', function(property) {
-	return __flex_idx_search_filter.leadLastName;
+	return __flex_idx_search_filter_v2.leadLastName;
 });
 
 Handlebars.registerHelper('leadEmailAddress', function(property) {
-	return __flex_idx_search_filter.leadEmailAddress;
+	return __flex_idx_search_filter_v2.leadEmailAddress;
 });
 
 Handlebars.registerHelper('leadPhoneNumber', function(property) {
-	return __flex_idx_search_filter.leadPhoneNumber;
+	return __flex_idx_search_filter_v2.leadPhoneNumber;
 });
 
-__flex_idx_search_filter.search.price_sale_range.push({ label: word_translate.any_price, value: "--" });
-__flex_idx_search_filter.search.price_rent_range.push({ label: word_translate.any_price, value: "--" });
+__flex_idx_search_filter_v2.search.price_sale_range.push({ label: word_translate.any_price, value: "--" });
+__flex_idx_search_filter_v2.search.price_rent_range.push({ label: word_translate.any_price, value: "--" });
 
-__flex_idx_search_filter.search.living_size_range.push({ label: word_translate.any_size, value: "--" });
-__flex_idx_search_filter.search.lot_size_range.push({ label: word_translate.any_size, value: "--" });
+__flex_idx_search_filter_v2.search.living_size_range.push({ label: word_translate.any_size, value: "--" });
+__flex_idx_search_filter_v2.search.lot_size_range.push({ label: word_translate.any_size, value: "--" });
 
 /** Setup Callbacks for Autocomplete */
 function ib_fetch_default_cities() {
@@ -585,7 +538,7 @@ function ib_fetch_default_cities() {
 		for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
 			featured_cities.push({
 				label: ib_autocomplete_cities[i],
-				type: "city"
+				type: word_translate.city
 			});
 		}
 	}
@@ -603,7 +556,7 @@ function handleSubmitAutocompleteForm(event) {
 
 		if (19 == __flex_g_settings.boardId) {
 			var matchCity;
-	
+
 			for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
 				var term = ib_autocomplete_cities[i];
 				var match = new RegExp("^" + term.label + "$", "i");
@@ -616,49 +569,29 @@ function handleSubmitAutocompleteForm(event) {
 
 			if ("undefined" !== typeof matchCity) {
 				setAutocompleteTerm(matchCity.label, "city");
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			} else {
 				setAutocompleteTerm(inputValue, null);
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			}
 		} else {
 			if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
 				setAutocompleteTerm(inputValue, "zip");
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			} else {
 				var matchCity;
-	
+
 				for (var i = 0, l = ib_autocomplete_cities.length; i < l; i++) {
 					var term = ib_autocomplete_cities[i];
 					var match = new RegExp("^" + term.label + "$", "i");
-	
+
 					if (false !== match.test(inputValue)) {
 						matchCity = term;
 						break;
 					}
 				}
-	
+
 				if ("undefined" !== typeof matchCity) {
 					setAutocompleteTerm(matchCity.label, "city");
-					// @todo remove rect
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 				} else {
 					setAutocompleteTerm(inputValue, null);
-					// @todo remove rect
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 				}
 			}
 		}
@@ -697,29 +630,19 @@ function setAutocompleteTerm(term, type) {
 	}
 
 	IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 
-	//update_bounds_zoom_gmap();
+	update_bounds_zoom_gmap();
 
 	IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 	IB_SEARCH_FILTER_FORM.trigger("submit");
 }
 
 function handleSelectAutocomplete(event, ui) {
-	setAutocompleteTerm(ui.item.value, ui.item.type);
-	// @todo remove rect
-	IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
+	setAutocompleteTerm(ui.item.value, ui.item.type.toLowerCase());
 
-	IB_GMAP_FIT_TO_BOUNDS = true;
-
-	// @todo blur autocomplete    
 	setTimeout(function () {
 		document.activeElement.blur();
 	}, 100);
-
 }
 
 function handleFocusAutocompleteEvent() {
@@ -731,13 +654,8 @@ function handleFocusAutocompleteEvent() {
 
 function handleKeyPressAutocompleteEvent(event) {
 	if ("" !== this.value && 13 === event.keyCode) {
-		IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-		IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-		IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
-
 		ib_autocomplete.autocomplete("close");
-		// @todo blur autocomplete
-		
+
 		setTimeout(function () {
 			document.activeElement.blur();
 		}, 100);
@@ -755,8 +673,7 @@ function handleKeyUpAutocompleteEvent(event) {
 
 	if ( ("" !== inputValue) && (13 === event.keyCode) ) {
 		ib_autocomplete.autocomplete("close");
-		// @todo blur autocomplete
-		
+
 		setTimeout(function () {
 			document.activeElement.blur();
 		}, 100);
@@ -776,24 +693,12 @@ function handleKeyUpAutocompleteEvent(event) {
 
 			if ("undefined" !== typeof matchCity) {
 				setAutocompleteTerm(matchCity.label, "city");
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			} else {
 				setAutocompleteTerm(inputValue, null);
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			}
 		} else {
 			if (/^\d+$/.test(inputValue) && (5 === inputValue.length)) {
 				setAutocompleteTerm(inputValue, "zip");
-				// @todo remove rect
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 			} else {
 				var matchCity;
 	
@@ -809,16 +714,8 @@ function handleKeyUpAutocompleteEvent(event) {
 	
 				if ("undefined" !== typeof matchCity) {
 					setAutocompleteTerm(matchCity.label, "city");
-					// @todo remove rect
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 				} else {
 					setAutocompleteTerm(inputValue, null);
-					// @todo remove rect
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
 				}
 			}
 		}
@@ -827,9 +724,6 @@ function handleKeyUpAutocompleteEvent(event) {
 	if ("" === inputValue) {
 		ib_autocomplete.autocomplete("option", "source", ib_autocomplete_cities);
 		ib_autocomplete.autocomplete( "search", "" );
-	} else {
-		ib_autocomplete.autocomplete("option", "source", handleLookupAutocomplete);
-		ib_autocomplete.autocomplete( "search", ib_autocomplete.val() );
 	}
 }
 
@@ -848,7 +742,6 @@ var IB_SEARCH_FILTER_FORM;
 var IB_CLEAR_BTN;
 
 var IB_DOCFRAG = document.createDocumentFragment();
-// var IB_LB_CITIES;
 var IB_LB_WATERFRONT_OPTIONS;
 var IB_LB_PARKING_OPTIONS;
 var IB_LB_AMENITIES_OPTIONS;
@@ -863,13 +756,13 @@ var IB_RG_LIVINGSIZE;
 var IB_RG_LANDSIZE;
 var IB_RG_YEARBUILT;
 
-var IB_RG_PRICE_SALE_VALUES = _.pluck(__flex_idx_search_filter.search.price_sale_range, "value");
-var IB_RG_PRICE_RENT_VALUES = _.pluck(__flex_idx_search_filter.search.price_rent_range, "value");
-var IB_RG_BEDROOMS_VALUES = _.pluck(__flex_idx_search_filter.search.beds_range, "value");
+var IB_RG_PRICE_SALE_VALUES = _.pluck(__flex_idx_search_filter_v2.search.price_sale_range, "value");
+var IB_RG_PRICE_RENT_VALUES = _.pluck(__flex_idx_search_filter_v2.search.price_rent_range, "value");
+var IB_RG_BEDROOMS_VALUES = _.pluck(__flex_idx_search_filter_v2.search.beds_range, "value");
 var IB_RG_BATHROOMS_VALUES = [0,1,2,3,4,5,6];
-var IB_RG_LIVINGSIZE_VALUES = _.pluck(__flex_idx_search_filter.search.living_size_range, "value");
-var IB_RG_LANDSIZE_VALUES = _.pluck(__flex_idx_search_filter.search.lot_size_range, "value");
-var IB_RG_YEARBUILT_VALUES = _.pluck(__flex_idx_search_filter.search.year_built_range, "value");
+var IB_RG_LIVINGSIZE_VALUES = _.pluck(__flex_idx_search_filter_v2.search.living_size_range, "value");
+var IB_RG_LANDSIZE_VALUES = _.pluck(__flex_idx_search_filter_v2.search.lot_size_range, "value");
+var IB_RG_YEARBUILT_VALUES = _.pluck(__flex_idx_search_filter_v2.search.year_built_range, "value");
 
 var IB_RG_PRICE_SALE_LBL_LT;
 var IB_RG_PRICE_SALE_LBL_RT;
@@ -893,9 +786,6 @@ var ib_autocomplete_btn;
 var ib_autocomplete_cities = ib_fetch_default_cities();
 var ib_autocomplete_cache = {};
 
-// var IB_SEARCH_FILTER_AUTOCOMPLETE;
-// var IB_KW_TG_SEARCH;
-
 var IB_SORT_CTRL;
 var IB_PAGINATION_CTRL;
 var IB_LISTINGS_CT;
@@ -910,7 +800,6 @@ var IB_LBL_BED_NTF;
 var IB_LBL_BATH_NTF;
 var IB_LBL_TYPES_NTF;
 
-// var IB_MAP;
 var IB_MARKER;
 var IB_MARKERS = [];
 var IB_MARKERS_LISTINGS = [];
@@ -927,6 +816,7 @@ var mapDrawButton;
 var mapDrawEraseButton;
 
 var IB_POLYGON;
+
 var IB_HAS_POLYGON = false;
 
 var infobox_content = [];
@@ -993,14 +883,12 @@ function handleOverlayComplete(event) {
 
 		// encode path
 		var encodedPath = google.maps.geometry.encoding.encodePath(path);
-		// console.log(encodedPath);
 
 		// encode base64
 		encodedPath = btoa(encodedPath);
 
 		// make URL friendly
 		encodedPath = encodedPath.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-		// console.log(encodedPath);
 
 		IB_SEARCH_FILTER_FORM.find('[name="crid"]').val(encodedPath);
 
@@ -1014,91 +902,52 @@ function handleOverlayComplete(event) {
 		// decode path
 		// console.log(google.maps.geometry.encoding.decodePath(atob(encodedPath)));
 	}
-
 }
 
+//MAPA 50/50
+function setupMapControlsFull() {
+  // setup buttons wrapper
+  mapButtonsWrapper = document.createElement("div");
+  mapButtonsWrapper.classList.add('flex-map-controls-ct');
 
-function handleDrawButton() {
-	IB_LOOKUP_DRAG = false;
+	// setup Full Screen button
+	fullscreenControl = document.createElement("div");
+	fullscreenControl.classList.add('flex-map-fullscreen');
+	//mapButtonsWrapper.appendChild(fullscreenControl);
 
-	// check if infowindow open, then close
-	if (infoWindow.isOpen()) {
-		infoWindow.close();
-	}
+	// setup zoom in button
+	mapZoomInButton = document.createElement("div");
+	mapZoomInButton.classList.add('flex-map-zoomIn');
+	mapButtonsWrapper.appendChild(mapZoomInButton);
 
-	// check if map has polygon
-	if (true === IB_HAS_POLYGON) {
-		// hide polygon
-		if ("undefined" !== typeof IB_POLYGON) {
-			IB_POLYGON.setVisible(false);
-		}
-	}
+	// setup zoom out button
+	mapZoomOutButton = document.createElement("div");
+	mapZoomOutButton.classList.add('flex-map-zoomOut');
+	mapButtonsWrapper.appendChild(mapZoomOutButton);
 
-	if (typeof IB_DRAWING_POLYGON !== "undefined") {
-		IB_DRAWING_POLYGON.setMap(null);
-	}
+	// setup draw button
+	mapDrawButton = document.createElement("div");
+	mapDrawButton.classList.add('flex-map-draw');
+	mapButtonsWrapper.appendChild(mapDrawButton);
 
-	// check if markers
-	if (IB_MARKERS) {
-		// hide them all
-		for (var i = 0, l = IB_MARKERS.length; i < l; i++) {
-			IB_MARKERS[i].setVisible(false);
-		}
-	}
+	// set draw erase button
+	mapDrawEraseButton = document.createElement("div");
+	mapDrawEraseButton.classList.add('flex-map-draw-erase');
+	//mapButtonsWrapper.appendChild(mapDrawEraseButton);
 
-	// hide map actions
-	$(mapButtonsWrapper).hide();
+  // setup Satellite button
+  satelliteMapButton = document.createElement("div");
+  satelliteMapButton.classList.add('flex-satellite-button');
+  mapButtonsWrapper.appendChild(satelliteMapButton);
 
-	// show navbar top
-	$("#wrap-map-draw-actions").css("display", "flex");
+  // add Buttons
+  google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
+  google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
+  //google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
+	google.maps.event.addDomListener(mapDrawButton, "click", handleDrawButton);
+  google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
 
-	// turn on drawing manager
-	IB_DRAWING_MANAGER = new google.maps.drawing.DrawingManager({
-		drawingMode: google.maps.drawing.OverlayType.POLYGON,
-		drawingControl: false,
-		drawingControlOptions: {
-			position: google.maps.ControlPosition.TOP_RIGHT,
-			drawingModes: ["polygon"]
-		},
-		polygonOptions: {
-			editable: false,
-			strokeWeight: 1,
-			strokeOpacity: 0.8,
-			strokeColor: "#31239a",
-			fillOpacity: 0.1,
-			fillColor: "#31239a",
-		}
-	});
-
-	google.maps.event.addListenerOnce(IB_DRAWING_MANAGER, "overlaycomplete", handleOverlayComplete);
-
-	IB_DRAWING_MANAGER.setMap(IB_MAP);
-
-	IB_USER_IS_DRAWING = true;
-}
-
-function handleDragSearchEvent() {
-	if (true === IB_USER_IS_DRAWING) {
-		return;
-	}
-
-	if (false === IB_GMAP_INIT) {
-		return;
-	}
-
-	var mapZoom = IB_MAP.getZoom();
-	var mapBounds = IB_MAP.getBounds();
-	var mapCenter = mapBounds.getCenter();
-
-	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
-
-	// console.log("Bounds: " + mapBounds.toUrlValue());
-	// console.log("Center: " + mapCenter.toUrlValue());
-	// console.log("Zoom: " + mapZoom);
-
-	IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-	IB_SEARCH_FILTER_FORM.trigger("submit");
+  IB_MAP.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
 }
 
 function handleSatelliteButton(event){
@@ -1179,69 +1028,83 @@ function exitFullscreen() {
   }
 }
 
-//MAPA 50/50
-function setupMapControlsFull() {
-  // setup buttons wrapper
-  mapButtonsWrapper = document.createElement("div");
-  mapButtonsWrapper.classList.add('flex-map-controls-ct');
+function handleDrawButton() {
+	IB_LOOKUP_DRAG = false;
 
-	// setup Full Screen button
-	fullscreenControl = document.createElement("div");
-	fullscreenControl.classList.add('flex-map-fullscreen');
-	//mapButtonsWrapper.appendChild(fullscreenControl);
+	// check if infowindow open, then close
+	if (infoWindow.isOpen()) {
+		infoWindow.close();
+	}
 
-	// setup zoom in button
-	mapZoomInButton = document.createElement("div");
-	mapZoomInButton.classList.add('flex-map-zoomIn');
-	mapButtonsWrapper.appendChild(mapZoomInButton);
+	// check if map has polygon
+	if (true === IB_HAS_POLYGON) {
+		// hide polygon
+		if ("undefined" !== typeof IB_POLYGON) {
+			IB_POLYGON.setVisible(false);
+		}
+	}
 
-	// setup zoom out button
-	mapZoomOutButton = document.createElement("div");
-	mapZoomOutButton.classList.add('flex-map-zoomOut');
-	mapButtonsWrapper.appendChild(mapZoomOutButton);
+	if (typeof IB_DRAWING_POLYGON !== "undefined") {
+		IB_DRAWING_POLYGON.setMap(null);
+	}
 
-	// setup draw button
-	mapDrawButton = document.createElement("div");
-	mapDrawButton.classList.add('flex-map-draw');
-	mapButtonsWrapper.appendChild(mapDrawButton);
+	// check if markers
+	if (IB_MARKERS) {
+		// hide them all
+		for (var i = 0, l = IB_MARKERS.length; i < l; i++) {
+			IB_MARKERS[i].setVisible(false);
+		}
+	}
 
-	// set draw erase button
-	mapDrawEraseButton = document.createElement("div");
-	mapDrawEraseButton.classList.add('flex-map-draw-erase');
-	//mapButtonsWrapper.appendChild(mapDrawEraseButton);
+	// hide map actions
+	$(mapButtonsWrapper).hide();
 
-  // setup Satellite button
-  satelliteMapButton = document.createElement("div");
-  satelliteMapButton.classList.add('flex-satellite-button');
-  mapButtonsWrapper.appendChild(satelliteMapButton);
+	// show navbar top
+	$("#wrap-map-draw-actions").css("display", "flex");
 
-  // add Buttons
-  google.maps.event.addDomListener(mapZoomInButton, "click", handleZoomInButton);
-  google.maps.event.addDomListener(mapZoomOutButton, "click", handleZoomOutButton);
-  //google.maps.event.addDomListener(fullscreenControl, "click", handlefullscreenButton);
-	google.maps.event.addDomListener(mapDrawButton, "click", handleDrawButton);
-  google.maps.event.addDomListener(satelliteMapButton, "click", handleSatelliteButton);
+	// turn on drawing manager
+	IB_DRAWING_MANAGER = new google.maps.drawing.DrawingManager({
+		drawingMode: google.maps.drawing.OverlayType.POLYGON,
+		drawingControl: false,
+		drawingControlOptions: {
+			position: google.maps.ControlPosition.TOP_RIGHT,
+			drawingModes: ["polygon"]
+		},
+		polygonOptions: {
+			editable: false,
+			strokeWeight: 1,
+			strokeOpacity: 0.8,
+			strokeColor: "#31239a",
+			fillOpacity: 0.1,
+			fillColor: "#31239a",
+		}
+	});
 
-  IB_MAP.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapButtonsWrapper);
+	google.maps.event.addListenerOnce(IB_DRAWING_MANAGER, "overlaycomplete", handleOverlayComplete);
+
+	IB_DRAWING_MANAGER.setMap(IB_MAP);
+
+	IB_USER_IS_DRAWING = true;
 }
 
+function handleDragSearchEvent() {
+	if (true === IB_USER_IS_DRAWING) {
+		return;
+	}
 
-// function setupListenersForMapBounds() {
-//     console.log("listeners for bounds added");
+	if (false === IB_GMAP_INIT) {
+		return;
+	}
 
-//     IB_MAP.addListener("dragend", function() {
-//         var idleListener = IB_MAP.addListener("idle", function() {
-//             google.maps.event.removeListener(idleListener);
-//             handleDragSearchEvent();
-//         });
-//     });
-//     // IB_MAP.addListener("zoom_changed", function() {
-//     //     var idleListener2 = IB_MAP.addListener("idle", function() {
-//     //         google.maps.event.removeListener(idleListener2);
-//     //         handleDragSearchEvent();
-//     //     });
-//     // });
-// }
+	var mapZoom = IB_MAP.getZoom();
+	var mapBounds = IB_MAP.getBounds();
+	var mapCenter = mapBounds.getCenter();
+
+	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+	IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+	IB_SEARCH_FILTER_FORM.trigger("submit");
+}
 
 function update_bounds_zoom_gmap() {
 	var mapZoom = IB_MAP.getZoom();
@@ -1249,16 +1112,8 @@ function update_bounds_zoom_gmap() {
 	
 	IB_SEARCH_FILTER_FORM.find('[name="rect"]').val("");
 	IB_SEARCH_FILTER_FORM.find('[name="zm"]').val("");
-
-	IB_GMAP_FIT_TO_BOUNDS = false;
-
-	// var urlParams = new URLSearchParams(window.location.search);
 	
-	// urlParams.delete("rect");
-	// urlParams.delete("zm");
-	
-	// @todo fitbounds
-	// IB_GMAP_FIT_TO_BOUNDS = true;
+	IB_GMAP_FIT_TO_BOUNDS = true;
 }
 
 function handleMarkerClick(marker, property, map) {
@@ -1278,21 +1133,18 @@ function handleMarkerClick(marker, property, map) {
 				infobox_content.push('<h3 class="ib-ibtitle"><span class="ib-ibtxt">'+property.item.development+'</span></h3>');
 			}
 
-		infobox_content.push(
-		  '<button class="ib-ibclose" aria-label="Close"><span>Close</span></button>'
-		);
-		infobox_content.push("</div>");
-		infobox_content.push('<ul class="ib-ibproperties">');
+			infobox_content.push('<div class="ib-ibclose"><span>Close</span></div>');
+			infobox_content.push('</div>');
+			infobox_content.push('<ul class="ib-ibproperties">');
 
 			for (var i = 0, l = property.group.length; i < l; i++) {
 				var property_group = property.group[i];
 
-				infobox_content.push('<li class="ib-ibpitem" data-mls="'+property_group.mls_num+'">');
+				infobox_content.push('<li class="ib-ibpitem" data-mls="'+property_group.mls_num+'" data-status="'+property_group.status+'">');
 				infobox_content.push('<div class="ib-ibpa">');
 				infobox_content.push('<h4 class="ib-ibptitle">'+property_group.address_short+'</h4>');
 				infobox_content.push('<ul class="ib-ibdetails">');
 				infobox_content.push('<li class="ib-ibditem ib-ibaddress">'+property_group.address_large+'</li>');
-
 
 				if (1 == property_group.is_rental) {
 					infobox_content.push('<li class="ib-ibditem ib-ibprice">$'+_.formatPrice(property_group.price)+'/'+word_translate.month+'</li>');
@@ -1303,7 +1155,6 @@ function handleMarkerClick(marker, property, map) {
 				infobox_content.push('<li class="ib-ibditem ib-ibbeds"><span class="ib-ibdbold">'+property_group.property_class_name+'</span></li>');
 				infobox_content.push('<li class="ib-ibditem ib-ibbaths"><span class="ib-ibdbold">'+_.formatPrice(property_group.lot_size)+'</span> Lot Size</li>');
 
-				// infobox_content.push('<li class="ib-ibditem ib-ibbeds"><span class="ib-ibdbold">'+property_group.bed+'</span>'+word_translate.beds+'</li>');
 
 				// if (property_group.baths_half > 0) {
 				//     infobox_content.push('<li class="ib-ibditem ib-ibbaths"><span class="ib-ibdbold">'+property_group.bath+(property_group.baths_half > 0 ? ".5" : "")+'</span>'+word_translate.baths+'</li>');
@@ -1326,22 +1177,30 @@ function handleMarkerClick(marker, property, map) {
                         __flex_g_settings.board_info.hasOwnProperty("board_logo_url") &&
                         !(["", null, undefined, "undefined", "null"].includes(__flex_g_settings.board_info.board_logo_url))
                     ) {
-                    	infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="'+property_group.thumbnail+'" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>');
+                    	infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+						  property_group.thumbnail +
+						  '" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
+					  	);
+
                     }else{
-                        infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="'+property_group.thumbnail+'" alt="'+property.full_address+'"></div>');
+					  infobox_content.push(
+						'<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+						  property_group.thumbnail +
+						  '" alt="'+property.full_address+'"></div>'
+					  );
                     }
 
 
-				// if ((null != property_group.image) && (property_group.image.length > 0) ) {
-				//     // infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="'+_.getMLSImage(property_group.mls_num, property_group.image)+'"></div>');
-				//     infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="'+property_group.thumbnail+'"></div>');
-				// } else {
-				//     infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="https://www.idxboost.com/i/default_thumbnail.jpg"></div>');
-				// }
 
-				// infobox_content.push('</li>');
-				infobox_content.push('<a href="'+__flex_idx_search_filter.propertyDetailPermalink + "/" + property_group.slug +'"></a></li>');
-			}
+
+		  infobox_content.push(
+			'<a href="' +
+			  __flex_idx_search_filter_v2.propertyDetailPermalink +
+			  "/" +
+			  property_group.slug +
+			  '"></a></li>'
+		  );
+		}
 
 			infobox_content.push('</ul>');
 			infobox_content.push('</div>');
@@ -1361,12 +1220,11 @@ function handleMarkerClick(marker, property, map) {
 			infobox_content.push('<button class="ib-ibclose" aria-label="Close"><span>Close</span></button>');
 			infobox_content.push('</div>');
 			infobox_content.push('<ul class="ib-ibproperties">');
-			infobox_content.push('<li class="ib-ibpitem" data-mls="'+property.item.mls_num+'">');
+			infobox_content.push('<li class="ib-ibpitem" data-mls="'+property.item.mls_num+'" data-status="'+property.item.status+'">');
 			infobox_content.push('<div class="ib-ibpa">');
 			infobox_content.push('<h4 class="ib-ibptitle">'+property.item.address_short+'</h4>');
 			infobox_content.push('<ul class="ib-ibdetails">');
 			infobox_content.push('<li class="ib-ibditem ib-ibaddress">'+property.item.address_large+'</li>');
-
 
 			if (1 == property.item.is_rental) {
 				infobox_content.push('<li class="ib-ibditem ib-ibprice">$'+_.formatPrice(property.item.price)+'/'+word_translate.month+'</li>');
@@ -1377,7 +1235,6 @@ function handleMarkerClick(marker, property, map) {
 			infobox_content.push('<li class="ib-ibditem ib-ibbeds"><span class="ib-ibdbold">'+property.item.property_class_name+'</span></li>');
 			infobox_content.push('<li class="ib-ibditem ib-ibbaths"><span class="ib-ibdbold">'+_.formatPrice(property.item.lot_size)+'</span> Lot Size</li>');
 
-			// infobox_content.push('<li class="ib-ibditem ib-ibbeds"><span class="ib-ibdbold">'+property.item.bed+'</span>'+word_translate.beds+'</li>');
 
 			// if (property.item.baths_half > 0) {
 			//     infobox_content.push('<li class="ib-ibditem ib-ibbaths"><span class="ib-ibdbold">'+property.item.bath+(property.item.baths_half > 0 ? ".5" : "")+'</span>'+word_translate.baths+'</li>');
@@ -1394,28 +1251,29 @@ function handleMarkerClick(marker, property, map) {
 			infobox_content.push('</ul>');
 			infobox_content.push('</div>');
 
-
                     if (
                         __flex_g_settings.hasOwnProperty("board_info") &&
                         __flex_g_settings.board_info.hasOwnProperty("board_logo_url") &&
                         !(["", null, undefined, "undefined", "null"].includes(__flex_g_settings.board_info.board_logo_url))
                     ) {
-                    	infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="'+property.item.thumbnail+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>');
+
+                    	infobox_content.push(
+						  '<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+							property.item.thumbnail +
+							'" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
+						);
+                    
                     }else{
-                        infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="'+property.item.thumbnail+'"></div>');
+						infobox_content.push(
+						  '<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+							property.item.thumbnail +
+							'" alt="'+property.full_address+'"></div>'
+						);
                     }
 
-			
 
-			// if ((null != property.item.image) && (property.item.image.length > 0) ) {
-			//     // infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="'+_.getMLSImage(property.item.mls_num, property.item.image)+'"></div>');
-			//     infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="'+property.item.thumbnail+'"></div>');
-			// } else {
-			//     infobox_content.push('<div class="ib-ibpb"><img class="ib-ibimg" src="https://www.idxboost.com/i/default_thumbnail.jpg"></div>');
-			// }
 
-			// infobox_content.push('</li>');
-			infobox_content.push('<a href="'+__flex_idx_search_filter.propertyDetailPermalink + "/" + property.item.slug +'"></a></li>');
+			infobox_content.push('<a href="'+__flex_idx_search_filter_v2.propertyDetailPermalink + "/" + property.item.slug +'"></a></li>');
 			infobox_content.push('</ul>');
 			infobox_content.push('</div>');
 		}
@@ -1453,17 +1311,6 @@ function handleMarkerMouseOver(marker) {
 		jQuery(marker.a).addClass("ib-search-marker-active");
 
 		IB_LAST_OPENED_MARKER = marker;
-
-		// var markerContent = marker.getContent();
-
-		// if (marker.iblength > 1) {
-		//     markerContent = markerContent.replace("dgt-richmarker-group", "dgt-richmarker-group ib-search-marker-active");
-		// } else {
-		//     markerContent = markerContent.replace("dgt-richmarker-single", "dgt-richmarker-single ib-search-marker-active");
-		// }
-
-		// marker.setContent(markerContent);
-
 		marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 	};
 }
@@ -1471,11 +1318,7 @@ function handleMarkerMouseOver(marker) {
 function handleMarkerMouseOut(marker) {
 	return function() {
 		jQuery(marker.a).removeClass("ib-search-marker-active");
-
-		// var markerContent = marker.getContent();
-		// markerContent = markerContent.replace(" ib-search-marker-active", "");
-		// marker.setContent(markerContent);
-
+		
 		marker.setZIndex(google.maps.Marker.MAX_ZINDEX - 1);
 	};
 }
@@ -1544,6 +1387,7 @@ function ib_generate_latlng_from_kml(kml) {
 
 if ("undefined" === typeof loadPropertyInModal) {
 loadPropertyInModal = function(mlsNumber) {
+
 	if (/webOS|iPhone|iPad/i.test(navigator.userAgent)) {
 	  $('body').addClass('only-mobile');
 	}
@@ -1556,7 +1400,7 @@ loadPropertyInModal = function(mlsNumber) {
 		}
 	}
 
-	var viewListingDetailEndpoint = __flex_idx_search_filter.lookupListingsDetail.replace(/{{mlsNumber}}/g, mlsNumber);
+	var viewListingDetailEndpoint = __flex_idx_search_filter_v2.lookupListingsDetail.replace(/{{mlsNumber}}/g, mlsNumber);
 
 	$.ajax({
 		type: "POST",
@@ -1578,7 +1422,7 @@ loadPropertyInModal = function(mlsNumber) {
 
 			// dataLayer Tracking Single
 			if ("undefined" !== typeof dataLayer) {
-				if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+				if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 					if ( response.hasOwnProperty("mls_num") && response.hasOwnProperty("price") ) {
 						var int_price = parseInt(response.price.replace(/[^\d+]/g, ""));
 						dataLayer.push({"event": "view_item","value": int_price,"items": [{"id": response.mls_num,"google_business_vertical": "real_estate"}]});
@@ -1595,18 +1439,17 @@ loadPropertyInModal = function(mlsNumber) {
 					var ir = $(".ib-property-mc-ir:eq(0)").val();
 		            var calc_mg = calculate_mortgage(pp, dp, ty, ir);
 		            $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
+			// update form
 		            $(".js-est-payment").hide();
 		            if (response.is_rental=="0") {
 		            	$(".js-est-payment").show();
-		            }		            
-			// update form
+		            }
 				}
 			}, 1000);
 
-
 			IB_TRACKING_IFRAME = document.createElement("iframe");
 			IB_TRACKING_IFRAME.setAttribute("id", "__ib-tracking-iframe");
-			IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter.propertyDetailPermalink + "/" + response.slug);
+			IB_TRACKING_IFRAME.setAttribute("src", __flex_idx_search_filter_v2.propertyDetailPermalink + "/" + response.slug);
 			IB_TRACKING_IFRAME.style.width = "1px";
 			IB_TRACKING_IFRAME.style.height = "1px";
 			document.body.appendChild(IB_TRACKING_IFRAME);
@@ -1621,7 +1464,7 @@ loadPropertyInModal = function(mlsNumber) {
 				var template = Handlebars.compile(IB_MODAL_TPL.html());
 
 				IB_MODAL_WRAPPER.html(template(response));
-
+				
 				var rfn = (typeof Cookies.get("_ib_user_firstname") !== "undefined") ? Cookies.get("_ib_user_firstname") : "";
 				var rln = (typeof Cookies.get("_ib_user_lastname") !== "undefined") ? Cookies.get("_ib_user_lastname") : "";
 				var remail = (typeof Cookies.get("_ib_user_email") !== "undefined") ? Cookies.get("_ib_user_email") : "";
@@ -1646,12 +1489,15 @@ loadPropertyInModal = function(mlsNumber) {
 							  layout: {
 								  arrowDefaultStyles: false
 							  },
-							  /*fullscreen: true,
+							  /*fullscreen: false,
 							  layout: {
 								  fsButtonDefaultStyles: false,
 								  fsButtonClass: 'ib-btnfs'
 							  },*/
 							  breakPoints: {
+									768:{
+										fullscreen: true,
+									},
 								  640: {
 									  items: 2
 								  },
@@ -1697,11 +1543,10 @@ loadPropertyInModal = function(mlsNumber) {
 									//}
 							  }
 						  });
-
+						
 							jQuery(".ib-full-screen").removeClass("hidden");
-
 					}
-					
+
 				}else{
 
 					jQuery(".ib-full-screen").addClass("hidden");
@@ -1892,83 +1737,94 @@ loadPropertyInModal = function(mlsNumber) {
 						IB_CURRENT_LEFT_CLICKS = (parseInt(Cookies.get("_ib_left_click_force_registration"), 10) - 1);
 						Cookies.set("_ib_left_click_force_registration", IB_CURRENT_LEFT_CLICKS);
 
-						if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) <= 0) && ("yes" === __flex_g_settings.anonymous)) {
-							// no left click then open popup registration
-														$("#modal_login")
-															.addClass("active_modal")
-															.find("[data-tab]")
-															.removeClass("active");
-				
-														$("#modal_login")
-															.addClass("active_modal")
-															.find("[data-tab]:eq(1)")
-															.addClass("active");
-					
-														$("#modal_login").find(".item_tab").removeClass("active");
-					
-														$("#tabRegister").addClass("active");
-					
-														$("button.close-modal").addClass("ib-close-mproperty");
-														$(".overlay_modal").css(
-															"background-color",
-															"rgba(0,0,0,0.8);"
-														);
-					
-														$("#modal_login h2").html(
-															$("#modal_login")
-																.find("[data-tab]:eq(1)")
-																.data("text-force")
-														);
-					
-														/*Asigamos el texto personalizado*/
-														var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-														$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-															// reset to default clicks
-															//IB_CURRENT_LEFT_CLICKS = IB_DEFAULT_LEFT_CLICKS;
-						}
-					} else {
-						if ("yes" === __flex_g_settings.anonymous) {
-							if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-								console.log("is forced registration");
-								// if ($(".register").length) {
-																// $(".register").click();
-																$("#modal_login")
-																	.addClass("active_modal")
-																	.find("[data-tab]")
-																	.removeClass("active");
-						
-																$("#modal_login")
-																	.addClass("active_modal")
-																	.find("[data-tab]:eq(1)")
-																	.addClass("active");
-						
-																$("#modal_login").find(".item_tab").removeClass("active");
-						
-																$("#tabRegister").addClass("active");
-						
-																$("#modal_login #msRst")
-																	.empty()
-																	.html($("#mstextRst").html());
-																$("button.close-modal").addClass("ib-close-mproperty");
-																$(".overlay_modal").css(
-																	"background-color",
-																	"rgba(0,0,0,0.8);"
-																);
-						
-																$("#modal_login h2").html(
-																	$("#modal_login")
-																		.find("[data-tab]:eq(1)")
-																		.data("text-force")
-																);
-						
-																/*Asigamos el texto personalizado*/
-																var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-																$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-																// }
-							}
-						}
-					}
+				if (
+				  parseInt(
+					Cookies.get("_ib_left_click_force_registration"),
+					10
+				  ) <= 0 &&
+				  "yes" === __flex_g_settings.anonymous
+				) {
+				  // no left click then open popup registration
+				  $("#modal_login")
+					.addClass("active_modal")
+					.find("[data-tab]")
+					.removeClass("active");
+
+				  $("#modal_login")
+					.addClass("active_modal")
+					.find("[data-tab]:eq(1)")
+					.addClass("active");
+
+				  $("#modal_login").find(".item_tab").removeClass("active");
+
+				  $("#tabRegister").addClass("active");
+
+				  $("#modal_login #msRst").empty().html($("#mstextRst").html());
+				  $("button.close-modal").addClass("ib-close-mproperty");
+				  $(".overlay_modal").css(
+					"background-color",
+					"rgba(0,0,0,0.8);"
+				  );
+
+				  $("#modal_login h2").html(
+					$("#modal_login")
+					  .find("[data-tab]:eq(1)")
+					  .data("text-force")
+				  );
+
+				  /*Asigamos el texto personalizado*/
+				  var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+				  $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+				  // reset to default clicks
+				  //IB_CURRENT_LEFT_CLICKS = IB_DEFAULT_LEFT_CLICKS;
 				}
+			  } else {
+				if ("yes" === __flex_g_settings.anonymous) {
+				  if (
+					__flex_g_settings.hasOwnProperty("force_registration") &&
+					1 == __flex_g_settings.force_registration
+				  ) {
+					$("#modal_login")
+					  .addClass("active_modal")
+					  .find("[data-tab]")
+					  .removeClass("active");
+
+					$("#modal_login")
+					  .addClass("active_modal")
+					  .find("[data-tab]:eq(1)")
+					  .addClass("active");
+
+					$("#modal_login").find(".item_tab").removeClass("active");
+
+					$("#tabRegister").addClass("active");
+
+					$("#modal_login #msRst")
+					  .empty()
+					  .html($("#mstextRst").html());
+					$("button.close-modal").addClass("ib-close-mproperty");
+					$(".overlay_modal").css(
+					  "background-color",
+					  "rgba(0,0,0,0.8);"
+					);
+
+					$("#modal_login h2").html(
+					  $("#modal_login")
+						.find("[data-tab]:eq(1)")
+						.data("text-force")
+					);
+
+					/*Asigamos el texto personalizado*/
+					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+					// }
+				  }
+				}
+			  }
+			}
+
+				// fallback para safari IOS
+				$('html').addClass('ib-mpropertie-open');
 
 				// request new token each render of inquiry form for property modal
 				if ( __flex_g_settings.hasOwnProperty("google_recaptcha_public_key") && ("" != __flex_g_settings.google_recaptcha_public_key) ) {
@@ -1981,16 +1837,12 @@ loadPropertyInModal = function(mlsNumber) {
 			}
 		}
 	});
-
-	// console.log('Open Property #' + mlsNumber + " in modal.");
 }
-//window.loadPropertyInModal = loadPropertyInModal;
+// window.loadPropertyInModal = loadPropertyInModal;
 }
 
 function markPropertyAsFavorite(mlsNumber, element, from) {
-	var markPropertyAsFavoriteEndpoint = __flex_idx_search_filter.trackListingsDetail.replace(/{{mlsNumber}}/g, mlsNumber);
-
-	// console.dir([mlsNumber, element, from]);
+	var markPropertyAsFavoriteEndpoint = __flex_idx_search_filter_v2.trackListingsDetail.replace(/{{mlsNumber}}/g, mlsNumber);
 
 	$.ajax({
 		type: "POST",
@@ -2035,12 +1887,10 @@ function markPropertyAsFavorite(mlsNumber, element, from) {
 			}
 		}
 	});
-
-	// console.log('Track #' + mlsNumber + " as favorite.");
 }
 
 function buildMobileForm() {
-	var ib_search_filter_params = __flex_idx_search_filter.search;
+	var ib_search_filter_params = __flex_idx_search_filter_v2.search;
 	var ib_search_filter_frag = [];
 	var ib_search_filter_dropdown;
 
@@ -2080,164 +1930,148 @@ function buildMobileForm() {
 	ib_max_caprate = $("#ib-max-caprate");
 
 	// FOR SALE [MOBILE]
-	if (ib_min_price.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.price_sale_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_min_price.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.price_sale_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if (("--" == option.value) || (0 == option.value)) {
-				option.label = word_translate.any_price;
-				option.value = "";
-			}
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if (("--" == option.value) || (0 == option.value)) { option.label = word_translate.any; }
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_min_price.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_price.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR SALE [MOBILE]
-	if (ib_max_price.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.price_sale_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_max_price.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.price_sale_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		// ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if (("--" == option.value) || (0 == option.value)) { option.label = word_translate.any; }
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if (("--" == option.value) || (0 == option.value)) {
-				option.label = word_translate.any_price;
-				option.value = "";
-			}
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
-
-		if (ib_search_filter_frag.length) {
-			ib_max_price.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_price.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR RENT [MOBILE]
-	if (ib_min_rent_price.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.price_rent_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_min_rent_price.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.price_rent_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if (("--" == option.value) || (0 == option.value)) {
-				option.label = word_translate.any_price;
-				option.value = "";
-			}
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if (("--" == option.value) || (0 == option.value)) { option.label = word_translate.any; }
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_min_rent_price.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_rent_price.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR RENT [MOBILE]
-	if (ib_max_rent_price.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.price_rent_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_max_rent_price.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.price_rent_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		// ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if (("--" == option.value) || (0 == option.value)) {
-				option.label = word_translate.any_price;
-				option.value = "";
-			}
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
-
-		if (ib_search_filter_frag.length) {
-			ib_max_rent_price.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_rent_price.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR BEDS [MOBILE]
-	if (ib_min_beds.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.beds_range;
+	// if (ib_min_beds.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.beds_range;
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_min_beds.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_beds.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR BEDS [MOBILE]
-	if (ib_max_beds.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.beds_range;
+	// if (ib_max_beds.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.beds_range.reverse();
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_max_beds.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
-
-	// FOR BATHS [MOBILE]
-	if (ib_min_baths.length) {
-		ib_search_filter_dropdown = _.filter(ib_search_filter_params.baths_range, function (row) { return !(row.value % 1 != 0);  });
-
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
-
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
-
-		if (ib_search_filter_frag.length) {
-			ib_min_baths.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_beds.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR BATHS [MOBILE]
-	if (ib_max_baths.length) {
-		ib_search_filter_dropdown = _.filter(ib_search_filter_params.baths_range, function (row) {  return !(row.value % 1 != 0);  });
+	// if (ib_min_baths.length) {
+	//     ib_search_filter_dropdown = _.filter(ib_search_filter_params.baths_range, function (row) { return !(row.value % 1 != 0);  });
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_max_baths.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_baths.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
+
+	// FOR BATHS [MOBILE]
+	// if (ib_max_baths.length) {
+	//     ib_search_filter_dropdown = _.filter(ib_search_filter_params.baths_range, function (row) {  return !(row.value % 1 != 0);  }).reverse();
+
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//     }
+
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_baths.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR TYPES [MOBILE]
 	if (ib_m_types.length) {
-		ib_search_filter_dropdown = __flex_idx_search_filter.commercial_types;
+		ib_search_filter_dropdown = __flex_idx_search_filter_v2.commercial_types;
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
+
 			var text_translate = '';
 
 			if ('Single Family Homes' == option.label ){
@@ -2246,75 +2080,6 @@ function buildMobileForm() {
 				text_translate = word_translate.condominiums;
 			}else if ('Townhouses' == option.label){
 				text_translate = word_translate.townhouses;
-			}
-			else if ('Adult Congregate' == option.label){
-				text_translate = word_translate.adult_congregate;
-			}else if ('Agricultural' == option.label){
-				text_translate = word_translate.agricultural;
-			}else if ('Apartments' == option.label){
-				text_translate = word_translate.apartments;
-			}else if ('Automotive' == option.label){
-				text_translate = word_translate.automotive;
-			}else if ('Building' == option.label){
-				text_translate = word_translate.building;
-			}else if ('Business' == option.label){
-				text_translate = word_translate.business;
-			}else if ('Church' == option.label){
-				text_translate = word_translate.church;
-			}else if ('Commercial' == option.label){
-				text_translate = word_translate.commercial;
-			}else if ('Commercial / Business / Agricultural / Industrial Land' == option.label){
-				text_translate = word_translate.commercial_business_agricultural_industrial_land;
-			}else if ('Condominium' == option.label){
-				text_translate = word_translate.condominium;
-			}else if ('Dock' == option.label){
-				text_translate = word_translate.dock;
-			}else if ('Dock Height' == option.label){
-				text_translate = word_translate.dock_height;
-			}else if ('Duplex / Quad Plex / Triplex' == option.label){
-				text_translate = word_translate.duplex_quad_plex_triplex;
-			}else if ('Franchise' == option.label){
-				text_translate = word_translate.franchise;
-			}else if ('Free Standing' == option.label){
-				text_translate = word_translate.free_standing;
-			}else if ('Hotel' == option.label){
-				text_translate = word_translate.hotel;
-			}else if ('Income' == option.label){
-				text_translate = word_translate.income;
-			}else if ('Industrial' == option.label){
-				text_translate = word_translate.industrial;
-			}else if ('Manufacturing' == option.label){
-				text_translate = word_translate.manufacturing;
-			}else if ('Medical' == option.label){
-				text_translate = word_translate.medical;
-			}else if ('Multifamily' == option.label){
-				text_translate = word_translate.multifamily;
-			}else if ('Office' == option.label){
-				text_translate = word_translate.office;
-			}else if ('Professional' == option.label){
-				text_translate = word_translate.professional;
-			}else if ('Residential Income' == option.label){
-				text_translate = word_translate.residential_income;
-			}else if ('Residential Land/Boat Docks' == option.label){
-				text_translate = word_translate.residential_Land_boat_docks;
-			}else if ('Restaurant' == option.label){
-				text_translate = word_translate.restaurant;
-			}else if ('Retail' == option.label){
-				text_translate = word_translate.retail;                
-			}else if ('School' == option.label){
-				text_translate = word_translate.school;
-			}else if ('Service' == option.label){
-				text_translate = word_translate.service;
-			}else if ('Shopping Center' == option.label){
-				text_translate = word_translate.shopping_center;
-			}else if ('Showroom' == option.label){
-				text_translate = word_translate.showroom;
-			}else if ('Special' == option.label){
-				text_translate = word_translate.special;
-			}else if ('Store' == option.label){
-				text_translate = word_translate.store;
-			}else if ('Warehouse' == option.label){
-				text_translate = word_translate.warehouse;               
 			}else{
 				text_translate = option.label;
 			}
@@ -2329,116 +2094,116 @@ function buildMobileForm() {
 	}
 
 	// FOR PARKING MOBILE
-	if (ib_m_parking.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.parking_options;
-		ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input class="ib-m-parking-checkboxes" name="ib_m_s_parking" type="radio" value="--" id="s_parking_any"><label for="s_parking_any">'+word_translate.any+'</label></li>');
+	// if (ib_m_parking.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.parking_options;
+	//     ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input class="ib-m-parking-checkboxes" name="ib_m_s_parking" type="radio" value="--" id="s_parking_any"><label for="s_parking_any">'+word_translate.any+'</label></li>');
 		
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
 
-			ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input name="ib_m_s_parking" type="radio" value="'+option.value+'" id="s_parking_'+option.value+'"><label for="s_parking_'+option.value+'">'+option.label+'</label></li>');
-		}
+	//         ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input name="ib_m_s_parking" type="radio" value="'+option.value+'" id="s_parking_'+option.value+'"><label for="s_parking_'+option.value+'">'+option.label+'</label></li>');
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_m_parking.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
-
-	// FOR LIVING [MOBILE]
-	if (ib_min_living.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.living_size_range;
-		ib_search_filter_dropdown.splice(-1, 1);
-
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
-
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if ("--" == option.value) {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-			} else {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
-			}
-		}
-
-		if (ib_search_filter_frag.length) {
-			ib_min_living.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_m_parking.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR LIVING [MOBILE]
-	if (ib_max_living.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.living_size_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_min_living.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.living_size_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if ("--" == option.value) {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-			} else {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
-			}
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if ("--" == option.value) {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//         } else {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
+	//         }
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_max_living.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_living.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
+
+	// FOR LIVING [MOBILE]
+	// if (ib_max_living.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.living_size_range.reverse();
+	//     ib_search_filter_dropdown.splice(-1, 1);
+
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if ("--" == option.value) {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//         } else {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
+	//         }
+	//     }
+
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_living.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR LAND [MOBILE]
-	if (ib_min_land.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.lot_size_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_min_land.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.lot_size_range;
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if ("--" == option.value) {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-			} else {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
-			}
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if ("--" == option.value) {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//         } else {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
+	//         }
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_min_land.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_min_land.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR LAND [MOBILE]
-	if (ib_max_land.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.lot_size_range;
-		ib_search_filter_dropdown.splice(-1, 1);
+	// if (ib_max_land.length) {
+	//     ib_search_filter_dropdown = ib_search_filter_params.lot_size_range.reverse();
+	//     ib_search_filter_dropdown.splice(-1, 1);
 
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			if ("--" == option.value) {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
-			} else {
-				ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
-			}
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
+	//         if ("--" == option.value) {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+option.label+'</option>');
+	//         } else {
+	//             ib_search_filter_frag.push('<option value="'+option.value+'">'+_.formatPrice(option.label)+' Sq.Ft.</option>');
+	//         }
+	//     }
 
-		if (ib_search_filter_frag.length) {
-			ib_max_land.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//     if (ib_search_filter_frag.length) {
+	//         ib_max_land.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR YEAR [MOBILE]
 	if (ib_min_year.length) {
 		ib_search_filter_dropdown = ib_search_filter_params.year_built_range;
 		ib_search_filter_dropdown.splice(-1, 1);
 
-		// ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+		//ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
@@ -2455,10 +2220,11 @@ function buildMobileForm() {
 
 	// FOR YEAR [MOBILE]
 	if (ib_max_year.length) {
-		ib_search_filter_dropdown = ib_search_filter_params.year_built_range;
+		ib_search_filter_dropdown = ib_search_filter_params.year_built_range.reverse();
 		ib_search_filter_dropdown.splice(-1, 1);
 
 		// ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+
 		ib_search_filter_frag.push('<option value="'+current_year+'">'+current_year+'</option>');
 
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
@@ -2475,20 +2241,45 @@ function buildMobileForm() {
 	}
 
 	// FOR WATERFRONT [MOBILE]
-	if (ib_waterfront_switch.length) {
-		ib_search_filter_dropdown = _.sortBy(ib_search_filter_params.waterfront_options, "name");
-		ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
+	// if (ib_waterfront_switch.length) {
+	//     ib_search_filter_dropdown = _.sortBy(ib_search_filter_params.waterfront_options, "name");
+	//     ib_search_filter_frag.push('<option value="--">'+word_translate.any+'</option>');
 
-		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
-			var option = ib_search_filter_dropdown[i];
-			ib_search_filter_frag.push('<option value="'+option.code+'">'+option.name+'</option>');
-		}
+	//     for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
+	//         var option = ib_search_filter_dropdown[i];
 
-		if (ib_search_filter_frag.length) {
-			ib_waterfront_switch.html(ib_search_filter_frag.join(""));
-			ib_search_filter_frag.length = 0;
-		}
-	}
+	//         var text_caracteristics ='';
+	//         if (option.name=="Bay Front"){
+	//             text_caracteristics=word_translate.bay_front;
+	//         }else if ( option.name=="Canal"){
+	//             text_caracteristics=word_translate.canal;
+	//         }else if ( option.name=="Fixed Bridge"){
+	//             text_caracteristics=word_translate.fixed_bridge;
+	//         }else if ( option.name=="Intracoastal"){
+	//             text_caracteristics=word_translate.intracoastal;
+	//         }else if ( option.name=="Lake Front"){
+	//             text_caracteristics=word_translate.lake_front;
+	//         }else if ( option.name=="Ocean Access"){
+	//             text_caracteristics=word_translate.ocean_access;
+	//         }else if ( option.name=="Ocean Front"){
+	//             text_caracteristics=word_translate.ocean_front;
+	//         }else if ( option.name=="Point Lot"){
+	//             text_caracteristics=word_translate.point_lot;
+	//         }else if ( option.name=="River Front"){
+	//             text_caracteristics=word_translate.river_front;
+	//         }else{
+	//             text_caracteristics=option.name;
+	//         }
+
+
+	//         ib_search_filter_frag.push('<option value="'+option.code+'">'+text_caracteristics+'</option>');
+	//     }
+
+	//     if (ib_search_filter_frag.length) {
+	//         ib_waterfront_switch.html(ib_search_filter_frag.join(""));
+	//         ib_search_filter_frag.length = 0;
+	//     }
+	// }
 
 	// FOR FEATURES [MOBILE]
 	if (ib_m_features.length) {
@@ -2497,50 +2288,50 @@ function buildMobileForm() {
 		for(var i = 0, l = ib_search_filter_dropdown.length; i < l; i++) {
 			var option = ib_search_filter_dropdown[i];
 
-			if (("equestrian" ==option.code) && (__flex_idx_search_filter.boardId != "3")) {
+			if (("equestrian" ==option.code) && (__flex_idx_search_filter_v2.boardId != "3")) {
 				continue;
 			}
 
-			if (("loft" ==option.code) && (__flex_idx_search_filter.boardId != "5")) {
+			if (("loft" ==option.code) && (__flex_idx_search_filter_v2.boardId != "5")) {
 				continue;
 			}
+
 			var text_caracteristics ='';
-
-			if(option.name=='Swimming Pool')
+			if (option.name=='Swimming Pool'){
 				text_caracteristics=word_translate.swimming_pool;
-			else if (option.name=='Golf Course')
+			}else if ( option.name=="Golf Course"){
 				text_caracteristics=word_translate.golf_course;
-			else if (option.name=='Tennis Courts')
+			}else if ( option.name=="Tennis Courts"){
 				text_caracteristics=word_translate.tennis_courts;
-			else if (option.name=='Gated Community')
+			}else if ( option.name=="Gated Community"){
 				text_caracteristics=word_translate.gated_community;
-			else if (option.name=='Lofts')
+			}else if ( option.name=="Lofts"){
 				text_caracteristics=word_translate.lofts;
-			else if (option.name=='Penthouse')
+			}else if ( option.name=="Penthouse"){
 				text_caracteristics=word_translate.penthouse;
-			else if (option.name=="Waterfront")
+			}else if ( option.name=="Waterfront"){
 				text_caracteristics=word_translate.water_front;
-			else if (option.name=="Pets")
+			}else if ( option.name=="Pets"){
 				text_caracteristics=word_translate.pets;
-			else if (option.name=="Furnished")
+			}else if ( option.name=="Furnished"){
 				text_caracteristics=word_translate.furnished;
-			else if (option.name=="Equestrian")
+			}else if ( option.name=="Equestrian"){
 				text_caracteristics=word_translate.equestrian;
-			else if (option.name=="Short Sale")
-				text_caracteristics=word_translate.short_sales;
-			else if (option.name=="Foreclosure")
-				text_caracteristics=word_translate.foreclosures;
-			else if (option.name=="Boat Dock")
+			}else if ( option.name=="Boat Dock"){
 				text_caracteristics=word_translate.boat_dock;
-			else if (option.name=="Housing Older Persons")
+			}else if ( option.name=="Short Sale"){
+				text_caracteristics=word_translate.short_sales;
+			}else if ( option.name=="Foreclosure"){
+				text_caracteristics=word_translate.foreclosures;
+			}else if (option.name=="Housing Older Persons"){
 				text_caracteristics=word_translate.housing_older_persons;
-			else if (option.name=="Occupied")
+			}else if (option.name=="Occupied"){
 				text_caracteristics=word_translate.occupied;
-			else if (option.name=="Vacant")
+			}else if (option.name=="Vacant"){
 				text_caracteristics=word_translate.vacant;
-			else                
+			}else{
 				text_caracteristics=option.name;
-
+			}
 
 			ib_search_filter_frag.push('<li class="ib-item-wrap-fm ib-btn-chk-fm"><input class="ib-m-features-checkboxes" type="checkbox" value="'+option.code+'" id="s_amenity_'+option.code+'"><label for="s_amenity_'+option.code+'">'+text_caracteristics+'</label></li>');
 		}
@@ -2551,7 +2342,6 @@ function buildMobileForm() {
 		}
 	}
 }
-
 
 function formatMobileValues(value) {
 	if ( (null != value) && ("" != value) ) {
@@ -2574,6 +2364,7 @@ function formatMobileSoftValues(value) {
 		return "";
 	}
 }
+
 
 function fillValuesMobileForm(response) {
 	var params = response.params;
@@ -2622,15 +2413,15 @@ function fillValuesMobileForm(response) {
 		ib_max_beds.val(formatMobileValues(params.max_beds));
 	}
 
-	// min baths
-	if (null != params.min_baths) {
-		ib_min_baths.val(params.min_baths);
-	}
+	// // min baths
+	// if (null != params.min_baths) {
+	//     ib_min_baths.val(params.min_baths);
+	// }
 
-	// max baths
-	if (null != params.max_baths) {
-		ib_max_baths.val(params.max_baths);
-	}
+	// // max baths
+	// if (null != params.max_baths) {
+	//     ib_max_baths.val(params.max_baths);
+	// }
 
 	// types
 	params.property_type = _.map(params.property_type, function(value) {
@@ -2644,15 +2435,15 @@ function fillValuesMobileForm(response) {
 	});
 
 	// parking
-	if (null != params.parking_options) {
-		ib_m_parking.find(":input").each(function(index, item) {
-			if (item.value == params.parking_options) {
-				$(item).click();
-			}
-		});
-	} else {
-		$(ib_m_parking.find(":input")[0]).click();
-	}
+	// if (null != params.parking_options) {
+	//     ib_m_parking.find(":input").each(function(index, item) {
+	//         if (item.value == params.parking_options) {
+	//             $(item).click();
+	//         }
+	//     });
+	// } else {
+	//     $(ib_m_parking.find(":input")[0]).click();
+	// }
 
 	// min living
 	if (null != params.min_living_size) {
@@ -2694,10 +2485,10 @@ function fillValuesMobileForm(response) {
 		ib_max_year.val(params.max_year);
 	}
 
-	// waterfront
-	if (null != params.waterfront_options) {
-		ib_waterfront_switch.val(params.waterfront_options);
-	}
+	// // waterfront
+	// if (null != params.waterfront_options) {
+	//     ib_waterfront_switch.val(params.waterfront_options);
+	// }
 
 	// features
 	if (params.hasOwnProperty("amenities")) {
@@ -3128,6 +2919,7 @@ function attachListenersMobileForm() {
 		}
 	});
 
+
 	/*
 	ib_min_price.on("change", function() {
 		var value = $(this).val();
@@ -3138,7 +2930,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_max_price.on("change", function() {
 		var value = $(this).val();
 
@@ -3148,7 +2942,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_min_rent_price.on("change", function() {
 		var value = $(this).val();
 
@@ -3158,7 +2954,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_max_rent_price.on("change", function() {
 		var value = $(this).val();
 
@@ -3168,7 +2966,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_min_beds.on("change", function() {
 		var value = $(this).val();
 
@@ -3178,7 +2978,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_max_beds.on("change", function() {
 		var value = $(this).val();
 
@@ -3188,7 +2990,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_min_baths.on("change", function() {
 		var value = $(this).val();
 
@@ -3198,7 +3002,9 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
+	
 	ib_max_baths.on("change", function() {
 		var value = $(this).val();
 
@@ -3208,6 +3014,7 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
 	ib_m_types.on("change", "input", function() {
 		var checked_values = ib_m_types.find(":checked");
@@ -3223,6 +3030,7 @@ function attachListenersMobileForm() {
 		fill_values.length = 0;
 	});
 
+	
 	ib_m_parking.on("click", "input", function() {
 		var value = $(this).val();
 
@@ -3232,6 +3040,7 @@ function attachListenersMobileForm() {
 		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
 		IB_SEARCH_FILTER_FORM.trigger("submit");
 	});
+	
 
 	ib_min_living.on("change", function() {
 		var value = $(this).val();
@@ -3845,7 +3654,6 @@ function buildSearchFilterForm() {
 
 	infoWindow.addListener("domready", function() {
 		setTimeout(function () {
-			// console.dir($(".ib-infobox").parent());
 			$(".ib-infobox").parent().parent().css("background-color", "transparent");
 			$(".ib-ibpitem").on("click", function () {
 				var mlsNumber = $(this).data("mls");
@@ -3862,7 +3670,7 @@ function buildSearchFilterForm() {
 
 		if (/webOS|iPhone|iPad/i.test(navigator.userAgent) === false) {
 			IB_LISTINGS_CT.on("mouseover", ".ib-pitem", function(event) {
-			//IB_LISTINGS_CT.on("hover", ".ib-pitem", function(event) {    
+			//IB_LISTINGS_CT.on("hover", ".ib-pitem", function(event) {
 				if (window.innerWidth <= 990) {
 					return;
 				}
@@ -3906,52 +3714,9 @@ function buildSearchFilterForm() {
 
 				$('.ib-infobox .ib-ibpitem').addClass('ms-order-m');
 			});
-		}
+		};
 
-		IB_LISTINGS_CT.on("click", ".btn_next_item, .btn_prev_item", function(event) {
-			if ($(this).attr('method')=='prev'){
-				if (0==get_off_market_position){ $('.gs-container-navs-off-market').hide(); return false; }                
-				get_off_market_position=parseInt(get_off_market_position)-1;
-			}else{
-				if (tot_oml_item==get_off_market_position){ $('.gs-container-navs-off-market').hide(); return false; }
-				get_off_market_position=parseInt(get_off_market_position)+1;
-			}
-			
-			$.ajax({
-				type: "POST",
-				url: __flex_idx_search_filter.requestDataOffmarket,
-				data: {
-					access_token: IB_ACCESS_TOKEN,
-					flex_credentials: Cookies.get("ib_lead_token"),
-					search_filter_id: IB_SEARCH_FILTER.data("filter-id"),
-					get_off_market_position: get_off_market_position
-				},
-				beforeSend: function(){
-					$('#collection-markert').removeClass('gs-loaded').addClass('gs-item-loading');
-					$('#collection-markert .ib-item').fadeOut('fast');
-				},
-				success: function(response) {
-					__flex_idx_search_filter.list_offmarket = response;
-					if (__flex_idx_search_filter.list_offmarket.status != false && __flex_idx_search_filter.list_offmarket.data != undefined ){
-						
-						__flex_idx_search_filter.list_offmarket.data.forEach(function(item){
-							$('#collection-markert').find('.ib-pifimg').attr('src',item.image);
-							$('#collection-markert').find('.ib-pifimg').attr('alt',item.address);
-							jQuery('#collection-markert').find('.ib-title').text(item.address);
-							$('#collection-markert').find('.idx_view_detail_market').attr('href','https://management.urbanresource.com/page-property/'+item.property_id+'/');
-							
-							$('#collection-markert .ib-item').fadeIn('fast');
-							$('#collection-markert').removeClass('gs-item-loading');
-						});                        
-					}
-				}/*,
-				complete: function(){
-					$('#collection-markert').removeClass('gs-item-loading').addClass('gs-loaded');
-				}*/
-			});            
-
-		});
- 
+  
 		IB_LISTINGS_CT.on("click", ".ib-pitem", function(event) {
 			if ($(event.target).hasClass("ib-pfavorite")) {
 				if ("yes" === __flex_g_settings.anonymous) {
@@ -3972,19 +3737,14 @@ function buildSearchFilterForm() {
 					$("#tabRegister")
 					.addClass("active");
 
-					// if ($(".register").length) {
-					//     $(".register").click();
-					//     $("button.close-modal").addClass("ib-close-mproperty");
-					//     $(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-					// }
-
 					$("#modal_login #msRst").empty().html($("#mstextRst").html());
-					$("#user-options .register").trigger("click");
+					$("button.close-modal").addClass("ib-close-mproperty");
+					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
 
 					/*TEXTO LOGIN*/
 					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-					
+
 					return;
 				}
 
@@ -4004,8 +3764,6 @@ function buildSearchFilterForm() {
 				var mlsNumber = $(event.target).parent().data("mls");
 				loadPropertyInModal(mlsNumber);
 			}
-
-			// console.dir(event);
 		});
 	}
 
@@ -4022,10 +3780,10 @@ function buildSearchFilterForm() {
 				// submit form
 				IB_SEARCH_FILTER_FORM.trigger("submit");
 
-				//if ($(window).width() < 1023) {
+				if ($(window).width() < 1023) {
 					//$('html, body').animate({scrollTop: $('.ib-wgrid').offset().top - 20}, 1000)
 					$('html, body').animate({scrollTop:0}, 1000);
-				//}
+				}
 			}
 		});
 	}
@@ -4040,61 +3798,34 @@ function buildSearchFilterForm() {
 		});
 	}
 
-	/*
-	if (IB_LB_CITIES.length) {
-		IB_LB_CITIES.each(function () {
-			for (var i = 0, l = __flex_idx_search_filter.search.cities.length; i < l; i++) {
-				var li = document.createElement('li');
-				li.classList.add('ib-lcitem');
-				li.innerHTML = __flex_idx_search_filter.search.cities[i].name;
-				IB_DOCFRAG.appendChild(li);
-			}
-			
-			IB_LB_CITIES.html(IB_DOCFRAG);
-		});
-		
-		IB_LB_CITIES.on("click", "li", function() {
-			IB_SEARCH_FILTER_AUTOCOMPLETE.val(this.innerHTML + ' (City)');
-			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(this.innerHTML + ' (City)');
-			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('city');
-			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-
-			update_bounds_zoom_gmap();
-
-			// submit form
-			IB_SEARCH_FILTER_FORM.trigger("submit");
-		});
-	}
-	*/
-
 	if (IB_LB_WATERFRONT_OPTIONS.length) {
-		for (var i = 0, l = __flex_idx_search_filter.search.waterfront_options.length; i < l; i++) {
+		for (var i = 0, l = __flex_idx_search_filter_v2.search.waterfront_options.length; i < l; i++) {
 			var option = document.createElement('option');
 			var text_label_trans='';
-			if(__flex_idx_search_filter.search.waterfront_options[i].name=='Bay Front')
+			if(__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Bay Front')
 				text_label_trans=word_translate.bay_front;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=='Canal')
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Canal')
 				text_label_trans=word_translate.canal;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=='Fixed Bridge')
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Fixed Bridge')
 				text_label_trans=word_translate.fixed_bridge;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=='Intracoastal')
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Intracoastal')
 				text_label_trans=word_translate.intracoastal;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=='Lake Front')
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Lake Front')
 				text_label_trans=word_translate.lake_front;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=='Ocean Access')
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=='Ocean Access')
 				text_label_trans=word_translate.ocean_access;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Ocean Front")
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Ocean Front")
 				text_label_trans=word_translate.ocean_front;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Point Lot")
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Point Lot")
 				text_label_trans=word_translate.point_lot;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="River Front")
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="River Front")
 				text_label_trans=word_translate.river_front;
-			else if (__flex_idx_search_filter.search.waterfront_options[i].name=="Water Access")
-				text_label_trans=word_translate.water_access;			
+			else if (__flex_idx_search_filter_v2.search.waterfront_options[i].name=="Water Access")
+				text_label_trans=word_translate.water_access;
 			else
-				text_label_trans=__flex_idx_search_filter.search.waterfront_options[i].name;
+				text_label_trans=__flex_idx_search_filter_v2.search.waterfront_options[i].name;
 			option.innerHTML = text_label_trans;
-			option.setAttribute('value', __flex_idx_search_filter.search.waterfront_options[i].code);
+			option.setAttribute('value', __flex_idx_search_filter_v2.search.waterfront_options[i].code);
 			IB_DOCFRAG.appendChild(option);
 		}
 
@@ -4113,10 +3844,10 @@ function buildSearchFilterForm() {
 	}
 
 	if (IB_LB_PARKING_OPTIONS.length) {
-		for (var i = 0, l = __flex_idx_search_filter.search.parking_options.length; i < l; i++) {
+		for (var i = 0, l = __flex_idx_search_filter_v2.search.parking_options.length; i < l; i++) {
 			var option = document.createElement('option');
-			option.innerHTML = __flex_idx_search_filter.search.parking_options[i].label;
-			option.setAttribute('value', __flex_idx_search_filter.search.parking_options[i].value);
+			option.innerHTML = __flex_idx_search_filter_v2.search.parking_options[i].label;
+			option.setAttribute('value', __flex_idx_search_filter_v2.search.parking_options[i].value);
 			IB_DOCFRAG.appendChild(option);
 		}
 
@@ -4136,8 +3867,8 @@ function buildSearchFilterForm() {
 
 	if (IB_LB_AMENITIES_OPTIONS.length) {
 		IB_LB_AMENITIES_OPTIONS.each(function (index, node) {
-			for (var i = 0, l = __flex_idx_search_filter.search.amenities.length; i < l; i++) {
-				if (-1 !== $.inArray(__flex_idx_search_filter.search.amenities[i].code, ["loft","equestrian"])) {
+			for (var i = 0, l = __flex_idx_search_filter_v2.search.amenities.length; i < l; i++) {
+				if (-1 !== $.inArray(__flex_idx_search_filter_v2.search.amenities[i].code, ["loft","equestrian"])) {
 					continue;
 				}
 
@@ -4146,48 +3877,45 @@ function buildSearchFilterForm() {
 				var input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("id", "ib-amt-"+node.getAttribute('data-type')+"_" + i);
-				input.setAttribute("value", __flex_idx_search_filter.search.amenities[i].code);
+				input.setAttribute("value", __flex_idx_search_filter_v2.search.amenities[i].code);
 				input.classList.add("ib-icheck");
 				var label = document.createElement("label");
 				label.classList.add("ib-clabel");
 				label.setAttribute("for", "ib-amt-"+node.getAttribute('data-type')+"_" + i);
 
 			var text_label_trans='';
-			//console.log(__flex_idx_search_filter.search.amenities[i].name);
-			if(__flex_idx_search_filter.search.amenities[i].name=='Swimming Pool')
+			if(__flex_idx_search_filter_v2.search.amenities[i].name=='Swimming Pool')
 				text_label_trans=word_translate.swimming_pool;
-			else if (__flex_idx_search_filter.search.amenities[i].name=='Golf Course')
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Golf Course')
 				text_label_trans=word_translate.golf_course;
-			else if (__flex_idx_search_filter.search.amenities[i].name=='Tennis Courts')
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Tennis Courts')
 				text_label_trans=word_translate.tennis_courts;
-			else if (__flex_idx_search_filter.search.amenities[i].name=='Gated Community')
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Gated Community')
 				text_label_trans=word_translate.gated_community;
-			else if (__flex_idx_search_filter.search.amenities[i].name=='Lofts')
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Lofts')
 				text_label_trans=word_translate.lofts;
-			else if (__flex_idx_search_filter.search.amenities[i].name=='Penthouse')
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=='Penthouse')
 				text_label_trans=word_translate.penthouse;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Waterfront")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Waterfront")
 				text_label_trans=word_translate.water_front;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Pets")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Pets")
 				text_label_trans=word_translate.pets;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Furnished")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Furnished")
 				text_label_trans=word_translate.furnished;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Equestrian")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Equestrian")
 				text_label_trans=word_translate.equestrian;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Short Sale")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Short Sale")
 				text_label_trans=word_translate.short_sales;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Foreclosure")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Foreclosure")
 				text_label_trans=word_translate.foreclosures;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Boat Dock")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Boat Dock")
 				text_label_trans=word_translate.boat_dock;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Housing Older Persons")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Housing Older Persons")
 				text_label_trans=word_translate.housing_older_persons;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Occupied")
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Occupied")
 				text_label_trans=word_translate.occupied;
-			else if (__flex_idx_search_filter.search.amenities[i].name=="Vacant")
-				text_label_trans=word_translate.vacant;            
-			else
-				text_label_trans=__flex_idx_search_filter.search.amenities[i].name;
+			else if (__flex_idx_search_filter_v2.search.amenities[i].name=="Vacant")
+				text_label_trans=word_translate.vacant;                         
 			
 				label.innerHTML = text_label_trans;
 				li.appendChild(input);
@@ -4197,6 +3925,23 @@ function buildSearchFilterForm() {
 			}
 
 			IB_LB_AMENITIES_OPTIONS.eq(index).append(IB_DOCFRAG);
+		});
+
+		$(".ib-status-types").each(function () {
+			$(this).on("click", "input", function() {
+				var checked_status_types = $(this).parent().parent().find("input:checked");
+				var checked_status_arr = [];
+
+				checked_status_types.each(function () {
+					checked_status_arr.push(this.value);
+				});
+
+				IB_SEARCH_FILTER_FORM.find('[name="amenities"]').val(checked_status_arr.join(","));
+				IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+				// submit form
+				IB_SEARCH_FILTER_FORM.trigger("submit");
+			});
 		});
 
 		IB_LB_AMENITIES_OPTIONS.on("change", "input", function() {
@@ -4210,6 +3955,7 @@ function buildSearchFilterForm() {
 			var chk_list = [];
 
 			IB_LB_AMENITIES_OPTIONS.find('input[value="'+clickedOption+'"]').prop('checked', checkedOption);
+
 
 			chk_amt.each(function (index, node) {
 				if ( -1 === $.inArray(node.value, chk_list) ) {
@@ -4225,98 +3971,148 @@ function buildSearchFilterForm() {
 		});
 	}
 
+	// mobile
+	$("#ib-lst-inner_2_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// mobile
+	$("#ib-lst-inner_3_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3_2").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_2").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// desktop
+	$("#ib-lst-inner_3").on("change", function(event) {
+		var check_stypes = [];
+
+		if ($("#ib-lst-inner_2").prop("checked")) {
+			check_stypes.push("contingent");
+		}
+
+		if ($("#ib-lst-inner_3").prop("checked")) {
+			check_stypes.push("pending");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="status_type"]').val(check_stypes.join(","));
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	// handle hide pending contingent
+	$("#pendingContigentMin").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigent").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigentMin").prop("checked", _checked);
+		$("#pendingContigentMobile").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
+	$("#pendingContigentMobile").on("change", function() {
+		var _checked = $(this).prop('checked');
+		$("#pendingContigent").prop("checked", _checked);
+		$("#pendingContigentMin").prop("checked", _checked);
+
+		if (_checked) {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
+		} else {
+			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
+		}
+
+		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		IB_SEARCH_FILTER_FORM.trigger("submit");
+	});
+
 	if (IB_LB_TYPES_OPTIONS.length) {
 		IB_LB_TYPES_OPTIONS.each(function (index, node) {
-			for (var i = 0, l = __flex_idx_search_filter.commercial_types.length; i < l; i++) {
+			for (var i = 0, l = __flex_idx_search_filter_v2.commercial_types.length; i < l; i++) {
 				var li = document.createElement("li");
 				li.classList.add("ib-citem");
 				var input = document.createElement("input");
 				input.setAttribute("type", "checkbox");
 				input.setAttribute("id", "ib-ppt-"+node.getAttribute('data-type')+"_" + i);
-				input.setAttribute("value", __flex_idx_search_filter.commercial_types[i].value);
+				input.setAttribute("value", __flex_idx_search_filter_v2.commercial_types[i].value);
 				input.classList.add("ib-icheck");
 				var label = document.createElement("label");
 				label.classList.add("ib-clabel");
 				label.setAttribute("for", "ib-ppt-"+node.getAttribute('data-type')+"_" + i);
 				var text_label_trans='';
-					if(__flex_idx_search_filter.commercial_types[i].label=='Homes'){
+					if(__flex_idx_search_filter_v2.commercial_types[i].label=='Homes'){
 						text_label_trans=word_translate.homes;
-					}else if(__flex_idx_search_filter.commercial_types[i].label=='Condominiums'){
+					}else if(__flex_idx_search_filter_v2.commercial_types[i].label=='Condominiums'){
 						text_label_trans=word_translate.condominiums;
-					}else if(__flex_idx_search_filter.commercial_types[i].label=='Townhouses'){
+					}else if(__flex_idx_search_filter_v2.commercial_types[i].label=='Townhouses'){
 						text_label_trans=word_translate.townhouses;
-					}else if (__flex_idx_search_filter.commercial_types[i].label=='Single Family Homes'){
+					}else if (__flex_idx_search_filter_v2.commercial_types[i].label=='Single Family Homes'){
 						text_label_trans=word_translate.single_family_homes;
-					}else if ('Adult Congregate' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.adult_congregate;                    
-					}else if ('Agricultural' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.agricultural;
-					}else if ('Apartments' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.apartments;
-					}else if ('Automotive' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.automotive;
-					}else if ('Building' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.building;
-					}else if ('Business' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.business;
-					}else if ('Church' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.church;
-					}else if ('Commercial' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.commercial;
-					}else if ('Commercial / Business / Agricultural / Industrial Land' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.commercial_business_agricultural_industrial_land;
-					}else if ('Condominium' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.condominium;
-					}else if ('Dock' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.dock;
-					}else if ('Dock Height' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.dock_height;
-					}else if ('Duplex / Quad Plex / Triplex' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.duplex_quad_plex_triplex;
-					}else if ('Franchise' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.franchise;
-					}else if ('Free Standing' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.free_standing;
-					}else if ('Hotel' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.hotel;
-					}else if ('Income' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.income;
-					}else if ('Industrial' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.industrial;
-					}else if ('Manufacturing' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.manufacturing;
-					}else if ('Medical' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.medical;
-					}else if ('Multifamily' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.multifamily;
-					}else if ('Office' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.office;
-					}else if ('Professional' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.professional;
-					}else if ('Residential Income' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.residential_income;
-					}else if ('Residential Land/Boat Docks' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.residential_Land_boat_docks;
-					}else if ('Restaurant' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.restaurant;
-					}else if ('Retail' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.retail;                
-					}else if ('School' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.school;
-					}else if ('Service' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.service;
-					}else if ('Shopping Center' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.shopping_center;
-					}else if ('Showroom' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.showroom;
-					}else if ('Special' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.special;
-					}else if ('Store' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.store;
-					}else if ('Warehouse' == __flex_idx_search_filter.commercial_types[i].label){
-						text_label_trans = word_translate.warehouse;               
 					}else{
-						text_label_trans=__flex_idx_search_filter.commercial_types[i].label;
+						text_label_trans=__flex_idx_search_filter_v2.commercial_types[i].label;
 					}
 
 				label.innerHTML = text_label_trans;
@@ -4349,9 +4145,8 @@ function buildSearchFilterForm() {
 			});
 
 			var lbl_ptypes = [];
-			var commercial_types = __flex_idx_search_filter.commercial_types;
+			var commercial_types = __flex_idx_search_filter_v2.commercial_types;
 
-			var ibTextTrans = [];
 
 			[].forEach.call(chk_list, function(index) {
 				for (var i = 0, l = commercial_types.length; i < l; i++) {
@@ -4361,99 +4156,14 @@ function buildSearchFilterForm() {
 				}
 			});
 
-			console.dir(lbl_ptypes);
-
-			if (lbl_ptypes.length==commercial_types.length) {
-				IB_LBL_TYPES_NTF.html(word_translate.any_type);
-			}else{
-
-				if (lbl_ptypes.length) {
-
-					lbl_ptypes.forEach(function(itemSelect){
-
-						if ('Adult Congregate' == itemSelect){
-							ibTextTrans.push(word_translate.adult_congregate);                    
-						}else if ('Agricultural' == itemSelect){
-							ibTextTrans.push(word_translate.agricultural);
-						}else if ('Apartments' == itemSelect){
-							ibTextTrans.push(word_translate.apartments);
-						}else if ('Automotive' == itemSelect){
-							ibTextTrans.push(word_translate.automotive);
-						}else if ('Building' == itemSelect){
-							ibTextTrans.push(word_translate.building);
-						}else if ('Business' == itemSelect){
-							ibTextTrans.push(word_translate.business);
-						}else if ('Church' == itemSelect){
-							ibTextTrans.push(word_translate.church);
-						}else if ('Commercial' == itemSelect){
-							ibTextTrans.push(word_translate.commercial);
-						}else if ('Commercial / Business / Agricultural / Industrial Land' == itemSelect){
-							ibTextTrans.push(word_translate.commercial_business_agricultural_industrial_land);
-						}else if ('Condominium' == itemSelect){
-							ibTextTrans.push(word_translate.condominium);
-						}else if ('Dock' == itemSelect){
-							ibTextTrans.push(word_translate.dock);
-						}else if ('Dock Height' == itemSelect){
-							ibTextTrans.push(word_translate.dock_height);
-						}else if ('Duplex / Quad Plex / Triplex' == itemSelect){
-							ibTextTrans.push(word_translate.duplex_quad_plex_triplex);
-						}else if ('Franchise' == itemSelect){
-							ibTextTrans.push(word_translate.franchise);
-						}else if ('Free Standing' == itemSelect){
-							ibTextTrans.push(word_translate.free_standing);
-						}else if ('Hotel' == itemSelect){
-							ibTextTrans.push(word_translate.hotel);
-						}else if ('Income' == itemSelect){
-							ibTextTrans.push(word_translate.income);
-						}else if ('Industrial' == itemSelect){
-							ibTextTrans.push(word_translate.industrial);
-						}else if ('Manufacturing' == itemSelect){
-							ibTextTrans.push(word_translate.manufacturing);
-						}else if ('Medical' == itemSelect){
-							ibTextTrans.push(word_translate.medical);
-						}else if ('Multifamily' == itemSelect){
-							ibTextTrans.push(word_translate.multifamily);
-						}else if ('Office' == itemSelect){
-							ibTextTrans.push(word_translate.office);
-						}else if ('Professional' == itemSelect){
-							ibTextTrans.push(word_translate.professional);
-						}else if ('Residential Income' == itemSelect){
-							ibTextTrans.push(word_translate.residential_income);
-						}else if ('Residential Land/Boat Docks' == itemSelect){
-							ibTextTrans.push(word_translate.residential_Land_boat_docks);
-						}else if ('Restaurant' == itemSelect){
-							ibTextTrans.push(word_translate.restaurant);
-						}else if ('Retail' == itemSelect){
-							ibTextTrans.push(word_translate.retail);
-						}else if ('School' == itemSelect){
-							ibTextTrans.push(word_translate.school);
-						}else if ('Service' == itemSelect){
-							ibTextTrans.push(word_translate.service);
-						}else if ('Shopping Center' == itemSelect){
-							ibTextTrans.push(word_translate.shopping_center);
-						}else if ('Showroom' == itemSelect){
-							ibTextTrans.push(word_translate.showroom);
-						}else if ('Special' == itemSelect){
-							ibTextTrans.push(word_translate.special);
-						}else if ('Store' == itemSelect){
-							ibTextTrans.push(word_translate.store);
-						}else if ('Warehouse' == itemSelect){
-							ibTextTrans.push(word_translate.warehouse);
-						}else{
-							ibTextTrans.push(itemSelect)
-						}
-					});
-
-
-
-					IB_LBL_TYPES_NTF.html(ibTextTrans.join(", "));
-					lbl_ptypes.length = 0;
-				} else {
-					IB_LBL_TYPES_NTF.html(word_translate.any_type);
-				}
-
-			}
-
+			// for (var i = 0, l = chk_list.length; i < l; i++) {
+			//     for (var j = 0, k = commercial_types.length; j < k; k++) {
+			//         if (chk_list[i] == commercial_types[j].value) {
+			//             lbl_ptypes.push(commercial_types[j].label);
+			//         }
+			//     }
+			//     console.log(chk_list[i]);
+			// }
 
 			// if (-1 !== $.inArray("2", chk_list)) {
 			//     lbl_ptypes.push("Homes");
@@ -4472,12 +4182,13 @@ function buildSearchFilterForm() {
 			// }
 
 			// if (lbl_ptypes.length && lbl_ptypes.length < 4) {
-			//     IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
-			//     lbl_ptypes.length = 0;
-			// } else {
-			//     // IB_LBL_TYPES_NTF.html("Homes, Condominiums, Townhouses");
-			//     IB_LBL_TYPES_NTF.html(word_translate.any_type);
-			// }
+
+			if (lbl_ptypes.length) {
+				IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
+				lbl_ptypes.length = 0;
+			} else {
+				IB_LBL_TYPES_NTF.html(word_translate.any_type);
+			}
 
 			IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(chk_list.join(","));
 			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
@@ -4519,7 +4230,6 @@ function buildSearchFilterForm() {
 		});
 
 		IB_RG_PRICE_SALE.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 			
 			var min = IB_RG_PRICE_SALE_VALUES[values[0]];
@@ -4540,8 +4250,6 @@ function buildSearchFilterForm() {
 				max = "$" + _.formatPrice(max);
 			}
 
-			// console.dir([min_lbl, max_lbl]);
-
 			if (
 				( ("--" == min_lbl) && ("--" == max_lbl) ) ||
 				( (0 == min_lbl) && (0 == max_lbl) ) ||
@@ -4559,7 +4267,6 @@ function buildSearchFilterForm() {
 			IB_RG_PRICE_SALE_LBL_LT.val(min);
 			IB_RG_PRICE_SALE_LBL_RT.val(max);
 		
-			// console.log("%s - %s", min, max);
 		});
 	}
 
@@ -4594,7 +4301,6 @@ function buildSearchFilterForm() {
 		});
 
 		IB_RG_PRICE_RENT.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 			
 			var min = IB_RG_PRICE_RENT_VALUES[values[0]];
@@ -4615,8 +4321,6 @@ function buildSearchFilterForm() {
 				max = "$" + _.formatPrice(max);
 			}
 
-			// console.dir([min_lbl, max_lbl]);
-
 			if (
 				( ("--" == min_lbl) && ("--" == max_lbl) ) ||
 				( (0 == min_lbl) && (0 == max_lbl) ) ||
@@ -4633,8 +4337,6 @@ function buildSearchFilterForm() {
 
 			IB_RG_PRICE_RENT_LBL_LT.val(min);
 			IB_RG_PRICE_RENT_LBL_RT.val(max);
-		
-			// console.log("%s - %s", min, max);
 		});
 	}
 
@@ -4669,23 +4371,20 @@ function buildSearchFilterForm() {
 		});
 
 		IB_RG_BEDROOMS.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 
 			var min_lbl = IB_RG_BEDROOMS_VALUES[values[0]];
 			var max_lbl = IB_RG_BEDROOMS_VALUES[values[1]];
-
-			// console.dir([min_lbl, max_lbl]);
 
 			if (
 				( (0 == min_lbl) && (6 == max_lbl) ) ||
 				( (6 == min_lbl) && (6 == max_lbl) ) ||
 				( (0 == min_lbl) && (0 == max_lbl) )
 			) {
-				IB_LBL_BED_NTF.html(word_translate.any_beds);
+				IB_LBL_BED_NTF.html(word_translate.any_bed);
 			} else {
 				if (max_lbl > 5) {
-					IB_LBL_BED_NTF.html(min_lbl + " - "+word_translate.any_beds);
+					IB_LBL_BED_NTF.html(min_lbl + " - "+word_translate.any_bed);
 				} else {
 					IB_LBL_BED_NTF.html(min_lbl + " - " + max_lbl + " "+word_translate.beds);
 				}
@@ -4724,13 +4423,10 @@ function buildSearchFilterForm() {
 		});
 
 		IB_RG_BATHROOMS.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 
 			var min_lbl = IB_RG_BATHROOMS_VALUES[values[0]];
 			var max_lbl = IB_RG_BATHROOMS_VALUES[values[1]];
-
-			// console.dir([min_lbl, max_lbl]);
 
 			if (
 				( (0 == min_lbl) && (6 == max_lbl) ) ||
@@ -4740,7 +4436,7 @@ function buildSearchFilterForm() {
 				IB_LBL_BATH_NTF.html(word_translate.any_baths);
 			} else {
 				if (max_lbl > 5) {
-					IB_LBL_BATH_NTF.html(min_lbl + " - "+word_translate.any_baths);
+					IB_LBL_BATH_NTF.html(min_lbl + " - "+word_translate.any_bath);
 				} else {
 					IB_LBL_BATH_NTF.html(min_lbl + " - " + max_lbl + " "+word_translate.baths);
 				}
@@ -4769,9 +4465,6 @@ function buildSearchFilterForm() {
 					max_val = '';
 				}
 
-				// console.dir("debounced [slide]");
-				// console.dir(ui);
-
 				IB_SEARCH_FILTER_FORM.find('[name="min_living_size"]').val(min_val);
 				IB_SEARCH_FILTER_FORM.find('[name="max_living_size"]').val(max_val);
 				IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
@@ -4783,7 +4476,6 @@ function buildSearchFilterForm() {
 
 		// live update label for living size [slider]
 		IB_RG_LIVINGSIZE.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 			
 			var min = IB_RG_LIVINGSIZE_VALUES[values[0]];
@@ -4792,15 +4484,15 @@ function buildSearchFilterForm() {
             var max_lot_size = IB_RG_LIVINGSIZE_VALUES[values[1]];
 
 			if ( (0 == min) || ("--" == min)) {
-				min = '0 '+word_translate.sqft;
+				min = '0 sq ft';
 			} else {
-				min = _.formatPrice(min) + " "+word_translate.sqft;
+				min = _.formatPrice(min) + " sq ft";
 			}
 			
 			if ( (0 == max) || ("--" == max)) {
 				max = word_translate.any_size;
 			} else {
-				max = _.formatPrice(max) + " "+word_translate.sqft;
+				max = _.formatPrice(max) + " sq ft";
 			}
 
 			if (min_lot_size >= 20000) {
@@ -4813,8 +4505,6 @@ function buildSearchFilterForm() {
 
 			IB_RG_LIVING_LBL_LT.val(min);
 			IB_RG_LIVING_LBL_RT.val(max);
-
-			// console.log("%s - %s", min, max);
 		});
 	}
 
@@ -4850,7 +4540,6 @@ function buildSearchFilterForm() {
 
 		// live update label for land size [slider]
 		IB_RG_LANDSIZE.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 			
 			var min = IB_RG_LANDSIZE_VALUES[values[0]];
@@ -4859,17 +4548,17 @@ function buildSearchFilterForm() {
             var max_lot_size = IB_RG_LANDSIZE_VALUES[values[1]];
 
 			if ( (0 == min) || ("--" == min)) {
-				min = '0 '+word_translate.sqft;
+				min = '0 sq ft';
 			} else {
-				min = _.formatPrice(min) + " "+word_translate.sqft;
+				min = _.formatPrice(min) + " sq ft";
 			}
 			
 			if ( (0 == max) || ("--" == max)) {
 				max = word_translate.any_size;
 			} else {
-				max = _.formatPrice(max) + " "+word_translate.sqft;
+				max = _.formatPrice(max) + " sq ft";
 			}
-
+			
 			if (min_lot_size >= 20000) {
 				min = (min_lot_size/43560).toFixed(2)+ " Acre";
 			}
@@ -4880,8 +4569,6 @@ function buildSearchFilterForm() {
 
 			IB_RG_LAND_LBL_LT.val(min);
 			IB_RG_LAND_LBL_RT.val(max);
-
-			// console.log("%s - %s", min, max);
 		});
 	}
 
@@ -4917,7 +4604,6 @@ function buildSearchFilterForm() {
 
 		// live update label for year built [slider]
 		IB_RG_YEARBUILT.on("slide", function(event, ui) {
-			// console.log("change [slide]");
 			var values = ui.values;
 			
 			var min = IB_RG_YEARBUILT_VALUES[values[0]];
@@ -4925,24 +4611,21 @@ function buildSearchFilterForm() {
 
 			IB_RG_YEAR_LBL_LT.val(min);
 			IB_RG_YEAR_LBL_RT.val(max);
-
-			// console.log("%s - %s", min, max);
 		});
 	}
 }
 
 function saveFilterSearchForLead() {
-	// IB_SEARCH_FILTER
 	var search_url = location.href;
 	if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 		var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 		if (pattern.test(initial_href)) {
 		    var search_url = initial_href;
 		}else{
-		    var search_url = __flex_idx_search_filter.searchFilterPermalink+initial_href;
+		    var search_url = __flex_idx_search_filter_v2.searchFilterPermalink+initial_href;
 		}
 	}
-	
+
 	var search_count = IB_SEARCH_FILTER.attr("data-count");
 	var search_condition = IB_SEARCH_FILTER.attr("data-condition");
 	var search_name = IB_SEARCH_FILTER.attr("data-name");
@@ -4953,11 +4636,11 @@ function saveFilterSearchForLead() {
 	if ("no" === __flex_g_settings.anonymous) {
 		$.ajax({
 			type: "POST",
-			url: __flex_idx_search_filter.saveListings.replace(/{{filterId}}/g, search_filter_ID),
+			url: __flex_idx_search_filter_v2.saveListings.replace(/{{filterId}}/g, search_filter_ID),
 			data: {
 				access_token: IB_ACCESS_TOKEN,
-				search_rk: __flex_idx_search_filter.rk,
-				search_wp_web_id: __flex_idx_search_filter.wp_web_id,                                
+				search_rk: __flex_idx_search_filter_v2.rk,
+				search_wp_web_id: __flex_idx_search_filter_v2.wp_web_id,                
 				flex_credentials: Cookies.get("ib_lead_token"),
 				search_filter_id: IB_SEARCH_FILTER.data("filter-id"),
 				search_url: search_url,
@@ -4995,262 +4678,31 @@ function handleFilterSearchLookup(event) {
 
 	$(".ib-temp-modal-infobox").remove();
 
-	//IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-
-	// $(".ib-fmsearchsuggestions:eq(0)").parent().removeClass("ib-fhpa-minisearch-active");
-
 	$("#ib-apply-filters-btn").html(word_translate.searching+'...');
 	IB_RG_MATCHING.html(word_translate.searching+'...');
 	$(".ib-fmapply").html(word_translate.searching+"...");
 	IB_HEADING_CT.html(word_translate.loading_properties);
 
-	$('.ib-wgrid:eq(0)').animate({ scrollTop: 0 }, 1000);
+	$('.ib-wgrid:eq(0)').animate({ scrollTop: 0 }, 0);
 	ib_xhr_handler = $.ajax({
 		type: "POST",
-		url: __flex_idx_search_filter.lookupSearchCommercialFilter,
+		url: __flex_idx_search_filter_v2.lookupSearchFilter,
 		data: {
 			access_token: IB_ACCESS_TOKEN,
 			flex_credentials: Cookies.get("ib_lead_token"),
 			search_filter_id: IB_SEARCH_FILTER.data("filter-id"),
-			get_off_market_position: get_off_market_position,
 			post_params: IB_SEARCH_FILTER_FORM.serialize(),
 			query_params: ("" != location.search) ? location.search.substr(1) : location.search,
 			event_triggered: (typeof event !== 'undefined') ? 'yes' : 'no',
 			device_width: window.innerWidth
 		},
 		success: function(response) {
-
-			//update list off market listing
-			__flex_idx_search_filter.list_offmarket = response.list_off_market_listing;
-
-			// update hackbox variable
-			__flex_idx_search_filter.hackbox.content = response.hackbox;
-
-
-			// update force registration variable
-			if (false === __flex_g_settings.force_registration) {
-				__flex_g_settings.force_registration = response.force_registration;
-			}
-
 			ib_xhr_running = false;
-
 			dataAlert=response;
-
-			if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
-				// console.dir(response);
-
-				var html_response = [];
-
-				for (var i = 0, l = response.items.length; i < l; i++) {
-
-					if ($(".js-slider-filter-search").attr("data-limit").length) {
-						var nlimit = parseInt($(".js-slider-filter-search").attr("data-limit"), 10);
-						if (nlimit > 0) {
-							if (i >= nlimit) {
-								break;
-							}
-						}
-					}
-					
-					var info_item = response.items[i];
-
-					html_response.push('<ul class="result-search slider-generator">');
-					html_response.push('<li class="propertie" data-address="'+info_item.full_address+'"  data-id="'+info_item.mls_num+'" data-mls="'+info_item.mls_num+'" data-counter="0">');
-					if (info_item.status=='5') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.rented+'</div>');
-					}else if (info_item.status=='2') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.sold+'</div>');
-					}else if (info_item.status !='1') {
-						html_response.push('<div class="flex-property-new-listing">'+info_item.status_name+'</div>');
-					}else if (info_item.hasOwnProperty('recently_listed') && info_item.recently_listed ==='yes') {
-						html_response.push('<div class="flex-property-new-listing">'+word_translate.new_listing+'</div>');
-					}
-
-					  //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
-
-						html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+info_item.full_address+'</div></h2>');
-						html_response.push('<ul class="features">');
-						html_response.push('<li class="address">'+info_item.address_large+'</li>');
-						html_response.push('<li class="price">$'+_.formatPrice(info_item.price)+'</li>');
-						html_response.push('<li class="pr down">2.05%</li>');
-						html_response.push('<li class="beds">'+info_item.property_class_name+'</li>');
-						// html_response.push('<li class="baths">'+info_item.bath+' <span>'+word_translate.baths+' </span></li>');
-						// html_response.push('<li class="living-size"> <span>'+info_item.sqft+'</span>'+word_translate.sqft+' <span>('+ info_item.living_size_m2 +' m²)</span></li>');
-						html_response.push('<li class="living-size"> <span>'+_.formatPrice(info_item.lot_size)+'</span> Lot Size</li>');
-						// html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'<span>($'+ info_item.price_sqft_m2 +' m²)</span></li>');
-						html_response.push('<li class="price-sf"><span>$'+info_item.price_sqft+' </span>/ '+word_translate.sqft+'</li>');
-
-	                    if ( 
-	                      response.hasOwnProperty("board_info") &&
-	                      response.board_info.hasOwnProperty("board_logo_url") &&
-	                      response.board_info.board_logo_url != "" && response.board_info.board_logo_url != null ) {
-	                      html_response.push('<li class="ms-logo-board"><img src="'+response.board_info.board_logo_url+'"></li>');
-	                    }
-
-						//html_response.push('<li class="build-year"><span>Built </span>2015</li>');
-						//html_response.push('<li class="development"><span></span></li>');
-					  html_response.push('</ul>');
-					  html_response.push('<div class="wrap-slider">');
-						html_response.push('<ul>');
-						if (0 == info_item.gallery.length) {
-							html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://www.idxboost.com/i/default_thumbnail.jpg"></li>');
-						} else {
-							info_item.gallery.forEach(function(gallery,index_gallery){
-								if (index_gallery==0){
-									html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-									}else{
-									html_response.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+gallery+'"></li>');
-									}		
-							  });
-						}
-						html_response.push('</ul>');
-		
-						if (info_item.gallery.length>1){
-							html_response.push('<button class="prev flex-slider-prev"><span class="clidxboost-icon-arrow-select"></span></button>');
-							html_response.push('<button class="next flex-slider-next"><span class="clidxboost-icon-arrow-select"></span></button>');
-						}
-		
-						if (info_item.status!='2') {
-							if (info_item.is_favorite==1){
-								html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="'+info_item.token_alert+'"></span></button>');
-							}else{
-								html_response.push('<button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button>');
-							}
-						}
-		
-					  html_response.push('</div>');
-					  html_response.push('<a class="ib-view-detailt" href="'+__flex_idx_search_filter.propertyDetailPermalink+ '/' + info_item.slug + '" rel="nofollow">'+word_translate.details+'</a>');
-					html_response.push('</li>');
-				  html_response.push('</ul>');
-				}
-
-				if (html_response.length) {
-					$('#search-filter-slider-' + response.params.token_id).html(html_response.join(""));
-
-					idxboostTypeIcon();
-
-					//RECUPERANDO LOS PARAMETROS QUE NECESITAMOS
-					var dataItems = $('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-item");
-					var styleFormat = ($('#search-filter-slider-' + response.params.token_id).parents(".featured-section").attr("data-gallery")) * 1; //PARAMETRO PARA EL FORMATO GRILLA O SLIDER
-
-					//CONSULTAMOS LA CANTIDAD DE ITEMS A MOSTRAR
-					if(dataItems !== "" && dataItems !== undefined){
-						initialItems = dataItems * 1;
-					}else{
-						initialItems = 4;
-					}
-					
-					//CONSULTAMOS LA EXISTENCIA Y EL TIPO DE FORMATO "GRILLA/SLIDER"
-					if(styleFormat !== "" && styleFormat !== undefined && styleFormat > 0){
-						styleFormat = 1; //RECUPERAMOS EL PARAMETRO
-					}else{
-						styleFormat = 0;
-					}
-			
-					//CONSULTAMOS EL FORMATO
-					if(styleFormat == 1){
-						//generamos las clases para el formato de columnas
-						if(initialItems < 2){
-							initialItems = 2;
-						}else if(initialItems > 4){
-							initialItems = 4;
-						}else{
-							initialItems = initialItems;
-						}
-						$('#search-filter-slider-' + response.params.token_id).parents(".featured-section").addClass("ms-colums-"+initialItems);
-					}else{
-						//GENERAMOS EL SLIDER
-						$('#search-filter-slider-' + response.params.token_id).greatSlider({
-							type: 'swipe',
-							nav: true,
-							navSpeed: 500,
-							lazyLoad: true,
-							bullets: false,
-							items: 1,
-							layout: {
-								bulletDefaultStyles: false,
-								wrapperBulletsClass: 'clidxboost-gs-wrapper-bullets',
-								arrowPrevContent: 'Prev',
-								arrowNextContent: 'Next',
-								arrowDefaultStyles: false
-							},
-							breakPoints: {
-								640: {
-									items: 2,
-									slideBy: 2,
-									nav: false,
-									bullets: true
-								},
-								991: {
-									items: 3,
-									slideBy: 3
-								},
-								1360: {
-									items: initialItems,
-									slideBy: initialItems,
-								}
-							},
-							onStepStart: function(){
-								$(this).find(".flex-slider-current img").each(function() {
-									if(!$(this).hasClass(".loaded")){
-										var dataImage = $(this).attr('data-original');
-										$(this).attr("data-was-processed","true").attr("src",dataImage).addClass("initial loaded");
-									}
-								});
-							},
-							onStepEnd: function() {
-								myLazyLoad = new LazyLoad({
-									elements_selector: ".flex-lazy-image",
-									callback_load: function() {},
-									callback_error: function(element){
-										$(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
-										$(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
-									}
-								});
-							},
-							onInited: function(){
-								var $a = 0;
-								var $bulletBtn = $('#search-filter-slider-' + response.params.token_id).find(".gs-bullet");
-								if($bulletBtn.length){
-									$bulletBtn.each(function() {
-										$a += 1;
-										$(this).text('View Slide '+$a);
-									});
-								}
-							},
-							onResized: function(){
-								var $a = 0;
-								var $bulletBtn = $('#search-filter-slider-' + response.params.token_id).find(".gs-bullet");
-								if($bulletBtn.length){
-									$bulletBtn.each(function() {
-										$a += 1;
-										$(this).text('View Slide '+$a);
-									});
-								}
-							}
-						});
-					}
-
-					$('#search-filter-slider-' + response.params.token_id).addClass('clidxboost-properties-slider');
-	
-					myLazyLoad = new LazyLoad({
-						elements_selector: ".flex-lazy-image",
-						callback_load: function() {},
-						callback_error: function(element){
-						  $(element).attr('src','https://idxboost.com/i/default_thumbnail.jpg').removeClass('error').addClass('loaded');
-						  $(element).attr('data-origin','https://idxboost.com/i/default_thumbnail.jpg');
-						}
-					});
-
-					html_response.length = 0;
-				}
-			}
-							
-
 
 			// dataLayer Tracking Collection
 			if (typeof dataLayer !== "undefined") {
-				if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+				if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 					if ("undefined" !== typeof dataLayer) {
 						if (response.hasOwnProperty("items") && response.items.length) {
 							var mls_list = _.pluck(response.items, "mls_num");
@@ -5267,6 +4719,13 @@ function handleFilterSearchLookup(event) {
 						}
 					}
 				}
+			}
+
+			if ("#more-options" === location.hash) {
+				setTimeout(function() {
+					$(".ib-bfilters").click();
+					history.replaceState(null, null, ' ');
+				}, 500);
 			}
 
 			IB_USER_IS_DRAWING = false;
@@ -5332,32 +4791,6 @@ function handleFilterSearchLookup(event) {
 				}
 			}
 
-			// if ("0" == params.sale_type) {
-			//     if ( (null == params.min_sale_price) && (null == params.max_sale_price) ) {
-			//         IB_LBL_PRICE_NTF.html(word_translate.any_price);
-			//     } else if ((null != params.min_sale_price) && (null == params.max_sale_price)) {
-			//         if (0 == params.min_sale_price) {
-			//             IB_LBL_PRICE_NTF.html(word_translate.any_price);
-			//         } else {
-			//             IB_LBL_PRICE_NTF.html("$" + _.formatShortPrice(params.min_sale_price) + " - "+word_translate.any_price);
-			//         }
-			//     } else {
-			//         IB_LBL_PRICE_NTF.html("$" + _.formatShortPrice(params.min_sale_price) + " - $" + _.formatShortPrice(params.max_sale_price));
-			//     }
-			// } else {
-			//     if ( (null == params.min_rent_price) && (null == params.max_rent_price) ) {
-			//         IB_LBL_PRICE_NTF.html(word_translate.any_price);
-			//     } else if ((null != params.min_rent_price) && (null == params.max_rent_price)) {
-			//         if (0 == params.min_rent_price) {
-			//             IB_LBL_PRICE_NTF.html(word_translate.any_price);
-			//         } else {
-			//             IB_LBL_PRICE_NTF.html("$" + _.formatShortPrice(params.min_rent_price) + " - "+word_translate.any_price);
-			//         }
-			//     } else {
-			//         IB_LBL_PRICE_NTF.html("$" + _.formatShortPrice(params.min_rent_price) + " - $" + _.formatShortPrice(params.max_rent_price));
-			//     }
-			// }
-
 			if ( (null == params.min_beds) && (null == params.max_beds) ) {
 				IB_LBL_BED_NTF.html(word_translate.any_beds);
 			} else if ((null != params.min_beds) && (null == params.max_beds)) {
@@ -5371,43 +4804,28 @@ function handleFilterSearchLookup(event) {
 				IB_LBL_BED_NTF.html(_.formatShortPrice(params.min_beds) + " - " + _.formatShortPrice(params.max_beds) + " "+word_translate.beds);
 			}
 
-			// if ( (null == params.min_beds) && (null == params.max_beds) ) {
-			//     IB_LBL_BED_NTF.html(word_translate.any_beds);
-			// } else if ((null != params.min_beds) && (null == params.max_beds)) {
-			//     if (0 == params.min_beds) {
-			//         IB_LBL_BED_NTF.html(word_translate.any_beds);
-			//     } else {
-			//         IB_LBL_BED_NTF.html(_.formatShortPrice(params.min_beds) + " - "+word_translate.any_beds);
-			//     }
-				
-			// } else {
-			//     IB_LBL_BED_NTF.html(_.formatShortPrice(params.min_beds) + " - " + _.formatShortPrice(params.max_beds) + " "+word_translate.beds);
-			// }
-
 			// if ( (null == params.min_baths) && (null == params.max_baths) ) {
 			//     IB_LBL_BATH_NTF.html(word_translate.any_baths);
 			// } else if ((null != params.min_baths) && (null == params.max_baths)) {
 			//     if (0 == params.min_baths) {
 			//         IB_LBL_BATH_NTF.html(word_translate.any_baths);
 			//     } else {
-			//         IB_LBL_BATH_NTF.html(_.formatShortPrice(params.min_baths) + " - "+word_translate.any_baths);
+			//         IB_LBL_BATH_NTF.html(_.formatShortPrice(params.min_baths) + " - "+word_translate.any_bath);
 			//     }
 			// } else {
 			//     IB_LBL_BATH_NTF.html(_.formatShortPrice(params.min_baths) + " - " + _.formatShortPrice(params.max_baths) + " "+word_translate.baths);
 			// }
 
 			var labelPropertyTypes = [];
-			var commercial_types = __flex_idx_search_filter.commercial_types;
+			var commercial_types = __flex_idx_search_filter_v2.commercial_types;
 
-			if(params.property_type != null) {
-				[].forEach.call(params.property_type, function(index) {
-					for (var i = 0, l = commercial_types.length; i < l; i++) {
-						if (commercial_types[i].value == index) {
-							labelPropertyTypes.push(commercial_types[i].label);
-						}
+			[].forEach.call(params.property_type, function(index) {
+				for (var i = 0, l = commercial_types.length; i < l; i++) {
+					if (commercial_types[i].value == index) {
+						labelPropertyTypes.push(commercial_types[i].label);
 					}
-				});
-			}
+				}
+			});
 
 			if (labelPropertyTypes.length) {
 				IB_LBL_TYPES_NTF.html(labelPropertyTypes.join(", "));
@@ -5417,13 +4835,12 @@ function handleFilterSearchLookup(event) {
 				IB_LBL_TYPES_NTF.html(word_translate.any_type);
 			}
 
-			// var labelPropertyTypes = [];
-		
-			// if (-1 != $.inArray("2", params.property_type)) {
+
+			// if (-1 != $.inArray(2, params.property_type)) {
 			//     labelPropertyTypes.push("Homes");
 			// }
 
-			// if (-1 != $.inArray("1", params.property_type)) {
+			// if (-1 != $.inArray(1, params.property_type)) {
 			//     labelPropertyTypes.push("Condominiums");
 			// }
 
@@ -5436,6 +4853,7 @@ function handleFilterSearchLookup(event) {
 			// }
 
 			// if (labelPropertyTypes.length) {
+
 			//     labelPropertyTypes.forEach(function(item_translate,pos_trans){
 			//         if(item_translate=='Homes'){
 			//             labelPropertyTypes[pos_trans]=word_translate.homes;
@@ -5450,14 +4868,13 @@ function handleFilterSearchLookup(event) {
 			//         }
 			//     });
 
-			//     if (labelPropertyTypes.length === __flex_idx_search_filter.commercial_types.length) {
+			//     if (labelPropertyTypes.length === __flex_idx_search_filter_v2.commercial_types.length) {
 			//         IB_LBL_TYPES_NTF.html(word_translate.any_type);
 			//     } else {
 			//         IB_LBL_TYPES_NTF.html(labelPropertyTypes.join(", "));
 			//     }
 			//     labelPropertyTypes.length = 0;
 			// }
-
 
 			IB_RG_MATCHING.html(word_translate.view+" " + _.formatShortPrice(pagination.count) + " "+word_translate.listings);
 			$(".ib-fmapply").html(word_translate.view+" " + _.formatShortPrice(pagination.count) + " "+word_translate.listings);
@@ -5466,15 +4883,15 @@ function handleFilterSearchLookup(event) {
 			IB_SEARCH_FILTER_FORM.find('[name="sale_type"]').val(params.sale_type);
 			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(params.filter_search_keyword_label);
 			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val(params.filter_search_keyword_type);
-			//IB_SEARCH_FILTER_FORM.find('[name="waterfront_options"]').val(params.waterfront_options);
+			// IB_SEARCH_FILTER_FORM.find('[name="waterfront_options"]').val(params.waterfront_options);
 			IB_SEARCH_FILTER_FORM.find('[name="min_sale_price"]').val(params.min_sale_price);
 			IB_SEARCH_FILTER_FORM.find('[name="max_sale_price"]').val(params.max_sale_price);
 			IB_SEARCH_FILTER_FORM.find('[name="min_rent_price"]').val(params.min_rent_price);
 			IB_SEARCH_FILTER_FORM.find('[name="max_rent_price"]').val(params.max_rent_price);
 			IB_SEARCH_FILTER_FORM.find('[name="min_beds"]').val(params.min_beds);
 			IB_SEARCH_FILTER_FORM.find('[name="max_beds"]').val(params.max_beds);
-			//IB_SEARCH_FILTER_FORM.find('[name="min_baths"]').val(params.min_baths);
-			//IB_SEARCH_FILTER_FORM.find('[name="max_baths"]').val(params.max_baths);
+			IB_SEARCH_FILTER_FORM.find('[name="min_baths"]').val(params.min_baths);
+			IB_SEARCH_FILTER_FORM.find('[name="max_baths"]').val(params.max_baths);
 			IB_SEARCH_FILTER_FORM.find('[name="min_living_size"]').val(params.min_living_size);
 			IB_SEARCH_FILTER_FORM.find('[name="max_living_size"]').val(params.max_living_size);
 			IB_SEARCH_FILTER_FORM.find('[name="min_lot_size"]').val(params.min_lot_size);
@@ -5500,22 +4917,20 @@ function handleFilterSearchLookup(event) {
 			}
 
 			if (params.hasOwnProperty("property_type")) {
-				// if (Array.isArray(params.property_type)) {
-					if (params.property_type != null) {
-						IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(params.property_type.join(","));
-					}
-				// }
+				IB_SEARCH_FILTER_FORM.find('[name="property_type"]').val(params.property_type.join(","));
 			}
 
-			if (true === IB_GMAP_INIT) {
+			// @todo initial zoom, rect boundaries
+			
+			// if (true === IB_GMAP_INIT) {
 				if (params.hasOwnProperty("zm")) {
-					//IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(params.zm);
+					IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(params.zm);
 				}
 	
 				if (params.hasOwnProperty("rect")) {
-					//IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(params.rect);
+					IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(params.rect);
 				}
-			}
+			// }
 
 			if (params.hasOwnProperty("polygon_search")) {
 				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val(params.polygon_search);
@@ -5622,24 +5037,8 @@ function handleFilterSearchLookup(event) {
 				});
 			}
 
-
-			// if (IB_LB_TYPES_OPTIONS.length) {
-			//     IB_LB_TYPES_OPTIONS.find("input").each(function (index, node) {
-			//         // var currentValue = ("tw" != node.value) ? parseInt(node.value, 10) : node.value;
-			//         var currentValue = node.value;
-
-			//         if (-1 != $.inArray(currentValue, params.property_type)) {
-			//             node.checked = true;
-			//         }
-			//     });
-			// }
-
 			// if (IB_LB_WATERFRONT_OPTIONS.length) {
 			//     IB_LB_WATERFRONT_OPTIONS.val((null == params.waterfront_options) ? "--" : params.waterfront_options);
-			// }
-
-			// if (IB_LB_PARKING_OPTIONS.length) {
-			//     IB_LB_PARKING_OPTIONS.val((null == params.parking_options) ? "--" : params.parking_options);
 			// }
 
 			if (IB_LB_MEASURE_TYPE.length) {
@@ -5650,13 +5049,25 @@ function handleFilterSearchLookup(event) {
 				});
 			}
 
-			if (IB_LB_AMENITIES_OPTIONS.length) {
-				IB_LB_AMENITIES_OPTIONS.find('input').each(function() {
+			// if (IB_LB_PARKING_OPTIONS.length) {
+			//     IB_LB_PARKING_OPTIONS.val((null == params.parking_options) ? "--" : params.parking_options);
+			// }
+
+			$(".ib-status-types").each(function () {
+				$(this).find("input").each(function () {
 					if (-1 !== $.inArray(this.value, params.amenities)) {
 						this.checked = true;
 					}
 				});
-			}
+			});
+
+			// if (IB_LB_AMENITIES_OPTIONS.length) {
+			//     IB_LB_AMENITIES_OPTIONS.find('input').each(function() {
+			//         if (-1 !== $.inArray(this.value, params.amenities)) {
+			//             this.checked = true;
+			//         }
+			//     });
+			// }
 
 			if (ib_comm_rate_inner_min.length) {
 				IB_SEARCH_FILTER_FORM.find('[name="min_cap_rate"]').val(params.min_cap_rate);
@@ -5753,9 +5164,11 @@ function handleFilterSearchLookup(event) {
 			if (IB_RG_LIVING_LBL_LT.length) {
 				if (params.min_living_size != null && params.min_living_size != "") {
 					var min_living_size = _.formatPrice(params.min_living_size);
+
                     if (parseFloat(params.min_living_size) >= 20000) {
                         min_living_size = (parseFloat(params.min_living_size)/43560).toFixed(2)+ " Acre";
                     }                    
+
 					IB_RG_LIVING_LBL_LT.val(min_living_size);
 				}
 				// var min_living_size = _.formatPrice(params.min_living_size) + ' '+word_translate.sqft;
@@ -5767,7 +5180,8 @@ function handleFilterSearchLookup(event) {
 					var max_living_size = _.formatPrice(params.max_living_size);
                     if ( parseFloat(params.max_living_size) >= 20000) {
                         max_living_size = (parseFloat(params.max_living_size)/43560).toFixed(2)+ " Acre";
-                    }					
+                    }      
+
 					IB_RG_LIVING_LBL_RT.val(max_living_size);
 				}
 				// var max_living_size = (null == params.max_living_size) ? word_translate.any_size : (_.formatPrice(params.max_living_size) + " "+word_translate.sqft);
@@ -5796,57 +5210,6 @@ function handleFilterSearchLookup(event) {
 				// var max_lot_size = (null == params.max_lot_size) ? word_translate.any_size : (_.formatPrice(params.max_lot_size) + " "+word_translate.sqft);
 				// IB_RG_LAND_LBL_RT.val(max_lot_size);
 			}
-
-			// // range notifiers
-			// if (IB_RG_PRICE_SALE_LBL_LT.length) {
-			//     var min_sale_price = "$" + _.formatPrice(params.min_sale_price)
-			//     IB_RG_PRICE_SALE_LBL_LT.val(min_sale_price);
-			// }
-
-			// if (IB_RG_PRICE_SALE_LBL_RT.length) {
-			//     var max_sale_price = (null == params.max_sale_price) ? word_translate.any_price : ("$" + _.formatPrice(params.max_sale_price));
-			//     IB_RG_PRICE_SALE_LBL_RT.val(max_sale_price);
-			// }
-
-			// if (IB_RG_PRICE_RENT_LBL_LT.length) {
-			//     var min_rent_price = "$" + _.formatPrice(params.min_rent_price);
-			//     IB_RG_PRICE_RENT_LBL_LT.val(min_rent_price);
-			// }
-
-			// if (IB_RG_PRICE_RENT_LBL_RT.length) {
-			//     var max_rent_price = (null == params.max_rent_price) ? word_translate.any_price : ("$" + _.formatPrice(params.max_rent_price));
-			//     IB_RG_PRICE_RENT_LBL_RT.val(max_rent_price);
-			// }
-
-			// if (IB_RG_YEAR_LBL_LT.length) {
-			//     var min_year = (null == params.min_year) ? "1900" : params.min_year;
-			//     IB_RG_YEAR_LBL_LT.val(min_year);
-			// }
-
-			// if (IB_RG_YEAR_LBL_RT.length) {
-			//     var max_year = (null == params.max_year) ? "2020" : params.max_year;
-			//     IB_RG_YEAR_LBL_RT.val(max_year);
-			// }
-
-			// if (IB_RG_LIVING_LBL_LT.length) {
-			//     var min_living_size = _.formatPrice(params.min_living_size) + ' '+word_translate.sqft;
-			//     IB_RG_LIVING_LBL_LT.val(min_living_size);
-			// }
-
-			// if (IB_RG_LIVING_LBL_RT.length) {
-			//     var max_living_size = (null == params.max_living_size) ? word_translate.any_size : (_.formatPrice(params.max_living_size) + " "+word_translate.sqft);
-			//     IB_RG_LIVING_LBL_RT.val(max_living_size);
-			// }
-
-			// if (IB_RG_LAND_LBL_LT.length) {
-			//     var min_lot_size = _.formatPrice(params.min_lot_size) + ' '+word_translate.sqft;
-			//     IB_RG_LAND_LBL_LT.val(min_lot_size);
-			// }
-
-			// if (IB_RG_LAND_LBL_RT.length) {
-			//     var max_lot_size = (null == params.max_lot_size) ? word_translate.any_size : (_.formatPrice(params.max_lot_size) + " "+word_translate.sqft);
-			//     IB_RG_LAND_LBL_RT.val(max_lot_size);
-			// }
 
 			// price for sale
 			IB_RG_PRICE_SALE.slider("option", "values", getPriceSaleValues(params.min_sale_price, params.max_sale_price));
@@ -5880,9 +5243,9 @@ function handleFilterSearchLookup(event) {
 					initial_title = document.title;
 					initial_href = '?' + decodeURIComponent(slug);
 				} else {
-					history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
+					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
 					initial_title = document.title;
-					initial_href = __flex_idx_search_filter.searchFilterPermalink;
+					initial_href = __flex_idx_search_filter_v2.searchFilterPermalink;
 				}
 			} else {
 				initial_title = document.title;
@@ -5893,7 +5256,7 @@ function handleFilterSearchLookup(event) {
 			//     if ("" != slug) {
 			//         history.pushState(null, null, '?' + decodeURIComponent(slug));
 			//     } else {
-			//         history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
+			//         history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
 			//     }
 			// }
 
@@ -5921,21 +5284,19 @@ function handleFilterSearchLookup(event) {
 					}*/
 				});
 
+				IB_MAP.addListener("bounds_changed", function() {
+					if ("undefined" !== typeof IB_MAP && jQuery('#flex_idx_search_filter').hasClass('ib-vmap-active')) {
+						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(IB_MAP.getBounds().toUrlValue());
+						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(IB_MAP.getZoom());
+					}
+				});
+
 				IB_MAP.addListener("dragend", function() {
 					var idleListener = IB_MAP.addListener("idle", function() {
 						google.maps.event.removeListener(idleListener);
-						// handleBoundsChangeEvent(IB_MAP);
 						handleDragSearchEvent();
 					});
 				});
-
-				// IB_MAP.addListener("zoom_changed", function() {
-				//     var idleListener = IB_MAP.addListener("idle", function() {
-				//         google.maps.event.removeListener(idleListener);
-				//         // handleBoundsChangeEvent(IB_MAP);
-				//         handleDragSearchEvent();
-				//     });
-				// });
 
 				// fill values for mobile form [filter]
 				fillValuesMobileForm(response);
@@ -5944,6 +5305,72 @@ function handleFilterSearchLookup(event) {
 				attachListenersMobileForm();
 
 				google.maps.event.addListenerOnce(IB_MAP, 'tilesloaded', setupMapControlsFull);
+
+				$(document).on("click", ".ib-removeb-tg", function() {
+					IB_GMAP_FINISHED_POLYGON = false;
+
+					if (window.innerWidth < 990) {
+						$(".idx-bta-map").click();
+
+						setTimeout(function () {
+							IB_LOOKUP_DRAG = true;
+
+							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
+							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
+							IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
+							IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+		
+							if ("undefined" !== typeof IB_POLYGON) {
+								IB_POLYGON.setMap(null);
+							}
+
+							if ("undefined" !== typeof IB_DRAWING_POLYGON) {
+								IB_DRAWING_POLYGON.setMap(null);
+							}
+		
+							IB_HAS_POLYGON = false;
+
+							var mapCenter = IB_MAP.getCenter();
+							var mapZoom = IB_MAP.getZoom();
+							var mapBounds = IB_MAP.getBounds();
+
+							IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
+
+							IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+							IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+		
+							IB_SEARCH_FILTER_FORM.trigger("submit");
+						}, 100);
+					} else {
+						IB_LOOKUP_DRAG = true;
+
+						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
+						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
+						IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
+						IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
+	
+						if ("undefined" !== typeof IB_POLYGON) {
+							IB_POLYGON.setMap(null);
+						}
+
+						if ("undefined" !== typeof IB_DRAWING_POLYGON) {
+							IB_DRAWING_POLYGON.setMap(null);
+						}
+	
+						IB_HAS_POLYGON = false;
+
+						var mapCenter = IB_MAP.getCenter();
+						var mapZoom = IB_MAP.getZoom();
+						var mapBounds = IB_MAP.getBounds();
+				
+						IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
+					
+						IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
+						IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
+
+						IB_SEARCH_FILTER_FORM.trigger("submit");
+					}
+				});
 			}
 
 			if (params.hasOwnProperty('kml_boundaries'))  {
@@ -5951,29 +5378,16 @@ function handleFilterSearchLookup(event) {
 					IB_POLYGON.setMap(null);
 				}
 
-				if (params.hasOwnProperty("map_overlay_hidden")) {
-					IB_POLYGON = new google.maps.Polygon({
-						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
-						draggable: false,
-						editable: false,
-						strokeColor: '#31239a',
-						strokeOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.8,
-						strokeWeight: 1,
-						fillColor: '#31239a',
-						fillOpacity: ("1" == params.map_overlay_hidden) ? 0 : 0.1
-					});
-				} else { // older clients
-					IB_POLYGON = new google.maps.Polygon({
-						paths: ib_generate_latlng_from_kml(params.kml_boundaries),
-						draggable: false,
-						editable: false,
-						strokeColor: '#31239a',
-						strokeOpacity: 0.8,
-						strokeWeight: 1,
-						fillColor: '#31239a',
-						fillOpacity: 0.1
-					});
-				}
+				IB_POLYGON = new google.maps.Polygon({
+					paths: ib_generate_latlng_from_kml(params.kml_boundaries),
+					draggable: false,
+					editable: false,
+					strokeColor: '#31239a',
+					strokeOpacity: 0.8,
+					strokeWeight: 1,
+					fillColor: '#31239a',
+					fillOpacity: 0.1
+				});
 
 				if (typeof IB_DRAWING_POLYGON !== "undefined") {
 					IB_DRAWING_POLYGON.setMap(null);
@@ -6012,7 +5426,6 @@ function handleFilterSearchLookup(event) {
 
 			// reduce markers [first step]
 			for (var i = 0, l = map_items.length; i < l; i++) {
-				// if (i >= 39) { break; }
 				row = map_items[i];
 				geocode = row.lat + ':' + row.lng;
 				if (_.indexOf(hashed_properties, geocode) === -1) {
@@ -6079,9 +5492,6 @@ function handleFilterSearchLookup(event) {
 
 			if (items.length === 0) {
 				$(".ib-heading-ct").html(word_translate.showing+" 0 "+word_translate.properties+'.');
-				$('.ib-gnopro').addClass('ib-gnopro-show');
-			} else {
-				$('.ib-gnopro').removeClass('ib-gnopro-show');
 			}
 
 			// load initially a property if exists in hash
@@ -6112,129 +5522,23 @@ function handleFilterSearchLookup(event) {
 				}
 			}
 
-			// @todo
 			google.maps.event.clearListeners(IB_MAP, "idle");
 
 			if (true === IB_GMAP_FIT_TO_BOUNDS) {
 				if (!urlParams.has("rect") && !urlParams.has("zm")) {
 					if (location.search.length > 0) {
-						// console.log('[fit]');
 						IB_MAP.fitBounds(IB_BOUNDS);
 					}
 				}
 				
-				// IB_GMAP_FIT_TO_BOUNDS = false;
+				IB_GMAP_FIT_TO_BOUNDS = false;
 			}
-
-			// @todo
-			/*
-			if (false === IB_GMAP_BOUNDS_LOADED) {
-				IB_GMAP_BOUNDS_LOADED = true;
-				setTimeout(function() {
-					setupListenersForMapBounds();
-				}, 300);
-			}
-			*/
-
-			/*
-			setTimeout(function () {
-				// google.maps.event.addListener(IB_MAP, "idle", handleDragSearchEvent);
-				console.log('count');
-
-				IB_MAP.addListener("dragend", function() {
-					var idleListener = IB_MAP.addListener("idle", function() {
-						google.maps.event.removeListener(idleListener);
-						handleDragSearchEvent();
-					});
-				});
-				IB_MAP.addListener("zoom_changed", function() {
-					var idleListener2 = IB_MAP.addListener("idle", function() {
-						google.maps.event.removeListener(idleListener2);
-						handleDragSearchEvent();
-					});
-				});
-			}, 2000);
-			*/
 		}
 	});
 }
 
 // @todo domReady
 $(function () {
-	$(document).on("click", ".ib-removeb-tg", function() {
-		IB_GMAP_FINISHED_POLYGON = false;
-
-		if (window.innerWidth < 990) {
-			// $('.ib-mobile-sview').val('map');
-			// $('.ib-mobile-sview').change();
-			$(".idx-bta-map").click();
-
-			setTimeout(function () {
-				IB_LOOKUP_DRAG = true;
-
-				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-
-				if ("undefined" !== typeof IB_POLYGON) {
-					IB_POLYGON.setMap(null);
-				}
-
-				if ("undefined" !== typeof IB_DRAWING_POLYGON) {
-					// console.log("remove polygon draw");
-					IB_DRAWING_POLYGON.setMap(null);
-				}
-
-				IB_HAS_POLYGON = false;
-
-				var mapCenter = IB_MAP.getCenter();
-				var mapZoom = IB_MAP.getZoom();
-				var mapBounds = IB_MAP.getBounds();
-
-				IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
-				// console.log("hide remove boundaries button");
-
-				//IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-				//IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
-
-				IB_SEARCH_FILTER_FORM.trigger("submit");
-			}, 100);
-		} else {
-			IB_LOOKUP_DRAG = true;
-
-			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
-			IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
-			IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-			IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-
-			if ("undefined" !== typeof IB_POLYGON) {
-				IB_POLYGON.setMap(null);
-			}
-
-			if ("undefined" !== typeof IB_DRAWING_POLYGON) {
-				// console.log("remove polygon draw");
-				IB_DRAWING_POLYGON.setMap(null);
-			}
-
-			IB_HAS_POLYGON = false;
-
-			var mapCenter = IB_MAP.getCenter();
-			var mapZoom = IB_MAP.getZoom();
-			var mapBounds = IB_MAP.getBounds();
-	
-			IB_MAP_TOOLTIP.addClass("ib-removeb-hide");
-			// console.log("hide remove boundaries button");
-		
-			IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
-			IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
-
-			IB_SEARCH_FILTER_FORM.trigger("submit");
-		}
-
-		$('.ib-gnopro').removeClass('ib-gnopro-show')
-	});
-
 	/** Initialize variables for Autocomplete */
 	ib_autocomplete = $(".ib-fmsearch:eq(0)");
 	ib_autocomplete_btn = $(".ib-kw-tg-search:eq(0)");
@@ -6278,17 +5582,13 @@ $(function () {
 		ib_autocomplete.on("paste", handlePasteAutocompleteEvent);
 	}
 
-	IB_ACCESS_TOKEN = __flex_idx_search_filter.accessToken;
+	IB_ACCESS_TOKEN = __flex_idx_search_filter_v2.accessToken;
 	IB_SEARCH_FILTER = $('#flex_idx_search_filter');
 	IB_SEARCH_FILTER_FORM = $("#flex_idx_search_filter_form");
 	IB_MAP_TOOLTIP = $(".ib-removeb-tg");
 	IB_SAVE_SEARCH_MODALS = $(".flex-save-search-modals");
 
-	//IB_SEARCH_FILTER_AUTOCOMPLETE = $(".ib-fmsearch:eq(0)");
-	//IB_KW_TG_SEARCH = $(".ib-kw-tg-search:eq(0)");
-
 	IB_CLEAR_BTN = $(".ib-dbclear");
-	// IB_LB_CITIES = $(".ib-lcities");
 	IB_LB_WATERFRONT_OPTIONS= $(".ib-waterfront-options");
 	IB_LB_PARKING_OPTIONS = $(".ib-parking-options");
 	IB_LB_AMENITIES_OPTIONS = $(".ib-amenities-options");
@@ -6318,6 +5618,7 @@ $(function () {
 	IB_RG_LAND_LBL_RT = $(".ib-rland-lbl-rt");
 
 	IB_RG_MATCHING = $(".ib-fdmatching:eq(0)");
+
 
 	IB_SORT_CTRL = $(".ib-sort-ctrl:eq(0)");
 	IB_PAGINATION_CTRL = $(".ib-pagination-ctrl:eq(0)");
@@ -6379,7 +5680,6 @@ $(function () {
 
 	// handle apply draw
 	$("#map-draw-apply-tg").on("click", function() {
-		// @todo
 		IB_DRAWING_MANAGER.setMap(null);
 
 		if (false === IB_GMAP_FINISHED_POLYGON) {
@@ -6431,9 +5731,7 @@ $(function () {
 	
 				// make URL friendly
 				encodedPath = encodedPath.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-	
-				//console.dir(coords);
-	
+		
 				var mapCenter = IB_MAP.getCenter();
 				var mapZoom = IB_MAP.getZoom();
 				var mapBounds = IB_MAP.getBounds();
@@ -6441,7 +5739,6 @@ $(function () {
 				IB_SEARCH_FILTER_FORM.find('[name="rect"]').val(mapBounds.toUrlValue());
 				IB_SEARCH_FILTER_FORM.find('[name="zm"]').val(mapZoom);
 
-				// IB_SEARCH_FILTER_FORM.find('[name="gmap_coords_zoom"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
 				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val(encodedPath);
@@ -6490,8 +5787,6 @@ $(function () {
 	});
 
 	$(document).on("click", ".ib-paitem-load-schools", function(event) {
-		// console.log("load schools information");
-
 		var _self = $(this);
 		var lat = _self.data("lat");
 		var lng = _self.data("lng");
@@ -6542,7 +5837,6 @@ $(function () {
 	});
 
 	// FOR SCHOOLS INFORMATION LISTENERS CLICK
-
 	$(document).on('click', '#clidxboost-data-loadMore-niche', function(event) {
 		event.stopPropagation();
 
@@ -6591,32 +5885,25 @@ $(function () {
 
 	// [END]
 
-
-
 	$(".ib-dbsave").on("click", function() {
 			if ("yes" === __flex_g_settings.anonymous) {
-				// if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-				// if ($(".register").length) {
-					$("#modal_login").addClass("active_modal")
-					.find('[data-tab]').removeClass('active');
+				$("#modal_login").addClass("active_modal")
+				.find('[data-tab]').removeClass('active');
+			
+				$("#modal_login").addClass("active_modal")
+					.find('[data-tab]:eq(1)')
+					.addClass('active');
 				
-					$("#modal_login").addClass("active_modal")
-						.find('[data-tab]:eq(1)')
-						.addClass('active');
-					
-					$("#modal_login")
-						.find(".item_tab")
-						.removeClass("active");
-					
-					$("#tabRegister")
-					.addClass("active");
+				$("#modal_login")
+					.find(".item_tab")
+					.removeClass("active");
+				
+				$("#tabRegister")
+				.addClass("active");
 
-					// $(".register").click();
-					$("#modal_login #msRst").empty().html($("#mstextRst").html());
-					$("button.close-modal").addClass("ib-close-mproperty");
-					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-				// }
-				// }
+				$("#modal_login #msRst").empty().html($("#mstextRst").html());
+				$("button.close-modal").addClass("ib-close-mproperty");
+				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
 
 				/*TEXTO REGISTER*/
 				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
@@ -6627,171 +5914,6 @@ $(function () {
 
 		$("#ib-fsearch-save-modal").addClass("ib-md-active");
 	});
-
-	/*
-	$(".ib-fmsearchsuggestions").on({
-		focus: function() {
-			$(this).parent().addClass("ib-fhpa-minisearch-active");
-		},
-		blur: function() {
-			// setTimeout(function () {
-			//     $(".ib-fmsearchsuggestions:eq(0)").parent().removeClass("ib-fhpa-minisearch-active");
-			// }, 100);
-		},
-		keyup: function(event) {
-			$(this).parent().removeClass("ib-fhpa-minisearch-active");
-			
-			if ("" == $(this).val()) {
-				$(this).parent().addClass("ib-fhpa-minisearch-active");
-			}
-
-			if (13 === event.keyCode) {
-				IB_SEARCH_FILTER_AUTOCOMPLETE.blur();
-				IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-
-				var inputValue = $(this).val();
-				var currentValue = $.trim(inputValue.replace(/\(.*\)?/, ""));
-	
-				if (inputValue.length) {
-					var myRegexp = /\(([^)]+)\)/;
-					var match = myRegexp.exec(inputValue);
-					
-					if (null != match) {
-						var inputType = match[1].toLowerCase();
-	
-						IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue);
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue);
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val(inputType);
-						IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-
-						update_bounds_zoom_gmap();
-					} else if (/^[\d+]{5}$/.test(currentValue)) {
-						IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue + " (Zip)");
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue + " (Zip)");
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('zip');
-						IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-
-						update_bounds_zoom_gmap();
-						
-					} else {
-						currentValue = inputValue.toLowerCase();
-						var matchCity = false;
-	
-						for (var i = 0, l = __flex_idx_search_filter.search.cities.length; i < l; i++) {
-							var currentCity = __flex_idx_search_filter.search.cities[i].name.toLowerCase();
-	
-							if (currentValue == currentCity) {
-								matchCity = true;
-
-								IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue + " (City)");
-								IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue + " (City)");
-								IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('city');
-								IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-
-								update_bounds_zoom_gmap();
-								break;
-							}
-						}
-
-						if (false === matchCity) {
-							IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue);
-							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue);
-							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('neighborhood');
-							IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-							IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-
-							update_bounds_zoom_gmap();
-						}
-					}
-					
-					IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-	
-					// submit form
-					IB_SEARCH_FILTER_FORM.trigger("submit");
-				}
-			}
-		}
-	});
-	*/
-
-	// $(document).on("click", function() {
-	//     $(".ib-fmsearchsuggestions:eq(0)").parent().removeClass("ib-fhpa-minisearch-active");
-	// });
-
-	$(".ib-fcitiesnon-hide").on("click", function(event) {
-		event.stopPropagation();
-	});
-
-	// Cambio de vista desde botonera
-	$('.idx-bta-map').click(function(){
-		// $('.ib-mobile-sview').val('map');
-		// $('.ib-mobile-sview').change();
-
-		var currentValue = "map";
-		var $ibMapGridContainer = $('.ib-mapgrid-container');
-
-		$('.ib-gwvbitem[data-view="' + currentValue + '"]')
-			.addClass('ib-gv-active')
-			.siblings()
-			.removeClass('ib-gv-active');
-
-		$('body').addClass('view-map').removeClass('view-grid view-list');
-		$ibMapGridContainer.removeClass('ib-vgrid-active').addClass('ib-vmap-active');
-
-		// console.log(IB_LOOKUP_DRAG);
-
-		if (false === IB_LOOKUP_DRAG) {
-			IB_MAP.fitBounds(IB_HIDDEN_BOUNDS);
-		}
-
-		// IB_MAP.fitBounds(IB_HIDDEN_BOUNDS);
-
-		// setTimeout(function () {
-		//     if (false === IB_LOOKUP_DRAG) {
-		//         console.log('[fitbounds]');
-		//         IB_MAP.fitBounds(IB_HIDDEN_BOUNDS);
-		//     }
-		// }, 100);
-	});
-
-	// cambio de vista desde botonera
-	$('.idx-bta-grid').click(function(){
-		// $('.ib-mobile-sview').val('grid');
-		// $('.ib-mobile-sview').change();
-
-		var currentValue = "grid";
-		var $ibMapGridContainer = $('.ib-mapgrid-container');
-
-		$('.ib-gwvbitem[data-view="' + currentValue + '"]')
-			.addClass('ib-gv-active')
-			.siblings()
-			.removeClass('ib-gv-active');
-
-		$('body').addClass('view-grid').removeClass('view-map view-list');
-		$ibMapGridContainer.addClass('ib-vgrid-active').removeClass('ib-vmap-active');
-	});
-
-	/*
-	 $(".ib-mobile-sview").on("change", function() {
-		var currentValue = $(this).val();
-
-		const $ibMapGridContainer = $('.ib-mapgrid-container');
-		$('.ib-gwvbitem[data-view="' + currentValue + '"]').addClass('ib-gv-active').siblings().removeClass('ib-gv-active');
-
-		if ("map" === currentValue) {
-			$('body').addClass('view-map').removeClass('view-grid view-list');
-			$ibMapGridContainer.removeClass('ib-vgrid-active').addClass('ib-vmap-active');
-			setTimeout(function () {
-				if (false === IB_LOOKUP_DRAG) {
-					IB_MAP.fitBounds(IB_HIDDEN_BOUNDS);
-				}
-			}, 100);
-		} else if ("grid" === currentValue) {
-			$('body').addClass('view-grid').removeClass('view-map view-list');
-			$ibMapGridContainer.addClass('ib-vgrid-active').removeClass('ib-vmap-active');
-		}
-	});
-	*/
 
 	$('.ib-gwvbitem').click(function(){
 		$('.ib-gviews').val($(this).attr('data-view')).change();
@@ -6809,33 +5931,28 @@ $(function () {
 		// handle favorite
 		IB_MODAL_WRAPPER.on("click", ".ib-pfavorite", function(event) {
 			if ("yes" === __flex_g_settings.anonymous) {
-				// if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-					// if ($(".register").length) {
-						// $(".register").click();
-						$("#modal_login").addClass("active_modal")
-						.find('[data-tab]').removeClass('active');
-					
-						$("#modal_login").addClass("active_modal")
-							.find('[data-tab]:eq(1)')
-							.addClass('active');
-						
-						$("#modal_login")
-							.find(".item_tab")
-							.removeClass("active");
-						
-						$("#tabRegister")
-						.addClass("active");
+				$("#modal_login").addClass("active_modal")
+				.find('[data-tab]').removeClass('active');
+			
+				$("#modal_login").addClass("active_modal")
+					.find('[data-tab]:eq(1)')
+					.addClass('active');
+				
+				$("#modal_login")
+					.find(".item_tab")
+					.removeClass("active");
+				
+				$("#tabRegister")
+				.addClass("active");
 
-						$("#modal_login #msRst").empty().html($("#mstextRst").html());
-						$("button.close-modal").addClass("ib-close-mproperty");
-						$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-					// }
-				// }
+				$("#modal_login #msRst").empty().html($("#mstextRst").html());
+				$("button.close-modal").addClass("ib-close-mproperty");
+				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
 
 				/*TEXTO LOGIN*/
 				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 				$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-				
+			
 				return;
 			}
 
@@ -6876,7 +5993,7 @@ $(function () {
 				urlParams.delete("show");
 	
 				if ("" === urlParams.toString()) {
-					history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
+					history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
 				} else {
 					history.pushState(null, null, '?' + urlParams.toString());
 				}
@@ -6886,7 +6003,7 @@ $(function () {
 			// urlParams.delete("show");
 
 			// if ("" === urlParams.toString()) {
-			//     history.pushState(null, null, __flex_idx_search_filter.searchFilterPermalink);
+			//     history.pushState(null, null, __flex_idx_search_filter_v2.searchFilterPermalink);
 			// } else {
 			//     history.pushState(null, null, '?' + urlParams.toString());
 			// }
@@ -6919,7 +6036,7 @@ $(function () {
 			if ("no" === __flex_g_settings.anonymous) {
 				$.ajax({
 					type: "POST",
-					url: __flex_idx_search_filter.ajaxUrl,
+					url: __flex_idx_search_filter_v2.ajaxUrl,
 					data: formData,
 					dataType: "json",                    
 					success: function(response) {
@@ -6936,6 +6053,7 @@ $(function () {
 						}else{
 							sweetAlert("Oops...", response.message, "error");
 						}
+
 
 						if (jQuery("#_ib_lead_activity_tab").length) {
 							jQuery("#_ib_lead_activity_tab button:eq(2)").click();
@@ -7111,7 +6229,7 @@ $(function () {
 
 			var formData = $(this).serialize();
 			var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
-			var shareWithFriendEndpoint = __flex_idx_search_filter.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+			var shareWithFriendEndpoint = __flex_idx_search_filter_v2.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
 
 			$.ajax({
 				type: "POST",
@@ -7119,9 +6237,6 @@ $(function () {
 				data: {
 					access_token: IB_ACCESS_TOKEN,
 					flex_credentials: Cookies.get("ib_lead_token"),
-					// url_origin: location.origin,
-					// url_referer: document.referrer,
-					// user_agent: navigator.userAgent,
 					form_data: formData
 				},
 				success: function(response) {
@@ -7155,7 +6270,7 @@ $(function () {
 			var formData = $(this).serialize();
 
 			var mlsNumber = $(this).find("input[name='mls_number']:eq(0)").val();
-			var requestInformationEndpoint = __flex_idx_search_filter.requestInformationEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+			var requestInformationEndpoint = __flex_idx_search_filter_v2.requestInformationEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
 
 			$.ajax({
 				type: "POST",
@@ -7170,12 +6285,12 @@ $(function () {
 				}
 			});
 
-			// $(".ib-propery-inquiry-f:eq(0)").trigger("reset");
 			$("#ib-email-thankyou").addClass("ib-md-active");
 			$(document).on("click", "#ib-email-thankyou .ib-mmclose", function(event) {
 			  event.preventDefault();
 			  $("#ib-email-thankyou").removeClass("ib-md-active");
 			});
+
 		});
 
 		// handle slider switch fullscreen
@@ -7352,71 +6467,6 @@ $(function () {
 		});
 	}
 
-	// if (IB_KW_TG_SEARCH.length) {
-		// IB_KW_TG_SEARCH.on("click", function() {
-			/*
-			var inputValue = $(this).prev().val();
-			var currentValue = $.trim(inputValue.replace(/\(.*\)?/, ""));
-
-			IB_SEARCH_FILTER_AUTOCOMPLETE.blur();
-			IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-
-			if (inputValue.length) {
-				var myRegexp = /\(([^)]+)\)/;
-				var match = myRegexp.exec(inputValue);
-				
-				if (null != match) {
-					var inputType = match[1].toLowerCase();
-
-					IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue);
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue);
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val(inputType);
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				} else if (/^[\d+]{5}$/.test(currentValue)) {
-					IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue + " (Zip)");
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue + " (Zip)");
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('zip');
-					IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				} else {
-					currentValue = inputValue.toLowerCase();
-					var matchCity = false;
-
-					for (var i = 0, l = __flex_idx_search_filter.search.cities.length; i < l; i++) {
-						var currentCity = __flex_idx_search_filter.search.cities[i].name.toLowerCase();
-
-						if (currentValue == currentCity) {
-							matchCity = true;
-							
-							IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue + " (City)");
-							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue + " (City)");
-							IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('city');
-							IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-							break;
-						}
-					}
-
-					if (false === matchCity) {
-						IB_SEARCH_FILTER_AUTOCOMPLETE.val(inputValue);
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(inputValue);
-						IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val('neighborhood');
-						IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-						IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-					}
-				}
-				
-				IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-
-				// submit form
-				IB_SEARCH_FILTER_FORM.trigger("submit");
-			}
-			*/
-		//});
-	//}
-
-	// if (IB_MAP_TOOLTIP.length) {
-	//     $(document).on("mousemove", ib_handle_tooltip_map);
-	// }
-
 	if (IB_RENTAL_TYPE.length) {
 		IB_RENTAL_TYPE.on("click", "div", function(event) {
 			IB_RENTAL_TYPE.find("div").removeClass("ib-fifor-active");
@@ -7430,12 +6480,46 @@ $(function () {
 					$(".ib-price-range-wrap-rent").show();
 					IB_RENTAL_TYPE.find("div:eq(1)").addClass("ib-fifor-active");
 					IB_SEARCH_FILTER_FORM.find('[name="sale_type"]').val("1");
+					console.log('for rent');
+
+					var currentValueMinRent = $(".ib-comm-price-rent-inner-min:eq(0)").val();
+
+					if (currentValueMinRent.length) {
+						currentValueMinRent = currentValueMinRent.replace(/[^0-9+]/gi, '');
+					}
+
+					IB_SEARCH_FILTER_FORM.find('[name="min_rent_price"]').val(currentValueMinRent);
+
+					var currentValueMaxRent = $(".ib-comm-price-rent-inner-max:eq(0)").val();
+
+					if (currentValueMaxRent.length) {
+						currentValueMaxRent = currentValueMaxRent.replace(/[^0-9+]/gi, '');
+					}
+
+					IB_SEARCH_FILTER_FORM.find('[name="max_rent_price"]').val(currentValueMaxRent);
 				break;
 				case "sale":
 					$(".ib-price-range-wrap").hide();
 					$(".ib-price-range-wrap-sale").show();
 					IB_RENTAL_TYPE.find("div:eq(0)").addClass("ib-fifor-active");
 					IB_SEARCH_FILTER_FORM.find('[name="sale_type"]').val("0");
+					console.log('for sale');
+
+					var currentValueMinsale = $(".ib-comm-price-sale-inner-min:eq(0)").val();
+
+					if (currentValueMinsale.length) {
+						currentValueMinsale = currentValueMinsale.replace(/[^0-9+]/gi, '');
+					}
+
+					IB_SEARCH_FILTER_FORM.find('[name="min_sale_price"]').val(currentValueMinsale);
+
+					var currentValueMaxSale = $(".ib-comm-price-sale-inner-max:eq(0)").val();
+
+					if (currentValueMaxSale.length) {
+						currentValueMaxSale = currentValueMaxSale.replace(/[^0-9+]/gi, '');
+					}
+
+					IB_SEARCH_FILTER_FORM.find('[name="max_sale_price"]').val(currentValueMaxSale);
 				break;
 			}
 
@@ -7447,118 +6531,17 @@ $(function () {
 		});
 	}
 
-	// handle hide pending contingent
-	$("#pendingContigentMin").on("change", function() {
-		var _checked = $(this).prop('checked');
-		$("#pendingContigent").prop("checked", _checked);
-		$("#pendingContigentMobile").prop("checked", _checked);
-
-		if (_checked) {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
-		} else {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
-		}
-
-		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-		IB_SEARCH_FILTER_FORM.trigger("submit");
-	});
-
-	$("#pendingContigent").on("change", function() {
-		var _checked = $(this).prop('checked');
-		$("#pendingContigentMin").prop("checked", _checked);
-		$("#pendingContigentMobile").prop("checked", _checked);
-
-		if (_checked) {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
-		} else {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
-		}
-
-		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-		IB_SEARCH_FILTER_FORM.trigger("submit");
-	});
-
-	$("#pendingContigentMobile").on("change", function() {
-		var _checked = $(this).prop('checked');
-		$("#pendingContigent").prop("checked", _checked);
-		$("#pendingContigentMin").prop("checked", _checked);
-
-		if (_checked) {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("yes");
-		} else {
-			IB_SEARCH_FILTER_FORM.find('[name="overwrite_show_hide_pending"]').val("no");
-		}
-
-		IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-		IB_SEARCH_FILTER_FORM.trigger("submit");
-	});
-
 	if (IB_CLEAR_BTN.length) {
 		IB_CLEAR_BTN.on("click", function() {
-			location.href = __flex_idx_search_filter.searchFilterPermalink;
+			location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
 		});
 	}
-
-	/*
-	if (IB_SEARCH_FILTER_AUTOCOMPLETE.length) {
-		/*
-		IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete({
-			source: function(request, response) {
-				$.ajax({
-					url: __flex_idx_search_filter.lookupAutocomplete,
-					dataType: "json",
-					cache: false,
-					data: {
-						term: request.term,
-						board: __flex_idx_search_filter.boardId
-						// fields: __flex_idx_search_filter.fields
-					},
-					success: function(data) {
-						response(data);
-					}
-				});
-			},
-			minLength: 3,
-			select: function(event, ui) {
-				event.preventDefault();
-
-				// @todo
-				//IB_GMAP_INIT = false;
-
-				IB_SEARCH_FILTER_AUTOCOMPLETE.val(ui.item.term);
-				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val(ui.item.term);
-				IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val(ui.item.field);
-
-				IB_SEARCH_FILTER_AUTOCOMPLETE.blur();
-				IB_SEARCH_FILTER_AUTOCOMPLETE.autocomplete("close");
-
-				update_bounds_zoom_gmap();
-
-				IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-				IB_SEARCH_FILTER_FORM.find('[name="polygon_search"]').val("");
-				// submit form
-				IB_SEARCH_FILTER_FORM.trigger("submit");
-			},
-			change: function(event, ui) {
-				if ("" === this.value) {
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_label"]').val("");
-					IB_SEARCH_FILTER_FORM.find('[name="filter_search_keyword_type"]').val("");
-					IB_SEARCH_FILTER_AUTOCOMPLETE.val("");
-
-					IB_SEARCH_FILTER_FORM.find('[name="page"]').val(1);
-					// submit form
-					IB_SEARCH_FILTER_FORM.trigger("submit");
-				}
-			}
-		});
-	}
-	*/
 
 	if (IB_SEARCH_FILTER_FORM.length) {
 		IB_SEARCH_FILTER_FORM.on("submit", handleFilterSearchLookup);
 
-		handleFilterSearchLookup();
 		// init request [xhr]
+		handleFilterSearchLookup();
 	}
 });
 })(jQuery);
@@ -7603,24 +6586,13 @@ $(function () {
 	// Header Filters
 	if($ibAdvanced.length) {
 		$ibAdvanced.on('click', function(){
+			//debugger;
 			if (window.innerWidth < 990) {
 				$(".ib-modal-filters-mobile").show();
 				if (/webOS|iPhone|iPad/i.test(navigator.userAgent)) {
 				  $('body').addClass('only-mobile');
 				}
 			}
-			
-			/*
-			if($filterMobile.hasClass('ib-fmobile-active')) {
-				$ibAdvanced.removeClass('ib-badvanced-active');
-				$filterMobile.removeClass('ib-fmobile-active');
-				if ($('body').width() < 990) $ibFilterContainer.removeClass('ib-filter-container-fixed');
-			} else {
-				$ibAdvanced.addClass('ib-badvanced-active');
-				$filterMobile.addClass('ib-fmobile-active');
-				if ($('body').width() < 990) $ibFilterContainer.addClass('ib-filter-container-fixed');
-			}
-			*/
 		});
 
 		// hide more filter [mobile]
@@ -7634,7 +6606,7 @@ $(function () {
 		// refresh page
 		$("#ib-apply-clear").on("click", function() {
 			window.scrollTo(0,0);
-			location.href = __flex_idx_search_filter.searchFilterPermalink;
+			location.href = __flex_idx_search_filter_v2.searchFilterPermalink;
 		});
 
 		// hide more filter [mobile]
@@ -7660,189 +6632,25 @@ $(function () {
 		});
 	}
 
-
-		$(document).on("click", ".flex-slider-prev", function(event) {
-			event.stopPropagation();
-			var node = $(this).prev().find('li.flex-slider-current');
-			var index = node.index();
-			var total = $(this).prev().find('li').length;
-			index = (index === 0) ? (total - 1) : (index - 1);
-			$(this).prev().find('li').removeClass('flex-slider-current');
-			$(this).prev().find('li').addClass('flex-slider-item-hidden');
-			$(this).prev().find('li').eq(index).removeClass('flex-slider-item-hidden').addClass('flex-slider-current');
-			myLazyLoad.update();
-			// Open Registration popup after 3 property pictures are showed [force registration]
-			if ("yes" === __flex_g_settings.anonymous) {
-				if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-					countClickAnonymous++;
-			
-					if (countClickAnonymous >= 3) {
-						$("#modal_login").addClass("active_modal")
-						.find('[data-tab]').removeClass('active');
-					
-						$("#modal_login").addClass("active_modal")
-							.find('[data-tab]:eq(1)')
-							.addClass('active');
-						
-						$("#modal_login")
-							.find(".item_tab")
-							.removeClass("active");
-						
-						$("#tabRegister")
-						.addClass("active");
-						$("#modal_login #msRst").empty().html($("#mstextRst").html());
-						$("button.close-modal").addClass("ib-close-mproperty");
-						//$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-						/*TEXTO LOGIN*/
-						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-						countClickAnonymous = 0;
-					}
-				}
-			}
-		});
-		
-		$(document).on("click", ".flex-slider-next", function(event) {
-			event.stopPropagation();
-			var node = $(this).prev().prev().find('li.flex-slider-current');
-			var index = node.index();
-			var total = $(this).prev().prev().find('li').length;
-			if (index >= (total - 1)) {
-				index = 0;
-			} else {
-				index = index + 1;
-			}
-			// index = (index >= (total - 1)) ? 0 : (index + 1);
-			$(this).prev().prev().find('li').removeClass('flex-slider-current');
-			$(this).prev().prev().find('li').addClass('flex-slider-item-hidden');
-			$(this).prev().prev().find('li').eq(index).removeClass('flex-slider-item-hidden').addClass('flex-slider-current');
-			myLazyLoad.update();
-			// Open Registration popup after 3 clicks property pictures are showed [force registration]
-			if ("yes" === __flex_g_settings.anonymous) {
-				if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-					countClickAnonymous++;
-			
-					if (countClickAnonymous >= 3) {
-						$("#modal_login").addClass("active_modal")
-						.find('[data-tab]').removeClass('active');
-					
-						$("#modal_login").addClass("active_modal")
-							.find('[data-tab]:eq(1)')
-							.addClass('active');
-						
-						$("#modal_login")
-							.find(".item_tab")
-							.removeClass("active");
-						
-						$("#tabRegister")
-						.addClass("active");
-						$("#modal_login #msRst").empty().html($("#mstextRst").html());
-						$("button.close-modal").addClass("ib-close-mproperty");
-						//$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-						/*TEXTO LOGIN*/
-						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-						countClickAnonymous = 0;
-					}
-				}
-			}
-		});
-
-
-		$('.ib-properties-slider').on("click", ".flex-favorite-btn", function(event) {
-			event.stopPropagation();
-			event.preventDefault();
-			// active
-			var buton_corazon = $(this);
-			if (__flex_g_settings.anonymous === "yes") {
-				//active_modal($('#modal_login'));
-
-				$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
-				$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
-				$("#modal_login").find(".item_tab").removeClass("active");
-				$("#tabRegister").addClass("active");
-				$("button.close-modal").addClass("ib-close-mproperty");
-				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-				$("#modal_login h2").html(
-				$("#modal_login").find("[data-tab]:eq(1)").data("text-force"));
-				/*Asigamos el texto personalizado*/
-				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-				$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-
-			} else {
-				// ajax favorite
-				var class_id = $(this).parents('.propertie').data('class-id');
-				var mls_num = $(this).parents('.propertie').data("mls");
-				var property_subject = $(this).parents('.propertie').data("address");
-	
-				if (!$(this).hasClass('active')) {
-					//console.log('mark as favorite');
-					$(this).addClass('active');
-					$.ajax({
-						url: __flex_g_settings.ajaxUrl,
-						method: "POST",
-						data: {
-							action: "flex_favorite",
-							class_id: class_id,
-							mls_num: mls_num,
-							subject:property_subject,
-							search_url: window.location.href,
-							type_action: 'add'
-						},
-						dataType: "json",
-						success: function(data) {
-							$(buton_corazon).attr("data-alert-token", data.token_alert);
-						}
-					});
-				} else {
-					$(buton_corazon).removeClass('active');
-					var token_alert = $(this).attr("data-alert-token");
-					$.ajax({
-						url: __flex_g_settings.ajaxUrl,
-						method: "POST",
-						data: {
-							action: "flex_favorite",
-							class_id: class_id,
-							mls_num: mls_num,
-							type_action: 'remove',
-							token_alert: token_alert
-						},
-						dataType: "json",
-						success: function(data) {
-							$(buton_corazon).attr("data-alert-token", '');
-						}
-					});
-				}
-			}
-		});
-		
 	// Builder galery
-	$(".ib-listings-ct:eq(0)").on("click", ".gs-next-arrow", function() {
+	$(".ib-listings-ct:eq(0)").on("click", ".gs-next-arrow, .gs-prev-arrow", function () {
 		// Open Registration popup after 3 property pictures are showed [force registration]
 		if ("yes" === __flex_g_settings.anonymous) {
 			if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
 				countClickAnonymous++;
 		
 				if (countClickAnonymous >= 3) {
-					$("#modal_login").addClass("active_modal")
-					.find('[data-tab]').removeClass('active');
-			
-					$("#modal_login").addClass("active_modal")
-						.find('[data-tab]:eq(1)')
-						.addClass('active');
-					
-					$("#modal_login")
-						.find(".item_tab")
-						.removeClass("active");
-					
-					$("#tabRegister")
-						.addClass("active");
-		
-					$("#modal_login #msRst").empty().html($("#mstextRst").html());
+					$("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+					$("#modal_login").addClass("active_modal").find('[data-tab]:eq(1)').addClass('active');
+					$("#modal_login").find(".item_tab").removeClass("active");
+					$("#tabRegister").addClass("active");
 					$("button.close-modal").addClass("ib-close-mproperty");
 					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-		
-					$("#modal_login h2").html($("#modal_login").find('[data-tab]:eq(1)').data("text-force"));
+					$("#modal_login h2").html(
+					$("#modal_login").find("[data-tab]:eq(1)").data("text-force"));
+					/*Asigamos el texto personalizado*/
+					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
 					countClickAnonymous = 0;
 				}
 			}
@@ -7872,51 +6680,10 @@ $(function () {
 				}
 			});
 		}
-
-		// var $wSlider = $(this).parents('.ib-pislider');
-
-		// if (!$wSlider.hasClass('gs-builded')) {
-		//     var $newImages = '',
-		//         $mlsCode = $wSlider.attr('data-mls'),
-		//         $imgCnt = $wSlider.attr('data-img-cnt');
-			
-		//     if ($mlsCode == undefined) return console.log('MLS code no found!');
-		//     if ($imgCnt == undefined) return console.log('Counter not found!');
-
-		//     $.each(getGallery($mlsCode, $imgCnt, 2), function(i, m){
-		//         $newImages += '<img data-lazy="' + m + '" class="gs-lazy">';
-		//     });
-
-		//     $wSlider.html($newImages);
-
-		//     $wSlider.greatSlider({
-		//         type: 'fade',
-		//         nav: true,
-		//         bullets: false,
-		//         autoHeight: false,
-		//         lazyLoad: true,
-		//         layout: {
-		//             arrowDefaultStyles: false
-		//         },
-		//     });
-		// }
 	});
 
 	// Fixed filter in scroll
 	var lastScroll = 0;
-	/*$(window).scroll(function(){
-		let $currentScroll = $(this).scrollTop() + 86;
-		if ($currentScroll > lastScroll) {
-			if ($currentScroll >= $ibFilterContainer.position().top) {
-				if (!$ibFilterContainer.hasClass('ib-filter-container-inscroll')) $ibFilterContainer.addClass('ib-filter-container-inscroll');
-			}
-		} else {
-			if ($currentScroll <= $ibFilterContainer.position().top) {
-				if ($ibFilterContainer.hasClass('ib-filter-container-inscroll')) $ibFilterContainer.removeClass('ib-filter-container-inscroll');
-			}
-		}
-		lastScroll = $currentScroll;
-	});*/
 
 	// Close All filters with Matching BTN
 	$ibMatchingbtn.on("click", function() {
@@ -7928,14 +6695,36 @@ $(function () {
 
 	// Cambio de vista desde botonera
 	$('.idx-bta-map').click(function(){
-		$('.ib-mobile-sview').val('map');
-		$('.ib-mobile-sview').change();
+		var currentValue = "map";
+		var $ibMapGridContainer = $('.ib-mapgrid-container');
+
+		$('.ib-gwvbitem[data-view="' + currentValue + '"]')
+			.addClass('ib-gv-active')
+			.siblings()
+			.removeClass('ib-gv-active');
+
+		$('body').addClass('view-map').removeClass('view-grid view-list');
+		$ibMapGridContainer.removeClass('ib-vgrid-active').addClass('ib-vmap-active');
+
+		setTimeout(function () {
+			if (false === IB_LOOKUP_DRAG) {
+				IB_MAP.fitBounds(IB_HIDDEN_BOUNDS);
+			}
+		}, 100);
 	});
 
 	// cambio de vista desde botonera
 	$('.idx-bta-grid').click(function(){
-		$('.ib-mobile-sview').val('grid');
-		$('.ib-mobile-sview').change();
+		var currentValue = "grid";
+		var $ibMapGridContainer = $('.ib-mapgrid-container');
+
+		$('.ib-gwvbitem[data-view="' + currentValue + '"]')
+			.addClass('ib-gv-active')
+			.siblings()
+			.removeClass('ib-gv-active');
+
+		$('body').addClass('view-grid').removeClass('view-map view-list');
+		$ibMapGridContainer.addClass('ib-vgrid-active').removeClass('ib-vmap-active');
 	});
 
 	$('.save-button-responsive').click(()=>{
@@ -7949,21 +6738,12 @@ $(function () {
 
 	// Request information
 	$('body').on('click', '.ib-requestinfo',()=>{
-		//$('.ib-mmpd').animate({scrollTop: $('.ib-cfsubmit').offset().top - $('.ib-pcheader').height()}, 2000, ()=>{
-			$('.ib-cffitem:first-child input').focus();
-		//});
+		$('.ib-cffitem:first-child input').focus();
 	});
 
-	if ( 
-		typeof(ib_search_filter_extra) == "undefined" || 
-		!ib_search_filter_extra.hasOwnProperty('mode') || 
-		ib_search_filter_extra.mode !== 'slider'
-	  ) {
-		var wmaxWidth = $(window).width();
-	  
-		if (wmaxWidth > 1023) {
-			$("body").addClass("ms-hidden-ovf");
-		}
+	var wmaxWidth = $(window).width();
+	if(wmaxWidth>1023){
+		$("body").addClass("ms-hidden-ovf");
 	}
 }(jQuery));
 
@@ -7972,11 +6752,6 @@ $(function () {
 $(function() {
 	// dom ready
 	$(window).on("popstate", function(event) {
-		// console.group("[popstate]");
-		// console.log(location.href);
-		// console.dir(event);
-		// console.groupEnd("[popstate]");
-
 		if ($("#modal_login").is(":visible")) {
 			$(".close").click();
 		}

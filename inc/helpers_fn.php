@@ -1837,7 +1837,7 @@ if (!function_exists( 'flex_idx_get_info' )) {
             #$list_agent_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "agent_%"', ARRAY_A);
             #$output['agent'] = flex_map_array($list_agent_info);
 
-            $output['agent']['has_dynamic_ads'] = isset($idxboost_agent_info['has_dynamic_ads']) ? (bool)$idxboost_agent_info['has_dynamic_ads'] : false;
+            $output['agent']['has_dynamic_remarketing'] = isset($idxboost_agent_info['has_dynamic_remarketing']) ? (bool)$idxboost_agent_info['has_dynamic_remarketing'] : false;
             $output['agent']['has_seo_client'] = isset($idxboost_agent_info['has_seo_client']) ? (bool)$idxboost_agent_info['has_seo_client'] : false;
 
             $output['agent']['has_basic_idx'] = isset($idxboost_agent_info['has_basic_idx']) ? (bool)$idxboost_agent_info['has_basic_idx'] : false;
@@ -6687,7 +6687,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'force_registration' => $flex_idx_info["agent"]["force_registration"],
             'page_setting' => $flex_idx_info['pages'],
             'user_show_quizz' => $flex_idx_info["agent"]["user_show_quizz"],
-            'has_dynamic_ads' => isset($flex_idx_info['agent']['has_dynamic_ads']) ? (bool)$flex_idx_info['agent']['has_dynamic_ads'] : false,
+            'has_dynamic_remarketing' => isset($flex_idx_info['agent']['has_dynamic_remarketing']) ? (bool)$flex_idx_info['agent']['has_dynamic_remarketing'] : false,
             'has_seo_client' => isset($flex_idx_info['agent']['has_seo_client']) ? (bool)$flex_idx_info['agent']['has_seo_client'] : false,
             'google_recaptcha_public_key' => isset($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : "",
             'has_enterprise_recaptcha' => isset($flex_idx_info['agent']['has_enterprise_recaptcha']) ? (bool)$flex_idx_info['agent']['has_enterprise_recaptcha'] : false,
@@ -6842,6 +6842,32 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
         ), iboost_get_mod_time("js/idxboost_exclusive_listing.js"));
 
+
+        
+        wp_register_script('idxboost_recent_sales_dinamic', FLEX_IDX_URI . 'js/idxboost_recent_sales_dinamic.js#1', array(
+            'underscore',
+            'flex-idx-filter-handler',
+            'underscore-mixins',
+            'flex-idx-filter-js-scroll',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-lazyload-plugin',
+            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+        ), iboost_get_mod_time("js/idxboost_recent_sales_dinamic.js"));
+
+
+        wp_register_script('idxboost_recent_sales', FLEX_IDX_URI . 'js/idxboost_recent_sales.js', array(
+            'underscore',
+            'flex-idx-filter-handler',
+            'underscore-mixins',
+            'flex-idx-filter-js-scroll',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-lazyload-plugin',
+            'google-maps-api', 'google-maps-utility-library-richmarker', 'google-maps-utility-library-infobubble',
+        ), iboost_get_mod_time("js/idxboost_recent_sales.js"));
+
+
         wp_register_script('idxboost_filter_boost', FLEX_IDX_URI . 'js/idxboost_filter_boost.js', array(
             'underscore',
             'flex-idx-filter-handler',
@@ -6953,6 +6979,43 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'loginUrl' => wp_login_url(),
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
+        ));
+
+        
+        wp_localize_script('idxboost_recent_sales_dinamic', '__flex_idx_recent_sales', array(
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
+            'agentFullName' => $flex_idx_info["agent"]["agent_first_name"] . " " . $flex_idx_info["agent"]["agent_last_name"],
+            'agentPhoto' => $flex_idx_info["agent"]["agent_contact_photo_profile"],
+            'agentPhone' => $flex_idx_info["agent"]["agent_contact_phone_number"],
+            'lookupAgentRecentSold' => FLEX_IDX_API_AGENT_LISTINGS_SOLD_V2,
+            'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
+            'accessToken' => flex_idx_get_access_token(),
+            'boardId' => $flex_idx_info['board_id'],
+            'pageFilterPermalink' => get_permalink(),
+            'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
+            'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
+            'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+        ));
+
+        wp_localize_script('idxboost_recent_sales', '__flex_idx_recent_sales', array(
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'rk' => get_option('flex_idx_alerts_keys'),
+            'wp_web_id' => get_option('flex_idx_alerts_app_id'),
+            'agentFullName' => $flex_idx_info["agent"]["agent_first_name"] . " " . $flex_idx_info["agent"]["agent_last_name"],
+            'agentPhoto' => $flex_idx_info["agent"]["agent_contact_photo_profile"],
+            'agentPhone' => $flex_idx_info["agent"]["agent_contact_phone_number"],
+            'lookupSearchRecent' => FLEX_IDX_DISPLAY_FILTER_V2_old,
+            'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
+            'accessToken' => flex_idx_get_access_token(),
+            'boardId' => $flex_idx_info['board_id'],
+            'pageFilterPermalink' => get_permalink(),
+            'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
+            'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
+            'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
         ));
 
 

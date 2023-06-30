@@ -1526,7 +1526,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
 
                     // dataLayer Tracking Single
                     if ("undefined" !== typeof dataLayer) {
-                        if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+                        if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
                             if (response.hasOwnProperty("mls_num") && response.hasOwnProperty("price")) {
                                 var int_price = parseInt(response.price.replace(/[^\d+]/g, ""));
                                 dataLayer.push({
@@ -4319,7 +4319,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
 
                 // dataLayer Tracking Collection
                 if (typeof dataLayer !== "undefined") {
-                    if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+                    if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
                         if ("undefined" !== typeof dataLayer) {
                             if (response.hasOwnProperty("items") && response.items.length) {
                                 var mls_list = _.pluck(response.items, "mls_num");

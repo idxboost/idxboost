@@ -2914,7 +2914,7 @@ $(function() {
 
   <ul class="features">
     <li class="address">{{{DFhandleFormatAddress this}}}</li>
-    <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental}}</li>
+    <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental status }}</li>
     {{{DFidxReduced reduced}}}
     <li class="beds">{{bed}} <?php echo __('beds', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span></li>
     <li class="baths">{{bath}} {{DFformatBathsHalf baths_half}} <span><?php echo __('baths', IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>

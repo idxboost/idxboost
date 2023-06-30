@@ -2110,16 +2110,16 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
         if (preg_match('/^sold\-(.*)/', $slug)) {
             $type_lookup = 'sold';
-						$prefix_property_slug = "/sold-";
+			$prefix_property_slug = "/sold-";
         } else if (preg_match('/^rented\-(.*)/', $slug)) {
-            $type_lookup = 'rent';
-						$prefix_property_slug = "/rented-";
+            $type_lookup = 'rented';
+			$prefix_property_slug = "/rented-";
         } else if (preg_match('/^pending\-(.*)/', $slug)) {
             $type_lookup = 'pending';
-						$prefix_property_slug = "/pending-";
+			$prefix_property_slug = "/pending-";
         } else {
             $type_lookup = 'active';
-						$prefix_property_slug = "/";
+			$prefix_property_slug = "/";
         }
 
         $slug_search = "{$slug}";
@@ -3020,9 +3020,9 @@ if (!function_exists('flex_idx_filter_sc')) {
             'listing_type'     => $atts['type'],
             'list_type'     => $list_type,
             'limit'     => $atts['limit'],
-            'order'            => $order,
+            'order'            => !empty($order) ? $order : "price-desc",
             'sale_type' => $sale_type,
-            'view'             => $view,
+            'view'             => !empty($view) ? $view : "view-grid",
             'page'             => $page,
             'idx'            => $param_url,
             'access_token'     => $access_token,
@@ -3033,8 +3033,7 @@ if (!function_exists('flex_idx_filter_sc')) {
 
         wp_enqueue_style('flex-idx-filter-pages-css');
 
-        if (isset($atts["mode"]) && ($atts["mode"] != "slider")) {
-
+        if ( $atts["type"] != "1" && isset($atts["mode"]) && ($atts["mode"] != "slider")) {
             $is_recent_sales='no';
             $endpointFilter=FLEX_IDX_API_MARKET;
                 
@@ -3200,13 +3199,35 @@ if (!function_exists('flex_idx_filter_sc')) {
             } else {
                 include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_carrousel.php';
             }
-        } else if(isset($atts["type"]) && ($atts["type"] === "2" || $atts["type"] === "1")) {
+        } else if(isset($atts["type"]) && ($atts["type"] === "2" )) {
             if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php')) {
                 include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php';
             } else {
                 include FLEX_IDX_PATH . '/views/shortcode/idxboost_exclusive_listing.php';
             }
-        } else {
+        } else if( $atts["type"] === "1") {
+            wp_localize_script('idxboost_recent_sales', '__flex_rs_filter', [
+                "view" => "grid",
+                "page" => intval($sendParams["page"]) ,
+                "sort" => $sendParams["order"]
+            ] );
+            
+
+            
+
+
+            if ($atts["reference"] =="yes")
+                wp_localize_script('idxboost_recent_sales', 'is_references_active', $atts["reference"] );
+
+            wp_enqueue_script('idxboost_recent_sales');
+
+
+            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php';
+            } else {
+                include FLEX_IDX_PATH . '/views/shortcode/short_idxboost_recent_sales.php';
+            }
+        }else {
 
             wp_enqueue_script("ib-track-display-filter-view-js");
 
@@ -3531,10 +3552,13 @@ if (!function_exists('flex_idx_dinamic_boost_agent_office_sold_sc')) {
                 }
 
         }else{
+                $atts["view"] = "grid";
+                wp_localize_script('idxboost_recent_sales_dinamic', '__flex_rs_filter', $atts);
+                wp_enqueue_script('idxboost_recent_sales_dinamic');
 
-                wp_enqueue_style('flex-idx-filter-pages-css');
-                wp_localize_script('idxboost_dinamic_agent_office', 'filter_metadata', $atts );
-                wp_enqueue_script('idxboost_dinamic_agent_office');
+                //wp_enqueue_style('flex-idx-filter-pages-css');
+                //wp_localize_script('idxboost_dinamic_agent_office', 'filter_metadata', $atts );
+                //wp_enqueue_script('idxboost_dinamic_agent_office');
 
                 if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php')) {
                     include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_dinamic_agent_office.php';

@@ -622,7 +622,7 @@ if ("undefined" === typeof loadPropertyInModal) {
 
         // dataLayer Tracking Single
         if ("undefined" !== typeof dataLayer) {
-          if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+          if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
             if (response.hasOwnProperty("mls_num") && response.hasOwnProperty("price")) {
               var int_price = parseInt(response.price.replace(/[^\d+]/g, ""));
               dataLayer.push({ "event": "view_item", "value": int_price, "items": [{ "id": response.mls_num, "google_business_vertical": "real_estate" }] });

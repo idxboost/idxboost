@@ -1691,7 +1691,7 @@ if(scrollTopElement.length){
 
 					// dataLayer Tracking Collection
 					if (typeof dataLayer !== "undefined") {
-						if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+						if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 							if ("undefined" !== typeof dataLayer) {
 								if (response.hasOwnProperty("items") && response.items.length) {
 									var mls_list = _.pluck(response.items, "mls_num");

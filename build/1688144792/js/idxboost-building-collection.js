@@ -190,7 +190,7 @@ function ib_change_view(view,tab){
                       
                       
                       if (typeof dataLayer !== "undefined") {
-                          if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+                          if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
                               if ("undefined" !== typeof dataLayer) {
                                   if (item_for_data_layer.length >0 ) {
                                       var mls_list = _.pluck(item_for_data_layer, "mls_num");
@@ -213,7 +213,7 @@ function ib_change_view(view,tab){
 
                       // dataLayer Tracking Collection [event = view_search_results]
                       if (typeof dataLayer !== "undefined") {
-                          if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+                          if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
                               if ("undefined" !== typeof dataLayer) {
                                   if (item_for_data_layer.length != 0) {
                                       if (idxboostCollecBuil.hasOwnProperty("events") && idxboostCollecBuil.events.hasOwnProperty("view_search_results")) {

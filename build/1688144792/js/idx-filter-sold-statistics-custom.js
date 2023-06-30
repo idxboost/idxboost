@@ -29,7 +29,13 @@ var bounds;
 
     $(document).ready(function(){
         idx_search_filter();
-    });   
+    });
+    
+    function removeClassDropdown(){
+        setTimeout(function() { 
+          jQuery(".ms-dropdown").removeClass("show");
+        }, 300);
+      }
 
     function initialize() {
         
@@ -230,10 +236,10 @@ var bounds;
                     infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> ' + textpropertybed + '</span></li>');
                     infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> ' + textpropertybath + '</span></li>');
                     infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m²)</span></li>');
-                    infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m²)</span></li>');
+                    infobox_content.push('<li class="price-sf"><span>$' + _.formatPrice(property_group.price_sqft) + ' </span>/ Sq.Ft.<span>($' + property_group.living_size_m2 + ' m²)</span></li>');
                     infobox_content.push('</ul>');
-                    infobox_content.push('<div class="mapviwe-img">');                    
-
+                    infobox_content.push('<div class="mapviwe-img">');
+                    
                     if (
                         __flex_g_settings.hasOwnProperty("board_info") &&
                         __flex_g_settings.board_info.hasOwnProperty("board_logo_url") &&
@@ -281,10 +287,11 @@ var bounds;
                 }
                 infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> ' + textpropertyitembed + '</span></li>');
                 infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> ' + textpropertyitembath + '</span></li>');
-                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m²)</span></li>');
-                infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m²)</span></li>');
+                infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span></span></li>');
+                infobox_content.push('<li class="price-sf"><span>$' + _.formatPrice(property.item.price_sqft) + ' </span>/ Sq.Ft.<span></span></li>');
                 infobox_content.push('</ul>');
                 infobox_content.push('<div class="mapviwe-img">');                
+
                 if (
                         __flex_g_settings.hasOwnProperty("board_info") &&
                         __flex_g_settings.board_info.hasOwnProperty("board_logo_url") &&
@@ -470,6 +477,7 @@ var bounds;
         
         $('.f-pricerange').change(function(){
             var price_range=$(this).val();
+            console.log("price_range:"+ price_range);
             if(price_range =='1'){
                 flex_idx_sold_statistics.price_min=0;
                 flex_idx_sold_statistics.price_max=1000000;
@@ -485,19 +493,27 @@ var bounds;
                 flex_idx_sold_statistics.price_max=5000000;
             }else if(price_range =='5'){
                 flex_idx_sold_statistics.price_min=5000001;
-                flex_idx_sold_statistics.price_max=7500000;
+                flex_idx_sold_statistics.price_max=8000000;
             }else if(price_range=='6'){
-                flex_idx_sold_statistics.price_min=7500001;
+                flex_idx_sold_statistics.price_min=8000001;
                 flex_idx_sold_statistics.price_max=100000000;
             }else if(price_range =='7'){
                 flex_idx_sold_statistics.price_min=0;
                 flex_idx_sold_statistics.price_max=100000000;
+            }else if(price_range =='8'){
+                flex_idx_sold_statistics.price_min=1000001;
+                flex_idx_sold_statistics.price_max=3000000;
             }
             flex_idx_sold_statistics.page=1;
             idx_search_filter();
         });
 
         $('.f-neighborhood').change(function(){
+            var url = jQuery( ".f-neighborhood option:selected" ).text();
+            window.location.href = flex_idx_sold_statistics.parent_url+"/"+toSeoUrl(url);
+
+            
+
             flex_idx_sold_statistics.city_id= $(this).val();
             flex_idx_sold_statistics.page=1;
             idx_search_filter();
@@ -509,7 +525,25 @@ var bounds;
             idx_search_filter();
         });        
 
-        $('.js-pstyle').click(function(){
+        $('.f-interval-date').click(function(){
+            
+            if (jQuery("#m3").is(":checked") )
+                flex_idx_sold_statistics.intervaldate="0-3";
+
+            if (jQuery("#m6").is(":checked") )
+                flex_idx_sold_statistics.intervaldate="3-6";
+            
+            if (jQuery("#m12").is(":checked") )
+                flex_idx_sold_statistics.intervaldate="6-12";
+
+            if (jQuery("#m24").is(":checked") )
+                flex_idx_sold_statistics.intervaldate="12-24";
+
+            flex_idx_sold_statistics.page=1;
+            idx_search_filter();
+        });    
+
+        /*$('.js-pstyle').click(function(){
             var textStyle='regular';
             if (jQuery("#regular").is(":checked") )
                 textStyle='regular';
@@ -526,14 +560,31 @@ var bounds;
             flex_idx_sold_statistics.property_style= textStyle;
             flex_idx_sold_statistics.page=1;
             idx_search_filter();
-        });     
+        });*/     
         
         $('.flex_idx_sort').change(function(){
             flex_idx_sold_statistics.sort= $(this).val();
             flex_idx_sold_statistics.page=1;
             idx_search_filter();
-        });     
+        });
         
+
+        /*jQuery('.js-pstyle').click(function(){
+            var textStyle='regular'; var textDropdown = '';
+            if (jQuery("#regular").is(":checked") )
+                textStyle='regular', textDropdown = 'All Properties';
+
+            if (jQuery("#new").is(":checked") )
+                textStyle='new', textDropdown = 'New'; 
+
+            if (jQuery("#no_waterfront").is(":checked") )
+                textStyle='no_waterfront', textDropdown = 'No Waterfront';  
+
+            if (jQuery("#waterfront").is(":checked") )
+                textStyle='waterfront', textDropdown = 'Waterfront';   
+
+            jQuery(".fc-dropdown__toggle").text(textDropdown);
+        }); */
         
 
     function idx_search_filter() {
@@ -548,13 +599,14 @@ var bounds;
         if(typeof ajax_request_filter !== 'undefined')
             ajax_request_filter.abort();
 
+
             ajax_request_filter=
 
             $.ajax({
                 url: flex_idx_sold_statistics.ajaxUrl,
                 method: "POST",
                 data: {
-                    action: "flex_statistics_filter_sold",
+                    action: "flex_statistics_filter_custom_sold",
                     class_id: flex_idx_sold_statistics.class_id,
                     city_id:   flex_idx_sold_statistics.city_id,
                     price_min:  flex_idx_sold_statistics.price_min,
@@ -563,9 +615,13 @@ var bounds;
                     property_style :  flex_idx_sold_statistics.property_style,
                     page:   flex_idx_sold_statistics.page,
                     order:   flex_idx_sold_statistics.sort,
+                    close_date_interval:   flex_idx_sold_statistics.intervaldate,
                     close_date_start:   flex_idx_sold_statistics.close_date_start,
                     close_date_end:   flex_idx_sold_statistics.close_date_end
                 },dataType: "json",
+                beforeSend: function () {
+                    $(".ms-shortcode-sold-properties-filters").addClass("-loading-results");
+                },
                 success: function(response) {
                    if ("yes" === __flex_g_settings.anonymous) {
                      var buildObjectFilter = {
@@ -587,6 +643,41 @@ var bounds;
                     var paginationHTML = [];
                     var paging = response.pagination;
 
+                    let pxsqft_sold = "N/A",moi="N/A",percent_sale_sold_price = "N/A",sqft_sold="N/A";
+
+                    if( response.hasOwnProperty("statistics")  ) {
+
+                        if( response.statistics.hasOwnProperty("moi") && response.statistics.moi> 0  ) {
+                            moi= response.statistics.moi+ " Months";
+                        }
+                        
+                        if( response.statistics.hasOwnProperty("percent_sale_sold_price") && response.statistics.percent_sale_sold_price != "0" ) {
+                            let vsale_sold_price= response.statistics.percent_sale_sold_price+"%";
+                            if (response.statistics.percent_sale_sold_price > 0 ) {
+                                percent_sale_sold_price ="<span style='color:green;'>"+vsale_sold_price+"</span>";
+                            }else{
+                                if (response.statistics.percent_sale_sold_price  > -100 ) {
+                                    percent_sale_sold_price ="<span style='color:red;'>"+vsale_sold_price+"</span>";
+                                }
+                            }
+                        }
+                        
+                        if( response.statistics.hasOwnProperty("pxsqft_sold") && response.statistics.pxsqft_sold > 0  ) {
+                            pxsqft_sold= "$ "+_.formatPrice(response.statistics.pxsqft_sold);
+                        }
+                        
+                        if( response.statistics.hasOwnProperty("sqft_sold") && response.statistics.sqft_sold > 0 ) {
+                            sqft_sold= _.formatPrice(response.statistics.sqft_sold)+" Sq.Ft";
+                        }
+                        
+                    }
+
+                    $(".js-moi").text(moi);
+                    $(".js-percent_sale_sold_price").html(percent_sale_sold_price);
+                    $(".js-pxsqft-sold").text(pxsqft_sold);
+                    $(".js-sqft_sold").text(sqft_sold);
+
+
                     // xhr_running = false;
                     // $('#properties-found').html('<span>' + _.formatShortPrice(response.counter) + '</span> Properties');
   /*
@@ -598,7 +689,7 @@ var bounds;
 */
                     // dataLayer Tracking Collection
                     if (typeof dataLayer !== "undefined") {
-                        if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+                        if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
                             if ("undefined" !== typeof dataLayer) {
                                 if (response.hasOwnProperty("items") && response.items.length) {
                                     var mls_list = _.pluck(response.items, "mls_num");
@@ -697,14 +788,16 @@ var bounds;
                         } else {
                             listingHTML.push('<li class="baths">' + item.bath + ' <span>' + textbath + ' </span></li>');
                         }
-                        listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span>(' + item.living_size_m2 + ' m²)</span></li>');
-                        listingHTML.push('<li class="price-sf"><span>$' + item.price_sqft + ' </span>/ '+word_translate.sqft+'<span>($' + item.price_sqft_m2 + ' m²)</span></li>');
-                        if (item.development !== '') {
+                        listingHTML.push('<li class="living-size"> <span>' + _.formatPrice(item.sqft) + '</span>'+word_translate.sqft+' <span></span></li>');
+                        listingHTML.push('<li class="price-sf"><span>$' + _.formatPrice(item.price_sqft) + ' </span>/ '+word_translate.sqft+'<span></span></li>');
+                        if (item.development !== '' && item.development !== null) {
                             listingHTML.push('<li class="development"><span>' + item.development + '</span></li>');
-                        } else if (item.complex !== '') {
+                        } else if (item.complex !== '' && item.complex !== null ) {
                             listingHTML.push('<li class="development"><span>' + item.complex + '</span></li>');
                         } else {
-                            listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
+                            if (item.subdivision !== '' && item.subdivision !== null ) {
+                                listingHTML.push('<li class="development"><span>' + item.subdivision + '</span></li>');
+                            }
                         }
                         //listingHTML.push('<li class="ms-logo-board"><img src="https://idxboost-spw-assets.idxboost.us/logos/fmls.png"></li>');
                         listingHTML.push('</ul>');
@@ -850,7 +943,7 @@ var bounds;
                     }                    
 
                     if(flex_idx_sold_statistics.sort != ""){
-                        idx_param_url.push("sort=price-desc");
+                        idx_param_url.push("sort="+flex_idx_sold_statistics.sort);
                     }
 
 
@@ -864,6 +957,7 @@ var bounds;
                         max_close=parseInt(flex_idx_sold_statistics.close_date_end);
                     }
                     /*dynamic date*/
+                    /*
                     if(min_close > max_close){
                         var currentdate = new Date();
                         if ((currentdate.getMonth()+1) < 10){
@@ -885,7 +979,11 @@ var bounds;
                         min_close=old_date;
                         max_close=datetime;
                     }
-                    idx_param_url.push("close_date="+min_close+"~"+max_close);
+                    */
+                    
+                    //idx_param_url.push("close_date="+min_close+"~"+max_close);
+
+                    idx_param_url.push("intervaldate="+flex_idx_sold_statistics.intervaldate);
 
                     /*BUILD THE URL CODE */
                     
@@ -898,7 +996,8 @@ var bounds;
                     // reset scroll
                     if ($('.wrap-result').hasClass('view-map')){
                         $('#wrap-list-result').scrollTop(0);
-                    }                    
+                    }   
+                    $(".ms-shortcode-sold-properties-filters").removeClass("-loading-results");                 
                     // window.scrollTo(0, 0);
                     // first clean old markers
                     removeMarkers();
@@ -909,6 +1008,12 @@ var bounds;
                         myLazyLoad.update();
                     }
                     setInitialStateSlider();
+                    if (response.items.length == 0 ) {
+                        $(idxboostresult).html("<span>No Properties Available</span>");
+                        $("#sub-filters").hide();
+                    }else{
+                        $("#sub-filters").show();
+                    }
                 }
             });
     }
@@ -1185,6 +1290,20 @@ var bounds;
             }
         });
 
+function toSeoUrl(url) {
+    return url.toString()               // Convert to string
+        .normalize('NFD')               // Change diacritics
+        .replace(/[\u0300-\u036f]/g,'') // Remove illegal characters
+        .replace(/\s+/g,'-')            // Change whitespace to dashes
+        .toLowerCase()                  // Change to lowercase
+        .replace(/&/g,'-and-')          // Replace ampersand
+        .replace(/[^a-z0-9\-]/g,'')     // Remove anything that is not a letter, number or dash
+        .replace(/-+/g,'-')             // Remove duplicate dashes
+        .replace(/^-*/,'')              // Remove starting dashes
+        .replace(/-*$/,'');             // Remove trailing dashes
+}
+
+
         function mutaSelectViews(estado) {
             if (estado) {
                 if (!$viewFilter.find('ul').length) {
@@ -1235,6 +1354,31 @@ var bounds;
         e.stopPropagation();
         $(this).toggleClass('show');
     });
+
+
+    jQuery('.js-pstyle').on('click', function() {
+
+        var textStyle = 'all';
+        var textDropdown = 'all';
+        if (jQuery("#all").is(":checked"))
+          textStyle = 'all', textDropdown = 'All Properties';
+    
+        if (jQuery("#new").is(":checked"))
+          textStyle = 'new', textDropdown = 'New';
+    
+        if (jQuery("#no_waterfront").is(":checked"))
+          textStyle = 'no_waterfront', textDropdown = 'No Waterfront';
+    
+        if (jQuery("#waterfront").is(":checked"))
+          textStyle = 'waterfront', textDropdown = 'Waterfront';
+    
+        jQuery(".fc-dropdown__toggle").text(textDropdown);
+        
+        flex_idx_sold_statistics.property_style = textStyle;
+        flex_idx_sold_statistics.page = 1;
+        idx_search_filter();
+        removeClassDropdown();
+      });
 
     
     })(jQuery);

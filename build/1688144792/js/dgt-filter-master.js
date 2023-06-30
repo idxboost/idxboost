@@ -1230,7 +1230,7 @@ var moreFilterHidden = {};
 		if(filter_metadata.items.length > 0 ){
 
 			if (typeof dataLayer !== "undefined") {
-				if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+				if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 					if ("undefined" !== typeof dataLayer) {
 						if (filter_metadata.items.length > 0 ) {
 							var mls_list = _.pluck(filter_metadata.items, "mls_num");
@@ -1262,7 +1262,7 @@ var moreFilterHidden = {};
 
 		// dataLayer Tracking Collection [event = view_search_results]
 		if (typeof dataLayer !== "undefined") {
-			if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+			if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 				if ("undefined" !== typeof dataLayer) {
 					if (filter_metadata.items.length != 0) {
 						if (filter_metadata.hasOwnProperty("events") ) {
@@ -2452,7 +2452,7 @@ function getLandSizeValues(min, max) {
 
 
 					  if (typeof dataLayer !== "undefined") {
-						  if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+						  if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 							  if ("undefined" !== typeof dataLayer) {
 								  if (response.items.length) {
 									  var mls_list = _.pluck(response.items, "mls_num");
@@ -2483,7 +2483,7 @@ function getLandSizeValues(min, max) {
 
 					  // dataLayer Tracking Collection [event = view_search_results]
 					  if (typeof dataLayer !== "undefined") {
-						  if (__flex_g_settings.hasOwnProperty("has_dynamic_ads") && ("1" == __flex_g_settings.has_dynamic_ads)) {
+						  if (__flex_g_settings.hasOwnProperty("has_dynamic_remarketing") && ("1" == __flex_g_settings.has_dynamic_remarketing)) {
 							  if ("undefined" !== typeof dataLayer) {
 								  if (response.items.length != 0) {
 									  if (filter_metadata.hasOwnProperty("events") && filter_metadata.events.hasOwnProperty("view_search_results")) {
