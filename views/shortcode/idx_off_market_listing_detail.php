@@ -29,7 +29,7 @@
   }
 </style>
 
-<?php if (empty($property) && !is_array($property) ): ?>
+<?php if ( empty($property) || ( empty($property) && !is_array($property) ) || (is_array($property) && count($property) == 0) ): ?>
   <div class="gwr idx-mmg">
     <div class="message-alert idx_color_primary flex-property-not-available">
       <p>The property you requested is not available.</p>
@@ -57,7 +57,7 @@
 <script type="text/javascript">
   (function ($) {
     $(function () {
-      if ("yes" === __flex_g_settings.anonymous) {
+      if ( typeof __flex_g_settings === 'object' && __flex_g_settings.hasOwnProperty("anonymous") && "yes" === __flex_g_settings.anonymous) {
           if (__flex_g_settings.hasOwnProperty("force_registration_forced") && ("yes" == __flex_g_settings.force_registration_forced)) {
               jQuery("#modal_login").find(".close").remove();
           }        
@@ -755,7 +755,10 @@ if ($status_school != false) {
   
   var view_grid_type='';
   <?php
-    $sta_view_grid_type='0'; if(array_key_exists('view_grid_type',$search_params)) $sta_view_grid_type= (int) $search_params['view_grid_type']; ?>
+    $sta_view_grid_type='0'; 
+    if( is_array($search_params) && count($search_params) > 0 && array_key_exists('view_grid_type',$search_params) )
+      $sta_view_grid_type= (int) $search_params['view_grid_type']; ?>
+
   view_grid_type=<?php echo $sta_view_grid_type; ?>;
   if ( !jQuery('body').hasClass('clidxboost-ngrid') && view_grid_type==1) {
     jQuery('body').addClass('clidxboost-ngrid');

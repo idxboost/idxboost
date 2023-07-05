@@ -3015,6 +3015,13 @@ if (!function_exists('flex_idx_filter_sc')) {
 
         $list_type=[];
 
+        $send_param_view = "grid";
+        if($atts["type"] == '1') {
+            $send_param_view = !empty($view) ? $view : "view-grid";
+        }else{
+            $send_param_view = !empty($view) ? str_replace($view, "view-", "") : "grid"   ;
+        }
+
         $sendParams = array(
             'filter_id'        => $atts['id'],
             'listing_type'     => $atts['type'],
@@ -3022,7 +3029,7 @@ if (!function_exists('flex_idx_filter_sc')) {
             'limit'     => $atts['limit'],
             'order'            => !empty($order) ? $order : "price-desc",
             'sale_type' => $sale_type,
-            'view'             => !empty($view) ? $view : "view-grid",
+            'view'             =>  $send_param_view,
             'page'             => $page,
             'idx'            => $param_url,
             'access_token'     => $access_token,
@@ -3949,6 +3956,8 @@ if (!function_exists('flex_idx_off_market_listings_sc')) {
 
                 $agent_info = get_option('idxboost_agent_info');
                 $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
+
+                $search_params = isset($search_params) ? $search_params : [];
 
         ob_start();
 

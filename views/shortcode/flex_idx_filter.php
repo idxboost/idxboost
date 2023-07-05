@@ -1,8 +1,12 @@
 <?php
   $idxboost_query_slug = $_SERVER['QUERY_STRING'];
   $idxboost_ver_bool=true;
-?>
-<?php
+
+  if (is_array($response) && count($response) > 0 && array_key_exists("view", $response)) {
+    $response["view"] = str_replace($response["view"], "view-", "");
+  }
+  
+
   if ((isset($_GET["savefilter"]) && ("1" == $_GET["savefilter"]))):
   // if ((isset($_GET["savefilter"]) && ("1" == $_GET["savefilter"])) || (is_singular('flex-filter-pages') && (true === $registration_is_forced))):
 ?>
