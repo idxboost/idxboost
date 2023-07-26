@@ -1952,6 +1952,8 @@ if (!function_exists( 'flex_idx_get_info' )) {
             $output['search_filter_settings'] = $search_filter_settings;
             $idxboost_info_agent = $output;
 
+        }else{
+            $output = $idxboost_info_agent;
         }
 
         return $output;

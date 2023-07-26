@@ -524,13 +524,6 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 
             <div class="ib-pbia">
               <div class="ib-pwinfo">
-
-              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-                <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of {{office_name}}</div>
-              <?php } ?>
-
-
-
                 <div class="ib-pinfo">
                   <div class="ib-pilf">
                     
@@ -664,6 +657,18 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                                 <p>{{remark}}</p>
                               </div>
                             {{/if}}
+
+                              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                              <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px; font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
+                              <?php } ?>
+
+                              {{#if (DisclaiAgent rg_id) }}   
+                              <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc; padding-bottom: 15px; font-weight: normal; color: #858585; order:3"><?php echo __("Presented by:", IDXBOOST_DOMAIN_THEME_LANG); ?> {{agent_name}} <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{office_name}} 
+                                {{#if agent_phone }}
+                                  / Ph: {{agent_phone}}
+                                {{/if}}
+                              </div>
+                              {{/if}}
 
                               <div class="ib-plist-details">
                                   {{#if amenities}}

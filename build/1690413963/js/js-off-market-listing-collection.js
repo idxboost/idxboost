@@ -1177,6 +1177,7 @@ var yDown = null;
                         listingHTML.push('<ul class="features">');
                         listingHTML.push('<li class="address">' + item.address + '</li>');
                         listingHTML.push('<li class="price">$' + _.formatPrice(item.listing_price) + text_is_rental + '</li>');
+                        listingHTML.push('<li class="prop-name">' + item.property_title + '</li>');
                         /*
                         if (item.reduced == '') {
                             listingHTML.push('<li class="pr">' + item.reduced + '</li>');
@@ -1249,7 +1250,7 @@ var yDown = null;
                         listingHTML.push('</li>');
                     }
 
-                    $(idxboostresult).html(listingHTML.join("")).ready(function() {  idxboostTypeIcon();  });
+                    $(idxboostresult).html(listingHTML.join("")).ready(function() {  idxboostTypeIcon(); $(idxboostresult).addClass("loaded"); });
                     $(idxboostnavresult).html(paginationHTML.join(""));
                     $('.flex-loading-ct').fadeIn();
 

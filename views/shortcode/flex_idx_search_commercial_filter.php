@@ -532,11 +532,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
             <div class="ib-pbia">
               <div class="ib-pwinfo">
 
-              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-                <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of {{office_name}}</div>
-              <?php } ?>
-
-
                 <div class="ib-pinfo">
                   <div class="ib-pilf">
                     
@@ -674,6 +669,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       <p>{{remark}}</p>
                     </div>
                   {{/if}}
+
+                  <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                  <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
+                  <?php } ?>
 
 
                               <div class="ib-plist-details">

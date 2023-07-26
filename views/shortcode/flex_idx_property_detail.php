@@ -338,13 +338,7 @@
     <div class="temporal-content"></div>
     <div class="gwr">
       <div class="container">
-        <?php if (in_array($flex_idx_info["board_id"], ["31"])) { 
-          if($property['status'] == "2"){ ?>
-        <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of <?php echo $property["office_name"]; ?>  | Sold by:  <?php echo $property["office_name_seller"]; ?> </div>
-        <?php }else{ ?>
-        <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
-        <?php } ?>  
-        <?php } ?>
+
         <ul class="property-information" data-inf="price:<?php echo isset($property['is_sold']) ? $property['price_sold'] : $property['price']; ?>|beds:<?php echo $property['bed']; ?>|baths:<?php echo $property['bath']; ?>|sqft:<?php echo $property['sqft']; ?>">
           <li class="price-property">
             $<?php 
@@ -846,6 +840,19 @@
             <p><?php echo $property['remark']; ?></p>
           </div>
           <?php } ?>
+
+          <?php if (in_array($flex_idx_info["board_id"], ["31"])) { 
+          if($property['status'] == "2"){ ?>
+          <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?>  | Sold by:  <?php echo $property["office_name_seller"]; ?> </div>
+          <?php }else{ ?>
+          <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
+          <?php } ?>  
+          <?php } ?>
+
+          <?php if (in_array($property["rg_id"], ["34"])) {  ?>
+          <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;"><?php echo __("Presented by: ", IDXBOOST_DOMAIN_THEME_LANG).$property["agent_name"]." ".__("of", IDXBOOST_DOMAIN_THEME_LANG)." ".$property["office_name"]; ?>  </div>
+          <?php } ?>
+
           <div class="ib-plist-details">
             <?php if (isset($property['amenities']) && is_array($property['amenities']) && !empty($property['amenities'])): ?>
             <div class="ib-plist-card -amenities">

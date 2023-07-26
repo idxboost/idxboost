@@ -422,6 +422,23 @@ Handlebars.registerHelper('markPhotosActive', function(property) {
 	}
 });
 
+    Handlebars.registerHelper("BoardImgDisclaimer", function(property) {       
+        let response = false;
+            if ( property.board_id != "35" || ( property.board_id == "35" && property.rg_id == "34") ) {
+                response = true;
+            }
+        return response;
+    });
+
+    Handlebars.registerHelper("DisclaiAgent", function(rg_id) {       
+        if ( rg_id === "34" ) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+
 Handlebars.registerHelper("markClassActiveTab", function(property) {
 	if ( parseInt(property.img_cnt, 10) > 0 ) {
 		return "ib-pva-photos";

@@ -508,11 +508,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
   
           <div class="ib-pbia">
             <div class="ib-pwinfo">
-  
-            <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-              <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;">Listing provided courtesy of {{office_name}}</div>
-            <?php } ?>
-  
               <div class="ib-pinfo">
                 <div class="ib-pilf">
   
@@ -651,6 +646,18 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                                 <div class="ib-pdescription-title"><?php echo __("Description", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                                 <p>{{remark}}</p>
                               </div>
+                            {{/if}}
+
+                            <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                            <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
+                            <?php } ?>
+
+                            {{#if (DisclaiAgent rg_id) }}   
+                            <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3"><?php echo __("Presented by:", IDXBOOST_DOMAIN_THEME_LANG); ?> {{agent_name}} <?php echo __(" of ", IDXBOOST_DOMAIN_THEME_LANG); ?> {{office_name}} 
+                              {{#if agent_phone }}
+                              / Ph: {{agent_phone}}
+                              {{/if}}
+                            </div>
                             {{/if}}
   
   
@@ -1215,7 +1222,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         <li class="ib-piitem ib-pibaths">{{ bath }} <?php echo __("bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-pisqft">{{ formatSqft sqft }} <?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ address_short }} {{ address_large }}</li>
-        <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
+        {{#if (BoardImgDisclaimer this) }}   
+          <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
+        {{/if}}
+
     </ul>
     <div class="ib-pislider {{ idxImageEmpty this }} gs-container-slider" data-img-cnt="{{ img_cnt }}" data-mls="{{ mls_num }}">
         <img class="ib-pifimg" src="{{ idxImage this }}" alt="{{ address_short }} {{ address_large }}">
