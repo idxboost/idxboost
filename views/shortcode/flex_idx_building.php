@@ -900,6 +900,19 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                   </div>
                 </div>
               </div>
+
+              <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+              <div class="property-contact">
+                <div class="info-content">
+                  <div class="ib-bdisclaimer">
+                    <div class="ms-logo-board" style="max-width: 110px">
+                      <img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg">
+                    </div>
+                    <p>Source: NY REBNY <br>This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date('Y'); ?> The Real Estate Board of New York, Inc., All rights reserved. The information provided is for consumers' personal, non-commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.</p>
+                  </div>
+                </div>
+              </div>
+              <?php } ?>
             </div>
           </div>
 

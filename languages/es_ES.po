@@ -2070,7 +2070,7 @@ msgstr ""
 "restablecer tu contraseña."
 
 #: views/form/modals.php:188
-msgid "Continue With Email"
+msgid "Continue with email"
 msgstr "Continuar con el registro"
 
 #: views/form/modals.php:193

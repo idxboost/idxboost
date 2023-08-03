@@ -2149,7 +2149,7 @@ msgid ""
 msgstr ""
 
 #: views/form/modals.php:188
-msgid "Continue With Email"
+msgid "Continue with email"
 msgstr ""
 
 #: views/form/modals.php:193

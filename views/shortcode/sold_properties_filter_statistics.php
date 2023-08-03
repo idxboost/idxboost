@@ -81,6 +81,7 @@
                             <option value="144" <?php if($atts['city_id']=='144') echo 'selected'; ?>>Brickell</option>
                             <option value="486" <?php if($atts['city_id']=='486') echo 'selected'; ?>>Coral Gables</option>
                             <option value="520" <?php if($atts['city_id']=='520') echo 'selected'; ?>>Key Biscayne</option>
+                            <option value="5" <?php if($atts['city_id']=='5') echo 'selected'; ?>>Kendall</option>
                             <option value="61" <?php if($atts['city_id']=='61') echo 'selected'; ?>>Downtown Miami</option>
                             <option value="173" <?php if($atts['city_id']=='173') echo 'selected'; ?>>High Pines and Ponce Davis</option>
                             <option value="533" <?php if($atts['city_id']=='533') echo 'selected'; ?>>Miami Beach</option>

@@ -2164,7 +2164,7 @@ msgstr ""
 "ou de réinitialiser votre mot de passe."
 
 #: views/form/modals.php:188
-msgid "Continue With Email"
+msgid "Continue with email"
 msgstr "Continuer avec email"
 
 #: views/form/modals.php:193
@@ -7378,8 +7378,8 @@ msgstr ""
 
 #: views/shortcode/idxboost-terms-of-service.php:125
 #, fuzzy
-#| msgid "Continue With Email"
-msgid "Compliance With Laws"
+#| msgid "Continue with email"
+msgid "Compliance with laws"
 msgstr "Continuer avec email"
 
 #: views/shortcode/idxboost-terms-of-service.php:128

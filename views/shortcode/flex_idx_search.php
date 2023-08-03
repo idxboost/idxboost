@@ -246,7 +246,14 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
           <?php } ?>
         <p><?php echo __('Real Estate IDX Powered by', IDXBOOST_DOMAIN_THEME_LANG); ?>: <a href="https://www.tremgroup.com" title="TREMGROUP" rel="nofollow" target="_blank">TREMGROUP</a></p>
       </div>
-      <?php } ?>
+    <?php } ?>
+
+    <?php if (in_array($flex_idx_info["board_id"], [33])) { ?>
+      <div class="ib-bdisclaimer">
+        <img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg" style="width: 110px;height: auto;/* margin-bottom: 5px; */display:inline-block;margin-top: -30px;">
+        <p>Source: NY REBNY <br>This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date('Y'); ?> The Real Estate Board of New York, Inc., All rights reserved. The information provided is for consumers' personal, non-commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.</p>
+      </div>
+    <?php } ?>
   </div>
 </div>
 
@@ -681,7 +688,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                   <?php } ?>
 
                   {{#if (DisclaiAgent rg_id) }}   
-                  <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;"><?php echo __("Presented by:", IDXBOOST_DOMAIN_THEME_LANG); ?> {{agent_name}} <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{office_name}} 
+                  <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3"><?php echo __("Presented by:", IDXBOOST_DOMAIN_THEME_LANG); ?> {{agent_name}} <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{office_name}} 
                     {{#if agent_phone }}
                     / Ph: {{agent_phone}}
                     {{/if}}

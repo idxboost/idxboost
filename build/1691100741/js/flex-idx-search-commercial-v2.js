@@ -1194,10 +1194,12 @@ function handleMarkerClick(marker, property, map) {
                         __flex_g_settings.board_info.hasOwnProperty("board_logo_url") &&
                         !(["", null, undefined, "undefined", "null"].includes(__flex_g_settings.board_info.board_logo_url))
                     ) {
-                    	infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
-						  property_group.thumbnail +
-						  '" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
-					  	);
+                    	if( property.board_id != "35" || ( property.board_id == "35" && property.rg_id == "34")  ) {
+	                    	infobox_content.push('<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+							  property_group.thumbnail +
+							  '" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
+						  	);
+                    	}
 
                     }else{
 					  infobox_content.push(
@@ -1274,11 +1276,16 @@ function handleMarkerClick(marker, property, map) {
                         !(["", null, undefined, "undefined", "null"].includes(__flex_g_settings.board_info.board_logo_url))
                     ) {
 
-                    	infobox_content.push(
-						  '<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
-							property.item.thumbnail +
-							'" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
-						);
+                    	if( property.board_id != "35" || ( property.board_id == "35" && property.rg_id == "34")  ) {
+
+	                    	infobox_content.push(
+							  '<div class="ib-ibpb"><img onerror="this.src=\'https://www.idxboost.com/i/default_thumbnail.jpg\';" class="ib-ibimg" src="' +
+								property.item.thumbnail +
+								'" alt="'+property.full_address+'"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto"></div>'
+							);
+							
+                    	}
+
                     
                     }else{
 						infobox_content.push(

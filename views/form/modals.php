@@ -189,7 +189,7 @@ global $flex_idx_info, $flex_idx_lead;
                         <p class="dgt-email-error"><?php echo __('Looks like you already have an account with us.. Try logging in or resetting your password.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
                         <input id="agilefield-9" name="register_email" type="email" class="agile-height-default" placeholder="Email" required value="">
                       </div>
-                      <button class="pr-redbtn pr-next-step" type="button"><?php echo __('Continue With Email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                      <button class="pr-redbtn pr-next-step" type="button"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                     </li>
 
                     <li class="pr-step email-registration">
