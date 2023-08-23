@@ -46,6 +46,9 @@
 <?php
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 
+$idxboost_term_condition = get_option('idxboost_term_condition');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+
 $c_search_settings = get_option("idxboost_search_settings");
 
 $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
@@ -1187,6 +1190,13 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                           <textarea class="ib-cftextarea" name="message" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" required><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</textarea>
                         </li>
                       </ul>
+                      <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                      <div class="gfield fub">
+                        <div class="ms-fub-disclaimer">
+                          <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                        </div>
+                      </div>
+                      <?php } ?>
                       <div class="ib-cfrequired">* <?php echo __("Required fields", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                       <div class="ib-cfwsubmit">
                         <button type="submit" class="ib-cfsubmit ib-modal-inquiry-form">

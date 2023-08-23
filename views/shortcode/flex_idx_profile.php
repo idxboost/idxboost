@@ -23,6 +23,9 @@
 
 global $flex_idx_info;
 
+$idxboost_term_condition = get_option('idxboost_term_condition');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+
 ?>
 <style>
 .favorite-list-save {max-width:1400px;margin-left:auto;margin-right:auto;}
@@ -159,8 +162,15 @@ global $flex_idx_info;
 <input type="password" name="confirm_password" class="input-form" id="flex_idx_confirm_password"></li>
                              </ul>
                            <?php endif; ?>
-
-                           <p>*<?php echo __("Required fields. Your personal information is strictly confidential and will not be shared with any outside organizations.", IDXBOOST_DOMAIN_THEME_LANG); ?> </p>
+                           
+                          <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                          <div class="content-form gfield fub">
+                            <div class="ms-fub-disclaimer">
+                              <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                            </div>
+                          </div>
+                          <?php } ?>
+                          <p>*<?php echo __("Required fields. Your personal information is strictly confidential and will not be shared with any outside organizations.", IDXBOOST_DOMAIN_THEME_LANG); ?> </p>
                            <div class="content-btn">
                               <button type="button" onclick="javascript:location.reload();" class="clidxboost-btn-general clidxboost-btn-cancel" aria-label="<?php echo __("Cancel", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("Cancel", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                               <button type="submit" class="clidxboost-btn-general"><span><?php echo __("Save profile", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>

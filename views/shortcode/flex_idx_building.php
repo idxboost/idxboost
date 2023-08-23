@@ -23,6 +23,11 @@
   $log_building_address = isset($response["payload"]["address_building"]) ? unserialize($response["payload"]["address_building"])[0] : "";
   $log_building_city = isset($response["payload"]["city_building_name"]) ? $response["payload"]["city_building_name"] : "";
 
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
+  
+
+
   $cta = [];
   if ( is_array($response) && array_key_exists("payload",$response) && is_array($response["payload"]) && array_key_exists("cta",$response["payload"]) ) {
     $cta =  @json_decode($response['payload']["cta"],true);
@@ -95,7 +100,6 @@
             $response['payload']['modo_view']=1;
     }
   }  
-  
   ?>
 
 <?php if ($response['success']=== false ): ?>
@@ -890,9 +894,16 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                               </div>
                             </li>
                             <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                            <div class="gform_footer">
+                            <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                            <li class="gfield fub">
+                              <div class="ms-fub-disclaimer">
+                                <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                              </div>
+                            </li>
+                            <?php } ?>
+                            <li class="gform_footer">
                               <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request Information', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                            </div>
+                            </li>
                           </ul>
                         </div>
                       </fieldset>
@@ -1116,6 +1127,13 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                             <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="<?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
                           </div>
                         </li>
+                        <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                        <li class="gfield fub">
+                          <div class="ms-fub-disclaimer">
+                            <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                          </div>
+                        </li>
+                        <?php } ?>
                         <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                         <div class="gform_footer">
                           <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request information', IDXBOOST_DOMAIN_THEME_LANG); ?>">

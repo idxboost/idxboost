@@ -50,6 +50,10 @@
   document.title = IDX_BOOST_PROPERTY_TITLE;
 </script>
 <?php
+
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
+
   $logo_broker='';
   $schoolRatio='25';
   $CollapsedPreference='';
@@ -499,6 +503,13 @@
                   <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo str_replace('# ', '#', $property['address_short']); ?> <?php echo $property['address_large']; ?></textarea>
                 </div>
               </li>
+              <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+              <li class="gfield fub">
+                <div class="ms-fub-disclaimer">
+                  <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                </div>
+              </li>
+              <?php } ?>
               <li class="gfield requiredFields">* <?php echo __("Required Fields", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
               <div class="gform_footer">
                 <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __("Request information", IDXBOOST_DOMAIN_THEME_LANG); ?>">

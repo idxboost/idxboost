@@ -3021,6 +3021,12 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 		event.preventDefault();
 		var itemValue = $(this).attr("data-value");
 		var itemText = $(this).text();
+		let ir = __flex_g_settings.interes_rate[30];    
+		if (__flex_g_settings.interes_rate.hasOwnProperty(itemValue) ) {
+			ir = __flex_g_settings.interes_rate[itemValue];    
+			$(".ib-property-mc-ir, #interest_rate_txt").val(ir);
+		}
+
 		$(".ib-property-mc-ty").val(itemValue);
 		$("#calculatorYears").text(itemText);
 		$("#calculatorYearsList").css('display','none');

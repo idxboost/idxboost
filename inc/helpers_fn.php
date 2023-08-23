@@ -784,17 +784,23 @@ if (!function_exists( 'iboost_print_analytics_script' )) {
     function iboost_print_analytics_script()
     {
         global $flex_idx_info;
-        if ((!empty($flex_idx_info["agent"]["google_analytics"])) && (!empty($flex_idx_info["agent"]["google_adwords"]))) {
-            printf('<script async src="//googletagmanager.com/gtag/js?id=%s"></script>', $flex_idx_info["agent"]["google_analytics"]);
+        if ((!empty($flex_idx_info["agent"]["google_analytics"])) || (!empty($flex_idx_info["agent"]["google_adwords"]))) {
+            printf('<script async src="//googletagmanager.com/gtag/js?id=%s"></script>', $flex_idx_info["agent"]["google_analytics"] || $flex_idx_info["agent"]["google_adwords"]);
             echo '<script>';
             echo 'var iboost_track_gid = true;';
             echo 'window.dataLayer = window.dataLayer || [];';
             echo 'function gtag() { dataLayer.push(arguments); }';
             echo 'gtag("js", new Date());';
-            echo 'gtag("config", "' . $flex_idx_info["agent"]["google_analytics"] . '");';
-            echo 'gtag("config", "' . $flex_idx_info["agent"]["google_adwords"] . '");';
-            echo 'var ibost_g_config_analytics = "' . $flex_idx_info["agent"]["google_analytics"] . '";';
-            echo 'var ibost_g_config_adwords = "' . $flex_idx_info["agent"]["google_adwords"] . '"';
+
+            if ($flex_idx_info["agent"]["google_analytics"]) {
+                echo 'gtag("config", "' . $flex_idx_info["agent"]["google_analytics"] . '");';
+                echo 'var ibost_g_config_analytics = "' . $flex_idx_info["agent"]["google_analytics"] . '";';
+            }
+
+            if ($flex_idx_info["agent"]["google_adwords"]) {
+                echo 'gtag("config", "' . $flex_idx_info["agent"]["google_adwords"] . '");';
+                echo 'var ibost_g_config_adwords = "' . $flex_idx_info["agent"]["google_adwords"] . '"';
+            }
             echo '</script>';
         }
     }
@@ -1863,6 +1869,7 @@ if (!function_exists( 'flex_idx_get_info' )) {
             $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
             $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';
             $output['agent']['has_quick_idxvacation_rentals'] = isset($idxboost_agent_info['has_quick_idxvacation_rentals']) ? $idxboost_agent_info['has_quick_idxvacation_rentals'] : '';
+            $output['agent']['show_opt_in_message'] = isset($idxboost_agent_info['show_opt_in_message']) ? $idxboost_agent_info['show_opt_in_message'] : '';
             $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
             $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
             $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
@@ -3742,7 +3749,20 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
                 $commercial_types = empty($response["commercial_types"]) ? [] : $response["commercial_types"];
                 update_option("idxboost_commercial_types", $commercial_types);
             }
-        
+
+
+            if (!empty($response['term_condition'])) { // idxboost_term_condition
+                $term_condition = $response['term_condition'];
+                update_option('idxboost_term_condition', $term_condition);
+            }
+
+            if (!empty($response['mkting_client'])) { // idxboost_term_condition
+                $mkting_client = $response['mkting_client'];
+                update_option('mkting_client', $mkting_client);
+            }
+
+            
+
         } else {
             update_option('idxboost_client_status', 'inactive');
             delete_transient('flex_api_access_token');
@@ -6067,6 +6087,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
 
         $search_filter_settings = get_option('idxboost_search_filter_settings');
         $idxboost_agent_info = get_option('idxboost_agent_info');
+        $idxboost_search_settings = get_option('idxboost_search_settings');
         $search_filter_settings['google_maps_api_key'] = $idxboost_agent_info['google_maps_api_key'];
         $search_filter_settings['translateServiceUrl'] = isset($idxboost_agent_info['translate_service_url']) ? $idxboost_agent_info['translate_service_url'] : '';
 
@@ -6528,7 +6549,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],
+            'boardId' => $flex_idx_info['board_id'],            
             'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']), // overwrite search settings from global
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6560,7 +6581,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],
+            'boardId' => $flex_idx_info['board_id'],            
             'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']),
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6593,7 +6614,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],
+            'boardId' => $flex_idx_info['board_id'],            
             'search' => $flex_idx_info['search'],
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6620,7 +6641,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],
+            'boardId' => $flex_idx_info['board_id'],            
             'search' => $flex_idx_info['search'],
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6670,11 +6691,17 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
             'is_mobile' => wp_is_mobile(),
-            'socketAuthUrl' => FLEX_IDX_URI . 'socket-auth.php',
+            'socketAuthUrl' => FLEX_IDX_URI_WP . 'socket-auth.php',
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
             'params' => $flex_idx_info['search'],
             'searchUrl' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
+            'interes_rate' => [
+                "10" => $idxboost_search_settings["board_info"]["interest_rate10"],
+                "15" => $idxboost_search_settings["board_info"]["interest_rate15"],
+                "20" => $idxboost_search_settings["board_info"]["interest_rate20"],
+                "30" => $idxboost_search_settings["board_info"]["interest_rate30"]
+            ],            
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'siteUrl' => $flex_idx_info["website_url"],
             'templateDirectoryUrl' => $flex_idx_info["template_directory_url"],

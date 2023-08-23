@@ -83,7 +83,9 @@ $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address'
     <p><?php echo $companyName; ?> ("us", "we", or "our") operates the <?php echo $websiteDomain; ?> website (the "Service").This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.</p>
     <p>We will not use or share your information with anyone except as described in this Privacy Policy.</p>
     <p>We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at <?php echo $websiteDomain; ?></p>
+  </div>
 
+  <div id="follow-up-boss">
     <h3><?php echo __("Information Collection And Use", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p>While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information ("Personal Information") may include, but is not limited to:</p>
     <ul>
@@ -92,6 +94,23 @@ $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address'
       <li>Telephone number</li>
       <li>Address</li>
     </ul>
+
+    <h3><?php echo __("We use this information to", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
+    <ul>
+      <li>Send you requested product or service information</li>
+      <li>Respond to customer service requests</li>
+      <li>Administer your account</li>
+      <li>Send you a newsletter</li>
+      <li>Send you marketing communications</li>
+      <li>Improve our Web site and marketing efforts</li>
+      <li>Conduct research and analysis</li>
+      <li>Display content based upon your interests</li>
+    </ul>
+    <p>By clicking the Submit button, you agree to have your information shared with us and for us to contact you via telephone, mobile phone (including through automated dialing, text SMS/MMS, or pre-recorded messaging) and/or email, even if your telephone number is on a corporate, state, or the National Do Not Call Registry, and you agree to our Privacy Policy.</p>
+    <p>To unsubscribe from automated text messages sent to your mobile phone number, just respond to the text with one of the following words: STOP</p>
+  </div>
+
+  <div id="notice-privacy">
     <h3><?php echo __("Notice to California Residents", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p>If you are a resident of California, then the collection, processing and use of your personal information may be subject to the California Consumer Privacy Act (“CCPA”) as well as other applicable California state privacy laws.</p>
     <p>As a company that does business in California and collects the personal information of some California residents, we are required to inform you of the consumer rights afforded to you under the CCPA, and to enable you to exercise those rights with regards to any personal information that we may have collected about you.</p>

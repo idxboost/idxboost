@@ -1,4 +1,7 @@
-<?php global $flex_idx_info; ?>
+<?php global $flex_idx_info; 
+$idxboost_term_condition = get_option('idxboost_term_condition');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+?>
 
 <article class="ib-form-buyandsell">
   <img class="ib-form-bg" src="/" alt="<?php echo __("What are you looking to rent?", IDXBOOST_DOMAIN_THEME_LANG); ?>">
@@ -160,6 +163,13 @@
                 <label for="ms-fsinput-comments" class="ms-hidden"><?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 <textarea class="ib-fstextarea" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="comments" id="ms-fsinput-comments"></textarea>
               </li>
+              <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+              <li class="gfield fub">
+                <div class="ms-fub-disclaimer">
+                  <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                </div>
+              </li>
+              <?php } ?>
             </ul>
           </li>
         

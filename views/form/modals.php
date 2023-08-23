@@ -1,5 +1,7 @@
 <?php
-global $flex_idx_info, $flex_idx_lead;
+  global $flex_idx_info, $flex_idx_lead;
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $mkting_client = get_option('mkting_client');
 ?>
 <script type="text/javascript">
   var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ? '1' : '0'; ?>';
@@ -731,12 +733,19 @@ global $flex_idx_info, $flex_idx_lead;
                       <input type="text" name="preferred_date" id="ss_preferred_date" value="" placeholder='<?php echo __("Choose Date", IDXBOOST_DOMAIN_THEME_LANG); ?>' class="medium">
                     </div>
                   </li>
+                  <?php if ( isset($mkting_client) ) {  ?>
+                  <li class="gfield fub">
+                    <div class="ms-fub-disclaimer">
+                      <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                    </div>
+                  </li>
+                  <?php } ?>
                 </ul>
                 <div class="gform_footer">
                   <input class="gform_button button gform_submit_button_6" type="submit" value="<?php echo __('Submit', IDXBOOST_DOMAIN_THEME_LANG); ?>"/>
                 </div>
               </div>
-		</fieldset>
+		        </fieldset>
             </form>
           </div>
         </div>

@@ -1,3 +1,8 @@
+<?php 
+$idxboost_term_condition = get_option('idxboost_term_condition'); 
+$idxboost_agent_info = get_option('idxboost_agent_info');
+?>
+
 <form id="<?php echo $atts['id_form']; ?>" class="form-search gtm_general_contact_form iboost-secured-recaptcha-form" method="post">
   <input type="hidden" name="ib_tags" value="">
   <input type="hidden" name="action" value="idxboost_agent_contact_inquiry">
@@ -50,6 +55,13 @@
       <label class="ms-hidden" for="for_user_comments"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
       <textarea id="for_user_comments" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="textarea medium" name="message"></textarea>
     </li>
+    <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+    <li class="gfield fub form-item full-item">
+      <div class="ms-fub-disclaimer">
+        <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+      </div>
+    </li>
+    <?php } ?>
     <li class="form-item full-item">
       <button class="clidxboost-btn-link" aria-label="<?php echo __('Submit', IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __('Submit', IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
     </li>

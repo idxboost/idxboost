@@ -1,3 +1,7 @@
+<?php 
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $mkting_client = get_option('mkting_client');
+?>
 <div id="md-body" class="property-details" data-cproperty="289433515">
   <div id="full-main">
     
@@ -5456,10 +5460,19 @@
                     <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="Comments" rows="10" cols="50">I am interested in 46 Star Island Dr Miami Beach FL, 33139</textarea>
                   </div>
                 </li>
+                <?php if ( isset($mkting_client) ) {  ?>
+                <li class="gfield fub">
+                  <div class="ms-fub-disclaimer">
+                    <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                  </div>
+                </li>
+                <?php } ?>
                 <li class="gfield requiredFields">* Required Fields</li>
-                <div class="gform_footer">
-                  <input class="gform_button button gform_submit_button_5" type="submit" value="Request Information">
-                </div>
+                <li>
+                  <div class="gform_footer">
+                    <input class="gform_button button gform_submit_button_5" type="submit" value="Request Information">
+                  </div>
+                </li>
               </ul>
             </div>
           </form>

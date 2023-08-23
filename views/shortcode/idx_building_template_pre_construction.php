@@ -1,6 +1,9 @@
 <?php
   global $flex_idx_info, $post, $flex_social_networks, $wp;
   
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
+
   $wp_request = $wp->request;
   $wp_request_exp = explode('/', $wp_request);
   
@@ -531,10 +534,17 @@
                               <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="Comments" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG) . ' ' . $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
                             </div>
                           </li>
+                          <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                          <li class="gfield fub">
+                            <div class="ms-fub-disclaimer">
+                              <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                            </div>
+                          </li>
+                          <?php } ?>
                           <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                          <div class="gform_footer">
+                          <li class="gform_footer">
                             <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Request Information', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                          </div>
+                          </li>
                         </ul>
                       </div>
                     </fieldset>
@@ -657,6 +667,13 @@
                           <label class="gfield_label"><?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                           <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="<?php echo __('Comments', IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
                         </div>
+                      </li>
+                      <li class="gfield fub">
+                        <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                        <div class="ms-fub-disclaimer">
+                          <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                        </div>
+                        <?php } ?>
                       </li>
                       <li class="gfield requiredFields">* <?php echo __('Required Fields', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                       <div class="gform_footer">

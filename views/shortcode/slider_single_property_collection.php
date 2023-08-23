@@ -1,4 +1,9 @@
-<?php $class_filter = 'js-slider-single-property'; ?>
+<?php $class_filter = 'js-slider-single-property'; 
+
+$idxboost_term_condition = get_option('idxboost_term_condition');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+
+?>
 
 <section data-gallery="<?php echo $gallery_val; ?>" class="featured-section flex-block-description mtop-60 ib-filter-slider-property-site ib-filter-slider-<?php echo $class_filter; ?>" id="featured-section"
   data-item="<?php echo $atts['slider_item']; ?>" data-filter="<?php echo $class_filter; ?>"
@@ -362,6 +367,13 @@
                               <textarea placeholder="Comments *" name="message" cols="30" rows="10" id="input_comment" required></textarea>
                             </li>
                           </ul>
+                          <div class="gfield fub">
+                            <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                            <div class="ms-fub-disclaimer">
+                              <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                            </div>
+                          <?php }  ?>
+                          </div>
                           <button class="sps-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
                         </fieldset>
                       </form>
@@ -465,6 +477,13 @@
                     <label for="inputComment">Enter your Comment</label>
                     <textarea placeholder="Comments *" name="message" id="inputComment" required></textarea>
                   </div>
+                  <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                  <div class="gfield fub sp-input-form">
+                    <div class="ms-fub-disclaimer">
+                      <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                    </div>
+                  </div>
+                  <?php } ?>
                   <div class="sp-input-form">
                     <button class="sp-button" type="submit">{{stylesInput.headerSection.button.text}}</button>
                   </div>
