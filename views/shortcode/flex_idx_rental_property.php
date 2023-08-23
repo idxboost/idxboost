@@ -489,7 +489,7 @@
                             <textarea maxlength="300" class="medium textarea" name="comments" id="ms-message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?> rows="10" cols="50">I am interested in <?php echo str_replace('# ', '#', $property['address_short']); ?>,<?php echo $property['address_large']; ?></textarea>
                           </div>
                         </li>
-                        <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                        <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                         <li class="gfield fub">
                           <div class="ms-fub-disclaimer">
                             <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>

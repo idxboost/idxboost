@@ -534,7 +534,7 @@
                               <textarea autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium textarea" name="message" type="text" placeholder="Comments" rows="10" cols="50"><?php echo __('I am interested in', IDXBOOST_DOMAIN_THEME_LANG) . ' ' . $building_default_address; ?> <?php echo __('at', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['payload']['name_building']; ?></textarea>
                             </div>
                           </li>
-                          <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                          <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                           <li class="gfield fub">
                             <div class="ms-fub-disclaimer">
                               <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
@@ -669,7 +669,7 @@
                         </div>
                       </li>
                       <li class="gfield fub">
-                        <?php if ( isset($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
+                        <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                         <div class="ms-fub-disclaimer">
                           <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
                         </div>
