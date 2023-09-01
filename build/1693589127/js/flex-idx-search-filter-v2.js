@@ -1566,6 +1566,8 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                         if ($(".ib-property-mortage-submit").length > 0) {
                             var pp = response.price;
                             $(".ib-property-mortgage-f:eq(0)").trigger("reset");
+                            $(".ib-property-mc-ir, #interest_rate_txt").val(__flex_g_settings.interes_rate[30]);
+                            $("#calculatorYears").text(30);
                             var dp = $(".ib-property-mc-dp:eq(0)").val();
                             var ty = $(".ib-property-mc-ty:eq(0)").val();
                             var ir = $(".ib-property-mc-ir:eq(0)").val();
@@ -5839,6 +5841,8 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                 var pp = $(this).data("price").replace(/[^\d]/g, "");
 
                 $(".ib-property-mortgage-f:eq(0)").trigger("reset");
+                $("#calculatorYears").text(30+" "+word_translate.years);
+                $(".ib-property-mc-ir, #interest_rate_txt").val(__flex_g_settings.interes_rate[30]);
 
                 var dp = $(".ib-property-mc-dp:eq(0)").val();
                 var ty = $(".ib-property-mc-ty:eq(0)").val();

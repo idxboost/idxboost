@@ -60,7 +60,10 @@
   //     }
   // });
 </script>
-<?php if ((!empty($flex_idx_info["agent"]["google_analytics"])) && (!empty($flex_idx_info["agent"]["google_adwords"]))): ?>
+<?php if (
+  (!empty($flex_idx_info["agent"]["google_analytics"])) && (!empty($flex_idx_info["agent"]["google_adwords"]))
+  && is_array($property) && array_key_exists('is_sold', $property) && array_key_exists('price_sold', $property)
+): ?>
 <script>
   gtag('event', 'Listing_view', {
       'send_to': '<?php echo $flex_idx_info["agent"]["google_adwords"]; ?>',
@@ -1462,7 +1465,7 @@
                     <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                     <li class="gfield fub">
                       <div class="ms-fub-disclaimer">
-                        <p>By submitting this form, you are agree to be contacted by <?php echo $idxboost_term_condition["company_name"]; ?> via call, email, and text. For more information see our <a href="/terms-and-conditions/#follow-up-boss" target="_blank">Terms and Conditions.</a></p>
+                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
                       </div>
                     </li>
                     <?php } ?>
@@ -1599,7 +1602,9 @@
   (function ($) {
     $(function() {
   
-      <?php if( (isset($flex_idx_info['agent']['has_dynamic_remarketing'])) && (true === $flex_idx_info['agent']['has_dynamic_remarketing']) ): ?>
+      <?php if( (isset($flex_idx_info['agent']['has_dynamic_remarketing'])) && (true === $flex_idx_info['agent']['has_dynamic_remarketing']) 
+        && is_array($property) && array_key_exists('is_sold', $property) && array_key_exists('price_sold', $property)
+       ): ?>
         <?php
     $property_price = $property['is_sold'] ? $property['price_sold'] : $property['price'];
     ?>
@@ -1845,6 +1850,9 @@
       
       $(window).load(function() { 
         loadMapLocation(); 
+          $("#calculatorYears").text(30+" "+word_translate.years);
+          $(".ib-property-mc-ir, #interest_rate_txt").val(__flex_g_settings.interes_rate[30]);
+
           var pp = $(".ib-price-calculator").attr("data-price");
           var dp = $("#down_payment_txt").val();
           var ty = $("#term_txt").val();

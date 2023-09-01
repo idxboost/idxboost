@@ -107,7 +107,7 @@ $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address'
       <li>Display content based upon your interests</li>
     </ul>
     <p>By clicking the Submit button, you agree to have your information shared with us and for us to contact you via telephone, mobile phone (including through automated dialing, text SMS/MMS, or pre-recorded messaging) and/or email, even if your telephone number is on a corporate, state, or the National Do Not Call Registry, and you agree to our Privacy Policy.</p>
-    <p>To unsubscribe from automated text messages sent to your mobile phone number, just respond to the text with one of the following words: STOP</p>
+    <p>To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails.</p>
   </div>
 
   <div id="notice-privacy">

@@ -6098,6 +6098,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
 
         $custom_strings = array(
             'style' => __('Style', IDXBOOST_DOMAIN_THEME_LANG),
+            'years' => __('Years', IDXBOOST_DOMAIN_THEME_LANG),
             'type' => __('Type', IDXBOOST_DOMAIN_THEME_LANG),
             'city' => __('City', IDXBOOST_DOMAIN_THEME_LANG),
             'close' => __('Close', IDXBOOST_DOMAIN_THEME_LANG),
