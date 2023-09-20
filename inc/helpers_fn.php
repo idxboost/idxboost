@@ -8757,17 +8757,16 @@ if ( ! function_exists( 'idxboost_cms_translate' ) ) {
 }
 
 if ( ! function_exists( 'idxboost_front_page_template' ) ) {
-
-    function idxboost_front_page_template($template)
+    function idxboost_front_page_template( $template )
     {
         global $flex_idx_info;
 
-        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
-            if (is_front_page()) {
-                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php')) {
-                    return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_home_page.php';
+        if ( ! empty( $flex_idx_info['agent']['has_cms'] ) && $flex_idx_info['agent']['has_cms'] != false ) {
+            if ( is_front_page() ) {
+                if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php' ) ) {
+                    return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php';
                 } else {
-                    return FLEX_IDX_PATH . '/views/shortcode/idxboost_home_page.php';
+                    return FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_home.php';
                 }
             }
         }
@@ -8775,7 +8774,7 @@ if ( ! function_exists( 'idxboost_front_page_template' ) ) {
         return $template;
     }
 
-    add_filter('template_include', 'idxboost_front_page_template');
+    add_filter( 'template_include', 'idxboost_front_page_template' );
 }
 
 if ( ! function_exists( 'idxboost_get_header_dinamic' ) ) {
@@ -8887,18 +8886,18 @@ if ( ! function_exists( 'idxboost_footer_header_dinamic' ) ) {
 }
 
 if ( ! function_exists( 'update_seo' ) ) {
-    function update_seo($title, $description, $socialShareTitle, $socialShareImage)
+    function update_seo($title, $description, $social_share_title, $social_share_description, $social_share_image)
     {
         echo '<title>' . $title . '</title>
               <meta name="description" content="' . $description . '" />
-              <meta name="twitter:title" content="' . $title . '">
-              <meta name="twitter:description" content="' . $description . '">
-              <meta name="twitter:image" content="' . $socialShareImage . '">
-              <meta property="og:title" content="' . $socialShareTitle . '" />
+              <meta name="twitter:title" content="' . $social_share_title . '">
+              <meta name="twitter:description" content="' . $social_share_description . '">
+              <meta name="twitter:image" content="' . $social_share_image . '">
+              <meta property="og:title" content="' . $social_share_title . '" />
               <meta property="og:type" content="article" />
-              <meta property="og:image" content="' . $socialShareImage . '" />
-              <meta property="og:description" content="' . $description . '" />
-              <meta property="og:site_name" content="' . $socialShareTitle . '" />';
+              <meta property="og:image" content="' . $social_share_image . '" />
+              <meta property="og:description" content="' . $social_share_description . '" />
+              <meta property="og:site_name" content="' . get_bloginfo('name') . '" />';
     }
 }
 
@@ -9015,7 +9014,13 @@ if ( ! function_exists( 'custom_seo_page' ) ) {
                 if (!is_wp_error($response) or $content != NULL) {
                     // validar que se use el seo, sino usar seo por defecto
                     if ($content['cmsSeo'] == 1) {
-                        update_seo($content['seo']['title'], $content['seo']['description'], $content['socialShare']['title'], $content['socialShare']['image']);
+                        update_seo(
+                            $content['seo']['title'], 
+                            $content['seo']['description'], 
+                            $content['socialShare']['title'], 
+                            $content['socialShare']['description'], 
+                            $content['socialShare']['image']
+                        );
                     } else {
                         update_seo_default();
                     }

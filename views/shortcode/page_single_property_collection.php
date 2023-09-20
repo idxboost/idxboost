@@ -94,13 +94,19 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
             <div class="ib-phcta">
               <div class="ib-phomodal">
                 {{#if agentContactPhoneNumber}}
-                  <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}"><?php echo __("Call Us", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                  <a class="ib-pbtnphone" href="tel:{{agentContactPhoneNumber}}">
+                    <?php echo __("Call Us", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
                 {{/if}}
                 <div class="ib-requestinfo ib-phbtn sfm">{{stylesInput.headerSection.button.text}}</div>
                 {{#if websiteSlugnameDomain}}
-                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}"><?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{websiteSlugnameDomain}}">
+                    <?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </div>
                 {{/if}}
-                <div class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                <div class="ib-pbtnclose ib-phbtn">
+                  <?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                </div>
               </div>
             </div>
 
@@ -217,7 +223,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
               {{#if (ifVisibility visibilityRegions.amenities)}}
                 <section class="sps-section" id="sps-amenities">
-                  <h2 class="sps-section-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                  <h2 class="sps-section-title">
+                    <?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </h2>
 
                   {{#if propertyAmenities}}
                     <ul class="sps-amenities-list columns-{{stylesInput.amenities.columns}}">
@@ -254,7 +262,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                 <div class="sps-wrap-media">
                 {{#if (ifVisibility visibilityRegions.videoTour)}}
                   <div class="sps-tab-body" id="sps-media-tour">
-                    <h2 class="sps-section-title"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                    <h2 class="sps-section-title">
+                      <?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </h2>
 
                     <div id="sps-virtual">
                       {{#if propertyMetadata.propertyVideos}}
@@ -287,7 +297,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
                 {{#if (ifVisibility visibilityRegions.floorplans)}}
                   <div class="sps-tab-body" id="sps-media-floorplan">
-                    <h2 class="sps-section-title"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                    <h2 class="sps-section-title">
+                      <?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </h2>
 
                     {{#if propertyFloorplans}}
                       <div id="sps-floorplans">
@@ -312,8 +324,12 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
                           {{#if (propertyHasFloorplans propertyFloorplans)}}
                             <div class="sps-wrap-action-btn">
-                              <button class="sps-btn-prev">Prev</button>
-                              <button class="sps-btn-next">Next</button>
+                              <button class="sps-btn-prev">
+                                <?php echo __("Prev", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                              </button>
+                              <button class="sps-btn-next">
+                                <?php echo __("Next", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                              </button>
                             </div>
                           {{/if}}
                         </div>
@@ -326,7 +342,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
               {{#if (ifVisibility visibilityRegions.location)}}
                 <div class="sps-section" id="sps-location">
-                  <h2 class="sps-section-title">Location</h2>
+                  <h2 class="sps-section-title">
+                    <?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </h2>
                   {{#if propertyLocationCoords}}
                   <div class="sps-map" id="googleMap" data-img="googleMap"
                     data-zoom="{{#if propertyLocationCoords.zoom}} {{propertyLocationCoords.zoom}} {{else}}16{{/if}}"
@@ -346,7 +364,10 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                 <div class="sps-section" id="sps-contact">
                   <div class="sps-wrap-form">
 
-                    <h2 class="sps-form-title"><?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                    <h2 class="sps-form-title">
+                      <?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </h2>
+                    
                     <div class="sps-contact-header">
                       {{#if agentPhotoProfile.ObjectURL}}
                         <div class="sps-wrap-img">
@@ -496,24 +517,24 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                   <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <div class="sp-input-form">
-                    <label for="inputName">Enter your Name</label>
-                    <input type="text" placeholder="First Name *" name="name" id="inputName" required>
+                    <label for="inputName"><?php echo __("Enter your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <input type="text" placeholder="<?php echo __("First Name *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="name" id="inputName" required>
                   </div>
                   <div class="sp-input-form">
-                    <label for="inputLastName">Enter your Last Name</label>
-                    <input type="text" placeholder="Last Name *" name="lastname" id="inputLastName" required>
+                    <label for="inputLastName">?php echo __("Enter your last name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <input type="text" placeholder="<?php echo __("Last Name *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="lastname" id="inputLastName" required>
                   </div>
                   <div class="sp-input-form">
-                    <label for="inputEmail">Enter your Email</label>
-                    <input type="email" placeholder="Email *" name="email" id="inputEmail" required>
+                    <label for="inputEmail"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <input type="email" placeholder="<?php echo __("Email *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="email" id="inputEmail" required>
                   </div>
                   <div class="sp-input-form">
-                    <label for="inputPhone">Enter your Phone number</label>
-                    <input type="phone" placeholder="Phone *" name="phone" id="inputPhone" required>
+                    <label for="inputPhone"><?php echo __("Enter your phone number", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <input type="phone" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="inputPhone" required>
                   </div>
                   <div class="sp-input-form">
-                    <label for="inputComment">Enter your Comment</label>
-                    <textarea placeholder="Comments *" name="message" id="inputComment" required></textarea>
+                    <label for="inputComment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" id="inputComment" required></textarea>
                   </div>
                   <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                   <div class="gfield fub sp-input-form">
@@ -532,7 +553,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
         </div>
       </div>
       <button class="ib-mmclose">
-        <span class="ib-mmctxt">Close</span>
+        <span class="ib-mmctxt">
+          <?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </span>
       </button>
     </div><!-- .ib-mmcontent -->
 
@@ -546,7 +569,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
           <div class="ib-sps-page js-ib-sps-page">
             <div class="sp-body-modal">
               <div>
-                <h4 class="sp-title">TERMS AND CONDITIONS</h2>
+                <h4 class="sp-title">
+                  <?php echo strtoupper( __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG) ); ?>
+                </h4>
                 <p><a href="#atospp-terms" data-section="#atospp-terms">Terms of Service</a> / <a href="#atospp-privacy" data-section="#atospp-privacy">Privacy Policy</a></p>
                 </ul>
                 <div id="atospp-terms">
@@ -585,7 +610,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                 </div>
               
                 <div id="atospp-privacy">
-                  <h5 class="sp-sub-title">Privacy Policy:</h5>
+                  <h5 class="sp-sub-title">
+                    <?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?>:
+                  </h5>
                   <p>{{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}} ("{{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}") operates {{propertyMetadata.termsPrivacyAda.websiteDomain}} and may operate other websites. It is {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}'s policy to respect your privacy nregarding any information we may collect while operating our websites.</p>
                   <p><span>Website Visitors.</span> Like most website operators, {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}} collects non-personally-identifying information of the sort that web browsers and servers typically make available, such as the browser type, language preference, referring site, and the date and time of each visitor request. {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}'s purpose in collecting non-personally identifying information is to better understand how {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}'s visitors use its website. From time to time, {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}} may release non-personally-identifying information in the aggregate, e.g., by publishing a report on trends in the usage of its website.</p>
                   <p><span>{{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}</span> also collects potentially personally-identifying information like Internet Protocol (IP) addresses for logged in users and for users leaving comments on {{propertyMetadata.termsPrivacyAda.websiteDomain}} blogs/sites. {{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}} only discloses logged in user and commenter IP addresses under the same circumstances that it uses and discloses personally-identifying information as described below, except that commenter IP addresses and email addresses are visible and disclosed to the administrators of the blog/site where the comment was left.</p>
@@ -603,7 +630,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
         </div>
       </div>
       <button class="ib-mmclose">
-        <span class="ib-mmctxt">Close</span>
+        <span class="ib-mmctxt">
+          <?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </span>
       </button>
     </div><!-- .ib-mmcontent -->
 
@@ -617,7 +646,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
           <div class="ib-sps-page js-ib-sps-page">
             <div class="sp-body-modal">
               <div class="sp-access-content-terms">
-                <h4 class="sp-title">ACCESSIBILITY</h4>
+                <h4 class="sp-title">
+                  <?php echo strtoupper( __("Accessibility", IDXBOOST_DOMAIN_THEME_LANG) ); ?>
+                </h4>
                 <p><strong>{{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}</strong> is committed to providing an accessible website. If you have difficulty accessing content, have difficulty viewing a file on the website, or notice any accessibility problems, please contact us to <strong>(<a href="mailto:{{agentContactEmailAddress}}">{{agentContactEmailAddress}}</a> <a href="tel:{{agentContactPhoneNumber}}">{{agentContactPhoneNumber}}</a>)</strong> to specify the nature of the accessibility issue and any assistive technology you use. NAR will strive to provide the content you need in the format you require.</p>
                 <p><strong>{{propertyMetadata.termsPrivacyAda.companyAgentOrTeamName}}</strong> welcomes your suggestions and comments about improving ongoing efforts to increase the accessibility of this website.</p>
           
@@ -664,7 +695,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
         </div>
       </div>
       <button class="ib-mmclose">
-        <span class="ib-mmctxt">Close</span>
+        <span class="ib-mmctxt">
+          <?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>
+        </span>
       </button>
     </div><!-- .ib-mmcontent -->
 
@@ -675,7 +708,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
     <div id="sps-modal-sp-slider">
       <div class="sps-wrap-slider" id="sps-gen-slider"></div>
     </div>
-    <button class="sps-close">Close</button>
+    <button class="sps-close">
+      <?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>
+    </button>
   </div>
 
 </script>

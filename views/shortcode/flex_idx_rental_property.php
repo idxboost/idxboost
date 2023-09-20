@@ -20,6 +20,13 @@
 
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
+  $sd = (is_array($_GET) && array_key_exists("sd", $_GET)) ? @date_create($_GET["sd"]) : null;
+  $ed = (is_array($_GET) && array_key_exists("ed", $_GET)) ? @date_create($_GET["ed"]) : null;
+
+  $rental_stay = "N/A";
+  if ( !empty($sd) && !empty($ed) ) {
+    $rental_stay =  date_format($sd,"m/d/Y")." - ".date_format($ed,"m/d/Y");
+  }
 
   $enlace_actual = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
   $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -218,7 +225,7 @@
                         return  $array[0]." - ".$array[1];
                        } 
 
-                      echo (!empty($property["rental_stay"]) ? convertDate($property["rental_stay"]):"N/A");
+                      echo $rental_stay;
                       
                       ?></span>
                     </div>
@@ -420,7 +427,7 @@
                   </div>
                   <div class="ib-item-st -rental">
                     <span class="ms-label">Rental Stay</span>
-                    <span class="ms-result"><?php echo ( !empty($property["rental_stay"]) ? convertDate($property["rental_stay"]):"N/A");?></span>
+                    <span class="ms-result"><?php echo $rental_stay;?></span>
                   </div>
                 </div>
                 
@@ -432,7 +439,7 @@
                     <input type="hidden" name="bed" value="<?php echo $property['bed']; ?>">
                     <input type="hidden" name="type_form" value="is_vacation_rentals">
                     <input type="hidden" name="bath" value="<?php echo $property['bath']; ?>">                    
-                    <input type="hidden" name="rental_stay" value="<?php echo ( !empty($property["rental_stay"]) ? convertDate($property["rental_stay"]):"");?>">
+                    <input type="hidden" name="rental_stay" value="<?php echo $rental_stay; ?>">
                     <input type="hidden" name="mls_num" value="<?php echo $property['mls_num']; ?>">
                     <input type="hidden" name="ib_tags" value="Vacation Rentals">
                     <input type="hidden" name="message" value="">

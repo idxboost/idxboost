@@ -233,7 +233,7 @@ if ( ! function_exists('idxboost_team_page_sc') ) {
             }
         }
 
-        idx_page_404();
+        idxboost_cms_page_404();
     }
 
     add_shortcode("idxboost_team_page", "idxboost_team_page_sc");
@@ -259,7 +259,7 @@ if ( ! function_exists('idxboost_contact_page_sc') ) {
             return ob_get_clean();
         }
 
-		idx_page_404();
+		idxboost_cms_page_404();
     }
     
     add_shortcode("idxboost_contact_page", "idxboost_contact_page_sc");
@@ -5065,64 +5065,90 @@ function generar_url_temp($cadena) {
     return $url;
 }
 
-if (!function_exists('idx_page_404')) {
-    function idx_page_404(){
-        status_header(404);
+if ( ! function_exists( 'idxboost_cms_page_404' ) ) {
+    function idxboost_cms_page_404() {
+        status_header( 404 );
         nocache_headers();
-        include(get_query_template('404'));
+        include( get_query_template( '404' ) );
     }
 }
 
-if (!function_exists('idx_page_shortcode_render')) {
-    function idx_page_shortcode_render($content)
+if ( ! function_exists( 'idxboost_cms_page_under_construction' ) ) {
+    function idxboost_cms_page_under_construction() {
+        status_header( 404 );
+        nocache_headers();
+        
+        if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/pages/under-construction-page-template.php' ) ) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/pages/under-construction-page-template.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/pages/under-construction-page-template.php';
+        }
+    }
+}
+
+if ( ! function_exists( 'idxboost_cms_page_under_maintenance' ) ) {
+    function idxboost_cms_page_under_maintenance() {
+        status_header( 404 );
+        nocache_headers();
+        
+        if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/pages/under-maintenance-page-template.php' ) ) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/pages/under-maintenance-page-template.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/pages/under-maintenance-page-template.php';
+        }
+    }
+}
+
+if ( ! function_exists( 'idx_page_shortcode_render' ) ) {
+    function idx_page_shortcode_render( $content )
     {
-        $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
-        $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
-        $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
-        $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
-        $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
+        $content = str_replace( "[idxboost_dinamic_menu]", do_shortcode( "[idxboost_dinamic_menu]" ), $content );
+        $content = str_replace( "[idxboost_dinamic_menu_mobile]", do_shortcode( '[idxboost_dinamic_menu_mobile]' ), $content );
+        $content = str_replace( "[idxboost_dinamic_autocompleted]", do_shortcode( "[flex_autocomplete]" ), $content );
+        $content = str_replace( '[idxboost_dinamic_credential_lead]', do_shortcode( '[idxboost_dinamic_credential_lead_dinamic]' ), $content );
+        $content = str_replace( '[idxboost_lead_activities]', do_shortcode( '[idxboost_lead_activities]' ), $content );
         
         $pattern = '~\[ib_quick_search_rentals\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_quick_search_rentals = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_quick_search_rentals, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $ib_quick_search_rentals = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $ib_quick_search_rentals, $content );
         }
 
         $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $variable_idxboost_dinamic_listings = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $variable_idxboost_dinamic_listings, $content );
         }
 
         $pattern = '~\[flex_idx_filter type="2" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $variable_idxboost_dinamic_listings = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $variable_idxboost_dinamic_listings, $content );
         }
 
         $pattern = '~\[flex_idx_filter id="(.+?)" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_flex_idx_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_flex_idx_filter, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $variable_flex_idx_filter = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $variable_flex_idx_filter, $content );
         }
 
         $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?(\sis_commercial=\"[0-9]\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_search_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_search_filter, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $ib_search_filter = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $ib_search_filter, $content );
         }
 
         $pattern = '~\[idxboost_building_inventory building_id="(.+?)" load="ajax" slider_item="(.+?)" type="sale" view="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_building_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_building_filter, $content);
+        if ( preg_match( $pattern, $content, $match ) ) {
+            $ib_building_filter = do_shortcode( $match[0] );
+            $content = str_replace( $match[0], $ib_building_filter, $content );
         }
 
         $pattern = '~\[idxboost_cms_section_blog id=\"(.*?)\" format=\"(.*?)\" show_date=\"(.*?)\" show_excerpt=\"(.*?)\" columns=\"(.*?)\" max_post=\"(.*?)\"\]~';
-        if (preg_match_all($pattern, $content, $match)) {
-            foreach ($match[0] as $item) {
-                $ib_cms_blog = do_shortcode($item);
-                $content = str_replace($item, $ib_cms_blog, $content);
+        if ( preg_match_all( $pattern, $content, $match ) ) {
+            foreach ( $match[0] as $item ) {
+                $ib_cms_blog = do_shortcode( $item );
+                $content = str_replace( $item, $ib_cms_blog, $content );
             }
         }
         
@@ -5131,20 +5157,20 @@ if (!function_exists('idx_page_shortcode_render')) {
 }
 
 if ( ! function_exists( 'idxboost_cms_section_blog_sc' ) ) {
-    function idxboost_cms_section_blog_sc($atts)
+    function idxboost_cms_section_blog_sc( $atts )
     {
-        $atts = shortcode_atts(array(
-            'id' => '',
-            'format' => '',
-            'show_date' => '',
-            'show_excerpt' => '',
-            'columns' => '',            
-            'max_post' => '10',            
-        ), $atts);
+        $atts = shortcode_atts( array(
+            'id'            => '',
+            'format'        => '',
+            'show_date'     => '',
+            'show_excerpt'  => '',
+            'columns'       => '',            
+            'max_post'      => '10',            
+        ), $atts );
 
         ob_start();
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_section_blog.php')) {
+        if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_section_blog.php' ) ) {
             include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_section_blog.php';
         } else {
             include FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_section_blog.php';
@@ -5153,5 +5179,5 @@ if ( ! function_exists( 'idxboost_cms_section_blog_sc' ) ) {
         return ob_get_clean();
     }
 
-    add_shortcode('idxboost_cms_section_blog', 'idxboost_cms_section_blog_sc');
+    add_shortcode( 'idxboost_cms_section_blog', 'idxboost_cms_section_blog_sc' );
 }

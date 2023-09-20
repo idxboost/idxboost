@@ -332,7 +332,7 @@ function function_idx_agent_page($single_template)
                     isset($flex_idx_info['agent']['has_crm']) &&
                     !$flex_idx_info['agent']['has_crm']
                 ) {
-                    $single_template = FLEX_IDX_PATH . '/views/shortcode/idxboost-cms-page-agent.php';
+                    $single_template = FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_agent.php';
                 } else {
                     // For broker agent, home and defaults
                     $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';
