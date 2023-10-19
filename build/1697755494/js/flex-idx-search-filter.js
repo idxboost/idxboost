@@ -2018,6 +2018,8 @@ if ("undefined" === typeof loadPropertyInModal) {
 						});
 					}
 				}
+
+				defaultFormValidation();
 			}
 		});
 

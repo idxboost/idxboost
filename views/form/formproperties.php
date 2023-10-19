@@ -5413,7 +5413,7 @@
               <a class="phone-avatar" href="tel:8558935390" title="Call to (855) 893-5390">Ph. (855) 893-5390</a>
             </div>
           </div>
-          <form method="post" id="flex-idx-property-form" class="gtm_more_info_property">
+          <form method="post" id="flex-idx-property-form" class="gtm_more_info_property iboost-form-validation">
             <input type="hidden" name="action" value="flex_idx_request_property_form">
             <input type="hidden" name="origin" value="http://betaidxb.staging.wpengine.com/property/46-star-island-dr-miami-beach-fl-33139-a10172834">
             <input type="hidden" name="price" id="flex_idx_form_price" value="48000000">
@@ -5451,7 +5451,7 @@
                 <li class="gfield">
                   <label class="gfield_label" for="phone">Phone</label>
                   <div class="ginput_container ginput_container_email">
-                    <input class="medium" name="phone" id="phone" type="text" value="" placeholder="Phone*">
+                    <input class="medium" name="phone" id="phone" type="tel" value="" placeholder="Phone*">
                   </div>
                 </li>
                 <li class="gfield comments">

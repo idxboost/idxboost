@@ -3718,7 +3718,10 @@ if (!function_exists('flex_idx_buildind_sc')) {
             'flex_credentials' => $flex_lead_credentials
         );
 
+        
         wp_enqueue_style('flex-idx-filter-pages-css');
+        // Validar que solo llame cuando haya floorplans y si solo es la nueva version de floorplans
+        wp_enqueue_style('flex-idx-building-floorplan');
         wp_enqueue_script('flex-idx-building-js');
 
         // load javascript file only for track event view

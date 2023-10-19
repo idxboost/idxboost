@@ -2012,6 +2012,8 @@ loadPropertyInModal = function(mlsNumber) {
 					});
 				}
 			}
+
+			defaultFormValidation();
 		}
 	});
 

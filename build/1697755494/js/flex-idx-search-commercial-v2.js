@@ -1861,6 +1861,8 @@ loadPropertyInModal = function(mlsNumber) {
 					});
 				}
 			}
+
+			defaultFormValidation();
 		}
 	});
 }

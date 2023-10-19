@@ -464,7 +464,7 @@
                       <?php endif; ?>
                     </div>
                   </div>
-                  <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+                  <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form iboost-form-validation">
                     <fieldset>
                       <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
                       <input type="hidden" name="ib_tags" value="">
@@ -525,7 +525,7 @@
                           <li class="gfield">
                             <div class="ginput_container ginput_container_email">
                               <label class="gfield_label" for="phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                              <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                             </div>
                           </li>
                           <li class="gfield comments">
@@ -599,7 +599,7 @@
                   <?php endif; ?>
                 </div>
               </div>
-              <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+              <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form iboost-form-validation">
                 <fieldset>
                   <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
                   <input type="hidden" name="ib_tags" value="">
@@ -659,7 +659,7 @@
                       <li class="gfield">
                         <div class="ginput_container ginput_container_email">
                           <label class="gfield_label"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                          <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                          <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                         </div>
                       </li>
                       <li class="gfield comments">

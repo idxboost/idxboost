@@ -3,7 +3,7 @@ $idxboost_term_condition = get_option('idxboost_term_condition');
 $idxboost_agent_info = get_option('idxboost_agent_info');
 ?>
 
-<form id="<?php echo $atts['id_form']; ?>" class="form-search gtm_general_contact_form iboost-secured-recaptcha-form" method="post">
+<form id="<?php echo $atts['id_form']; ?>" class="form-search gtm_general_contact_form iboost-secured-recaptcha-form iboost-form-validation" method="post">
   <input type="hidden" name="ib_tags" value="">
   <input type="hidden" name="action" value="idxboost_agent_contact_inquiry">
   <input type="hidden" name="idx_agent_data_email" value="<?php echo addslashes($GLOBALS['data_agent']['email']); ?>">
@@ -49,7 +49,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
     </li>
     <li class="form-item pt-phone">
       <label class="ms-hidden" for="for_user_phone"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?> *</label>
-      <input id="for_user_phone" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium" name="phone" type="" value="" required>
+      <input id="for_user_phone" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="medium" name="phone" type="tel" value="" required>
     </li>
     <li class="form-item full-item">
       <label class="ms-hidden" for="for_user_comments"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>

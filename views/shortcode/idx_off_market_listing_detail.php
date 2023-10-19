@@ -599,7 +599,7 @@ if ($status_school != false) {
               <?php endif; ?>
             </div>
           </div>
-          <form method="post" id="flex-idx-property-form" class="gtm_more_info_property iboost-secured-recaptcha-form">
+          <form method="post" id="flex-idx-property-form" class="gtm_more_info_property iboost-secured-recaptcha-form iboost-form-validation">
             <fieldset>
               <legend><?php echo $agent_info_name; ?></legend>
               <input type="hidden" name="ib_tags" value="">
@@ -663,7 +663,7 @@ if ($status_school != false) {
                   <li class="gfield">
                     <div class="ginput_container ginput_container_email">
                       <label class="gfield_label" for="_ib_ph_inq"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                      <input required class="medium" name="phone" id="_ib_ph_inq" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                      <input required class="medium" name="phone" id="_ib_ph_inq" type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                     </div>
                   </li>
                   <li class="gfield comments">

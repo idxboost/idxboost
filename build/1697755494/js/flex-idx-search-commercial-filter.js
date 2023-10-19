@@ -2001,6 +2001,8 @@ loadPropertyInModal = function(mlsNumber) {
 					});
 				}
 			}
+
+			defaultFormValidation();
 		}
 	});
 

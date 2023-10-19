@@ -6,7 +6,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 <article class="ib-form-buyandsell">
   <img class="ib-form-bg" src="/" alt="<?php echo __("What are you looking to rent?", IDXBOOST_DOMAIN_THEME_LANG); ?>">
   
-  <form class="ib-fbscontainer gtm_i_want_to_rent iboost-secured-recaptcha-form" method="post" id="lead_submission_rent_form">
+  <form class="ib-fbscontainer gtm_i_want_to_rent iboost-secured-recaptcha-form iboost-form-validation" method="post" id="lead_submission_rent_form">
     <fieldset>
       <legend>
         <?php echo __("What are you looking to rent?", IDXBOOST_DOMAIN_THEME_LANG); ?>
@@ -157,11 +157,11 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
               </li>
               <li class="ib-fsftem">
                 <label for="ms-fsinput-phone" class="ms-hidden"><?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <input required class="ib-fsinput" type="text" name="phone" placeholder="<?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ms-fsinput-phone">
+                <input required class="ib-fsinput" type="tel" name="phone" placeholder="<?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?>" id="ms-fsinput-phone">
               </li>
               <li class="ib-fsftem ib-fsftem-textarea">
-                <label for="ms-fsinput-comments" class="ms-hidden"><?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                <textarea class="ib-fstextarea" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="comments" id="ms-fsinput-comments"></textarea>
+                <label for="ms-fsinput-comments" class="ms-hidden"><?php echo __("Comment", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                <textarea class="ib-fstextarea" placeholder="<?php echo __("Comment", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="comments" id="ms-fsinput-comments"></textarea>
               </li>
               <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
               <li class="gfield fub">

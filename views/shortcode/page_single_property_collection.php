@@ -399,7 +399,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                     </div>
 
                     <div class="sps-contact-body">
-                      <form class="js-ib-sp-contact-form" method="post" id="contact-us-form">
+                      <form class="js-ib-sp-contact-form iboost-form-validation" method="post" id="contact-us-form">
                         <fieldset>
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
                           <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
@@ -419,7 +419,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                             </li>
                             <li>
                               <label for="input_phone"><?php echo __("Enter your phone number", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <input type="text" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
+                              <input type="tel" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
                             </li>
                             <li>
                               <label for="input_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>

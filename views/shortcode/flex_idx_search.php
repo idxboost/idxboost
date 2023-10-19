@@ -1191,7 +1191,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                     </div>
                   </div>
                   <div class="ib-pacform">
-                    <form class="ib-cform ib-propery-inquiry-f gtm_more_info_property" method="post">
+                    <form class="ib-cform ib-propery-inquiry-f gtm_more_info_property iboost-form-validation" method="post">
                       <?php if (!empty($atts['registration_key'])): ?>
                         <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
                       <?php endif; ?>
@@ -1211,7 +1211,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                           <input class="ib-cfinput" name="email_address" type="email" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadEmailAddress this }} " required>
                         </li>
                         <li class="ib-cffitem">
-                          <input class="ib-cfinput" name="phone_number" type="text" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadPhoneNumber this }}" required>
+                          <input class="ib-cfinput" name="phone_number" type="tel" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadPhoneNumber this }}" required>
                         </li>
                         <li class="ib-cffitem">
                           <textarea class="ib-cftextarea" name="message" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" required><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</textarea>

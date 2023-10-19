@@ -675,8 +675,8 @@
             <?php endif ?>
           </p>
           <div class="form_content">
-            <form id="form-scheduled" method="post" class="gtm_schedule_a_consultation">
-		<fieldset>
+            <form id="form-scheduled" method="post" class="gtm_schedule_a_consultation iboost-form-validation">
+		          <fieldset>
                 <legend><?php echo __('Schedule a Consultation', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
               <input type="hidden" name="action" value="lead_submission_showing">
 
@@ -707,7 +707,7 @@
                   <li class="gfield">
                     <div class="ginput_container ginput_container_email">
                       <label for="ms-autocomplete-phone" class="ms-hidden"><?php echo __("Phone Number", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        <input id="ms-autocomplete-phone" autocapitalize="off" spellcheck="false" class="medium" name="phone_number" placeholder='<?php echo __("Phone Number", IDXBOOST_DOMAIN_THEME_LANG); ?>' type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])): ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif;?>" required />
+                        <input id="ms-autocomplete-phone" autocapitalize="off" spellcheck="false" class="medium" name="phone_number" placeholder='<?php echo __("Phone Number", IDXBOOST_DOMAIN_THEME_LANG); ?>' type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])): ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif;?>" required />
                     </div>
                   </li>
                   <li class="gfield comments">
@@ -1727,6 +1727,15 @@ function handleCredentialResponse(token) {
                         jQuery("._ib_em_inq").val(response.email);
                         jQuery("._ib_ph_inq").val(response.phone);
 
+                        // Sets user information on CMS Forms
+                        if (
+                          typeof idxpages === 'object' && 
+                          idxpages.forms && 
+                          typeof idxpages.forms.init === 'function'
+                        ) {
+                          idxpages.forms.init();
+                        }
+
                         jQuery('html').removeClass('modal_mobile');
 
                         // overwrite lead status globally
@@ -2483,6 +2492,15 @@ function fb_login() {
                             jQuery("._ib_ln_inq").val(response.last_name);
                             jQuery("._ib_em_inq").val(response.email);
                             jQuery("._ib_ph_inq").val(response.phone);
+
+                            // Sets user information on CMS Forms
+                            if (
+                              typeof idxpages === 'object' && 
+                              idxpages.forms && 
+                              typeof idxpages.forms.init === 'function'
+                            ) {
+                              idxpages.forms.init();
+                            }
 
                             jQuery('html').removeClass('modal_mobile');
 

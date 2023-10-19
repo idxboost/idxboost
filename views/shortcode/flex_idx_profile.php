@@ -112,7 +112,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                         <h2 class="title-profile"><?php echo __("My Profile", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
                      </div>
                      <div class="form-profile">
-                        <form class="form-shared-saved" method="post" id="flex_idx_profile_form">
+                        <form class="form-shared-saved iboost-form-validation" method="post" id="flex_idx_profile_form">
                            <input type="hidden" name="action" value="flex_profile_save">
                            <ul class="body-form">
 <li class="content-form">
@@ -128,7 +128,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 </li>
 <li class="content-form">
   <label for="flex_idx_profile_phone"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*</label>
-  <input type="text" class="input-form" name="flex_idx_profile_phone" id="flex_idx_profile_phone" value="<?php echo esc_attr($flex_idx_lead['lead_info']['phone_number']); ?>">
+  <input type="tel" class="input-form" name="flex_idx_profile_phone" id="flex_idx_profile_phone" value="<?php echo esc_attr($flex_idx_lead['lead_info']['phone_number']); ?>">
 </li>
 <li class="content-form">
   <label for="flex_idx_profile_address"><?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?></label>

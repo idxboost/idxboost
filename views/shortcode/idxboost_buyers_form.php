@@ -6,7 +6,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 <article class="ib-form-buyandsell">
   <img class="ib-form-bg" src="/" alt="<?php echo __("What are you looking to buy?", IDXBOOST_DOMAIN_THEME_LANG); ?>">
   
-  <form class="ib-fbscontainer gtm_i_want_to_buy iboost-secured-recaptcha-form" method="post" id="lead_submission_buy_form">
+  <form class="ib-fbscontainer gtm_i_want_to_buy iboost-secured-recaptcha-form iboost-form-validation" method="post" id="lead_submission_buy_form">
     <?php if (!empty($atts['registration_key'])): ?>
       <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
     <?php endif; ?> 
@@ -149,7 +149,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
               <input required class="ib-fsinput" type="text" name="name" placeholder="<?php echo __("Name*", IDXBOOST_DOMAIN_THEME_LANG); ?>">
             </li>
             <li class="ib-fsftem">
-              <input required class="ib-fsinput" type="text" name="phone" placeholder="<?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <input required class="ib-fsinput" type="tel" name="phone" placeholder="<?php echo __("Phone*", IDXBOOST_DOMAIN_THEME_LANG); ?>">
             </li>
             <li class="ib-fsftem ib-fsftem-textarea">
               <textarea class="ib-fstextarea" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="comments"></textarea>

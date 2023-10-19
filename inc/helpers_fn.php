@@ -5138,6 +5138,8 @@ if (!function_exists( 'flex_idx_request_property_form_fn' )) {
         $bed = isset($_POST['bed']) ? sanitize_text_field($_POST['bed']) : '';
         $bath = isset($_POST['bath']) ? sanitize_text_field($_POST['bath']) : '';
         $type_form = isset($_POST['type_form']) ? sanitize_text_field($_POST['type_form']) : '';
+        $country_code = isset($_POST['country_code']) ? sanitize_text_field($_POST['country_code']) : '';
+        
         $is_vacation_rentals = 0;
         $data = [
                 'first_name' => $first_name,
@@ -5145,6 +5147,7 @@ if (!function_exists( 'flex_idx_request_property_form_fn' )) {
                 'gender' => $gender,
                 'email_address' => $email_address,
                 'phone_number' => $phone_number,
+                'country_code' => $country_code,
                 'comments' => $comments,
                 'mls_num' => $mls_num,
                 'bed' => $bed,
@@ -5340,6 +5343,8 @@ if (!function_exists( 'flex_idx_request_website_building_form_fn' )) {
         $access_token = flex_idx_get_access_token();
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
+        $country_code = isset($_POST['country_code']) ? sanitize_text_field($_POST['country_code']) : '';
+
         $sendParams = array(
             'ib_tags' => $tags,
             'recaptcha_response' => $recaptcha_response,
@@ -5351,6 +5356,7 @@ if (!function_exists( 'flex_idx_request_website_building_form_fn' )) {
                 'last_name' => $last_name,
                 'email' => $email,
                 'phone' => $phone,
+                'country_code' => $country_code,
                 'message' => $message,
                 'ip_address' => $ip_address,
                 'url_referer' => $referer,
@@ -6349,6 +6355,8 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'register' => __('Register', IDXBOOST_DOMAIN_THEME_LANG),
             'logout' => __('Logout', IDXBOOST_DOMAIN_THEME_LANG),
             'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
+			'enter_a_valid_phone_number' => __('Please enter a valid phone number.', IDXBOOST_DOMAIN_THEME_LANG),
+            'enter_a_valid_email_address' => __('Please enter a valid email address.', IDXBOOST_DOMAIN_THEME_LANG),
         );
         // main styles
         wp_register_style('flex-idx-main-project', FLEX_IDX_URI . 'css/main.min.css', array(), iboost_get_mod_time("css/main.min.css"));
@@ -6370,6 +6378,10 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         wp_enqueue_script('mask-input', FLEX_IDX_URI . 'js/vendor/jquery.inputmask.min.js', array(), iboost_get_mod_time("js/vendor/jquery.inputmask.min.js"), true);
         wp_localize_script('mask-input', 'idx_translate_setting', $word_translate_setting);
 
+        //PHONE INPUT FORMAT
+        wp_register_script('intl-tel-input', FLEX_IDX_URI . 'js/vendor/intltelinput/js/intlTelInput.min.js');
+        wp_register_script('input-mask', FLEX_IDX_URI . 'js/jquery.mask.min.js');
+
         // underscore
         wp_register_script('underscore-mixins', FLEX_IDX_URI . 'js/underscore.mixins.js', array('underscore'), iboost_get_mod_time("js/underscore.mixins.js"));
         // mortgage calculator
@@ -6385,7 +6397,9 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'jquery',
             'underscore',
             'flex-idx-filter-jquery-ui',
-            'flex-idx-filter-jquery-ui-touch'
+            'flex-idx-filter-jquery-ui-touch',
+            'intl-tel-input',
+            'input-mask'
         ), iboost_get_mod_time("js/flex-auth-check.js"), true);
         wp_enqueue_script('flex-auth-check');
         // mini search
@@ -6681,6 +6695,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'fetchLeadActivitiesEndpoint' => FLEX_IDX_API_LEAD_FETCH_ACTIVITIES,
             'hideTooltipLeadEndpoint' => FLEX_IDX_API_LEAD_HIDE_TOOLTIP,
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
+            'api_get_ip_lead' => IDX_BOOST_GET_COUNTRY_LEAD,
             
             'request_form_rentals' => FLEX_IDX_API_INQUIRY_PROPERTY_FORM,
 
@@ -6706,6 +6721,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'siteUrl' => $flex_idx_info["website_url"],
             'templateDirectoryUrl' => $flex_idx_info["template_directory_url"],
+            'templateDirectoryPlugin' => FLEX_IDX_URI,
             'pusher' => array(
                 'app_cluster' => $flex_idx_info['pusher']['pusher_app_cluster'],
                 'app_key' => $flex_idx_info['pusher']['pusher_app_key'],
@@ -6754,6 +6770,10 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         // flex autocomplete [end]
 
         wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.min.css', array(), iboost_get_mod_time("css/single-property.min.css"));
+
+
+        // Build detail page
+        wp_register_style('flex-idx-building-floorplan', FLEX_IDX_URI . 'css/floorplan.min.css', array(), iboost_get_mod_time("css/floorplan.min.css"));
 
         // filter pages [start]
         wp_register_style('flex-idx-filter-pages-css', FLEX_IDX_URI . 'css/infowindows.min.css', array(), iboost_get_mod_time("css/infowindows.min.css"));
@@ -8418,15 +8438,7 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
             wp_register_script(
                 'carbonite-pages-contact',
                 IDX_BOOST_SPW_ASSETS . '/assets/js/pages/contact.js',
-                array( 'carbonite'),
-                '',
-                true
-            );
-
-            wp_register_script(
-                'carbonite-pages-agent',
-                IDX_BOOST_SPW_ASSETS . '/assets/js/pages/agent.js',
-                array( 'carbonite' ),
+                array( 'carbonite', 'google-maps-api' ),
                 '',
                 true
             );
@@ -8464,6 +8476,7 @@ if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
         global $flex_idx_info, $post, $wp;
 
         if (
+            get_option( 'idxboost_registration_key' ) &&
             !empty($flex_idx_info['agent']['has_cms']) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
@@ -8491,7 +8504,6 @@ if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
 
                 if ($type == "flex_idx_page_contact") {
                     wp_enqueue_style('carbonite-pages-contact');
-                    wp_enqueue_script('carbonite-pages-contact');
                     $idxboost_cms_custom_style_dep = 'carbonite-pages-contact';
                 }
 
@@ -8510,7 +8522,6 @@ if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
                 !$flex_idx_info['agent']['has_crm']
             ) {
                 wp_enqueue_style('carbonite-pages-agent');
-                wp_enqueue_script('carbonite-pages-agent');
                 $idxboost_cms_custom_style_dep = 'carbonite-pages-agent';
             }
 
@@ -8723,7 +8734,7 @@ if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
                 }
 
                 if ($content['data']['applyTo'] == 'home') {
-                    if (is_home() || is_front_page()) {
+                    if (is_front_page()) {
                         echo $content['content'];
                     }
                 }
@@ -8758,17 +8769,23 @@ if ( ! function_exists( 'idxboost_cms_translate' ) ) {
 
 if ( ! function_exists( 'idxboost_front_page_template' ) ) {
     function idxboost_front_page_template( $template )
-    {
-        global $flex_idx_info;
+    {        
+        if ( get_option( 'idxboost_registration_key' ) ) {
 
-        if ( ! empty( $flex_idx_info['agent']['has_cms'] ) && $flex_idx_info['agent']['has_cms'] != false ) {
-            if ( is_front_page() ) {
-                if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php' ) ) {
-                    return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php';
-                } else {
-                    return FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_home.php';
+            global $flex_idx_info;
+            
+            if ( ! empty( $flex_idx_info['agent']['has_cms'] ) && $flex_idx_info['agent']['has_cms'] != false ) {
+                if ( is_front_page() ) {
+                    if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php' ) ) {
+                        return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php';
+                    } else {
+                        return FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_home.php';
+                    }
                 }
             }
+        
+        } else {
+            return get_front_page_template();   
         }
 
         return $template;

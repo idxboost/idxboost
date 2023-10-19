@@ -1203,6 +1203,14 @@ function validate_price(evt) {
 							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
 						}
 
+						// Sets user information on CMS Forms
+						if (
+							typeof idxpages === 'object' && 
+							idxpages.forms && 
+							typeof idxpages.forms.init === 'function'
+						) {
+							idxpages.forms.init();
+						}
 
 						// dont close modal property
 						//$(".close").click();
@@ -1613,6 +1621,14 @@ function validate_price(evt) {
 							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
 						}
 
+						// Sets user information on CMS Forms
+						if (
+							typeof idxpages === 'object' && 
+							idxpages.forms && 
+							typeof idxpages.forms.init === 'function'
+						) {
+							idxpages.forms.init();
+						}
 
 						// updates lead list menu HTML
 						$("#user-options").html(response.output);
@@ -3628,3 +3644,193 @@ jQuery(document).ready(function() {
 		jQuery("#flex-filters-theme").css({'margin-top':'49px'});
 	}
 });
+
+//**************** VALIDACION DE FORMULARIOS *****************//
+function defaultFormValidation(){
+	var formValidation = jQuery(".iboost-form-validation");
+	if(!formValidation.hasClass("loaded")){
+
+		//Caracteres permitidos
+		var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		var phoneRegex = "0123456789";
+
+		//Validación de campo email
+		jQuery(document).on("input", ".iboost-form-validation input[type='email']", function () {
+			var email = jQuery(this).val();
+			var emailText = word_translate.enter_a_valid_email_address;
+			if(!jQuery(this).hasClass("validate-gen")){
+				jQuery(this).after('<span class="ms-validation-text"></span>');
+				jQuery(this).addClass("validate-gen");
+			}
+
+			if (!emailRegex.test(email)) {
+				jQuery(this).addClass("ms-input-error");
+				jQuery(this).parent().find(".ms-validation-text").html("<span>"+emailText+"</span>");
+			} else {
+				jQuery(this).removeClass("ms-input-error");
+				jQuery(this).parent().find(".ms-validation-text").empty();
+			}
+		});
+
+		//Validación de campo teléfono
+		jQuery(document).on("keypress", "form input[type='phone'], form input[type='tel']", function (event) {
+
+			if(!jQuery(this).hasClass("validate-gen")){
+				jQuery(this).parents('.ms-wrapper-phone-it').after('<span class="ms-validation-text"></span>');
+				jQuery(this).addClass("validate-gen");
+			}
+			
+			// var phoneText = jQuery(this).attr("data-text-valid");
+			var phoneText = word_translate.enter_a_valid_phone_number;
+			// if(phoneText == "" || phoneText == undefined){
+			// 	phoneText = "Error";
+			// }
+
+			var stringInput = String.fromCharCode(event.which);
+			if (!phoneRegex.includes(stringInput)) {
+				event.preventDefault();
+				jQuery(this).addClass("ms-input-error");
+				jQuery(this).parents().find(".ms-validation-text").html("<span>"+phoneText+"</span>");
+			} else {
+				jQuery(this).removeClass("ms-input-error");
+				jQuery(this).parents().find(".ms-validation-text").empty();
+			}
+		});
+
+		var utilsScript = __flex_g_settings.templateDirectoryPlugin+"js/vendor/intltelinput/js/utils.js";
+		var inputs = document.querySelectorAll(".iboost-form-validation input[type='tel']");
+
+		if (inputs) {
+			var parent = "";
+
+			inputs.forEach(input => {
+				//console.info('input', input);
+
+				parent = input.closest(".ms-wrapper-phone-it");  
+
+				if (typeof parent === 'undefined' || parent === null) {
+					//insertHtml(input);
+					var tempElement = input;
+					var idCode = (Math.random() + 1).toString(36).substring(7);
+					jQuery("<div class='ms-wrapper-phone-it' id='"+idCode+"'></div>").insertBefore(jQuery(input));
+					jQuery(input).remove();
+					jQuery("#"+idCode).html(tempElement);
+					jQuery("#"+idCode).find("input[type='tel']").removeAttr("placeholder");
+				}
+
+				setTimeout(() => {
+
+					var iti = window.intlTelInput(input, {
+						// allowDropdown: false,
+						// autoInsertDialCode: true,
+						// autoPlaceholder: true,
+						// dropdownContainer: document.body,
+						// excludeCountries: ["us"],
+						formatOnDisplay: true,
+						initialCountry: "auto",
+
+						//geoIpLookup: function(callback) {
+						//  fetch(__flex_g_settings.api_get_ip_lead,{method:'POST'})
+						//    .then(function(res) { return res.json(); })
+						//    .then(function(data) { 
+						//				callback(data.country); 
+						//				jQuery("<input type='hidden' name='contry_code' value='"+data.country+"' > <span class='iboost-form-phone-code-validation'>"+data.country+"</span>").insertBefore(jQuery(input))
+						//			})
+						//	    .catch(function() { callback("us"); });
+						//	},
+
+						geoIpLookup: function(callback) {
+						  fetch(__flex_g_settings.api_get_ip_lead,{method:'POST'})
+						    .then(function(res) { return res.json(); })
+						    .then(function(data) { 					    	
+
+								console.log(iti.countries)
+								var getCountryData = iti.countries.filter(function(item){
+								    return (item.iso2 == data.country.toLowerCase() );
+								})
+
+								var dialCode = "+1";
+
+								if (getCountryData.length > 0 ) {
+									dialCode = "+"+getCountryData[0].dialCode;
+								}
+
+						    	if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
+						    		jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
+						    	}else{
+						    		jQuery("#"+idCode).find(".country_code").val(dialCode)
+						    	}
+						    	callback(data.country); 
+						    	
+						    })
+						    .catch(function() { callback("us"); });
+						},
+
+						// hiddenInput: "full_number",
+						// localizedCountries: { 'de': 'Deutschland' },
+						nationalMode: true,
+						// onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+						// placeholderNumberType: "MOBILE",
+						// preferredCountries: ['cn', 'jp'],
+						separateDialCode: true,
+						// showFlags: false,
+						utilsScript: utilsScript
+					});
+
+					//console.log("pokemon="+jQuery("#"+idCode).find("input[type='tel']").intlTelInput("getSelectedCountryData").dialCode);
+					//jQuery("<span class='iboost-form-phone-code-validation'>+1</span>").insertBefore(jQuery(input));
+
+					jQuery(inputs).on("countrychange", function(event) {
+
+						var newPlaceholder = "";
+						jQuery(".iboost-form-validation input[type='tel']").attr("placeholder","");
+
+						// Get the selected country data to know which country is selected.
+						var selectedCountryData = iti.getSelectedCountryData();
+
+								var dialCode = "+1";
+									dialCode = "+"+selectedCountryData.dialCode;
+
+
+						    	if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
+						    		jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
+						    	}else{
+						    		jQuery("#"+idCode).find(".country_code").val(dialCode)
+						    	}						
+				
+						// Get an example number for the selected country to use as placeholder.
+						newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
+				
+							// Reset the phone number input.
+							iti.setNumber("");
+				
+						// Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
+						mask = newPlaceholder.replace(/[1-9]/g, "0");
+				
+						// Apply the new mask for the input
+						jQuery(this).mask(mask);
+					});
+				
+					iti.promise.then(function() {
+						jQuery(inputs).trigger("countrychange");
+					});
+
+				}, "500");
+
+			});
+		}
+
+		formValidation.addClass("loaded");
+		formValidation.removeClass("iboost-form-validation");
+	}
+}
+
+/*
+jQuery(document).on('click', '.iti__country-list .iti__country', function () {
+	jQuery(".iboost-form-phone-code-validation").text(jQuery(this).find(".iti__dial-code").text());
+});*/
+
+/*
+jQuery(window).load(function(){
+	defaultFormValidation();
+});*/

@@ -139,6 +139,9 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   $response['payload']['lng_building'] = $lngAlternative;
 }
 ?>
+
+<!-- <link rel="stylesheet" href="<?php include FLEX_IDX_PATH . '/css/floorplan.min.css';  ?>"> -->
+
 <main class="property-details theme-3">
   <div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
     <section class="title-conteiner gwr animated fixed-box">
@@ -824,7 +827,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                         <?php endif; ?>
                       </div>
                     </div>
-                    <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+                    <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form iboost-form-validation">
                       <fieldset>
                         <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
                         <input type="hidden" name="ib_tags" value="">
@@ -884,7 +887,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                             <li class="gfield">
                               <div class="ginput_container ginput_container_email">
                                 <label class="gfield_label" for="phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_ph_inq medium" name="phone" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_ph_inq medium" name="phone" type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                               </div>
                             </li>
                             <li class="gfield comments">
@@ -1060,7 +1063,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     <?php endif; ?>
                   </div>
                 </div>
-                <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form">
+                <form method="post" class="flex_idx_building_form gtm_more_info_building iboost-secured-recaptcha-form iboost-form-validation">
                   <fieldset>
                     <legend><?php echo $agent_info_name; ?> <?php echo $agent_last_name; ?></legend> 
                     <input type="hidden" name="ib_tags" value="">
@@ -1118,7 +1121,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                         <li class="gfield">
                           <div class="ginput_container ginput_container_email">
                             <label class="gfield_label"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="text" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                           </div>
                         </li>
                         <li class="gfield comments">
