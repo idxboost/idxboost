@@ -2,16 +2,16 @@
 
 class IDXBoost_REST_API_Endpoints
 {
-    const API_NAMESPACE            = 'idx-boost';
-    const API_VERSION              = 'v1';
-    const API_CREATE_USER_ENDPOINT = '/users';
+    const API_NAMESPACE = 'idx-boost';
+    const API_VERSION = 'v1';
     const API_ADD_REGISTRATION_KEY = '/reg-key';
-    const API_GET_POST             = '/posts';
-    const API_GET_CATEGORIES       = '/categories';
-    const API_ADD_PAGES            = '/add_page';
-    const API_EDIT_PAGES           = '/edit_page';
-    const API_DELETE_PAGES         = '/delete_page';
-    const API_REPLACE_FAVICON      = '/replace_favicon';
+    const API_CREATE_USER_ENDPOINT = '/users';
+    const API_GET_POST = '/posts';
+    const API_GET_CATEGORIES = '/categories';
+    const API_ADD_PAGES = '/add_page';
+    const API_EDIT_PAGES = '/edit_page';
+    const API_DELETE_PAGES = '/delete_page';
+    const API_REPLACE_FAVICON = '/replace_favicon';
 
     public static function registerEndpoints()
     {
@@ -19,48 +19,84 @@ class IDXBoost_REST_API_Endpoints
 
         register_rest_route($dns_api_rest_name_version, self::API_CREATE_USER_ENDPOINT, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'createUser']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'createUser'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_ADD_REGISTRATION_KEY, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'addRegKey']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'addRegKey'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_GET_POST, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'getPost']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'getPost'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_GET_CATEGORIES, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'getCategories']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'getCategories'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_ADD_PAGES, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'addPage']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'addPage'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_EDIT_PAGES, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'editPage']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'editPage'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_DELETE_PAGES, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'deletePage']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'deletePage'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
         register_rest_route($dns_api_rest_name_version, self::API_REPLACE_FAVICON, array(
             'methods' => WP_REST_Server::CREATABLE,
-            'callback' => ['IDXBoost_REST_API_Endpoints', 'replaceFavicon']
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'replaceFavicon'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
+    }
+
+    public static function loginJWT(WP_REST_Request $request)
+    {
+        require "inc/JWT.php";
+        $token = $_POST['token'];
+        try {
+            $publicKey = <<<EOD
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqm51yO1oSyAjOewYALny
+            8N/5t+A86o6fStraWZkKHE3BlWIKSz+U4WQzR8lR9H+3P7tbWLcrbvuFhDRwiSzV
+            3BNbMTtlaGteKY+u3CEXdUlw+ngrEWwL/jYMNrKm2ehJSRr94bPkBMAJiXUW9+cT
+            vRiIy7ruFNn0UNFIukezwweGViySuy8N2aF09ZpXvKAH1VDkg1lOpT4bOJ4IwVjt
+            wQ/a3qf0xV2mQKp6k4jVLynKTEMKNYeLDDGtb+WjV2DRstHJofrfACKrsVFhAVRV
+            HgWOmCqqXRvB9hkLsf8dPuec15c1BnmLcMuAiDA5nR4yET/TQY+Voi1fI4JKfyhv
+            lQIDAQAB
+            -----END PUBLIC KEY-----
+            EOD;
+            $decoded = JWT::decode($token, $publicKey, array('RS512'));
+            $decoded_array = (array)$decoded;
+            $issuedAt = new DateTimeImmutable();
+            if ($decoded_array['exp'] >= $issuedAt->getTimestamp()) {
+                return true;
+            }
+        } catch (Exception $ex) {
+            return false;
+        }
+        return false;
     }
 
     public static function getCategories(WP_REST_Request $request)
     {
-        $reg_key  = $_POST['reg-key'];
+        $reg_key = $_POST['reg-key'];
         $response = [];
 
         if (!$reg_key) {
@@ -94,7 +130,7 @@ class IDXBoost_REST_API_Endpoints
 
     public static function getPost(WP_REST_Request $request)
     {
-        $reg_key  = $_POST['reg-key'];
+        $reg_key = $_POST['reg-key'];
         $response = [];
 
         if (!$reg_key) {
@@ -156,7 +192,7 @@ class IDXBoost_REST_API_Endpoints
 
     public static function addRegKey(WP_REST_Request $request)
     {
-        $reg_key     = $_POST['reg-key'];
+        $reg_key = $_POST['reg-key'];
         $install_url = $_POST['install-url'];
 
         if (!$reg_key || !$install_url) {
@@ -215,7 +251,7 @@ class IDXBoost_REST_API_Endpoints
                 );
 
                 $postId = wp_insert_post($my_post);
-                $post   = get_post($postId);
+                $post = get_post($postId);
 
                 add_post_meta($postId, 'idx_page_type', $_POST['page_type']);
                 add_post_meta($postId, 'idx_page_id', $_POST['page_id']);

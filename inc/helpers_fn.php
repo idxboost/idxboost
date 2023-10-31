@@ -1,17 +1,19 @@
 <?php
 
-function custom_title($title_parts) {
+function custom_title($title_parts)
+{
     $title_property = "";
-    if ($title_parts["title"] == "Property Details" ){
+    if ($title_parts["title"] == "Property Details") {
         $detail_property = title_flex_idx_property_detail_sc([], null);
-        if (is_array($detail_property) && count($detail_property) > 0 ) {
-            $title_property = str_replace('# ', '#', $detail_property['address_short'])." ".str_replace(' ,', ',', $detail_property['address_large']);
+        if (is_array($detail_property) && count($detail_property) > 0) {
+            $title_property = str_replace('# ', '#', $detail_property['address_short']) . " " . str_replace(' ,', ',', $detail_property['address_large']);
             $title_parts['title'] = $title_property;
         }
     }
     return $title_parts;
 }
-add_filter( 'document_title_parts', 'custom_title' );
+
+add_filter('document_title_parts', 'custom_title');
 
 if (!function_exists('title_flex_idx_property_detail_sc')) {
     function title_flex_idx_property_detail_sc($atts, $content = null)
@@ -28,17 +30,17 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
         }
 
-        $wp_request     = $wp->request;
+        $wp_request = $wp->request;
         $wp_request_exp = explode('/', $wp_request);
 
         list($page, $slug) = $wp_request_exp;
 
         if (strstr($slug, '-rx-')) {
             $exp_slug = explode('-', $slug);
-            $mls_num  = 'rx-' . end($exp_slug);
+            $mls_num = 'rx-' . end($exp_slug);
         } else {
             $exp_slug = explode('-', $slug);
-            $mls_num  = end($exp_slug);
+            $mls_num = end($exp_slug);
         }
 
         $type_lookup = 'active';
@@ -46,20 +48,20 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
         // if (preg_match('/^[sold\-(.*)]+/', $slug)) {
         if (preg_match('#^sold#', $slug) === 1) {
             $type_lookup = 'sold';
-        // } else if (preg_match('/^[rented\-(.*)]+/', $slug)) {
+            // } else if (preg_match('/^[rented\-(.*)]+/', $slug)) {
         } else if (preg_match('#^rented#', $slug) === 1) {
             $type_lookup = 'rent';
-        // } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
+            // } else if (preg_match('/^[pending\-(.*)]+/', $slug)) {
         } else if (preg_match('#^pending#', $slug) === 1) {
             $type_lookup = 'pending';
         } else {
             $type_lookup = 'active';
         }
 
-        
+
         $slug_search = "{$slug}";
         if ($type_lookup != "active") {
-            $slug_search = str_replace("{$type_lookup}-","",$slug);
+            $slug_search = str_replace("{$type_lookup}-", "", $slug);
         }
 
 
@@ -72,98 +74,98 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
         // var_dump($type_lookup);
         // var_dump($slug);
         // exit;
-        
-        $AddressPrint='';
-        if (!empty($mls_num) && $mls_num!=null) {
-            $getTheAddress = str_replace('-'.$mls_num, "", $slug );
+
+        $AddressPrint = '';
+        if (!empty($mls_num) && $mls_num != null) {
+            $getTheAddress = str_replace('-' . $mls_num, "", $slug);
             $AddressPrint = str_replace("-", " ", $getTheAddress);
-            
+
             $GLOBALS['property_mls'] = $mls_num;
             $GLOBALS['property_address'] = $AddressPrint;
         }
 
         $ip_address = get_client_ip_server();
-        $referer    = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin     = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
 
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $sendParams = array(
-            'slug'             => $slug_search,
-            'mls_num'          => $mls_num,
-            'type_search'      => 'slug',
-            'type_lookup'      => $type_lookup,
-            'access_token'     => $access_token,
+            'slug' => $slug_search,
+            'mls_num' => $mls_num,
+            'type_search' => 'slug',
+            'type_lookup' => $type_lookup,
+            'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
-            'data'             => array(
-                'ip_address'  => $ip_address,
+            'data' => array(
+                'ip_address' => $ip_address,
                 'url_referer' => $referer,
-                'url_origin'  => $origin,
-                'user_agent'  => $user_agent,
+                'url_origin' => $origin,
+                'user_agent' => $user_agent,
             ),
         );
 
-        if ( is_array($_GET) && count($_GET)>0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1" ) {
+        if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
             $board_id = 100;
             $ed = "";
             $sd = "";
             $extra_day_in = "";
             $extra_day_out = "";
-            if (is_array($_GET) && count($_GET)> 0 ) {
-                if (array_key_exists("sd",$_GET)) {
+            if (is_array($_GET) && count($_GET) > 0) {
+                if (array_key_exists("sd", $_GET)) {
                     $sd = $_GET["sd"];
                 }
 
-                if (array_key_exists("ed",$_GET)) {
+                if (array_key_exists("ed", $_GET)) {
                     $ed = $_GET["ed"];
-                }   
+                }
 
-                if (array_key_exists("extra_day_in",$_GET)) {
+                if (array_key_exists("extra_day_in", $_GET)) {
                     $extra_day_in = $_GET["extra_day_in"];
-                }   
+                }
 
-                if (array_key_exists("extra_day_out",$_GET)) {
+                if (array_key_exists("extra_day_out", $_GET)) {
                     $extra_day_out = $_GET["extra_day_out"];
                 }
 
-                if (array_key_exists("board",$_GET)) {
+                if (array_key_exists("board", $_GET)) {
                     $board_id = $_GET["board"];
-                }                
-                
+                }
+
             }
 
             $curl = curl_init();
-                curl_setopt_array($curl, array(
-                  CURLOPT_URL => FLEX_IDX_BASE_URL."/rentals_listings/{$slug}",
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => http_build_query(
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => FLEX_IDX_BASE_URL . "/rentals_listings/{$slug}",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query(
 
-                      array(
+                    array(
                         'type_search' => 'slug',
                         'board_id' => $board_id,
-                        'check_in'  => $sd,
+                        'check_in' => $sd,
                         'check_out' => $ed,
                         "extra_day_in" => $extra_day_in,
                         "extra_day_out" => $extra_day_out,
                         'access_token' => $access_token
-                    )                    
-                  ),
+                    )
+                ),
             ));
 
             $server_output = curl_exec($curl);
             $response = json_decode($server_output, true);
             curl_close($curl);
             $current_url = home_url($wp_request);
-            $property    = (isset($response) && is_array($response) && count($response)>0 ) ? $response : array();
+            $property = (isset($response) && is_array($response) && count($response) > 0) ? $response : array();
             $GLOBALS["property"] = $property;
-        }else{
+        } else {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -180,7 +182,7 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             // exit;
 
             $current_url = home_url($wp_request);
-            $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+            $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
             $GLOBALS["property"] = $property;
 
             // var_dump($GLOBALS['property']);
@@ -192,20 +194,20 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
 }
 
 
-if (!function_exists( 'iboost_get_mod_time' )) {
+if (!function_exists('iboost_get_mod_time')) {
     function iboost_get_mod_time($filename)
     {
         // return (string)filemtime(FLEX_IDX_PATH . $filename);
-        return (string) filemtime(ib_get_idx_path() . $filename);
+        return (string)filemtime(ib_get_idx_path() . $filename);
     }
 }
 
 if (!function_exists('ibCodRandow')) {
     function ibCodRandow($longitud)
     {
-        $key     = '';
+        $key = '';
         $pattern = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYZ';
-        $max     = strlen($pattern) - 1;
+        $max = strlen($pattern) - 1;
 
         for ($i = 0; $i < $longitud; $i++) {
             $rand = mt_rand(0, $max);
@@ -216,29 +218,29 @@ if (!function_exists('ibCodRandow')) {
     }
 }
 
-if (!function_exists( 'flex_idx_track_property_view_xhr_fn' )) {
+if (!function_exists('flex_idx_track_property_view_xhr_fn')) {
     function flex_idx_track_property_view_xhr_fn()
     {
-        $response        = [];
-        $access_token    = flex_idx_get_access_token();
-        $lead_token      = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-        $mls_number      = isset($_POST["mls_number"]) ? $_POST["mls_number"] : "";
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $mls_number = isset($_POST["mls_number"]) ? $_POST["mls_number"] : "";
         $mls_opened_list = isset($_POST["mls_opened_list"]) ? $_POST["mls_opened_list"] : [];
-        $board_id        = isset($_POST["board_id"]) ? (int)$_POST["board_id"] : 1;
-        $client_ip       = get_client_ip_server();
-        $referer         = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin          = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
-        $agent           = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $params          = [
-            "access_token"    => $access_token,
-            "lead_token"      => $lead_token,
-            "client_ip"       => $client_ip,
-            "url_referer"     => $referer,
-            "url_origin"      => $origin,
-            "user_agent"      => $agent,
-            "mls_number"      => $mls_number,
+        $board_id = isset($_POST["board_id"]) ? (int)$_POST["board_id"] : 1;
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $params = [
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "url_referer" => $referer,
+            "url_origin" => $origin,
+            "user_agent" => $agent,
+            "mls_number" => $mls_number,
             "mls_opened_list" => $mls_opened_list,
-            "board_id"        => $board_id
+            "board_id" => $board_id
         ];
 
         $ch = curl_init();
@@ -259,7 +261,7 @@ if (!function_exists( 'flex_idx_track_property_view_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_agent_contact_inquiry_xhr_fn' )) {
+if (!function_exists('idxboost_agent_contact_inquiry_xhr_fn')) {
     function idxboost_agent_contact_inquiry_xhr_fn()
     {
         $response = [];
@@ -330,31 +332,31 @@ if (!function_exists( 'idxboost_agent_contact_inquiry_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'update_criterial_alert_xhr_fn' )) {
+if (!function_exists('update_criterial_alert_xhr_fn')) {
     function update_criterial_alert_xhr_fn()
     {
-        $response               = [];
-        $access_token           = flex_idx_get_access_token();
-        $lead_token             = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-        $client_ip              = get_client_ip_server();
-        $referer                = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin                 = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
-        $agent                  = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $token_alert            = isset($_POST["token_alert"]) ? trim(strip_tags($_POST["token_alert"])) : "";
-        $notification_day       = isset($_POST["notification_day"]) ? trim(strip_tags($_POST["notification_day"])) : "1";
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $token_alert = isset($_POST["token_alert"]) ? trim(strip_tags($_POST["token_alert"])) : "";
+        $notification_day = isset($_POST["notification_day"]) ? trim(strip_tags($_POST["notification_day"])) : "1";
         $notification_type_edit = $_POST["notification_type_edit"] ? $_POST["notification_type_edit"] : [];
-        $recaptcha_response     = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
-        $params                 = [
+        $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
+        $params = [
             'recaptcha_response' => $recaptcha_response,
-            "access_token"       => $access_token,
-            "lead_token"         => $lead_token,
-            "client_ip"          => $client_ip,
-            "referer"            => $referer,
-            "origin"             => $origin,
-            "agent"              => $agent,
-            "token_alert"        => $token_alert,
-            "data-interval"      => $notification_day,
-            "data-notify"        => implode(",", $notification_type_edit)
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "referer" => $referer,
+            "origin" => $origin,
+            "agent" => $agent,
+            "token_alert" => $token_alert,
+            "data-interval" => $notification_day,
+            "data-notify" => implode(",", $notification_type_edit)
         ];
 
         $ch = curl_init();
@@ -375,7 +377,7 @@ if (!function_exists( 'update_criterial_alert_xhr_fn' )) {
 }
 
 // for WP-Customizer
-if (!function_exists( 'func_customizer_idxboost' )) {
+if (!function_exists('func_customizer_idxboost')) {
     function func_customizer_idxboost($wp_customize)
     {
         $wp_customize->add_section('idx_plugin_customizer_scheme', array('title' => __('Colors', 'idx_plugin_customizer'), 'priority' => 102,));
@@ -413,30 +415,30 @@ if (!function_exists( 'func_customizer_idxboost' )) {
 }
 
 // lead submission for buy
-if (!function_exists( 'ib_lead_submission_buy_xhr_fn' )) {
+if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
     function ib_lead_submission_buy_xhr_fn()
     {
-        $response           = [];
-        $access_token       = flex_idx_get_access_token();
-        $lead_token         = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-        $registration_key   = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
-        $client_ip          = get_client_ip_server();
-        $referer            = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin             = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
-        $agent              = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $tags               = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $registration_key = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
-        $params             = [
-            'ib_tags'            => $tags,
+        $params = [
+            'ib_tags' => $tags,
             'recaptcha_response' => $recaptcha_response,
-            "access_token"       => $access_token,
-            "lead_token"         => $lead_token,
-            "client_ip"          => $client_ip,
-            "referer"            => $referer,
-            "origin"             => $origin,
-            "agent"              => $agent,
-            "form_data"          => $_POST,
-            'registration_key'   => $registration_key
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "referer" => $referer,
+            "origin" => $origin,
+            "agent" => $agent,
+            "form_data" => $_POST,
+            'registration_key' => $registration_key
         ];
 
         $ch = curl_init();
@@ -457,30 +459,30 @@ if (!function_exists( 'ib_lead_submission_buy_xhr_fn' )) {
 }
 
 // lead submission for rent
-if (!function_exists( 'ib_lead_submission_rent_xhr_fn' )) {
+if (!function_exists('ib_lead_submission_rent_xhr_fn')) {
     function ib_lead_submission_rent_xhr_fn()
     {
-        $response           = [];
-        $access_token       = flex_idx_get_access_token();
-        $lead_token         = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-        $registration_key   = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
-        $client_ip          = get_client_ip_server();
-        $referer            = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin             = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
-        $agent              = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $tags               = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $registration_key = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
-        $params             = [
-            'ib_tags'            => $tags,
+        $params = [
+            'ib_tags' => $tags,
             'recaptcha_response' => $recaptcha_response,
-            "access_token"       => $access_token,
-            "lead_token"         => $lead_token,
-            "client_ip"          => $client_ip,
-            "referer"            => $referer,
-            "origin"             => $origin,
-            "agent"              => $agent,
-            "form_data"          => $_POST,
-            'registration_key'   => $registration_key
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "referer" => $referer,
+            "origin" => $origin,
+            "agent" => $agent,
+            "form_data" => $_POST,
+            'registration_key' => $registration_key
         ];
 
         $ch = curl_init();
@@ -501,30 +503,30 @@ if (!function_exists( 'ib_lead_submission_rent_xhr_fn' )) {
 }
 
 // lead submission for sell
-if (!function_exists( 'ib_lead_submission_sell_xhr_fn' )) {
+if (!function_exists('ib_lead_submission_sell_xhr_fn')) {
     function ib_lead_submission_sell_xhr_fn()
     {
-        $response           = [];
-        $access_token       = flex_idx_get_access_token();
-        $lead_token         = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-        $registration_key   = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
-        $client_ip          = get_client_ip_server();
-        $referer            = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
-        $origin             = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
-        $agent              = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $tags               = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $registration_key = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
-        $params             = [
-            'ib_tags'            => $tags,
+        $params = [
+            'ib_tags' => $tags,
             'recaptcha_response' => $recaptcha_response,
-            "access_token"       => $access_token,
-            "lead_token"         => $lead_token,
-            "client_ip"          => $client_ip,
-            "referer"            => $referer,
-            "origin"             => $origin,
-            "agent"              => $agent,
-            "form_data"          => $_POST,
-            'registration_key'   => $registration_key
+            "access_token" => $access_token,
+            "lead_token" => $lead_token,
+            "client_ip" => $client_ip,
+            "referer" => $referer,
+            "origin" => $origin,
+            "agent" => $agent,
+            "form_data" => $_POST,
+            'registration_key' => $registration_key
         ];
 
         $ch = curl_init();
@@ -541,7 +543,7 @@ if (!function_exists( 'ib_lead_submission_sell_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_register_quizz_save_fn' )) {
+if (!function_exists('ib_register_quizz_save_fn')) {
     function ib_register_quizz_save_fn()
     {
         $response = [];
@@ -576,7 +578,7 @@ if (!function_exists( 'ib_register_quizz_save_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_schools_info_xhr_fn' )) {
+if (!function_exists('ib_schools_info_xhr_fn')) {
     function ib_schools_info_xhr_fn()
     {
         $lat = isset($_POST["lat"]) ? $_POST["lat"] : null;
@@ -604,7 +606,7 @@ if (!function_exists( 'ib_schools_info_xhr_fn' )) {
         curl_close($ch);
         ob_start();
         if (is_array($response)) {
-?>
+            ?>
 
             <!-- starts schools information -->
 
@@ -671,18 +673,21 @@ if (!function_exists( 'ib_schools_info_xhr_fn' )) {
                                 } elseif (strpos($valuegeome['name_school'], 'High')) {
                                     $filtextSchool = 'high';
                                 }
-                        ?>
+                                ?>
                                 <div class="clidxboost-td-niche <?php echo $filtextSchool; ?> clidxboost-td-niche-hide">
                                     <div class="clidxboost-data-item">
-                                        <a target="blank" rel="nofollow" href="<?php echo $valuegeome['url']; ?>"><?php echo $valuegeome['name_school']; ?></a>
+                                        <a target="blank" rel="nofollow"
+                                           href="<?php echo $valuegeome['url']; ?>"><?php echo $valuegeome['name_school']; ?></a>
                                     </div>
-                                    <div class="clidxboost-data-item"><img class="clidxboost-rangeSchools" src="<?php echo $pathImageBest; ?>"></div>
+                                    <div class="clidxboost-data-item"><img class="clidxboost-rangeSchools"
+                                                                           src="<?php echo $pathImageBest; ?>"></div>
                                     <div class="clidxboost-data-item"><?php echo $valuegeome['grades_offered']; ?></div>
-                                    <div class="clidxboost-data-item"><img class="clidxboost-safelySchools" src="<?php echo $pathImageAca; ?> "></div>
+                                    <div class="clidxboost-data-item"><img class="clidxboost-safelySchools"
+                                                                           src="<?php echo $pathImageAca; ?> "></div>
                                     <div class="clidxboost-data-item"><?php echo number_format(($valuegeome['distancePoint'] * 0.62137), 1, '.', ''); ?><?php echo __("Miles", IDXBOOST_DOMAIN_THEME_LANG); ?> </div>
                                     <div class="clidxboost-data-item"><?php echo $valuegeome['character']; ?></div>
                                 </div>
-                        <?php }
+                            <?php }
                         }
                         ?>
                         <div id="clidxboost-container-loadMore-niche" class="clidxboost-container-loadMore-niche">
@@ -691,7 +696,8 @@ if (!function_exists( 'ib_schools_info_xhr_fn' )) {
                         </div>
                         <div class="uc-listingSchools-disclaimer">
                             <p>
-                                <a class="uc-listingSchools-attributionLink" href="https://www.niche.com/k12" target="_blank">
+                                <a class="uc-listingSchools-attributionLink" href="https://www.niche.com/k12"
+                                   target="_blank">
                                     <?php echo __("K12 School Data", IDXBOOST_DOMAIN_THEME_LANG); ?>
                                 </a>
                                 <?php echo __("provided by", IDXBOOST_DOMAIN_THEME_LANG); ?>
@@ -705,7 +711,8 @@ if (!function_exists( 'ib_schools_info_xhr_fn' )) {
                             </p>
                             <p>
                                 <?php echo __("School data provided as-is by", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                <a class="uc-listingSchools-disclaimerLink" href="https://www.niche.com" target="_blank">
+                                <a class="uc-listingSchools-disclaimerLink" href="https://www.niche.com"
+                                   target="_blank">
                                     Niche</a>,
                                 <?php echo __("a third party. It is the responsibility of the user to evaluate all sources of information. Users should visit all school district web sites and visit all the schools in person to verify and consider all data, including eligibility.", IDXBOOST_DOMAIN_THEME_LANG); ?>
                             </p>
@@ -730,48 +737,49 @@ if (!function_exists( 'ib_schools_info_xhr_fn' )) {
 }
 
 //EN STAGING NO
-if (!function_exists( 'iboost_print_googlegtm_head_script' )) {
+if (!function_exists('iboost_print_googlegtm_head_script')) {
     function iboost_print_googlegtm_head_script()
     {
 
-            if ( get_option('idxboost_tools_initials') == 'production' ) {
-                    global $flex_idx_info;
-                    if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) { ?>
-                        <!-- Google Tag Manager -->
-                        <script>
-                            (function(w, d, s, l, i) {
-                                w[l] = w[l] || [];
-                                w[l].push({
-                                    'gtm.start': new Date().getTime(),
-                                    event: 'gtm.js'
-                                });
-                                var f = d.getElementsByTagName(s)[0],
-                                    j = d.createElement(s),
-                                    dl = l != 'dataLayer' ? '&l=' + l : '';
-                                j.async = true;
-                                j.src =
-                                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                                f.parentNode.insertBefore(j, f);
-                            })(window, document, 'script', 'dataLayer', '<?php echo $flex_idx_info['agent']['google_gtm']; ?>');
-                        </script>
-                        <!-- End Google Tag Manager -->
-                    <?php
-                    }
+        if (get_option('idxboost_tools_initials') == 'production') {
+            global $flex_idx_info;
+            if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) { ?>
+                <!-- Google Tag Manager -->
+                <script>
+                    (function (w, d, s, l, i) {
+                        w[l] = w[l] || [];
+                        w[l].push({
+                            'gtm.start': new Date().getTime(),
+                            event: 'gtm.js'
+                        });
+                        var f = d.getElementsByTagName(s)[0],
+                            j = d.createElement(s),
+                            dl = l != 'dataLayer' ? '&l=' + l : '';
+                        j.async = true;
+                        j.src =
+                            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                        f.parentNode.insertBefore(j, f);
+                    })(window, document, 'script', 'dataLayer', '<?php echo $flex_idx_info['agent']['google_gtm']; ?>');
+                </script>
+                <!-- End Google Tag Manager -->
+                <?php
             }
+        }
     }
 }
 
 //EN STAGING NO
-if (!function_exists( 'iboost_print_googlegtm_body_script' )) {
+if (!function_exists('iboost_print_googlegtm_body_script')) {
     function iboost_print_googlegtm_body_script()
     {
 
-        if ( get_option('idxboost_tools_initials') == 'production' ) { 
+        if (get_option('idxboost_tools_initials') == 'production') {
             global $flex_idx_info;
             if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) { ?>
                 <!-- Google Tag Manager (noscript) -->
                 <noscript>
-                    <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $flex_idx_info['agent']['google_gtm']; ?>" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+                    <iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo $flex_idx_info['agent']['google_gtm']; ?>"
+                            height="0" width="0" style="display:none;visibility:hidden"></iframe>
                 </noscript>
                 <!-- End Google Tag Manager (noscript) -->
                 <?php
@@ -780,7 +788,7 @@ if (!function_exists( 'iboost_print_googlegtm_body_script' )) {
     }
 }
 
-if (!function_exists( 'iboost_print_analytics_script' )) {
+if (!function_exists('iboost_print_analytics_script')) {
     function iboost_print_analytics_script()
     {
         global $flex_idx_info;
@@ -806,7 +814,7 @@ if (!function_exists( 'iboost_print_analytics_script' )) {
     }
 }
 
-if (!function_exists( 'iboost_load_property_xhr_fn' )) {
+if (!function_exists('iboost_load_property_xhr_fn')) {
     function iboost_load_property_xhr_fn()
     {
         global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
@@ -847,7 +855,7 @@ if (!function_exists( 'iboost_load_property_xhr_fn' )) {
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
         $sendParams = array(
-            'type_search'      => 'mls_num',
+            'type_search' => 'mls_num',
             'mls_num' => $mls_num,
             'type_lookup' => $type_lookup,
             'access_token' => $access_token,
@@ -910,7 +918,7 @@ if (!function_exists( 'iboost_load_property_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'iboost_try_save_filter_xhr_fn' )) {
+if (!function_exists('iboost_try_save_filter_xhr_fn')) {
     function iboost_try_save_filter_xhr_fn()
     {
         global $wpdb;
@@ -941,14 +949,14 @@ if (!function_exists( 'iboost_try_save_filter_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idx_boots_main_css' )) {
+if (!function_exists('idx_boots_main_css')) {
     function idx_boots_main_css()
     {
         wp_enqueue_style('flex-idx-main-project');
     }
 }
 
-if (!function_exists( 'grab_image' )) {
+if (!function_exists('grab_image')) {
     function grab_image($url, $saveto)
     {
         $ch = curl_init($url);
@@ -974,7 +982,7 @@ if (!function_exists( 'grab_image' )) {
     }
 }
 
-if (!function_exists( 'flex_has_filter_url_params' )) {
+if (!function_exists('flex_has_filter_url_params')) {
     function flex_has_filter_url_params()
     {
         if (isset($_GET["ibtrack"]) && ("fp" === $_GET["ibtrack"])) {
@@ -984,7 +992,7 @@ if (!function_exists( 'flex_has_filter_url_params' )) {
     }
 }
 
-if (!function_exists( 'flex_get_filter_url_params' )) {
+if (!function_exists('flex_get_filter_url_params')) {
     function flex_get_filter_url_params()
     {
         $parameters = array();
@@ -1000,7 +1008,7 @@ if (!function_exists( 'flex_get_filter_url_params' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_skip_import_data_fn' )) {
+if (!function_exists('flex_idx_skip_import_data_fn')) {
     function flex_idx_skip_import_data_fn()
     {
         $response = array("success" => true, "message" => "OK");
@@ -1010,7 +1018,7 @@ if (!function_exists( 'flex_idx_skip_import_data_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_attach_image_to_post' )) {
+if (!function_exists('idxboost_attach_image_to_post')) {
     function idxboost_attach_image_to_post($image_src, $post_id)
     {
         $wp_upload_dir = wp_upload_dir();
@@ -1039,7 +1047,7 @@ if (!function_exists( 'idxboost_attach_image_to_post' )) {
     }
 }
 
-if (!function_exists( 'dgt_mortgage_calculator_fn' )) {
+if (!function_exists('dgt_mortgage_calculator_fn')) {
     function dgt_mortgage_calculator_fn()
     {
         $params = $_POST;
@@ -1059,7 +1067,7 @@ if (!function_exists( 'dgt_mortgage_calculator_fn' )) {
     }
 }
 
-if (!function_exists( 'calculateMortgage' )) {
+if (!function_exists('calculateMortgage')) {
     function calculateMortgage($sale_price, $down_percent, $year_term, $annual_interest_percent)
     {
         $monthly_factor = 0;
@@ -1090,7 +1098,7 @@ if (!function_exists( 'calculateMortgage' )) {
     }
 }
 
-if (!function_exists( 'flex_schedule_showing_fn' )) {
+if (!function_exists('flex_schedule_showing_fn')) {
     function flex_schedule_showing_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -1149,7 +1157,7 @@ if (!function_exists( 'flex_schedule_showing_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_share_with_friend_xhr_fn' )) {
+if (!function_exists('flex_share_with_friend_xhr_fn')) {
     function flex_share_with_friend_xhr_fn()
     {
         global $wpdb;
@@ -1212,14 +1220,14 @@ if (!function_exists( 'flex_share_with_friend_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idx_import_tgbuilding_update_xhr_fn' )) {
+if (!function_exists('idx_import_tgbuilding_update_xhr_fn')) {
     function idx_import_tgbuilding_update_xhr_fn()
     {
         global $wpdb;
 
         $response = ['status' => false, 'message' => 'You need install TgBuilding'];
 
-        if (function_exists( 'feed_file_building' )) {
+        if (function_exists('feed_file_building')) {
             $response['data'] = feed_file_building();
             $response['status'] = true;
             $response['message'] = 'success update!!';
@@ -1228,7 +1236,7 @@ if (!function_exists( 'idx_import_tgbuilding_update_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_import_building_xhr_fn' )) {
+if (!function_exists('idxboost_import_building_xhr_fn')) {
     function idxboost_import_building_xhr_fn()
     {
         global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
@@ -1471,8 +1479,8 @@ if (!function_exists( 'idxboost_import_building_xhr_fn' )) {
             //inicio proceso guardar los nuevos items para sus metas
             if (!empty($response_data_new_items) && is_array($response_data_new_items) && count($response_data_new_items) > 0) {
                 $list_codes = '"' . implode('","', array_map(function ($item) {
-                    return $item['code'];
-                }, $response_data_new_items)) . '"';
+                        return $item['code'];
+                    }, $response_data_new_items)) . '"';
 
                 $result_tgbuilding_wp_new = $wpdb->get_results("SELECT post.ID,post.post_title as name,post.post_mime_type as code FROM wp_posts post where post_type='tgbuilding' and post.post_mime_type in (" . $list_codes . ");", ARRAY_A);
                 $list_build_new = [];
@@ -1530,7 +1538,7 @@ if (!function_exists( 'idxboost_import_building_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_agents_admin_columns_head' )) {
+if (!function_exists('flex_idx_agents_admin_columns_head')) {
     function flex_idx_agents_admin_columns_head($defaults)
     {
         unset($defaults['date']);
@@ -1546,7 +1554,7 @@ if (!function_exists( 'flex_idx_agents_admin_columns_head' )) {
     add_filter('manage_idx-agents_posts_columns', 'flex_idx_agents_admin_columns_head', 10);
 }
 
-if (!function_exists( 'flex_idx_agents_admin_columns_content' )) {
+if (!function_exists('flex_idx_agents_admin_columns_content')) {
     function flex_idx_agents_admin_columns_content($column_name, $post_ID)
     {
         switch ($column_name) {
@@ -1580,7 +1588,7 @@ if (!function_exists( 'flex_idx_agents_admin_columns_content' )) {
     add_action('manage_idx-agents_posts_custom_column', 'flex_idx_agents_admin_columns_content', 10, 2);
 }
 
-if (!function_exists( 'flex_filter_pages_admin_columns_head' )) {
+if (!function_exists('flex_filter_pages_admin_columns_head')) {
     function flex_filter_pages_admin_columns_head($defaults)
     {
         unset($defaults['date']);
@@ -1594,7 +1602,7 @@ if (!function_exists( 'flex_filter_pages_admin_columns_head' )) {
     add_filter('manage_flex-filter-pages_posts_columns', 'flex_filter_pages_admin_columns_head', 10);
 }
 
-if (!function_exists( 'flex_building_pages_admin_columns_head' )) {
+if (!function_exists('flex_building_pages_admin_columns_head')) {
     function flex_building_pages_admin_columns_head($defaults)
     {
         unset($defaults['date']);
@@ -1606,7 +1614,7 @@ if (!function_exists( 'flex_building_pages_admin_columns_head' )) {
     add_filter('manage_flex-idx-building_posts_columns', 'flex_building_pages_admin_columns_head', 10);
 }
 
-if (!function_exists( 'flex_off_market_listing_pages_admin_columns_head' )) {
+if (!function_exists('flex_off_market_listing_pages_admin_columns_head')) {
     function flex_off_market_listing_pages_admin_columns_head($defaults)
     {
         unset($defaults['date']);
@@ -1618,7 +1626,7 @@ if (!function_exists( 'flex_off_market_listing_pages_admin_columns_head' )) {
     add_filter('manage_idx-off-market_posts_columns', 'flex_off_market_listing_pages_admin_columns_head', 10);
 }
 
-if (!function_exists( 'flex_filter_has_featured_page' )) {
+if (!function_exists('flex_filter_has_featured_page')) {
     function flex_filter_has_featured_page()
     {
         global $wpdb;
@@ -1641,7 +1649,7 @@ if (!function_exists( 'flex_filter_has_featured_page' )) {
     }
 }
 
-if (!function_exists( 'flex_filter_pages_admin_columns_content' )) {
+if (!function_exists('flex_filter_pages_admin_columns_content')) {
     function flex_filter_pages_admin_columns_content($column_name, $post_ID)
     {
         switch ($column_name) {
@@ -1678,7 +1686,7 @@ if (!function_exists( 'flex_filter_pages_admin_columns_content' )) {
     add_action('manage_flex-filter-pages_posts_custom_column', 'flex_filter_pages_admin_columns_content', 10, 2);
 }
 
-if (!function_exists( 'flex_building_pages_admin_columns_content' )) {
+if (!function_exists('flex_building_pages_admin_columns_content')) {
     function flex_building_pages_admin_columns_content($column_name, $post_ID)
     {
         switch ($column_name) {
@@ -1692,7 +1700,7 @@ if (!function_exists( 'flex_building_pages_admin_columns_content' )) {
     add_action('manage_flex-idx-building_posts_custom_column', 'flex_building_pages_admin_columns_content', 10, 2);
 }
 
-if (!function_exists( 'flex_offmarlket_pages_admin_columns_content' )) {
+if (!function_exists('flex_offmarlket_pages_admin_columns_content')) {
     function flex_offmarlket_pages_admin_columns_content($column_name, $post_ID)
     {
         switch ($column_name) {
@@ -1706,7 +1714,7 @@ if (!function_exists( 'flex_offmarlket_pages_admin_columns_content' )) {
     add_action('manage_idx-off-market_posts_custom_column', 'flex_offmarlket_pages_admin_columns_content', 10, 2);
 }
 
-if (!function_exists( 'flex_http_request' )) {
+if (!function_exists('flex_http_request')) {
     function flex_http_request($uri, $params, $method = 'POST')
     {
         $ch = curl_init();
@@ -1733,21 +1741,21 @@ if (!function_exists( 'flex_http_request' )) {
     }
 }
 
-if (!function_exists( 'flex_encode_keyword_string' )) {
+if (!function_exists('flex_encode_keyword_string')) {
     function flex_encode_keyword_string($input)
     {
         return str_replace(array(' ', '#', '/', '&'), array('~', ':', '_', ';'), $input);
     }
 }
 
-if (!function_exists( 'flex_decode_keyword_string' )) {
+if (!function_exists('flex_decode_keyword_string')) {
     function flex_decode_keyword_string($input)
     {
         return str_replace(array('~', ':', '_', ';'), array(' ', '#', '/', '&'), $input);
     }
 }
 
-if (!function_exists( 'flex_include_html_partial' )) {
+if (!function_exists('flex_include_html_partial')) {
     function flex_include_html_partial()
     {
         ob_start();
@@ -1769,7 +1777,7 @@ if (!function_exists( 'flex_include_html_partial' )) {
     add_action('wp_footer', 'flex_include_html_partial');
 }
 
-if (!function_exists( 'flex_json_decode' )) {
+if (!function_exists('flex_json_decode')) {
     function is_flex_json_value($input)
     {
         if (!empty($input)) {
@@ -1780,7 +1788,7 @@ if (!function_exists( 'flex_json_decode' )) {
     }
 }
 
-if (!function_exists( 'flex_phone_number_filter' )) {
+if (!function_exists('flex_phone_number_filter')) {
     function flex_phone_number_filter($input)
     {
         if (!empty($input)) {
@@ -1791,7 +1799,7 @@ if (!function_exists( 'flex_phone_number_filter' )) {
     }
 }
 
-if (!function_exists( 'flex_map_array' )) {
+if (!function_exists('flex_map_array')) {
     function flex_map_array($rows)
     {
         $output = array();
@@ -1804,7 +1812,7 @@ if (!function_exists( 'flex_map_array' )) {
     }
 }
 
-if (!function_exists( 'idxboost_array_sort_by_column' )) {
+if (!function_exists('idxboost_array_sort_by_column')) {
     function idxboost_array_sort_by_column(&$arr, $col, $dir = SORT_ASC)
     {
         $sort_col = array();
@@ -1815,13 +1823,13 @@ if (!function_exists( 'idxboost_array_sort_by_column' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_get_info' )) {
+if (!function_exists('flex_idx_get_info')) {
     function flex_idx_get_info()
     {
-        global $wpdb,$idxboost_info_agent;
+        global $wpdb, $idxboost_info_agent;
         $output = [];
-        
-        if( !is_array($idxboost_info_agent) || (is_array($idxboost_info_agent) && count($idxboost_info_agent) == 0) ) {
+
+        if (!is_array($idxboost_info_agent) || (is_array($idxboost_info_agent) && count($idxboost_info_agent) == 0)) {
             // fetch info
             $idxboost_commercial_types = get_option('idxboost_commercial_types');
             $search_filter_settings = get_option('idxboost_search_filter_settings');
@@ -1905,7 +1913,7 @@ if (!function_exists( 'flex_idx_get_info' )) {
             $output['agent']['recaptcha_site_key'] = isset($idxboost_agent_info['recaptcha_site_key']) ? $idxboost_agent_info['recaptcha_site_key'] : null;
             $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
 
-            $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool) $idxboost_agent_info['has_crm'] : false;
+            $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool)$idxboost_agent_info['has_crm'] : false;
 
             // social info
             #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
@@ -1940,8 +1948,8 @@ if (!function_exists( 'flex_idx_get_info' )) {
             $output['search']['year_built_range'] = isset($idxboost_search_settings['year_built_range']) ? $idxboost_search_settings['year_built_range'] : '';
             $output['search']['default_language'] = isset($idxboost_search_settings['default_language']) ? $idxboost_search_settings['default_language'] : '';
             $output['search']['default_floor_plan'] = isset($idxboost_search_settings['default_floor_plan']) ? $idxboost_search_settings['default_floor_plan'] : '';
-            $output['search']['idx_listings_type'] = isset($idxboost_search_settings['idx_listings_type']) ?  $idxboost_search_settings['idx_listings_type'] : 0;
-            $output['search']['hide_pending_content_options'] = isset($idxboost_search_settings['hide_pending_content_options']) ? (int) $idxboost_search_settings['hide_pending_content_options'] : 0;
+            $output['search']['idx_listings_type'] = isset($idxboost_search_settings['idx_listings_type']) ? $idxboost_search_settings['idx_listings_type'] : 0;
+            $output['search']['hide_pending_content_options'] = isset($idxboost_search_settings['hide_pending_content_options']) ? (int)$idxboost_search_settings['hide_pending_content_options'] : 0;
             /*$list_search_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "search_%"', ARRAY_A);
             $output['search'] = flex_map_array($list_search_info);
             if (!empty($output['search']) && isset($output['search']['search_idx_cities']) ) {
@@ -1959,7 +1967,7 @@ if (!function_exists( 'flex_idx_get_info' )) {
             $output['search_filter_settings'] = $search_filter_settings;
             $idxboost_info_agent = $output;
 
-        }else{
+        } else {
             $output = $idxboost_info_agent;
         }
 
@@ -1967,12 +1975,12 @@ if (!function_exists( 'flex_idx_get_info' )) {
     }
 }
 
-if (!function_exists( 'idxboost_list_pages' )) {
+if (!function_exists('idxboost_list_pages')) {
     function idxboost_list_pages()
     {
-        global $wpdb,$idxboost_pages;
+        global $wpdb, $idxboost_pages;
 
-        if( !is_array($idxboost_pages) || (is_array($idxboost_pages) && count($idxboost_pages) == 0) ) {
+        if (!is_array($idxboost_pages) || (is_array($idxboost_pages) && count($idxboost_pages) == 0)) {
             $list_pages = $wpdb->get_results("
                 select ID, post_title, post_name, guid, t2.meta_value AS page_id
                 from {$wpdb->posts} t1
@@ -1985,13 +1993,13 @@ if (!function_exists( 'idxboost_list_pages' )) {
             foreach ($list_pages as $idxboost_page) {
                 $idxboost_page['guid'] = implode('/', array(site_url(), $idxboost_page['post_name']));
                 $idxboost_pages[$idxboost_page["page_id"]] = $idxboost_page;
-            }          
+            }
         }
         return $idxboost_pages;
     }
 }
 
-if (!function_exists( 'flex_user_list_pages' )) {
+if (!function_exists('flex_user_list_pages')) {
     function flex_user_list_pages()
     {
         global $wpdb, $flex_idx_info, $agent_permalink, $post, $wp;
@@ -2019,7 +2027,7 @@ if (!function_exists( 'flex_user_list_pages' )) {
 
                 $list_pages[] = array(
                     "post_title" => $page_info["post_title"],
-                    "permalink" => (true === $is_agent_page) ? str_replace(site_url(), site_url() . '/' . $agent_slugname, $page_info["guid"])  : $page_info["guid"]
+                    "permalink" => (true === $is_agent_page) ? str_replace(site_url(), site_url() . '/' . $agent_slugname, $page_info["guid"]) : $page_info["guid"]
                 );
             }
         }
@@ -2027,7 +2035,7 @@ if (!function_exists( 'flex_user_list_pages' )) {
     }
 }
 
-if (!function_exists( 'idxboost_autologin_alerts_fn' )) {
+if (!function_exists('idxboost_autologin_alerts_fn')) {
     function idxboost_autologin_alerts_fn()
     {
         $client_ip = get_client_ip_server();
@@ -2113,87 +2121,87 @@ if (!function_exists( 'idxboost_autologin_alerts_fn' )) {
                                     }
 
                                     //listing view
-                        ?>
+                                    ?>
                                     <script type="text/javascript">
                                         <?php if (!empty($idx_info_lead)) { ?>
-                                            var idx_info_lead = <?php echo json_encode($idx_info_lead); ?>;
+                                        var idx_info_lead = <?php echo json_encode($idx_info_lead); ?>;
 
-                                            (function($) {
-                                                //INICITIAL VARIABLES USER
-                                                $("#_ib_fn_inq").val(idx_info_lead.first_name);
-                                                $("#_ib_ln_inq").val(idx_info_lead.last_name);
-                                                $("#_ib_em_inq").val(idx_info_lead.email_address);
-                                                $("#_ib_ph_inq").val(idx_info_lead.phone_number);
+                                        (function ($) {
+                                            //INICITIAL VARIABLES USER
+                                            $("#_ib_fn_inq").val(idx_info_lead.first_name);
+                                            $("#_ib_ln_inq").val(idx_info_lead.last_name);
+                                            $("#_ib_em_inq").val(idx_info_lead.email_address);
+                                            $("#_ib_ph_inq").val(idx_info_lead.phone_number);
 
-                                                $("._ib_fn_inq").val(idx_info_lead.first_name);
-                                                $("._ib_ln_inq").val(idx_info_lead.last_name);
-                                                $("._ib_em_inq").val(idx_info_lead.email_address);
-                                                $("._ib_ph_inq").val(idx_info_lead.phone_number);
+                                            $("._ib_fn_inq").val(idx_info_lead.first_name);
+                                            $("._ib_ln_inq").val(idx_info_lead.last_name);
+                                            $("._ib_em_inq").val(idx_info_lead.email_address);
+                                            $("._ib_ph_inq").val(idx_info_lead.phone_number);
 
-                                                //Building default label
-                                                var ob_form_building_footer;
-                                                ob_form_building_footer = $('.flex_idx_building_form');
+                                            //Building default label
+                                            var ob_form_building_footer;
+                                            ob_form_building_footer = $('.flex_idx_building_form');
 
-                                                if (ob_form_building_footer.length > 0) {
-                                                    ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                    ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                    ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
-                                                    ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
-                                                }
+                                            if (ob_form_building_footer.length > 0) {
+                                                ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
+                                                ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
+                                            }
 
-                                                //modal regular filter default label
-                                                var ob_form_modal;
-                                                ob_form_modal = $('.ib-propery-inquiry-f');
-                                                if (ob_form_modal.length > 0) {
-                                                    ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                    ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                    ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
-                                                    ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
-                                                }
+                                            //modal regular filter default label
+                                            var ob_form_modal;
+                                            ob_form_modal = $('.ib-propery-inquiry-f');
+                                            if (ob_form_modal.length > 0) {
+                                                ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
+                                                ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
+                                            }
 
-                                                //Off market listing default label
-                                                var ob_form_off_market_listing;
-                                                ob_form_off_market_listing = $('#flex-idx-property-form');
-                                                if (ob_form_off_market_listing.length > 0) {
-                                                    ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
-                                                    ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
-                                                    ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
-                                                    ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
-                                                }
-                                                //INICITIAL VARIABLES USER
+                                            //Off market listing default label
+                                            var ob_form_off_market_listing;
+                                            ob_form_off_market_listing = $('#flex-idx-property-form');
+                                            if (ob_form_off_market_listing.length > 0) {
+                                                ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
+                                                ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
+                                                ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
+                                                ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
+                                            }
+                                            //INICITIAL VARIABLES USER
 
-                                                var htmlMenuidx = [];
+                                            var htmlMenuidx = [];
 
-                                                htmlMenuidx.push('<li class="login show_modal_login_active">');
-                                                htmlMenuidx.push('<a href="javascript:void(0)" rel="nofollow">' + word_translate.welcome + ' ' + idx_info_lead.first_name + '</a>');
-                                                htmlMenuidx.push('<div class="menu_login_active">');
-                                                htmlMenuidx.push('<ul>');
-                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_favorites.guid + '">' + __flex_g_settings.page_setting.flex_idx_favorites.post_title + '</a></li>');
-                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_saved_searches.guid + '">' + __flex_g_settings.page_setting.flex_idx_saved_searches.post_title + '</a></li>');
-                                                htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_profile.guid + '">' + __flex_g_settings.page_setting.flex_idx_profile.post_title + '</a></li>');
-                                                htmlMenuidx.push('<li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow">' + word_translate.logout + '</a></li>');
-                                                htmlMenuidx.push('</ul>');
-                                                htmlMenuidx.push('</div>');
-                                                htmlMenuidx.push('</li>');
+                                            htmlMenuidx.push('<li class="login show_modal_login_active">');
+                                            htmlMenuidx.push('<a href="javascript:void(0)" rel="nofollow">' + word_translate.welcome + ' ' + idx_info_lead.first_name + '</a>');
+                                            htmlMenuidx.push('<div class="menu_login_active">');
+                                            htmlMenuidx.push('<ul>');
+                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_favorites.guid + '">' + __flex_g_settings.page_setting.flex_idx_favorites.post_title + '</a></li>');
+                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_saved_searches.guid + '">' + __flex_g_settings.page_setting.flex_idx_saved_searches.post_title + '</a></li>');
+                                            htmlMenuidx.push('<li><a href="' + __flex_g_settings.page_setting.flex_idx_profile.guid + '">' + __flex_g_settings.page_setting.flex_idx_profile.post_title + '</a></li>');
+                                            htmlMenuidx.push('<li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow">' + word_translate.logout + '</a></li>');
+                                            htmlMenuidx.push('</ul>');
+                                            htmlMenuidx.push('</div>');
+                                            htmlMenuidx.push('</li>');
 
 
-                                                $("#user-options").html(htmlMenuidx.join(''));
+                                            $("#user-options").html(htmlMenuidx.join(''));
 
-                                                __flex_g_settings.anonymous = "no";
+                                            __flex_g_settings.anonymous = "no";
 
-                                            })(jQuery);
+                                        })(jQuery);
 
                                         <?php } ?>
 
                                         <?php if (!empty($encode_token)) { ?>
-                                            Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>", {
-                                                expires: 30
-                                            });
+                                        Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>", {
+                                            expires: 30
+                                        });
                                         <?php
-                                            $_COOKIE['ib_lead_token'] = $encode_token;
+                                        $_COOKIE['ib_lead_token'] = $encode_token;
                                         } ?>
                                     </script>
-        <?php
+                                    <?php
                                 }
                             }
                         }
@@ -2204,7 +2212,7 @@ if (!function_exists( 'idxboost_autologin_alerts_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_posttype_pages_fn' )) {
+if (!function_exists('flex_idx_posttype_pages_fn')) {
     function flex_idx_posttype_pages_fn()
     {
         global $wpdb;
@@ -2252,7 +2260,7 @@ if (!function_exists( 'flex_idx_posttype_pages_fn' )) {
                 'with_front' => false,
                 'slug' => $building_slug,
             ),
-            'supports' => array('title','editor' ,'page-attributes', 'post-formats'),
+            'supports' => array('title', 'editor', 'page-attributes', 'post-formats'),
             'capability_type' => 'post'
         ));
         register_post_type('flex-idx-pages', array(
@@ -2338,7 +2346,7 @@ if (!function_exists( 'flex_idx_posttype_pages_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_rewrite_rules' )) {
+if (!function_exists('flex_idx_rewrite_rules')) {
     function flex_idx_rewrite_rules()
     {
         global $wpdb;
@@ -2397,7 +2405,7 @@ if (!function_exists( 'flex_idx_rewrite_rules' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_on_activation' )) {
+if (!function_exists('flex_idx_on_activation')) {
     function flex_idx_on_activation()
     {
         // define custom post types
@@ -2411,21 +2419,21 @@ if (!function_exists( 'flex_idx_on_activation' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_on_deactivation' )) {
+if (!function_exists('flex_idx_on_deactivation')) {
     function flex_idx_on_deactivation()
     {
         flush_rewrite_rules();
     }
 }
 
-if (!function_exists( 'flex_idx_on_uninstall' )) {
+if (!function_exists('flex_idx_on_uninstall')) {
     function flex_idx_on_uninstall()
     {
         flush_rewrite_rules();
     }
 }
 
-if (!function_exists( 'is_flex_user_logged_in' )) {
+if (!function_exists('is_flex_user_logged_in')) {
     function is_flex_user_logged_in()
     {
         // check credentials api
@@ -2455,7 +2463,7 @@ if (!function_exists( 'is_flex_user_logged_in' )) {
     }
 }
 
-if (!function_exists( 'flex_lead_signup_xhr_fn' )) {
+if (!function_exists('flex_lead_signup_xhr_fn')) {
     function flex_lead_signup_xhr_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -2537,8 +2545,10 @@ if (!function_exists( 'flex_lead_signup_xhr_fn' )) {
                 <?php if (!empty($my_flex_pages)) : ?>
                     <ul>
                         <?php foreach ($my_flex_pages as $my_flex_page) : ?>
-                            <?php if ($is_agent_page && ('My Saved Buildings' === $my_flex_page['post_title'])) continue;  ?>
-                            <li><a href="<?php echo (true === $is_agent_page) ? str_replace(site_url(), $agent_slug, $my_flex_page['permalink']) : $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a></li>
+                            <?php if ($is_agent_page && ('My Saved Buildings' === $my_flex_page['post_title'])) continue; ?>
+                            <li>
+                                <a href="<?php echo (true === $is_agent_page) ? str_replace(site_url(), $agent_slug, $my_flex_page['permalink']) : $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a>
+                            </li>
                         <?php endforeach; ?>
                         <li>
                             <a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow">
@@ -2549,7 +2559,7 @@ if (!function_exists( 'flex_lead_signup_xhr_fn' )) {
                 <?php endif; ?>
             </div>
         </li>
-    <?php
+        <?php
         // }
         $response_html = ob_get_clean();
         $response["output"] = $response_html;
@@ -2560,7 +2570,7 @@ if (!function_exists( 'flex_lead_signup_xhr_fn' )) {
 }
 
 /*PASSWORD*/
-if (!function_exists( 'flex_idx_get_resetpass_xhr_fn' )) {
+if (!function_exists('flex_idx_get_resetpass_xhr_fn')) {
     function flex_idx_get_resetpass_xhr_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -2588,7 +2598,7 @@ if (!function_exists( 'flex_idx_get_resetpass_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_lead_resetpass_xhr_fn' )) {
+if (!function_exists('flex_idx_lead_resetpass_xhr_fn')) {
     function flex_idx_lead_resetpass_xhr_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -2618,7 +2628,7 @@ if (!function_exists( 'flex_idx_lead_resetpass_xhr_fn' )) {
 }
 /*PASSWORD*/
 
-if (!function_exists( 'idxboost_save_filter_search_alert_xhr_fn' )) {
+if (!function_exists('idxboost_save_filter_search_alert_xhr_fn')) {
     function idxboost_save_filter_search_alert_xhr_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -2626,7 +2636,7 @@ if (!function_exists( 'idxboost_save_filter_search_alert_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_lead_signin_xhr_fn' )) {
+if (!function_exists('flex_lead_signin_xhr_fn')) {
     function flex_lead_signin_xhr_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -2679,9 +2689,10 @@ if (!function_exists( 'flex_lead_signin_xhr_fn' )) {
         }
 
         // if ($window_width < 640) {
-    ?>
+        ?>
         <li class="login show_modal_login_active">
-            <a href="javascript:void(0)" rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG) . "&nbsp;"; ?><?php echo $response["first_name"]; ?></a>
+            <a href="javascript:void(0)"
+               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG) . "&nbsp;"; ?><?php echo $response["first_name"]; ?></a>
             <div class="menu_login_active">
                 <?php if (!empty($my_flex_pages)) : ?>
                     <ul>
@@ -2690,7 +2701,8 @@ if (!function_exists( 'flex_lead_signin_xhr_fn' )) {
                                 <a href="<?php echo $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a>
                             </li>
                         <?php endforeach; ?>
-                        <li><a href="#" class="flex-logout-link" id="flex-logout-link" rel="nofollow"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                        <li><a href="#" class="flex-logout-link" id="flex-logout-link"
+                               rel="nofollow"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                     </ul>
                 <?php endif; ?>
             </div>
@@ -2711,7 +2723,7 @@ if (!function_exists( 'flex_lead_signin_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'get_flex_idx_search_settings' )) {
+if (!function_exists('get_flex_idx_search_settings')) {
     function get_flex_idx_search_settings()
     {
         global $wpdb;
@@ -2724,7 +2736,7 @@ if (!function_exists( 'get_flex_idx_search_settings' )) {
     }
 }
 
-if (!function_exists( 'ib_add_missing_scheme' )) {
+if (!function_exists('ib_add_missing_scheme')) {
     function ib_add_missing_scheme($url)
     {
         if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
@@ -2745,7 +2757,7 @@ if (!function_exists( 'ib_add_missing_scheme' )) {
     }
 }
 
-if (!function_exists( 'ib_get_http_referer' )) {
+if (!function_exists('ib_get_http_referer')) {
     function ib_get_http_referer()
     {
         if (isset($_SERVER["HTTP_HOST"])) {
@@ -2764,7 +2776,7 @@ if (!function_exists( 'ib_get_http_referer' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_generate_access_token' )) {
+if (!function_exists('flex_idx_generate_access_token')) {
     function flex_idx_generate_access_token()
     {
         $registration_key = get_option('idxboost_registration_key');
@@ -2796,7 +2808,7 @@ if (!function_exists( 'flex_idx_generate_access_token' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_get_access_token' )) {
+if (!function_exists('flex_idx_get_access_token')) {
     function flex_idx_get_access_token()
     {
         global $flex_idx_token;
@@ -2854,7 +2866,7 @@ function flex_is_valid_url($url)
     return false;
 }
 
-if (!function_exists( 'flex_connect_launch_fn' )) {
+if (!function_exists('flex_connect_launch_fn')) {
     function flex_connect_launch_fn()
     {
         global $wpdb;
@@ -2892,7 +2904,7 @@ if (!function_exists( 'flex_connect_launch_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_import_data_fn' )) {
+if (!function_exists('flex_idx_import_data_fn')) {
     function flex_idx_import_data_fn()
     {
         global $wpdb, $flex_idx_info;
@@ -3237,7 +3249,7 @@ if (!function_exists( 'flex_idx_import_data_fn' )) {
     }
 }
 
-if (!function_exists( 'idx_save_tools_admin_form_fn' )) {
+if (!function_exists('idx_save_tools_admin_form_fn')) {
     function idx_save_tools_admin_form_fn()
     {
         $response = [];
@@ -3257,7 +3269,7 @@ if (!function_exists( 'idx_save_tools_admin_form_fn' )) {
 }
 
 
-if (!function_exists( 'fc_idx_save_tools_admin' )) {
+if (!function_exists('fc_idx_save_tools_admin')) {
     function fc_idx_save_tools_admin($parameters)
     {
         $response = [];
@@ -3268,11 +3280,10 @@ if (!function_exists( 'fc_idx_save_tools_admin' )) {
         $idx_environment_site = $parameters['idx_environment_site'];
 
         if (!empty($idx_environment_site)) {
-            update_option('idxboost_tools_initials', $idx_environment_site); 
-            
+            update_option('idxboost_tools_initials', $idx_environment_site);
+
         }
         //setting for environment
-
 
 
         $response['success'] = false;
@@ -3298,7 +3309,7 @@ if (!function_exists( 'fc_idx_save_tools_admin' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_connect_fn' )) {
+if (!function_exists('flex_idx_connect_fn')) {
     function flex_idx_connect_fn($return_json = false)
     {
         global $wpdb, $flex_idx_info;
@@ -3323,10 +3334,10 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
         curl_close($ch);
 
         $response = json_decode($server_output, true);
-        
+
         $removed_agents = [];
 
-        if (is_array($response['slugs_settings']) && count($response['slugs_settings']) > 0 ) {
+        if (is_array($response['slugs_settings']) && count($response['slugs_settings']) > 0) {
             $wpsite = get_site_url();
 
             if (array_key_exists("property", $response['slugs_settings'])) {
@@ -3726,7 +3737,7 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
                 $agent_info = $response['agent_info'];
                 update_option('idxboost_agent_info', $agent_info);
 
-                if ( isset($agent_info['has_cms']) && !empty($agent_info['has_cms']) ) {
+                if (isset($agent_info['has_cms']) && !empty($agent_info['has_cms'])) {
                     $loader = idxboost_cms_get_loader($api_registration_key);
                     update_option('cms_loader', $loader);
                 }
@@ -3761,7 +3772,6 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
                 update_option('mkting_client', $mkting_client);
             }
 
-            
 
         } else {
             update_option('idxboost_client_status', 'inactive');
@@ -3777,7 +3787,7 @@ if (!function_exists( 'flex_idx_connect_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_profile_save_xhr_fn' )) {
+if (!function_exists('flex_idx_profile_save_xhr_fn')) {
     function flex_idx_profile_save_xhr_fn()
     {
         global $wpdb;
@@ -3831,7 +3841,7 @@ if (!function_exists( 'flex_idx_profile_save_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_update_search_xhr_fn' )) {
+if (!function_exists('flex_update_search_xhr_fn')) {
     function flex_update_search_xhr_fn()
     {
         global $wpdb, $flex_idx_lead;
@@ -3915,7 +3925,7 @@ if (!function_exists( 'flex_update_search_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_history_building_xhr_fn' )) {
+if (!function_exists('idxboost_history_building_xhr_fn')) {
     function idxboost_history_building_xhr_fn($building_id)
     {
         global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
@@ -3934,10 +3944,10 @@ if (!function_exists( 'idxboost_history_building_xhr_fn' )) {
         $building_id = md5($building_id);
         $path_feed = UPLOAD_DIR_WP . 'feed/';
 
-        if( !is_dir($path_feed) ) {
+        if (!is_dir($path_feed)) {
             if (!mkdir($path_feed, 0777, true)) {
                 $response["upCache"] = 'Failed to create directories...';
-            }            
+            }
         }
 
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
@@ -3954,7 +3964,7 @@ if (!function_exists( 'idxboost_history_building_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'get_feed_file_building_history_building_xhr_fn' )) {
+if (!function_exists('get_feed_file_building_history_building_xhr_fn')) {
     function get_feed_file_building_history_building_xhr_fn($building_id)
     {
         $path_feed = UPLOAD_DIR_WP . 'feed/';
@@ -3970,7 +3980,7 @@ if (!function_exists( 'get_feed_file_building_history_building_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idx_force_registration_building_xhr_fn' )) {
+if (!function_exists('idx_force_registration_building_xhr_fn')) {
     function idx_force_registration_building_xhr_fn()
     {
         global $wpdb, $flex_idx_lead, $flex_idx_info;
@@ -4079,7 +4089,7 @@ if (!function_exists( 'idx_force_registration_building_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_new_filter_save_search_xhr_fn' )) {
+if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
     function idxboost_new_filter_save_search_xhr_fn()
     {
         global $wpdb, $flex_idx_lead, $flex_idx_info;
@@ -4103,7 +4113,7 @@ if (!function_exists( 'idxboost_new_filter_save_search_xhr_fn' )) {
         $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
         $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $registration_key  = isset($_POST['registration_key']) ? $_POST['registration_key'] : '';
+        $registration_key = isset($_POST['registration_key']) ? $_POST['registration_key'] : '';
         $type_filter = isset($_POST['type_filter']) ? trim($_POST['type_filter']) : "search_filter";
 
         $board_id = $flex_idx_info['board_id'];
@@ -4181,7 +4191,7 @@ if (!function_exists( 'idxboost_new_filter_save_search_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_filter_save_search_xhr_fn' )) {
+if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
     function idxboost_filter_save_search_xhr_fn()
     {
         global $wpdb, $flex_idx_lead, $flex_idx_info;
@@ -4388,7 +4398,7 @@ if (!function_exists( 'idxboost_filter_save_search_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_save_search_xhr_fn' )) {
+if (!function_exists('flex_idx_save_search_xhr_fn')) {
     function flex_idx_save_search_xhr_fn()
     {
         global $wpdb, $flex_idx_lead, $flex_idx_info;
@@ -4599,7 +4609,7 @@ if (!function_exists( 'flex_idx_save_search_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_favorite_comments_xhr_fn' )) {
+if (!function_exists('flex_idx_favorite_comments_xhr_fn')) {
     function flex_idx_favorite_comments_xhr_fn()
     {
         global $wpdb;
@@ -4630,7 +4640,7 @@ if (!function_exists( 'flex_idx_favorite_comments_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_favorite_rate_xhr_fn' )) {
+if (!function_exists('flex_idx_favorite_rate_xhr_fn')) {
     function flex_idx_favorite_rate_xhr_fn()
     {
         global $wpdb;
@@ -4664,7 +4674,7 @@ if (!function_exists( 'flex_idx_favorite_rate_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_favorite_comments_remove_xhr_fn' )) {
+if (!function_exists('flex_idx_favorite_comments_remove_xhr_fn')) {
     function flex_idx_favorite_comments_remove_xhr_fn()
     {
         global $wpdb;
@@ -4694,7 +4704,7 @@ if (!function_exists( 'flex_idx_favorite_comments_remove_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_favorite_building_xhr_fn' )) {
+if (!function_exists('flex_idx_favorite_building_xhr_fn')) {
     function flex_idx_favorite_building_xhr_fn()
     {
         global $wpdb;
@@ -4760,7 +4770,7 @@ if (!function_exists( 'flex_idx_favorite_building_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
+if (!function_exists('flex_statistics_filter_custom_sold_xhr_fn')) {
     function flex_statistics_filter_custom_sold_xhr_fn()
     {
         global $wpdb;
@@ -4779,17 +4789,17 @@ if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
         $property_type = isset($_POST['property_type']) ? trim(strip_tags($_POST['property_type'])) : '';
         $property_style = isset($_POST['property_style']) ? trim(strip_tags($_POST['property_style'])) : '';
         $order = isset($_POST['order']) ? trim(strip_tags($_POST['order'])) : 'list_date-desc';
-        
+
         $close_date_interval = isset($_POST['close_date_interval']) ? trim(strip_tags($_POST['close_date_interval'])) : "3-6";
         $close_dt_arr = explode("-", $close_date_interval);
 
-        
-        $close_date_interval_print = intval( str_replace("-", "", $close_date_interval) );
+
+        $close_date_interval_print = intval(str_replace("-", "", $close_date_interval));
 
 
         $close_interval_start = 3;
         $close_interval_end = 6;
-        if (is_array($close_dt_arr) && count($close_dt_arr) == 2 ) {
+        if (is_array($close_dt_arr) && count($close_dt_arr) == 2) {
             $close_interval_start = $close_dt_arr[0];
             $close_interval_end = $close_dt_arr[1];
         }
@@ -4799,25 +4809,25 @@ if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
         $date_now_4_firt->sub(new DateInterval("P{$close_interval_start}M"));
         $close_date_start = strtotime($date_now_4_firt->format('Y-m-d\TH:i:s\Z'));
         //$close_date_start = ($date_now_4_firt->format('Y-m-d\TH:i:s\Z'));
-        
+
         $date_now_4_end = new DateTime("now", new DateTimeZone('America/New_York'));
         $date_now_4_end->sub(new DateInterval("P{$close_interval_end}M")); //agregar tiempo max de logeo
         $close_date_end = strtotime($date_now_4_end->format('Y-m-d\TH:i:s\Z'));
         //$close_date_end = ($date_now_4_end->format('Y-m-d\TH:i:s\Z'));
 
-/*
-        var_dump("close_date_interval: ".$close_date_interval);
-        var_dump("de: ".$close_interval_start);
-        var_dump("hasta: ".$close_interval_end);
-        var_dump("fecha init: ".$close_date_start);
-        var_dump("fecha fin: ".$close_date_end);
-        die();        
-*/
+        /*
+                var_dump("close_date_interval: ".$close_date_interval);
+                var_dump("de: ".$close_interval_start);
+                var_dump("hasta: ".$close_interval_end);
+                var_dump("fecha init: ".$close_date_start);
+                var_dump("fecha fin: ".$close_date_end);
+                die();
+        */
 
-/*
-        $date_now->sub(new DateInterval("P{$close_date_interval}M")); //agregar tiempo max de logeo
-        $close_date_end = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
-*/
+        /*
+                $date_now->sub(new DateInterval("P{$close_date_interval}M")); //agregar tiempo max de logeo
+                $close_date_end = strtotime($date_now->format('Y-m-d\TH:i:s\Z'));
+        */
         $sendParams = array(
             'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
@@ -4856,7 +4866,7 @@ if (!function_exists( 'flex_statistics_filter_custom_sold_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_statistics_filter_sold_xhr_fn' )) {
+if (!function_exists('flex_statistics_filter_sold_xhr_fn')) {
     function flex_statistics_filter_sold_xhr_fn()
     {
         global $wpdb;
@@ -4913,7 +4923,7 @@ if (!function_exists( 'flex_statistics_filter_sold_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_favorite_sub_area_xhr_fn' )) {
+if (!function_exists('flex_favorite_sub_area_xhr_fn')) {
     function flex_favorite_sub_area_xhr_fn()
     {
         global $wpdb;
@@ -4979,7 +4989,7 @@ if (!function_exists( 'flex_favorite_sub_area_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_hide_listing_view_xhr_fn' )) {
+if (!function_exists('ib_hide_listing_view_xhr_fn')) {
     function ib_hide_listing_view_xhr_fn()
     {
 
@@ -5011,7 +5021,7 @@ if (!function_exists( 'ib_hide_listing_view_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_favorite_xhr_fn' )) {
+if (!function_exists('flex_idx_favorite_xhr_fn')) {
     function flex_idx_favorite_xhr_fn()
     {
         global $wpdb, $flex_idx_info, $flex_idx_lead;
@@ -5029,7 +5039,7 @@ if (!function_exists( 'flex_idx_favorite_xhr_fn' )) {
         $url_referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
         $url_origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
-        $registration_key     = isset($_POST['registration_key']) ? trim(strip_tags($_POST['registration_key'])) : null;
+        $registration_key = isset($_POST['registration_key']) ? trim(strip_tags($_POST['registration_key'])) : null;
         $sendParams = array(
             'access_token' => $access_token,
             'flex_credentials' => $flex_lead_credentials,
@@ -5055,7 +5065,7 @@ if (!function_exists( 'flex_idx_favorite_xhr_fn' )) {
                     'period' => 1,
                     'mls_num' => $mls_num,
                     'search_url' => $search_url,
-                    'registration_key'      => $registration_key,
+                    'registration_key' => $registration_key,
                     'notify_criteria' => json_encode(["price_change", "status_change", "new_listing"]),
                 ]);
                 $sendParams = array(
@@ -5110,7 +5120,7 @@ if (!function_exists( 'flex_idx_favorite_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_request_property_form_fn' )) {
+if (!function_exists('flex_idx_request_property_form_fn')) {
     function flex_idx_request_property_form_fn()
     {
         $first_name = isset($_POST['first_name']) ? sanitize_text_field($_POST['first_name']) : '';
@@ -5118,7 +5128,7 @@ if (!function_exists( 'flex_idx_request_property_form_fn' )) {
         $email_address = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
         $phone_number = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
         $sleep = isset($_POST['sleep']) ? sanitize_text_field($_POST['sleep']) : '';
-        
+
         $gender = isset($_POST['gender']) ? sanitize_text_field($_POST['gender']) : '';
         $comments = isset($_POST['message']) ? sanitize_textarea_field($_POST['message']) : '';
         $mls_num = isset($_POST['mls_num']) ? sanitize_text_field($_POST['mls_num']) : '';
@@ -5139,29 +5149,29 @@ if (!function_exists( 'flex_idx_request_property_form_fn' )) {
         $bath = isset($_POST['bath']) ? sanitize_text_field($_POST['bath']) : '';
         $type_form = isset($_POST['type_form']) ? sanitize_text_field($_POST['type_form']) : '';
         $country_code = isset($_POST['country_code']) ? sanitize_text_field($_POST['country_code']) : '';
-        
+
         $is_vacation_rentals = 0;
         $data = [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'gender' => $gender,
-                'email_address' => $email_address,
-                'phone_number' => $phone_number,
-                'country_code' => $country_code,
-                'comments' => $comments,
-                'mls_num' => $mls_num,
-                'bed' => $bed,
-                'bath' => $bath,
-                'price' => $price,
-                'price_rate' => $price,
-                'Sleeps' => $sleep." {$comments}",
-                'address_short' => $flex_idx_address,
-                'url_origin' => $url_origin,
-                'client_ip' => $client_ip,
-                'url_referer' => $url_referer,
-                'permalink' => $permalink,
-                'user_agent' => $user_agent
-            ];
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'gender' => $gender,
+            'email_address' => $email_address,
+            'phone_number' => $phone_number,
+            'country_code' => $country_code,
+            'comments' => $comments,
+            'mls_num' => $mls_num,
+            'bed' => $bed,
+            'bath' => $bath,
+            'price' => $price,
+            'price_rate' => $price,
+            'Sleeps' => $sleep . " {$comments}",
+            'address_short' => $flex_idx_address,
+            'url_origin' => $url_origin,
+            'client_ip' => $client_ip,
+            'url_referer' => $url_referer,
+            'permalink' => $permalink,
+            'user_agent' => $user_agent
+        ];
 
         $dataprint = $data;
         if ($type_form == "is_vacation_rentals") {
@@ -5169,7 +5179,7 @@ if (!function_exists( 'flex_idx_request_property_form_fn' )) {
             $dataprint = json_encode($data);
         }
 
-        
+
         $sendParams = array(
             'ib_tags' => $tags,
             'recaptcha_response' => $recaptcha_response,
@@ -5222,7 +5232,7 @@ function get_client_ip_server()
     return $ip;
 }
 
-if (!function_exists( 'flex_track_property_detail_fn' )) {
+if (!function_exists('flex_track_property_detail_fn')) {
     function flex_track_property_detail_fn()
     {
         $access_token = flex_idx_get_access_token();
@@ -5257,7 +5267,7 @@ if (!function_exists( 'flex_track_property_detail_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_contact_inquiry_fn' )) {
+if (!function_exists('idxboost_contact_inquiry_fn')) {
     function idxboost_contact_inquiry_fn()
     {
         $first_name = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
@@ -5276,7 +5286,8 @@ if (!function_exists( 'idxboost_contact_inquiry_fn' )) {
         $lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
         $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
-        $registration_key          = isset($_POST['registration_key']) ? sanitize_text_field($_POST['registration_key']) : '';
+        $registration_key = isset($_POST['registration_key']) ? sanitize_text_field($_POST['registration_key']) : '';
+        $country_code = isset($_POST['country_code']) ? sanitize_text_field($_POST['country_code']) : '';
 
         $custom_form_heading = isset($_POST['custom_form_heading']) ? trim(strip_tags($_POST['custom_form_heading'])) : "";
         $is_custom_form = isset($_POST['is_custom_form']) ? "yes" : "no";
@@ -5291,6 +5302,7 @@ if (!function_exists( 'idxboost_contact_inquiry_fn' )) {
                 'gender' => $gender,
                 'email_address' => $email_address,
                 'phone_number' => $phone_number,
+                'country_code' => $country_code,
                 'time_to_reach' => $time_to_reach,
                 'comments' => $comments,
                 'receive_newsletter' => $receive_newsletter,
@@ -5323,7 +5335,7 @@ if (!function_exists( 'idxboost_contact_inquiry_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_request_website_building_form_fn' )) {
+if (!function_exists('flex_idx_request_website_building_form_fn')) {
     function flex_idx_request_website_building_form_fn()
     {
         $building_ID = isset($_POST['building_ID']) ? intval($_POST['building_ID']) : 0;
@@ -5385,7 +5397,7 @@ if (!function_exists( 'flex_idx_request_website_building_form_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_search_xhr_fn' )) {
+if (!function_exists('flex_idx_search_xhr_fn')) {
     function flex_idx_search_xhr_fn()
     {
         $params = isset($_POST['idx']) ? $_POST['idx'] : array();
@@ -5420,7 +5432,7 @@ if (!function_exists( 'flex_idx_search_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_boost_commercial_xhr_fn' )) {
+if (!function_exists('ib_boost_commercial_xhr_fn')) {
     function ib_boost_commercial_xhr_fn()
     {
         global $wp, $wpdb;
@@ -5458,7 +5470,7 @@ if (!function_exists( 'ib_boost_commercial_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_boost_dinamic_data_xhr_fn' )) {
+if (!function_exists('ib_boost_dinamic_data_xhr_fn')) {
     function ib_boost_dinamic_data_xhr_fn()
     {
         global $wp, $wpdb;
@@ -5497,7 +5509,7 @@ if (!function_exists( 'ib_boost_dinamic_data_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_boost_dinamic_data_agent_office_xhr_fn' )) {
+if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
     function ib_boost_dinamic_data_agent_office_xhr_fn()
     {
         global $wp, $wpdb;
@@ -5536,7 +5548,7 @@ if (!function_exists( 'ib_boost_dinamic_data_agent_office_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_look_building_xhr_fn' )) {
+if (!function_exists('flex_look_building_xhr_fn')) {
     function flex_look_building_xhr_fn()
     {
         global $wp, $wpdb;
@@ -5636,7 +5648,7 @@ function filter_search_recent_sales_xhr_fn()
     exit;
 }
 
-if (!function_exists( 'idxboost_collection_list_fn' )) {
+if (!function_exists('idxboost_collection_list_fn')) {
     function idxboost_collection_list_fn()
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5646,10 +5658,10 @@ if (!function_exists( 'idxboost_collection_list_fn' )) {
         $building_id = md5($filter_id);
         $path_feed = UPLOAD_DIR_WP . 'feed/';
 
-        if( !is_dir($path_feed) ) {
+        if (!is_dir($path_feed)) {
             if (!mkdir($path_feed, 0777, true)) {
                 $response["upCache"] = 'Failed to create directories...';
-            }            
+            }
         }
 
 
@@ -5668,14 +5680,14 @@ if (!function_exists( 'idxboost_collection_list_fn' )) {
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
         $server_output = curl_exec($ch);
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
-        $status=file_put_contents($post_building, $server_output);
+        $status = file_put_contents($post_building, $server_output);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
     }
 }
 
-if (!function_exists( 'idxboost_sub_area_collection_list_fn' )) {
+if (!function_exists('idxboost_sub_area_collection_list_fn')) {
     function idxboost_sub_area_collection_list_fn()
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5704,7 +5716,7 @@ if (!function_exists( 'idxboost_sub_area_collection_list_fn' )) {
     }
 }
 
-if (!function_exists( 'ib_slider_filter_regular_xhr_fn' )) {
+if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
     function ib_slider_filter_regular_xhr_fn()
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5756,7 +5768,7 @@ if (!function_exists( 'ib_slider_filter_regular_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'filter_agent_office_xhr_fn' )) {
+if (!function_exists('filter_agent_office_xhr_fn')) {
     function filter_agent_office_xhr_fn()
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5803,7 +5815,7 @@ if (!function_exists( 'filter_agent_office_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'idxboost_collection_off_market_fn' )) {
+if (!function_exists('idxboost_collection_off_market_fn')) {
     function idxboost_collection_off_market_fn()
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5836,7 +5848,7 @@ if (!function_exists( 'idxboost_collection_off_market_fn' )) {
     }
 }
 
-if (!function_exists( 'idx_exclusive_operation_slider_xhr_fn' )) {
+if (!function_exists('idx_exclusive_operation_slider_xhr_fn')) {
     function idx_exclusive_operation_slider_xhr_fn($type, $id, $sale_type_param)
     {
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
@@ -5942,7 +5954,7 @@ function filter_search_exclusive_listing_xhr_fn()
     exit;
 }
 
-if (!function_exists( 'idxboost_get_data_slider_xhr_fn' )) {
+if (!function_exists('idxboost_get_data_slider_xhr_fn')) {
     function idxboost_get_data_slider_xhr_fn()
     {
         global $wp, $wpdb, $flex_idx_info;
@@ -6062,7 +6074,7 @@ function flex_idx_filter_page_xhr_fn()
     exit;
 }
 
-if (!function_exists( 'flex_idx_autocomplete_xhr_fn' )) {
+if (!function_exists('flex_idx_autocomplete_xhr_fn')) {
     function flex_idx_autocomplete_xhr_fn()
     {
         $lookup = isset($_POST['lookup']) ? $_POST['lookup'] : '';
@@ -6085,7 +6097,7 @@ if (!function_exists( 'flex_idx_autocomplete_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_register_assets' )) {
+if (!function_exists('flex_idx_register_assets')) {
     function flex_idx_register_assets()
     {
         global $flex_idx_lead, $flex_idx_info, $wpdb;
@@ -6098,7 +6110,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         $search_filter_settings['translateServiceUrl'] = isset($idxboost_agent_info['translate_service_url']) ? $idxboost_agent_info['translate_service_url'] : '';
 
         $board_info = [];
-        if ( is_array($flex_idx_info) && array_key_exists("board_info", $flex_idx_info) ){
+        if (is_array($flex_idx_info) && array_key_exists("board_info", $flex_idx_info)) {
             $board_info = $flex_idx_info["board_info"];
         }
 
@@ -6355,7 +6367,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'register' => __('Register', IDXBOOST_DOMAIN_THEME_LANG),
             'logout' => __('Logout', IDXBOOST_DOMAIN_THEME_LANG),
             'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
-			'enter_a_valid_phone_number' => __('Please enter a valid phone number.', IDXBOOST_DOMAIN_THEME_LANG),
+            'enter_a_valid_phone_number' => __('Please enter a valid phone number.', IDXBOOST_DOMAIN_THEME_LANG),
             'enter_a_valid_email_address' => __('Please enter a valid email address.', IDXBOOST_DOMAIN_THEME_LANG),
         );
         // main styles
@@ -6423,52 +6435,52 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         //     'google-maps-utility-library-infobubble'
         // ), iboost_get_mod_time("js/flex-idx-search-filter-slideritems.js"));
 
-       
-         //Register for VACATIONAL RENTAL
-         wp_register_style('react-vacation-rentals-css',FLEX_IDX_URI.'react/vacation_rentals/bundle.css',array() );
-         wp_register_script('react-vacation-rentals-js', FLEX_IDX_URI.'react/vacation_rentals/bundle.js', array(
-             'jquery',        
-             'google-maps-api',
-             'google-maps-utility-library-richmarker',
-             'google-maps-utility-library-infobubble',
-              'flex-auth-check'
-         ), false, true);
-       
-          //Register for Quick Search Rentals
-          wp_register_style('react-quick-search-rentals-css',FLEX_IDX_URI.'react/quick_search_rentals/bundle.css',array() );
-          wp_register_script('react-quick-search-rentals-js', FLEX_IDX_URI.'react/quick_search_rentals/bundle.js', array(
-            'jquery',                      
-            'flex-auth-check'
-          ), false, true);
 
-        //Register for SEARCH FILTER
-        wp_register_style('react-search-filter-css',FLEX_IDX_URI.'react/search_filter/bundle.css',array() );
-        wp_register_script('react-search-filter-js', FLEX_IDX_URI.'react/search_filter/bundle.js', array(
-          'jquery',        
-          'google-maps-api',
-          'google-maps-utility-library-richmarker',
-          'google-maps-utility-library-infobubble',
-           'flex-auth-check'
+        //Register for VACATIONAL RENTAL
+        wp_register_style('react-vacation-rentals-css', FLEX_IDX_URI . 'react/vacation_rentals/bundle.css', array());
+        wp_register_script('react-vacation-rentals-js', FLEX_IDX_URI . 'react/vacation_rentals/bundle.js', array(
+            'jquery',
+            'google-maps-api',
+            'google-maps-utility-library-richmarker',
+            'google-maps-utility-library-infobubble',
+            'flex-auth-check'
         ), false, true);
 
-          //Register for DISPLAY FILTER
-          wp_register_style('react-display-filter-css',FLEX_IDX_URI.'react/display_filter/bundle.css',array() );
-          wp_register_script('react-display-filter-js', FLEX_IDX_URI.'react/display_filter/bundle.js', array(
-              'jquery',        
-              'google-maps-api',
-              'google-maps-utility-library-richmarker',
-              'google-maps-utility-library-infobubble',
-               'flex-auth-check'
-          ), false, true);
+        //Register for Quick Search Rentals
+        wp_register_style('react-quick-search-rentals-css', FLEX_IDX_URI . 'react/quick_search_rentals/bundle.css', array());
+        wp_register_script('react-quick-search-rentals-js', FLEX_IDX_URI . 'react/quick_search_rentals/bundle.js', array(
+            'jquery',
+            'flex-auth-check'
+        ), false, true);
 
-      //Register for SEARCH FILTER LIBS
-      wp_register_script("react-search-filter-highcharts", "https://code.highcharts.com/highcharts.js", array("jquery"));
-      wp_register_script("react-search-filter-series-label", "https://code.highcharts.com/modules/series-label.js", array("jquery"));  
-      wp_register_script("react-search-filter-exporting", "https://code.highcharts.com/modules/exporting.js", array("jquery"));  
-      wp_register_script("react-search-filter-export-data", "https://code.highcharts.com/modules/export-data.js", array("jquery"));
-      wp_register_script("react-search-filter-accessibility", "https://code.highcharts.com/modules/accessibility.js", array("jquery"));    
-      wp_register_script("react-search-filter-display", "https://code.highcharts.com/modules/no-data-to-display.js", array("jquery"));   
-      
+        //Register for SEARCH FILTER
+        wp_register_style('react-search-filter-css', FLEX_IDX_URI . 'react/search_filter/bundle.css', array());
+        wp_register_script('react-search-filter-js', FLEX_IDX_URI . 'react/search_filter/bundle.js', array(
+            'jquery',
+            'google-maps-api',
+            'google-maps-utility-library-richmarker',
+            'google-maps-utility-library-infobubble',
+            'flex-auth-check'
+        ), false, true);
+
+        //Register for DISPLAY FILTER
+        wp_register_style('react-display-filter-css', FLEX_IDX_URI . 'react/display_filter/bundle.css', array());
+        wp_register_script('react-display-filter-js', FLEX_IDX_URI . 'react/display_filter/bundle.js', array(
+            'jquery',
+            'google-maps-api',
+            'google-maps-utility-library-richmarker',
+            'google-maps-utility-library-infobubble',
+            'flex-auth-check'
+        ), false, true);
+
+        //Register for SEARCH FILTER LIBS
+        wp_register_script("react-search-filter-highcharts", "https://code.highcharts.com/highcharts.js", array("jquery"));
+        wp_register_script("react-search-filter-series-label", "https://code.highcharts.com/modules/series-label.js", array("jquery"));
+        wp_register_script("react-search-filter-exporting", "https://code.highcharts.com/modules/exporting.js", array("jquery"));
+        wp_register_script("react-search-filter-export-data", "https://code.highcharts.com/modules/export-data.js", array("jquery"));
+        wp_register_script("react-search-filter-accessibility", "https://code.highcharts.com/modules/accessibility.js", array("jquery"));
+        wp_register_script("react-search-filter-display", "https://code.highcharts.com/modules/no-data-to-display.js", array("jquery"));
+
 
         wp_register_script('flex-idx-search-filter', FLEX_IDX_URI . 'js/flex-idx-search-filter.js', array(
             'jquery',
@@ -6564,7 +6576,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],            
+            'boardId' => $flex_idx_info['board_id'],
             'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']), // overwrite search settings from global
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6596,7 +6608,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],            
+            'boardId' => $flex_idx_info['board_id'],
             'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']),
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6604,7 +6616,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
             'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
-        ));        
+        ));
         // load script for react search fifty
 
 
@@ -6629,7 +6641,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],            
+            'boardId' => $flex_idx_info['board_id'],
             'search' => $flex_idx_info['search'],
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6656,7 +6668,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
-            'boardId' => $flex_idx_info['board_id'],            
+            'boardId' => $flex_idx_info['board_id'],
             'search' => $flex_idx_info['search'],
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
@@ -6696,7 +6708,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'hideTooltipLeadEndpoint' => FLEX_IDX_API_LEAD_HIDE_TOOLTIP,
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
             'api_get_ip_lead' => IDX_BOOST_GET_COUNTRY_LEAD,
-            
+
             'request_form_rentals' => FLEX_IDX_API_INQUIRY_PROPERTY_FORM,
 
             'signup_left_clicks' => (isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : null),
@@ -6717,7 +6729,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
                 "15" => $idxboost_search_settings["board_info"]["interest_rate15"],
                 "20" => $idxboost_search_settings["board_info"]["interest_rate20"],
                 "30" => $idxboost_search_settings["board_info"]["interest_rate30"]
-            ],            
+            ],
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'siteUrl' => $flex_idx_info["website_url"],
             'templateDirectoryUrl' => $flex_idx_info["template_directory_url"],
@@ -6893,7 +6905,6 @@ if (!function_exists( 'flex_idx_register_assets' )) {
         ), iboost_get_mod_time("js/idxboost_exclusive_listing.js"));
 
 
-        
         wp_register_script('idxboost_recent_sales_dinamic', FLEX_IDX_URI . 'js/idxboost_recent_sales_dinamic.js#1', array(
             'underscore',
             'flex-idx-filter-handler',
@@ -7031,7 +7042,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
         ));
 
-        
+
         wp_localize_script('idxboost_recent_sales_dinamic', '__flex_idx_recent_sales', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'rk' => get_option('flex_idx_alerts_keys'),
@@ -7497,7 +7508,7 @@ if (!function_exists( 'flex_idx_register_assets' )) {
 }
 
 /*****************************************/
-if (!function_exists( 'ib_tables_building_collection' )) {
+if (!function_exists('ib_tables_building_collection')) {
     function ib_tables_building_collection()
     {
         wp_enqueue_script('flex-idx-building-inventory-js');
@@ -7506,14 +7517,14 @@ if (!function_exists( 'ib_tables_building_collection' )) {
     }
 }
 
-if (!function_exists( 'ib_sub_area_footer' )) {
+if (!function_exists('ib_sub_area_footer')) {
     function ib_sub_area_footer()
     {
         wp_enqueue_script('flex-idx-sub-area-js');
     }
 }
 
-if (!function_exists( 'ib_tables_sub_area_collection' )) {
+if (!function_exists('ib_tables_sub_area_collection')) {
     function ib_tables_sub_area_collection()
     {
         wp_enqueue_script('flex-idx-sub-area-inventory-js');
@@ -7522,7 +7533,7 @@ if (!function_exists( 'ib_tables_sub_area_collection' )) {
     }
 }
 
-if (!function_exists( 'greatsliderLoad' )) {
+if (!function_exists('greatsliderLoad')) {
     function greatsliderLoad()
     {
         wp_enqueue_script('flex-print-area', FLEX_IDX_URI . 'js/vendor/jquery.print-area.min.js', array('flex-pusher-js', 'flex-cookies-manager', 'jquery'), iboost_get_mod_time("js/vendor/jquery.print-area.min.js"), true);
@@ -7535,7 +7546,7 @@ if (!function_exists( 'greatsliderLoad' )) {
 add_action('wp_footer', 'greatsliderLoad');
 /*****************************************/
 
-if (!function_exists( 'flex_idx_admin_register_assets' )) {
+if (!function_exists('flex_idx_admin_register_assets')) {
     function flex_idx_admin_register_assets()
     {
         wp_register_style('flex-idx-admin', FLEX_IDX_URI . 'css/flex-idx-admin.min.css');
@@ -7562,7 +7573,7 @@ if (!function_exists( 'flex_idx_admin_register_assets' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_enqueue_assets' )) {
+if (!function_exists('flex_idx_admin_enqueue_assets')) {
     function flex_idx_admin_enqueue_assets()
     {
         wp_enqueue_style('flex-idx-admin');
@@ -7571,7 +7582,7 @@ if (!function_exists( 'flex_idx_admin_enqueue_assets' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_pages_list_enqueue_assets' )) {
+if (!function_exists('flex_idx_admin_pages_list_enqueue_assets')) {
     function flex_idx_admin_pages_list_enqueue_assets()
     {
         wp_enqueue_style('flex-idx-admin');
@@ -7580,7 +7591,7 @@ if (!function_exists( 'flex_idx_admin_pages_list_enqueue_assets' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_render_default_page' )) {
+if (!function_exists('flex_idx_admin_render_default_page')) {
     function flex_idx_admin_render_default_page()
     {
         $idxboost_registration_key = get_option('idxboost_registration_key');
@@ -7592,22 +7603,22 @@ if (!function_exists( 'flex_idx_admin_render_default_page' )) {
     }
 }
 
-if (!function_exists( 'idx_tools_activations' )) {
+if (!function_exists('idx_tools_activations')) {
     function idx_tools_activations()
     {
 
         global $wpdb;
         if (false == get_option('idxboost_tools_initials')) {
             update_option('idxboost_tools_initials', 'production');
-        }else{
-            $idxboost_tools_initials = !in_array( get_option('idxboost_tools_initials'), ["production", "staging"] ) ? 'production' : get_option('idxboost_tools_initials');
+        } else {
+            $idxboost_tools_initials = !in_array(get_option('idxboost_tools_initials'), ["production", "staging"]) ? 'production' : get_option('idxboost_tools_initials');
             update_option('idxboost_tools_initials', $idxboost_tools_initials);
         }
 
     }
 }
 
-if (!function_exists( 'flex_idx_admin_render_tools_page' )) {
+if (!function_exists('flex_idx_admin_render_tools_page')) {
     function flex_idx_admin_render_tools_page()
     {
         global $wpdb;
@@ -7641,7 +7652,7 @@ if (!function_exists( 'flex_idx_admin_render_tools_page' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_render_importation_page' )) {
+if (!function_exists('flex_idx_admin_render_importation_page')) {
     function flex_idx_admin_render_importation_page()
     {
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/import_data.php')) {
@@ -7652,7 +7663,7 @@ if (!function_exists( 'flex_idx_admin_render_importation_page' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_render_documentation_page' )) {
+if (!function_exists('flex_idx_admin_render_documentation_page')) {
     function flex_idx_admin_render_documentation_page()
     {
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/documentation.php')) {
@@ -7663,7 +7674,7 @@ if (!function_exists( 'flex_idx_admin_render_documentation_page' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_admin_render_launch_page' )) {
+if (!function_exists('flex_idx_admin_render_launch_page')) {
     function flex_idx_admin_render_launch_page()
     {
         wp_enqueue_script('flex-idx-admin-js');
@@ -7678,7 +7689,7 @@ if (!function_exists( 'flex_idx_admin_render_launch_page' )) {
 
 // Add Custom Menu
 add_action('admin_menu', 'flex_idx_create_editor_root_menu');
-if (!function_exists( 'flex_idx_create_editor_root_menu' )) {
+if (!function_exists('flex_idx_create_editor_root_menu')) {
     function flex_idx_create_editor_root_menu()
     {
         $flex_idx_page = add_menu_page('IDX Boost - Settings', 'IDX Boost', 'editor', 'flex-idx-editor', 'flex_idx_admin_render_default_page', FLEX_IDX_URI . 'images/rocket.svg');
@@ -7704,7 +7715,7 @@ if (!function_exists( 'flex_idx_create_editor_root_menu' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_create_admin_root_menu' )) {
+if (!function_exists('flex_idx_create_admin_root_menu')) {
     function flex_idx_create_admin_root_menu()
     {
         $flex_idx_page = add_menu_page('IDX Boost - Settings', 'IDX Boost', 'administrator', 'flex-idx', 'flex_idx_admin_render_default_page', FLEX_IDX_URI . 'images/rocket.svg');
@@ -7720,15 +7731,15 @@ if (!function_exists( 'flex_idx_create_admin_root_menu' )) {
             add_submenu_page('flex-idx', 'My Master Plans', 'My Master Plans', 'administrator', 'edit.php?post_type=idx-sub-area', null);
             add_submenu_page('flex-idx', 'Off Market Inventory', 'Off Market Inventory', 'administrator', 'edit.php?post_type=idx-off-market', null);
             add_submenu_page('flex-idx', 'Page’s URL Slug', 'Page’s URL Slug', 'administrator', 'edit.php?post_type=flex-idx-pages', null);
-            
-            global $flex_idx_info; 
+
+            global $flex_idx_info;
             // Sub Menu for Schemas-SEO
-            if($flex_idx_info['agent']['has_generate_schema']){
-            add_submenu_page('flex-idx', 'Schemas', 'Schemas', 'administrator', 'flex-idx-schemas', 'flex_idx_admin_render_schema_page');
+            if ($flex_idx_info['agent']['has_generate_schema']) {
+                add_submenu_page('flex-idx', 'Schemas', 'Schemas', 'administrator', 'flex-idx-schemas', 'flex_idx_admin_render_schema_page');
             }
             // Sub Menu for Settings Rental                           
-            if($flex_idx_info['agent']['has_vacations_rentals']){
-             add_submenu_page('flex-idx', 'Settings Rental', 'Settings Rental', 'administrator', 'flex-idx-settings-rental', 'flex_idx_admin_render_settings_rental_page');
+            if ($flex_idx_info['agent']['has_vacations_rentals']) {
+                add_submenu_page('flex-idx', 'Settings Rental', 'Settings Rental', 'administrator', 'flex-idx-settings-rental', 'flex_idx_admin_render_settings_rental_page');
             }
             //add_submenu_page('flex-idx', 'My IDX Agents - FlexIDX', 'My IDX Agents', 'administrator', 'edit.php?post_type=idx-agents', null);
             $flex_idx_pages_admin = add_submenu_page('flex-idx', 'IDX Boost - Tools', 'My Tools', 'administrator', 'flex-idx-tools', 'flex_idx_admin_render_tools_page');
@@ -7740,7 +7751,7 @@ if (!function_exists( 'flex_idx_create_admin_root_menu' )) {
 }
 
 // start configuration settings
-if (!function_exists( 'flex_idx_settings_configuration' )) {
+if (!function_exists('flex_idx_settings_configuration')) {
     function flex_idx_settings_configuration($input)
     {
         $valid = get_option('flex-idx-settings-configuration-options');
@@ -7754,7 +7765,7 @@ if (!function_exists( 'flex_idx_settings_configuration' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_configuration_layout_display' )) {
+if (!function_exists('flex_idx_settings_configuration_layout_display')) {
     function flex_idx_settings_configuration_layout_display()
     {
         $configuration_options = get_option('flex-idx-settings-configuration-options');
@@ -7766,7 +7777,7 @@ if (!function_exists( 'flex_idx_settings_configuration_layout_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_configuration_color_display' )) {
+if (!function_exists('flex_idx_settings_configuration_color_display')) {
     function flex_idx_settings_configuration_color_display()
     {
         $configuration_options = get_option('flex-idx-settings-configuration-options');
@@ -7782,7 +7793,7 @@ if (!function_exists( 'flex_idx_settings_configuration_color_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_configuration_override_css_display' )) {
+if (!function_exists('flex_idx_settings_configuration_override_css_display')) {
     function flex_idx_settings_configuration_override_css_display()
     {
         $configuration_options = get_option('flex-idx-settings-configuration-options');
@@ -7791,14 +7802,14 @@ if (!function_exists( 'flex_idx_settings_configuration_override_css_display' )) 
     }
 }
 
-if (!function_exists( 'flex_idx_settings_configuration_description' )) {
+if (!function_exists('flex_idx_settings_configuration_description')) {
     function flex_idx_settings_configuration_description()
     {
         return '';
     }
 }
 
-if (!function_exists( 'flex_idx_register_settings_configuration_fn' )) {
+if (!function_exists('flex_idx_register_settings_configuration_fn')) {
     function flex_idx_register_settings_configuration_fn()
     {
         register_setting('flex-idx-settings-configuration', 'flex-idx-settings-configuration-options', 'flex_idx_settings_configuration');
@@ -7817,7 +7828,7 @@ if (!function_exists( 'flex_idx_register_settings_configuration_fn' )) {
 // end configuration settings
 
 // start bio settings
-if (!function_exists( 'flex_idx_settings_bio' )) {
+if (!function_exists('flex_idx_settings_bio')) {
     function flex_idx_settings_bio($input)
     {
         $valid = get_option('flex-idx-settings-bio-options');
@@ -7835,7 +7846,7 @@ if (!function_exists( 'flex_idx_settings_bio' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_display_name_display' )) {
+if (!function_exists('flex_idx_settings_bio_display_name_display')) {
     function flex_idx_settings_bio_display_name_display()
     {
         $bio_options = get_option('flex-idx-settings-bio-options');
@@ -7844,7 +7855,7 @@ if (!function_exists( 'flex_idx_settings_bio_display_name_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_contact_phone_display' )) {
+if (!function_exists('flex_idx_settings_bio_contact_phone_display')) {
     function flex_idx_settings_bio_contact_phone_display()
     {
         $bio_options = get_option('flex-idx-settings-bio-options');
@@ -7853,7 +7864,7 @@ if (!function_exists( 'flex_idx_settings_bio_contact_phone_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_contact_email_display' )) {
+if (!function_exists('flex_idx_settings_bio_contact_email_display')) {
     function flex_idx_settings_bio_contact_email_display()
     {
         $bio_options = get_option('flex-idx-settings-bio-options');
@@ -7862,7 +7873,7 @@ if (!function_exists( 'flex_idx_settings_bio_contact_email_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_agent_photo_display' )) {
+if (!function_exists('flex_idx_settings_bio_agent_photo_display')) {
     function flex_idx_settings_bio_agent_photo_display()
     {
         $bio_options = get_option('flex-idx-settings-bio-options');
@@ -7872,7 +7883,7 @@ if (!function_exists( 'flex_idx_settings_bio_agent_photo_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_agent_bio_display' )) {
+if (!function_exists('flex_idx_settings_bio_agent_bio_display')) {
     function flex_idx_settings_bio_agent_bio_display()
     {
         $bio_options = get_option('flex-idx-settings-bio-options');
@@ -7881,14 +7892,14 @@ if (!function_exists( 'flex_idx_settings_bio_agent_bio_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_bio_description' )) {
+if (!function_exists('flex_idx_settings_bio_description')) {
     function flex_idx_settings_bio_description()
     {
         return '';
     }
 }
 
-if (!function_exists( 'flex_idx_register_settings_bio_fn' )) {
+if (!function_exists('flex_idx_register_settings_bio_fn')) {
     function flex_idx_register_settings_bio_fn()
     {
         register_setting('flex-idx-settings-bio', 'flex-idx-settings-bio-options', 'flex_idx_settings_bio');
@@ -7913,7 +7924,7 @@ if (!function_exists( 'flex_idx_register_settings_bio_fn' )) {
 // end bio settings
 
 // start social settings
-if (!function_exists( 'flex_idx_settings_social' )) {
+if (!function_exists('flex_idx_settings_social')) {
     function flex_idx_settings_social($input)
     {
         $valid = get_option('flex-idx-settings-social-options');
@@ -7937,7 +7948,7 @@ if (!function_exists( 'flex_idx_settings_social' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_facebook_display' )) {
+if (!function_exists('flex_idx_settings_social_facebook_display')) {
     function flex_idx_settings_social_facebook_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7946,7 +7957,7 @@ if (!function_exists( 'flex_idx_settings_social_facebook_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_linkedin_display' )) {
+if (!function_exists('flex_idx_settings_social_linkedin_display')) {
     function flex_idx_settings_social_linkedin_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7955,7 +7966,7 @@ if (!function_exists( 'flex_idx_settings_social_linkedin_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_twitter_display' )) {
+if (!function_exists('flex_idx_settings_social_twitter_display')) {
     function flex_idx_settings_social_twitter_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7964,7 +7975,7 @@ if (!function_exists( 'flex_idx_settings_social_twitter_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_pinterest_display' )) {
+if (!function_exists('flex_idx_settings_social_pinterest_display')) {
     function flex_idx_settings_social_pinterest_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7973,7 +7984,7 @@ if (!function_exists( 'flex_idx_settings_social_pinterest_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_instagram_display' )) {
+if (!function_exists('flex_idx_settings_social_instagram_display')) {
     function flex_idx_settings_social_instagram_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7982,7 +7993,7 @@ if (!function_exists( 'flex_idx_settings_social_instagram_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_googleplus_display' )) {
+if (!function_exists('flex_idx_settings_social_googleplus_display')) {
     function flex_idx_settings_social_googleplus_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -7991,7 +8002,7 @@ if (!function_exists( 'flex_idx_settings_social_googleplus_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_youtube_display' )) {
+if (!function_exists('flex_idx_settings_social_youtube_display')) {
     function flex_idx_settings_social_youtube_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -8000,7 +8011,7 @@ if (!function_exists( 'flex_idx_settings_social_youtube_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_yelp_display' )) {
+if (!function_exists('flex_idx_settings_social_yelp_display')) {
     function flex_idx_settings_social_yelp_display()
     {
         $social_options = get_option('flex-idx-settings-social-options');
@@ -8009,14 +8020,14 @@ if (!function_exists( 'flex_idx_settings_social_yelp_display' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_settings_social_description' )) {
+if (!function_exists('flex_idx_settings_social_description')) {
     function flex_idx_settings_social_description()
     {
         return '';
     }
 }
 
-if (!function_exists( 'flex_idx_register_settings_social_fn' )) {
+if (!function_exists('flex_idx_register_settings_social_fn')) {
     function flex_idx_register_settings_social_fn()
     {
         register_setting('flex-idx-settings-social', 'flex-idx-settings-social-options', 'flex_idx_settings_social');
@@ -8049,7 +8060,7 @@ if (!function_exists( 'flex_idx_register_settings_social_fn' )) {
 }
 // end social settings
 
-if (!function_exists( 'flex_idx_list_cities' )) {
+if (!function_exists('flex_idx_list_cities')) {
     function flex_idx_list_cities()
     {
         global $wpdb;
@@ -8060,7 +8071,7 @@ if (!function_exists( 'flex_idx_list_cities' )) {
 }
 
 /* extend user profile with custom fields */
-if (!function_exists( 'flex_idx_profile_extend_fn' )) {
+if (!function_exists('flex_idx_profile_extend_fn')) {
     function flex_idx_profile_extend_fn($user)
     {
         ?>
@@ -8068,37 +8079,54 @@ if (!function_exists( 'flex_idx_profile_extend_fn' )) {
 
         <table class="form-table">
             <tr>
-                <th><label for="flex_idx_profile_phone"><?php echo __('Phone Number', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
+                <th>
+                    <label for="flex_idx_profile_phone"><?php echo __('Phone Number', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                </th>
                 <td>
-                    <input type="text" name="flex_idx_profile_phone" id="flex_idx_profile_phone" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_phone', $user->ID)); ?>" class="regular-text" /><br />
+                    <input type="text" name="flex_idx_profile_phone" id="flex_idx_profile_phone"
+                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_phone', $user->ID)); ?>"
+                           class="regular-text"/><br/>
                     <span class="description"><?php echo __('Please enter your Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_address"><?php echo __('Address', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
+                <th>
+                    <label for="flex_idx_profile_address"><?php echo __('Address', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                </th>
                 <td>
-                    <input type="text" name="flex_idx_profile_address" id="flex_idx_profile_address" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_address', $user->ID)); ?>" class="regular-text" /><br />
+                    <input type="text" name="flex_idx_profile_address" id="flex_idx_profile_address"
+                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_address', $user->ID)); ?>"
+                           class="regular-text"/><br/>
                     <span class="description"><?php echo __('Please enter your Address', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_city"><?php echo __('City', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
+                <th><label for="flex_idx_profile_city"><?php echo __('City', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                </th>
                 <td>
-                    <input type="text" name="flex_idx_profile_city" id="flex_idx_profile_city" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_city', $user->ID)); ?>" class="regular-text" /><br />
+                    <input type="text" name="flex_idx_profile_city" id="flex_idx_profile_city"
+                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_city', $user->ID)); ?>"
+                           class="regular-text"/><br/>
                     <span class="description"><?php echo __('Please enter your City', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_state"><?php echo __('State', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
+                <th><label for="flex_idx_profile_state"><?php echo __('State', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                </th>
                 <td>
-                    <input type="text" name="flex_idx_profile_state" id="flex_idx_profile_state" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_state', $user->ID)); ?>" class="regular-text" /><br />
+                    <input type="text" name="flex_idx_profile_state" id="flex_idx_profile_state"
+                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_state', $user->ID)); ?>"
+                           class="regular-text"/><br/>
                     <span class="description"><?php echo __('Please enter your State', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
             <tr>
-                <th><label for="flex_idx_profile_zip"><?php echo __('Zip Code', IDXBOOST_DOMAIN_THEME_LANG); ?></label></th>
+                <th><label for="flex_idx_profile_zip"><?php echo __('Zip Code', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                </th>
                 <td>
-                    <input type="text" name="flex_idx_profile_zip" id="flex_idx_profile_zip" value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_zip', $user->ID)); ?>" class="regular-text" /><br />
+                    <input type="text" name="flex_idx_profile_zip" id="flex_idx_profile_zip"
+                           value="<?php echo esc_attr(get_the_author_meta('flex_idx_profile_zip', $user->ID)); ?>"
+                           class="regular-text"/><br/>
                     <span class="description"><?php echo __('Please enter your Zip Code', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
                 </td>
             </tr>
@@ -8107,7 +8135,7 @@ if (!function_exists( 'flex_idx_profile_extend_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_profile_save_fn' )) {
+if (!function_exists('flex_idx_profile_save_fn')) {
     function flex_idx_profile_save_fn($user_id)
     {
         if (!current_user_can('edit_user', $user_id)) {
@@ -8122,7 +8150,7 @@ if (!function_exists( 'flex_idx_profile_save_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_saved_search_url_params' )) {
+if (!function_exists('flex_idx_saved_search_url_params')) {
     function flex_idx_saved_search_url_params($search_url)
     {
         $query_string = parse_url($search_url, PHP_URL_QUERY);
@@ -8250,7 +8278,7 @@ if (!function_exists( 'flex_idx_saved_search_url_params' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_format_short_price_fn' )) {
+if (!function_exists('flex_idx_format_short_price_fn')) {
     function flex_idx_format_short_price_fn($input)
     {
         $returnPrice = '';
@@ -8285,7 +8313,7 @@ if (!function_exists( 'flex_idx_format_short_price_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_lead_logout_xhr_fn' )) {
+if (!function_exists('flex_lead_logout_xhr_fn')) {
     function flex_lead_logout_xhr_fn()
     {
         wp_send_json(array('success' => true, 'message' => 'log out done successfully.'));
@@ -8293,7 +8321,7 @@ if (!function_exists( 'flex_lead_logout_xhr_fn' )) {
     }
 }
 
-if (!function_exists( 'flex_agent_format_phone_number' )) {
+if (!function_exists('flex_agent_format_phone_number')) {
     function flex_agent_format_phone_number($input)
     {
         if (empty($input)) {
@@ -8303,7 +8331,7 @@ if (!function_exists( 'flex_agent_format_phone_number' )) {
     }
 }
 
-if (!function_exists( 'idxboost_language_default_plugin' )) {
+if (!function_exists('idxboost_language_default_plugin')) {
     function idxboost_language_default_plugin($lang)
     {
         $flex_idx_info = flex_idx_get_info();
@@ -8337,7 +8365,7 @@ if (!function_exists( 'idxboost_language_default_plugin' )) {
  * IDXBoost CMS
  */
 
-if ( ! function_exists( 'idxboost_cms_setup' ) ) {
+if (!function_exists('idxboost_cms_setup')) {
     function idxboost_cms_setup()
     {
         global $flex_idx_info, $post;
@@ -8347,7 +8375,7 @@ if ( ! function_exists( 'idxboost_cms_setup' ) ) {
         if (get_option("idxboost_cms_company") == 'resf') $idxboost_cms_theme = 'ip-theme-resf';
 
         if ('idx-agents' == $post->post_type) {
-        ?>
+            ?>
             <script>
                 window.onload = function getBody() {
                     const body = document.getElementsByTagName("body")[0];
@@ -8355,12 +8383,12 @@ if ( ! function_exists( 'idxboost_cms_setup' ) ) {
                     body.style = "<?php echo get_option("cms_theme_settings"); ?>";
                 }
             </script>
-        <?php
+            <?php
         }
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
+if (!function_exists('idxboost_cms_register_assets')) {
     function idxboost_cms_register_assets()
     {
         global $flex_idx_info, $post, $wp;
@@ -8384,13 +8412,13 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
             wp_register_style(
                 'carbonite-sections',
                 IDX_BOOST_SPW_ASSETS . '/assets/css/carbonite-sections.css',
-                array( 'carbonite' ),
+                array('carbonite'),
             );
 
             wp_register_style(
                 'carbonite-pages-contact',
                 IDX_BOOST_SPW_ASSETS . '/assets/css/pages/contact.css',
-                array( 'carbonite' ),
+                array('carbonite'),
             );
 
             wp_register_style(
@@ -8422,7 +8450,7 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
             wp_register_script(
                 'carbonite',
                 IDX_BOOST_SPW_ASSETS . '/assets/js/carbonite.js',
-                array( 'jquery', 'get-video-id-js' ),
+                array('jquery', 'get-video-id-js'),
                 '',
                 true
             );
@@ -8430,7 +8458,7 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
             wp_register_script(
                 'carbonite-sections',
                 IDX_BOOST_SPW_ASSETS . '/assets/js/carbonite-sections.js',
-                array( 'carbonite', 'greatslider' ),
+                array('carbonite', 'greatslider'),
                 '',
                 true
             );
@@ -8438,7 +8466,7 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
             wp_register_script(
                 'carbonite-pages-contact',
                 IDX_BOOST_SPW_ASSETS . '/assets/js/pages/contact.js',
-                array( 'carbonite', 'google-maps-api' ),
+                array('carbonite', 'google-maps-api'),
                 '',
                 true
             );
@@ -8470,13 +8498,13 @@ if ( ! function_exists( 'idxboost_cms_register_assets' ) ) {
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
+if (!function_exists('idxboost_cms_enqueue_assets')) {
     function idxboost_cms_enqueue_assets()
     {
         global $flex_idx_info, $post, $wp;
 
         if (
-            get_option( 'idxboost_registration_key' ) &&
+            get_option('idxboost_registration_key') &&
             !empty($flex_idx_info['agent']['has_cms']) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
@@ -8507,7 +8535,7 @@ if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
                     $idxboost_cms_custom_style_dep = 'carbonite-pages-contact';
                 }
 
-                if ( $type == "flex_idx_page_team" ) {
+                if ($type == "flex_idx_page_team") {
                     wp_enqueue_style('carbonite-sections');
                     wp_enqueue_script('carbonite-sections');
                     $idxboost_cms_custom_style_dep = 'carbonite-sections';
@@ -8545,7 +8573,7 @@ if ( ! function_exists( 'idxboost_cms_enqueue_assets' ) ) {
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_assets' ) ) {
+if (!function_exists('idxboost_cms_assets')) {
     function idxboost_cms_assets()
     {
         global $flex_idx_info, $post, $wp;
@@ -8654,10 +8682,10 @@ if ( ! function_exists( 'idxboost_cms_assets' ) ) {
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_get_loader' ) ) {
-    function idxboost_cms_get_loader( $registration_key )
+if (!function_exists('idxboost_cms_get_loader')) {
+    function idxboost_cms_get_loader($registration_key)
     {
-        $response   = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-loader', array(
+        $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-loader', array(
             'method' => 'POST',
             'headers' => [
                 'Content-Type' => 'application/json',
@@ -8666,38 +8694,38 @@ if ( ! function_exists( 'idxboost_cms_get_loader' ) ) {
                 'registration_key' => $registration_key,
             ])
         ));
-        $body       = wp_remote_retrieve_body($response);
-        $content    = json_decode($body, true);
-        $loader     = '';
+        $body = wp_remote_retrieve_body($response);
+        $content = json_decode($body, true);
+        $loader = '';
 
-        if ( !is_wp_error($response) || $content != NULL ) {
-            if ( 
-                isset($content['loader']['content']) && 
-                !empty($content['loader']['content']) 
+        if (!is_wp_error($response) || $content != NULL) {
+            if (
+                isset($content['loader']['content']) &&
+                !empty($content['loader']['content'])
             ) {
                 $loader = trim($content['loader']['content']);
-            } 
+            }
         }
 
         return $loader;
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_loader' ) ) {
+if (!function_exists('idxboost_cms_loader')) {
     function idxboost_cms_loader()
     {
         echo get_option("cms_loader");
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_cta_modal' ) ) {
+if (!function_exists('idxboost_cms_cta_modal')) {
     function idxboost_cms_cta_modal()
     {
         echo get_option("cms_cta_modal");
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
+if (!function_exists('idxboost_cms_tripwire')) {
     function idxboost_cms_tripwire()
     {
         global $flex_idx_info;
@@ -8743,12 +8771,12 @@ if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_translate' ) ) {
+if (!function_exists('idxboost_cms_translate')) {
     function idxboost_cms_translate()
     {
         if (get_option('cms_translate_settings')) {
             $languages = get_option("cms_translate_settings")["list"];
-        ?>
+            ?>
             <div id="google_translate_element"></div>
             <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit"></script>
             <script>
@@ -8762,39 +8790,39 @@ if ( ! function_exists( 'idxboost_cms_translate' ) ) {
                     }, 'google_translate_element');
                 }
             </script>
-        <?php
+            <?php
         }
     }
 }
 
-if ( ! function_exists( 'idxboost_front_page_template' ) ) {
-    function idxboost_front_page_template( $template )
-    {        
-        if ( get_option( 'idxboost_registration_key' ) ) {
+if (!function_exists('idxboost_front_page_template')) {
+    function idxboost_front_page_template($template)
+    {
+        if (get_option('idxboost_registration_key')) {
 
             global $flex_idx_info;
-            
-            if ( ! empty( $flex_idx_info['agent']['has_cms'] ) && $flex_idx_info['agent']['has_cms'] != false ) {
-                if ( is_front_page() ) {
-                    if ( file_exists( IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php' ) ) {
+
+            if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
+                if (is_front_page()) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php')) {
                         return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_page_home.php';
                     } else {
                         return FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_home.php';
                     }
                 }
             }
-        
+
         } else {
-            return get_front_page_template();   
+            return get_front_page_template();
         }
 
         return $template;
     }
 
-    add_filter( 'template_include', 'idxboost_front_page_template' );
+    add_filter('template_include', 'idxboost_front_page_template');
 }
 
-if ( ! function_exists( 'idxboost_get_header_dinamic' ) ) {
+if (!function_exists('idxboost_get_header_dinamic')) {
     function idxboost_get_header_dinamic($name)
     {
 
@@ -8826,7 +8854,7 @@ if ( ! function_exists( 'idxboost_get_header_dinamic' ) ) {
     add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
 }
 
-if ( ! function_exists( 'idx_edit_post' ) ) {
+if (!function_exists('idx_edit_post')) {
     function idx_edit_post($post_ID, $post)
     {
         $meta = get_post_meta($post_ID, 'idx_page_type', true);
@@ -8851,7 +8879,7 @@ if ( ! function_exists( 'idx_edit_post' ) ) {
     }
 }
 
-if ( ! function_exists( 'hide_editor' ) ) {
+if (!function_exists('hide_editor')) {
     function hide_editor()
     {
         // Get the Post ID.
@@ -8866,7 +8894,7 @@ if ( ! function_exists( 'hide_editor' ) ) {
     }
 }
 
-if ( ! function_exists( 'idxboost_footer_header_dinamic' ) ) {
+if (!function_exists('idxboost_footer_header_dinamic')) {
     function idxboost_footer_header_dinamic($name)
     {
         global $flex_idx_info, $post;
@@ -8902,7 +8930,7 @@ if ( ! function_exists( 'idxboost_footer_header_dinamic' ) ) {
     add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
 }
 
-if ( ! function_exists( 'update_seo' ) ) {
+if (!function_exists('update_seo')) {
     function update_seo($title, $description, $social_share_title, $social_share_description, $social_share_image)
     {
         echo '<title>' . $title . '</title>
@@ -8918,33 +8946,33 @@ if ( ! function_exists( 'update_seo' ) ) {
     }
 }
 
-if ( ! function_exists( 'update_seo_default' ) ) {
+if (!function_exists('update_seo_default')) {
     function update_seo_default()
     {
         $exist_wpseo_metadesc = get_bloginfo('description');
         $exist_yoast_wpseo_metadesc = get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true);
-        
+
         echo '<title>' . wp_title('|', 0, 'right') . get_bloginfo('name') . '</title>';
-        if ( ! $exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc ) {
+        if (!$exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc) {
             echo '<meta name="description" content="' . get_bloginfo("description") . '">';
         }
     }
 }
 
-if ( ! function_exists( 'update_seo_all_page' ) ) {
+if (!function_exists('update_seo_all_page')) {
     function update_seo_all_page($title)
     {
         $exist_wpseo_metadesc = get_bloginfo('description');
         $exist_yoast_wpseo_metadesc = get_post_meta(get_the_ID(), '_yoast_wpseo_metadesc', true);
-        
+
         echo '<title>' . wp_title('|', 0, 'right') . $title . '</title>';
-        if ( ! $exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc ) {
+        if (!$exist_yoast_wpseo_metadesc && $exist_wpseo_metadesc) {
             echo '<meta name="description" content="' . get_bloginfo("description") . '">';
         }
     }
 }
 
-if ( ! function_exists( 'idxboost_integrations_head' ) ) {
+if (!function_exists('idxboost_integrations_head')) {
     function idxboost_integrations_head()
     {
         global $flex_idx_info;
@@ -8960,7 +8988,7 @@ if ( ! function_exists( 'idxboost_integrations_head' ) ) {
     }
 }
 
-if ( ! function_exists( 'custom_seo_page' ) ) {
+if (!function_exists('custom_seo_page')) {
     function custom_seo_page()
     {
         global $post;
@@ -9032,10 +9060,10 @@ if ( ! function_exists( 'custom_seo_page' ) ) {
                     // validar que se use el seo, sino usar seo por defecto
                     if ($content['cmsSeo'] == 1) {
                         update_seo(
-                            $content['seo']['title'], 
-                            $content['seo']['description'], 
-                            $content['socialShare']['title'], 
-                            $content['socialShare']['description'], 
+                            $content['seo']['title'],
+                            $content['seo']['description'],
+                            $content['socialShare']['title'],
+                            $content['socialShare']['description'],
                             $content['socialShare']['image']
                         );
                     } else {
@@ -9046,10 +9074,10 @@ if ( ! function_exists( 'custom_seo_page' ) ) {
                 }
             } else {
 
-                if ( ! (
-                    $post->post_type == 'flex-idx-pages' && 
-                    in_array($type_filter, ['flex_idx_building','flex_idx_property_detail'])  
-                ) ) {
+                if (!(
+                    $post->post_type == 'flex-idx-pages' &&
+                    in_array($type_filter, ['flex_idx_building', 'flex_idx_property_detail'])
+                )) {
                     $response = wp_remote_post(
                         IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
                         array(
@@ -9080,7 +9108,7 @@ if ( ! function_exists( 'custom_seo_page' ) ) {
     }
 }
 
-if (!function_exists( 'idxboost_save_options_after_update' )) {
+if (!function_exists('idxboost_save_options_after_update')) {
     function idxboost_save_options_after_update($upgrader_object, $options)
     {
         $options = array(
@@ -9091,7 +9119,7 @@ if (!function_exists( 'idxboost_save_options_after_update' )) {
 
         if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array('idxboost/idxboost.php', $options['plugins'])) {
             $data_parameters = [];
-            if (function_exists( 'is_wpe' )) {
+            if (function_exists('is_wpe')) {
                 if (is_wpe() == 1) {
                     $data_parameters['idx_environment_site'] = 'production';
                 } else {
@@ -9109,7 +9137,7 @@ if (!function_exists( 'idxboost_save_options_after_update' )) {
     add_action('upgrader_process_complete', 'idxboost_save_options_after_update', 10, 2);
 }
 
-if (!function_exists( 'flex_idx_get_building_noscript_inventory' )) {
+if (!function_exists('flex_idx_get_building_noscript_inventory')) {
     function flex_idx_get_building_noscript_inventory($result_data_collection = [], $head_property = 'Sale', $type_data = 'sale')
     { ?>
         <noscript>
@@ -9127,137 +9155,221 @@ if (!function_exists( 'flex_idx_get_building_noscript_inventory' )) {
             foreach ($arrebed as $keybed => $valbed) {
                 $countar = $countar + 1; ?>
                 <h2 class="title-thumbs"><?php
-                                            if ($valbed == 0) {
-                                                echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG);
-                                            } else {
-                                                if ($type_data == 'for_rent') {
-                                                    echo $valbed . __(' Bedroom Apartments ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
-                                                } else {
-                                                    echo $valbed . __(' Bedroom Condos ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
-                                                }
-                                            }
+                    if ($valbed == 0) {
+                        echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG);
+                    } else {
+                        if ($type_data == 'for_rent') {
+                            echo $valbed . __(' Bedroom Apartments ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
+                        } else {
+                            echo $valbed . __(' Bedroom Condos ', IDXBOOST_DOMAIN_THEME_LANG) . $head_property . ' at ' . get_the_title();
+                        }
+                    }
 
-                                            ?></h2>
+                    ?></h2>
                 <div class="tbl_properties_wrapper">
                     <table class="display" id="dataTable-pending-<?php echo $countar; ?>" cellspacing="0" width="100%">
                         <thead>
-                            <tr>
-                                <th class="dt-center sorting"><?php echo __('unit', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                                <th class="dt-center sorting class_asking_prince"><?php echo __('Asking Price', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                                <th class="dt-center sorting">% / $</th>
-                                <th class="dt-center sorting"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                    / <?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                                <th class="dt-center sorting show-desktop"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                                <th class="dt-center sorting show-desktop"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                                    / Sq.Ft.
-                                </th>
-                                <th class="dt-center sorting show-desktop"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
-                            </tr>
+                        <tr>
+                            <th class="dt-center sorting"><?php echo __('unit', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting class_asking_prince"><?php echo __('Asking Price', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting">% / $</th>
+                            <th class="dt-center sorting"><?php echo __('Beds', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                                / <?php echo __('Baths', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting show-desktop"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                            <th class="dt-center sorting show-desktop"><?php echo __('Price', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                                / Sq.Ft.
+                            </th>
+                            <th class="dt-center sorting show-desktop"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            foreach ($result_data_collection as $key => $value) {
-                                if ($value['bed'] == $valbed) { ?>
-                                    <tr class="flex-tbl-link" data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $value['slug']; ?>">
-                                        <td>
-                                            <div class="unit propertie" data-mls="<?php echo $value['mls_num']; ?>">
-                                                <button class="clidxboost-btn-check flex-favorite-btn">
-                                                    <span class="clidxboost-icon-check clidxboost-icon-check-list"></span>
-                                                </button>
-                                                <span><?php echo $value['unit']; ?></span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="asking-number blue">
-                                                $<?php echo number_format($value['price']); ?></div>
-                                        </td>
-                                        <td>
-                                            <div class="porcentaje <?php if ($value['reduced'] !== '' && $value['reduced'] < 0) : ?>red<?php elseif ($value['reduced'] !== '' && $value['reduced'] >= 0) : ?>green<?php else : ?>black<?php endif; ?>"><?php if (strlen($value['reduced']) != 0) echo $value['reduced'] . '%';
-                                                                                                                                                                                                                                                        else echo 'N/A'; ?></div>
-                                        </td>
-                                        <td>
-                                            <div class="beds"><?php echo $value['bed']; ?> / <?php echo $value['bath']; ?>
-                                                / <?php echo $value['baths_half']; ?></div>
-                                        </td>
-                                        <td class="table-beds show-desktop">
-                                            <div class="beds"><?php echo $value['sqft']; ?> Sq.Ft.</div>
-                                        </td>
-                                        <td class="table-beds show-desktop">
-                                            <div class="price">
-                                                $<?php echo ($value['sqft'] > 0) ? number_format($value['price'] / $value['sqft']) : 0; ?></div>
-                                        </td>
-                                        <td class="table-beds show-desktop">
-                                            <div class="dayson"><?php echo $value['days_market']; ?></div>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
+                        <?php
+                        foreach ($result_data_collection as $key => $value) {
+                            if ($value['bed'] == $valbed) { ?>
+                                <tr class="flex-tbl-link"
+                                    data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $value['slug']; ?>">
+                                    <td>
+                                        <div class="unit propertie" data-mls="<?php echo $value['mls_num']; ?>">
+                                            <button class="clidxboost-btn-check flex-favorite-btn">
+                                                <span class="clidxboost-icon-check clidxboost-icon-check-list"></span>
+                                            </button>
+                                            <span><?php echo $value['unit']; ?></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="asking-number blue">
+                                            $<?php echo number_format($value['price']); ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="porcentaje <?php if ($value['reduced'] !== '' && $value['reduced'] < 0) : ?>red<?php elseif ($value['reduced'] !== '' && $value['reduced'] >= 0) : ?>green<?php else : ?>black<?php endif; ?>"><?php if (strlen($value['reduced']) != 0) echo $value['reduced'] . '%';
+                                            else echo 'N/A'; ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="beds"><?php echo $value['bed']; ?> / <?php echo $value['bath']; ?>
+                                            / <?php echo $value['baths_half']; ?></div>
+                                    </td>
+                                    <td class="table-beds show-desktop">
+                                        <div class="beds"><?php echo $value['sqft']; ?> Sq.Ft.</div>
+                                    </td>
+                                    <td class="table-beds show-desktop">
+                                        <div class="price">
+                                            $<?php echo ($value['sqft'] > 0) ? number_format($value['price'] / $value['sqft']) : 0; ?></div>
+                                    </td>
+                                    <td class="table-beds show-desktop">
+                                        <div class="dayson"><?php echo $value['days_market']; ?></div>
+                                    </td>
+                                </tr>
                             <?php } ?>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
             <?php } ?>
         </noscript>
 
-<?php
+        <?php
     }
 }
 
-if (!function_exists( 'idx_autologin_authenticate' )) {
+if (!function_exists('idx_autologin_authenticate')) {
     function idx_autologin_authenticate()
     {
-        if (strpos($_SERVER["REQUEST_URI"], '/autologin?token=') !== false) {
+        if (strpos($_SERVER["REQUEST_URI"], '/idxboostLoginAdmin?token=') !== false) {
             $publicKey = <<<EOD
             -----BEGIN PUBLIC KEY-----
-            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
-            4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
-            0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
-            ehde/zUxo6UvS7UrBQIDAQAB
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqm51yO1oSyAjOewYALny
+            8N/5t+A86o6fStraWZkKHE3BlWIKSz+U4WQzR8lR9H+3P7tbWLcrbvuFhDRwiSzV
+            3BNbMTtlaGteKY+u3CEXdUlw+ngrEWwL/jYMNrKm2ehJSRr94bPkBMAJiXUW9+cT
+            vRiIy7ruFNn0UNFIukezwweGViySuy8N2aF09ZpXvKAH1VDkg1lOpT4bOJ4IwVjt
+            wQ/a3qf0xV2mQKp6k4jVLynKTEMKNYeLDDGtb+WjV2DRstHJofrfACKrsVFhAVRV
+            HgWOmCqqXRvB9hkLsf8dPuec15c1BnmLcMuAiDA5nR4yET/TQY+Voi1fI4JKfyhv
+            lQIDAQAB
             -----END PUBLIC KEY-----
             EOD;
             require "JWT.php";
             $token = $_GET['token'];
             try {
-                $decoded = JWT::decode($token, $publicKey, array('RS256'));
+                $decoded = JWT::decode($token, $publicKey, array('RS512'));
                 $decoded_array = (array)$decoded;
                 $page = $decoded_array['page'];
+                $from = $decoded_array['from'];
+                $fromUser = $decoded_array['from_user'];
                 $userToLogin = get_user_by('email', $decoded_array['email']);
                 $role = '';
-                if ($userToLogin) {
-                    wp_set_current_user($userToLogin->ID);
-                    wp_set_auth_cookie($userToLogin->ID, false);
-                    do_action('wp_login', $userToLogin->name, $userToLogin);
-                    if (in_array('administrator', $userToLogin->roles)) {
-                        $role = 'admin';
-                    } else {
-                        $role = 'editor';
-                    }
-                } else {
-                    $editors = get_users(array(
-                        'role__in' => 'editor',
-                        'fields' => array('user_login'),
-                    ));
+                $issuedAt = new DateTimeImmutable();
+                if ($decoded_array['exp'] >= $issuedAt->getTimestamp()) {
+                    if ($userToLogin) {
+                        wp_set_current_user($userToLogin->ID);
+                        wp_set_auth_cookie($userToLogin->ID, false);
+                        do_action('wp_login', $userToLogin->name, $userToLogin);
 
-                    if (!empty($editors)) {
-                        $userToLogin = get_user_by('login', $editors[0]->user_login);
-                        if ($userToLogin) {
+                        $sendParams = [
+                            "system" => "WordPress",
+                            "date" => time(),
+                            "type" => "Login",
+                            "user" => $decoded_array['email'],
+                            "action" => "Login (WordPress)",
+                            "object" => "Memberships",
+                            "information" => get_bloginfo('url'),
+                            "ip" => $_SERVER['REMOTE_ADDR'],
+                            "details" => json_encode([
+                                "Installation" => get_bloginfo('url'),
+                                "Page" => $page,
+                                "From" => $from,
+                                "User" => $fromUser
+                            ])
+                        ];
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress');
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_exec($ch);
+                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+
+                        if (in_array('administrator', $userToLogin->roles)) {
+                            $role = 'admin';
+                        } else {
                             $role = 'editor';
-                            wp_set_current_user($userToLogin->ID);
-                            wp_set_auth_cookie($userToLogin->ID, false);
-                            do_action('wp_login', $userToLogin->name, $userToLogin);
                         }
                     } else {
-
-                        $admins = get_users(array(
-                            'role__in' => 'administrator',
+                        $editors = get_users(array(
+                            'role__in' => 'editor',
                             'fields' => array('user_login'),
                         ));
-                        if (!empty($admins)) {
-                            $userToLogin = get_user_by('login', $admins[0]->user_login);
+
+                        if (!empty($editors)) {
+                            $userToLogin = get_user_by('login', $editors[0]->user_login);
                             if ($userToLogin) {
-                                $role = 'admin';
+                                $role = 'editor';
                                 wp_set_current_user($userToLogin->ID);
                                 wp_set_auth_cookie($userToLogin->ID, false);
                                 do_action('wp_login', $userToLogin->name, $userToLogin);
+
+                                $sendParams = [
+                                    "system" => "WordPress",
+                                    "date" => time(),
+                                    "type" => "Login",
+                                    "user" => $decoded_array['email'],
+                                    "action" => "Login (WordPress)",
+                                    "object" => "Memberships",
+                                    "information" => get_bloginfo('url'),
+                                    "ip" => $_SERVER['REMOTE_ADDR'],
+                                    "details" => json_encode([
+                                        "Installation" => get_bloginfo('url'),
+                                        "Page" => $page,
+                                        "From" => $from,
+                                        "User" => $fromUser
+                                    ])
+                                ];
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/loginWordpress');
+                                curl_setopt($ch, CURLOPT_POST, 1);
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                curl_exec($ch);
+                                curl_close($ch);
+
+                            }
+                        } else {
+                            $admins = get_users(array(
+                                'role__in' => 'administrator',
+                                'fields' => array('user_login'),
+                            ));
+                            if (!empty($admins)) {
+                                $userToLogin = get_user_by('login', $admins[0]->user_login);
+                                if ($userToLogin) {
+                                    $role = 'admin';
+                                    wp_set_current_user($userToLogin->ID);
+                                    wp_set_auth_cookie($userToLogin->ID, false);
+                                    do_action('wp_login', $userToLogin->name, $userToLogin);
+
+                                    $sendParams = [
+                                        "system" => "WordPress",
+                                        "date" => time(),
+                                        "type" => "Login",
+                                        "user" => $decoded_array['email'],
+                                        "action" => "Login (WordPress)",
+                                        "object" => "Memberships",
+                                        "information" => get_bloginfo('url'),
+                                        "ip" => $_SERVER['REMOTE_ADDR'],
+                                        "details" => json_encode([
+                                            "Installation" => get_bloginfo('url'),
+                                            "Page" => $page,
+                                            "From" => $from,
+                                            "User" => $fromUser
+                                        ])
+                                    ];
+                                    $ch = curl_init();
+                                    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress');
+                                    curl_setopt($ch, CURLOPT_POST, 1);
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_exec($ch);
+                                    curl_close($ch);
+
+                                }
                             }
                         }
                     }
@@ -9282,17 +9394,18 @@ if (!function_exists( 'idx_autologin_authenticate' )) {
 }
 
 if (!function_exists("remove_canonical")) {
-    function remove_canonical() {
+    function remove_canonical()
+    {
         // Disable for property detail page
-        if ( is_singular('flex-idx-pages') ) {
-            add_filter( 'wpseo_canonical', '__return_false',  10, 1 );
+        if (is_singular('flex-idx-pages')) {
+            add_filter('wpseo_canonical', '__return_false', 10, 1);
         }
     }
 }
 // ------Quick Search Rental------
-if (!function_exists( 'flex_idx_admin_render_settings_rental_page' )) {
+if (!function_exists('flex_idx_admin_render_settings_rental_page')) {
     function flex_idx_admin_render_settings_rental_page()
-    {  
+    {
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/settings_rental.php')) {
             return include IDXBOOST_OVERRIDE_DIR . '/views/admin/settings_rental.php';
         } else {
@@ -9302,9 +9415,9 @@ if (!function_exists( 'flex_idx_admin_render_settings_rental_page' )) {
 }
 
 // ------Schema - SEO------
-if (!function_exists( 'flex_idx_admin_render_schema_page' )) {
+if (!function_exists('flex_idx_admin_render_schema_page')) {
     function flex_idx_admin_render_schema_page()
-    {  
+    {
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/schema.php')) {
             return include IDXBOOST_OVERRIDE_DIR . '/views/admin/schema.php';
         } else {
@@ -9313,199 +9426,200 @@ if (!function_exists( 'flex_idx_admin_render_schema_page' )) {
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_fn' )) {
-    
+if (!function_exists('flex_idx_generate_schema_fn')) {
+
     function flex_idx_generate_schema_fn($name_post_type)
-    {                       
+    {
         $post_ID = 999999990;
         $schema_data = get_post_meta($post_ID, '_schema_seo', true);
-        $access_token  = flex_idx_get_access_token();
-        
-                
-        if(is_array($schema_data) && array_key_exists($name_post_type, $schema_data)){   
-            
+        $access_token = flex_idx_get_access_token();
+
+
+        if (is_array($schema_data) && array_key_exists($name_post_type, $schema_data)) {
+
             flex_idx_generate_schema_organization($schema_data);
             flex_idx_generate_schema_real_estate_agent($schema_data);
             flex_idx_generate_schema_breadcrumb_list();
 
             // 'flex-landing-pages'
-            if($name_post_type=='flex-landing-pages'){
-               
-                $data_search_filter = get_shortcode_attributes('ib_search_filter_react');                
+            if ($name_post_type == 'flex-landing-pages') {
+
+                $data_search_filter = get_shortcode_attributes('ib_search_filter_react');
                 $arg = array(
                     'method' => 'POST',
                     'timeout' => 60,
-                    'headers' => array(                       
+                    'headers' => array(
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
                     'body' => http_build_query(array(
                         'post_type' => 'flex-landing-pages',
                         'search_filter_id' => $data_search_filter[0]['id'],
                         'access_token' => $access_token,
-                    ) )
+                    ))
                 );
-                if(!empty($data_search_filter[0]['id'])){    
-                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO,$arg);
-                    if(!empty($info)){
+                if (!empty($data_search_filter[0]['id'])) {
+                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO, $arg);
+                    if (!empty($info)) {
                         flex_idx_generate_schema_product($info);
                         flex_idx_generate_schema_single_family_residence($info);
                     }
                 }
             } // 'flex-landing-pages' 
-          
+
             // flex-idx-building
-            if($name_post_type=='flex-idx-building'){   
+            if ($name_post_type == 'flex-idx-building') {
                 $id_post = get_the_ID();
-                $building_id = get_post_meta($id_post,"_flex_building_page_id" );
-                   
+                $building_id = get_post_meta($id_post, "_flex_building_page_id");
+
                 $arg = array(
                     'method' => 'POST',
                     'timeout' => 60,
-                    'headers' => array(                       
+                    'headers' => array(
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
                     'body' => http_build_query(array(
                         'post_type' => 'flex-idx-building',
                         'building_id' => $building_id[0],
                         'access_token' => $access_token,
-                    ) )
+                    ))
                 );
-                if(!empty($building_id)){
-                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO,$arg);
-                    if(!empty($info)){
+                if (!empty($building_id)) {
+                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO, $arg);
+                    if (!empty($info)) {
                         flex_idx_generate_schema_product($info);
                         flex_idx_generate_schema_apartment_complex($info);
-                    }  
+                    }
                 }
 
             } // flex-idx-building
 
             // flex-filter-pages
-            if($name_post_type=='flex-filter-pages'){
-                
+            if ($name_post_type == 'flex-filter-pages') {
+
                 $id_post = get_the_ID();
-                $filter_page_id = get_post_meta($id_post,"_flex_filter_page_id" );
-                
+                $filter_page_id = get_post_meta($id_post, "_flex_filter_page_id");
+
                 $arg = array(
                     'method' => 'POST',
                     'timeout' => 60,
-                    'headers' => array(                       
+                    'headers' => array(
                         'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                     ),
                     'body' => http_build_query(array(
                         'post_type' => 'flex-filter-pages',
                         'filter_page_id' => $filter_page_id[0],
                         'access_token' => $access_token,
-                    ) )
+                    ))
                 );
-                if(!empty($filter_page_id)){                
-                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO,$arg);
-                    if(!empty($info)){
+                if (!empty($filter_page_id)) {
+                    $info = flex_idx_generate_schema_fetch(IDX_BOOST_SCHEMA_SEO, $arg);
+                    if (!empty($info)) {
                         flex_idx_generate_schema_product($info);
                         flex_idx_generate_schema_single_family_residence($info);
-                    }        
-                } 
+                    }
+                }
             }// flex-filter-pages 
 
-        }         
+        }
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_fetch' )) {
+if (!function_exists('flex_idx_generate_schema_fetch')) {
 
-    function flex_idx_generate_schema_fetch($url,$arg){ 
-       
+    function flex_idx_generate_schema_fetch($url, $arg)
+    {
+
         $info = wp_remote_post($url, $arg);
         $info = (is_wp_error($info)) ? [] : wp_remote_retrieve_body($info);
         if (!empty($info)) {
             return json_decode($info, true);
-        }else{
+        } else {
             return [];
         }
     }
 
 }
 
-if (!function_exists( 'get_shortcode_attributes' )) {
-    function get_shortcode_attributes($shortcode_tag) {
-        global $post;        
-        if( has_shortcode( $post->post_content, $shortcode_tag ) ) {
+if (!function_exists('get_shortcode_attributes')) {
+    function get_shortcode_attributes($shortcode_tag)
+    {
+        global $post;
+        if (has_shortcode($post->post_content, $shortcode_tag)) {
             $output = array();
             //get shortcode regex pattern wordpress function
-            $pattern = get_shortcode_regex( [ $shortcode_tag ] );
-            if (   preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches ) )
-            {
+            $pattern = get_shortcode_regex([$shortcode_tag]);
+            if (preg_match_all('/' . $pattern . '/s', $post->post_content, $matches)) {
                 $keys = array();
                 $output = array();
-                foreach( $matches[0] as $key => $value) {
+                foreach ($matches[0] as $key => $value) {
                     // $matches[3] return the shortcode attribute as string
                     // replace space with '&' for parse_str() function
-                    $get = str_replace(" ", "&" , trim( $matches[3][$key] ) );
-                    $get = str_replace('"', '' , $get );
-                    parse_str( $get, $sub_output );
+                    $get = str_replace(" ", "&", trim($matches[3][$key]));
+                    $get = str_replace('"', '', $get);
+                    parse_str($get, $sub_output);
 
                     //get all shortcode attribute keys
-                    $keys = array_unique( array_merge(  $keys, array_keys( $sub_output )) );
+                    $keys = array_unique(array_merge($keys, array_keys($sub_output)));
                     $output[] = $sub_output;
                 }
-                if( $keys && $output ) {
+                if ($keys && $output) {
                     // Loop the output array and add the missing shortcode attribute key
                     foreach ($output as $key => $value) {
                         // Loop the shortcode attribute key
                         foreach ($keys as $attr_key) {
-                            $output[$key][$attr_key] = isset( $output[$key] )  && isset( $output[$key] ) ? $output[$key][$attr_key] : NULL;
+                            $output[$key][$attr_key] = isset($output[$key]) && isset($output[$key]) ? $output[$key][$attr_key] : NULL;
                         }
                         //sort the array key
-                        ksort( $output[$key]);
+                        ksort($output[$key]);
                     }
                 }
             }
             return $output;
-        }else{
+        } else {
             return false;
         }
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_by_page' )) {
-    
+if (!function_exists('flex_idx_generate_schema_by_page')) {
+
     function flex_idx_generate_schema_by_page()
     {
-        $post_types_includes = array('flex-idx-building','flex-landing-pages','flex-filter-pages','idx-sub-area','idx-off-market','post','page','flex-idx-pages');
-        $name_post_type = get_post_type(); 
-        if(in_array($name_post_type, $post_types_includes)){                           
-            
-            flex_idx_generate_schema_fn($name_post_type);       
-        }         
+        $post_types_includes = array('flex-idx-building', 'flex-landing-pages', 'flex-filter-pages', 'idx-sub-area', 'idx-off-market', 'post', 'page', 'flex-idx-pages');
+        $name_post_type = get_post_type();
+        if (in_array($name_post_type, $post_types_includes)) {
+
+            flex_idx_generate_schema_fn($name_post_type);
+        }
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_organization' )) {
-    
+if (!function_exists('flex_idx_generate_schema_organization')) {
+
     function flex_idx_generate_schema_organization($schema_data)
     {
-        
+
         $name = $schema_data['name_data'];
         $description = $schema_data['description_data'];
         $url = $schema_data['img_data'];
 
         // Organization
         $schema_organization = array(
-            '@context'  => 'http://schema.org',
-            '@type'     => 'Organization',
-            'name'      => $name,
-            'description' => $description,  
-            'image'=> $url,  
+            '@context' => 'http://schema.org',
+            '@type' => 'Organization',
+            'name' => $name,
+            'description' => $description,
+            'image' => $url,
         );
         echo '<script type="application/ld+json">' . json_encode($schema_organization) . '</script>';
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_real_estate_agent' )) {
-    
+if (!function_exists('flex_idx_generate_schema_real_estate_agent')) {
+
     function flex_idx_generate_schema_real_estate_agent($schema_data)
     {
-        
+
         $name_agent = $schema_data['name_agent'];
         $description_agent = $schema_data['description_agent'];
         $url_img_agent = $schema_data['url_img_agent'];
@@ -9524,40 +9638,40 @@ if (!function_exists( 'flex_idx_generate_schema_real_estate_agent' )) {
 
         // RealEstateAgent
         $schema_real_estate_agent = array(
-            '@context'  => 'http://schema.org',
-            '@type'     => 'RealEstateAgent',
-            'name'      => $name_agent,
-            'description' => $description_agent,  
-            'image'=> $url_img_agent,  
-            'priceRange'=>$price_range_agent,
-            'email'=> $email_agent,
+            '@context' => 'http://schema.org',
+            '@type' => 'RealEstateAgent',
+            'name' => $name_agent,
+            'description' => $description_agent,
+            'image' => $url_img_agent,
+            'priceRange' => $price_range_agent,
+            'email' => $email_agent,
             'telephone' => $tele_phone_agent,
-            'url' =>$url_agent,
+            'url' => $url_agent,
             'openingHours' => $opening_hours_agent,
             'address' => array(
-                '@type'=> 'PostalAddress',
+                '@type' => 'PostalAddress',
                 'streetAddress' => $street_address_agent,
-                'addressLocality'=> $address_locality_agent,
-                'addressRegion'=> $address_region_agent,
-                'postalCode'=> $postal_code_agent,
-                'addressCountry'=> array(
-                    '@type'=> 'Country',
-                    'name'=> $address_country_agent
-                ),               
+                'addressLocality' => $address_locality_agent,
+                'addressRegion' => $address_region_agent,
+                'postalCode' => $postal_code_agent,
+                'addressCountry' => array(
+                    '@type' => 'Country',
+                    'name' => $address_country_agent
+                ),
             ),
             "geo" => array(
-                "@type"=> "GeoCoordinates",
-                "latitude"=> $latitude_agent,
-                "longitude"=> $longitud_agent
-            )	
+                "@type" => "GeoCoordinates",
+                "latitude" => $latitude_agent,
+                "longitude" => $longitud_agent
+            )
 
         );
         echo '<script type="application/ld+json">' . json_encode($schema_real_estate_agent) . '</script>';
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_breadcrumb_list' )) {
-    
+if (!function_exists('flex_idx_generate_schema_breadcrumb_list')) {
+
     function flex_idx_generate_schema_breadcrumb_list()
     {
         global $wp_query;
@@ -9567,134 +9681,137 @@ if (!function_exists( 'flex_idx_generate_schema_breadcrumb_list' )) {
 
         // BreadcrumbList
         $schema_breadcrumb_list = array(
-            '@context'  => 'http://schema.org',
-            '@type'     => 'BreadcrumbList',  
-            'itemListElement'  => [
+            '@context' => 'http://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
                 array(
-                    '@type'    => 'ListItem',
+                    '@type' => 'ListItem',
                     'position' => 1,
-                    'item'     => array(
+                    'item' => array(
                         '@type' => 'Thing',
-                        '@id'   => get_bloginfo('url'),
-                        'name'  => get_bloginfo('name'),
+                        '@id' => get_bloginfo('url'),
+                        'name' => get_bloginfo('name'),
                     )
                 ),
                 array(
-                    '@type'    => 'ListItem',
+                    '@type' => 'ListItem',
                     'position' => 2,
-                    'item'     => array(
+                    'item' => array(
                         '@type' => 'Thing',
-                        '@id'   => get_permalink(),
-                        'name'  => $currtentpost->post_title,
-                    ) 
-                ), 
+                        '@id' => get_permalink(),
+                        'name' => $currtentpost->post_title,
+                    )
+                ),
             ]);
 
         echo '<script type="application/ld+json">' . json_encode($schema_breadcrumb_list) . '</script>';
-         
+
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_single_family_residence' )) {
+if (!function_exists('flex_idx_generate_schema_single_family_residence')) {
 
-    function flex_idx_generate_schema_single_family_residence($items){
-        if(is_array($items)){ 
-        $all_schema_single_family_residence = [];
-        // SingleFamilyResidence
+    function flex_idx_generate_schema_single_family_residence($items)
+    {
+        if (is_array($items)) {
+            $all_schema_single_family_residence = [];
+            // SingleFamilyResidence
             foreach ($items as $item) {
 
-            $schema_single_family_residence = array(
-                '@context'  => "http://schema.org",
-                '@type'     => "SingleFamilyResidence",
-                "name"  => $item['name'],
-                "floorSize"=> array(                
-                        "@type"=>"QuantitativeValue",
-                        "@context"=>"http://schema.org",
-                        "value"=>$item['floorSize'],
+                $schema_single_family_residence = array(
+                    '@context' => "http://schema.org",
+                    '@type' => "SingleFamilyResidence",
+                    "name" => $item['name'],
+                    "floorSize" => array(
+                        "@type" => "QuantitativeValue",
+                        "@context" => "http://schema.org",
+                        "value" => $item['floorSize'],
                     ),
-                "address"=> array(                
-                        "@type"=>"PostalAddress",
-                        "@context"=>"http://schema.org",
-                        "streetAddress"=>$item['streetAddress'],
-                        "addressLocality"=>$item['addressLocality'],
-                        "addressRegion"=> $item['addressRegion'],
-                        "postalCode"=> $item['postalCode'],
+                    "address" => array(
+                        "@type" => "PostalAddress",
+                        "@context" => "http://schema.org",
+                        "streetAddress" => $item['streetAddress'],
+                        "addressLocality" => $item['addressLocality'],
+                        "addressRegion" => $item['addressRegion'],
+                        "postalCode" => $item['postalCode'],
                     ),
-                "geo"=> array(                
-                        "@type"=>"GeoCoordinates",
-                        "@context"=>"http://schema.org",
-                        "latitude"=>$item['latitude'],
-                        "longitude"=>$item['longitude'],
-                ),
-                "url"=>  get_site_url() . '/' . "property" . '/' .$item['url']
-            ); 
-            $all_schema_single_family_residence[] = $schema_single_family_residence; 
-        }
-        echo '<script type="application/ld+json">' . json_encode($all_schema_single_family_residence) . '</script>';
+                    "geo" => array(
+                        "@type" => "GeoCoordinates",
+                        "@context" => "http://schema.org",
+                        "latitude" => $item['latitude'],
+                        "longitude" => $item['longitude'],
+                    ),
+                    "url" => get_site_url() . '/' . "property" . '/' . $item['url']
+                );
+                $all_schema_single_family_residence[] = $schema_single_family_residence;
+            }
+            echo '<script type="application/ld+json">' . json_encode($all_schema_single_family_residence) . '</script>';
         }
     }
 
 }
 
-if (!function_exists( 'flex_idx_generate_schema_apartment_complex' )) {
+if (!function_exists('flex_idx_generate_schema_apartment_complex')) {
 
-    function flex_idx_generate_schema_apartment_complex($items){
-        if(is_array($items)){ 
-        $all_schema_apartment_complex= [];
-        // SingleFamilyResidence
+    function flex_idx_generate_schema_apartment_complex($items)
+    {
+        if (is_array($items)) {
+            $all_schema_apartment_complex = [];
+            // SingleFamilyResidence
             foreach ($items as $item) {
 
-            $schema_apartment_complex = array(
-                '@context'  => "http://schema.org",
-                '@type'     => "ApartmentComplex",
-                "name"  => $item['name'],           
-                "address"=> array(                
-                        "@type"=>"PostalAddress",
-                        "@context"=>"http://schema.org",
-                        "streetAddress"=>$item['streetAddress'],
-                        "addressLocality"=>$item['addressLocality'],
-                        "addressRegion"=> $item['addressRegion'],
-                        "postalCode"=> $item['postalCode'],
+                $schema_apartment_complex = array(
+                    '@context' => "http://schema.org",
+                    '@type' => "ApartmentComplex",
+                    "name" => $item['name'],
+                    "address" => array(
+                        "@type" => "PostalAddress",
+                        "@context" => "http://schema.org",
+                        "streetAddress" => $item['streetAddress'],
+                        "addressLocality" => $item['addressLocality'],
+                        "addressRegion" => $item['addressRegion'],
+                        "postalCode" => $item['postalCode'],
                     ),
-                "geo"=> array(                
-                        "@type"=>"GeoCoordinates",
-                        "@context"=>"http://schema.org",
-                        "latitude"=>$item['latitude'],
-                        "longitude"=>$item['longitude'],
-                ),
-                "url"=>  get_site_url() . '/' . "property" . '/' .$item['url']
-            ); 
-            $all_schema_apartment_complex[] = $schema_apartment_complex; 
+                    "geo" => array(
+                        "@type" => "GeoCoordinates",
+                        "@context" => "http://schema.org",
+                        "latitude" => $item['latitude'],
+                        "longitude" => $item['longitude'],
+                    ),
+                    "url" => get_site_url() . '/' . "property" . '/' . $item['url']
+                );
+                $all_schema_apartment_complex[] = $schema_apartment_complex;
+            }
+            echo '<script type="application/ld+json">' . json_encode($all_schema_apartment_complex) . '</script>';
         }
-        echo '<script type="application/ld+json">' . json_encode($all_schema_apartment_complex) . '</script>';       
-    }
     }
 }
 
-if (!function_exists( 'flex_idx_generate_schema_product' )) {
+if (!function_exists('flex_idx_generate_schema_product')) {
 
-    function flex_idx_generate_schema_product($items){
-        if(is_array($items)){        
-        $all_schema_product = [];
-        // Product
+    function flex_idx_generate_schema_product($items)
+    {
+        if (is_array($items)) {
+            $all_schema_product = [];
+            // Product
             foreach ($items as $item) {
 
-            $schema_product = array(
-                '@context'  => "http://schema.org",
-                '@type'     => "Product",
-                "name"  => $item['name'],
-                "url"=>  get_site_url() . '/' . "property" . '/' .$item['url'],
-                "offers"=> array(                
-                        "@type"=>"Offer",
-                        "@context"=>"http://schema.org",                    
-                        'price'=>$item['price'],
-                        'priceCurrency'=>'USD'
+                $schema_product = array(
+                    '@context' => "http://schema.org",
+                    '@type' => "Product",
+                    "name" => $item['name'],
+                    "url" => get_site_url() . '/' . "property" . '/' . $item['url'],
+                    "offers" => array(
+                        "@type" => "Offer",
+                        "@context" => "http://schema.org",
+                        'price' => $item['price'],
+                        'priceCurrency' => 'USD'
                     ),
-            ); 
-            $all_schema_product[] = $schema_product; 
+                );
+                $all_schema_product[] = $schema_product;
+            }
+            echo '<script type="application/ld+json">' . json_encode($all_schema_product) . '</script>';
         }
-        echo '<script type="application/ld+json">' . json_encode($all_schema_product) . '</script>';
-    } 
     }
 
 }
