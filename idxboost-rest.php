@@ -1,5 +1,5 @@
 <?php
-
+require "inc/JWT.php";
 class IDXBoost_REST_API_Endpoints
 {
     const API_NAMESPACE = 'idx-boost';
@@ -68,7 +68,6 @@ class IDXBoost_REST_API_Endpoints
 
     public static function loginJWT(WP_REST_Request $request)
     {
-        include_once "inc/JWT.php";
         $token = $_POST['token'];
         try {
             $publicKey = <<<EOD
