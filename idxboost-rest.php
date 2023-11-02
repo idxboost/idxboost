@@ -68,7 +68,7 @@ class IDXBoost_REST_API_Endpoints
 
     public static function loginJWT(WP_REST_Request $request)
     {
-        require "inc/JWT.php";
+        include_once "inc/JWT.php";
         $token = $_POST['token'];
         try {
             $publicKey = <<<EOD
