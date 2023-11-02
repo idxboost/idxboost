@@ -1,5 +1,7 @@
 <?php
-require "inc/JWT.php";
+
+require FLEX_IDX_PATH . '/inc/helpers_fn.php';
+
 class IDXBoost_REST_API_Endpoints
 {
     const API_NAMESPACE = 'idx-boost';
