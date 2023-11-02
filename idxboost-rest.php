@@ -1,6 +1,6 @@
 <?php
 
-require FLEX_IDX_PATH . '/inc/helpers_fn.php';
+require FLEX_IDX_PATH . '/inc/JWT.php';
 
 class IDXBoost_REST_API_Endpoints
 {
