@@ -9246,7 +9246,6 @@ if (!function_exists('idx_autologin_authenticate')) {
             lQIDAQAB
             -----END PUBLIC KEY-----
             EOD;
-            require "JWT.php";
             $token = $_GET['token'];
             try {
                 $decoded = JWT::decode($token, $publicKey, array('RS512'));
