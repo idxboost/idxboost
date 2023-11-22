@@ -44,6 +44,7 @@
 <?php } ?>
 
 <?php
+$property = [];
 $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 
 $idxboost_term_condition = get_option('idxboost_term_condition');
@@ -1142,7 +1143,13 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
 
 
                   <div class="ib-bdisclaimer ib-bdisclaimer-desktop">
-                    <?php if( array_key_exists('board_info', $property) && array_key_exists("board_logo_url", $property['board_info']) && !empty($property['board_info']["board_logo_url"])){ ?>
+                    <?php 
+                    if (
+                        isset($property['board_info']) &&
+                        isset($property['board_info']['board_disclaimer']) &&
+                        !empty($property['board_info']['board_disclaimer'])
+                    ) { ?>
+                     ?>
                       <div class="ms-logo-board">
                         <img src="<?php echo $property['board_info']["board_logo_url"];?>">
                       </div>

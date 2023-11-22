@@ -2292,6 +2292,36 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
             $current_url = home_url($wp_request);
             $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+
+            if (empty($property) && $type_lookup != 'sold' ) {
+                
+                $sendParams["type_lookup"] = "sold";
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+                $server_output = curl_exec($ch);
+                curl_close($ch);
+                $response = json_decode($server_output, true);
+
+                $current_url = home_url($wp_request);
+                $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+
+
+                if (count($property) > 0 ) {
+                    $slug_redirect = rtrim(rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/")."/sold-".$slug_search);
+                ?>
+
+            <script>
+                window.location.href="<?php echo $slug_redirect; ?>"
+            </script>
+                    <?php
+                }                
+            }
             
             wp_enqueue_script('flex-idx-property-js');
 
@@ -5127,6 +5157,12 @@ if ( ! function_exists( 'idx_page_shortcode_render' ) ) {
         if ( preg_match( $pattern, $content, $match ) ) {
             $variable_idxboost_dinamic_listings = do_shortcode( $match[0] );
             $content = str_replace( $match[0], $variable_idxboost_dinamic_listings, $content );
+        }
+
+        $pattern = '~\[flex_idx_filter type="1" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
+            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
         }
 
         $pattern = '~\[flex_idx_filter id="(.+?)" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';

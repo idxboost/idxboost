@@ -66,7 +66,7 @@ $idx_contact_email = isset($flex_idx_info['agent']['agent_contact_email_address'
     <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
 
     <h3><?php echo __("Governing Law", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
-    <p>These Terms shall be governed and construed in accordance with the laws of <?php echo $countryState; ?> without regard to its conflict of law provisions.</p>
+    <p>These Terms shall be governed and construed in accordance with the laws of <?php echo $state; ?>, <?php echo $countryState; ?> without regard to its conflict of law provisions.</p>
     <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</p>
 
     <h3><?php echo __("Changes", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
