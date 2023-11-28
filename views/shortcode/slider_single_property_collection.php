@@ -458,9 +458,8 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                             </div>
                             Powered by
                             <a  class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block ibc-s-color-idxboost"
-                                href="https://www.idxboost.com" 
-                                title="Real Estate Website Builder For Lead Generation"
-                                target="_blank" rel="noreferrer nofollow">
+                                href="https://www.idxboost.com" target="_blank"
+                                title="Real Estate Website Builder For Lead Generation">
                                 IDXBoost™
                             </a>
                           {{/ifequals}}
@@ -472,8 +471,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                             Powered by
                             
                             <a class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block"
-                                href="https://www.tremgroup.com" 
-                                target="_blank" rel="noreferrer nofollow"
+                                href="https://www.tremgroup.com" target="_blank"
                                 title="Real Estate Marketing Agency">
                                 The Real Estate Marketing Group
                             </a>
@@ -483,8 +481,8 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
                   <div class="ip-footer-links ip-d-flex ip-align-items-center ip-justify-content-center ip-flex-wrap">
                       <a class="sp-show-modal" href="/terms-and-conditions/" 
-                            title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
-                            <?php echo __("Privacy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |
+                        title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
+                        <?php echo __("Privacy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |
                       <a class="sp-show-modal" href="terms-and-conditions/#atospp-privacy" 
                         title="<?php echo __("Go to Terms of Service page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
                         <?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |

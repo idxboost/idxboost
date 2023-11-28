@@ -495,25 +495,23 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                               </svg>
                             </div>
                             Powered by
-                            <a  class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block ibc-s-color-idxboost"
-                                href="https://www.idxboost.com" 
-                                title="Real Estate Website Builder For Lead Generation"
-                                target="_blank" rel="noreferrer nofollow">
+                            <a class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block ibc-s-color-idxboost"
+                              href="https://www.idxboost.com" target="_blank"
+                              title="Real Estate Website Builder For Lead Generation">
                                 IDXBoost™
                             </a>
                           {{/ifequals}}
                           {{#ifequals user.company_b2b_footer "tremgroup_footer"}}
                             <div  class="ibc-c-logo-designer-img">
-                                <img src="<?php echo IDX_BOOST_SPW_ASSETS . '/assets/images/logo-tremgroup-84x19.png'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
+                              <img src="<?php echo IDX_BOOST_SPW_ASSETS . '/assets/images/logo-tremgroup-84x19.png'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
                             </div>
                             
                             Powered by
                             
                             <a class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block"
-                                href="https://www.tremgroup.com" 
-                                target="_blank" rel="noreferrer nofollow"
-                                title="Real Estate Marketing Agency">
-                                The Real Estate Marketing Group
+                              href="https://www.tremgroup.com" target="_blank"
+                              title="Real Estate Marketing Agency">
+                              The Real Estate Marketing Group
                             </a>
                           {{/ifequals}}
                         {{/if }}
@@ -521,8 +519,8 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
 
                   <div class="ip-footer-links ip-d-flex ip-align-items-center ip-justify-content-center ip-flex-wrap">
                       <a class="sp-show-modal" href="/terms-and-conditions/" 
-                            title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
-                            <?php echo __("Privacy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |
+                        title="<?php echo __("Go to Privacy page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
+                        <?php echo __("Privacy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |
                       <a class="sp-show-modal" href="terms-and-conditions/#atospp-privacy" 
                         title="<?php echo __("Go to Terms of Service page", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-modal=".js-ib-sp-modal-privacy">
                         <?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> |
