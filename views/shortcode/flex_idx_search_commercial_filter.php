@@ -261,7 +261,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
 				<p style="margin-top: 0;"><?php echo __('Monthly Amount', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
 				<span class="ib-price-mont ib-mcdinumbers ib-calc-mc-monthly"></span>
 				<div id="chart-container"></div>
-				<p><?php echo __('Estimate includes principal and interest, taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+				<p><?php echo __('Estimate includes principal and interest. Does not include taxes and insurance.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
 			</div>
 			<div class="ib-mgcontent">
 				<div class="mb-mcform">

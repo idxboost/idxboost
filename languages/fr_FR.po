@@ -2923,7 +2923,7 @@ msgstr "Montant mensuel"
 #: views/shortcode/flex_idx_search_filter.php:250
 #: views/shortcode/flex_idx_search_filter_slider.php:231
 #: views/shortcode/idxboost_modals_filter.php:85
-msgid "Estimate includes principal and interest, taxes and insurance."
+msgid "Estimate includes principal and interest. Does not include taxes and insurance."
 msgstr ""
 
 #: views/form/modals.php:962 views/shortcode/idxboost_modals_filter.php:23

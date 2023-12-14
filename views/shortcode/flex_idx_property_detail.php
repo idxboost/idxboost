@@ -11,7 +11,6 @@
   }
 </style>
 <?php 
-
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
 
@@ -1462,13 +1461,26 @@
                         <textarea class="medium textarea" name="message" id="ms-message" type="text" value="" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" rows="10" cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo str_replace('# ', '#', $property['address_short']); ?> <?php echo $property['address_large']; ?></textarea>
                       </div>
                     </li>
+
                     <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                     <li class="gfield fub">
-                      <div class="ms-fub-disclaimer">
-                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                      <div class="ms-flex-chk-ub">
+                        <?php 
+                          $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                          if(!empty($follow_up_boss_api_key)){
+                        ?>
+                        <div class="ms-item-chk">
+                          <input type="checkbox" id="follow_up_boss_valid" required checked>
+                          <label for="follow_up_boss_valid">Follow Up Boss</label>
+                        </div>
+                        <?php } ?>
+                        <div class="ms-fub-disclaimer">
+                          <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                        </div>
                       </div>
                     </li>
                     <?php } ?>
+
                     <li class="gfield requiredFields">* <?php echo __("Required Fields", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                     <li class="gform_footer">
                       <input class="gform_button button gform_submit_button_5" type="submit" value="<?php echo __("Request Information", IDXBOOST_DOMAIN_THEME_LANG); ?>">

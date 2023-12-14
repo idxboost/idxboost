@@ -390,8 +390,19 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                           </ul>
                           <div class="gfield fub">
                             <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
-                            <div class="ms-fub-disclaimer">
-                              <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                            <div class="ms-flex-chk-ub">
+                              <?php 
+                                $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                                if(!empty($follow_up_boss_api_key)){
+                              ?>
+                              <div class="ms-item-chk">
+                                <input type="checkbox" id="follow_up_boss_valid_" required checked>
+                                <label for="follow_up_boss_valid_">Follow Up Boss</label>
+                              </div>
+                              <?php } ?>
+                              <div class="ms-fub-disclaimer">
+                                <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                              </div>
                             </div>
                           <?php }  ?>
                           </div>
@@ -542,8 +553,19 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                   </div>
                   <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                   <div class="gfield fub sp-input-form">
-                    <div class="ms-fub-disclaimer">
-                      <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                    <div class="ms-flex-chk-ub">
+                      <?php 
+                        $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                        if(!empty($follow_up_boss_api_key)){
+                      ?>
+                      <div class="ms-item-chk">
+                        <input type="checkbox" id="follow_up_boss_valid" required checked>
+                        <label for="follow_up_boss_valid">Follow Up Boss</label>
+                      </div>
+                      <?php } ?>
+                      <div class="ms-fub-disclaimer">
+                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                      </div>
                     </div>
                   </div>
                   <?php } ?>

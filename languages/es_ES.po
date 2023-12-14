@@ -2930,7 +2930,7 @@ msgstr "Cantidad mensual"
 #: views/shortcode/flex_idx_search_filter.php:270
 #: views/shortcode/flex_idx_search_filter_slider.php:240
 #: views/shortcode/idxboost_modals_filter.php:88
-msgid "Estimate includes principal and interest, taxes and insurance."
+msgid "Estimate includes principal and interest. Does not include taxes and insurance."
 msgstr "La estimación incluye capital e intereses, impuestos y seguros."
 
 #: views/form/modals.php:980 views/shortcode/idxboost_modals_filter.php:26

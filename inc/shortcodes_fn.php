@@ -2079,6 +2079,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
         $access_token = flex_idx_get_access_token();
         $search_params = $flex_idx_info['search'];
+        $template_not_found = false;
 
         $atts = shortcode_atts(array(
             'registration_key'   => ''
@@ -2120,6 +2121,14 @@ if (!function_exists('flex_idx_property_detail_sc')) {
         } else {
             $type_lookup = 'active';
 			$prefix_property_slug = "/";
+        }
+
+        $address_slug = "Address not found";
+        if (is_array($exp_slug)) {
+            unset($exp_slug[(count($exp_slug)-1)]);
+            $zipcodeAddress = end($exp_slug);
+            $address_slug = trim(implode(" ",$exp_slug));
+            $address_slug = str_replace(" ".$zipcodeAddress, ", $zipcodeAddress", $address_slug );            
         }
 
         $slug_search = "{$slug}";
@@ -2293,6 +2302,8 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $current_url = home_url($wp_request);
             $property    = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
 
+            //$template_not_found
+
             if (empty($property) && $type_lookup != 'sold' ) {
                 
                 $sendParams["type_lookup"] = "sold";
@@ -2320,7 +2331,9 @@ if (!function_exists('flex_idx_property_detail_sc')) {
                 window.location.href="<?php echo $slug_redirect; ?>"
             </script>
                     <?php
-                }                
+                }else{
+                    $template_not_found = true;
+                }
             }
             
             wp_enqueue_script('flex-idx-property-js');
@@ -2357,11 +2370,19 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
             ob_start();
 
-    				if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php')) {
-    					include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php';
-    				} else {
-    					include FLEX_IDX_PATH . '/views/shortcode/flex_idx_property_detail.php';
-    				}
+    				if ($template_not_found) {
+                        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/pages/property-404.php')) {
+                            include IDXBOOST_OVERRIDE_DIR . '/views/pages/property-404.php';
+                        } else {
+                            include FLEX_IDX_PATH . '/views/pages/property-404.php';
+                        }                        
+                    }else{
+                        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php')) {
+        					include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_property_detail.php';
+        				} else {
+        					include FLEX_IDX_PATH . '/views/shortcode/flex_idx_property_detail.php';
+        				}
+                    }
 
             $output = ob_get_clean();
         }
