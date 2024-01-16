@@ -427,6 +427,7 @@ if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
         $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
         $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
         $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        $country_code = isset($_POST["country_code"]) ? $_POST["country_code"] : "";
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
         $params = [
             'ib_tags' => $tags,
@@ -556,6 +557,8 @@ if (!function_exists('ib_register_quizz_save_fn')) {
 
         $quizz_type = isset($_POST["__quizz_type"]) ? $_POST["__quizz_type"] : "";
         $register_phone_facebook = isset($_POST["register_phone_facebook"]) ? $_POST["register_phone_facebook"] : "";
+        $country_code = isset($_POST["country_code"]) ? $_POST["country_code"] : "";
+        
 
         $sendParams = [
             'access_token' => $access_token,
@@ -564,6 +567,7 @@ if (!function_exists('ib_register_quizz_save_fn')) {
             "mortgage_approved" => $mortgage_approved,
             "sell_a_home" => $sell_a_home,
             "quizz_type" => $quizz_type,
+            "country_code" => $country_code,
             "register_phone_facebook" => $register_phone_facebook
         ];
         curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_REGISTER_QUIZZ_SAVE);
@@ -2472,6 +2476,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         $ib_tags = isset($_POST['ib_tags']) ? trim(strip_tags($_POST['ib_tags'])) : '';
         $name = isset($_POST['register_name']) ? trim(strip_tags($_POST['register_name'])) : '';
         $lastName = isset($_POST['register_last_name']) ? trim(strip_tags($_POST['register_last_name'])) : '';
+        $country_code = isset($_POST['country_code']) ? trim(strip_tags($_POST['country_code'])) : '';
         $phone = isset($_POST['register_phone']) ? trim(strip_tags($_POST['register_phone'])) : '';
         $password = isset($_POST['register_password']) ? trim(strip_tags($_POST['register_password'])) : '';
         $logon_type = isset($_POST['logon_type']) ? trim(strip_tags($_POST['logon_type'])) : '';
@@ -2488,12 +2493,15 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
         $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
 
+        $password = $phone;
+
         $sendParams = array(
             'access_token' => $access_token,
             'email' => $email,
             'name' => $name,
             'lastName' => $lastName,
             'phone' => $phone,
+            'country_code' => $country_code,
             'password' => $password,
             'logon_type' => $logon_type,
             'timeline_for_purchase' => $timeline_for_purchase,

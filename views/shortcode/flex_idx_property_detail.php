@@ -240,11 +240,15 @@
           <?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?>
           </a>
           <?php endif?>
+          
+          <?php if (!empty($agent_info_phone)): ?>
           <div class="ms-property-call-action">
-            <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone">
-            <?php echo flex_agent_format_phone_number($agent_info_phone); ?>
+            <a href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" class="ib-pbtnphone">
+              <?php echo $agent_info_phone; ?>
             </a>
           </div>
+          <?php endif; ?>
+
           <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
           <a href="<?php echo $agent_permalink; ?>/search" class="btn link-search clidxboost-icon-search">
           <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
@@ -847,12 +851,12 @@
           </div>
           <?php } ?>
 
-          <?php if (in_array($flex_idx_info["board_id"], ["31"])) { 
-          if($property['status'] == "2"){ ?>
-          <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?>  | Sold by:  <?php echo $property["office_name_seller"]; ?> </div>
-          <?php }else{ ?>
-          <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
-          <?php } ?>  
+          <?php if (in_array($flex_idx_info["board_id"], [31,33])) { 
+            if($property['status'] == "2"){ ?>
+            <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?>  | Sold by:  <?php echo $property["office_name_seller"]; ?> </div>
+            <?php }else{ ?>
+            <div class="ib-pdescription-title" style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
+            <?php } ?>  
           <?php } ?>
 
           <?php if (in_array($property["rg_id"], ["34"])) {  ?>

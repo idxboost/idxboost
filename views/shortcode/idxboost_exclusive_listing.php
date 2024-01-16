@@ -52,6 +52,12 @@
   //var filter_metadata = <?php //echo trim(json_encode($response)); ?>;
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
+
+<style>
+#wrap-result.view-list #result-search > li .features li.address.-grid-map{display:none} 
+.wrap-result.view-grid #result-search > li .features.ms-padding{padding-bottom: 56px !important}
+</style>
+
 <form method="post" id="flex-idx-filter-form" class="flex-idx-filter-form flex-idx-filter-form-<?php echo $class_multi; ?> idxboost-filter-form" data-filter-form-id="<?php echo $unique_filter_form_ID; ?>" filtemid="<?php echo $class_multi; ?>">
 <?php if (isset($atts['registration_key'])): ?>
   <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
@@ -163,18 +169,25 @@
               $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
+
+              $paddingClass = "";
               ?>
 
               <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
                 <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
                 <div class="ms-br-line">,</div>
                 <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
-              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-                <div>Listing Provided by NWMLS</div>
-              <?php } ?>                
+                <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                  <div>Listing Provided by NWMLS</div>
+                <?php } ?>
+                <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+                  <div>Listing Courtesy of <?php echo $property['office_name']; ?></div>
+                <?php 
+                  $paddingClass = "ms-padding";
+                } ?>        
               </h2>
 
-            <ul class="features">
+            <ul class="features <?php echo $paddingClass; ?>">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <?php if( $property['is_rental']=='1' ) { ?>
                 <li class="price">$<?php echo number_format($property['price']); ?>/<?php echo __('month', IDXBOOST_DOMAIN_THEME_LANG); ?></li> 

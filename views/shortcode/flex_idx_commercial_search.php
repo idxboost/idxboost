@@ -636,7 +636,7 @@
                               </div>
                             {{/if}}
   
-                              <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                              <?php if (in_array($flex_idx_info["board_id"], [31,33])) { ?>
                                 <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px; font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
                               <?php } ?>
   
@@ -1232,7 +1232,12 @@
         <li class="ib-piitem ib-paddress">{{ full_address }}</li>
         <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
           <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
-        <?php } ?>        
+        <?php } ?>  
+        
+        <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
+        <?php } ?> 
+        
         {{{ handleStatusProperty this }}}
         <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>
       </ul>

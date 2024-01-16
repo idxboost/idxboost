@@ -52,8 +52,8 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
               <label class="ib-filabel" for="ib-form-bellow"><?php echo __("Below $1M", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </li>
             <li class="ib-fsritem">
-              <input class="ib-firadio" type="radio" value="$1M to $2M" id="ib-form-onetwo" name="ib-fprice">
-              <label class="ib-filabel" for="ib-form-onetwo"><?php echo __("$1M to $2M", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+              <input class="ib-firadio" type="radio" value="$1M to $3M" id="ib-form-onetwo" name="ib-fprice">
+              <label class="ib-filabel" for="ib-form-onetwo"><?php echo __("$1M to $3M", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
             </li>
             <li class="ib-fsritem">
               <input class="ib-firadio" type="radio" value="$3M to $5M" id="ib-form-threefive" name="ib-fprice">

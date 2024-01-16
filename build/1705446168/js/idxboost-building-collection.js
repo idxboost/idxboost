@@ -1,5 +1,7 @@
 var html_slider_building=[];
-var listbedsold=[],listbedpending=[],listbedsale=[],listbedrent=[],responseitemsale=[],responseitempending=[],responseitemrent=[],responseitemsold=[],responseitemsalegrid='',responseitemrentgrid='',responseitemsoldgrid='',responseitemsoldpending='',myLazyLoad,auxscreensold=0,auxscreenrent=0,auxscreensale=0,auxscreenpending=0;
+//let listbedsold=[],listbedpending=[],listbedsale=[],listbedrent=[];
+let listbed = {sale:[],rent:[],pending:[],sold:[]};
+var responseitemsale=[],responseitempending=[],responseitemrent=[],responseitemsold=[],responseitemsalegrid='',responseitemrentgrid='',responseitemsoldgrid='',responseitemsoldpending='',myLazyLoad,auxscreensold=0,auxscreenrent=0,auxscreensale=0,auxscreenpending=0;
 var tablasidx;
 var auxtextsalehtml='',auxtextrenthtml='',auxtextsoldhtml='';
 var tab_idx=document.location.hash;
@@ -37,27 +39,6 @@ $(".js-download-cta-file").click(function(){
   console.log("click");
 });
 
-function ib_change_view_object_device(object,tabbuil,object_val){
-  var viebuil='list';
-  if (object.val() != undefined && object.val() !=0 ){
-    viebuil=object.val();
-  }else{
-    if ( object.hasClass( "grid" ) ){
-      viebuil='grid';
-    }    
-  }
-  textmp=object;
-  object_val.val(viebuil);
-  
-  //SE MOSTRARA LA VISTA LISTA O GRILLA
-  /*
-  var objec_name_id='#view_'+viebuil;
-  $('.mode_view').hide();
-  $(objec_name_id).show();
-  */
-
-  ib_change_view( viebuil ,tabbuil );
-}
 
 var ib_call_object_change=0;
 function ib_change_view(view,tab){
@@ -121,7 +102,6 @@ function ib_change_view(view,tab){
     }
   });
   /*BOTONES TABS*/
-  console.log(property_type);
 
 /*DATA LAYER*/
   item_for_data_layer=[];
@@ -278,6 +258,30 @@ function ib_init_script(){
                  dataType: "json",
                  success: function(response) {
                    if ( response != null && response.hasOwnProperty("success") && response.success === true) {
+
+                  let allbedsale= response.payload.properties.sale.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.sale = [...new Set(allbedsale)]
+
+
+                  let allbedpending= response.payload.properties.pending.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.pending = [...new Set(allbedpending)]
+
+
+                  let allbedsold= response.payload.properties.sold.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.sold = [...new Set(allbedsold)]
+
+
+                  let allbedrent= response.payload.properties.rent.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.rent = [...new Set(allbedrent)]
+
                   idxboostCollecBuil=response;
 
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
@@ -583,30 +587,137 @@ function ib_init_script(){
 
 $(function() {
 
-  $('.idxboost_collection_xr').on("submit", function(event) {
-             event.preventDefault();
-             var _self = $(this);
-             var formData = _self.serialize();
-             console.log(formData);
-             $.ajax({
-                 url: idxboost_collection_params.ajaxUrl,
-                 method: "POST",
-                 data: formData,
-                 dataType: "json",
-                 success: function(response) {
-                   if (response.success === true) {
-                  idxboostCollecBuil=response;
-                       idxboostCollectiIn();
-                    }
-                 }
-             });
-         });
+  function change_properties_collection(){
+    jQuery('.idxboost_collection_sold_list, .idxboost_collection_tab_sold, .idxboost_collection_rent_list, .idxboost_collection_tab_rent, .idxboost_collection_pending_list, .idxboost_collection_tab_pending, .idxboost_collection_sale_list, .idxboost_collection_tab_sale').html("");
+    jQuery('.idxboost_collection_sold_list, .idxboost_collection_tab_sold, .idxboost_collection_rent_list, .idxboost_collection_tab_rent, .idxboost_collection_pending_list, .idxboost_collection_tab_pending, .idxboost_collection_sale_list, .idxboost_collection_tab_sale, .idxboost-collection-show-desktop li').removeClass("active");
+    jQuery(".idx-tab-building, #sale-count-uni-cons, #rent-count-uni-cons, #pending-count-uni-cons, #sold-count-uni-cons").removeClass("active-fbc active");
+
+    const tp =  $('.ib_collection_tab').val();
+    const view = $('.ib_collection_view').val();
+    
+    let arList = [];
+    let arGrid = [];
+    
+    if ( tp == "tab_sale") {
+      $("#flex_tab_sale").addClass("active");
+      $(".flex-open-tb-sale").addClass("active-fbc");
+      $("#flex_filter_sort").val("sale").ready(function(){ $('.filter-text').text('For Sale'); });
+
+      idxboostCollecBuil.payload.properties.sale.items.forEach(function(element,index){
+        if (view== "list") {
+          arList.push(idxboostListCollection(element));
+        }
+        if (view== "grid") {
+          responseitemsalegrid +=idxboostListCollectionGrid(element,index,'sale');
+        }        
+      });
+
+      if (view== "list") {
+        var vhtml=idxboostListobj(arList,listbed.sale,'sale','sale');
+        jQuery('.idxboost_collection_sale_list').html(vhtml).ready(function() {  idxboostTypeIcon();   }).addClass("active");;
+      }else if (view == "grid") {
+        jQuery('.idxboost_collection_tab_sale').html(responseitemsalegrid).addClass("active").ready(function() {  idxboostTypeIcon();   }); console.log('entro sale'); 
+      }
+      
+    }
+
+
+    if ( tp == "tab_pending") {
+      $(".flex-open-tb-pending").addClass("active-fbc");
+      $("#flex_tab_pending").addClass("active");
+      $("#flex_filter_sort").val("pending").ready(function(){ $('.filter-text').text('Pending'); });
+
+      idxboostCollecBuil.payload.properties.pending.items.forEach(function(element,index){
+        if (view== "list") {
+          arList.push(idxboostListCollection(element));
+        }
+        if (view== "grid") {
+          responseitemsoldpending +=idxboostListCollectionGrid(element,index,'pending');
+        }        
+      });
+
+      if (view== "list") {
+        var vhtml=idxboostListobj(arList,listbed.pending,'pending','pending');
+        jQuery('.idxboost_collection_pending_list').html(vhtml).ready(function() {  idxboostTypeIcon();   }).addClass("active");
+      }else if (view == "grid") {
+        jQuery('.idxboost_collection_tab_pending').html(responseitemsoldpending).addClass("active").ready(function() {  idxboostTypeIcon();   }); console.log('entro pending');
+      }
+
+      
+    }
+
+
+    if ( tp == "tab_rent") {
+      $(".flex-open-tb-rent").addClass("active-fbc");
+      $("#flex_tab_rent").addClass("active");
+      $("#flex_filter_sort").val("rent").ready(function(){ $('.filter-text').text('For Rent'); });
+
+      idxboostCollecBuil.payload.properties.rent.items.forEach(function(element,index){
+        if (view== "list") {
+          arList.push(idxboostListCollection(element));
+        }
+        if (view== "grid") {
+          responseitemrentgrid +=idxboostListCollectionGrid(element,index,'rent');
+        }        
+      });
+
+      if (view== "list") {
+        var vhtml=idxboostListobj(arList,listbed.rent,'rent','rent');
+        jQuery('.idxboost_collection_rent_list').html(vhtml).ready(function() {  idxboostTypeIcon();   }).addClass("active");;
+      }else if (view == "grid") {
+        jQuery('.idxboost_collection_tab_rent').html(responseitemrentgrid).addClass("active").ready(function() {  idxboostTypeIcon();   }); console.log('entro rent');
+      }
+
+    }
+
+    if ( tp == "tab_sold") {
+      $(".flex-open-tb-sold").addClass("active-fbc");
+      $("#flex_tab_sold").addClass("active");
+      $("#flex_filter_sort").val("sold").ready(function(){ $('.filter-text').text('Sold'); });
+
+      idxboostCollecBuil.payload.properties.sold.items.forEach(function(element,index){
+        if (view== "list") {
+          arList.push(idxboostListCollection(element));
+        }
+        if (view== "grid") {
+          responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
+        }        
+      });
+
+      if (view== "list") {
+        var vhtml=idxboostListobj(arList,listbed.sold,'sold','sold');
+        jQuery('.idxboost_collection_sold_list').html(vhtml).ready(function() {  idxboostTypeIcon();   }).addClass("active");;
+      }else if (view == "grid") {
+        jQuery('.idxboost_collection_tab_sold').html(responseitemsoldgrid).addClass("active").ready(function() {  idxboostTypeIcon();   }); console.log('entro sold');
+      }
+
+    }  
+
+    if (view == "grid") {
+      myLazyLoad.update();
+    }else if (view == "list") {
+      var list_tables_object=jQuery('.tbl_properties_wrapper .display'); 
+      
+
+      for(i=0;i<list_tables_object.length;i++){ 
+        var idtable=list_tables_object.eq(i).attr('id');  
+        expresion = new RegExp('^dataTable-sold.*$','i');
+
+        if (idtable.match(expresion) != null) {
+          jQuery('#'+idtable).DataTable({ "paging": false, "searching": false,"aoColumns": [null,null,null,null,null,null,{ "sType": "date-eu" }] }).order([6, 'desc']).draw();
+        }else{
+          jQuery('#'+idtable).DataTable({ "paging": false, "searching": false }).order([1, 'desc']).draw();
+        }
+      } 
+    }
+
+  }
+
 
          var countClickAnonymous = 0;
 
         $('.idxboost_collection_tab_sale, .idxboost_collection_tab_rent, .idxboost_collection_tab_sold').on("click", ".flex-slider-prev", function(event) {
             event.stopPropagation();
-            //console.log("entro");
             var node = $(this).prev().find('li.flex-slider-current');
             var index = node.index();
             var total = $(this).prev().find('li').length;
@@ -641,7 +752,6 @@ $(function() {
         });
         $('.idxboost_collection_tab_sale, .idxboost_collection_tab_rent, .idxboost_collection_tab_sold').on("click", ".flex-slider-next", function(event) {
             event.stopPropagation();
-            //console.log("entronext");
             var node = $(this).prev().prev().find('li.flex-slider-current');
             var index = node.index();
             var total = $(this).prev().prev().find('li').length;
@@ -702,20 +812,24 @@ $(function() {
 
         $(document).on('change','#filter-by select',function() {
           var value_item=$(this).val();
-          $('.idxboost-collection-show-desktop li').each(function(){
-            if ($(this).attr('data-property')==value_item ){
-              $(this).click();
-            }
-          });
+          $('.ib_collection_tab').val("tab_"+value_item);
+          change_properties_collection();
         });    
 
         $(document).on('click','.idxboost-collection-show-desktop li',function() {
+          //const tp =  $('.ib_collection_tab').val();
+          //const view = $('.ib_collection_view').val();
+
+          $('.idxboost-collection-show-desktop li').removeClass("active");
+          $(this).addClass("active");
           var tabbuil=$(this).attr('fortab');
-          var viebuil=$('.ib_collection_view').val();
+          //var viebuil=$('.ib_collection_view').val();
           $('.ib_collection_tab').val(tabbuil);
+          change_properties_collection();
+          /*
           $('.fbc-group').removeClass('active-fbc active');
           
-          /*botones tabs lateral mobile*/
+          //botones tabs lateral mobile
           if (tabbuil == 'tab_sale') {
             $('.fbc-group.sale').addClass('active-fbc');
             //loadTitleBuilding('For Sale');
@@ -729,7 +843,7 @@ $(function() {
             $('.fbc-group.pending').addClass('active-fbc');
             //loadTitleBuilding('Pending');
           }
-          /*botones tabs lateral mobile*/
+          //botones tabs lateral mobile
           if ( tabbuil == 'tab_sold' && init_sold == 0 ) {
             init_sold = 1;
             if (idxboostCollecBuil.payload.property_display_sold == "grid") {
@@ -765,24 +879,40 @@ $(function() {
           }else{
             ib_change_view( viebuil ,tabbuil );
           }
-          
+          */
 
         });
 
 
         $(document).on('change','#filter-views select',function() {
+          let cview = $(this).val();
+          $('.ib_collection_view').val(cview);
+          /*
           var tabbuil=$('.ib_collection_tab').val();
           ib_change_view_object_device($(this),tabbuil,$('.ib_collection_view'));
+          */
+          ib_change_view( cview ,$('.ib_collection_tab').val() );
+          change_properties_collection();
         });                   
 
         $(document).on('click','#filter-views li',function() {
+          let cview = "list";
+          if ( $(this).hasClass( "grid" ) )
+                cview='grid';
+
+          $('.ib_collection_view').val(cview);
+          ib_change_view( cview ,$('.ib_collection_tab').val() );
+          change_properties_collection();
+          /*
           var tabbuil=$('.ib_collection_tab').val();
           ib_change_view_object_device($(this),tabbuil,$('.ib_collection_view'));
+          */
         });
 
+
+        //change filter block desk
         $(document).on('click','.flex-open-tb-sale button, .flex-open-tb-rent button, .flex-open-tb-sold button, .flex-open-tb-pending button',function() {
           $('.fbc-group').removeClass('active-fbc');
-          console.log($(this).parent('li'));
 
           if($(this).parent('li').hasClass('sale')){
             $('#flex_tab_sale').click();
@@ -803,44 +933,6 @@ $(function() {
                     
         });                
 
-        /*$(document).on("click", "#modal_login .close-modal", function(event) {
-            event.preventDefault();
-            $(".ib-pbtnclose").click();
-        });                
-
-        $('.overlay_modal_closer').click(function(){
-                event.preventDefault();
-                $(".ib-pbtnclose").click();
-        });
-        */
-
-        /*
-        var $bodyHtml = $('html');
-        $(document).on('click', '.overlay_modal_closer', function () {
-          console.log("cerrando_modal");
-          var idModal = $(this).attr('data-id');
-          console.log(idModal);
-          if ("1" == __flex_g_settings.force_registration) {
-            $('#' + idModal).find('.close-modal').click();
-            if ( __flex_g_settings.hasOwnProperty("force_registration_forced") && ("yes" == __flex_g_settings.force_registration_forced) ) {
-              $(".ib-pbtnclose").click();
-            }
-            return;
-          }
-
-          if ($('button[data-id="modal_login"]:eq(0)').is(":hidden")) {
-            $('#' + idModal).find('.close-modal').click();
-            return;
-          }
-
-          var idModal = $(this).attr('data-id');
-          var parentModal = $(this).attr('data-frame');
-          $('#' + idModal).removeClass('active_modal');
-          $bodyHtml.removeClass(parentModal);
-          $('.content_md').removeClass('ms-hidden-extras');
-        });
-        */
-
         $(document).on("click", ".flex-tbl-link", function(event) {
           event.preventDefault();
             var mlsNumber = $(this).data('mls');
@@ -860,46 +952,61 @@ $(function() {
         $('.idxboost_collection_tab_sale, .idxboost_collection_tab_rent,.idxboost_collection_tab_pending').on('click','.view-detail ',function(event) {
           event.preventDefault();
             var mlsNumber = $(this).parent('li').data('mls');
-            console.log(mlsNumber);
             originalPositionY = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop);
             loadPropertyInModal(mlsNumber);          
         });
 
-        $(document).on('click','#sale-count-uni-cons',function() {
-          $('#flex_tab_sale').click();
-          var elementPosition = $(".idxboost-type-view-wrap-result").offset();  
-          var positionMove = (elementPosition.top) - 300;
-          $("html, body").animate({scrollTop:positionMove},'slow');                              
-        });                
+        //change filter block mobile sale
+          $("#sale-count-uni-cons, .flex-open-tb-sale button").click(function(){
+            $("#sale-count-uni-cons, #rent-count-uni-cons, #pending-count-uni-cons,#sold-count-uni-cons").removeClass("active");
+            $(this).addClass('active');
+            $('.ib_collection_tab').val("tab_sale");
+            $(this).parent('li').addClass('active-fbc');
+            change_properties_collection();
+            var elementPosition = $(".idxboost-type-view-wrap-result").offset();  
+            var positionMove = (elementPosition.top) - 300;
+            $("html, body").animate({scrollTop:positionMove},'slow');                              
+          });
 
-        $(document).on('click','#rent-count-uni-cons',function() {
-          $('#flex_tab_rent').click();
+        //change filter block mobile rent
+        $("#rent-count-uni-cons, .flex-open-tb-rent button").click(function(){
+          $("#sale-count-uni-cons, #rent-count-uni-cons, #pending-count-uni-cons,#sold-count-uni-cons").removeClass("active");
+          $(this).addClass('active');
+          $('.ib_collection_tab').val("tab_rent");
+          change_properties_collection();
           var elementPosition = $(".idxboost-type-view-wrap-result").offset();  
           var positionMove = (elementPosition.top) - 300;
-          $("html, body").animate({scrollTop:positionMove},'slow');                              
-        });
+          $("html, body").animate({scrollTop:positionMove},'slow');                                        
+        });        
 
-        $(document).on('click','#pending-count-uni-cons',function() {
-          $('#flex_tab_pending').click();
+        //change filter block mobile pending
+        $("#pending-count-uni-cons, .flex-open-tb-pending button").click(function(){
+          $("#sale-count-uni-cons, #rent-count-uni-cons, #pending-count-uni-cons,#sold-count-uni-cons").removeClass("active");
+          $('.ib_collection_tab').val("tab_pending");
+          $(this).addClass('active');
+          change_properties_collection();
           var elementPosition = $(".idxboost-type-view-wrap-result").offset();  
           var positionMove = (elementPosition.top) - 300;
-          $("html, body").animate({scrollTop:positionMove},'slow');                              
-        });
+          $("html, body").animate({scrollTop:positionMove},'slow');                                        
+        });        
         
-        
-        $(document).on('click','#sold-count-uni-cons',function() {
-          $('#flex_tab_sold').click();
+        //change filter block mobile sold
+        $("#sold-count-uni-cons, .flex-open-tb-sold button").click(function(){
+          $("#sale-count-uni-cons, #rent-count-uni-cons, #pending-count-uni-cons,#sold-count-uni-cons").removeClass("active");
+          $('.ib_collection_tab').val("tab_sold");
+          $(this).addClass('active');
+          change_properties_collection();
           var elementPosition = $(".idxboost-type-view-wrap-result").offset();  
           var positionMove = (elementPosition.top) - 300;
-          $("html, body").animate({scrollTop:positionMove},'slow');                              
+          $("html, body").animate({scrollTop:positionMove},'slow');          
         });
-
 
       }
     });
 });
 
 })(jQuery);
+
 function idxboostListobj(response_data,list_bed,name_table,type){
   var auxincre=0;
   auxtextobj='';
@@ -980,7 +1087,7 @@ function idxboostListobj(response_data,list_bed,name_table,type){
 
   function idxboostCollectiIn(){
                        var listsale='',listrent='',listsold='',idxboostcollectionsale='',idxboostcollectionrent='',textmodeview='',optionsale='',optionrent='',optionsold='';
-
+                       jQuery('.idxboost_collection_sale_list, .idxboost_collection_pending_list, .idxboost_collection_rent_list, .idxboost_collection_sold_list').html("");
                        if (idxboostCollecBuil["payload"]["properties"]["sale"]["count"]>0){
                          listsale='<li class="sale"><button id="sale-count-uni-cons">'+idxboostCollecBuil["payload"]["properties"]["sale"]["count"]+'<span>For Sale</span></button></li>';
                          idxboostcollectionsale='<li class="active" fortab="tab_sale" forview="sale_list" id="flex_tab_sale"><button> <span>for sale</span></button></li>';
@@ -1001,64 +1108,56 @@ function idxboostListobj(response_data,list_bed,name_table,type){
                        if (idxboostCollecBuil["payload"]["modo_view"]==2){ textmodeview='list'; }else{textmodeview='grid';  }
                        jQuery('.idxboost-type-view-wrap-result').addClass('view-'+textmodeview);
 
-                       if (idxboostCollecBuil["payload"]["type_building"]==0){
-                         //$('.idxboost_collection_filterby select').append(optionsale+optionrent+optionsold);
-                       }
-
 
                        jQuery('.idxboost_collection_filterviews select option').addClass(textmodeview);
                        /*OPERACIONES*/
-                       idxboostCollecBuil["payload"]["properties"]["sold"]["items"].forEach(function(element,index) {
-                        if (listbedsold.indexOf(parseFloat(element['bed']))==-1) {
-                          listbedsold.push(parseFloat(element['bed']));
-                        }
-                        var listcol=idxboostListCollectionForSold(element);
-                        responseitemsold.push(listcol);
-                        responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
-                       });
+                       if (responseitemsoldgrid.length == 0) {
+                         idxboostCollecBuil["payload"]["properties"]["sold"]["items"].forEach(function(element,index) {
+                          var listcol=idxboostListCollectionForSold(element);
+                          responseitemsold.push(listcol);
+                          responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
+                         });
+                       }
 
-                       idxboostCollecBuil["payload"]["properties"]["sale"]["items"].forEach(function(element,index) {
-                        if (listbedsale.indexOf(parseFloat(element['bed']) )==-1) {
-                          listbedsale.push(parseFloat(element['bed']));
-                        }
-                        responseitemsale.push(idxboostListCollection(element));
-                        responseitemsalegrid +=idxboostListCollectionGrid(element,index,'sale');
-                       });
+                       if (responseitemsalegrid.length == 0) {
+                         idxboostCollecBuil["payload"]["properties"]["sale"]["items"].forEach(function(element,index) {
+                          responseitemsale.push(idxboostListCollection(element));
+                          responseitemsalegrid +=idxboostListCollectionGrid(element,index,'sale');
+                         });
+                       }
 
-                       idxboostCollecBuil["payload"]["properties"]["pending"]["items"].forEach(function(element,index) {
-                        if (listbedpending.indexOf(parseFloat(element['bed']) )==-1) {
-                          listbedpending.push(parseFloat(element['bed']));
-                        }
-                        responseitempending.push(idxboostListCollection(element));
-                        responseitemsoldpending +=idxboostListCollectionGrid(element,index,'pending');
-                       });
+                       if (responseitemsoldpending.length == 0) {
+                         idxboostCollecBuil["payload"]["properties"]["pending"]["items"].forEach(function(element,index) {
+                          responseitempending.push(idxboostListCollection(element));
+                          responseitemsoldpending +=idxboostListCollectionGrid(element,index,'pending');
+                         });
+                       }
 
 
-                       idxboostCollecBuil["payload"]["properties"]["rent"]["items"].forEach(function(element,index) {
-                        if (listbedrent.indexOf(parseFloat(element['bed']))==-1) {
-                          listbedrent.push(parseFloat(element['bed']));
-                        }
-                        responseitemrent.push(idxboostListCollection(element));
-                        responseitemrentgrid +=idxboostListCollectionGrid(element,index,'rent');
-                       });
+                       if (responseitemrentgrid.length == 0) {
+                         idxboostCollecBuil["payload"]["properties"]["rent"]["items"].forEach(function(element,index) {
+                          responseitemrent.push(idxboostListCollection(element));
+                          responseitemrentgrid +=idxboostListCollectionGrid(element,index,'rent');
+                         });
+                       }
 
                        //sale list print
-                       var htmlsale=idxboostListobj(responseitemsale,listbedsale,'sale','sale');
+                       var htmlsale=idxboostListobj(responseitemsale,listbed.sale,'sale','sale');
                        jQuery('.idxboost_collection_sale_list').html(htmlsale).ready(function() {  idxboostTypeIcon();   });
                        //sale list print
 
                        //pending list print
-                       var htmlpending=idxboostListobj(responseitempending,listbedpending,'pending','pending');
+                       var htmlpending=idxboostListobj(responseitempending,listbed.pending,'pending','pending');
                        jQuery('.idxboost_collection_pending_list').html(htmlpending).ready(function() {  idxboostTypeIcon();   });
                        //pending list print
 
                        //rent list print 
-                       var htmlrent=idxboostListobj(responseitemrent,listbedrent,'rent','rent');
+                       var htmlrent=idxboostListobj(responseitemrent,listbed.rent,'rent','rent');
                        jQuery('.idxboost_collection_rent_list').html(htmlrent).ready(function() {  idxboostTypeIcon();   });
                        //rent list print
 
                        //sold list print 
-                       var htmlsold=idxboostListobj(responseitemsold,listbedsold,'sold','sold');
+                       var htmlsold=idxboostListobj(responseitemsold,listbed.sold,'sold','sold');
                        jQuery('.idxboost_collection_sold_list').html(htmlsold).ready(function() {  idxboostTypeIcon();   });
                        //sold list print                       
 
@@ -1074,20 +1173,6 @@ function idxboostListobj(response_data,list_bed,name_table,type){
                       }else if (tab_idx=='#!pending' && idxboostCollecBuil["payload"]["properties"]["pending"]["count"]>0){
                         $('#flex_tab_pending').click();
                       }
-                      //tablasidx=$('table.display').DataTable({ "paging": false }).order([1, 'desc']).draw();
-                      var list_tables_object=jQuery('.tbl_properties_wrapper .display'); 
-
-                      for(i=0;i<list_tables_object.length;i++){ 
-                        var idtable=list_tables_object.eq(i).attr('id');  
-                        console.log(idtable);
-                        expresion = new RegExp('^dataTable-sold.*$','i');
-                        if (idtable.match(expresion) != null) {
-                          jQuery('#'+idtable).DataTable({ "paging": false,"aoColumns": [null,null,null,null,null,null,{ "sType": "date-eu" }] }).order([6, 'desc']).draw();
-                        }else{
-                          jQuery('#'+idtable).DataTable({ "paging": false }).order([1, 'desc']).draw();
-                        }
-                      } 
-
   }
 
 function idxboostListCollectionForSold(element){
@@ -1270,23 +1355,23 @@ var fortab,type_view;
         if(fortab=="tab_sale"){
           if( is_class_active != -1 && jQuery('.idxboost_collection_tab_sale').find('li').length==0  ){
             if( jQuery('.idxboost_collection_tab_sale').find('li').length==0 ) auxscreensale=0; 
-            if (auxscreensale==0){auxscreensale=auxscreensale+1; jQuery('.idxboost_collection_tab_sale').html(responseitemsalegrid).ready(function() {  idxboostTypeIcon();   }); console.log('entro sale'); }
+            if (auxscreensale==0){auxscreensale=auxscreensale+1; jQuery('.idxboost_collection_tab_sale').html(responseitemsalegrid).ready(function() {  idxboostTypeIcon();   });  }
           }
         }else  if(fortab=="tab_rent" && jQuery('.idxboost_collection_tab_rent').find('li').length==0 ) {
           if( is_class_active != -1){
             if( jQuery('.idxboost_collection_tab_rent').find('li').length==0 ) auxscreensale=0; 
-            if (auxscreenrent==0){auxscreenrent=auxscreenrent+1; jQuery('.idxboost_collection_tab_rent').html(responseitemrentgrid).ready(function() {  idxboostTypeIcon();   }); console.log('entro rent'); }
+            if (auxscreenrent==0){auxscreenrent=auxscreenrent+1; jQuery('.idxboost_collection_tab_rent').html(responseitemrentgrid).ready(function() {  idxboostTypeIcon();   }); }
           }
 
         }else  if(fortab=="tab_sold" && jQuery('.idxboost_collection_tab_sold').find('li').length==0 ) {
           if( is_class_active != -1){
             if( jQuery('.idxboost_collection_tab_sold').find('li').length==0 ) auxscreensold=0; 
-            if (auxscreensold==0){auxscreensold=auxscreensold+1; jQuery('.idxboost_collection_tab_sold').html(responseitemsoldgrid).ready(function() {  idxboostTypeIcon();   }); console.log('entro sold'); }
+            if (auxscreensold==0){auxscreensold=auxscreensold+1; jQuery('.idxboost_collection_tab_sold').html(responseitemsoldgrid).ready(function() {  idxboostTypeIcon();   }); }
           }
         }else  if(fortab=="tab_pending" && jQuery('.idxboost_collection_tab_pending').find('li').length==0 ) {
           if( is_class_active != -1){
             if( jQuery('.idxboost_collection_tab_pending').find('li').length==0 ) auxscreenpending=0; 
-            if (auxscreenpending==0){auxscreenpending=auxscreenpending+1; jQuery('.idxboost_collection_tab_pending').html(responseitemsoldpending).ready(function() {  idxboostTypeIcon();   }); console.log('entro pending'); }
+            if (auxscreenpending==0){auxscreenpending=auxscreenpending+1; jQuery('.idxboost_collection_tab_pending').html(responseitemsoldpending).ready(function() {  idxboostTypeIcon();   }); }
           }
         }
         /*INICIALIZAMOS LA VARIABLE DE LAZYLOAD*/
@@ -1615,7 +1700,7 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
               _self.attr("data-alert-token",data.token_alert);
           }
       });
-      console.log(mls_num);
+
       /*SETTING ALL MLS IN PAGE*/
       $('.flex-favorite-btn').each(function(){
         if ($(this).parent().data("mls")!= undefined){
@@ -1624,7 +1709,7 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
           var mls_num_extra = $(this).parent().parent().data("mls");
         }
         if(mls_num_extra == mls_num ){
-          console.log("igual add");
+          
           $(this).find("span").addClass("active flex-active-fav");
         }
       });
@@ -1657,7 +1742,7 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
         }else{
           var mls_num_extra = $(this).parent().parent().data("mls");
         }
-        console.log(mls_num);
+        
         if(mls_num_extra == mls_num ){
           console.log("igual remove");
           $(this).find("span").removeClass("active flex-active-fav");

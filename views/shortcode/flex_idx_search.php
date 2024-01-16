@@ -254,7 +254,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
     <?php if (in_array($flex_idx_info["board_id"], [33])) { ?>
       <div class="ib-bdisclaimer">
         <img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg" style="width: 110px;height: auto;/* margin-bottom: 5px; */display:inline-block;margin-top: -30px;">
-        <p>Source: NY REBNY <br>This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date('Y'); ?> The Real Estate Board of New York, Inc., All rights reserved. The information provided is for consumers' personal, non-commercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal.</p>
+        <p>RLS Data display by Compass Real Estate. <br>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. @<?php echo date('Y'); ?> REBNY Listing Service, Inc. All rights reserved.</p>
       </div>
     <?php } ?>
   </div>
@@ -686,7 +686,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                     </div>
                   {{/if}}
 
-                  <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                  <?php if (in_array($flex_idx_info["board_id"], [31,33])) { ?>
                   <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
                   <?php } ?>
 
@@ -1166,8 +1166,11 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                         <img src="{{board_info.board_logo_url}}">
                       </div>
                     {{/if}}
-                    
 
+                    <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+                    <p>RLS Data display by Compass Real Estate.</p>
+                    <?php } ?>
+                    
                     {{#if (idxBoardDisclaimerExist this) }}   
                         {{{ idxBoardDisclaimer this }}}
                     {{else}}
@@ -1256,6 +1259,10 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                 </div>
               {{/if}}
 
+              <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+              <p>RLS Data display by Compass Real Estate.</p>
+              <?php } ?>
+
                     {{#if (idxBoardDisclaimerExist this) }}   
                         {{{ idxBoardDisclaimer this }}}
                     {{else}}
@@ -1287,7 +1294,12 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
         <li class="ib-piitem ib-paddress">{{ full_address }}</li>
         <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
           <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
-        <?php } ?>        
+        <?php } ?>   
+        
+        <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
+        <?php } ?> 
+        
         {{{ handleStatusProperty this }}}
         {{#if (BoardImgDisclaimer this) }}   
           <li class="ms-logo-board"><img src="{{board_info.board_logo_url}}"></li>

@@ -651,7 +651,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                               </div>
                             {{/if}}
 
-                            <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
+                            <?php if (in_array($flex_idx_info["board_id"], [31,33])) { ?>
                             <div class="ib-pdescription-title" style="display: block !important;position: relative;font-size: 14px;padding: 15px 15px 0 15px;margin-bottom: 0;border-bottom: 1px dashed #ccc;padding-bottom: 15px;font-weight: normal; color: #858585; order:3">Listing provided courtesy of {{office_name}}</div>
                             <?php } ?>
 
@@ -1132,6 +1132,10 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                       </div>
                     {{/if}}
 
+                    <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+                    <p>RLS Data display by Compass Real Estate.</p>
+                    <?php } ?>
+
                     {{#if (idxBoardDisclaimerExist this) }}   
                         {{{ idxBoardDisclaimer this }}}
                     {{else}}
@@ -1214,7 +1218,10 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                 </div>
               {{/if}}
 
-              
+              <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+              <p>RLS Data display by Compass Real Estate.</p>
+              <?php } ?>
+
               {{#if (idxBoardDisclaimerExist this) }}   
                 {{{ idxBoardDisclaimer this }}}
               {{else}}

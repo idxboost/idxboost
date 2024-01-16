@@ -164,7 +164,7 @@
             <div class="form_content">
               <div id="push-registration">
 
-                <form id="formRegister" method="post" class="gtm_lead_registration">
+                <form id="formRegister" method="post" class="gtm_lead_registration iboost-form-validation">
                 <?php
                   global $agent_registration_key;
 
@@ -213,7 +213,8 @@
 
                       <div class="wrapper-input">
                         <label class="agile-label ms-strong" for="agilefield-8"><?php echo __('Use phone number as password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        <input id="agilefield-8" name="register_phone" type="text" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="agile-height-default ib-input-only-numeric" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        <!--<input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php //echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">-->
+                        <input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="phoneRegisterValidation" required value="">
                       </div>
                       <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                     </li>
@@ -2632,7 +2633,7 @@ function fb_logout() {
       <div class="ib-mgcontent"> 
         <div id="ib-push-registration">
           <!--<button class="ms-skip ms-close ms-close-step" aria-label="Close"><span></span></button>-->
-          <form id="ib-register-form-quizz" method="post">
+          <form id="ib-register-form-quizz" class="iboost-form-validation" method="post">
             <fieldset>
               <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
               <input type="hidden" name="action" value="ib_register_quizz_save">
@@ -2652,7 +2653,7 @@ function fb_logout() {
                         <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
                         <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span>
                       </label>
-                      <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default ib-input-only-numeric" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                      <input id="__signup_fb_phone" name="register_phone_facebook" type="tel" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
                     </div>
                   </div>
                   <button class="pr-redbtn pr-populate-phone pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>

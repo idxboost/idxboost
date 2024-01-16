@@ -647,11 +647,11 @@ var bounds;
 
                     if( response.hasOwnProperty("statistics")  ) {
 
-                        if( response.statistics.hasOwnProperty("moi") && response.statistics.moi> 0  ) {
+                        if( !["", null, undefined, "undefined", "null"].includes(response.statistics)  && response.statistics.hasOwnProperty("moi") && !["", null, undefined, "undefined", "null"].includes(response.statistics.moi) && response.statistics.moi> 0  ) {
                             moi= response.statistics.moi+ " Months";
                         }
                         
-                        if( response.statistics.hasOwnProperty("percent_sale_sold_price") && response.statistics.percent_sale_sold_price != "0" ) {
+                        if( !["", null, undefined, "undefined", "null"].includes(response.statistics)  && response.statistics.hasOwnProperty("percent_sale_sold_price") && response.statistics.percent_sale_sold_price != "0" ) {
                             let vsale_sold_price= response.statistics.percent_sale_sold_price+"%";
                             if (response.statistics.percent_sale_sold_price > 0 ) {
                                 percent_sale_sold_price ="<span style='color:green;'>"+vsale_sold_price+"</span>";
@@ -662,11 +662,11 @@ var bounds;
                             }
                         }
                         
-                        if( response.statistics.hasOwnProperty("pxsqft_sold") && response.statistics.pxsqft_sold > 0  ) {
+                        if( !["", null, undefined, "undefined", "null"].includes(response.statistics)  && response.statistics.hasOwnProperty("pxsqft_sold") && response.statistics.pxsqft_sold > 0  ) {
                             pxsqft_sold= "$ "+_.formatPrice(response.statistics.pxsqft_sold);
                         }
                         
-                        if( response.statistics.hasOwnProperty("sqft_sold") && response.statistics.sqft_sold > 0 ) {
+                        if( !["", null, undefined, "undefined", "null"].includes(response.statistics)  && response.statistics.hasOwnProperty("sqft_sold") && response.statistics.sqft_sold > 0 ) {
                             sqft_sold= _.formatPrice(response.statistics.sqft_sold)+" Sq.Ft";
                         }
                         
