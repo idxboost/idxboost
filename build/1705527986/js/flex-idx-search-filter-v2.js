@@ -2100,7 +2100,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                         }
                     }
 
-                    defaultFormValidation();
+                    //defaultFormValidation();
                 }
             });
 

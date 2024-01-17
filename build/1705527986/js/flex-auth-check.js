@@ -3812,6 +3812,6 @@ function defaultFormValidation(){
 	}
 }
 
-jQuery(window).load(function(){
+/*jQuery(window).load(function(){
 	defaultFormValidation();
-});
+});*/
