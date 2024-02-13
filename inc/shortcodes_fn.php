@@ -737,6 +737,9 @@ if (!function_exists('ib_search_filter_sc')) {
             'limit' => ''
         ), $atts);
 
+        $GLOBALS["filter_id"] = $atts["id"];
+        $GLOBALS["type_filter"] = "map-search-filter";
+        
         ob_start();
 
         // wp_enqueue_style('flex-idx-search-filter-css');
@@ -2014,6 +2017,8 @@ function insert_fb_in_head()
         $url_image = '';
         $og_name_building = '';
         $building_addresses = '';
+
+
         $og_building = fb_flex_idx_buildind_social_sc();
 
         if (!empty($og_building) && is_array($og_building) && array_key_exists('success', $og_building) && $og_building['success'] != false) {
@@ -2026,9 +2031,18 @@ function insert_fb_in_head()
             if ($og_building['payload']['og_image_url']) {
                 $url_image = $og_building['payload']['og_image_url'];
             } else {
-                if (is_array($og_building['payload']['gallery_building'])) {
-                    if (count($og_building['payload']['gallery_building']) > 0) {
-                        $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
+                if ($og_building['payload']['type_gallery'] == "1") {
+                    $response = idxboost_collection_building($og_building['payload']['codBuilding']);
+                    if ($response['payload']['properties']) {
+                        if (count($response['payload']['properties']['sale']['items']) > 0) {
+                            $url_image = $response['payload']['properties']['sale']['items'][0]['gallery'][0];
+                        }
+                    }
+                } else {
+                    if (is_array($og_building['payload']['gallery_building'])) {
+                        if (count($og_building['payload']['gallery_building']) > 0) {
+                            $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
+                        }
                     }
                 }
             }
@@ -2912,6 +2926,9 @@ if (!function_exists('flex_idx_filter_sc')) {
             'registration_key' => ''
         ), $atts);
 
+        $GLOBALS["filter_id"] = $atts["id"];
+        $GLOBALS["type_filter"] = "display-filter";
+
         $gallery_val = $atts["gallery"];
 
         $typeworked = '0';
@@ -3783,6 +3800,9 @@ if (!function_exists('flex_idx_buildind_sc')) {
             'mode' => 'default',
         ), $atts);
 
+        $GLOBALS["filter_id"] = $atts['building_id'];
+        $GLOBALS["type_filter"] = "buildings";
+
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $wp_request = $wp->request;
@@ -3894,6 +3914,9 @@ if (!function_exists('flex_idx_sub_area_sc')) {
             'flex_credentials' => $flex_lead_credentials
         );
 
+        $GLOBALS["filter_id"] = $atts['building_id'];
+        $GLOBALS["type_filter"] = "master-plans";
+        
         wp_enqueue_style('flex-idx-filter-pages-css');
         add_action('wp_footer', 'ib_sub_area_footer');
 

@@ -149,7 +149,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
       </div>
     </div>
 
-    <?php if (in_array($flex_idx_info["board_id"], [13, 14, 20])) { ?>
+    <?php if (in_array($flex_idx_info["board_id"], [13, 14, 20, 33])) { ?>
       <div class="ib-bdisclaimer">
         <?php
         if (
@@ -164,6 +164,11 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
             <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
           </div>
         <?php } ?>
+
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+
         <?php
         if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
           <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span> <a class="ib-phone-office" href="tel:{{phone_office}}">Ph.{{phone_office}}</a></p>
@@ -1143,6 +1148,9 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       </div>
                     {{/if}}
 
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
 
                     {{#if (idxBoardDisclaimerExist this) }}   
                         {{{ idxBoardDisclaimer this }}}
@@ -1205,7 +1213,11 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     <img src="{{board_info.board_logo_url}}">
                   </div>
                 {{/if}}
-                  
+
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+
                   {{#if (idxBoardDisclaimerExist this) }}   
                       {{{ idxBoardDisclaimer this }}}
                   {{else}}
@@ -1232,11 +1244,11 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         <li class="ib-piitem ib-pisqft">{{ formatLotSize lot_size }} <?php echo __('Lot Size', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ full_address }}</li>
         <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
+          <li class="ib-piitem ib-small-text ms-ellipsis-dm" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
         <?php } ?>  
         
         <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
-          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
+          <li class="ib-piitem ib-small-text ms-ellipsis-dm" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
         <?php } ?> 
         
         {{{ handleStatusProperty this }}}

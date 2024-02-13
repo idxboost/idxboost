@@ -181,7 +181,7 @@
                   <div>Listing Provided by NWMLS</div>
                 <?php } ?>
                 <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
-                  <div>Listing Courtesy of <?php echo $property['office_name']; ?></div>
+                  <div class="ms-ellipsis-dm">Listing Courtesy of <?php echo $property['office_name']; ?></div>
                 <?php 
                   $paddingClass = "ms-padding";
                 } ?>        

@@ -43,6 +43,7 @@ $(".js-download-cta-file").click(function(){
 var ib_call_object_change=0;
 function ib_change_view(view,tab){
   var property_type='';
+  console.log(view,tab);
   $=jQuery;
   /*BOTONES TABS*/
   ib_collection_desk_li=$('.idxboost-collection-show-desktop li');
@@ -594,11 +595,13 @@ $(function() {
 
     const tp =  $('.ib_collection_tab').val();
     const view = $('.ib_collection_view').val();
+    let hashCollection ='#!for-sale';
     
     let arList = [];
     let arGrid = [];
     
     if ( tp == "tab_sale") {
+      hashCollection ='#!for-sale';
       $("#flex_tab_sale").addClass("active");
       $(".flex-open-tb-sale").addClass("active-fbc");
       $("#flex_filter_sort").val("sale").ready(function(){ $('.filter-text').text('For Sale'); });
@@ -623,6 +626,7 @@ $(function() {
 
 
     if ( tp == "tab_pending") {
+      hashCollection ='#!pending';
       $(".flex-open-tb-pending").addClass("active-fbc");
       $("#flex_tab_pending").addClass("active");
       $("#flex_filter_sort").val("pending").ready(function(){ $('.filter-text').text('Pending'); });
@@ -648,6 +652,7 @@ $(function() {
 
 
     if ( tp == "tab_rent") {
+      hashCollection = '#!for-rent';
       $(".flex-open-tb-rent").addClass("active-fbc");
       $("#flex_tab_rent").addClass("active");
       $("#flex_filter_sort").val("rent").ready(function(){ $('.filter-text').text('For Rent'); });
@@ -671,13 +676,14 @@ $(function() {
     }
 
     if ( tp == "tab_sold") {
+      hashCollection = '#!sold';
       $(".flex-open-tb-sold").addClass("active-fbc");
       $("#flex_tab_sold").addClass("active");
       $("#flex_filter_sort").val("sold").ready(function(){ $('.filter-text').text('Sold'); });
 
       idxboostCollecBuil.payload.properties.sold.items.forEach(function(element,index){
         if (view== "list") {
-          arList.push(idxboostListCollection(element));
+          arList.push(idxboostListCollectionForSold(element));
         }
         if (view== "grid") {
           responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
@@ -711,6 +717,16 @@ $(function() {
       } 
     }
 
+      var boolcaracter=idxboost_collection_params.wpsite.substr(idxboost_collection_params.wpsite.length-1,idxboost_collection_params.wpsite.length);
+      web_page=idxboost_collection_params.wpsite;
+      if (boolcaracter=='/'){
+        web_page=idxboost_collection_params.wpsite.slice(0,-1);
+      }
+
+    if (typeof idxboostCollecBuil == "object" && idxboostCollecBuil.hasOwnProperty("payload") &&  ib_call_object_change>0) {
+      web_page=web_page+hashCollection;
+      history.pushState(null, '', web_page );
+      }      
   }
 
 

@@ -2600,9 +2600,18 @@ function getLandSizeValues(min, max) {
 							}
 						//}
 
-						listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
+						var classOfficeName = "";
 
-						listingHTML.push('<ul class="features">');
+						if(item.office_name == "" || item.office_name == null){
+							listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
+						}else{
+							listingHTML.push('<h2 title="' + item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div><div style="font-size: 12px">Listing Courtesy of '+item.office_name+'</div></h2>');
+							classOfficeName = "style='padding-bottom:56px'";
+						}
+
+						//listingHTML.push('<h2 title="'+item.full_address+'" class="ms-property-address"><div class="ms-title-address -address-top">'+item.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+item.full_address_bottom+'</div></h2>');
+						listingHTML.push('<ul class="features " '+classOfficeName+'>');
+						//listingHTML.push('<ul class="features">');
 						listingHTML.push('<li class="address">' + item.full_address + '</li>');
 						listingHTML.push('<li class="price">$' + _.formatPrice(item.price) + text_is_rental + '</li>');
 						if (item.reduced == '') {
@@ -4128,7 +4137,7 @@ $(function() {
 	//PONER LA VALIDACION DEL BOARD 33
 	var year = (new Date).getFullYear();
 	if (typeof flex_idx_filter_params != "undefined" && flex_idx_filter_params.boardId == 33) {
-		jQuery('<div class="ib-bdisclaimer" style="max-width:90%; margin: 0 auto"><img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg" style="width: 110px;height: auto;display:inline-block;margin-top: -30px;"><p>RLS Data display by Compass Real Estate. <br>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©'+year+' REBNY Listing Service, Inc. All rights reserved.</p></div>').insertAfter(jQuery("#wrap-result"));
+		//jQuery('<div class="ib-bdisclaimer" style="max-width:90%; margin: 0 auto"><img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg" style="width: 110px;height: auto;display:inline-block;margin-top: -30px;"><p>RLS Data display by Compass Real Estate. <br>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©'+year+' REBNY Listing Service, Inc. All rights reserved.</p></div>').insertAfter(jQuery("#wrap-result"));
 	}
 });
 

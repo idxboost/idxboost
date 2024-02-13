@@ -675,7 +675,7 @@ Handlebars.registerHelper('DFhandleTypeView', function(property) {
 });
 
 Handlebars.registerHelper('DFhandleOhContent', function(property) {
-	if (property.hasOwnProperty("oh_info") && property.oh_info != null ) {
+	if (property.hasOwnProperty("oh_info") && property.oh_info != null && property.oh_info != "" ) {
 		var oh_info=JSON.parse(property.oh_info);
 		if (typeof(oh_info) === "object" && oh_info.hasOwnProperty("date") && oh_info.hasOwnProperty("timer") ) {
 			return '<div class="ms-open"><span class="ms-wrap-open"><span class="ms-open-title">Open House</span><span class="ms-open-date">'+oh_info.date+'</span><span class="ms-open-time">'+oh_info.timer+'</span></span></div>';

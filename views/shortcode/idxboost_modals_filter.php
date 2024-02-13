@@ -1132,8 +1132,8 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                       </div>
                     {{/if}}
 
-                    <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
-                    <p>RLS Data display by Compass Real Estate.</p>
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
                     <?php } ?>
 
                     {{#if (idxBoardDisclaimerExist this) }}   
@@ -1218,9 +1218,9 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                 </div>
               {{/if}}
 
-              <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
-              <p>RLS Data display by Compass Real Estate.</p>
-              <?php } ?>
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
 
               {{#if (idxBoardDisclaimerExist this) }}   
                 {{{ idxBoardDisclaimer this }}}

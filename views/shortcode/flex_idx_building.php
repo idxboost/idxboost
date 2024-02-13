@@ -933,7 +933,11 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     <div class="ms-logo-board" style="max-width: 110px">
                       <img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg">
                     </div>
-                    <p>RLS Data display by Compass Real Estate. <br>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date('Y'); ?> REBNY Listing Service, Inc. All rights reserved.</p>
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+                                        
+                    <p>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date('Y'); ?> REBNY Listing Service, Inc. All rights reserved.</p>
                   </div>
                 </div>
               </div>

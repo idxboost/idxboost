@@ -1262,11 +1262,11 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
         <li class="ib-piitem ib-pisqft">{{ formatSqft sqft }} <?php echo __('Sq.Ft.', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
         <li class="ib-piitem ib-paddress">{{ full_address }}</li>
         <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
+          <li class="ib-piitem ib-small-text ms-ellipsis-dm" style="font-size: 12px;margin-top: 5px;">Listing Provided by NWMLS</li>
         <?php } ?>
 
         <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
-          <li class="ib-piitem ib-small-text" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
+          <li class="ib-piitem ib-small-text ms-ellipsis-dm" style="font-size: 12px;margin-top: 5px;">Listing Courtesy of {{office_name}}</li>
         <?php } ?> 
 
         {{{ handleStatusProperty this }}}

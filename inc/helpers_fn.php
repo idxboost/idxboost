@@ -1919,6 +1919,10 @@ if (!function_exists('flex_idx_get_info')) {
 
             $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool)$idxboost_agent_info['has_crm'] : false;
 
+            $output['agent']['restriction_idx'] = isset($idxboost_agent_info['restriction_idx']) ? $idxboost_agent_info['restriction_idx'] : "0";
+            $output['agent']['broker_title_associate'] = isset($idxboost_agent_info['broker_title_associate']) ? $idxboost_agent_info['broker_title_associate'] : "";
+            $output['agent']['broker_exclude_listings'] = isset($idxboost_agent_info['broker_exclude_listings']) ? $idxboost_agent_info['broker_exclude_listings'] : "";
+            
             // social info
             #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
             #$output['social'] = flex_map_array($list_social_info);
@@ -5656,6 +5660,28 @@ function filter_search_recent_sales_xhr_fn()
     exit;
 }
 
+if (!function_exists('idxboost_collection_building')) {
+    function idxboost_collection_building($filter_id)
+    {
+        $access_token = flex_idx_get_access_token();
+        $limit = 1;
+
+        $sendParams = array(
+            'filter_id' => $filter_id,
+            'access_token' => $access_token,
+            'limit' => $limit,
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+        $server_output = curl_exec($ch);
+        return json_decode($server_output, true);
+    }
+}
 if (!function_exists('idxboost_collection_list_fn')) {
     function idxboost_collection_list_fn()
     {
@@ -8733,47 +8759,104 @@ if (!function_exists('idxboost_cms_cta_modal')) {
     }
 }
 
-if (!function_exists('idxboost_cms_tripwire')) {
+if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
     function idxboost_cms_tripwire()
     {
-        global $flex_idx_info;
+        global $flex_idx_info, $post;
 
         if (
-            !empty($flex_idx_info['agent']['has_cms']) &&
+            ! empty( $flex_idx_info['agent']['has_cms'] ) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
+            $post_id = null;
+            $page_type = null;
+            $idx_page_type = get_post_meta($post->ID, 'idx_page_type', true);
 
-            $response = wp_remote_post(
-                IDX_BOOST_SPW_BUILDER_SERVICE . '/api/tripwires-default',
-                array(
-                    'method' => 'POST',
-                    'timeout' => 60,
-                    'headers' => [
+            if ( is_front_page() ) $page_type = 'home';
+            
+            if ( $idx_page_type == 'custom' || $idx_page_type == 'landing' ) {
+                $post_id = $post->ID;
+                $page_type = $idx_page_type;
+            }
+
+            if ( $post->post_type == 'flex-idx-pages' ) {
+                $type = get_post_meta($post->ID, '_flex_id_page', true);
+
+                if ( $type == 'flex_idx_page_contact' ) {
+                    $page_type = 'contact';
+                }
+            }
+
+            if ( $page_type || $post_id ) {
+                
+                $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-tripwire-linked-wp';
+                $args = array(
+                    'method'    => 'POST',
+                    'timeout'   => 60,
+                    'headers'   => array(
                         'Content-Type' => 'application/json',
-                    ],
-                    'body' => wp_json_encode(array(
-                        'registration_key' => get_option('idxboost_registration_key')
+                    ),
+                    'body'      => wp_json_encode( array(
+                        'registration_key'  => get_option( 'idxboost_registration_key' ),
+                        "post_id"           => $post_id,
+                        "page_type"         => $page_type
                     ))
-                )
-            );
+                );
 
-            $body = wp_remote_retrieve_body($response);
-            $content = json_decode($body, true);
+                $response = wp_remote_post( $url, $args );
+                $response_code = wp_remote_retrieve_response_code( $response );
 
-            if (!is_wp_error($response) && !empty($content) && $content != NULL) {
+                if ( ! is_wp_error( $response ) && $response_code === 200 ) {
+                    
+                    $body = json_decode( wp_remote_retrieve_body( $response ), true );
+                    
+                    if ( isset( $body['data']['content'] ) && ! empty( $body['data']['content'] ) ) {
+                        wp_enqueue_style('carbonite-addons-tripwire');
+                        wp_enqueue_script('carbonite-addons-tripwire');
+                        echo $body['data']['content'];
+                    }
+                } 
 
-                wp_enqueue_style('carbonite-addons-tripwire');
-                wp_enqueue_script('carbonite-addons-tripwire');
+            } else {
 
-                if ($content['data']['applyTo'] == 'entire-site') {
-                    echo $content['content'];
+                $filter_id = null;
+                $type_filter = null;
+                $page_id = null;
+                
+                if ( is_array( $GLOBALS ) && count( $GLOBALS ) > 0 ) {
+                    $filter_id = array_key_exists("filter_id", $GLOBALS) && !empty($GLOBALS["filter_id"]) ? $GLOBALS["filter_id"] : null;
+                    $type_filter = array_key_exists("type_filter", $GLOBALS) && !empty($GLOBALS["type_filter"]) ? $GLOBALS["type_filter"] : null;
+                    $page_id = array_key_exists("page_id", $GLOBALS) && !empty($GLOBALS["page_id"]) ? $GLOBALS["page_id"] : null;
                 }
 
-                if ($content['data']['applyTo'] == 'home') {
-                    if (is_front_page()) {
-                        echo $content['content'];
+                if ( !empty($filter_id) && !empty($type_filter) ) {
+
+                    $response = wp_remote_post(
+                        FLEX_IDX_BASE_URL . '/cms/get/get_tripwires_filter',
+                        array(
+                            'method' => 'POST',
+                            'timeout' => 60,
+                            'headers' => [
+                                'Content-Type: application/x-www-form-urlencoded'
+                            ],
+                            'body' => array(
+                                'registration_key' => get_option('idxboost_registration_key'),
+                                'filter_id' => $filter_id,
+                                'type_filter' => $type_filter
+                            )
+                        )
+                    );
+
+                    $body = wp_remote_retrieve_body($response);
+                    $content = @json_decode($body, true);
+                    
+                    if ( is_array($content) && count($content) > 0 && array_key_exists("status", $content) && $content["status"] ) {
+                        wp_enqueue_style('carbonite-addons-tripwire');
+                        wp_enqueue_script('carbonite-addons-tripwire');
+                        echo $content['data']['content'];
                     }
                 }
+
             }
         }
     }

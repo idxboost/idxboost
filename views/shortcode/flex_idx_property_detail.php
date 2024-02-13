@@ -1363,6 +1363,12 @@
                   <img src="<?php echo $property['board_info']["board_logo_url"];?>">
                 </div>
                 <?php } ?>
+   
+
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+                    
                 <?php if( array_key_exists('board_info', $property) && array_key_exists("board_disclaimer", $property['board_info']) && !empty($property['board_info']["board_disclaimer"])){ ?>
                 <p>
                   <?php 

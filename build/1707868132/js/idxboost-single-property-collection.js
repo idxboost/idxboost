@@ -506,9 +506,14 @@
 					let template = Handlebars.compile(IB_SP_HANDLEBARS_TPL.html());
 					IB_SP_MODALS.html(template(response));
 
+					const property = {
+						name: response.websiteName,
+						slug: response.publicDomainUrl || response.websiteSlugnameDomain,
+					};
+
 					loadSPThemeSettings(response.stylesInput.themeSettings);
 					generateSPSliders();
-					loadSPForms();
+					loadSPForms(property);
 					loadMap();
 					loadMainVideo();
 
@@ -570,7 +575,6 @@
 									__flex_g_settings.hasOwnProperty("force_registration") &&
 									1 == __flex_g_settings.force_registration
 								) {
-									console.info('Set IB TAG on modal force registration');
 									$("#modal_login")
 										.addClass("active_modal")
 										.find("[data-tab]")
@@ -1035,16 +1039,31 @@
 		window.open(link);
 	});
 
+	const getPropertyInformation = (property) => {
+		return `Source: Property Site, ${property.name} (${property.slug})`;
+	}
+
+	const addPropertyInformationToMessage = (form, property) => {
+		const message = $(form).find('textarea[name="message"]');
+	
+		if (message.val()) {
+			message.val(`${message.val()} | ${getPropertyInformation(property)}`);
+		} else {
+			message.val(getPropertyInformation(property));
+		}
+	}
+
 	/**
 	 * 
 	 */
-	function loadSPForms() {
+	function loadSPForms(property) {
 		const IB_SP_FORM_CONTACT = $(".js-ib-sp-contact-form");
 
 		if (IB_SP_FORM_CONTACT.length) {
 			IB_SP_FORM_CONTACT.on("submit", function (event) {
 				event.preventDefault();
 				contactForm = $(this);
+				addPropertyInformationToMessage(contactForm, property);
 
 				$.ajax({
 					url: ib_property_collection.ajaxUrl,

@@ -64,7 +64,10 @@
   var ib_filter_metadata = <?php echo json_encode($response); ?>;
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
-
+<style>
+  #wrap-result.view-list #result-search > li .features li.address.-grid-map{display:none} 
+  .wrap-result.view-grid #result-search > li .features.ms-padding{padding-bottom: 56px !important}
+</style>
 <form method="post" id="flex-idx-filter-form" class="flex-idx-filter-form flex-idx-filter-form-<?php echo $class_multi; ?> idxboost-filter-form" data-filter-form-id="<?php echo $unique_filter_form_ID; ?>" filtemid="<?php echo $class_multi; ?>">
   <input type="hidden" name="action" value="filter_search">
   <input type="hidden" name="filter_ID" value="<?php echo get_the_ID(); ?>">
@@ -645,19 +648,23 @@
               $arraytemp = str_replace(' , ', ', ', $property["address_large"]);
               $final_address_parceada = $property['address_short'] . "<span>" . $arraytemp . "</span>";
               $final_address_parceada_new = "<span>".$property['address_short'] . $arraytemp . "</span>";
-              ?>
+            ?>
+            
             <h2 title="<?php echo $property['full_address']; ?>" class="ms-property-address">
               <div class="ms-title-address -address-top"><?php echo $property['full_address_top']; ?></div>
               <div class="ms-br-line">,</div>
               <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
-
               <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
-                <div>Listing Provided by NWMLS</div>
+              <div>Listing Provided by NWMLS</div>
               <?php } ?>
-
+              <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+              <div class="ms-ellipsis-dm">Listing Courtesy of <?php echo $property['office_name']; ?></div>
+              <?php 
+              $paddingClass = "ms-padding";
+              } ?>
             </h2>
 
-            <ul class="features">
+            <ul class="features <?php echo $paddingClass; ?>">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <?php if( $property['is_rental']=='1' ) { ?>
                 <li class="price">$<?php echo number_format($property['price']); ?>/<?php echo __('month', IDXBOOST_DOMAIN_THEME_LANG); ?></li>
@@ -853,6 +860,17 @@
     </div>
     <?php  //}  ?>
   </section>
+
+  <?php if( in_array($flex_idx_info["board_id"], ["33"]) ){ ?>
+  <div class="ib-bdisclaimer" style="max-width:90%; margin: 0 auto">
+     <img src="https://idxboost-spw-assets.idxboost.us/logos/NYCListingCompliance.jpg" style="width: 110px;height: auto;display:inline-block;margin-top: -30px;">
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+     
+     <p>The Registrant acknowledges each other RLS Broker’s ownership of, and the validity of their respective copyright in, the Exlusive Listings that are transmitted over the RLS. The information is being provided by REBNY Listing Service, Inc. Information deemed reliable but not guaranteed. Information is provided for consumers’ personal, non-commercial use, and may not be used for any purpose other than the identification of potential properties for purchase. This information is not verified for authenticity or accuracy and is not guaranteed and may not reflect all real estate activity in the market. ©<?php echo date("Y"); ?> REBNY Listing Service, Inc. All rights reserved.</p>
+  </div>
+<?php } ?>
 </div>
 
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

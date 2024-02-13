@@ -194,6 +194,11 @@
       <img src="<?php echo $flex_idx_info["board_info"]["board_logo_url"]; ?>">
     </div>
     <?php } ?>
+
+                    <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+
     <?php
       if (isset($flex_idx_info["board_id"]) && ("7" == $flex_idx_info["board_id"])) { ?>
     <p>The multiple listing information is provided by the Houston Association of Realtors from a copyrighted compilation of listings. The compilation of listings and each individual listing are &copy;<?php echo date('Y'); ?>-present TEXAS All Rights Reserved. The information provided is for consumers' personal, noncommercial use and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. All properties are subject to prior sale or withdrawal. All information provided is deemed reliable but is not guaranteed accurate, and should be independently verified. Listing courtesy of: <span class="ib-bdcourtesy">{{office_name}}</span></p>
@@ -1118,6 +1123,10 @@
                       </div>
                     {{/if}}
   
+                      <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+
                     {{#if (idxBoardDisclaimerExist this) }}   
                         {{{ idxBoardDisclaimer this }}}
                     {{else}}
@@ -1202,6 +1211,10 @@
                 </div>
               {{/if}}
   
+                      <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
+                    <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
+                    <?php } ?>
+                    
               {{#if (idxBoardDisclaimerExist this) }}   
                   {{{ idxBoardDisclaimer this }}}
               {{else}}
