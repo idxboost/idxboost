@@ -1207,6 +1207,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                       <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
                         <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
                       <?php endif; ?>
+                      <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="{{ leadCountryCodePhoneNumber this }}">
                       <ul class="ib-cffields">
                         <li class="ib-cffitem">
                           <input class="ib-cfinput" name="first_name" type="text" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadFirstName this }}" required>

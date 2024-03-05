@@ -351,22 +351,6 @@ function ib_init_script(){
                     }
 
                   }
-                  /*
-                  if ( response.payload.modo_view == "1" ) {
-                    if (__flex_g_settings.is_mobile =="1" ) {
-                      $('.idxboost_collection_filterviews select').val("list");
-                    }else{
-                      $('.idxboost_collection_filterviews .list').click();
-                    }
-                  }else{
-                    if (__flex_g_settings.is_mobile =="1" ) {
-                      $('.idxboost_collection_filterviews select').val("grid");
-                    }else{
-                      $('.idxboost_collection_filterviews .grid').click();
-                    }
-                  }
-                  */
-
 
                   if (__flex_g_settings.is_mobile =="1" ) {
                     $('.idxboost_collection_filterviews select').change();
@@ -833,8 +817,6 @@ $(function() {
         });    
 
         $(document).on('click','.idxboost-collection-show-desktop li',function() {
-          //const tp =  $('.ib_collection_tab').val();
-          //const view = $('.ib_collection_view').val();
 
           $('.idxboost-collection-show-desktop li').removeClass("active");
           $(this).addClass("active");
@@ -842,61 +824,6 @@ $(function() {
           //var viebuil=$('.ib_collection_view').val();
           $('.ib_collection_tab').val(tabbuil);
           change_properties_collection();
-          /*
-          $('.fbc-group').removeClass('active-fbc active');
-          
-          //botones tabs lateral mobile
-          if (tabbuil == 'tab_sale') {
-            $('.fbc-group.sale').addClass('active-fbc');
-            //loadTitleBuilding('For Sale');
-          } else if (tabbuil == 'tab_rent') {
-            $('.fbc-group.rent').addClass('active-fbc');
-            //loadTitleBuilding('For Rent');
-          } else if (tabbuil == 'tab_sold') {
-            $('.fbc-group.sold').addClass('active-fbc');
-            //loadTitleBuilding('Sold');
-          } else if (tabbuil == 'tab_pending') {
-            $('.fbc-group.pending').addClass('active-fbc');
-            //loadTitleBuilding('Pending');
-          }
-          //botones tabs lateral mobile
-          if ( tabbuil == 'tab_sold' && init_sold == 0 ) {
-            init_sold = 1;
-            if (idxboostCollecBuil.payload.property_display_sold == "grid") {
-              if (__flex_g_settings.is_mobile =="1" ) {
-                $('.idxboost_collection_filterviews select').val("grid");
-              }else{
-                $('.idxboost_collection_filterviews .grid').click();
-              }
-            }else{
-              if (__flex_g_settings.is_mobile =="1" ) {
-                $('.idxboost_collection_filterviews select').val("list");
-              }else{
-                $('.idxboost_collection_filterviews .list').click();
-              }
-            }
-            
-          }else if ( ( ["tab_sale","tab_rent",'tab_pending'].includes(tabbuil) )  && init_sale == 0 ) {
-            init_sale = 1;
-            if (idxboostCollecBuil.payload.property_display_active == "grid") {
-              if (__flex_g_settings.is_mobile =="1" ) {
-                $('.idxboost_collection_filterviews select').val("grid");
-              }else{
-                $('.idxboost_collection_filterviews .grid').click();
-              }
-            }else{
-              if (__flex_g_settings.is_mobile =="1" ) {
-                $('.idxboost_collection_filterviews select').val("list");
-              }else{
-                $('.idxboost_collection_filterviews .list').click();
-              }
-            }
-            
-          }else{
-            ib_change_view( viebuil ,tabbuil );
-          }
-          */
-
         });
 
 
@@ -1283,19 +1210,6 @@ function idxboostListCollectionForSold(element){
       slug_property=idxboost_collection_params.propertyDetailPermalink+'/sold-'+element['slug'];
     }
     htmlgrid +='<li class="propertie" data-id="'+element['mls_num']+'" data-mls="'+element['mls_num']+'" data-counter="'+count_item+'">';
-    /*
-      if (element['status']!=null || element['status']!=undefined ){
-          if(element['status'] == 5){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.rented+'!</div>';
-          }else if(element['status']== 2){
-             htmlgrid +='<div class="flex-property-new-listing">'+word_translate.sold+'!</div>';
-          }else if(element['status'] != 1){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.pending+'!</div>';
-          }else if(element['recently_listed'] == 'yes'){
-            htmlgrid +='<div class="flex-property-new-listing">'+word_translate.new_listing+'!</div>';
-          }
-      }
-      */
     htmlgrid +='<h2 title="' + element.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">'+element.full_address_top+'</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">'+element.full_address_bottom+'</div></h2>';
 
     if (idxboostCollecBuil.payload.is_marketing != false) {
@@ -1776,11 +1690,6 @@ $(document).on("click", '.js-flex-favorite-btn', function(event) {
 /****GENERANDO SLIDER TIPO MODAL****/
 $(document).on('click', '.ms-bs-active-modal', function(e) {
   e.preventDefault();
-  /*var parentElement = $(this).parents(".result-search");
-  var urlElement = $(this).parents(".propertie").attr("data-id");
-  sliderModal(parentElement);
-  $("body").addClass("ms-bs-active-mds");
-  $(".ms-bs-modal-sp-slider .ms-btn-detail").attr("data-id",urlElement);*/
   var idElement = $(this).parents(".propertie").attr("data-id");
   
   if ($('.mode_view#view_list').is(':visible')) {

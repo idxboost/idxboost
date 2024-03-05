@@ -10,6 +10,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
   <input type="hidden" name="idx_agent_data_phone" value="<?php echo addslashes($GLOBALS['data_agent']['phone']); ?>">
   <input type="hidden" name="idx_agent_data_name" value="<?php echo addslashes($GLOBALS['data_agent']['name']); ?>">
 
+  <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="">
   <?php  
     global $flex_idx_info;
     if (array_key_exists('track_gender', $flex_idx_info['agent'])) {

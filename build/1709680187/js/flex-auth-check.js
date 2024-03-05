@@ -482,9 +482,39 @@ function validate_price(evt) {
 
 			var _self = $(this);
 
-			if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-				if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-						// pending...
+			//VALIDACION DEL CAMPO TELEFONO
+			var idCodeInput = _self.attr("data-id");
+			if (iti[idCodeInput].isValidNumber()) {
+
+				_self.find("input[type='tel']").removeClass("ms-input-error");
+				_self.find(".ms-validation-text").empty();
+
+				if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+					if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+							// pending...
+					} else { // regular recaptcha
+							grecaptcha.ready(function() {
+									grecaptcha
+									.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
+									.then(function(token) {
+											_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+
+											$.ajax({
+												url: __flex_g_settings.ajaxUrl,
+												method: "POST",
+												data: _self.serialize(),
+												dataType: "json",
+												success: function (data) {
+													$('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+													active_modal($('#modal_properties_send'));
+													setTimeout(function () {
+														$('#modal_properties_send').find('.close').click();
+													}, 2000);
+												}
+											});
+									});
+							});
+					}
 				} else { // regular recaptcha
 						grecaptcha.ready(function() {
 								grecaptcha
@@ -508,30 +538,13 @@ function validate_price(evt) {
 								});
 						});
 				}
-			} else { // regular recaptcha
-					grecaptcha.ready(function() {
-							grecaptcha
-							.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
-							.then(function(token) {
-									_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
 
-									$.ajax({
-										url: __flex_g_settings.ajaxUrl,
-										method: "POST",
-										data: _self.serialize(),
-										dataType: "json",
-										success: function (data) {
-											$('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
-											active_modal($('#modal_properties_send'));
-											setTimeout(function () {
-												$('#modal_properties_send').find('.close').click();
-											}, 2000);
-										}
-									});
-							});
-					});
+			}else{
+
+				_self.find("input[type='tel']").addClass("ms-input-error");
+				_self.find(".ms-validation-text").html("<span>"+word_translate.enter_a_valid_phone_number+"</span>");
+				
 			}
-
 
 			// $.ajax({
 			//   url: __flex_g_settings.ajaxUrl,
@@ -550,95 +563,101 @@ function validate_price(evt) {
 		});
 
 
-	    $(document).on("submit", "#flex-idx-property-form-rental", function (event) {
-	      // $("#flex-idx-property-form").on("submit", function(event) {
-	      event.stopPropagation();
-	      event.preventDefault();
-		  
-	      var _self = $(this);
-				
-	      var message = jQuery(this).find("input[name='message']:eq(0)").val();
-	      var comments = jQuery(this).find("textarea[name='comments']").val();
-	      var sleep = jQuery(this).find("input[name='sleep']:eq(0)").val();
-	      var rental_stay = jQuery(this).find("input[name='rental_stay']:eq(0)").val();
-
-	      var address_short = jQuery(this).find("input[name='address_short']:eq(0)").val();
-	      var address_large = jQuery(this).find("input[name='address_large']:eq(0)").val();
-	      var bed = jQuery(this).find("input[name='bed']:eq(0)").val();
-	      var bath = jQuery(this).find("input[name='bath']:eq(0)").val();
-	      var mls_num = jQuery(this).find("input[name='mls_num']:eq(0)").val();
-	      var price = jQuery(this).find("input[name='price']:eq(0)").val();
-	      var first_name = jQuery(this).find("input[name='first_name']:eq(0)").val();
-	      var last_name = jQuery(this).find("input[name='last_name']:eq(0)").val();
-	      var email = jQuery(this).find("input[name='email']:eq(0)").val();
-	      var phone = jQuery(this).find("input[name='phone']:eq(0)").val();
-	      var permalink = jQuery(this).find("input[name='permalink']:eq(0)").val();
-	      var lead_credentials = jQuery(this).find("input[name='lead_credentials']:eq(0)").val();
-	      
-	      
-		    var commentsd = comments;
-
-		    if(sleep){
-		        commentsd += "Sleeps: "+sleep+". ";
-		    }
-		    
-		    if(rental_stay){
-		        commentsd += "Rentals Stay: "+rental_stay+". ";
-		    }
-	      
-			let dataParam = {
-			    "address_large": address_large,
-			    "address_short": address_short,
-			    "bath": bath,
-			    "bed": bed,
-			    "comments": commentsd,
-			    "email_address": email,
-			    "first_name": first_name,
-			    "last_name": last_name,
-			    "mls_num": mls_num,
-			    "permalink": permalink,
-			    "phone_number": phone,
-			    "price": price,
-			    "price_rate": price
-			}
-
-			var formData = new FormData();
-			formData.append("access_token", __flex_g_settings.accessToken );
-			formData.append("ib_tags", "Vacation Rentals");
-			formData.append("is_vacation_rentals", 1 );
-			formData.append("lead_credentials", lead_credentials );
-			formData.append("data", JSON.stringify(dataParam) );
+		$(document).on("submit", "#flex-idx-property-form-rental", function (event) {
+			// $("#flex-idx-property-form").on("submit", function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+		
+			var _self = $(this);
 			
+			var message = jQuery(this).find("input[name='message']:eq(0)").val();
+			var comments = jQuery(this).find("textarea[name='comments']").val();
+			var sleep = jQuery(this).find("input[name='sleep']:eq(0)").val();
+			var rental_stay = jQuery(this).find("input[name='rental_stay']:eq(0)").val();
 
-	      jQuery(this).find( "[name='message']" ).val(commentsd);
-	      
+			var address_short = jQuery(this).find("input[name='address_short']:eq(0)").val();
+			var address_large = jQuery(this).find("input[name='address_large']:eq(0)").val();
+			var bed = jQuery(this).find("input[name='bed']:eq(0)").val();
+			var bath = jQuery(this).find("input[name='bath']:eq(0)").val();
+			var mls_num = jQuery(this).find("input[name='mls_num']:eq(0)").val();
+			var price = jQuery(this).find("input[name='price']:eq(0)").val();
+			var first_name = jQuery(this).find("input[name='first_name']:eq(0)").val();
+			var last_name = jQuery(this).find("input[name='last_name']:eq(0)").val();
+			var email = jQuery(this).find("input[name='email']:eq(0)").val();
+			var phone = jQuery(this).find("input[name='phone']:eq(0)").val();
+			var permalink = jQuery(this).find("input[name='permalink']:eq(0)").val();
+			var lead_credentials = jQuery(this).find("input[name='lead_credentials']:eq(0)").val();
+			
+			
+			var commentsd = comments;
 
-	      if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
-	        if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-	            // pending...
-	        } else { // regular recaptcha
-	            grecaptcha.ready(function() {
-	                grecaptcha
-	                .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
-	                .then(function(token) {
-	                    _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-	                    formData.append("recaptcha_response", token );
+			if(sleep){
+					commentsd += "Sleeps: "+sleep+". ";
+			}
+			
+			if(rental_stay){
+					commentsd += "Rentals Stay: "+rental_stay+". ";
+			}
+			
+		let dataParam = {
+				"address_large": address_large,
+				"address_short": address_short,
+				"bath": bath,
+				"bed": bed,
+				"comments": commentsd,
+				"email_address": email,
+				"first_name": first_name,
+				"last_name": last_name,
+				"mls_num": mls_num,
+				"permalink": permalink,
+				"phone_number": phone,
+				"price": price,
+				"price_rate": price
+		}
+
+		var formData = new FormData();
+		formData.append("access_token", __flex_g_settings.accessToken );
+		formData.append("ib_tags", "Vacation Rentals");
+		formData.append("is_vacation_rentals", 1 );
+		formData.append("lead_credentials", lead_credentials );
+		formData.append("data", JSON.stringify(dataParam) );
+		
+
+			jQuery(this).find( "[name='message']" ).val(commentsd);
+			
+			//VALIDACION DEL CAMPO TELEFONO
+			var idCodeInput = _self.attr("data-id");
+			if (iti[idCodeInput].isValidNumber()) {
+
+				_self.find("input[type='tel']").removeClass("ms-input-error");
+				_self.find(".ms-validation-text").empty();
+
+				if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
+					if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
+							// pending...
+					} else { // regular recaptcha
+							grecaptcha.ready(function() {
+									grecaptcha
+									.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
+									.then(function(token) {
+											_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+											formData.append("recaptcha_response", token );
 						
-	                    $.ajax({
-	                      url: __flex_g_settings.request_form_rentals,
-	                      method: "POST",
-	                      //data: _self.serialize(),
-	                      async: false,
-						  processData: false,
-						  contentType: false,	                      
-	                      data: formData,
-	                      dataType: "json",
-	                      success: function (data) {
-	                       /*  $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
-	                        active_modal($('#modal_properties_send'));
-	                        setTimeout(function () {
-	                          $('#modal_properties_send').find('.close').click();
-	                        }, 2000); */
+											$.ajax({
+												url: __flex_g_settings.request_form_rentals,
+												method: "POST",
+												//data: _self.serialize(),
+												async: false,
+							processData: false,
+							contentType: false,	                      
+												data: formData,
+												dataType: "json",
+												success: function (data) {
+													/*  $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+													active_modal($('#modal_properties_send'));
+													setTimeout(function () {
+														$('#modal_properties_send').find('.close').click();
+													}, 2000); */
 							
 							if(data.success){
 								swal({
@@ -647,91 +666,98 @@ function validate_price(evt) {
 									type: 'success',
 									timer: 2000,
 									showConfirmButton: false,
-								  })
+									})
 							}else{
 								const td = data.error
-        						let formt = td.replaceAll('_', ' ').toLowerCase()
-           							formt = formt.charAt(0).toUpperCase() + formt.slice(1)
+										let formt = td.replaceAll('_', ' ').toLowerCase()
+												formt = formt.charAt(0).toUpperCase() + formt.slice(1)
 								swal({
 									title: formt,
 									text: data.message,
 									type: 'error',
 									timer: 2000,
 									showConfirmButton: false,
-								  })
+									})
 							}
 							
-	                      }
-	                    });
-	                });
-	            });
-	        }
-	      } else { // regular recaptcha
-	          grecaptcha.ready(function() {
-	              grecaptcha
-	              .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
-	              .then(function(token) {
-	                  _self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
-	                  formData.append("recaptcha_response", token );
-					  
-	                  $.ajax({
-	                    url: __flex_g_settings.request_form_rentals,
-	                    method: "POST",
-	                    //data: _self.serialize(),
-	                      async: false,
-						  processData: false,
-						  contentType: false,	                      	                    
-	                    data: formData,
-	                    dataType: "json",
-	                    success: function (data) {
-	                     /*  $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
-	                      active_modal($('#modal_properties_send'));
-	                      setTimeout(function () {
-	                        $('#modal_properties_send').find('.close').click();
-	                      }, 2000); */
-						  if(data.success){
+												}
+											});
+									});
+							});
+					}
+				} else { // regular recaptcha
+						grecaptcha.ready(function() {
+								grecaptcha
+								.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'property_inquiry' })
+								.then(function(token) {
+										_self.prepend('<input type="hidden" name="recaptcha_response" value="'+token+'">');
+										formData.append("recaptcha_response", token );
+						
+										$.ajax({
+											url: __flex_g_settings.request_form_rentals,
+											method: "POST",
+											//data: _self.serialize(),
+												async: false,
+							processData: false,
+							contentType: false,	                      	                    
+											data: formData,
+											dataType: "json",
+											success: function (data) {
+												/*  $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+												active_modal($('#modal_properties_send'));
+												setTimeout(function () {
+													$('#modal_properties_send').find('.close').click();
+												}, 2000); */
+							if(data.success){
 							swal({
 								title: 'Email Sent!',
 								text: 'Your email was sent succesfully',
 								type: 'success',
 								timer: 2000,
 								showConfirmButton: false,
-							  })
+								})
 						}else{
 							const td = data.error
-        					let formt = td.replaceAll('_', ' ').toLowerCase()
-           						formt = formt.charAt(0).toUpperCase() + formt.slice(1)
+									let formt = td.replaceAll('_', ' ').toLowerCase()
+											formt = formt.charAt(0).toUpperCase() + formt.slice(1)
 							swal({
 								title: formt,
 								text: data.message,
 								type: 'error',
 								timer: 2000,
 								showConfirmButton: false,
-							  })
+								})
 						}
 
-	                    }
-	                  });
-	              });
-	          });
-	      }
+											}
+										});
+								});
+						});
+				}
+
+			}else{
+
+				_self.find("input[type='tel']").addClass("ms-input-error");
+				_self.find(".ms-validation-text").html("<span>"+word_translate.enter_a_valid_phone_number+"</span>");
+				
+			}
 
 
-	      // $.ajax({
-	      //   url: __flex_g_settings.ajaxUrl,
-	      //   method: "POST",
-	      //   data: _self.serialize(),
-	      //   dataType: "json",
-	      //   success: function (data) {
-	      //     //data.message
-	      //     $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
-	      //     active_modal($('#modal_properties_send'));
-	      //     setTimeout(function () {
-	      //       $('#modal_properties_send').find('.close').click();
-	      //     }, 2000);
-	      //   }
-	      // });
-	    });
+			// $.ajax({
+			//   url: __flex_g_settings.ajaxUrl,
+			//   method: "POST",
+			//   data: _self.serialize(),
+			//   dataType: "json",
+			//   success: function (data) {
+			//     //data.message
+			//     $('#modal_properties_send .body_md .ico_ok').text(word_translate.email_sent);
+			//     active_modal($('#modal_properties_send'));
+			//     setTimeout(function () {
+			//       $('#modal_properties_send').find('.close').click();
+			//     }, 2000);
+			//   }
+			// });
+		});
 	    
 		/*------------------------------------------------------------------------------------------*/
 		/* Mostrar y cerrar modales
@@ -1163,6 +1189,11 @@ function validate_price(evt) {
 						// store email
 						Cookies.set("_ib_user_email", response.email);
 
+						// store code phone
+						Cookies.set("_ib_user_code_phone", response.country_code_phone);
+
+						$(".phoneCodeValidation").val(response.country_code_phone);
+
 						$("#_ib_fn_inq").val(response.first_name);
 						$("#_ib_ln_inq").val(response.last_name);
 						$("#_ib_em_inq").val(response.email);
@@ -1172,6 +1203,15 @@ function validate_price(evt) {
 						$("._ib_ln_inq").val(response.last_name);
 						$("._ib_em_inq").val(response.email);
 						$("._ib_ph_inq").val(response.phone);
+						$("._ib_pc_inq").val(response.country_code_phone);
+
+						$("._ib_fn_inq_").val(response.first_name);
+						$("._ib_ln_inq_").val(response.last_name);
+						$("._ib_em_inq_").val(response.email);
+						$("._ib_ph_inq_").val(response.phone);
+						$("._ib_pc_inq_").val(response.country_code_phone);
+
+						$(".phoneCodeValidation").val(response.country_code_phone);
 
 						//Building default label
 						var ob_form_building_footer;
@@ -1180,7 +1220,9 @@ function validate_price(evt) {
 							ob_form_building_footer.find('[name="first_name"]').val(response.first_name);
 							ob_form_building_footer.find('[name="last_name"]').val(response.last_name);
 							ob_form_building_footer.find('[name="email"]').val(response.email);
+							ob_form_building_footer.find('[name="email_address"]').val(response.email);
 							ob_form_building_footer.find('[name="phone"]').val(response.phone);
+							ob_form_building_footer.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 						
 						//modal regular filter default label
@@ -1191,6 +1233,7 @@ function validate_price(evt) {
 							ob_form_modal.find('[name="last_name"]').val(response.last_name);
 							ob_form_modal.find('[name="email_address"]').val(response.email);
 							ob_form_modal.find('[name="phone_number"]').val(response.phone);
+							ob_form_modal.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						//Off market listing default label
@@ -1201,6 +1244,7 @@ function validate_price(evt) {
 							ob_form_off_market_listing.find('[name="last_name"]').val(response.last_name);
 							ob_form_off_market_listing.find('[name="email"]').val(response.email);
 							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
+							ob_form_off_market_listing.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						// Sets user information on CMS Forms
@@ -1279,9 +1323,26 @@ function validate_price(evt) {
 									console.log('restoring to: ' + originalPositionY);
 									window.scrollTo(0,originalPositionY);
 								}
-						 }
-						}, 1000);
+						 	}
+
+							jQuery(".iboost-form-validation-loaded").each(function () {
+
+								var codePhone = jQuery(this).find(".phoneCodeValidation").val();
+								var intialCodePhone = jQuery(this).find(".country_code").val();
+
+								if(codePhone !== "" && codePhone !== "0"){
+									var phoneNumberActive = "+"+response.country_code_phone+response.phone;
+								}else{
+									var phoneNumberActive = intialCodePhone+response.phone;
+								}
+
+								iti[jQuery(this).attr("data-id")].setNumber(phoneNumberActive);
+							});
+
+						}, 300);
+
 					} else {
+						
 						if (response.message=='Invalid credentials, try again.') 
 							textmessage=word_translate.invalid_credentials_try_again;
 						else if (response.message=='Logged in succesfully.')
@@ -1579,6 +1640,9 @@ function validate_price(evt) {
 						// store email
 						Cookies.set("_ib_user_email", response.email);
 
+						// store code phone
+						Cookies.set("_ib_user_code_phone", response.code_phone);
+
 						$("#_ib_fn_inq").val(response.first_name);
 						$("#_ib_ln_inq").val(response.last_name);
 						$("#_ib_em_inq").val(response.email);
@@ -1588,6 +1652,8 @@ function validate_price(evt) {
 						$("._ib_ln_inq").val(response.last_name);
 						$("._ib_em_inq").val(response.email);
 						$("._ib_ph_inq").val(response.phone);
+
+						$(".phoneCodeValidation").val(response.country_code_phone);
 
 						idx_auto_save_building(response);
 
@@ -1599,6 +1665,7 @@ function validate_price(evt) {
 							ob_form_building_footer.find('[name="last_name"]').val(response.last_name);
 							ob_form_building_footer.find('[name="email"]').val(response.email);
 							ob_form_building_footer.find('[name="phone"]').val(response.phone);
+							ob_form_building_footer.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						//modal regular filter default label
@@ -1609,6 +1676,7 @@ function validate_price(evt) {
 							ob_form_modal.find('[name="last_name"]').val(response.last_name);
 							ob_form_modal.find('[name="email_address"]').val(response.email);
 							ob_form_modal.find('[name="phone_number"]').val(response.phone);
+							ob_form_modal.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						//Off market listing default label
@@ -1619,6 +1687,7 @@ function validate_price(evt) {
 							ob_form_off_market_listing.find('[name="last_name"]').val(response.last_name);
 							ob_form_off_market_listing.find('[name="email"]').val(response.email);
 							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
+							ob_form_off_market_listing.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						// Sets user information on CMS Forms
@@ -2081,6 +2150,7 @@ function validate_price(evt) {
 			Cookies.remove("_ib_user_lastname");
 			Cookies.remove("_ib_user_phone");
 			Cookies.remove("_ib_user_email");
+			Cookies.remove("_ib_user_code_phone");
 
 			if (true === IB_HAS_LEFT_CLICKS) {
 				Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
@@ -3024,6 +3094,7 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 			Cookies.remove("_ib_user_lastname");
 			Cookies.remove("_ib_user_phone");
 			Cookies.remove("_ib_user_email");
+			Cookies.remove("_ib_user_code_phone");
 		}
 	});
 
@@ -3645,16 +3716,45 @@ jQuery(document).ready(function() {
 	}
 });
 
-//**************** VALIDACION DE FORMULARIOS *****************//
+//VALIDACION DE FORMULARIOS
+var iti = new Array();
+var countElements = 0;
+var phoneText, placeholderText = "";
+var isLogin = "";
+
 function defaultFormValidation(){
+	//PARA EL FORMATO DE VALIDACION
+	phoneText = word_translate.enter_a_valid_phone_number;
+	placeholderText = word_translate.enter_a_phone_number;
+
 	var formValidation = jQuery(".iboost-form-validation");
+	var phoneCodeItem = formValidation.find(".phoneCodeValidation");
+
+	if(!phoneCodeItem.length){
+		jQuery("<input type='text' class='phoneCodeValidation' name='phoneCodeValidation' value=''>").appendTo(formValidation);
+		var phoneCodeValidation = phoneCodeItem.val("1");
+	}else{
+		var phoneCodeValidation = phoneCodeItem.val();
+	}
+
+	//CONSULTAMOS SI YA ESTAMOS LOGUEADOS
+	if ("no" === __flex_g_settings.anonymous) {
+		if(phoneCodeValidation == "" && phoneCodeValidation == "0"){
+			isLogin = "auto";
+		}else{
+			isLogin = "";
+		}
+	}else{
+		isLogin = "auto";
+	}
+
 	if(!formValidation.hasClass("loaded")){
 
 		//Caracteres permitidos
 		var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		var phoneRegex = "0123456789";
+		var utilsScript = __flex_g_settings.templateDirectoryPlugin+"js/vendor/intltelinput/js/utils.js";
+		var inputs = document.querySelectorAll(".iboost-form-validation input[type='tel']");
 
-		//Validación de campo email
 		jQuery(document).on("input", ".iboost-form-validation input[type='email']", function () {
 			var email = jQuery(this).val();
 			var emailText = word_translate.enter_a_valid_email_address;
@@ -3672,146 +3772,124 @@ function defaultFormValidation(){
 			}
 		});
 
-		//Validación de campo teléfono
-		jQuery(document).on("keypress", "form input[type='phone'], form input[type='tel']", function (event) {
+		jQuery(document).on("keyup change", "form input[type='phone'], form input[type='tel']", function (event) {
 			if(!jQuery(this).hasClass("validate-gen")){
 				jQuery(this).parents('.ms-wrapper-phone-it').after('<span class="ms-validation-text"></span>');
 				jQuery(this).addClass("validate-gen");
 			}
 
-			var phoneText = word_translate.enter_a_valid_phone_number;
-			var stringInput = String.fromCharCode(event.which);
-			if (!phoneRegex.includes(stringInput)) {
-				event.preventDefault();
-				jQuery(this).addClass("ms-input-error");
-				jQuery(this).parents().find(".ms-validation-text").html("<span>"+phoneText+"</span>");
-			} else {
+			var idInput = jQuery(this).parents(".ms-wrapper-phone-it").attr("id");
+			if (iti[idInput].isValidNumber()) {
 				jQuery(this).removeClass("ms-input-error");
 				jQuery(this).parents().find(".ms-validation-text").empty();
+			}else{
+				jQuery(this).addClass("ms-input-error");
+				jQuery(this).parents().find(".ms-validation-text").html("<span>"+phoneText+"</span>");
 			}
 		});
 
-		var utilsScript = __flex_g_settings.templateDirectoryPlugin+"js/vendor/intltelinput/js/utils.js";
-		var inputs = document.querySelectorAll(".iboost-form-validation input[type='tel']");
-
 		if (inputs) {
-			var parent = "";
+			var parent, formWrapper = "";
 			inputs.forEach(input => {
 
-				parent = input.closest(".ms-wrapper-phone-it");  
+				parent = input.closest(".ms-wrapper-phone-it");
+				formWrapper = input.closest("form");
 
 				if (typeof parent === 'undefined' || parent === null) {
-					//insertHtml(input);
 					var tempElement = input;
 					var idCode = (Math.random() + 1).toString(36).substring(7);
 					jQuery("<div class='ms-wrapper-phone-it' id='"+idCode+"'></div>").insertBefore(jQuery(input));
 					jQuery(input).remove();
 					jQuery("#"+idCode).html(tempElement);
 					jQuery("#"+idCode).find("input[type='tel']").removeAttr("placeholder");
+					jQuery(input).parents("form").attr("data-id",idCode);
 				}
 
-				setTimeout(() => {
+				iti[idCode] = window.intlTelInput(input, {
+					//autoPlaceholder: false,
+					//formatOnDisplay: true,
+					initialCountry: isLogin,
+					customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+						return placeholderText+"*";
+					},
 
-					var iti = window.intlTelInput(input, {
-						// allowDropdown: false,
-						// autoInsertDialCode: true,
-						// autoPlaceholder: true,
-						// dropdownContainer: document.body,
-						// excludeCountries: ["us"],
-						formatOnDisplay: true,
-						initialCountry: "auto",
+					geoIpLookup: function(callback) {
+						fetch(__flex_g_settings.api_get_ip_lead,{method:'POST'})
+						.then(function(res) { return res.json(); })
+						.then(function(data) { 					    	
 
-						//geoIpLookup: function(callback) {
-						//  fetch(__flex_g_settings.api_get_ip_lead,{method:'POST'})
-						//    .then(function(res) { return res.json(); })
-						//    .then(function(data) { 
-						//				callback(data.country); 
-						//				jQuery("<input type='hidden' name='contry_code' value='"+data.country+"' > <span class='iboost-form-phone-code-validation'>"+data.country+"</span>").insertBefore(jQuery(input))
-						//			})
-						//	    .catch(function() { callback("us"); });
-						//	},
-
-						geoIpLookup: function(callback) {
-							fetch(__flex_g_settings.api_get_ip_lead,{method:'POST'})
-							.then(function(res) { return res.json(); })
-							.then(function(data) { 					    	
-
-								var getCountryData = iti.countries.filter(function(item){
-									return (item.iso2 == data.country.toLowerCase() );
-								});
-
-								var dialCode = "+1";
-								if (getCountryData.length > 0 ) {
-									dialCode = "+"+getCountryData[0].dialCode;
-								}
-
-								if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
-									jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
-								}else{
-									jQuery("#"+idCode).find(".country_code").val(dialCode)
-								}
-
-								callback(data.country); 
-							
-							}).catch(function() { 
-								callback("us"); 
+							var getCountryData = iti[idCode].countries.filter(function(item){
+								return (item.iso2 == data.country.toLowerCase() );
 							});
-						},
-						// hiddenInput: "full_number",
-						// localizedCountries: { 'de': 'Deutschland' },
-						nationalMode: true,
-						// onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-						// placeholderNumberType: "MOBILE",
-						// preferredCountries: ['cn', 'jp'],
-						separateDialCode: true,
-						// showFlags: false,
-						utilsScript: utilsScript
-					});
 
-					jQuery(inputs).on("countrychange", function() {
-						var newPlaceholder = "";
-						jQuery(".iboost-form-validation input[type='tel']").attr("placeholder","");
-						var selectedCountryData = iti.getSelectedCountryData();
-						var dialCode = "+1";
-						dialCode = "+"+selectedCountryData.dialCode;
+							var dialCode = "+1";
+							if (getCountryData.length > 0 ) {
+								dialCode = "+"+getCountryData[0].dialCode;
+							}
 
-						if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
-							jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
-						}else{
-							jQuery("#"+idCode).find(".country_code").val(dialCode)
-						}
+							if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
+								jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
+							}else{
+								jQuery("#"+idCode).find(".country_code").val(dialCode)
+							}
 
-						newPlaceholder = intlTelInputUtils.getExampleNumber(selectedCountryData.iso2, true, intlTelInputUtils.numberFormat.INTERNATIONAL),
-						iti.setNumber("");
-
-						var cadaCode = iti.getSelectedCountryData().iso2;
-						var parent = jQuery(this).parents("form");
+							callback(data.country); 
 						
-						if(cadaCode == "us"){
-							parent.find(".ms-wrapper-phone-it input[type='tel']").attr("maxlength","10");
-						}else{
-							parent.find(".ms-wrapper-phone-it input[type='tel']").removeAttr("maxlength","30");
-						}
-						// Convert placeholder as exploitable mask by replacing all 1-9 numbers with 0s
-						//mask = newPlaceholder.replace(/[1-9]/g, "0");
+						}).catch(function() { 
+							callback("us"); 
+						});
+					},
 
-						// Apply the new mask for the input
-						//jQuery(this).mask(mask);
-					});
+					nationalMode: true,
+					separateDialCode: true,
+					utilsScript: utilsScript
+				});
 
-					iti.promise.then(function() {
-						jQuery(inputs).trigger("countrychange");
-					});
+				var selectedCountryData = iti[idCode].getSelectedCountryData();
+				var dialCode = "+1";
+				dialCode = "+"+selectedCountryData.dialCode;
+				if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
+					jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
+				}else{
+					jQuery("#"+idCode).find(".country_code").val(dialCode)
+				}
+				
+				jQuery(input).on("countrychange", function() {
+					var selectedCountryData = iti[idCode].getSelectedCountryData();
+					var dialCode = "+1";
+					dialCode = "+"+selectedCountryData.dialCode;
+					if ( jQuery("#"+idCode).find(".country_code").length  == 0) {
+						jQuery("<input type='hidden' class='country_code' name='country_code' value='"+dialCode+"' >").insertBefore(jQuery(input));
+					}else{
+						jQuery("#"+idCode).find(".country_code").val(dialCode)
+					}
+				});
 
-				}, "500");
+				iti[idCode].promise.then(function() {
+					jQuery(inputs).trigger("countrychange");
+				});
 			});
 		}
 
-		formValidation.addClass("loaded");
+		formValidation.addClass("loaded iboost-form-validation-loaded");
 		formValidation.removeClass("iboost-form-validation");
 	}
 }
 
-/*jQuery(window).load(function(){
+jQuery(document).on("click", ".iboost-form-validation-loaded .iti__country-list .iti__country", function() {
+	iti[jQuery(this).parents(".iboost-form-validation-loaded").attr("data-id")].setNumber("");
+	var valueInput = jQuery(this).parents(".iboost-form-validation-loaded").find("input[type='tel']").val();
+	jQuery(this).parents(".iboost-form-validation-loaded").find("input[type='tel']").val(valueInput);
+	jQuery(this).parents(".iboost-form-validation-loaded").find("input[type='tel']").removeClass("validate-gen ms-input-error");
+	jQuery(this).parents(".iboost-form-validation-loaded").find(".ms-validation-text").remove();
+});
+
+jQuery(window).load(function(){
 	defaultFormValidation();
-});*/
+
+	jQuery("<input type='hidden' class='_ib_fn_inq_' name='_ib_fn_inq_' value=''>").appendTo(jQuery("body"));
+	jQuery("<input type='hidden' class='_ib_ln_inq_' name='_ib_ln_inq_' value=''>").appendTo(jQuery("body"));
+	jQuery("<input type='hidden' class='_ib_em_inq_' name='_ib_em_inq_' value=''>").appendTo(jQuery("body"));
+	jQuery("<input type='hidden' class='_ib_ph_inq_' name='_ib_ph_inq_' value=''>").appendTo(jQuery("body"));
+	jQuery("<input type='hidden' class='_ib_pc_inq_' name='_ib_pc_inq_' value=''>").appendTo(jQuery("body"));
+});

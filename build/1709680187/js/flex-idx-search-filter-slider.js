@@ -571,6 +571,10 @@ Handlebars.registerHelper('leadEmailAddress', function(property) {
 	return __flex_idx_search_filter.leadEmailAddress;
 });
 
+Handlebars.registerHelper('leadCountryCodePhoneNumber', function (property) {
+	return __flex_idx_search_filter.leadCountryCodePhoneNumber;
+});
+
 Handlebars.registerHelper('leadPhoneNumber', function(property) {
 	return __flex_idx_search_filter.leadPhoneNumber;
 });
@@ -2013,7 +2017,7 @@ loadPropertyInModal = function(mlsNumber) {
 				}
 			}
 
-			//defaultFormValidation();
+			defaultFormValidation();
 		}
 	});
 

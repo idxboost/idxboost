@@ -127,6 +127,14 @@
     <h3><?php echo __("Security", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p><?php echo __("The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
 
+    <h3><?php echo __("Removal and Modification of Account Information", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
+    <p><?php echo __("At", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $websiteDomain; ?>, <?php echo __("your privacy is important to us", IDXBOOST_DOMAIN_THEME_LANG); ?>:</p>
+    <ul>
+      <li><?php echo __("Removal of Account Information: If you wish to have your account information removed from our website, please contact us at", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idx_contact_email; ?>.</li>
+      <li><?php echo __("Modification of Account Information: If you need to update your account information, you can also reach out to us at", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idx_contact_email; ?>.</li>
+    </ul>
+    <p><?php echo __("We are committed to responding to your requests promptly and ensuring the security of your account information.", IDXBOOST_DOMAIN_THEME_LANG); ?>
+
     <h3><?php echo __("Links To Other Sites", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p><?php echo __("Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
     <p><?php echo __("We have no control over, and assume no responsibility for the content, privacy policies or practices of any third party sites or services", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>

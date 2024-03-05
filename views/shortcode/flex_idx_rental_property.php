@@ -464,6 +464,21 @@
                       <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
                     <?php endif; ?>
 
+                    <?php 
+                      $phoneCode = $flex_idx_lead['lead_info']['country_code_phone'];
+                      $phoneNumber = $flex_idx_lead['lead_info']['phone_number'];
+                      $phoneContactNumber = "";
+                    
+                      if (!empty($phoneNumber)){
+                        if (!empty($phoneCode) && ($phoneCode !== "0")){
+                          $phoneContactNumber = "+".$phoneCode.$phoneNumber;
+                        }else{
+                          $phoneContactNumber = $phoneNumber;
+                        }
+                      }
+                    ?>
+                    <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="<?php echo $phoneCode; ?>">
+
                     <div class="gform_body">
                       <ul class="gform_fields">
                         <li class="gfield">
@@ -487,7 +502,7 @@
                         <li class="gfield">
                           <div class="ginput_container ginput_container_email">
                             <label class="gfield_label" for="_ib_ph_inq"><?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input required="" class="medium" name="phone" id="_ib_ph_inq" type="tel" value="<?php if (isset($flex_idx_lead['lead_info']['phone_number'])) : ?><?php echo $flex_idx_lead['lead_info']['phone_number']; ?><?php endif; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="15">
+                            <input required="" class="medium" name="phone" id="_ib_ph_inq" type="tel" value="<?php echo $phoneContactNumber; ?>" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" maxlength="15">
                           </div>
                         </li>
                         <li class="gfield comments">

@@ -1180,6 +1180,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                     <form class="ib-cform ib-propery-inquiry-f gtm_more_info_property iboost-form-validation" method="post">
                       <input type="hidden" name="ib_tags" value="">
                       <input type="hidden" name="mls_number" value="{{mls_num}}">
+                      <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="{{ leadCountryCodePhoneNumber this }}">
                       <ul class="ib-cffields">
                         <li class="ib-cffitem">
                           <input class="ib-cfinput" name="first_name" type="text" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadFirstName this }}" required>

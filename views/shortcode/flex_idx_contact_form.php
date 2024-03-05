@@ -1,8 +1,7 @@
 <?php global $flex_idx_info;?>
 <form 
   class="form-search gtm_general_contact_form iboost-secured-recaptcha-form iboost-form-validation"
-  id="<?php echo $atts['id_form']; ?>" method="post"
->
+  id="<?php echo $atts['id_form']; ?>" method="post">
 
   <?php if ( !empty($atts['registration_key']) ): ?>
     <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
@@ -17,6 +16,8 @@
     <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
       <input type="hidden" name="gclid_field" id="gclid_field_contact">
     <?php endif; ?>
+
+    <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="">
     
     <h3 class="ms-hidden"><?php echo __("Email Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     

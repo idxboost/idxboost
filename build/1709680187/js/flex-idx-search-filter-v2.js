@@ -507,6 +507,10 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
         return __flex_idx_search_filter_v2.leadEmailAddress;
     });
 
+    Handlebars.registerHelper('leadCountryCodePhoneNumber', function (property) {
+        return __flex_idx_search_filter_v2.leadCountryCodePhoneNumber;
+    });
+
     Handlebars.registerHelper('leadPhoneNumber', function (property) {
         return __flex_idx_search_filter_v2.leadPhoneNumber;
     });
@@ -2100,7 +2104,29 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                         }
                     }
 
-                    //defaultFormValidation();
+                    var fname = jQuery("._ib_fn_inq_").val();
+                    var lname = jQuery("._ib_ln_inq_").val();
+                    var email = jQuery("._ib_em_inq_").val();
+                    var phone = jQuery("._ib_ph_inq_").val();
+                    var cphone = jQuery("._ib_pc_inq_").val();
+
+                    if(cphone !== "" && cphone !== 0){
+                      var numberPhone = "+"+cphone+phone;
+                    }else{
+                      var numberPhone = phone;
+                    }
+
+                    var ob_form_modal;
+                    ob_form_modal = $('.ib-propery-inquiry-f');
+                    if (ob_form_modal.length>0){
+                      ob_form_modal.find('[name="first_name"]').val(fname);
+                      ob_form_modal.find('[name="last_name"]').val(lname);
+                      ob_form_modal.find('[name="email_address"]').val(email);
+                      ob_form_modal.find('[name="phone_number"]').val(numberPhone);
+                      ob_form_modal.find('[name="phoneCodeValidation"]').val(cphone);
+                    }
+
+                    defaultFormValidation();
                 }
             });
 

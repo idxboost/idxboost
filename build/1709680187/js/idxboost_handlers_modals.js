@@ -207,6 +207,10 @@ Handlebars.registerHelper('leadEmailAddress', function (property) {
   return __flex_idx_filter_regular.leadEmailAddress;
 });
 
+Handlebars.registerHelper('leadCountryCodePhoneNumber', function (property) {
+  return __flex_idx_filter_regular.leadCountryCodePhoneNumber;
+});
+
 Handlebars.registerHelper('leadPhoneNumber', function (property) {
   return __flex_idx_filter_regular.leadPhoneNumber;
 });
@@ -1067,7 +1071,6 @@ if ("undefined" === typeof loadPropertyInModal) {
             history.pushState(null, null, '?' + urlParams.toString());
           }
 
-
           if ("undefined" === typeof Cookies.get("_ib_disabled_forcereg")) {
             if (true === IB_HAS_LEFT_CLICKS) {
               IB_CURRENT_LEFT_CLICKS = (parseInt(Cookies.get("_ib_left_click_force_registration"), 10) - 1);
@@ -1171,7 +1174,29 @@ if ("undefined" === typeof loadPropertyInModal) {
           }
         }
 
-        //defaultFormValidation();
+        var fname = jQuery("._ib_fn_inq_").val();
+        var lname = jQuery("._ib_ln_inq_").val();
+        var email = jQuery("._ib_em_inq_").val();
+        var phone = jQuery("._ib_ph_inq_").val();
+        var cphone = jQuery("._ib_pc_inq_").val();
+
+        if(cphone !== "" && cphone !== 0){
+          var numberPhone = "+"+cphone+phone;
+        }else{
+          var numberPhone = phone;
+        }
+
+        var ob_form_modal;
+        ob_form_modal = $('.ib-propery-inquiry-f');
+        if (ob_form_modal.length>0){
+          ob_form_modal.find('[name="first_name"]').val(fname);
+          ob_form_modal.find('[name="last_name"]').val(lname);
+          ob_form_modal.find('[name="email_address"]').val(email);
+          ob_form_modal.find('[name="phone_number"]').val(numberPhone);
+          ob_form_modal.find('[name="phoneCodeValidation"]').val(cphone);
+        }
+
+        defaultFormValidation();
       }
     });
 

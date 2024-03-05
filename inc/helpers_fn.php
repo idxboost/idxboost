@@ -6403,6 +6403,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'year' => __('Year', IDXBOOST_DOMAIN_THEME_LANG),
             'enter_a_valid_phone_number' => __('Please enter a valid phone number.', IDXBOOST_DOMAIN_THEME_LANG),
             'enter_a_valid_email_address' => __('Please enter a valid email address.', IDXBOOST_DOMAIN_THEME_LANG),
+            'enter_a_phone_number' => __('Phone Number', IDXBOOST_DOMAIN_THEME_LANG),
         );
         // main styles
         wp_register_style('flex-idx-main-project', FLEX_IDX_URI . 'css/main.min.css', array(), iboost_get_mod_time("css/main.min.css"));
@@ -6575,7 +6576,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         wp_register_script('flex-idx-search-filter-v2', FLEX_IDX_URI . 'js/flex-idx-search-filter-v2.js', array(
@@ -6617,7 +6619,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         // load script for react search fifty
@@ -6649,7 +6652,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
         // load script for react search fifty
 
@@ -6682,7 +6686,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         wp_localize_script('flex-idx-search-filter-v2', '__flex_idx_search_filter_v2', array(
@@ -6709,7 +6714,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         // register for ib search box
@@ -7092,7 +7098,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         wp_localize_script('idxboost_recent_sales', '__flex_idx_recent_sales', array(
@@ -7110,7 +7117,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
 
@@ -7301,7 +7309,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
             'leadLastName' => (!empty($flex_idx_lead["lead_info"]["last_name"])) ? $flex_idx_lead["lead_info"]["last_name"] : "",
             'leadEmailAddress' => (!empty($flex_idx_lead["lead_info"]["email_address"])) ? $flex_idx_lead["lead_info"]["email_address"] : "",
-            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"])) ? $flex_idx_lead["lead_info"]["phone_number"] : ""
+            'leadPhoneNumber' => (!empty($flex_idx_lead["lead_info"]["phone_number"]) && (!empty($flex_idx_lead['lead_info']['country_code_phone']) && $flex_idx_lead['lead_info']['country_code_phone'] !== "0")) ? "+".$flex_idx_lead["lead_info"]["country_code_phone"].$flex_idx_lead["lead_info"]["phone_number"] : (!empty($flex_idx_lead["lead_info"]["phone_number"]) ? $flex_idx_lead["lead_info"]["phone_number"] : ""),
+            'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
         $objoffmarket = get_post_type_object('idx-off-market');
