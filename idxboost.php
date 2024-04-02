@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.9.1
+ * Version: 4.9.2
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -48,41 +48,18 @@ define('FLEX_IDX_URI', ib_get_assets_uri());
 define( 'UPLOAD_DIR_WP', trailingslashit( WP_CONTENT_DIR ) . 'uploads/' );
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
 
-
-// check if running on localhost
-if (
-    isset($_SERVER['HTTP_CLIENT_IP']) ||
-    isset($_SERVER['HTTP_X_FORWARDED_FOR']) ||
-    !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) ||
-        php_sapi_name() === 'cli-server')
-) {
-    define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
-    define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
-    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.com');
-    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
-    define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
-    define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
-    define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
-    define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
-    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
-    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
-    define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
-    define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
-} else {
-    define('FLEX_IDX_BASE_URL', 'https://api.idxboost.dev');
-    define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.dev');
-    define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.dev');
-    define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.idxboost.dev/consumer/subscribe');
-    define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.idxboost.dev/alert/register');
-    define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.idxboost.dev/alert/update_alert_parameters');
-    define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.idxboost.dev/alert/unregister');
-    define('IDX_BOOTS_NICHE', 'https://alerts.idxboost.dev/niche/filter/parameters');
-    define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.dev');
-    define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.dev');
-    define('IDX_BOOST_SPW_ASSETS', 'https://api-cms.idxboost.dev');
-    define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.dev');
-}
-
+define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
+define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
+define('FLEX_IDX_BACKOFFICE_CPANEL_URL', 'https://backoffice.idxboost.com');
+define('FLEX_IDX_ALERTS_SUBSCRIBE', 'https://alerts.flexidx.com/consumer/subscribe');
+define('FLEX_IDX_ALERTS_REGISTER', 'https://alerts.flexidx.com/alert/register');
+define('FLEX_IDX_ALERTS_UPDATE', 'https://alerts.flexidx.com/alert/update_alert_parameters');
+define('FLEX_IDX_ALERTS_UNREGISTER', 'https://alerts.flexidx.com/alert/unregister');
+define('IDX_BOOTS_NICHE', 'https://alerts.flexidx.com/niche/filter/parameters');
+define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxboost.com');
+define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
+define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
+define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 
 /**
  * API endpoints

@@ -470,7 +470,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                 <?php
                   if ( array_key_exists("items", $cta) && is_array($cta["items"]) && count($cta["items"])> 0 ) {  
                   foreach ($cta["items"] as $keycta => $itemcta) { ?>
-                    <div class="ib-cta-item" 
+                    <div class="ib-cta-item <?php echo $itemcta["cssClass"] ?? ""; ?>" 
                     style="
                     <?php if( array_key_exists("background", $itemcta["button"]["style"])) { ?>
                       --ip-button-background-color: <?php echo $itemcta["button"]["style"]["background"]; ?>;

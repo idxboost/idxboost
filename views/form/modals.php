@@ -87,353 +87,401 @@
       </div>
     </div>
     <div class="overlay_modal_closer" data-id="modal_img_propertie"></div>
-  </div> 
+  </div>
 
   <!-- REGISTER LOGIN registration_forced-->
   <div class="overlay_modal" id="modal_login">
-    <div class="modal_cm">
-      <button data-id="modal_login" class="close close-modal" data-frame="modal_mobile">
-        <?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span>
-      </button>
 
-      <div class="content_md">
-        <div class="heder_md">
-          <span class="ms-title-modal">
-            <?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>
-          </span>
-        </div>
+    <div class="ms-new-wrapper-modal-login-register">
 
-        <div class="body_md">
-          <ul class="header-tab">
-            <li>
-              <a href="javascript:void(0)" 
-              data-tab="tabLogin" 
-              class="ib-tabLogin active" 
-              data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>" 
-              data-text-force="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <?php echo __('Log in', IDXBOOST_DOMAIN_THEME_LANG); ?>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0)" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:void(0)" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>
-              </a>
-            </li>
-          </ul>
-
-          <div id="tabLogin" class="item_tab active" data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-            <div class="ms-text">
-              <?php echo __('Not registered yet?', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="javascript:void(0)" class="ms-strong ms-tab" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Register now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-            </div>
-            <div class="form_content">
-              <form id="formLogin" method="post">
-              <fieldset>
-                  <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>                <input type="hidden" name="ib_tags" id="formLogin_ib_tags" value="">
-                <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
-                <input type="hidden" name="logon_type" value="email">
-                <input name="action" type="hidden" value="flex_idx_lead_signin">
-                <ul class="form_md" id="cntLoginForm">
-                  <li class="form_input">
-		                <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <input id="txt_user" autocomplete="disabled" autocorrect="off" autocapitalize="off" spellcheck="false" name="user_name" placeholder="<?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email" value="">
-                  </li>
-                  <li class="form_input">
-		                <label for="txt_pwd"><?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <input id="txt_pwd" name="user_pass" autocomplete="new-password" placeholder="<?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="password" value="">
-                    <span action="hide" class="showpassord"></span>
-                  </li>
-                </ul>
-                <button class="btn_form" id="clidxboost-btn-user-login" type="submit"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-		          </fieldset>
-              </form>
-            </div>
-          </div>
-
-          <div id="tabRegister" class="item_tab" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-            <div class="ms-back">
-              <button class="ms-icon-back" aria-label="<?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <span></span>
+      <div class="modal_cm">
+         <!-- 
+        <div class="ms-box-info">
+          <div class="ms-box-info-wrapper">
+            <div class="ms-box-header">
+              <h5 class="ms-title">It Looks Like You're Serious About Finding a Home!</h5>
+              <button class="ms-close-box js-close-why-register" aria-label="Close Modal">
+                <i class="idx-icon-close"></i>
               </button>
             </div>
+            <div class="ms-box-body">
+              <p>It Looks Like You're Serious About Finding a Home!</p>
+              <ul class="ms-list">
+                <li>
+                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/alert.png" class="ms-img-icon">
+                  <div class="ms-info-detail">
+                    <strong>Get New Alerts</strong>
+                    <p>We will notify you when new listing hit the market that match your search criteria. Be the first to know of new listings!</p>
+                  </div>
+                </li>
+                <li>
+                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/favorite.png" class="ms-img-icon">
+                  <div class="ms-info-detail">
+                    <strong>Save Your Favorite Listings</strong>
+                    <p>Save an unlimited number of listings on our site for easy access when you come back.</p>
+                  </div>
+                </li>
+                <li>
+                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/multimedia.png" class="ms-img-icon">
+                  <div class="ms-info-detail">
+                    <strong>Share Properties With Friends</strong>
+                    <p>Email all of your Saved Listings at once, rather than one-by-one.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>-->
 
-            <div class="form_content">
-              <div id="push-registration">
+        <div class="content_md">
+          <div class="heder_md">
+            <span class="ms-title-modal">
+              <?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </span>
+          </div>
 
-                <form id="formRegister" method="post" class="gtm_lead_registration iboost-form-validation">
-                <?php
-                  global $agent_registration_key;
+          <div class="body_md">
+            <ul class="header-tab">
+              <li>
+                <a href="javascript:void(0)" 
+                data-tab="tabLogin" 
+                class="ib-tabLogin active" 
+                data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>" 
+                data-text-force="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  <?php echo __('Log in', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  <?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  <?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                </a>
+              </li>
+            </ul>
 
-                  if (isset($agent_registration_key)) : ?>
-                  <input type="hidden" name="registration_key" value="<?php echo $agent_registration_key; ?>">
-                <?php endif; ?>
+            <div id="tabLogin" class="item_tab active" data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <div class="ms-text">
+                <?php echo __('Not registered yet?', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="javascript:void(0)" class="ms-strong ms-tab" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Register now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+              </div>
+              <div class="form_content">
+                <form id="formLogin" method="post">
                 <fieldset>
-                  <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
-                  <input type="hidden" name="ib_tags" id="formRegister_ib_tags" value="">
-                  <input type="hidden" name="logon_type" id="formRegister_logonType" value="email">
-                  <input type="hidden" name="register_password" id="formRegister_password" value="">
+                    <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>                <input type="hidden" name="ib_tags" id="formLogin_ib_tags" value="">
                   <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
-                  <input type="hidden" class="ib_property_signup_price" name="__property_signup_price" value="">
-                  <input type="hidden" name="action" value="flex_idx_lead_signup">
-
-                  <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
-                    <input type="hidden" name="gclid_field" id="gclid_field_form_lead_registration">
-                  <?php endif; ?>
-
-                  <ul class="pr-steps-container">
-                    <li class="pr-step active">
-                      <label class="ms-sub-text small" for="agilefield-9"><?php echo __('Register with your email address', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                      <div class="wrapper-input">
-                        <p class="dgt-email-error"><?php echo __('Looks like you already have an account with us.. Try logging in or resetting your password.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                        <input id="agilefield-9" name="register_email" type="email" class="agile-height-default" placeholder="Email" required value="">
-                      </div>
-                      <button class="pr-redbtn pr-next-step" type="button"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                  <input type="hidden" name="logon_type" value="email">
+                  <input name="action" type="hidden" value="flex_idx_lead_signin">
+                  <ul class="form_md" id="cntLoginForm">
+                    <li class="form_input">
+                      <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input id="txt_user" autocomplete="disabled" autocorrect="off" autocapitalize="off" spellcheck="false" name="user_name" placeholder="<?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email" value="">
                     </li>
-
-                    <li class="pr-step email-registration">
-                      <div class="ms-header-md">
-                        <span class="ms-title-modal ms-no-mb"><?php echo __('Enter name and password', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                        <span class="pr-dgray"><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      </div>
-                      
-                      <div class="name-input-content">
-                        <div class="wrapper-input item-name">
-                            <label class="agile-label" for="agilefield-6"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input id="agilefield-6" name="register_name" type="text" class="agile-height-default" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
-                        </div>
-                        <div class="wrapper-input item-name">
-                            <label class="agile-label" for="agilefield-7"><?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input id="agilefield-7" name="register_last_name" type="text" class="agile-height-default" placeholder="<?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
-                        </div>
-                      </div>
-
-                      <div class="wrapper-input">
-                        <label class="agile-label ms-strong" for="agilefield-8"><?php echo __('Use phone number as password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        <!--<input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php //echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">-->
-                        <input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="phoneRegisterValidation" required value="">
-                      </div>
-                      <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <li class="form_input">
+                      <label for="txt_pwd"><?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input id="txt_pwd" name="user_pass" autocomplete="new-password" placeholder="<?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="password" value="">
+                      <span action="hide" class="showpassord"></span>
                     </li>
-
-                    <?php if (
-                      (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) 
-                      // || (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"]))
-                     ): ?>
-                    <li class="pr-step pr-radio">
-                      <div class="ms-header-md">
-                        <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                        <div class="ms-text">
-                          <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                          <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                        </div>
-                        <div class="ms-icon ms-time"></div>
-                        <span class="ms-sub-title ms-no-mb"><?php echo __('When are you looking to purchase?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      </div>
-                      <ul class="pr-radio-list">
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-0" value="1_3_months">
-                          <label for="inline_radios_1513789754550-0" class="i-checks"><?php echo __("Within 1-3 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-1" value="3_6_months">
-                          <label for="inline_radios_1513789754550-1" class="i-checks"><?php echo __("Within 3-6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-2" value="6_months_more">
-                          <label for="inline_radios_1513789754550-2" class="i-checks"><?php echo __("More than 6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="pr-step pr-radio">
-                      <div class="ms-header-md">
-                        <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                        <div class="ms-text">
-                          <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                          <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                        </div>
-                        <div class="ms-icon ms-financing"></div>
-                        <span class="ms-sub-title ms-no-mb"><?php echo __('Need assistance with financing?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      </div>
-                      <ul class="pr-radio-list">
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-0" value="yes">
-                          <label for="inline_radios_1513789825341-0" class="i-checks"><?php echo __("I am pre-approved", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-1" value="no">
-                          <label for="inline_radios_1513789825341-1" class="i-checks"><?php echo __("Not pre-approved yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-2" value="buying_with_cash">
-                          <label for="inline_radios_1513789825341-2" class="i-checks"><?php echo __("I prefer to buy with cash", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="pr-step pr-radio">
-                      <div class="ms-header-md">
-                        <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                        <div class="ms-text">
-                          <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                          <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                        </div>
-                        <div class="ms-icon ms-sale"></div>
-                        <span class="ms-sub-title ms-no-mb"><?php echo __('Need to also sell your property?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      </div>
-                      <ul class="pr-radio-list">
-                        <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580630-0" value="yes">
-                          <label class="ibregister-tg-submit" for="inline_radios_15137898580630-0"><?php echo __("Looking to sell too", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580631-1" value="no">
-                          <label class="ibregister-tg-submit" for="inline_radios_15137898580631-1"><?php echo __("Not looking to sell", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                        <li>
-                          <input type="radio" name="sell_a_home" id="inline_radios_15137898580632-2" value="not_sure_yet">
-                          <label class="ibregister-tg-submit" for="inline_radios_15137898580632-2"><?php echo __("Not sure yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                        </li>
-                      </ul>
-                    </li>
-                    <?php endif; ?>
-
-                    <?php /*
-                    <!-- inicio nuevo item de facebook -->
-                    <li class="pr-step facebook-registration" id="__quizz_type_phone_ct" style="display: none">
-                      <div class="ms-header-md">
-                        <h4 class="ms-title-modal ms-no-mb"><?php echo __('Thank you for registering!', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-                        <h5 class="ms-sub-title"><?php echo __('Use Phone Number For Password', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
-                      </div>
-                      
-                      <div class="name-input-content">
-                        <div class="wrapper-input">
-                          <label class="agile-label" for="agilefield-6">
-                            <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                            <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span> 
-                          </label>
-                          <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default" placeholder="Phone number" required value="">
-                        </div>
-                      </div>
-
-                      <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                    </li>
-                    <!-- final nuevo item de facebook -->
-                    */ ?>
-
                   </ul>
-                  <span id="agile-error-msg"></span>
+                  <button class="btn_form" id="clidxboost-btn-user-login" type="submit"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 </fieldset>
                 </form>
               </div>
             </div>
-          </div>
 
-          <div id="tabReset" class="item_tab" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-            
-            <div class="ms-back">
-              <button class="ms-icon-back" aria-label="<?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <span></span>
-              </button>
+            <div id="tabRegister" class="item_tab" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <div class="ms-back">
+                <button class="ms-icon-back" aria-label="<?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  <span></span>
+                </button>
+              </div>
+
+              <div class="form_content">
+                <div id="push-registration">
+
+                  <form id="formRegister" method="post" class="gtm_lead_registration iboost-form-validation">
+                  <?php
+                    global $agent_registration_key;
+
+                    if (isset($agent_registration_key)) : ?>
+                    <input type="hidden" name="registration_key" value="<?php echo $agent_registration_key; ?>">
+                  <?php endif; ?>
+                  <fieldset>
+                    <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
+                    <input type="hidden" name="ib_tags" id="formRegister_ib_tags" value="">
+                    <input type="hidden" name="logon_type" id="formRegister_logonType" value="email">
+                    <input type="hidden" name="register_password" id="formRegister_password" value="">
+                    <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
+                    <input type="hidden" class="ib_property_signup_price" name="__property_signup_price" value="">
+                    <input type="hidden" name="action" value="flex_idx_lead_signup">
+
+                    <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
+                      <input type="hidden" name="gclid_field" id="gclid_field_form_lead_registration">
+                    <?php endif; ?>
+
+                    <ul class="pr-steps-container">
+                      <li class="pr-step active">
+                        <label class="ms-sub-text small" for="agilefield-9"><?php echo __('Register with your email address', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                        <div class="wrapper-input">
+                          <p class="dgt-email-error"><?php echo __('Looks like you already have an account with us.. Try logging in or resetting your password.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                          <input id="agilefield-9" name="register_email" type="email" class="agile-height-default" placeholder="Email" required value="">
+                        </div>
+                        <button class="pr-redbtn pr-next-step" type="button"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                      </li>
+
+                      <li class="pr-step email-registration">
+                        <div class="ms-header-md">
+                          <span class="ms-title-modal ms-no-mb"><?php echo __('Enter name and password', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                          <span class="pr-dgray"><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        </div>
+                        
+                        <div class="name-input-content">
+                          <div class="wrapper-input item-name">
+                              <label class="agile-label" for="agilefield-6"><?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input id="agilefield-6" name="register_name" type="text" class="agile-height-default" placeholder="<?php echo __('First Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
+                          </div>
+                          <div class="wrapper-input item-name">
+                              <label class="agile-label" for="agilefield-7"><?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <input id="agilefield-7" name="register_last_name" type="text" class="agile-height-default" placeholder="<?php echo __('Last Name', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
+                          </div>
+                        </div>
+
+                        <div class="wrapper-input">
+                          <label class="agile-label ms-strong" for="agilefield-8"><?php echo __('Use phone number as password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          <!--<input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php //echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">-->
+                          <input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="phoneRegisterValidation" required value="">
+                        </div>
+                        <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                      </li>
+
+                      <?php if (
+                        (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) 
+                        // || (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"]))
+                      ): ?>
+                      <li class="pr-step pr-radio">
+                        <div class="ms-header-md">
+                          <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                          <div class="ms-text">
+                            <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                            <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                          </div>
+                          <div class="ms-icon ms-time"></div>
+                          <span class="ms-sub-title ms-no-mb"><?php echo __('When are you looking to purchase?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        </div>
+                        <ul class="pr-radio-list">
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-0" value="1_3_months">
+                            <label for="inline_radios_1513789754550-0" class="i-checks"><?php echo __("Within 1-3 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-1" value="3_6_months">
+                            <label for="inline_radios_1513789754550-1" class="i-checks"><?php echo __("Within 3-6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="timeline_for_purchase" id="inline_radios_1513789754550-2" value="6_months_more">
+                            <label for="inline_radios_1513789754550-2" class="i-checks"><?php echo __("More than 6 months", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="pr-step pr-radio">
+                        <div class="ms-header-md">
+                          <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                          <div class="ms-text">
+                            <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                            <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                          </div>
+                          <div class="ms-icon ms-financing"></div>
+                          <span class="ms-sub-title ms-no-mb"><?php echo __('Need assistance with financing?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        </div>
+                        <ul class="pr-radio-list">
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-0" value="yes">
+                            <label for="inline_radios_1513789825341-0" class="i-checks"><?php echo __("I am pre-approved", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-1" value="no">
+                            <label for="inline_radios_1513789825341-1" class="i-checks"><?php echo __("Not pre-approved yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input class="ibregister-btn" type="radio" name="mortgage_approved" id="inline_radios_1513789825341-2" value="buying_with_cash">
+                            <label for="inline_radios_1513789825341-2" class="i-checks"><?php echo __("I prefer to buy with cash", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="pr-step pr-radio">
+                        <div class="ms-header-md">
+                          <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                          <div class="ms-text">
+                            <p><?php echo __('Just a few more details so we can help you.', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                            <p><?php echo __('(All fields are required)', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                          </div>
+                          <div class="ms-icon ms-sale"></div>
+                          <span class="ms-sub-title ms-no-mb"><?php echo __('Need to also sell your property?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        </div>
+                        <ul class="pr-radio-list">
+                          <li>
+                            <input type="radio" name="sell_a_home" id="inline_radios_15137898580630-0" value="yes">
+                            <label class="ibregister-tg-submit" for="inline_radios_15137898580630-0"><?php echo __("Looking to sell too", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input type="radio" name="sell_a_home" id="inline_radios_15137898580631-1" value="no">
+                            <label class="ibregister-tg-submit" for="inline_radios_15137898580631-1"><?php echo __("Not looking to sell", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                          <li>
+                            <input type="radio" name="sell_a_home" id="inline_radios_15137898580632-2" value="not_sure_yet">
+                            <label class="ibregister-tg-submit" for="inline_radios_15137898580632-2"><?php echo __("Not sure yet", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                          </li>
+                        </ul>
+                      </li>
+                      <?php endif; ?>
+
+                      <?php /*
+                      <!-- inicio nuevo item de facebook -->
+                      <li class="pr-step facebook-registration" id="__quizz_type_phone_ct" style="display: none">
+                        <div class="ms-header-md">
+                          <h4 class="ms-title-modal ms-no-mb"><?php echo __('Thank you for registering!', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
+                          <h5 class="ms-sub-title"><?php echo __('Use Phone Number For Password', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
+                        </div>
+                        
+                        <div class="name-input-content">
+                          <div class="wrapper-input">
+                            <label class="agile-label" for="agilefield-6">
+                              <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                              <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span> 
+                            </label>
+                            <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default" placeholder="Phone number" required value="">
+                          </div>
+                        </div>
+
+                        <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                      </li>
+                      <!-- final nuevo item de facebook -->
+                      */ ?>
+
+                    </ul>
+                    <span id="agile-error-msg"></span>
+                  </fieldset>
+                  </form>
+                </div>
+              </div>
             </div>
 
-            <div class="form_content">
-              <form  id="formReset" method="post" name="formReset">
-		            <fieldset>
-                  <legend><?php echo __('Reset password', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
-                <p id="ms-recovery-password-text"><?php echo __("Enter your email address and we'll send you a link to be able to change your password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-                <p style="display: none" id="ms-new-password-text"><?php echo __("Enter your new password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+            <div id="tabReset" class="item_tab" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              
+              <div class="ms-back">
+                <button class="ms-icon-back" aria-label="<?php echo __("Back", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                  <span></span>
+                </button>
+              </div>
 
-                <ul class="form_md" id="cntResetForm">
-                  <li class="form_input" id="ms-recovery-password">
-                    <label  for="reset_email" class="agile-label ms-xt"><?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <input id="reset_email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" name="reset_email" placeholder="<?php echo __("Enter E-mail", IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email"/>
+              <div class="form_content">
+                <form  id="formReset" method="post" name="formReset">
+                  <fieldset>
+                    <legend><?php echo __('Reset password', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>
+                  <p id="ms-recovery-password-text"><?php echo __("Enter your email address and we'll send you a link to be able to change your password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+                  <p style="display: none" id="ms-new-password-text"><?php echo __("Enter your new password", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+
+                  <ul class="form_md" id="cntResetForm">
+                    <li class="form_input" id="ms-recovery-password">
+                      <label  for="reset_email" class="agile-label ms-xt"><?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input id="reset_email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" name="reset_email" placeholder="<?php echo __("Enter E-mail", IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email"/>
+                    </li>
+                    <li class="form_input" style="display: none" id="ms-new-password">
+                      <label class="agile-label" for="reset_password"><?php echo __("Use phone number as password", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <input id="reset_password" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" name="reset_password" placeholder="<?php echo __("Phone number", IDXBOOST_DOMAIN_THEME_LANG); ?>" type="password"/>
+                      <span action="hide" class="showpassord"></span>
+                    </li>
+                  </ul>
+                  
+                  <button class="btn_form" id="clidxboost-btn-user-reset" type="submit">
+                  <?php echo __("Send", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </button>
+
+                  <input name="action" class="action" type="hidden" value="flex_idx_lead_resetpass">
+                  <input name="tokepa" class="tokepa" type="hidden" value="">
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+            
+            <?php if ((isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]) || (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"])): ?>
+
+              <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+
+                <ul class="social_login">
+                  <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
+                    <li>
+                      <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
+                        <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                      </a>
+                    </li>
+                  <?php endif; ?>
+                  <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
+                  <li>
+                  <div id="g_id_onload"
+                              data-client_id="<?php echo $flex_idx_info["agent"]["google_client_id"]; ?>"
+                              data-context="signin"
+                              data-ux_mode="popup"
+                              data-callback="handleCredentialResponse"
+                              data-auto_prompt="false">
+                      </div>
+                      <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="rectangular"
+                            data-theme="outline"
+                            data-text="$ {button.text}"
+                            data-size="large"
+                            data-logo_alignment="left"
+                            data-width="360"
+                      ></div>
+                    <?php /* <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
+                      <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </a> */ ?>
                   </li>
-                  <li class="form_input" style="display: none" id="ms-new-password">
-                    <label class="agile-label" for="reset_password"><?php echo __("Use phone number as password", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <input id="reset_password" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" name="reset_password" placeholder="<?php echo __("Phone number", IDXBOOST_DOMAIN_THEME_LANG); ?>" type="password"/>
-                    <span action="hide" class="showpassord"></span>
+                  <?php endif; ?>
+                  <li>
+                    <span class="ms-label" id="msRst">
+                      <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                    </span>
+                    <!--
+                    <div class="ms-wrapper-btn -wr">
+                      <button class="ms-btn js-active-why-register">Why Register?</button>
+                    </div>-->
                   </li>
                 </ul>
-                
-                <button class="btn_form" id="clidxboost-btn-user-reset" type="submit">
-                <?php echo __("Send", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                </button>
-
-                <input name="action" class="action" type="hidden" value="flex_idx_lead_resetpass">
-                <input name="tokepa" class="tokepa" type="hidden" value="">
-		            </fieldset>
-              </form>
-            </div>
-          </div>
-          
-          <?php if ((isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]) || (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"])): ?>
+            <?php else: ?>
 
             <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-
-              <ul class="social_login">
-                <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
-                  <li>
-                    <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
-                      <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </a>
-                  </li>
-                <?php endif; ?>
-                <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
-                <li>
-                <div id="g_id_onload"
-                            data-client_id="<?php echo $flex_idx_info["agent"]["google_client_id"]; ?>"
-                            data-context="signin"
-                            data-ux_mode="popup"
-                            data-callback="handleCredentialResponse"
-                            data-auto_prompt="false">
-                    </div>
-                    <div class="g_id_signin"
-                          data-type="standard"
-                          data-shape="rectangular"
-                          data-theme="outline"
-                          data-text="$ {button.text}"
-                          data-size="large"
-                          data-logo_alignment="left"
-                          data-width="360"
-                    ></div>
-                  <?php /* <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
-                    <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                  </a> */ ?>
-                </li>
-                <?php endif; ?>
-                <li>
-                <span class="ms-label" id="msRst">
-                  <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            <ul class="social_login">
+              <li>
+                  <span class="ms-label" id="msRst">
+                    <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                     <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </span>
-                </li>
-              </ul>
-          <?php else: ?>
+              </li>
+            </ul>
+            <?php endif; ?>
+          </div>
 
-          <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-          <ul class="social_login">
-            <li>
-                <span class="ms-label" id="msRst">
-                  <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-                </span>
-            </li>
-          </ul>
-          <?php endif; ?>
+          <div class="footer_md terms-md">
+            <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
+            <a target="_blank" href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
+              <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </a> 
+            <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
+          </div>
         </div>
 
-        <div class="footer_md terms-md">
-          <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-          <a target="_blank" href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
-            <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
-          </a> 
-          <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
-        </div>
+        <button data-id="modal_login" class="close close-modal" data-frame="modal_mobile">
+          <?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span>
+        </button>
       </div>
+
     </div>
+
     <div class="overlay_modal_closer" data-frame="modal_mobile" data-id="modal_login"></div>
 
     <div class="ms-hidden-text">
@@ -1234,6 +1282,37 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
     var lastNameField = $("#agilefield-7").val().trim();
     var phoneNumberField = $("#agilefield-8").val().trim();
 
+    //REGISTRO RG
+    if(Cookies.get("social_register") !== "activo"){
+
+      Cookies.remove("_ib_user_phone");
+      Cookies.remove("_ib_user_code_phone");
+      Cookies.remove("_ib_user_new_phone_number");
+
+      var codePhone = jQuery("#formRegister").find(".country_code").val();
+      var codePhoneClean = codePhone.replace(/ /g, "");
+      var numberPhone = jQuery("#formRegister").find("#agilefield-8").val();
+      var numberPhoneClean = numberPhone.replace(/ /g, "");
+      var phoneRegisterQuizz = codePhoneClean.trim()+numberPhoneClean.trim();
+
+      Cookies.set("_ib_user_phone", numberPhoneClean.trim());
+      Cookies.set("_ib_user_code_phone", codePhoneClean.trim());
+      Cookies.set("_ib_user_new_phone_number", phoneRegisterQuizz);
+
+      var loadForm = jQuery(".iboost-form-validation-loaded");
+      if(loadForm.length){
+        jQuery(".iboost-form-validation-loaded").each(function () {
+          var id = jQuery(this).attr("data-id");
+          if(typeof id === "undefined" || id === "null" || id === ""){
+            //console.log("No tiene valor");
+          }else{
+            //console.log("id="+id);
+            iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+          }
+        });
+      }
+    }
+
     if ("regular" === $("#__quizz_type").val()) {
       if (("" === firstNameField) || ("" === phoneNumberField) || ("" === lastNameField)) {
         alert("Please fill the fields");
@@ -1257,9 +1336,9 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
       }
      } else {
        if (true === IS_CUSTOM_SIGNUP) {
-        $("#ib-register-form-quizz").submit();
-        $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
-        swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+          $("#ib-register-form-quizz").submit();
+          $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
+          swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
        } else {
         $("#formRegister").submit();
        }
@@ -1513,6 +1592,7 @@ function handleCredentialResponse(token) {
     closeOnEsc: false
   });
 
+  //GOOGLE REGISTER
   jQuery.ajax({
                 url: __flex_g_settings.ajaxUrl,
                 method: "POST",
@@ -1713,6 +1793,7 @@ function handleCredentialResponse(token) {
 
                         // // reset registration form
                         // _self.trigger('reset');
+                        Cookies.set("social_register","activo");
 
                         // save last logged in username
                         Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
@@ -1723,11 +1804,29 @@ function handleCredentialResponse(token) {
                         // store last name
                         Cookies.set("_ib_user_lastname", response.last_name);
 
-                        // store phone
-                        Cookies.set("_ib_user_phone", response.phone);
-
                         // store email
                         Cookies.set("_ib_user_email", response.email);
+
+                        Cookies.set("_ib_user_phone", response.phone);
+                        Cookies.set("_ib_user_code_phone", response.country_code_phone);
+
+                        var newPhoneNumber = Cookies.get("_ib_user_phone");
+                        var newPhoneCode = Cookies.get("_ib_user_code_phone");
+
+                        if(typeof newPhoneNumber === "undefined" || newPhoneNumber === "null"){
+                          Cookies.remove("_ib_user_phone");
+                          Cookies.remove("_ib_user_code_phone");
+                          Cookies.set("_ib_user_phone","");
+                          Cookies.set("_ib_user_code_phone","");
+                        }else{
+                          var newPhoneNumberFormat = "+"+newPhoneCode+newPhoneNumber;
+                          Cookies.set("_ib_user_new_phone_number", newPhoneNumberFormat);
+                          /*jQuery(".iboost-form-validation-loaded").each(function () {
+                            var id = jQuery(this).attr("data-id");
+                            console.log("id="+id+"/"+newPhoneNumberFormat);
+                            iti[id].setNumber(newPhoneNumberFormat);
+                          });*/
+                        }
 
                         jQuery("#_ib_fn_inq").val(response.first_name);
                         jQuery("#_ib_ln_inq").val(response.last_name);
@@ -1738,6 +1837,11 @@ function handleCredentialResponse(token) {
                         jQuery("._ib_ln_inq").val(response.last_name);
                         jQuery("._ib_em_inq").val(response.email);
                         jQuery("._ib_ph_inq").val(response.phone);
+
+                        jQuery('[name="firstName"]').val(response.first_name);
+                        jQuery('[name="lastName"]').val(response.last_name);
+                        jQuery('[name="email"]').val(response.email);
+                        jQuery('[name="phone"]').val(response.phone);
 
                         // Sets user information on CMS Forms
                         if (
@@ -1812,14 +1916,14 @@ function handleCredentialResponse(token) {
 
                         setTimeout(function () {
                             console.group('[googleSignup]');
-                              console.log(__flex_g_settings.user_show_quizz);
-                              console.dir(response);
+                            console.log(__flex_g_settings.user_show_quizz);
+                            console.dir(response);
                             console.groupEnd('[googleSignup]');
 
                             //if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
                             //if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
-                              // @todo open view
-                              if ("signup" == response.logon_type) {
+                            // @todo open view
+                            if ("signup" == response.logon_type) {
 
                               jQuery("#__quizz_type").val("google");
                               jQuery("#__quizz_type_phone_ct").show();
@@ -1827,6 +1931,20 @@ function handleCredentialResponse(token) {
                               jQuery("#__quizz_type_phone_ct").addClass("ib-active");
                               jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
                             }
+
+                            var loadForm = jQuery(".iboost-form-validation-loaded");
+                            if(loadForm.length){
+                              jQuery(".iboost-form-validation-loaded").each(function () {
+                                var id = jQuery(this).attr("data-id");
+                                if(typeof id === "undefined" || id === "null" || id === ""){
+                                  //console.log("No tiene valor");
+                                }else{
+                                  //console.log("id="+id);
+                                  iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+                                }
+                              });
+                            }
+
                           }, 3000);
 
                         // setTimeout(function () {
@@ -2279,6 +2397,7 @@ function fb_login() {
                 closeOnEsc: false
               });
 
+              //FACEBOOK REGISTER
                 jQuery.ajax({
                     url: __flex_g_settings.ajaxUrl,
                     method: "POST",
@@ -2473,6 +2592,8 @@ function fb_login() {
                             jQuery(".lg-wrap-login:eq(0)").html(response.output);
                             jQuery(".lg-wrap-login:eq(0)").addClass("active");
 
+                            Cookies.set("social_register","activo");
+
                             // callback [login]
 
                             // // reset registration form
@@ -2487,11 +2608,24 @@ function fb_login() {
                             // store last name
                             Cookies.set("_ib_user_lastname", response.last_name);
 
-                            // store phone
-                            Cookies.set("_ib_user_phone", response.phone);
-
                             // store email
                             Cookies.set("_ib_user_email", response.email);
+
+                            Cookies.set("_ib_user_phone", response.phone);
+                            Cookies.set("_ib_user_code_phone", response.country_code_phone);
+
+                            var newPhoneNumber = Cookies.get("_ib_user_phone");
+                            var newPhoneCode = Cookies.get("_ib_user_code_phone");
+
+                            if(typeof newPhoneNumber === "undefined" || newPhoneNumber === "null"){
+                              Cookies.remove("_ib_user_phone");
+                              Cookies.remove("_ib_user_code_phone");
+                              Cookies.set("_ib_user_phone","");
+                              Cookies.set("_ib_user_code_phone","");
+                            }else{
+                              var newPhoneNumberFormat = "+"+newPhoneCode+newPhoneNumber;
+                              Cookies.set("_ib_user_new_phone_number", newPhoneNumberFormat);
+                            }
 
                             idx_auto_save_building(response);
 
@@ -2564,7 +2698,7 @@ function fb_login() {
                               }
                             }, 3000);
 
-                        if ( ("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
+                            if ( ("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
                              ("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE) ) {
                               // save filter for lead is it doesnt exists
                               saveFilterSearchForLead();
@@ -2577,13 +2711,13 @@ function fb_login() {
 
                           setTimeout(function () {
                             console.group('[facebookSignup]');
-                              console.log(__flex_g_settings.user_show_quizz);
-                              console.dir(response);
+                            console.log(__flex_g_settings.user_show_quizz);
+                            console.dir(response);
                             console.groupEnd('[facebookSignup]')
 
                              //if ( ("1" == __flex_g_settings.user_show_quizz) && ("signup" == response.logon_type) ) {
                             //if ( ("yes" == __flex_g_settings.has_facebook_login_enabled) && ("signup" == response.logon_type) ) {
-                              if ("signup" == response.logon_type) {
+                            if ("signup" == response.logon_type) {
                               // @todo open view
                               jQuery("#__quizz_type").val("facebook");
                               jQuery("#__quizz_type_phone_ct").show();
@@ -2591,6 +2725,20 @@ function fb_login() {
                               jQuery("#__quizz_type_phone_ct").addClass("ib-active");
                               jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
                             }
+
+                            var loadForm = jQuery(".iboost-form-validation-loaded");
+                            if(loadForm.length){
+                              jQuery(".iboost-form-validation-loaded").each(function () {
+                                var id = jQuery(this).attr("data-id");
+                                if(typeof id === "undefined" || id === "null" || id === ""){
+                                  //console.log("No tiene valor");
+                                }else{
+                                  //console.log("id="+id);
+                                  iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+                                }
+                              });
+                            }
+
                           }, 3000);
                         } else {
                           var textmessage='';
@@ -2781,8 +2929,91 @@ $(function() {
     ib_register_form_quizz.on("submit", function(event) {
       event.preventDefault();
 
+      //REGISTRO RS
       var dataForm = $(this).serialize();
       console.log(dataForm);
+
+      if(Cookies.get("social_register") == "activo"){
+
+        Cookies.remove("_ib_user_phone");
+        Cookies.remove("_ib_user_code_phone");
+        Cookies.remove("_ib_user_new_phone_number");
+
+        var codePhone = jQuery("#ib-register-form-quizz").find(".country_code").val();
+        var codePhoneClean = codePhone.replace(/ /g, "");
+        var numberPhone = jQuery("#ib-register-form-quizz").find("#__signup_fb_phone").val();
+        var numberPhoneClean = numberPhone.replace(/ /g, "");
+        var phoneRegisterQuizz = codePhoneClean.trim()+numberPhoneClean.trim();
+
+        Cookies.set("_ib_user_phone", numberPhoneClean.trim());
+        Cookies.set("_ib_user_code_phone", codePhoneClean.trim());
+        Cookies.set("_ib_user_new_phone_number", phoneRegisterQuizz);
+
+        var loadForm = jQuery(".iboost-form-validation-loaded");
+        if(loadForm.length){
+          jQuery(".iboost-form-validation-loaded").each(function () {
+            var id = jQuery(this).attr("data-id");
+            if(typeof id === "undefined" || id === "null" || id === ""){
+              //console.log("No tiene valor");
+            }else{
+              //console.log("id="+id);
+              iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+            }
+          });
+        }
+
+        var ob_form_building_footer;
+        ob_form_building_footer = jQuery('.flex_idx_building_form');
+        if (ob_form_building_footer.length>0){
+          ob_form_building_footer.find('input[name="phone"]').val(numberPhoneClean);
+          ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+        
+        var ob_form_modal;
+        ob_form_modal = jQuery('.ib-propery-inquiry-f');
+        if (ob_form_modal.length>0){
+          ob_form_modal.find('input[name="phone_number"]').val(numberPhoneClean);
+          ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+
+        var ob_form_off_market_listing;
+        ob_form_off_market_listing = jQuery('#flex-idx-property-form');
+        if (ob_form_off_market_listing.length>0){
+          ob_form_off_market_listing.find('input[name="phone"]').val(numberPhoneClean);
+          ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+
+        var ob_form_modal;
+        ob_form_modal = jQuery('.ib-propery-inquiry-f');
+        if (ob_form_modal.length>0){
+          ob_form_modal.find('input[name="phone_number"]').val(numberPhoneClean);
+          ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+
+        var ob_contact_form;
+        ob_contact_form = jQuery('#ip-form');
+        if (ob_contact_form.length>0){
+          ob_contact_form.find('input[name="phone"]').val(numberPhoneClean);
+          ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+
+        //Property form react Vacation Rentals
+        var ob_property_form_vacation_rentals;
+        ob_property_form_vacation_rentals=$('#propertyForm');
+        if (ob_property_form_vacation_rentals.length>0){
+          ob_property_form_vacation_rentals.find('input[name="firstName"]').val(Cookies.get("_ib_user_firstname"));
+					ob_property_form_vacation_rentals.find('input[name="lastName"]').val(Cookies.get("_ib_user_lastname"));
+					ob_property_form_vacation_rentals.find('input[name="email"]').val(Cookies.get("_ib_user_email"));
+          ob_property_form_vacation_rentals.find('input[name="phone"]').val(numberPhoneClean);
+          ob_property_form_vacation_rentals.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+      }
+
+      //console.log("codePhone="+codePhone);
+      //console.log("codePhoneClean="+codePhoneClean);
+      //console.log("numberPhone="+numberPhone);
+      //console.log("numberPhoneClean="+numberPhoneClean);
+      //console.log("phoneRegisterQuizz-RS="+phoneRegisterQuizz);
 
       $.ajax({
         url: __flex_g_settings.ajaxUrl,

@@ -1,3 +1,7 @@
+<style>
+  .wrap-result.view-grid #result-search > li .features.ms-padding{padding-bottom: 56px !important}
+</style>
+
 <?php
   $idxboost_query_slug = $_SERVER['QUERY_STRING'];
   $idxboost_ver_bool=true;
@@ -539,10 +543,15 @@ if (!empty($response) && is_array($response)) {
             <?php } ?>
               <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
                 <div>Listing Provided by NWMLS</div>
-              <?php } ?>            
+              <?php } ?>
+              <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+              <div class="ms-ellipsis-dm">Listing Courtesy of <?php echo $property['office_name']; ?></div>
+              <?php 
+              $paddingClass = "ms-padding";
+              } ?>             
             </h2>
             
-            <ul class="features">
+            <ul class="features <?php echo $paddingClass; ?>">
               <li class="address"><?php echo $property['full_address']; ?></li>
               <li class="price">$<?php echo number_format($property['price']); ?></li>
               <?php if ($property['reduced'] == ''): ?>

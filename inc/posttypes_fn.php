@@ -324,6 +324,7 @@ function function_idx_agent_page($single_template)
         if ($post->post_type == 'idx-agents') {
             if (1 == count($wp_request_exp)) {
                 // For regular agent
+                /*
                 if (
                     isset($flex_idx_info['agent']['has_cms']) &&
                     $flex_idx_info['agent']['has_cms'] &&
@@ -337,6 +338,8 @@ function function_idx_agent_page($single_template)
                     // For broker agent, home and defaults
                     $single_template = FLEX_IDX_PATH . '/views/shortcode/single-idx-agents-home.php';
                 }
+                */
+                $single_template = FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_page_agent.php';
             } else {
                 list($agent_slug_name, $agent_page_name) = $wp_request_exp;
 

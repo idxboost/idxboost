@@ -3,6 +3,8 @@ var lastOpenedProperty;
 // @todo load property modal function
 var loadPropertyInModal;
 
+var newPhoneNumberFormat;
+
 /** @todo init global left click on property */
 
 if ("undefined" === typeof formatShortPriceX) {
@@ -1192,24 +1194,27 @@ function validate_price(evt) {
 						// store code phone
 						Cookies.set("_ib_user_code_phone", response.country_code_phone);
 
-						$(".phoneCodeValidation").val(response.country_code_phone);
+						var newPhoneFormat = Cookies.get("_ib_user_code_phone");
+						var newPhoneNumber = Cookies.get("_ib_user_phone");
+						
+						if(typeof newPhoneFormat === "undefined" || newPhoneFormat === "null" || newPhoneFormat === "" || newPhoneFormat === "0"){
+							newPhoneNumberFormat = newPhoneNumber;
+						}else{
+							newPhoneNumberFormat = "+"+newPhoneFormat+newPhoneNumber;
+						}
 
+						Cookies.set("_ib_user_new_phone_number", newPhoneNumberFormat);
+						
 						$("#_ib_fn_inq").val(response.first_name);
 						$("#_ib_ln_inq").val(response.last_name);
 						$("#_ib_em_inq").val(response.email);
-						$("#_ib_ph_inq").val(response.phone);
+						$("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
 
 						$("._ib_fn_inq").val(response.first_name);
 						$("._ib_ln_inq").val(response.last_name);
 						$("._ib_em_inq").val(response.email);
-						$("._ib_ph_inq").val(response.phone);
+						$("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
 						$("._ib_pc_inq").val(response.country_code_phone);
-
-						$("._ib_fn_inq_").val(response.first_name);
-						$("._ib_ln_inq_").val(response.last_name);
-						$("._ib_em_inq_").val(response.email);
-						$("._ib_ph_inq_").val(response.phone);
-						$("._ib_pc_inq_").val(response.country_code_phone);
 
 						$(".phoneCodeValidation").val(response.country_code_phone);
 
@@ -1221,7 +1226,7 @@ function validate_price(evt) {
 							ob_form_building_footer.find('[name="last_name"]').val(response.last_name);
 							ob_form_building_footer.find('[name="email"]').val(response.email);
 							ob_form_building_footer.find('[name="email_address"]').val(response.email);
-							ob_form_building_footer.find('[name="phone"]').val(response.phone);
+							ob_form_building_footer.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
 							ob_form_building_footer.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 						
@@ -1232,7 +1237,7 @@ function validate_price(evt) {
 							ob_form_modal.find('[name="first_name"]').val(response.first_name);
 							ob_form_modal.find('[name="last_name"]').val(response.last_name);
 							ob_form_modal.find('[name="email_address"]').val(response.email);
-							ob_form_modal.find('[name="phone_number"]').val(response.phone);
+							ob_form_modal.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
 							ob_form_modal.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
@@ -1243,8 +1248,19 @@ function validate_price(evt) {
 							ob_form_off_market_listing.find('[name="first_name"]').val(response.first_name);
 							ob_form_off_market_listing.find('[name="last_name"]').val(response.last_name);
 							ob_form_off_market_listing.find('[name="email"]').val(response.email);
-							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
+							ob_form_off_market_listing.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
 							ob_form_off_market_listing.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+						}
+
+						//Property form react Vacation Rentals
+						var ob_property_form_vacation_rentals;
+						ob_property_form_vacation_rentals=$('#propertyForm');
+						if (ob_property_form_vacation_rentals.length>0){
+							ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
+							ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
+							ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
+							ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
 						// Sets user information on CMS Forms
@@ -1325,18 +1341,9 @@ function validate_price(evt) {
 								}
 						 	}
 
+							/*CONSULTAR*/
 							jQuery(".iboost-form-validation-loaded").each(function () {
-
-								var codePhone = jQuery(this).find(".phoneCodeValidation").val();
-								var intialCodePhone = jQuery(this).find(".country_code").val();
-
-								if(codePhone !== "" && codePhone !== "0"){
-									var phoneNumberActive = "+"+response.country_code_phone+response.phone;
-								}else{
-									var phoneNumberActive = intialCodePhone+response.phone;
-								}
-
-								iti[jQuery(this).attr("data-id")].setNumber(phoneNumberActive);
+								iti[jQuery(this).attr("data-id")].setNumber(Cookies.get("_ib_user_new_phone_number"));
 							});
 
 						}, 300);
@@ -1623,8 +1630,6 @@ function validate_price(evt) {
 							socket.subscribe(__flex_g_settings.pusher.presence_channel);
 						}
 
-						// callback [signup]
-
 						// save last logged in username
 						Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
 
@@ -1634,61 +1639,81 @@ function validate_price(evt) {
 						// store last name
 						Cookies.set("_ib_user_lastname", response.last_name);
 
-						// store phone
-						Cookies.set("_ib_user_phone", response.phone);
-
 						// store email
 						Cookies.set("_ib_user_email", response.email);
+						
+						jQuery("#_ib_fn_inq").val(response.first_name);
+						jQuery("#_ib_ln_inq").val(response.last_name);
+						jQuery("#_ib_em_inq").val(response.email);
+						jQuery("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
 
-						// store code phone
-						Cookies.set("_ib_user_code_phone", response.code_phone);
+						jQuery("._ib_fn_inq").val(response.first_name);
+						jQuery("._ib_ln_inq").val(response.last_name);
+						jQuery("._ib_em_inq").val(response.email);
+						jQuery("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+						jQuery("._ib_pc_inq").val(Cookies.get("_ib_user_code_phone"));
 
-						$("#_ib_fn_inq").val(response.first_name);
-						$("#_ib_ln_inq").val(response.last_name);
-						$("#_ib_em_inq").val(response.email);
-						$("#_ib_ph_inq").val(response.phone);
-
-						$("._ib_fn_inq").val(response.first_name);
-						$("._ib_ln_inq").val(response.last_name);
-						$("._ib_em_inq").val(response.email);
-						$("._ib_ph_inq").val(response.phone);
-
-						$(".phoneCodeValidation").val(response.country_code_phone);
-
-						idx_auto_save_building(response);
+						jQuery(".phoneCodeValidation").val(Cookies.get("_ib_user_code_phone"));
 
 						//Building default label
 						var ob_form_building_footer;
-						ob_form_building_footer=$('.flex_idx_building_form');
+						ob_form_building_footer=jQuery('.flex_idx_building_form');
 						if (ob_form_building_footer.length>0){
-							ob_form_building_footer.find('[name="first_name"]').val(response.first_name);
-							ob_form_building_footer.find('[name="last_name"]').val(response.last_name);
-							ob_form_building_footer.find('[name="email"]').val(response.email);
-							ob_form_building_footer.find('[name="phone"]').val(response.phone);
-							ob_form_building_footer.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+							ob_form_building_footer.find('input[name="first_name"]').val(response.first_name);
+							ob_form_building_footer.find('input[name="last_name"]').val(response.last_name);
+							ob_form_building_footer.find('input[name="email"]').val(response.email);
+							ob_form_building_footer.find('input[name="email_address"]').val(response.email);
+							ob_form_building_footer.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 						}
-
+						
 						//modal regular filter default label
 						var ob_form_modal;
-						ob_form_modal=$('.ib-propery-inquiry-f');
+						ob_form_modal=jQuery('.ib-propery-inquiry-f');
 						if (ob_form_modal.length>0){
-							ob_form_modal.find('[name="first_name"]').val(response.first_name);
-							ob_form_modal.find('[name="last_name"]').val(response.last_name);
-							ob_form_modal.find('[name="email_address"]').val(response.email);
-							ob_form_modal.find('[name="phone_number"]').val(response.phone);
-							ob_form_modal.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+							ob_form_modal.find('input[name="first_name"]').val(response.first_name);
+							ob_form_modal.find('input[name="last_name"]').val(response.last_name);
+							ob_form_modal.find('input[name="email_address"]').val(response.email);
+							ob_form_modal.find('input[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 						}
 
 						//Off market listing default label
 						var ob_form_off_market_listing;
-						ob_form_off_market_listing=$('#flex-idx-property-form');
+						ob_form_off_market_listing=jQuery('#flex-idx-property-form');
 						if (ob_form_off_market_listing.length>0){
-							ob_form_off_market_listing.find('[name="first_name"]').val(response.first_name);
-							ob_form_off_market_listing.find('[name="last_name"]').val(response.last_name);
-							ob_form_off_market_listing.find('[name="email"]').val(response.email);
-							ob_form_off_market_listing.find('[name="phone"]').val(response.phone);
-							ob_form_off_market_listing.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+							ob_form_off_market_listing.find('input[name="first_name"]').val(response.first_name);
+							ob_form_off_market_listing.find('input[name="last_name"]').val(response.last_name);
+							ob_form_off_market_listing.find('input[name="email"]').val(response.email);
+							ob_form_off_market_listing.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 						}
+
+						var ob_contact_form;
+						ob_contact_form = jQuery('#ip-form');
+						if (ob_contact_form.length>0){
+							ob_contact_form.find('input[name="name"]').val(response.first_name);
+							ob_contact_form.find('input[name="lastname"]').val(response.last_name);
+							ob_contact_form.find('input[name="email"]').val(response.email);
+							ob_contact_form.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+						}
+
+						//Property form react Vacation Rentals
+						var ob_property_form_vacation_rentals;
+						ob_property_form_vacation_rentals=$('#propertyForm');
+						if (ob_property_form_vacation_rentals.length>0){
+							ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
+							ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
+							ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
+							ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+						}
+
+						// store phone
+						//console.log("REGISTER_ib_user_phone"+Cookies.get("_ib_user_phone"));
+						//console.log("REGISTER_ib_user_code_phone"+Cookies.get("_ib_user_code_phone"));
+						//console.log("REGISTER_ib_user_new_phone_number"+Cookies.get("_ib_user_new_phone_number"));
 
 						// Sets user information on CMS Forms
 						if (
@@ -2151,6 +2176,9 @@ function validate_price(evt) {
 			Cookies.remove("_ib_user_phone");
 			Cookies.remove("_ib_user_email");
 			Cookies.remove("_ib_user_code_phone");
+			Cookies.remove("_ib_user_new_phone_number");
+
+			Cookies.remove("social_register");
 
 			if (true === IB_HAS_LEFT_CLICKS) {
 				Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
@@ -3095,6 +3123,9 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 			Cookies.remove("_ib_user_phone");
 			Cookies.remove("_ib_user_email");
 			Cookies.remove("_ib_user_code_phone");
+			Cookies.remove("_ib_user_new_phone_number");
+
+			Cookies.remove("social_register");
 		}
 	});
 
@@ -3190,7 +3221,7 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 
 function loadMapModal(itemLt,itemLg){
 
-	console.log("itemLt="+itemLt+"/itemLg="+itemLg);
+	//console.log("itemLt="+itemLt+"/itemLg="+itemLg);
 
 	var myLatLng  = {
 		lat: parseFloat(itemLt),
@@ -3500,7 +3531,7 @@ function generateSliderFullScreen(itemInit,galleyActive){
 //ACTIVANDO FULL SCREEN
 function activeFullScreen(obj){
 
-	console.log("generando...");
+	//console.log("generando...");
 
 	var activeView = "";
 	var fullScreenModal = jQuery("#fullScreenModal");
@@ -3611,7 +3642,7 @@ function removeFullScreen(){
 		//jQuery("#fullMapView .ms-wrapper-map").remove();
 	}, 900);
 
-	console.log("Borrando...");
+	//console.log("Borrando...");
 }
 
 //BOTON DE VIDEO EN LA LISTA DE OPCIONES PHOTO/MAPA/VIDEO FLOTANTE
@@ -3716,6 +3747,14 @@ jQuery(document).ready(function() {
 	}
 });
 
+jQuery(document).on('click', '.js-active-why-register', function () {
+	jQuery("body").addClass("showMessageWhyRegister");
+});
+
+jQuery(document).on('click', '.js-close-why-register', function () {
+	jQuery("body").removeClass("showMessageWhyRegister");
+});
+
 //VALIDACION DE FORMULARIOS
 var iti = new Array();
 var countElements = 0;
@@ -3731,7 +3770,7 @@ function defaultFormValidation(){
 	var phoneCodeItem = formValidation.find(".phoneCodeValidation");
 
 	if(!phoneCodeItem.length){
-		jQuery("<input type='text' class='phoneCodeValidation' name='phoneCodeValidation' value=''>").appendTo(formValidation);
+		jQuery("<input type='hidden' class='phoneCodeValidation' name='phoneCodeValidation' value=''>").appendTo(formValidation);
 		var phoneCodeValidation = phoneCodeItem.val("1");
 	}else{
 		var phoneCodeValidation = phoneCodeItem.val();
@@ -3885,11 +3924,10 @@ jQuery(document).on("click", ".iboost-form-validation-loaded .iti__country-list 
 });
 
 jQuery(window).load(function(){
+	var phoneAndCodeNumber = Cookies.get("_ib_user_new_phone_number");
+	//console.log("phoneAndCodeNumber="+phoneAndCodeNumber);
+	if(phoneAndCodeNumber !== undefined && phoneAndCodeNumber !== "" && phoneAndCodeNumber !== "0" && phoneAndCodeNumber !== null){
+		jQuery("form input[type='tel']").val(phoneAndCodeNumber);
+	}
 	defaultFormValidation();
-
-	jQuery("<input type='hidden' class='_ib_fn_inq_' name='_ib_fn_inq_' value=''>").appendTo(jQuery("body"));
-	jQuery("<input type='hidden' class='_ib_ln_inq_' name='_ib_ln_inq_' value=''>").appendTo(jQuery("body"));
-	jQuery("<input type='hidden' class='_ib_em_inq_' name='_ib_em_inq_' value=''>").appendTo(jQuery("body"));
-	jQuery("<input type='hidden' class='_ib_ph_inq_' name='_ib_ph_inq_' value=''>").appendTo(jQuery("body"));
-	jQuery("<input type='hidden' class='_ib_pc_inq_' name='_ib_pc_inq_' value=''>").appendTo(jQuery("body"));
 });

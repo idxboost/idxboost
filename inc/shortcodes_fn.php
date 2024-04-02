@@ -5179,6 +5179,28 @@ function generar_url_temp($cadena)
     return $url;
 }
 
+if (!function_exists('idxboost_cms_notification')) {
+    function idxboost_cms_notification_sc($atts)
+    {
+        $atts = shortcode_atts(array(
+            'id' => '',
+            'message' => '',
+        ), $atts);
+
+        ob_start();
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/notification/idxboost_cms_notification.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/notification/idxboost_cms_notification.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/notification/idxboost_cms_notification.php';
+        }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('idxboost_cms_notification', 'idxboost_cms_notification_sc');
+}
+
 if (!function_exists('idxboost_cms_page_404')) {
     function idxboost_cms_page_404()
     {
@@ -5224,6 +5246,14 @@ if (!function_exists('idx_page_shortcode_render')) {
         $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
         $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
         $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
+
+        $pattern = '~\[idxboost_cms_notification id=\"(.*?)\" message=\"(.*?)\"]~';
+        if (preg_match_all($pattern, $content, $match)) {
+            foreach ($match[0] as $item) {
+                $ib_cms_notification = do_shortcode($item);
+                $content = str_replace($item, $ib_cms_notification, $content);
+            }
+        }
 
         $pattern = '~\[ib_quick_search_rentals\]~';
         if (preg_match($pattern, $content, $match)) {

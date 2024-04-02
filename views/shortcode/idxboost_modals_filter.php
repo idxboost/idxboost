@@ -1164,7 +1164,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                       <?php endif; ?>
                       <input type="hidden" name="ib_tags" value="">
                       <input type="hidden" name="mls_number" value="{{mls_num}}">
-                      <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="{{ leadCountryCodePhoneNumber this }}">
+                      <input type="hidden" class="phoneCodeValidation" name="phoneCodeValidation" value="">
                       <ul class="ib-cffields">
                         <li class="ib-cffitem">
                           <input class="ib-cfinput" name="first_name" type="text" placeholder="<?php echo __("First Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadFirstName this }}" required>
@@ -1176,7 +1176,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                           <input class="ib-cfinput" name="email_address" type="email" placeholder="<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadEmailAddress this }} " required>
                         </li>
                         <li class="ib-cffitem">
-                          <input class="ib-cfinput" name="phone_number" type="tel" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="{{ leadPhoneNumber this }}" required>
+                          <input class="ib-cfinput" name="phone_number" type="tel" placeholder="<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>*" value="" required>
                         </li>
                         <li class="ib-cffitem">
                           <textarea class="ib-cftextarea" name="message" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>" required><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</textarea>

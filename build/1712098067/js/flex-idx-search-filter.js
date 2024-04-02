@@ -571,9 +571,9 @@ Handlebars.registerHelper('leadEmailAddress', function(property) {
 	return __flex_idx_search_filter.leadEmailAddress;
 });
 
-Handlebars.registerHelper('leadCountryCodePhoneNumber', function (property) {
+/*Handlebars.registerHelper('leadCountryCodePhoneNumber', function (property) {
 	return __flex_idx_search_filter.leadCountryCodePhoneNumber;
-});
+});*/
 
 Handlebars.registerHelper('leadPhoneNumber', function(property) {
 	return __flex_idx_search_filter.leadPhoneNumber;
@@ -1647,7 +1647,7 @@ if ("undefined" === typeof loadPropertyInModal) {
 					$("#_ib_fn_inq").val(rfn);
 					$("#_ib_ln_inq").val(rln);
 					$("#_ib_em_inq").val(remail);
-					$("#_ib_ph_inq").val(rphone);
+					
 
 					if ( parseInt(response.img_cnt, 10) > 0) {
 						IB_MODAL_SLIDER = IB_MODAL_WRAPPER.find(".ib-pvslider:eq(0)");
@@ -2023,6 +2023,15 @@ if ("undefined" === typeof loadPropertyInModal) {
 					}
 				}
 
+				var ob_form_modal;
+				ob_form_modal=jQuery('.ib-propery-inquiry-f');
+				if (ob_form_modal.length>0){
+				  ob_form_modal.find('[name="first_name"]').val(rfn);
+				  ob_form_modal.find('[name="last_name"]').val(rln);
+				  ob_form_modal.find('[name="email_address"]').val(remail);
+				  ob_form_modal.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+				  ob_form_modal.find('[name="phoneCodeValidation"]').val("");
+				}
 				defaultFormValidation();
 			}
 		});

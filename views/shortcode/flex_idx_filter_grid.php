@@ -1,3 +1,6 @@
+<style>
+  .wrap-result.view-grid #result-search > li .features.ms-padding{padding-bottom: 56px !important}
+</style>
 <?php if (isset($atts["mode"]) && ("grid" === $atts["mode"])): ?>
 <script type="text/javascript">
 var NO_REFRESH_F_AJAX = true;
@@ -368,10 +371,15 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                           <div class="ms-title-address -address-bottom"><?php echo $property['full_address_bottom']; ?></div>
                           <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
                             <div>Listing Provided by NWMLS</div>
-                          <?php } ?>                          
+                          <?php } ?>
+                          <?php if (in_array($flex_idx_info["board_id"], ["33"])) { ?>
+                          <div class="ms-ellipsis-dm">Listing Courtesy of <?php echo $property['office_name']; ?></div>
+                          <?php 
+                          $paddingClass = "ms-padding";
+                          } ?>                       
                         </h2>
 
-                        <ul class="features">
+                        <ul class="features <?php echo $paddingClass; ?>">
                             <li class="address"><?php echo $property['address_large']; ?></li>
                             <li class="price">$<?php echo number_format($property['price']); ?></li>
                             <?php if ($property['reduced'] == ''): ?>
