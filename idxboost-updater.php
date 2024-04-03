@@ -135,3 +135,4 @@ class IDXBoostUpdater
 		return $result;
 	}
 }
+
