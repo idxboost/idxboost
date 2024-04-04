@@ -3811,6 +3811,16 @@ function defaultFormValidation(){
 			}
 		});
 
+		jQuery(document).on("keypress", "form input[type='phone'], form input[type='tel']", function (event) {
+			var keyCode = event.which;
+			if (keyCode < 48 || keyCode > 57)
+			  event.preventDefault();
+		  });
+  
+		  jQuery(document).on("paste", "form input[type='phone'], form input[type='tel']", function (event) {
+			event.preventDefault();
+		  });
+
 		jQuery(document).on("keyup change", "form input[type='phone'], form input[type='tel']", function (event) {
 			if(!jQuery(this).hasClass("validate-gen")){
 				jQuery(this).parents('.ms-wrapper-phone-it').after('<span class="ms-validation-text"></span>');

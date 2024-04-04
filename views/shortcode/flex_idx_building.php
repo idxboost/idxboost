@@ -490,8 +490,8 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     <?php if( array_key_exists("borderRadius", $itemcta["button"]["style"])) { ?>
                       --ip-button-border-radius: <?php echo $itemcta["button"]["style"]["borderRadius"]; ?>;
                     <?php } ?>
-                    <?php if( array_key_exists("background", $itemcta["button"]["style"])) { ?>
-                      --ip-button-text-color-hover: <?php echo $itemcta["button"]["style"]["background"]; ?>;
+                    <?php if( array_key_exists("hoverColor", $itemcta["button"]["style"])) { ?>
+                      --ip-button-text-color-hover: <?php echo $itemcta["button"]["style"]["hoverColor"]; ?>;
                     <?php } ?>
                     <?php if( array_key_exists("background", $itemcta["containerStyles"]["container"])) { ?>
                       --ib-cta-background-color: <?php echo $itemcta["containerStyles"]["container"]["background"]; ?>;
