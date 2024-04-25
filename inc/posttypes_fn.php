@@ -110,6 +110,21 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
             add_option('idxboost_dinamic_pages', 'yes');
         }
 
+        if (false == get_option('idxboost_dinamic_pages_agent')) {
+            $wp_flex_page = wp_insert_post(array(
+                'post_title' => 'Agent Page',
+                'post_name' => 'agent',
+                'post_content' => '[idxboost_detail_agent]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => $post_type,
+            ));
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_agent_detail' );
+            
+            add_option('idxboost_dinamic_pages_agent', 'yes');
+        }
+
+
         if (false == get_option('idxboost_import_initial_pages')) {
             foreach ($flex_idx_pages as $flex_idx_page) {
                 $wp_flex_page = wp_insert_post(array(

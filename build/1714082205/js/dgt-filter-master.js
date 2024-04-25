@@ -1074,6 +1074,9 @@ var moreFilterHidden = {};
 			if (typeProperty.indexOf("valand") != -1 )
 				text_type.push(word_translate.vacant_land);            
 
+			if (typeProperty.indexOf("co_op") != -1 )
+				text_type.push(word_translate.co_op);            
+
 			if(text_type.length==5) {
 				$('#text-type').text(word_translate.any_type);
 			}else if (typeProperty.length>0){

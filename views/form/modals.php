@@ -1843,6 +1843,11 @@ function handleCredentialResponse(token) {
                         jQuery('[name="email"]').val(response.email);
                         jQuery('[name="phone"]').val(response.phone);
 
+                        jQuery('[name="name"]').val(response.first_name);
+                        jQuery('[name="lastname"]').val(response.last_name);
+                        jQuery('[name="email"]').val(response.email);
+                        jQuery('[name="phone"]').val(response.phone);
+
                         // Sets user information on CMS Forms
                         if (
                           typeof idxpages === 'object' && 
@@ -2639,6 +2644,11 @@ function fb_login() {
                             jQuery("._ib_em_inq").val(response.email);
                             jQuery("._ib_ph_inq").val(response.phone);
 
+                            jQuery('[name="name"]').val(response.first_name);
+                            jQuery('[name="lastname"]').val(response.last_name);
+                            jQuery('[name="email"]').val(response.email);
+                            jQuery('[name="phone"]').val(response.phone);
+
                             // Sets user information on CMS Forms
                             if (
                               typeof idxpages === 'object' && 
@@ -2969,12 +2979,12 @@ $(function() {
           ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
         }
         
-        var ob_form_modal;
-        ob_form_modal = jQuery('.ib-propery-inquiry-f');
-        if (ob_form_modal.length>0){
+        /*var ob_form_regular_contact_form;
+        ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
+        if (ob_form_regular_contact_form.length>0){
           ob_form_modal.find('input[name="phone_number"]').val(numberPhoneClean);
           ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-        }
+        }*/
 
         var ob_form_off_market_listing;
         ob_form_off_market_listing = jQuery('#flex-idx-property-form');
@@ -3006,6 +3016,16 @@ $(function() {
 					ob_property_form_vacation_rentals.find('input[name="email"]').val(Cookies.get("_ib_user_email"));
           ob_property_form_vacation_rentals.find('input[name="phone"]').val(numberPhoneClean);
           ob_property_form_vacation_rentals.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+        }
+
+        var ob_form_regular_contact_form;
+        ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
+        if (ob_form_regular_contact_form.length>0){
+          ob_form_regular_contact_form.find('[name="name"]').val(Cookies.get("_ib_user_firstname"));
+          ob_form_regular_contact_form.find('[name="lastname"]').val(Cookies.get("_ib_user_lastname"));
+          ob_form_regular_contact_form.find('[name="email"]').val(Cookies.get("_ib_user_email"));
+          ob_form_regular_contact_form.find('[name="phone_number"]').val(numberPhoneClean);
+          ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
         }
       }
 

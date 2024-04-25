@@ -590,14 +590,18 @@ $(function() {
       $(".flex-open-tb-sale").addClass("active-fbc");
       $("#flex_filter_sort").val("sale").ready(function(){ $('.filter-text').text('For Sale'); });
 
+      let tpsalegrid = "";
       idxboostCollecBuil.payload.properties.sale.items.forEach(function(element,index){
         if (view== "list") {
           arList.push(idxboostListCollection(element));
         }
         if (view== "grid") {
-          responseitemsalegrid +=idxboostListCollectionGrid(element,index,'sale');
+          tpsalegrid +=idxboostListCollectionGrid(element,index,'sale');
         }        
       });
+
+      responseitemsalegrid = tpsalegrid;
+
 
       if (view== "list") {
         var vhtml=idxboostListobj(arList,listbed.sale,'sale','sale');
@@ -615,14 +619,16 @@ $(function() {
       $("#flex_tab_pending").addClass("active");
       $("#flex_filter_sort").val("pending").ready(function(){ $('.filter-text').text('Pending'); });
 
+      let tppendinggrid = "";
       idxboostCollecBuil.payload.properties.pending.items.forEach(function(element,index){
         if (view== "list") {
           arList.push(idxboostListCollection(element));
         }
         if (view== "grid") {
-          responseitemsoldpending +=idxboostListCollectionGrid(element,index,'pending');
+          tppendinggrid +=idxboostListCollectionGrid(element,index,'pending');
         }        
       });
+      responseitemsoldpending = tppendinggrid;
 
       if (view== "list") {
         var vhtml=idxboostListobj(arList,listbed.pending,'pending','pending');
@@ -641,14 +647,16 @@ $(function() {
       $("#flex_tab_rent").addClass("active");
       $("#flex_filter_sort").val("rent").ready(function(){ $('.filter-text').text('For Rent'); });
 
+      let tprentgrid = "";
       idxboostCollecBuil.payload.properties.rent.items.forEach(function(element,index){
         if (view== "list") {
           arList.push(idxboostListCollection(element));
         }
         if (view== "grid") {
-          responseitemrentgrid +=idxboostListCollectionGrid(element,index,'rent');
+          tprentgrid +=idxboostListCollectionGrid(element,index,'rent');
         }        
       });
+      responseitemrentgrid = tprentgrid;
 
       if (view== "list") {
         var vhtml=idxboostListobj(arList,listbed.rent,'rent','rent');
@@ -665,14 +673,16 @@ $(function() {
       $("#flex_tab_sold").addClass("active");
       $("#flex_filter_sort").val("sold").ready(function(){ $('.filter-text').text('Sold'); });
 
+      let tpsoldgrid = "";
       idxboostCollecBuil.payload.properties.sold.items.forEach(function(element,index){
         if (view== "list") {
           arList.push(idxboostListCollectionForSold(element));
         }
         if (view== "grid") {
-          responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
+          tpsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
         }        
       });
+      responseitemsoldgrid = tpsoldgrid;
 
       if (view== "list") {
         var vhtml=idxboostListobj(arList,listbed.sold,'sold','sold');
@@ -1055,33 +1065,41 @@ function idxboostListobj(response_data,list_bed,name_table,type){
                        jQuery('.idxboost_collection_filterviews select option').addClass(textmodeview);
                        /*OPERACIONES*/
                        if (responseitemsoldgrid.length == 0) {
+                        tempsoldgrid = "";
                          idxboostCollecBuil["payload"]["properties"]["sold"]["items"].forEach(function(element,index) {
                           var listcol=idxboostListCollectionForSold(element);
                           responseitemsold.push(listcol);
-                          responseitemsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
+                          tempsoldgrid +=idxboostListCollectionGrid(element,index,'sold');
                          });
+                         responseitemsoldgrid = tempsoldgrid;
                        }
 
                        if (responseitemsalegrid.length == 0) {
+                         tempsalegrid = "";
                          idxboostCollecBuil["payload"]["properties"]["sale"]["items"].forEach(function(element,index) {
                           responseitemsale.push(idxboostListCollection(element));
-                          responseitemsalegrid +=idxboostListCollectionGrid(element,index,'sale');
+                          tempsalegrid +=idxboostListCollectionGrid(element,index,'sale');
                          });
+                         responseitemsalegrid = tempsalegrid;
                        }
 
                        if (responseitemsoldpending.length == 0) {
+                        tempendinggrid = "";
                          idxboostCollecBuil["payload"]["properties"]["pending"]["items"].forEach(function(element,index) {
                           responseitempending.push(idxboostListCollection(element));
-                          responseitemsoldpending +=idxboostListCollectionGrid(element,index,'pending');
+                          tempendinggrid +=idxboostListCollectionGrid(element,index,'pending');
                          });
+                         responseitemsoldpending = tempendinggrid;
                        }
 
 
                        if (responseitemrentgrid.length == 0) {
+                        temprentgrid = "";
                          idxboostCollecBuil["payload"]["properties"]["rent"]["items"].forEach(function(element,index) {
                           responseitemrent.push(idxboostListCollection(element));
-                          responseitemrentgrid +=idxboostListCollectionGrid(element,index,'rent');
+                          temprentgrid +=idxboostListCollectionGrid(element,index,'rent');
                          });
+                         responseitemrentgrid = temprentgrid
                        }
 
                        //sale list print

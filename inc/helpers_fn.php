@@ -2393,6 +2393,23 @@ if (!function_exists('flex_idx_rewrite_rules')) {
             add_rewrite_rule(sprintf('^%s/([^/]+)/?$', $property_slug), sprintf('index.php?flex-idx-pages=%s', $property_slug), 'top');
         }
 
+        // handle property detail permalink
+        $agent_slug = $wpdb->get_var("
+      select t1.post_name
+      from {$wpdb->posts} t1
+      inner join {$wpdb->postmeta} t2
+      on t1.ID = t2.post_id
+      where t1.post_type = 'flex-idx-pages'
+      and t1.post_status = 'publish'
+      and t2.meta_key = '_flex_id_page'
+      and t2.meta_value = 'flex_idx_agent_detail'
+      limit 1
+      ");
+        if (!empty($agent_slug)) {
+            add_rewrite_rule(sprintf('^%s/([^/]+)/?$', $agent_slug), sprintf('index.php?flex-idx-pages=%s', $agent_slug), 'top');
+        }
+
+        /*
         // handle active agent pages
         $active_agent_pages = $wpdb->get_results("
       select post_name
@@ -2410,6 +2427,7 @@ if (!function_exists('flex_idx_rewrite_rules')) {
                 // add_rewrite_rule(sprintf('^%s/([^/]+)/?$', $rewrite_agent_page['post_name']), sprintf('index.php?idx-agents=%s', $rewrite_agent_page['post_name']), 'top');
             }
         }
+        */
     }
 }
 
@@ -3370,159 +3388,8 @@ if (!function_exists('flex_idx_connect_fn')) {
         }
 
 
-        if (isset($response['active_agents']) && is_array($response['active_agents'])) {
-            $wp_agents_list = $wpdb->get_results("
-            SELECT t2.meta_value,t1.ID
-            FROM {$wpdb->posts} t1
-            INNER JOIN {$wpdb->postmeta} t2
-            ON t1.ID = t2.post_id
-            WHERE t1.post_type = 'idx-agents' AND t1.post_status = 'publish'
-            AND t2.meta_key = '_flex_agent_id'
-            ", ARRAY_A);
 
-            foreach ($wp_agents_list as $wp_agent_ID) {
-                if (!in_array($wp_agent_ID['meta_value'], $response['agents_id_list'])) {
-                    $removed_agents[] = (int)$wp_agent_ID['post_id'];
-                }
-
-                $wp_agents[] = $wp_agent_ID['meta_value'];
-            }
-
-            $response['removed_agents'] = $removed_agents;
-
-            foreach ($response['active_agents'] as $idx_agent) {
-                if (in_array($idx_agent['id'], $wp_agents)) {
-                    $fetch_post_ID = (int)$wpdb->get_var(sprintf("select post_id from {$wpdb->postmeta} where meta_key = '_flex_agent_id' AND meta_value = %d LIMIT 1", $idx_agent['id']));
-
-                    if ($fetch_post_ID > 0) {
-                        wp_update_post([
-                            'ID' => $fetch_post_ID,
-                            'post_title' => $idx_agent['full_name'],
-                            'post_name' => $idx_agent['agent_slug'],
-                            'post_content' => $idx_agent['bio']
-                        ]);
-
-                        if (!empty($idx_agent['agent_photo_file'])) {
-                            /*
-                            if (has_post_thumbnail($fetch_post_ID)) {
-                                $attachment_id = get_post_thumbnail_id($fetch_post_ID);
-                                wp_delete_attachment($attachment_id, true);
-                            }
-                            idxboost_attach_image_to_post($idx_agent['agent_photo_file'], $fetch_post_ID);
-                            */
-                        }
-
-                        update_post_meta($fetch_post_ID, '_flex_agent_slug', $idx_agent['agent_slug']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_first_name', $idx_agent['contact_first_name']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_last_name', $idx_agent['contact_last_name']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_full_name', $idx_agent['full_name']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_phone', $idx_agent['contact_phone']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_email', $idx_agent['contact_email']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_registration_key', $idx_agent['registration_key']);
-                        update_post_meta($fetch_post_ID, '_flex_agent_modified_in', $idx_agent['modified_in']);
-                    }
-
-                    continue;
-                }
-
-                $wp_idx_agent = wp_insert_post(array(
-                    'post_title' => implode(' ', array($idx_agent['contact_first_name'], $idx_agent['contact_last_name'])),
-                    'post_name' => $idx_agent['agent_slug'],
-                    'post_content' => $idx_agent['bio'],
-                    'post_status' => 'publish',
-                    'post_author' => $current_user_id,
-                    'post_type' => 'idx-agents'
-                ));
-
-                if (!empty($idx_agent['agent_photo_file'])) {
-                    idxboost_attach_image_to_post($idx_agent['agent_photo_file'], $wp_idx_agent);
-                }
-
-                update_post_meta($wp_idx_agent, '_flex_agent_id', $idx_agent['id']);
-                update_post_meta($wp_idx_agent, '_flex_agent_slug', $idx_agent['agent_slug']);
-                update_post_meta($wp_idx_agent, '_flex_agent_first_name', $idx_agent['contact_first_name']);
-                update_post_meta($wp_idx_agent, '_flex_agent_last_name', $idx_agent['contact_last_name']);
-                update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
-                update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
-                update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-
-                /*
-                $GLOBALS["cod_agent"] = $idx_agent["id"];
-                $exit_agent = array_values(
-                    array_filter($wp_agents, function ($agent) {
-                        return ($agent['meta_value'] == $GLOBALS["cod_agent"]);
-                    })
-                );
-
-                if (is_array($exit_agent) && count($exit_agent) > 0) {
-                    $id_agent_post = $exit_agent[0]["ID"];
-                    $wp_idx_agent = wp_update_post(array(
-                        'ID' => $id_agent_post,
-                        'post_title' => implode(' ', array($idx_agent['contact_first_name'], $idx_agent['contact_last_name'])),
-                        'post_name' => $idx_agent['agent_slug'],
-                        'post_content' => $idx_agent['bio'],
-                        'post_status' => 'publish',
-                        'post_author' => $current_user_id,
-                        'post_type' => 'idx-agents'
-                    ));
-
-                    if (!empty($idx_agent['agent_photo_file'])) {
-                        idxboost_attach_image_to_post($idx_agent['agent_photo_file'], $wp_idx_agent);
-                    }
-
-                    update_post_meta($wp_idx_agent, '_flex_agent_id', $idx_agent['id']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_slug', $idx_agent['agent_slug']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_first_name', $idx_agent['contact_first_name']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_last_name', $idx_agent['contact_last_name']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-                } else {
-                    // if (in_array($idx_agent['id'], $wp_agents)) {
-                    //     continue;
-                    // }
-                    // $user_id = wp_create_user( $idx_agent['contact_email'], $idx_agent['contact_first_name'], $idx_agent['contact_email'] );
-                    // $user = new WP_User($user_id);
-                    // $user->set_role('editor');
-                    // wp_update_user([
-                    //     'ID' => $user_id,
-                    //     'first_name' => $idx_agent['contact_first_name'],
-                    //     'last_name' => $idx_agent['contact_last_name'],
-                    // ]);
-
-                    $wp_idx_agent = wp_insert_post(array(
-                        'post_title' => implode(' ', array($idx_agent['contact_first_name'], $idx_agent['contact_last_name'])),
-                        'post_name' => $idx_agent['agent_slug'],
-                        'post_content' => $idx_agent['bio'],
-                        'post_status' => 'publish',
-                        'post_author' => $current_user_id,
-                        'post_type' => 'idx-agents'
-                    ));
-
-                    if (!empty($idx_agent['agent_photo_file'])) {
-                        idxboost_attach_image_to_post($idx_agent['agent_photo_file'], $wp_idx_agent);
-                    }
-
-                    update_post_meta($wp_idx_agent, '_flex_agent_id', $idx_agent['id']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_slug', $idx_agent['agent_slug']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_first_name', $idx_agent['contact_first_name']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_last_name', $idx_agent['contact_last_name']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_phone', $idx_agent['contact_phone']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_email', $idx_agent['contact_email']);
-                    update_post_meta($wp_idx_agent, '_flex_agent_registration_key', $idx_agent['registration_key']);
-                }
-                */
-            }
-
-            if (!empty($removed_agents)) {
-                $wpdb->query('DELETE FROM wp_postmeta WHERE post_id IN(' . implode(',', $removed_agents) . ')');
-
-                foreach ($removed_agents as $remove_agent_ID) {
-                    wp_delete_post($remove_agent_ID, true);
-                }
-            }
-        }
-
+            //foreach ($response['active_agents'] as $idx_agent) {
         if (isset($response['success']) && $response['success'] === true) {
             // update filters
             $wp_agent_filters = $wpdb->get_col("
@@ -6177,6 +6044,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'listings' => __('Listings', IDXBOOST_DOMAIN_THEME_LANG),
             'saved_on' => __('Saved on', IDXBOOST_DOMAIN_THEME_LANG),
             'thank_you' => __('Thank you', IDXBOOST_DOMAIN_THEME_LANG),
+            'co_op' => __('Co-op', IDXBOOST_DOMAIN_THEME_LANG),
             'baths' => __('Bath(s)', IDXBOOST_DOMAIN_THEME_LANG),
             'your_info_has_been_saved' => __('Your info has been saved', IDXBOOST_DOMAIN_THEME_LANG),
             'enter_you_new_password' => __('Enter your new Password', IDXBOOST_DOMAIN_THEME_LANG),
@@ -7020,6 +6888,15 @@ if (!function_exists('flex_idx_register_assets')) {
             'flex-lazyload-plugin'
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-building-collection.js"));
+
+        wp_register_script('idxboost_our_team-js', FLEX_IDX_URI . 'js/idx-our-team.js', array(
+            'underscore-mixins',
+            'underscore',
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+            'flex-lazyload-plugin'
+            //'flex-idx-slider',
+        ), iboost_get_mod_time("js/idx-our-team.js"));
 
 
         wp_register_script('flex-idx-sub-area-js', FLEX_IDX_URI . 'js/idx-comunity-page.js', array(

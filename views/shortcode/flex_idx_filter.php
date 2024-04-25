@@ -120,7 +120,8 @@
 <?php
   global $post;
   $filter_favorite_idxboost=0;
-  $filter_type_fl = get_post_meta($post->ID, '_flex_filter_page_fl', true);
+  //$filter_type_fl = get_post_meta($post->ID, '_flex_filter_page_fl', true);
+  $filter_type_fl = 3;
   if (empty($filter_type_fl)) {
     $filter_type_fl=$typeworked;
   }
@@ -191,6 +192,10 @@
                     }else if ($property_type['label']=='Multi-Family'){
                       if(in_array($property_type["value"], $ptypes_checked)){
                         $text_label_trans=__("Multi-Family", IDXBOOST_DOMAIN_THEME_LANG);
+                      }
+                    }else if ($property_type['label']=='Co-op'){
+                      if(in_array($property_type["value"], $ptypes_checked)){
+                        $text_label_trans=__("Co-op", IDXBOOST_DOMAIN_THEME_LANG);
                       }
                     }else{
                       if(in_array($property_type["value"], $ptypes_checked)){

@@ -3184,13 +3184,13 @@ if (!function_exists('flex_idx_filter_sc')) {
             }
 
             if (isset($response['info']['property_type'])) {
-                $list_ptypes = array('tw', '1', '2', 'valand', 'mf');
+                $list_ptypes = array('tw', '1', '2', 'valand', 'mf','co_op');
                 $exp_property_type = explode('|', $response['info']['property_type']);
                 $catch_list_ptype = array();
 
                 foreach ($exp_property_type as $ptype) {
                     if (in_array($ptype, $list_ptypes)) {
-                        $catch_list_ptype[] = ["value" => $ptype, "label" => $list_ptypes[$ptype]];
+                        $catch_list_ptype[] = ["value" => $ptype, "label" => $ptype];
                     }
                 }
 
@@ -5333,4 +5333,126 @@ if (!function_exists('idxboost_cms_section_blog_sc')) {
     }
 
     add_shortcode('idxboost_cms_section_blog', 'idxboost_cms_section_blog_sc');
+}
+
+
+if (!function_exists('flex_idx_our_agents_sc')) {
+    function flex_idx_our_agents_sc($atts, $content = null)
+    {
+        $atts = shortcode_atts(array(
+            "category" => "all",
+            'registration_key' => ''
+        ), $atts);
+
+        $access_token = flex_idx_get_access_token();
+        $idxboost_registration_key = get_option('idxboost_registration_key');
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+        
+        global $wpdb, $flex_idx_info;
+
+
+        $service_agent_list = str_replace("{{registrationKey}}",$idxboost_registration_key , FLEX_IDX_API_LOOKUP_OUR_AGENTS);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $service_agent_list,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>json_encode(["category" => $atts["category"]]),
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+          ),
+        ));
+
+
+        $response = @json_decode(curl_exec($curl), true);
+
+        /*
+        wp_localize_script('idxboost_our_team-js', 'idx_idxboost_our_team', array(
+            'ajaxUrl' => FLEX_IDX_API_LOOKUP_OUR_AGENTS,
+            'category' => $atts["category"],
+            'reg_key' => $idxboost_registration_key,
+            'agentDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_agent_detail"]["guid"], "/"),
+            'underscore-mixins',
+            'underscore',
+            'flex-idx-master',
+            'flex-propertiesbuilding-plugin',
+            'flex-lazyload-plugin'
+        ));
+
+        wp_enqueue_script('idxboost_our_team-js');
+        ob_start();
+        */
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/our_team.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/our_team.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/our_team.php';
+        }
+
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('our_team', 'flex_idx_our_agents_sc');
+}
+
+if (!function_exists('flex_idx_detail_agents_sc')) {
+    function flex_idx_detail_agents_sc($atts, $content = null)
+    {
+        $atts = shortcode_atts(array(
+            "category" => "all",
+            'registration_key' => ''
+        ), $atts);
+
+        $access_token = flex_idx_get_access_token();
+        $idxboost_registration_key = get_option('idxboost_registration_key');
+
+        if (get_option('idxboost_client_status') != 'active') {
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+        }
+        
+        global $wp,$wpdb, $flex_idx_info;
+
+        $wp_request = $wp->request;
+        $wp_request_exp = explode('/', $wp_request);
+        list($page, $slug) = $wp_request_exp;
+
+        $service_agent_detail = str_replace("{{registrationKey}}",$idxboost_registration_key , FLEX_IDX_API_LOOKUP_GET_AGENTS_DETAIL);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $service_agent_detail,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>json_encode(["slug" => $slug]),
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $response = @json_decode(curl_exec($curl), true);
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/info_agent.php';
+        }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode('idxboost_detail_agent', 'flex_idx_detail_agents_sc');
 }

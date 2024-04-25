@@ -3765,6 +3765,10 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                     lbl_ptypes.push("Vacant Land");
                 }
 
+                if (-1 !== $.inArray("co_op", chk_list)) {
+                    lbl_ptypes.push("Co-ops");
+                }
+
                 if (lbl_ptypes.length && lbl_ptypes.length < __flex_g_settings.params.property_types.length) {
                     IB_LBL_TYPES_NTF.html(lbl_ptypes.join(", "));
                     lbl_ptypes.length = 0;

@@ -1241,6 +1241,16 @@ function validate_price(evt) {
 							ob_form_modal.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
 
+						var ob_form_regular_contact_form;
+						ob_form_regular_contact_form=$('#flex_idx_contact_form');
+						if (ob_form_regular_contact_form.length>0){
+							ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
+							ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
+							ob_form_regular_contact_form.find('[name="email"]').val(response.email);
+							ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+						}
+
 						//Off market listing default label
 						var ob_form_off_market_listing;
 						ob_form_off_market_listing=$('#flex-idx-property-form');
@@ -1678,6 +1688,16 @@ function validate_price(evt) {
 							ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 						}
 
+						var ob_form_regular_contact_form;
+						ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
+						if (ob_form_regular_contact_form.length>0){
+							ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
+							ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
+							ob_form_regular_contact_form.find('[name="email"]').val(response.email);
+							ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+							ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+						}
+
 						//Off market listing default label
 						var ob_form_off_market_listing;
 						ob_form_off_market_listing=jQuery('#flex-idx-property-form');
@@ -1701,7 +1721,7 @@ function validate_price(evt) {
 
 						//Property form react Vacation Rentals
 						var ob_property_form_vacation_rentals;
-						ob_property_form_vacation_rentals=$('#propertyForm');
+						ob_property_form_vacation_rentals = jQuery('#propertyForm');
 						if (ob_property_form_vacation_rentals.length>0){
 							ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
 							ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
