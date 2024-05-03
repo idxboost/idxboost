@@ -589,6 +589,7 @@ function validate_price(evt) {
 			var phone = jQuery(this).find("input[name='phone']:eq(0)").val();
 			var permalink = jQuery(this).find("input[name='permalink']:eq(0)").val();
 			var lead_credentials = jQuery(this).find("input[name='lead_credentials']:eq(0)").val();
+			var office_code_send_email = jQuery(this).find("input[name='office_code_send_email']:eq(0)").val();
 			
 			
 			var commentsd = comments;
@@ -614,7 +615,8 @@ function validate_price(evt) {
 				"permalink": permalink,
 				"phone_number": phone,
 				"price": price,
-				"price_rate": price
+				"price_rate": price,
+				"office_code_send_email" : office_code_send_email
 		}
 
 		var formData = new FormData();

@@ -922,7 +922,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                                   if(!empty($follow_up_boss_api_key)){
                                 ?>
                                 <div class="ms-item-chk">
-                                  <input type="checkbox" id="follow_up_boss_valid" required checked>
+                                  <input type="checkbox" id="follow_up_boss_valid" required>
                                   <label for="follow_up_boss_valid">Follow Up Boss</label>
                                 </div>
                                 <?php } ?>
@@ -1185,7 +1185,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                               if(!empty($follow_up_boss_api_key)){
                             ?>
                             <div class="ms-item-chk">
-                              <input type="checkbox" id="follow_up_boss_valid_" required checked>
+                              <input type="checkbox" id="follow_up_boss_valid_" required>
                               <label for="follow_up_boss_valid_">Follow Up Boss</label>
                             </div>
                             <?php } ?>

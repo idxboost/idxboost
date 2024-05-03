@@ -3646,11 +3646,10 @@ if (!function_exists('flex_idx_connect_fn')) {
                 update_option('idxboost_term_condition', $term_condition);
             }
 
-            if (!empty($response['mkting_client'])) { // idxboost_term_condition
+            if ( is_array($response) && array_key_exists('mkting_client', $response)  ) {
                 $mkting_client = $response['mkting_client'];
                 update_option('mkting_client', $mkting_client);
             }
-
 
         } else {
             update_option('idxboost_client_status', 'inactive');
@@ -8651,6 +8650,7 @@ if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
         global $flex_idx_info, $post;
 
         if (
+            ! empty( get_option('mkting_client') ) &&
             ! empty( $flex_idx_info['agent']['has_cms'] ) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
@@ -8736,7 +8736,11 @@ if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
                     $body = wp_remote_retrieve_body($response);
                     $content = @json_decode($body, true);
                     
-                    if ( is_array($content) && count($content) > 0 && array_key_exists("status", $content) && $content["status"] ) {
+                    if ( 
+                        is_array($content) && 
+                        count($content) > 0 && 
+                        array_key_exists("status", $content) && $content["status"] 
+                    ) {
                         wp_enqueue_style('carbonite-addons-tripwire');
                         wp_enqueue_script('carbonite-addons-tripwire');
                         echo $content['data']['content'];

@@ -38,6 +38,17 @@
     }
 
 
+  $office_code_send_email = "";
+  if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("office_code", $settings_rental_data) && !empty($settings_rental_data["office_code"])  ){
+      $office_code_send_email = $settings_rental_data["office_code"];
+  }
+
+  $first_image = "";
+  if (is_array($property) && array_key_exists("gallery",$property) && count($property["gallery"]) > 0 ) {
+    $first_image = $property['gallery'][0];
+  }
+  
+
 
   $months=["January","February","March","April","May","June","July","August","September","October","November","December"];
   $weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'); 
@@ -454,11 +465,12 @@
                     <input type="hidden" class="address_large" name="address_large" value="<?php echo $property['address_large']; ?>">
                     <input type="hidden" class="name_share" value="<?php echo $property['address_short']; ?>">
                     <input type="hidden" class="link_share" value="<?php echo $property_permalink; ?>">
-                    <input type="hidden" class="picture_share" value="<?php echo $property['gallery'][0]? $property['gallery'][0]: ""; ?>">
+                    <input type="hidden" class="imagens" value="<?php echo $first_image; ?>">
                     <input type="hidden" class="caption_sahre" value="<?php echo $property['remarks']; ?>">
                     <input type="hidden" class="description_share" value="<?php echo $property['remarks']; ?>">
 
                     <input type="hidden" class="description_share" value="<?php echo $property['remarks']; ?>">
+                    <input type="hidden" class="office_code_send_email"  name="office_code_send_email" value="<?php echo $office_code_send_email; ?>">
 
                     <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
                       <input type="hidden" name="gclid_field" id="gclid_field_form_more_info_property">
@@ -520,7 +532,7 @@
                               if(!empty($follow_up_boss_api_key)){
                             ?>
                             <div class="ms-item-chk">
-                              <input type="checkbox" id="follow_up_boss_valid" required checked>
+                              <input type="checkbox" id="follow_up_boss_valid" required>
                               <label for="follow_up_boss_valid">Follow Up Boss</label>
                             </div>
                             <?php } ?>

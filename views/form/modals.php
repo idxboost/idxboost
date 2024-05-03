@@ -782,7 +782,7 @@
                       <input type="text" name="preferred_date" id="ss_preferred_date" value="" placeholder='<?php echo __("Choose Date", IDXBOOST_DOMAIN_THEME_LANG); ?>' class="medium">
                     </div>
                   </li>
-                  <?php if ( isset($mkting_client) ) {  ?>
+                  <?php if ( ! empty( $mkting_client ) ) {  ?>
                   <li class="gfield fub">
                     <div class="ms-flex-chk-ub">
                       <?php 
@@ -790,7 +790,7 @@
                         if(!empty($follow_up_boss_api_key)){
                       ?>
                       <div class="ms-item-chk">
-                        <input type="checkbox" id="follow_up_boss_valid" required checked>
+                        <input type="checkbox" id="follow_up_boss_valid" required>
                         <label for="follow_up_boss_valid">Follow Up Boss</label>
                       </div>
                       <?php } ?>

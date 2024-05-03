@@ -5460,15 +5460,15 @@
                     <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="Comments" rows="10" cols="50">I am interested in 46 Star Island Dr Miami Beach FL, 33139</textarea>
                   </div>
                 </li>
-                <?php if ( isset($mkting_client) ) {  ?>
+                <?php if ( ! empty( $mkting_client ) ) {  ?>
                 <li class="gfield fub">
                   <div class="ms-flex-chk-ub">
                     <?php 
                       $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                      if(!empty($follow_up_boss_api_key)){
+                      if ( ! empty( $follow_up_boss_api_key ) ) {
                     ?>
                     <div class="ms-item-chk">
-                      <input type="checkbox" id="follow_up_boss_valid" required checked>
+                      <input type="checkbox" id="follow_up_boss_valid" required>
                       <label for="follow_up_boss_valid">Follow Up Boss</label>
                     </div>
                     <?php } ?>
