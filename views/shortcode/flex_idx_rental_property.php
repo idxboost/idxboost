@@ -20,6 +20,14 @@
 
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
+
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  if($disclaimer_checked == "1"){
+    $checked = "checked"; 
+  }else{
+    $checked = ""; 
+  }
+
   $sd = (is_array($_GET) && array_key_exists("sd", $_GET)) ? @date_create($_GET["sd"]) : null;
   $ed = (is_array($_GET) && array_key_exists("ed", $_GET)) ? @date_create($_GET["ed"]) : null;
 
@@ -34,21 +42,18 @@
   $Phone_office_showing = false;
   $settings_rental_data = get_post_meta(999999991, '_settings_rental', true);
   if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("idx_hidden_phone", $settings_rental_data) && $settings_rental_data["idx_hidden_phone"] == "1" ){
-      $Phone_office_showing = true;
-    }
-
+    $Phone_office_showing = true;
+  }
 
   $office_code_send_email = "";
   if( is_array($settings_rental_data) && count($settings_rental_data)>0 && array_key_exists("office_code", $settings_rental_data) && !empty($settings_rental_data["office_code"])  ){
-      $office_code_send_email = $settings_rental_data["office_code"];
+    $office_code_send_email = $settings_rental_data["office_code"];
   }
 
   $first_image = "";
   if (is_array($property) && array_key_exists("gallery",$property) && count($property["gallery"]) > 0 ) {
     $first_image = $property['gallery'][0];
   }
-  
-
 
   $months=["January","February","March","April","May","June","July","August","September","October","November","December"];
   $weekdays = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'); 
@@ -532,7 +537,7 @@
                               if(!empty($follow_up_boss_api_key)){
                             ?>
                             <div class="ms-item-chk">
-                              <input type="checkbox" id="follow_up_boss_valid" required>
+                              <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                               <label for="follow_up_boss_valid">Follow Up Boss</label>
                             </div>
                             <?php } ?>

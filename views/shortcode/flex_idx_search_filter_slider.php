@@ -59,6 +59,12 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
   $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
 }
 
+$disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+if($disclaimer_checked == "1"){
+  $checked = "checked"; 
+}else{
+  $checked = ""; 
+}
 ?>
 
 <form id="flex_idx_search_filter_form" method="post">
@@ -1206,7 +1212,7 @@ if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_
                             if(!empty($follow_up_boss_api_key)){
                           ?>
                           <div class="ms-item-chk">
-                            <input type="checkbox" id="follow_up_boss_valid" required>
+                            <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                             <label for="follow_up_boss_valid">Follow Up Boss</label>
                           </div>
                           <?php } ?>

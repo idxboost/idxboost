@@ -2,6 +2,20 @@
   global $flex_idx_info, $flex_idx_lead;
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $mkting_client = get_option('mkting_client');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
+
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+
+  echo "<button> disclaimer_checked= ".$disclaimer_checked."</button>";
+
+  if($disclaimer_checked == "1"){
+    $checked = "checked";
+    $checked_active = "";
+  }else{
+    $checked = "";
+    $checked_active = "disabled";
+  }
+
 ?>
 <script type="text/javascript">
   var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ? '1' : '0'; ?>';
@@ -90,42 +104,56 @@
   </div>
 
   <!-- REGISTER LOGIN registration_forced-->
-  <div class="overlay_modal" id="modal_login">
+  <div class="overlay_modal modalReferentFUB" id="modal_login">
 
     <div class="ms-new-wrapper-modal-login-register">
 
       <div class="modal_cm">
-         <!-- 
-        <div class="ms-box-info">
+  
+        <!--<div class="ms-box-info" id="msboxinfo">
           <div class="ms-box-info-wrapper">
             <div class="ms-box-header">
-              <h5 class="ms-title">It Looks Like You're Serious About Finding a Home!</h5>
+              <h5 class="ms-title">Why Create An Account?</h5>
               <button class="ms-close-box js-close-why-register" aria-label="Close Modal">
                 <i class="idx-icon-close"></i>
               </button>
             </div>
             <div class="ms-box-body">
-              <p>It Looks Like You're Serious About Finding a Home!</p>
               <ul class="ms-list">
                 <li>
-                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/alert.png" class="ms-img-icon">
+                  <div class="ms-img-icon">
+                    <i class="idx-icon-alert"></i>
+                  </div>
                   <div class="ms-info-detail">
-                    <strong>Get New Alerts</strong>
-                    <p>We will notify you when new listing hit the market that match your search criteria. Be the first to know of new listings!</p>
+                    <strong>Get new alerts</strong>
+                    <p>We will notify you when a new listing that matches your search criteria hits the market. Be the first to know of new listings!</p>
                   </div>
                 </li>
                 <li>
-                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/favorite.png" class="ms-img-icon">
+                  <div class="ms-img-icon">
+                    <i class="idx-icon-check-active"></i>
+                  </div>
                   <div class="ms-info-detail">
-                    <strong>Save Your Favorite Listings</strong>
-                    <p>Save an unlimited number of listings on our site for easy access when you come back.</p>
+                    <strong>Save your favorite listings</strong>
+                    <p>Save an unlimited number of listings on our site for easy access when you return.</p>
                   </div>
                 </li>
                 <li>
-                  <img src="<?php //echo FLEX_IDX_URI; ?>/images/login/multimedia.png" class="ms-img-icon">
+                  <div class="ms-img-icon">
+                    <i class="idx-icon-shared"></i>
+                  </div>
                   <div class="ms-info-detail">
-                    <strong>Share Properties With Friends</strong>
-                    <p>Email all of your Saved Listings at once, rather than one-by-one.</p>
+                    <strong>Share properties with friends</strong>
+                    <p>Easily share your favorite properties with your friends and family via email.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="ms-img-icon">
+                    <i class="idx-icon-checkmark"></i>
+                  </div>
+                  <div class="ms-info-detail">
+                    <strong>View property history</strong>
+                    <p>View property history and keep track of listings you have recently viewed.</p>
                   </div>
                 </li>
               </ul>
@@ -410,17 +438,19 @@
 
               <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
 
-                <ul class="social_login">
+              <div class="ms-wrapper-sml">
+                <ul class="social_login <?php echo $checked_active; ?>" id="socialMediaRegister">
                   <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
                     <li>
                       <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
                         <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
                       </a>
+                      <button type="submit" aria-label="Login with Facebook" class="social_login_btn_temporal"></button>
                     </li>
                   <?php endif; ?>
                   <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
                   <li>
-                  <div id="g_id_onload"
+                    <div id="g_id_onload"
                               data-client_id="<?php echo $flex_idx_info["agent"]["google_client_id"]; ?>"
                               data-context="signin"
                               data-ux_mode="popup"
@@ -439,6 +469,8 @@
                     <?php /* <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
                       <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
                     </a> */ ?>
+
+                    <button type="submit" aria-label="Login with Google" class="social_login_btn_temporal"></button>
                   </li>
                   <?php endif; ?>
                   <li>
@@ -452,26 +484,54 @@
                     </div>-->
                   </li>
                 </ul>
-            <?php else: ?>
+              </div>
 
-            <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-            <ul class="social_login">
-              <li>
-                  <span class="ms-label" id="msRst">
-                    <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                    <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-                  </span>
-              </li>
-            </ul>
+              <?php else: ?>
+
+              <div class="line_or"><span><?php echo __('or', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
+              <ul class="social_login">
+                <li>
+                    <span class="ms-label" id="msRst">
+                      <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                    </span>
+                </li>
+              </ul>
             <?php endif; ?>
           </div>
 
-          <div class="footer_md terms-md">
-            <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-            <a target="_blank" href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
-              <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
-            </a> 
-            <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
+          <div class="footer_md terms-md" style="position: relative !important;text-align: left;font-size: 11px !important;">
+            <?php 
+              if (($idxboost_agent_info["show_opt_in_message"])){
+                $class_ft = "ms-footer-sm";
+            ?>
+              <div class="ms-fub-register">
+                <div class="ms-flex-chk-ub">
+                  <?php 
+                    $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                    if(!empty($follow_up_boss_api_key)){
+                  ?>
+                  <div class="ms-item-chk">
+                    <input type="checkbox" id="follow_up_boss_valid_register" class="follow_up_boss_valid_register" required <?php echo $checked; ?>>
+                    <label for="follow_up_boss_valid_register">Follow Up Boss</label>
+                  </div>
+                  <?php } ?>
+                  <div class="ms-fub-disclaimer">
+                    <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                  </div>
+                </div>
+              </div>
+            <?php }else{
+              $class_ft = "ms-footer-sn";
+            } ?>
+
+            <div class="<?php echo $class_ft; ?>">
+              <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
+              <a target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
+                <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
+              </a> 
+              <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
+            </div>
           </div>
         </div>
 
@@ -782,7 +842,7 @@
                       <input type="text" name="preferred_date" id="ss_preferred_date" value="" placeholder='<?php echo __("Choose Date", IDXBOOST_DOMAIN_THEME_LANG); ?>' class="medium">
                     </div>
                   </li>
-                  <?php if ( ! empty( $mkting_client ) ) {  ?>
+                  <?php /*if(!empty($mkting_client)){*/ if (($idxboost_agent_info["show_opt_in_message"])){  ?>
                   <li class="gfield fub">
                     <div class="ms-flex-chk-ub">
                       <?php 
@@ -790,7 +850,7 @@
                         if(!empty($follow_up_boss_api_key)){
                       ?>
                       <div class="ms-item-chk">
-                        <input type="checkbox" id="follow_up_boss_valid" required>
+                        <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                         <label for="follow_up_boss_valid">Follow Up Boss</label>
                       </div>
                       <?php } ?>
@@ -1214,7 +1274,15 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
     var _self = $(this);
 
     var emailField = $("#agilefield-9").val().trim();
-
+    var fub_chk = _self.parents(".content_md").find(jQuery(".follow_up_boss_valid_register"));
+    if(fub_chk.length){
+      if(!fub_chk.prop('checked')){
+        alert("You must accept the terms and conditions, and the privacy policy to continue");
+        fub_chk.addClass("error");
+        return;
+      }
+    }
+      
     if (!validateEmail(emailField)) {
       alert("invalid email address");
       return;
@@ -1268,10 +1336,21 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
   $(".pr-registering").on("click", function() {
     var _self = $(this);
 
+    var parentId = jQuery("#"+_self.parents(".modalReferentFUB").attr("id"));
+    var fub_chk = parentId.find(jQuery(".follow_up_boss_valid_register"));
+
     if (_self.hasClass("pr-populate-phone")) {
       if ("" === $("#__signup_fb_phone").val().trim()) {
         alert("Please provide a phone number.");
         return;
+      }
+
+      if(fub_chk.length){
+        if(!fub_chk.prop('checked')){
+          alert("You must accept the terms and conditions, and the privacy policy to continue");
+          fub_chk.addClass("error");
+          return;
+        }
       }
 
       $("#__quizz_type_phone_ct").hide().removeClass("ib-active");
@@ -1318,6 +1397,14 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
         alert("Please fill the fields");
         return;
       }
+
+      if(fub_chk.length){
+        if(!fub_chk.prop('checked')){
+          alert("You must accept the terms and conditions, and the privacy policy to continue");
+          fub_chk.addClass("error");
+          return;
+        }
+      }
     }
 
     if ( (typeof SIGNUP_EXTENDS_QUIZZ !== "undefined") && ("1" == SIGNUP_EXTENDS_QUIZZ) ) {
@@ -1334,14 +1421,14 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
           $(this).removeClass("signup-regular-submit-close");
         });
       }
-     } else {
-       if (true === IS_CUSTOM_SIGNUP) {
+    } else {
+      if (true === IS_CUSTOM_SIGNUP) {
           $("#ib-register-form-quizz").submit();
           $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
           swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
-       } else {
+      } else {
         $("#formRegister").submit();
-       }
+      }
       // swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
       //return;
       // console.log('submit only pho form');
@@ -1359,7 +1446,6 @@ $("#formRegister").find('input[name="register_email"]').on("focus", function() {
 
   $(".i-checks").on("click", function() {
     var _self = $(this);
-
     _self.parent().parent().parent().removeClass('active');
     _self.parent().parent().parent().next().addClass('active');
   });
@@ -1935,6 +2021,8 @@ function handleCredentialResponse(token) {
                               jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
                               jQuery("#__quizz_type_phone_ct").addClass("ib-active");
                               jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                              jQuery("#msboxinfo").remove();
+
                             }
 
                             var loadForm = jQuery(".iboost-form-validation-loaded");
@@ -2354,6 +2442,7 @@ function handleCredentialResponse(token) {
 
 <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
 <script>
+
 window.fbAsyncInit = function() {
   FB.init({
       appId: "<?php echo $flex_idx_info["agent"]["facebook_app_id"]; ?>",
@@ -2366,6 +2455,7 @@ window.fbAsyncInit = function() {
 };
 
 function fb_login() {
+
   FB.login(function(response) {
       if (response.status === "connected") {
           var userID = response.authResponse.userID;
@@ -2734,6 +2824,7 @@ function fb_login() {
                               jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
                               jQuery("#__quizz_type_phone_ct").addClass("ib-active");
                               jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+                              jQuery("#msboxinfo").remove();
                             }
 
                             var loadForm = jQuery(".iboost-form-validation-loaded");
@@ -2785,7 +2876,7 @@ function fb_logout() {
 </script>
 <?php endif; ?>
 
-<div class="ib-modal-master" data-id="push-registration" id="ib-push-registration-quizz-ct">
+<div class="ib-modal-master modalReferentFUB" data-id="push-registration" id="ib-push-registration-quizz-ct">
   <div class="ib-mmcontent">
     <div class="ib-mwrapper ib-mgeneric">
       <div class="ib-mgcontent"> 
@@ -2799,7 +2890,7 @@ function fb_logout() {
               <input type="hidden" class="ib_property_signup_price" name="__property_signup_price" value="">
 
               <ul class="ib-pr-steps-container">
-                <li class="pr-step facebook-registration" id="__quizz_type_phone_ct" style="display: none">
+                <li class="pr-step facebook-registration" id="__quizz_type_phone_ct" style="display: none; min-height: 380px">
                   <div class="ms-header-md">
                     <span class="ms-title-modal ms-no-mb"><?php echo __('Thank you for registering!', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                     <span class="ms-sub-title"><?php echo __('Use Phone Number For Password', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -2811,7 +2902,7 @@ function fb_logout() {
                         <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
                         <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span>
                       </label>
-                      <input id="__signup_fb_phone" name="register_phone_facebook" type="tel" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
+                      <input id="__signup_fb_phone" name="register_phone_facebook" type="tel" class="agile-height-default phoneRegisterValidation" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" required value="">
                     </div>
                   </div>
                   <button class="pr-redbtn pr-populate-phone pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
@@ -2907,17 +2998,34 @@ function fb_logout() {
             <span class="agile-error-msg"></span>
 		        </fieldset>
           </form>
-          <div class="footer_md terms-md">
-            <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-            <a target="_blank" href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
-              <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
-            </a> 
-            <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-              <a href="<?php echo $flex_idx_info["website_url"]; ?>/terms-and-conditions/#atospp-privacy">
-                <?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?>
-              </a>
-            </span>
-            </p>
+          <div class="footer_md terms-md" style="position: relative !important;text-align: left;font-size: 11px !important;">
+            <?php if (($idxboost_agent_info["show_opt_in_message"])){  ?>
+              <div class="ms-fub-register">
+                <div class="ms-flex-chk-ub">
+                  <?php 
+                    $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                    if(!empty($follow_up_boss_api_key)){
+                  ?>
+                  <div class="ms-item-chk">
+                    <input type="checkbox" id="follow_up_boss_valid_register_" class="follow_up_boss_valid_register" required <?php echo $checked; ?>>
+                    <label for="follow_up_boss_valid_register_">Follow Up Boss</label>
+                  </div>
+                  <?php } ?>
+                  <div class="ms-fub-disclaimer">
+                    <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                  </div>
+                </div>
+              </div>
+            <?php }else{ ?>
+            
+              <div class="ms-footer-sm">
+                <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
+                <a target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
+                  <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                </a> 
+                <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
+              </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -2932,8 +3040,12 @@ function fb_logout() {
 var ib_register_form_quizz;
 
 $(function() {
-  
-  ib_register_form_quizz = $("#ib-register-form-quizz");
+
+  $(document).on('click', '.social_login_btn_temporal', function () {
+    $("#formRegister").submit();
+  });
+
+  ib_register_form_quizz = jQuery("#ib-register-form-quizz");
 
   if (ib_register_form_quizz.length) {
     ib_register_form_quizz.on("submit", function(event) {
@@ -3012,8 +3124,8 @@ $(function() {
         ob_property_form_vacation_rentals=$('#propertyForm');
         if (ob_property_form_vacation_rentals.length>0){
           ob_property_form_vacation_rentals.find('input[name="firstName"]').val(Cookies.get("_ib_user_firstname"));
-					ob_property_form_vacation_rentals.find('input[name="lastName"]').val(Cookies.get("_ib_user_lastname"));
-					ob_property_form_vacation_rentals.find('input[name="email"]').val(Cookies.get("_ib_user_email"));
+          ob_property_form_vacation_rentals.find('input[name="lastName"]').val(Cookies.get("_ib_user_lastname"));
+          ob_property_form_vacation_rentals.find('input[name="email"]').val(Cookies.get("_ib_user_email"));
           ob_property_form_vacation_rentals.find('input[name="phone"]').val(numberPhoneClean);
           ob_property_form_vacation_rentals.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
         }
@@ -3028,12 +3140,6 @@ $(function() {
           ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
         }
       }
-
-      //console.log("codePhone="+codePhone);
-      //console.log("codePhoneClean="+codePhoneClean);
-      //console.log("numberPhone="+numberPhone);
-      //console.log("numberPhoneClean="+numberPhoneClean);
-      //console.log("phoneRegisterQuizz-RS="+phoneRegisterQuizz);
 
       $.ajax({
         url: __flex_g_settings.ajaxUrl,
@@ -3061,11 +3167,39 @@ $(function() {
 
       if ($(this).hasClass("ibregister-tg-submit-quizz")) {
         // submit the form
-        setTimeout(function () {
-          ib_register_form_quizz.trigger("submit");
-          $("#ib-push-registration-quizz-ct").removeClass("ib-md-pa ib-md-active");
-          swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
-        }, 100);
+
+        var parentId = jQuery("#"+ib_register_form_quizz.parents(".modalReferentFUB").attr("id"));
+        var fub_chk = parentId.find(jQuery(".follow_up_boss_valid_register"));
+
+        if(fub_chk.length){
+
+          if(!fub_chk.prop('checked')){
+
+            alert("You must accept the terms and conditions, and the privacy policy to continue");
+            fub_chk.addClass("error");
+            return;
+
+          }else{
+
+            setTimeout(function () {
+              ib_register_form_quizz.trigger("submit");
+              $("#ib-push-registration-quizz-ct").removeClass("ib-md-pa ib-md-active");
+              swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+            }, 100);
+
+          }
+
+        }else{
+
+          setTimeout(function () {
+            ib_register_form_quizz.trigger("submit");
+            $("#ib-push-registration-quizz-ct").removeClass("ib-md-pa ib-md-active");
+            swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+          }, 100);
+
+        }
+
+        
       }
     });
   }
@@ -3094,10 +3228,26 @@ $(function() {
 
     if(dataTab == "tabLogin"){
       $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+      $("#socialMediaRegister").removeClass("disabled");
+      
+
     }else if(dataTab == "tabRegister"){
       $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+      if ($('#follow_up_boss_valid_register').is(':checked')) {
+        $("#socialMediaRegister").removeClass("disabled");
+      }else{
+        $("#socialMediaRegister").addClass("disabled");
+      }
+
     }else if(dataTab == "tabReset"){
       $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+      if ($('follow_up_boss_valid_register').is(':checked')) {
+        $("#socialMediaRegister").removeClass("disabled");
+      }else{
+        $("#socialMediaRegister").addClass("disabled");
+      }
     }
 
   });
@@ -3108,6 +3258,9 @@ $(function() {
 
     var titleText = $(".header-tab a[data-tab='tabLogin']").attr('data-text')
     $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+    jQuery(".ms-fub-register").addClass("hidden");
+		jQuery(".ms-footer-sm").removeClass("hidden");
   });
 
 })

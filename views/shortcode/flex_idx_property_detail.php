@@ -14,6 +14,13 @@
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
 
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  if($disclaimer_checked == "1"){
+    $checked = "checked"; 
+  }else{
+    $checked = ""; 
+  }
+
   if (!empty($_COOKIE) && is_array($_COOKIE) && array_key_exists("reference_force_registration",$_COOKIE) && $_COOKIE["reference_force_registration"] == "yes") {
     $flex_idx_info["agent"]["force_registration"]='0';
     $registration_is_forced=false;
@@ -1495,7 +1502,7 @@
                           if(!empty($follow_up_boss_api_key)){
                         ?>
                         <div class="ms-item-chk">
-                          <input type="checkbox" id="follow_up_boss_valid" required>
+                          <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                           <label for="follow_up_boss_valid">Follow Up Boss</label>
                         </div>
                         <?php } ?>

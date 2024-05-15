@@ -1,6 +1,13 @@
 <?php 
 $idxboost_term_condition = get_option('idxboost_term_condition'); 
 $idxboost_agent_info = get_option('idxboost_agent_info');
+
+$disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+if($disclaimer_checked == "1"){
+  $checked = "checked"; 
+}else{
+  $checked = "";
+}
 ?>
 
 <form id="<?php echo $atts['id_form']; ?>" class="form-search gtm_general_contact_form iboost-secured-recaptcha-form iboost-form-validation" method="post">
@@ -64,7 +71,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
           if(!empty($follow_up_boss_api_key)){
         ?>
         <div class="ms-item-chk">
-          <input type="checkbox" id="follow_up_boss_valid" required>
+          <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
           <label for="follow_up_boss_valid">Follow Up Boss</label>
         </div>
         <?php } ?>

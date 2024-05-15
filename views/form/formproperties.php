@@ -1,6 +1,14 @@
 <?php 
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $mkting_client = get_option('mkting_client');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  if($disclaimer_checked == "1"){
+    $checked = "checked"; 
+  }else{
+    $checked = ""; 
+  }
+
 ?>
 <div id="md-body" class="property-details" data-cproperty="289433515">
   <div id="full-main">
@@ -5460,15 +5468,15 @@
                     <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="Comments" rows="10" cols="50">I am interested in 46 Star Island Dr Miami Beach FL, 33139</textarea>
                   </div>
                 </li>
-                <?php if ( ! empty( $mkting_client ) ) {  ?>
+                <?php /*if(!empty($mkting_client)){*/ if (($idxboost_agent_info["show_opt_in_message"])){  ?>
                 <li class="gfield fub">
                   <div class="ms-flex-chk-ub">
                     <?php 
                       $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                      if ( ! empty( $follow_up_boss_api_key ) ) {
+                      if (!empty($follow_up_boss_api_key)) {
                     ?>
                     <div class="ms-item-chk">
-                      <input type="checkbox" id="follow_up_boss_valid" required>
+                      <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                       <label for="follow_up_boss_valid">Follow Up Boss</label>
                     </div>
                     <?php } ?>

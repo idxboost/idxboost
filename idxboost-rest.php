@@ -12,6 +12,8 @@ class IDXBoost_REST_API_Endpoints
     const API_EDIT_PAGES = '/edit_page';
     const API_DELETE_PAGES = '/delete_page';
     const API_REPLACE_FAVICON = '/replace_favicon';
+    const API_REPLACE_URL_SITE = '/replace_url_site';
+
 
     public static function registerEndpoints()
     {
@@ -63,6 +65,13 @@ class IDXBoost_REST_API_Endpoints
             'methods' => WP_REST_Server::CREATABLE,
             'callback' => ['IDXBoost_REST_API_Endpoints', 'replaceFavicon'],
             'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
+        ));
+
+        register_rest_route($dns_api_rest_name_version, self::API_REPLACE_URL_SITE, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'replaceUrlSite'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
+
         ));
     }
 
@@ -330,14 +339,14 @@ class IDXBoost_REST_API_Endpoints
 
     public static function createUser(WP_REST_Request $request)
     {
-        $email_address       = filter_input(INPUT_POST, 'email_address', FILTER_SANITIZE_STRING);
-        $ib_blogname         = filter_input(INPUT_POST, 'ib_blogname', FILTER_SANITIZE_STRING);
-        $ib_blogdescription  = filter_input(INPUT_POST, 'ib_blogdescription', FILTER_SANITIZE_STRING);
+        $email_address = filter_input(INPUT_POST, 'email_address', FILTER_SANITIZE_STRING);
+        $ib_blogname = filter_input(INPUT_POST, 'ib_blogname', FILTER_SANITIZE_STRING);
+        $ib_blogdescription = filter_input(INPUT_POST, 'ib_blogdescription', FILTER_SANITIZE_STRING);
         $ib_registration_key = filter_input(INPUT_POST, 'ib_registration_key', FILTER_SANITIZE_STRING);
-        $ib_agent_info       = isset($_POST['ib_agent_info']) ? $_POST['ib_agent_info'] : '';
-        $ib_pusher_settings  = isset($_POST['ib_pusher_settings']) ? $_POST['ib_pusher_settings'] : '';
-        $ib_search_settings  = isset($_POST['ib_search_settings']) ? $_POST['ib_search_settings'] : '';
-        $ib_admin_email      = $email_address;
+        $ib_agent_info = isset($_POST['ib_agent_info']) ? $_POST['ib_agent_info'] : '';
+        $ib_pusher_settings = isset($_POST['ib_pusher_settings']) ? $_POST['ib_pusher_settings'] : '';
+        $ib_search_settings = isset($_POST['ib_search_settings']) ? $_POST['ib_search_settings'] : '';
+        $ib_admin_email = $email_address;
 
         if (false === is_email($email_address)) {
             $response = [
@@ -350,7 +359,7 @@ class IDXBoost_REST_API_Endpoints
 
         if (false === username_exists($email_address)) {
             $password = wp_generate_password(20, true, true);
-            $user_id  = wp_create_user($email_address, $password, $email_address);
+            $user_id = wp_create_user($email_address, $password, $email_address);
 
             if (is_wp_error($user_id)) {
                 $response = [
@@ -430,6 +439,49 @@ class IDXBoost_REST_API_Endpoints
             }
         }
 
+        return new WP_REST_Response($response);
+    }
+
+    public static function replaceUrlSite(WP_REST_Request $request)
+    {
+
+        $reg_key = $_POST['reg_key'];
+
+        if (!$reg_key) {
+            $response = [
+                'status' => '400',
+                'message' => 'Bad Request',
+                'data' => []
+            ];
+        } else {
+            try {
+                $old_url = $_POST['old_url'];
+                $new_url = $_POST['new_url'];
+                global $wpdb;
+                $tables = $wpdb->get_results("SHOW TABLES LIKE '{$wpdb->prefix}%'");
+                foreach ($tables as $table) {
+                    $table_name = current($table);
+                    $columns = $wpdb->get_results("DESCRIBE {$table_name}");
+                    foreach ($columns as $column) {
+                        $column_name = $column->Field;
+                        $wpdb->query("UPDATE $table_name SET $column_name = REPLACE($column_name, '$old_url', '$new_url')");
+
+                    }
+                }
+                $response = [
+                    'status' => '200',
+                    'message' => 'OK',
+                    'data' => []
+                ];
+            } catch (Exception $ex) {
+                $response = [
+                    'status' => '400',
+                    'message' => 'Bad Request',
+                    'data' => []
+                ];
+            }
+
+        }
         return new WP_REST_Response($response);
     }
 }

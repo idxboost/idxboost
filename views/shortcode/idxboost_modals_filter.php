@@ -2,22 +2,27 @@
 <div id="flex_idx_modal_wrapper"></div>
 
 <?php
-$idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
+  $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 
-$idxboost_term_condition = get_option('idxboost_term_condition');
-$idxboost_agent_info = get_option('idxboost_agent_info');
+  $idxboost_term_condition = get_option('idxboost_term_condition');
+  $idxboost_agent_info = get_option('idxboost_agent_info');
 
-                $c_search_settings = get_option("idxboost_search_settings");
+  $c_search_settings = get_option("idxboost_search_settings");
 
-                $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
-                if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
-                  $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
-                }elseif ( isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"]) ) {
-                  $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
-                }
+  $label_waterfront_description = __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG);
+  if (isset($c_search_settings["board_id"]) && ("11" == $c_search_settings["board_id"])){
+    $label_waterfront_description = __("View Description", IDXBOOST_DOMAIN_THEME_LANG);
+  }elseif ( isset($c_search_settings["board_id"]) && ("16" == $c_search_settings["board_id"]) ) {
+    $label_waterfront_description = __("View Features", IDXBOOST_DOMAIN_THEME_LANG);
+  }
 
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  if($disclaimer_checked == "1"){
+    $checked = "checked"; 
+  }else{
+    $checked = ""; 
+  }
 ?>
-
 <!-- modal actions 
 <div class="ib-modal-master" data-id="calculator" id="ib-mortage-calculator">
 <div class="ib-mmcontent">
@@ -1190,7 +1195,7 @@ $idxboost_agent_info = get_option('idxboost_agent_info');
                             if(!empty($follow_up_boss_api_key)){
                           ?>
                           <div class="ms-item-chk">
-                            <input type="checkbox" id="follow_up_boss_valid" required>
+                            <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                             <label for="follow_up_boss_valid">Follow Up Boss</label>
                           </div>
                           <?php } ?>

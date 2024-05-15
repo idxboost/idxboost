@@ -25,8 +25,13 @@
 
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
-  
 
+  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  if($disclaimer_checked == "1"){
+    $checked = "checked"; 
+  }else{
+    $checked = ""; 
+  }
 
   $cta = [];
   if ( is_array($response) && array_key_exists("payload",$response) && is_array($response["payload"]) && array_key_exists("cta",$response["payload"]) ) {
@@ -922,7 +927,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                                   if(!empty($follow_up_boss_api_key)){
                                 ?>
                                 <div class="ms-item-chk">
-                                  <input type="checkbox" id="follow_up_boss_valid" required>
+                                  <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                                   <label for="follow_up_boss_valid">Follow Up Boss</label>
                                 </div>
                                 <?php } ?>
@@ -1185,7 +1190,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                               if(!empty($follow_up_boss_api_key)){
                             ?>
                             <div class="ms-item-chk">
-                              <input type="checkbox" id="follow_up_boss_valid_" required>
+                              <input type="checkbox" id="follow_up_boss_valid_" required <?php echo $checked; ?>>
                               <label for="follow_up_boss_valid_">Follow Up Boss</label>
                             </div>
                             <?php } ?>

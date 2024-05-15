@@ -1933,6 +1933,38 @@ function insert_fb_in_head()
         // var_dump($GLOBALS);
         // echo '-->';
 
+        if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
+            $board_id = 100;
+            $ed = "";
+            $sd = "";
+            $extra_day_in = "";
+            $extra_day_out = "";
+            if (is_array($_GET) && count($_GET) > 0) {
+                if (array_key_exists("sd", $_GET)) {
+                    $sd = $_GET["sd"];
+                }
+
+                if (array_key_exists("ed", $_GET)) {
+                    $ed = $_GET["ed"];
+                }
+
+                if (array_key_exists("extra_day_in", $_GET)) {
+                    $extra_day_in = $_GET["extra_day_in"];
+                }
+
+                if (array_key_exists("extra_day_out", $_GET)) {
+                    $extra_day_out = $_GET["extra_day_out"];
+                }
+
+                if (array_key_exists("board", $_GET)) {
+                    $board_id = $_GET["board"];
+                }
+
+                $domain_host = $domain_host."?vr=1&sd={$sd}&ed={$ed}&board={$board_id}";
+
+            }
+        }
+
         $property_head = [];
 
         if (is_array($GLOBALS) && count($GLOBALS) > 0 && array_key_exists("property", $GLOBALS) && is_array($GLOBALS["property"]) && count($GLOBALS["property"]) > 0) {
