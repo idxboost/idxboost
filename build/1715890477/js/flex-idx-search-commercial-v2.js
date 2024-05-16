@@ -5922,31 +5922,40 @@ $(function () {
 	// [END]
 
 	$(".ib-dbsave").on("click", function() {
-			if ("yes" === __flex_g_settings.anonymous) {
-				$("#modal_login").addClass("active_modal")
-				.find('[data-tab]').removeClass('active');
+		jQuery(".ms-fub-register").removeClass("hidden");
+		jQuery(".ms-footer-sm").addClass("hidden");
+
+		if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+			jQuery("#socialMediaRegister").removeClass("disabled");
+		}else{
+			jQuery("#socialMediaRegister").addClass("disabled");
+		}
+
+		if ("yes" === __flex_g_settings.anonymous) {
+			$("#modal_login").addClass("active_modal")
+			.find('[data-tab]').removeClass('active');
+		
+			$("#modal_login").addClass("active_modal")
+				.find('[data-tab]:eq(1)')
+				.addClass('active');
 			
-				$("#modal_login").addClass("active_modal")
-					.find('[data-tab]:eq(1)')
-					.addClass('active');
-				
-				$("#modal_login")
-					.find(".item_tab")
-					.removeClass("active");
-				
-				$("#tabRegister")
-				.addClass("active");
+			$("#modal_login")
+				.find(".item_tab")
+				.removeClass("active");
+			
+			$("#tabRegister")
+			.addClass("active");
 
-				$("#modal_login #msRst").empty().html($("#mstextRst").html());
-				$("button.close-modal").addClass("ib-close-mproperty");
-				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+			$("#modal_login #msRst").empty().html($("#mstextRst").html());
+			$("button.close-modal").addClass("ib-close-mproperty");
+			$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
 
-				/*TEXTO REGISTER*/
-				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-				$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-				
-				return;
-			}
+			/*TEXTO REGISTER*/
+			var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+			$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+			
+			return;
+		}
 
 		$("#ib-fsearch-save-modal").addClass("ib-md-active");
 	});
@@ -6689,6 +6698,16 @@ $(function () {
 					/*Asigamos el texto personalizado*/
 					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+					jQuery(".ms-fub-register").removeClass("hidden");
+					jQuery(".ms-footer-sm").addClass("hidden");
+
+					if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+						jQuery("#socialMediaRegister").removeClass("disabled");
+					}else{
+						jQuery("#socialMediaRegister").addClass("disabled");
+					}
+
 					countClickAnonymous = 0;
 				}
 			}

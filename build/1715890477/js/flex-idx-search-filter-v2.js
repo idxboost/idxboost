@@ -3240,6 +3240,16 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
 
                     var mlsNumber = $(event.target).parent().data("mls");
                     loadPropertyInModal(mlsNumber);
+
+                    jQuery(".ms-fub-register").removeClass("hidden");
+                    jQuery(".ms-footer-sm").addClass("hidden");
+
+                    if ($('#follow_up_boss_valid_register').is(':checked')) {
+                        $("#socialMediaRegister").removeClass("disabled");
+                    }else{
+                        $("#socialMediaRegister").addClass("disabled");
+                    }
+
                 }
             });
         }
@@ -5611,6 +5621,16 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
         // [END]
 
         $(".ib-dbsave").on("click", function () {
+
+            jQuery(".ms-fub-register").removeClass("hidden");
+            jQuery(".ms-footer-sm").addClass("hidden");
+
+            if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+                jQuery("#socialMediaRegister").removeClass("disabled");
+            }else{
+                jQuery("#socialMediaRegister").addClass("disabled");
+            }
+
             if ("yes" === __flex_g_settings.anonymous) {
                 // if ($(".register").length) {
                 // $(".register").click();
@@ -5636,7 +5656,6 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                 /*TEXTO REGISTER*/
                 var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
                 $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
-
                 return;
             }
 
@@ -6502,6 +6521,15 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                     /*Asigamos el texto personalizado*/
                     var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
                     $("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+                    jQuery(".ms-fub-register").removeClass("hidden");
+                    jQuery(".ms-footer-sm").addClass("hidden");
+
+                    if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+                        jQuery("#socialMediaRegister").removeClass("disabled");
+                    }else{
+                        jQuery("#socialMediaRegister").addClass("disabled");
+                    }
 
                     countClickAnonymous = 0;
                 }

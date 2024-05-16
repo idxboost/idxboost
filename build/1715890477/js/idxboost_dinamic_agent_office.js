@@ -887,6 +887,15 @@ Handlebars.registerHelper("DFidxPermalink", function(slug) {
 						/*TEXTO LOGIN*/
 						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+						jQuery(".ms-fub-register").removeClass("hidden");
+						jQuery(".ms-footer-sm").addClass("hidden");
+
+						if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+							jQuery("#socialMediaRegister").removeClass("disabled");
+						}else{
+							jQuery("#socialMediaRegister").addClass("disabled");
+						}
 						countClickAnonymous = 0;
 					}
 				}
@@ -932,6 +941,15 @@ Handlebars.registerHelper("DFidxPermalink", function(slug) {
 						/*TEXTO LOGIN*/
 						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+						jQuery(".ms-fub-register").removeClass("hidden");
+						jQuery(".ms-footer-sm").addClass("hidden");
+
+						if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+							jQuery("#socialMediaRegister").removeClass("disabled");
+						}else{
+							jQuery("#socialMediaRegister").addClass("disabled");
+						}
 						countClickAnonymous = 0;
 					}
 				}

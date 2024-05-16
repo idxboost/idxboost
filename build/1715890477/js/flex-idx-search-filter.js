@@ -5471,35 +5471,45 @@ $(function () {
 
 
 	$(".ib-dbsave").on("click", function() {
-			if ("yes" === __flex_g_settings.anonymous) {
-				// if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
-				// if ($(".register").length) {
-					$("#modal_login").addClass("active_modal")
-					.find('[data-tab]').removeClass('active');
-				
-					$("#modal_login").addClass("active_modal")
-						.find('[data-tab]:eq(1)')
-						.addClass('active');
-					
-					$("#modal_login")
-						.find(".item_tab")
-						.removeClass("active");
-					
-					$("#tabRegister")
-					.addClass("active");
 
-					// $(".register").click();
-					$("button.close-modal").addClass("ib-close-mproperty");
-					$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
-				// }
-				// }
+		jQuery(".ms-fub-register").removeClass("hidden");
+		jQuery(".ms-footer-sm").addClass("hidden");
 
-				/*TEXTO REGISTER*/
-				var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
-				$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+		if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+			jQuery("#socialMediaRegister").removeClass("disabled");
+		}else{
+			jQuery("#socialMediaRegister").addClass("disabled");
+		}
+
+		if ("yes" === __flex_g_settings.anonymous) {
+			// if ( (__flex_g_settings.hasOwnProperty("force_registration")) && (1 == __flex_g_settings.force_registration) ) {
+			// if ($(".register").length) {
+				$("#modal_login").addClass("active_modal")
+				.find('[data-tab]').removeClass('active');
+			
+				$("#modal_login").addClass("active_modal")
+					.find('[data-tab]:eq(1)')
+					.addClass('active');
 				
-				return;
-			}
+				$("#modal_login")
+					.find(".item_tab")
+					.removeClass("active");
+				
+				$("#tabRegister")
+				.addClass("active");
+
+				// $(".register").click();
+				$("button.close-modal").addClass("ib-close-mproperty");
+				$(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
+			// }
+			// }
+
+			/*TEXTO REGISTER*/
+			var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
+			$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+			
+			return;
+		}
 
 		$("#ib-fsearch-save-modal").addClass("ib-md-active");
 	});
@@ -6965,6 +6975,15 @@ $(function () {
 						/*TEXTO LOGIN*/
 						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+						jQuery(".ms-fub-register").removeClass("hidden");
+						jQuery(".ms-footer-sm").addClass("hidden");
+
+						if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+							jQuery("#socialMediaRegister").removeClass("disabled");
+						}else{
+							jQuery("#socialMediaRegister").addClass("disabled");
+						}
 						countClickAnonymous = 0;
 					}
 				}
@@ -7011,6 +7030,15 @@ $(function () {
 						/*TEXTO LOGIN*/
 						var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 						$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+						jQuery(".ms-fub-register").removeClass("hidden");
+						jQuery(".ms-footer-sm").addClass("hidden");
+
+						if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+							jQuery("#socialMediaRegister").removeClass("disabled");
+						}else{
+							jQuery("#socialMediaRegister").addClass("disabled");
+						}
 						countClickAnonymous = 0;
 					}
 				}
@@ -7095,6 +7123,15 @@ $(function () {
 					/*Asigamos el texto personalizado*/
 					var titleText = $(".header-tab a[data-tab='tabRegister']").attr('data-text')
 					$("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+					jQuery(".ms-fub-register").removeClass("hidden");
+					jQuery(".ms-footer-sm").addClass("hidden");
+
+					if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+						jQuery("#socialMediaRegister").removeClass("disabled");
+					}else{
+						jQuery("#socialMediaRegister").addClass("disabled");
+					}
 					countClickAnonymous = 0;
 				}
 			}

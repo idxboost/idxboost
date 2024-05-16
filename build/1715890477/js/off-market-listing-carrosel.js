@@ -225,6 +225,15 @@ $(document).ready(function(event){
                         $(".overlay_modal").css("background-color", "rgba(0,0,0,0.8);");
             
                         $("#modal_login h2").html($("#modal_login").find('[data-tab]:eq(1)').data("text-force"));
+
+												jQuery(".ms-fub-register").removeClass("hidden");
+												jQuery(".ms-footer-sm").addClass("hidden");
+
+												if (jQuery('#follow_up_boss_valid_register').is(':checked')) {
+													jQuery("#socialMediaRegister").removeClass("disabled");
+												}else{
+													jQuery("#socialMediaRegister").addClass("disabled");
+												}
                         countClickAnonymous = 0;
                     }
                 }

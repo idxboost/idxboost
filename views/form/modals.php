@@ -3,10 +3,7 @@
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $mkting_client = get_option('mkting_client');
   $idxboost_agent_info = get_option('idxboost_agent_info');
-
   $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
-
-  echo "<button> disclaimer_checked= ".$disclaimer_checked."</button>";
 
   if($disclaimer_checked == "1"){
     $checked = "checked";
