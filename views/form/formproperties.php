@@ -5472,14 +5472,14 @@
                 <li class="gfield fub">
                   <div class="ms-flex-chk-ub">
                     <?php 
-                      $follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                      if (!empty($follow_up_boss_api_key)) {
+                      //$follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
+                      //if (!empty($follow_up_boss_api_key)) {
                     ?>
                     <div class="ms-item-chk">
                       <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                       <label for="follow_up_boss_valid">Follow Up Boss</label>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <div class="ms-fub-disclaimer">
                       <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
                     </div>
