@@ -24,7 +24,6 @@ while ( have_posts() ) : the_post();?>
       </div>
     </div>
   </section>
-  <?php //get_template_part('blocks/new_testimonials'); ?>
 
   <section class="ms-section ms-animate ms-animate-section ms-standar-section" id="section01">
     <div class="ms-wrapper-section">
