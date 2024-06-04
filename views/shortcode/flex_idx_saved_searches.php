@@ -147,52 +147,11 @@ if ($saved_search_url_params["size"] != 'Any Size') {
                     <div class="flex-table-row-item text-center"><?php echo $text_bed; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $text_baths; ?></div>
                     <div class="flex-table-row-item text-center"><?php echo $text_size; ?></div>
-
-
-                    <?php /*
-                    <?php if ($saved_search_url_params['price_range'][0] == 'Any Price' && $saved_search_url_params['price_range'][1] == 'Any Price'): ?>
-                      <div class="flex-table-row-item text-center"><?php echo __("Any Price", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                    <?php else: ?>
-                      <?php
-                        $min_price = strstr($saved_search_url_params['price_range'][0], 'Any') ? 'Any Price' : '$' . flex_idx_format_short_price_fn(preg_replace('/[^\d]/', '', $saved_search_url_params['price_range'][0]));
-                        $max_price = strstr($saved_search_url_params['price_range'][1], 'Any') ? 'Any Price' : '$' . flex_idx_format_short_price_fn(preg_replace('/[^\d]/', '', $saved_search_url_params['price_range'][1]));
-                      ?>
-                      <div class="flex-table-row-item text-center"><?php echo $min_price; ?> - <?php echo $max_price; ?></div>
-                    <?php endif; ?>
-                    <?php if ($saved_search_url_params['beds_range'][0] == 'Any Bed' && $saved_search_url_params['beds_range'][1] == 'Any Bed'): ?>
-                    <div class="flex-table-row-item text-center"><?php echo __("Any Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                    <?php else: ?>
-                    <div class="flex-table-row-item text-center"><?php echo $saved_search_url_params['beds_range'][0]; ?> - <?php echo $saved_search_url_params['beds_range'][1]; ?></div>
-                    <?php endif; ?>
-                    <?php if ($saved_search_url_params['baths_range'][0] == 'Any Bath' && $saved_search_url_params['baths_range'][1] == 'Any Bath'): ?>
-                    <div class="flex-table-row-item text-center"><?php echo __("Any Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                    <?php else: ?>
-                    <div class="flex-table-row-item text-center"><?php echo $saved_search_url_params['baths_range'][0]; ?> - <?php echo $saved_search_url_params['baths_range'][1]; ?></div>
-                    <?php endif; ?>
-                    <?php if ($saved_search_url_params['sqft_range'][0] == 'Any Size' && $saved_search_url_params['sqft_range'][1] == 'Any Size'): ?>
-                    <div class="flex-table-row-item text-center"><?php echo __("Any Size", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                    <?php else: ?>
-                    <div class="flex-table-row-item text-center"><?php echo $saved_search_url_params['sqft_range'][0]; ?> - <?php echo $saved_search_url_params['sqft_range'][1]; ?></div>
-                    <?php endif; ?>
-                    */ ?>
                     <div class="flex-table-row-item text-center"><?php echo date('m/d/Y', strtotime($saved_search['created_at'])); ?></div>
                     <div class="flex-table-row-item select-action text-center">
                       <button class="flex-saved-search-remove clidxboost-btn-remove" data-id="<?php echo $saved_search['id']; ?>" data-search-url="<?php echo $saved_search['search_url']; ?>" data-alert-token="<?php echo $saved_search['token_alert']; ?>" data-search-count="<?php echo $saved_search['search_count']; ?>">
                       <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
                     </div>
-
-                    <?php /*
-                    <div class="hiddenInformation">
-                      <ul>
-                        <li><span><?php echo __("Price Range", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $saved_search_url_params['price_range'][0]; ?> - <?php echo $saved_search_url_params['price_range'][1]; ?></li>
-                        <li><span><?php echo __("Bedrooms", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $saved_search_url_params['beds_range'][0]; ?> - <?php echo $saved_search_url_params['beds_range'][1]; ?></li>
-                        <li><span><?php echo __("Bathrooms", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $saved_search_url_params['baths_range'][0]; ?> - <?php echo $saved_search_url_params['baths_range'][1]; ?></li>
-                        <li><span><?php echo __("Living Size", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $saved_search_url_params['sqft_range'][0]; ?> - <?php echo $saved_search_url_params['sqft_range'][1]; ?></li>
-                        <li><span><?php echo __("Date Saved", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo date('m/d/Y', strtotime($saved_search['created_at'])); ?></li>
-                      </ul>
-                    </div>
-                    */ ?>
-
                     <a href="<?php echo $saved_search['search_url']; ?>" class="view-item"></a>
                   </div>
 

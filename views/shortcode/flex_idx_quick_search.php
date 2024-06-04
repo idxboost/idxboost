@@ -2,7 +2,6 @@
    <div class="idxboost-quick-search-ct">
   <form method="post" class="idxboost-quick-search-form">
     <input type="hidden" name="action" value="flex_search">
-    <?php /*<input type="hidden" name="idx[tab]" id="idx_q_property_type" value="<?php if(count($flex_idx_info["search"]["property_types"])): ?>2|1<?php else: ?><?php echo $flex_idx_info["search"]["property_types"][0]["value"]; ?><?php endif; ?>"> <!-- 2|1 2 1 -->*/ ?>
     <input type="hidden" name="idx[tab]" id="idx_q_property_type" value="2"> <!-- 2|1 2 1 -->
     <input type="hidden" name="idx[rental]" id="idx_q_rental" value="<?php echo $flex_idx_info["search"]["rental_types"]; ?>">
     <input type="hidden" name="idx[keyword]" id="idx_q_keyword" value="">

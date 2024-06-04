@@ -46,9 +46,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
   <input type="hidden" name="property_type" value="">
   <input type="hidden" name="filter_search_keyword_label" value="">
   <input type="hidden" name="filter_search_keyword_type" value="">
-  <?php /*
-    <input type="hidden" name="waterfront_options" value="">
-    */ ?>
   <input type="hidden" name="polygon_search" value="">
   <input type="hidden" name="rect" value="<?php echo isset($_GET["rect"]) ? sanitize_text_field($_GET["rect"]) : ''; ?>">
   <input type="hidden" name="zm" value="<?php echo isset($_GET["zm"]) ? sanitize_text_field($_GET["zm"]) : ''; ?>">
@@ -64,11 +61,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
   <input type="hidden" name="max_building_size" value="">
   <input type="hidden" name="min_beds" value="">
   <input type="hidden" name="max_beds" value="">
-  <?php /*
-    <input type="hidden" name="min_baths" value="">
-    <input type="hidden" name="max_baths" value="">
-    */
-  ?>
   <input type="hidden" name="min_living_size" value="">
   <input type="hidden" name="max_living_size" value="">
   <input type="hidden" name="min_lot_size" value="">
@@ -291,10 +283,6 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                       <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                     </ul>
                   </div>
-									<!--<select class="ib-mcsyears ib-property-mc-ty" id="ib-property-mc-ty">
-										<option value="30"><?php //echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-										<option value="15"><?php //echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-									</select>-->
 								</div>
 							</li>
 							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Interest Rate(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -1265,7 +1253,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
           </div>
         </div>
       </div>
-      <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{ mls_num }}" data-status="{{ status }}" data-token-alert="{{token_alert}}"><?php /*<span>Add to Favorites</span> */ ?></div>
+      <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{ mls_num }}" data-status="{{ status }}" data-token-alert="{{token_alert}}"></div>
       <a class="ib-pipermalink" href="{{ idxPermalink this }}" title="<?php echo __('View Detail of', IDXBOOST_DOMAIN_THEME_LANG); ?> {{ full_address }}"><span>{{ full_address }}</span></a>
     </li>
     {{{ capturePositionHackbox @index }}}
@@ -1347,42 +1335,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
             </div>
           </div>
         </div>
-        <?php /*
-          <!--PRICE RANGE FOR SALE-->
-          <div class="ib-item-collapse ib-item-collapse-saletype ib-item-collapse-sale" style="display:none;">
-              <h2 class="ib-header-collapse"><?php echo __('Price Range', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-        <div class="ib-body-collpase">
-          <div class="ib-wrap-fm">
-            <div class="ib-item-wrap-fm ib-wrap-content-select">
-              <select id="ib-min-price"></select>
-              <span class="ib-label-wrap-fm"><?php echo __('Minimum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            </div>
-            <div class="ib-item-wrap-fm ib-sp-fm ib-sp-fm-tp"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-            <div class="ib-item-wrap-fm ib-wrap-content-select">
-              <select id="ib-max-price"></select>
-              <span class="ib-label-wrap-fm"><?php echo __('Maximum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--PRICE RANGE FOR RENT-->
-      <div class="ib-item-collapse ib-item-collapse-saletype ib-item-collapse-rent" style="display:none;">
-        <h2 class="ib-header-collapse"><?php echo __('Price Range', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-        <div class="ib-body-collpase">
-          <div class="ib-wrap-fm">
-            <div class="ib-item-wrap-fm ib-wrap-content-select">
-              <select id="ib-min-rent-price"></select>
-              <span class="ib-label-wrap-fm"><?php echo __('Minimum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            </div>
-            <div class="ib-item-wrap-fm ib-sp-fm ib-sp-fm-tp"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-            <div class="ib-item-wrap-fm ib-wrap-content-select">
-              <select id="ib-max-rent-price"></select>
-              <span class="ib-label-wrap-fm"><?php echo __('Maximum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      */ ?>
+        
         <!--TYPE-->
         <div class="ib-item-collapse -mb">
           <h2 class="ib-header-collapse"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1402,33 +1355,9 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
         </div>
 
         <!--BATHROOMS-->
-        <?php /*
-        <div class="ib-item-collapse">
-            <h2 class="ib-header-collapse"><?php echo __('Bathrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-      <div class="ib-body-collpase">
-        <div class="ib-wrap-fm">
-          <div class="ib-item-wrap-fm ib-wrap-content-select">
-            <select id="ib-min-baths"></select>
-            <span class="ib-label-wrap-fm"><?php echo __('Minimum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </div>
-          <div class="ib-item-wrap-fm ib-sp-fm ib-sp-fm-tp"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-          <div class="ib-item-wrap-fm ib-wrap-content-select">
-            <select id="ib-max-baths"></select>
-            <span class="ib-label-wrap-fm"><?php echo __('Maximum', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    */ ?>
+        
         <!--PARKING SPACES-->
-        <?php /*
-      <div class="ib-item-collapse">
-          <h2 class="ib-header-collapse"><?php echo __('Parking Spaces', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-    <div class="ib-body-collpase">
-      <ul class="ib-wrap-fm" id="ib-flex-m-parking"></ul>
-    </div>
-  </div>
-  */ ?>
+        
         <!--LIVING SIZE-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Space Size (SF)', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1533,18 +1462,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
           </div>
         </div>
         <!--WATERFRONT DESCRIPTION-->
-        <?php /*
-    <div class="ib-item-collapse">
-        <h2 class="ib-header-collapse"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-  <div class="ib-body-collpase">
-    <div class="ib-wrap-fm">
-      <div class="ib-item-wrap-fm ib-wrap-content-select">
-        <select id="ib-flex-waterfront-switch"></select>
-      </div>
-    </div>
-  </div>
-</div>
-*/ ?>
+        
         <!--FEATURES-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Property Status', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1559,9 +1477,7 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
           <h2 class="ib-header-collapse"><?php echo __('Cap Rate Range (%). ?', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
           <div class="ib-body-collpase">
             <div class="ib-wrap-fm">
-              <?php /*
-        <div class="ib-item-wrap-fm ib-wrap-content-select">
-            <select id="ib-flex-waterfront-switch"></select></div> */ ?>
+             
               <div class="ib-item-wrap-fm ib-wrap-content-select">
                 <label for="ib-min-caprate" class="ms-hidden"><?php echo __('Minimum', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 <input class="notranslate ib-iffrom ib-ubrange-lbl-lt" type="text" id="ib-min-caprate" value="">

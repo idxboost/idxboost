@@ -405,21 +405,12 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 			<li id="filter-by" class="clidxboost-icon-arrow-select">
 			<span class="filter-text"><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
 			<select id="flex_filter_sort">
-
 				<option value="list_date-desc" <?php selected($order, 'list_date-desc'); ?>><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="last_updated-desc" <?php selected($order, 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="price-desc" <?php selected($order, 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="price-asc" <?php selected($order, 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-				<?php /*<option value="bed-desc" <?php selected($order, 'bed-desc'); ?>>Beds (High to Low)</option>
-				<option value="bed-asc" <?php selected($order, 'bed-asc'); ?>>Beds (Low to High)</option>*/ ?>
 				<option value="sqft-desc" <?php selected($order, 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
 				<option value="sqft-asc" <?php selected($order, 'sqft-asc'); ?>><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-				<?php /*
-				<option value="year-desc" <?php selected($order, 'year-desc'); ?>>Year (High to Low)</option>
-				<option value="year-asc" <?php selected($order, 'year-asc'); ?>>Year (Low to High)</option>*/ ?>
-				<?php /*
-				<option value="list_date-asc" <?php selected($order, 'list_date-asc'); ?>>Listing Date (Low to High)</option>
-				<option value="status-desc" <?php selected($order, 'status-desc'); ?>>Pending</option> */ ?>
 			</select>
 			</li>
 			<li id="filter-views" class="clidxboost-icon-arrow-select">
@@ -432,14 +423,6 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 		</ul><span id="info-subfilters"><span></span></span>
 	</div>
 </div>
-
-<?php /*
-<div id="flex-spinner-load">
-	<div class="flex-spinner-content">
-		<p><?php echo __("Loading Properties", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-	</div>
-</div>
-*/ ?>
 
 <section id="wrap-result" style="display:none;" class="flex-loading-ct view-<?php echo $default_view; ?>">
 	<h2 class="title"><?php echo __("Search results", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -457,13 +440,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 			</ul>
 			<ul id="result-search" class="slider-generator"></ul>
 			<span class="ib-loading-message">Updating results...</span>
-<?php /*
-	    <div class="message-alert info-color idx_color_primary" id="box_flex_alerts_msg" style="display:none;">
-	      <p>Get email alerts for new properties matching this search <button id="flex_save_search_btn" data-modal="modal_save_search" class="show-modal save-btn create-alert-footer"><span>Create Alert</span></button></p>
-	      <button class="close-message" id="hide_flex_alerts_msg">x</button>
-	    </div>
-			<nav id="nav-results" class="idx_color_second"></nav>
-*/ ?>
+
 		</div>
 		<div id="wrap-map">
 			<div id="wrap-map-draw-actions">
@@ -483,46 +460,10 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 		</div>
 	</div>
 
-	<?php /*
-	<div class="gwr">
-		<div class="message-alert info-color idx_color_primary" id="box_flex_alerts_msg" style="display:none;">
-			<p><?php echo __("Get email alerts for new properties matching this search", IDXBOOST_DOMAIN_THEME_LANG); ?> <button id="flex_save_search_btn" data-modal="modal_save_search" class="show-modal save-btn create-alert-footer"><span><?php echo __("Create Alert", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></p>
-			<button class="close-message" id="hide_flex_alerts_msg">x</button>
-		</div>
-	</div> */ ?>
-
 	<div id="paginator-cnt" class="gwr">
 		<nav id="nav-results" class="idx_color_second"></nav>
 	</div>
 </section>
-
-<?php /*
-<div class="content-rsp-btn">
-	<div class="idx-btn-content">
-		<div class="idx-bg-group">
-			<button data-modal="modal_save_search" id="save-button-responsive" class="idx-btn-act">
-				<span><?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-			</button>
-
-			<button class="idx-btn-act" id="idx-bta-grid">
-				<span>Grid</span>
-			</button>
-
-			<button class="idx-btn-act" id="idx-bta-list">
-				<span>List</span>
-			</button>
-
-			<button class="idx-btn-act" id="idx-bta-map">
-				<span>Map</span>
-			</button>
-
-			<button class="idx-btn-act" id="idx-bta-remove">
-				<span>Remove<br>Boundaries</span>
-			</button>
-		</div>
-	</div>
-</div>
-*/ ?>
 
 </div>
 

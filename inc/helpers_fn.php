@@ -1879,6 +1879,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['agent_contact_phone_number'] = isset($idxboost_agent_info['contact_phone_number']) ? $idxboost_agent_info['contact_phone_number'] : '';
             
             $output['agent']['disclaimer_checked'] = isset($idxboost_agent_info['disclaimer_checked']) ? $idxboost_agent_info['disclaimer_checked'] : '0';             
+            $output['agent']['show_why_register'] = isset($idxboost_agent_info['show_why_register']) ? $idxboost_agent_info['show_why_register'] : '0';                         
             $output['agent']['agent_contact_photo_profile'] = isset($idxboost_agent_info['contact_photo_profile']) ? $idxboost_agent_info['contact_photo_profile'] : '';
             $output['agent']['has_cms'] = isset($idxboost_agent_info['has_cms']) ? $idxboost_agent_info['has_cms'] : '';
             $output['agent']['has_vacations_rentals'] = isset($idxboost_agent_info['has_vacations_rentals']) ? $idxboost_agent_info['has_vacations_rentals'] : '';

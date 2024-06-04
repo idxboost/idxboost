@@ -44,11 +44,11 @@
             </ul>
             <ul class="ms-nw-social-media-list">
             	<?php if( !empty($instagram) ) { ?>
-            		<li><a href="<?php echo $instagram; ?>" class="ms-nw-social-media-item" title="Instagram"><i class="idx-icon-instagram"></i></a></li>
-          		<?php } ?>
+			<li><a href="<?php echo $instagram; ?>" class="ms-nw-social-media-item" title="Instagram"><i class="idx-icon-instagram"></i></a></li>
+		<?php } ?>
           		
-          		<?php if( !empty($instagram) ) { ?>
-              		<li><a href="<?php echo $linkedin; ?>" class="ms-nw-social-media-item" title="Linkeding"><i class="idx-icon-linkedin2"></i></a></li>
+		<?php if( !empty($linkedin) ) { ?>
+              		<li><a href="<?php echo $linkedin; ?>" class="ms-nw-social-media-item" title="Linkedin"><i class="idx-icon-linkedin2"></i></a></li>
               	<?php } ?>
 
               	<?php if( !empty($facebook) ) { ?>

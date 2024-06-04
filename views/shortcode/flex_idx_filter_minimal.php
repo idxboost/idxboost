@@ -32,24 +32,6 @@ if ((isset($_GET["savefilter"]) && ("1" == $_GET["savefilter"]))):
   })(jQuery);
 </script>
 <?php endif; ?>
-<?php /*
-<script type="text/javascript">
-(function($) {
-  $(function() {
-    var savefilter = localStorage.getItem("IB_SAVE_FILTER_AFTER_SIGNUP");
-    var filterTitle = '<?php the_title(); ?>';
-    if (null !== savefilter) {
-      setTimeout(function () {
-        if ("no" == __flex_g_settings.anonymous) {
-          localStorage.removeItem("IB_SAVE_FILTER_AFTER_SIGNUP");
-          $("#input_sname_search").val(filterTitle);
-          $("#form-save").submit();
-        }
-      }, 3500);
-    }
-  });
-})(jQuery);
-</script> */ ?>
 <style>
 .overlay_modal {position:fixed !important;}
 .overlay_modal .login-modal {width: 403px !important;}
@@ -185,9 +167,6 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
     <div class="gwr">
       <div id="header-filters">
         <div class="idx_logo_web">
-          <?php if (function_exists('idx_the_custom_logo_header')): ?>
-            <?php //idx_the_custom_logo_header(); ?>
-          <?php endif; ?>
         </div>
         <div class="text-wrapper">
           <div class="allf-callus">Call us: <a href="telf:<?php echo flex_phone_number_filter($flex_idx_info['agent']['agent_contact_phone_number']); ?>"><?php echo $flex_idx_info['agent']['agent_contact_phone_number']; ?></a></div>
@@ -215,7 +194,6 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
           <?php else: ?>
             <button type="button" id="filter-save-search" data-count="<?php echo (int) $response['pagination']['total_items_count']; ?>" style="display: block;width: 100%;height: 100%;color: #fff;margin: 0;"><?php echo __('Save Search', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           <?php endif; ?>
-          <?php /*<strong id="properties-found"><span><?php echo number_format($response['pagination']['total_items_count']); ?></span>Properties</strong>*/ ?>
         </li>
       </ul>
       <div id="all-filters">
@@ -472,14 +450,12 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                 </select>
             </li>
         </ul>
-            <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
 <?php
 if($idxboost_ver_bool==false){ ?>
 <span id="info-subfilters"><span><?php echo __('Scroll down for more', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span></span>
 <?php }else{ ?>
 <span id="info-subfilters"><?php echo __('Showing', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['start']; ?> <?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['end']; ?> <?php echo __('of', IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo number_format($response['pagination']['total_items_count']); ?> <?php echo __('Properties', IDXBOOST_DOMAIN_THEME_LANG); ?>.<span><?php echo __('Scroll down for more', IDXBOOST_DOMAIN_THEME_LANG); ?>.</span></span>
 <?php } ?>
-        <?php //} ?>
     </div>
 </div>
 
@@ -610,7 +586,6 @@ if($idxboost_ver_bool==false){ ?>
                           <a class="view-detail" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>"></a>
                         <?php endif; ?>
                     </li>
-                    <?php //if ( (is_numeric($atts['limit']) && $atts['limit'] !='default')  && $atts['limit']<=$countimte ) { break; }  ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </ul>
@@ -625,7 +600,6 @@ if($idxboost_ver_bool==false){ ?>
         </div>
     </div>
 
-    <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
     <div id="paginator-cnt" class="gwr" <?php if($idxboost_ver_bool==false){ ?> style="display: none;" <?php } ?> >
       <?php if (isset($response['pagination'])): ?>
       <nav id="nav-results" class="nav-results nav-results-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">

@@ -486,7 +486,7 @@ if (!empty($response) && is_array($response)) {
       <?php if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
       <?php
         if($idxboost_ver_bool==false){ ?>
-      <span id="info-subfilters"><span><?php //echo __("Scroll down for more.", IDXBOOST_DOMAIN_THEME_LANG); ?></span></span>
+      <span id="info-subfilters"><span></span></span>
       <?php }else{ ?>
       <span id="info-subfilters"><?php echo __("Showing", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['start']; ?> <?php echo __("to", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['end']; ?> <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo number_format($response['pagination']['total_items_count']); ?> <?php echo __("Properties", IDXBOOST_DOMAIN_THEME_LANG); ?>.<span></span></span>
       <?php } ?>
@@ -662,7 +662,6 @@ if (!empty($response) && is_array($response)) {
           <?php } } } }
           /*HACKEDBOX*/
            ?>                    
-          <?php //if ( (is_numeric($atts['limit']) && $atts['limit'] !='default')  && $atts['limit']<=$countimte ) { break; }  ?>
           <?php endforeach; ?>
           <?php endif; ?>
         </ul>
@@ -675,7 +674,6 @@ if (!empty($response) && is_array($response)) {
         </div>
       </div>
     </div>
-    <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
     <div id="paginator-cnt" class="gwr" <?php if($idxboost_ver_bool==false){ ?> style="display: none;" <?php } ?> >
       <?php if (isset($response['pagination'])): ?>
       <nav id="nav-results" class="nav-results nav-results-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">

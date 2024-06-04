@@ -68,18 +68,6 @@ body {padding-top:0 !important;}
 while ( have_posts() ) : the_post(); ?>
 
 <main id="flex-contact-theme" class="ms-agent-pg">
-
-<?php /*
-  <!-- Breadcrumb -->
-  <div class="gwr gwr-breadcrumb">
-    <nav class="flex-breadcrumb" aria-label="breadcrumb">
-      <ol>
-        <li><a href="<?php echo site_url(); ?>" title="Home">Home</a></li>
-        <li aria-current="page">Contact Us</li>
-      </ol>
-    </nav>
-  </div>
-*/ ?>
   <!-- Wrap contact -->
   <div class="flex-wrap-contact">
     

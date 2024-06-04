@@ -55,27 +55,6 @@
                   </a>
                 </li>
                 <?php endif; ?>
-              <?php /*
-              <li>
-                <a href="<?php echo $flex_idx_info['pages']['flex_idx_profile']['guid'] ?>">
-                  <span><?php echo $flex_idx_info['pages']['flex_idx_profile']['post_title']; ?></span>
-                </a>
-              </li>
-              <li class="clidxboost-active">
-                <a href="<?php echo $flex_idx_info['pages']['flex_idx_favorites']['guid']; ?>">
-                  <span><?php echo $flex_idx_info['pages']['flex_idx_favorites']['post_title']; ?></span>
-                </a>
-              </li>
-              <li>
-                <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['guid']; ?>">
-                  <span><?php echo $flex_idx_info['pages']['flex_idx_saved_searches']['post_title']; ?></span>
-                </a>
-              </li>
-              <li>
-                <a href="<?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['guid']; ?>">
-                  <span><?php echo $flex_idx_info['pages']['flex_idx_saved_buildings']['post_title']; ?></span>
-                </a>
-              </li> */ ?>
             </ul>
           </div>
         </div>
@@ -114,10 +93,6 @@
                         <div class="info-b">
                           <h3 class="info-b-title"><?php echo $property["address_short"]; ?></h3>
                           <span><?php echo str_replace(array(' FL, ', ' IL, '), array(', FL ', ', IL '), $property['address_large']); ?></span>
-                          
-                          <?php /*
-                          <button data-mls="<?php echo $property['mlsNum']; ?>" data-permalink="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>" data-address-short="<?php echo $property['addressShort']; ?>" data-address-large="<?php echo $property['addressLarge']; ?>" data-slug="<?php echo $property['slug']; ?>" data-price="<?php echo $property['price']; ?>" data-modal="modal_schedule" class="show-modal flex-property-request-showing request"> <span><?php echo __("request showing", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button> */ ?>
-
                           <div class="action-info-b">
                             <button class="clidxboost-btn-show">
                             <span class="s1"><?php echo __("View more", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -157,35 +132,7 @@
                     <div class="flex-table-row-item select-action text-center">
                       <button data-mls="<?php echo $property['mls_num']; ?>" data-alert-token="<?php echo $property['tokenAlert']; ?>" class="clidxboost-btn-remove dgt-remove-favorite"> <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
                     </div>
-                    
-                    <?php /*
-                    <div class="hiddenInformation">
-                    <ul>
-                      <li><span><?php echo __("Asking Price", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> $<?php echo number_format($property['price']); ?></li>
-                      <li><span><?php echo __("Beds", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span>
-                        <?php echo $property['bed']; ?>  <label><?php
-                          if($property['bed']>1){
-                            echo " ".__("Beds", IDXBOOST_DOMAIN_THEME_LANG);
-                          }else{
-                            echo " ".__("Bed", IDXBOOST_DOMAIN_THEME_LANG);
-                          } ?> </label>
-                      </li>
-                      <li><span>Baths:</span>
-                        <?php echo $property['bath']; ?> <label>
-                        <?php
-                          if ($property['bath']>1) {
-                            echo " ".__("Baths", IDXBOOST_DOMAIN_THEME_LANG);
-                          }else{
-                            echo " ".__("Bath", IDXBOOST_DOMAIN_THEME_LANG);
-                          }
-                          ?></label>
-                      </li>
-                      <li><span><?php echo __("Price", IDXBOOST_DOMAIN_THEME_LANG); ?> / Sq.Ft:</span> <?php echo number_format($property['sqft']); ?> Sq.Ft</li>
-                      <li><span><?php echo __("MLS", IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $property['mlsNum']; ?></li>
-                    </ul>
-                  </div>
-                  */ ?>
-                  <?php /* <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $property['slug']; ?>" class="view-item"></a> */ ?>
+
                   <?php
                     $property_url = isset($agent_permalink) ?
                       ($agent_permalink . '/property/' . $property['slug']) :

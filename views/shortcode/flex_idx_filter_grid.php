@@ -290,16 +290,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
                   <option value="price-asc" <?php selected($response['order'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                   <option value="sqft-desc" <?php selected($response['order'], 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                   <option value="sqft-asc" <?php selected($response['order'], 'sqft-asc'); ?>><?php echo __("Lowest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                <?php /*
-                    <option <?php selected($response['order'], 'price-desc'); ?> value="price-desc">Highest Price</option>
-                    <option <?php selected($response['order'], 'price-asc'); ?> value="price-asc">Lowest Price</option>
-                    <option <?php selected($response['order'], 'bed-desc'); ?> value="bed-desc">Beds High to Low</option>
-                    <option <?php selected($response['order'], 'bed-asc'); ?> value="bed-asc">Beds Low to High</option>
-                    <option <?php selected($response['order'], 'sqft-desc'); ?> value="sqft-desc">Size High to Low</option>
-                    <option <?php selected($response['order'], 'sqft-asc'); ?> value="sqft-asc">Size Low  to High </option>
-                    <option <?php selected($response['order'], 'year-desc'); ?> value="year-desc">Year Newest</option>
-                    <option <?php selected($response['order'], 'year-asc'); ?> value="year-asc">Year Oldest</option>
-                    */ ?>
+                
                     <?php if ($filter_type_fl != 1): ?>
                     <option <?php selected($response['order'], 'list_date-desc'); ?> value="list_date-desc"><?php echo __('Newest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                     <option <?php selected($response['order'], 'list_date-asc'); ?> value="list_date-asc"><?php echo __('Oldest Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></option>

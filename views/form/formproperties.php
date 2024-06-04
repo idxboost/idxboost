@@ -19,9 +19,6 @@
       </h2>
       <ul class="options-modal">
         <li>
-          <a href="http://elite17.staging.wpengine.com/property/3111-rosewood-ct-davie-fl-33328-a10478184" target="_blank" title="View all detail" class="expand-btn">Open</a>
-        </li>
-        <li>
           <button data-id="modal_property_detail" class="close-modal">
             <span class="close-btn">Close</span>
           </button>
@@ -5468,20 +5465,15 @@
                     <textarea class="medium textarea" name="message" id="message" type="text" value="" placeholder="Comments" rows="10" cols="50">I am interested in 46 Star Island Dr Miami Beach FL, 33139</textarea>
                   </div>
                 </li>
-                <?php /*if(!empty($mkting_client)){*/ if (($idxboost_agent_info["show_opt_in_message"])){  ?>
+                <?php if (($idxboost_agent_info["show_opt_in_message"])){  ?>
                 <li class="gfield fub">
                   <div class="ms-flex-chk-ub">
-                    <?php 
-                      //$follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                      //if (!empty($follow_up_boss_api_key)) {
-                    ?>
                     <div class="ms-item-chk">
                       <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                       <label for="follow_up_boss_valid">Follow Up Boss</label>
                     </div>
-                    <?php //} ?>
                     <div class="ms-fub-disclaimer">
-                      <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                      <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                     </div>
                   </div>
                 </li>

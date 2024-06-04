@@ -162,29 +162,6 @@ if($disclaimer_checked == "1"){
       </div>
     </div>
     <div id="flex_idx_search_filter_map"></div>
-    <?php /*
-    <div class="content-rsp-btn">
-      <div class="idx-btn-content">
-        <div class="idx-bg-group">
-          <button data-modal="modal_save_search" class="idx-btn-act save-button-responsive">
-            <span><?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </button>
-
-          <button class="idx-btn-act idx-bta-grid">
-            <span><?php echo __("Grid", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </button>
-
-          <button class="idx-btn-act idx-bta-map">
-            <span><?php echo __("Map", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </button>
-
-          <button class="idx-btn-act ib-show ib-removeb-tg ib-removeb-hide">
-            <span><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?> <br> <?php echo __("Boundaries", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          </button>
-        </div>
-      </div>
-    </div>
-    */ ?>
   </div>
   <div class="ib-wgrid">
     <div class="ib-gheader">
@@ -315,10 +292,6 @@ if($disclaimer_checked == "1"){
                       <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                     </ul>
                   </div>
-									<!--<select class="ib-mcsyears ib-property-mc-ty" id="ib-property-mc-ty">
-										<option value="30"><?php //echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-										<option value="15"><?php //echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-									</select>-->
 								</div>
 							</li>
 							<li class="ib-mcitem"><span class="ib-mgitxt"><?php echo __('Interest Rate(%)', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -1241,7 +1214,7 @@ if($disclaimer_checked == "1"){
                             <label for="follow_up_boss_valid">Follow Up Boss</label>
                           </div>
                           <div class="ms-fub-disclaimer">
-                            <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                            <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                           </div>
                         </div>
 
@@ -1291,7 +1264,6 @@ if($disclaimer_checked == "1"){
 
 <script id="ib-aside-template" type="text/x-handlebars-template">
   {{#each this}}
-    <?php /*{{{ capturePositionHackbox @index }}}*/ ?>
     <li class="ib-pitem" data-geocode="{{ lat }}:{{ lng }}" data-mls="{{ mls_num }}" data-status="{{ status }}">
       <ul class="ib-piinfo">
         <li class="ib-piitem ib-piprice">{{ formatPrice price }}{{ isRentalTypeListing is_rental }}</li>
@@ -1322,7 +1294,7 @@ if($disclaimer_checked == "1"){
           </div>
         </div>
       </div>
-      <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{ mls_num }}" data-status="{{ status }}" data-token-alert="{{token_alert}}"><?php /*<span>Add to Favorites</span> */ ?></div>
+      <div class="ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{ mls_num }}" data-status="{{ status }}" data-token-alert="{{token_alert}}"></div>
       <a class="ib-pipermalink" href="{{ idxPermalink this }}" title="<?php echo __('View Detail of', IDXBOOST_DOMAIN_THEME_LANG); ?> {{ full_address }}"><span>{{ full_address }}</span></a>
     </li>
   {{/each}}
@@ -1343,20 +1315,6 @@ if($disclaimer_checked == "1"){
     </div>
     <!--Boby modal-->
     <div class="ib-body-modal-filters-mobile">
-      <?php /*
-      <div class="ib-filter-autocomplete">
-        <div class="ib-filter-content-autocomplete"><input type="search" placeholder="Enter address, city, zip or MLS" id="ib-autocomplete-input" class="ib-autocomplete-input ui-autocomplete-input"><span class="ib-icon-search-ligth"></span><span class="ib-line-form"></span>
-          <button
-            id="ib-close-search-modal">Close</button>
-            <!--button#ib-active-autocomplete-->
-            <ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" style="top: 45px; left: 0px; width: 383px; display: none;">
-              <li class="ui-menu-item">
-                <div id="ui-id-39" tabindex="-1" class="ui-menu-item-wrapper">Aventura</div>
-              </li>
-            </ul>
-        </div>
-      </div>
-      */ ?>
       <div class="ib-wrap-collapse">
         <!-- RENTAL TYPE -->
         <div class="ib-item-collapse">

@@ -121,9 +121,7 @@
         <li id="filter-by" class="clidxboost-icon-arrow-select">
           <span class="filter-text"><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
-              <!--<option value="list_date-desc" <?php /*selected($$atts['sort'], 'list_date-desc'); */?>><?php /*echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); */?></option>-->
               <option value="last_updated-desc" <?php selected($atts['sort'], 'last_updated-desc'); ?>><?php echo __('Modified Listings', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-              
               <option value="price-desc" <?php selected($atts['sort'], 'price-desc'); ?>><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="price-asc" <?php selected($atts['sort'], 'price-asc'); ?>><?php echo __("Lowest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
               <option value="sqft-desc" <?php selected($atts['sort'], 'sqft-desc'); ?>><?php echo __("Highest Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -141,9 +139,9 @@
       <?php if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
       <?php
         if($idxboost_ver_bool==false){ ?>
-      <span id="info-subfilters"><span><?php // echo __("Scroll down for more.", IDXBOOST_DOMAIN_THEME_LANG); ?></span></span>
+      <span id="info-subfilters"><span></span></span>
       <?php }else{ ?>
-      <span id="info-subfilters"><?php echo __("Showing", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['start']; ?> <?php echo __("to", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['end']; ?> <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo number_format($response['pagination']['total_items_count']); ?> <?php echo __("Properties", IDXBOOST_DOMAIN_THEME_LANG); ?>.<span><?php // echo __("Scroll down for more.", IDXBOOST_DOMAIN_THEME_LANG); ?></span></span>
+      <span id="info-subfilters"><?php echo __("Showing", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['start']; ?> <?php echo __("to", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response['pagination']['offset']['end']; ?> <?php echo __("of", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo number_format($response['pagination']['total_items_count']); ?> <?php echo __("Properties", IDXBOOST_DOMAIN_THEME_LANG); ?>.<span></span></span>
       <?php } ?>
       <?php } ?>
     </div>

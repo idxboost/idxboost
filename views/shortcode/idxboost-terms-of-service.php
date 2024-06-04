@@ -105,6 +105,11 @@
     <p><?php echo __("To opt out, you can reply “stop” at any time or click the unsubscribe link in the emails", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
   </div>
 
+  <div id="how-do-we-share-your-personal-information">
+    <h3><?php echo __("How do we share your personal information?", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
+    <p><?php echo __("We don't sell, trade, or share any personal information with third parties.", IDXBOOST_DOMAIN_THEME_LANG); ?>:</p>
+  </div>
+
   <div id="notice-privacy">
     <h3><?php echo __("Notice to California Residents", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p><?php echo __("If you are a resident of California, then the collection, processing and use of your personal information may be subject to the California Consumer Privacy Act (“CCPA”) as well as other applicable California state privacy laws", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>

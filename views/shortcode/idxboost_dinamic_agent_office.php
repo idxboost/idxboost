@@ -34,7 +34,6 @@
   if(array_key_exists('view_grid_type',$search_params)) $sta_view_grid_type=$search_params['view_grid_type'];
   ?>
 <script>
-  //var filter_metadata = <?php //echo trim(json_encode($response)); ?>;
   var search_metadata = <?php echo trim(json_encode($search_params)); ?>;
 </script>
 <?php
@@ -100,7 +99,6 @@
 
       </div>
     </div>
-    <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
     <div id="paginator-cnt" class="gwr">
       <nav id="nav-results" class="nav-results nav-results-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">
       </nav>

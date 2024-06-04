@@ -69,7 +69,6 @@ global $flex_idx_info;
                <div class="header-title-profile">
                   <h2 class="title-profile"><?php echo __('My Saved Buildings', IDXBOOST_DOMAIN_THEME_LANG); ?> (<?php echo number_format(isset($response['count']) ? $response["count"] : 0); ?>)</h2>
                </div>
-              <?php //if (empty($saved_searches)): ?>
               <?php if (!isset($response['success']) || (isset($response['items']) && empty($response['items']))): ?>
 
               <div class="message-alert idx_color_primary flex-not-logged-in-msg" id="box_flex_alerts_msg">
@@ -117,16 +116,6 @@ global $flex_idx_info;
                         <span><?php echo __('Remove', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       </button>
                     </div>
-                    <?php /*
-                    <div class="hiddenInformation">
-                      <ul>
-                        <li><span><?php echo __('Building Address', IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $property_address; ?></li>
-                        <li><span><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $property['year']; ?></li>
-                        <li><span><?php echo __('Total Units', IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo $property['unitBuilding']; ?></li>
-                        <li><span><?php echo __('Date Saved', IDXBOOST_DOMAIN_THEME_LANG); ?>:</span> <?php echo date('m/d/Y', strtotime($property['created_at']['date'])); ?></li>
-                      </ul>
-                    </div>
-                    */ ?>
                     <a href="<?php echo empty($property['permalink']) ? '#' : $property['permalink']; ?>" class="view-item"></a>
                   </div>
                   <?php endforeach; ?>

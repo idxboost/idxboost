@@ -83,12 +83,6 @@
                   </div>
                   <h3 class="title_building_name"><span><?php echo $value['name']; ?></span></h3>
                   <h3 class="title_building_address" title="<?php echo $addressName; ?>"><span><?php echo $addressName; ?></span></h3>
-                  <?php /*
-                    <?php if ($value['is_favorite'] == 1): ?>
-                  <!-- <button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list active" data-alert-token="<?php echo $value['token_alert']; ?>"></span></button>-->
-                  <?php else: ?>
-                  <!-- <button class="clidxboost-btn-check"><span class="flex-favorite-btn clidxboost-icon-check clidxboost-icon-check-list"></span></button> -->
-                  <?php endif; ?> */ ?>
                   <?php
                     $args = array('post_type' => 'flex-idx-building','posts_per_page'   => 4,'no_found_rows'    => true,'suppress_filters' => false,
                         'meta_query'=> array( array( 'key' => '_flex_building_page_id','value' => $value['codBuilding'], 'compare' => '=', ) ), );
@@ -155,10 +149,6 @@
   (function ($) {
   
   $(function() {
-    <?php /*
-    $(document).on("ready", function() {
-      $('#modal_img_propertie .title').text('<?php echo $building_default_address; ?>');
-    }); */ ?>
   
     $(document).on("click", ".flex-tbl-link", function() {
       var permalink = $(this).data("permalink");

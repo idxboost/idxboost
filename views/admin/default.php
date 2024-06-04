@@ -186,10 +186,6 @@
     }
 
     #wpcontent{
-      /*background-image: url('<?php echo FLEX_IDX_URI; ?>images/new-admin-rocket.png');
-      background-position: 78px 78px;
-      background-repeat: no-repeat;
-      position: fixed;*/
       top: 0;
       left: 0;
       width: 100%;
@@ -293,11 +289,6 @@
         $c_search_settings = get_option("idxboost_search_settings");
         if (isset($c_search_settings["board_id"]) && ("1" == $c_search_settings["board_id"])):
       ?>
-      <?php /*
-      <p>
-        <button id="flex_idx_import_data" type="button" style="padding:10px 30px;font-size:15px;background:#31a01e;border:0;color:#fff;cursor:pointer;font-weight:normal;">Import Data?</button>
-        <a href="#" id="flex_idx_omit_import_data" class="flex_idx_omit_import_data"> No, Thanks.</a>
-      </p> */ ?>
       <?php endif; endif; ?>
       <div class="flex-info-synchronize">
         <p>Important! Some edits from the Control Panel need to synchronized with your Wordpress dashboard to reflect in your website; All edits of personal information from My Account (Phone, email, etc...)</p>

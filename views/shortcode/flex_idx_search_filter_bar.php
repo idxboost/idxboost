@@ -147,17 +147,10 @@
                       <div class="ib-ffsale ib-fifor" data-type="sale"><?php echo __('For Sale', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                       <div class="ib-ffrent ib-fifor" data-type="rent"><?php echo __('For Rent ', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     </div>
-                    <?php /*
-                    <div class="ib-fhpa-minisearch">
-                      <input class="ib-fmsearch" data-type="inner-ac" type="search" placeholder="<?php echo __('Enter Address, City, Zip Code, Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                      <div class="ib-fmsubmit ib-icon-search ib-kw-tg-search"><span class="ib-btext"><?php echo __('Search', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-                    </div> */ ?>
+                    
                   </div>
                 </div>
-                <?php /*
-                <div class="ib-fcities">
-                  <ul class="ib-lcities"></ul>
-                </div> */ ?>
+                
                 <div class="ib-fitem">
                   <div class="ib-fititle"><?php echo __('Price Range', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-ficontent ib-price-range-inner">

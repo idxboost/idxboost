@@ -35,16 +35,6 @@ while ( have_posts() ) : the_post(); ?>
   </style>
 
   <main id="flex-about-theme">
-    <?php /*
-      <div class="gwr gwr-breadcrumb">
-        <nav class="flex-breadcrumb" aria-label="breadcrumb">
-          <ol>
-            <li><a href="<?php echo site_url(); ?>" title="Home">Home</a></li>
-            <li aria-current="page"><?php the_title() ?></li>
-          </ol>
-        </nav>
-      </div> */ ?>
-
       <div class="gwr c-flex intro-about">
         <article class="flex-block-description">
           <h2 class="title-block">

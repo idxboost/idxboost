@@ -42,10 +42,6 @@ $current_year = date('Y');
                   <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <input class="notranslate ib-ifto ib-ifto-sale ib-rprice-sale-lbl-rt ib-comm-price-sale-outer-max" type="text" value="" placeholder="Max">
                 </div>
-                <?php /*
-                <div class="ib-wrange">
-                  <div class="ib-range ib-rprice-sale"></div>
-                </div> */ ?>
               </div>
 
               <div class="ib-price-range-wrap ib-price-range-wrap-rent">
@@ -54,57 +50,11 @@ $current_year = date('Y');
                     <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                     <input class="notranslate ib-ifto ib-ifto-rent ib-rprice-rent-lbl-rt ib-comm-price-rent-outer-ma" type="text" value="">
                 </div>
-                <?php /*
-                <div class="ib-wrange">
-                  <div class="ib-range ib-rprice-rent"></div>
-                </div> */ ?>
               </div>
 
             </div>
           </div>
         </li>
-        <?php /*
-        <li class="ib-oitem ib-obed">
-          <div class="ib-oiwrapper"><span class="ib-iotxt ib-lbl-bed-ntf"><?php echo __('Any Bed(s)', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-          <div class="ib-fimini">
-            <div class="ib-fititle"><?php echo __('Bedrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-            <div class="ib-ficontent">
-              <div class="ib-wrange">
-                <div class="ib-range ib-rbedrooms"></div>
-                <ul class="ib-rmarkers">
-                  <li class="ib-rmitem"><span class="ib-rmtxt"><?php echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
-                  <li class="ib-rmitem">1</li>
-                  <li class="ib-rmitem">2</li>
-                  <li class="ib-rmitem">3</li>
-                  <li class="ib-rmitem">4</li>
-                  <li class="ib-rmitem">5</li>
-                  <li class="ib-rmitem">5+</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="ib-oitem ib-obath">
-          <div class="ib-oiwrapper"><span class="ib-iotxt ib-lbl-bath-ntf"><?php echo __('Any Bath(s)', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-          <div class="ib-fimini">
-            <div class="ib-fititle"><?php echo __('Bathrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-            <div class="ib-ficontent">
-              <div class="ib-wrange">
-                <div class="ib-range ib-rbathrooms"></div>
-                <ul class="ib-rmarkers">
-                  <li class="ib-rmitem">0</li>
-                  <li class="ib-rmitem">1</li>
-                  <li class="ib-rmitem">2</li>
-                  <li class="ib-rmitem">3</li>
-                  <li class="ib-rmitem">4</li>
-                  <li class="ib-rmitem">5</li>
-                  <li class="ib-rmitem">5+</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        */ ?>
         <li class="ib-oitem ib-otype">
           <div class="ib-oiwrapper"><span class="ib-iotxt ib-lbl-types-ntf"><?php echo __('Any Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
           <div class="ib-fimini">
@@ -132,25 +82,8 @@ $current_year = date('Y');
                       <div class="ib-ffsale ib-fifor" data-type="sale"><?php echo __('For Sale', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                       <div class="ib-ffrent ib-fifor" data-type="rent"><?php echo __('For Lease ', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                     </div>
-                    <?php /*
-                    <div class="ib-fhpa-minisearch">
-                      <input class="ib-fmsearch" data-type="inner-ac" type="search" placeholder="<?php echo __('Enter Address, City, Zip Code, Subdivision', IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                      <div class="ib-fmsubmit ib-icon-search ib-kw-tg-search"><span class="ib-btext"><?php echo __('Search', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
-                    </div> */ ?>
                   </div>
                 </div>
-                <?php /*
-                <div class="ib-fitem">
-                  <div class="ib-fititle"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                  <div class="ib-ficontent">
-                    <div class="ib-wselect ib-icon-darrow">
-                      <select class="ib-fselect ib-waterfront-options">
-                        <option value="--"><?php echo __('Any', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                */ ?>
                 <div class="ms-block-flex">
                   <div class="ib-fitem">
                     <div class="ib-fititle"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
@@ -167,11 +100,6 @@ $current_year = date('Y');
                 </div>
               </div>
               <div class="ib-fdcol">
-
-                <?php /*
-                <div class="ib-fcities">
-                  <ul class="ib-lcities"></ul>
-                </div> */ ?>
                 <div class="ib-fitem">
                   <div class="ib-fititle"><?php echo __('Price Range', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-ficontent ib-price-range-inner">
@@ -181,10 +109,6 @@ $current_year = date('Y');
                       <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       <input class="notranslate ib-ifto ib-ifto-sale ib-rprice-sale-lbl-rt ib-comm-price-sale-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rprice-sale"></div>
-                    </div> */ ?>
                   </div>
 
                   <div class="ib-price-range-wrap ib-price-range-wrap-rent">
@@ -193,10 +117,6 @@ $current_year = date('Y');
                         <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                         <input class="notranslate ib-ifto ib-ifto-rent ib-rprice-rent-lbl-rt ib-comm-price-rent-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rprice-rent"></div>
-                    </div> */ ?>
                   </div>
                   </div>
                 </div>
@@ -208,10 +128,6 @@ $current_year = date('Y');
                       <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       <input class="notranslate ib-ifto ib-rliving-lbl-rt ib-comm-sqft-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rliving"></div>
-                    </div> */ ?>
                   </div>
                 </div>
                 <div class="ib-fitem">
@@ -222,10 +138,6 @@ $current_year = date('Y');
                       <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       <input class="notranslate ib-ifto ib-bsize-lbl-rt ib-comm-bsize-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rbsize"></div>
-                    </div> */ ?>
                   </div>
                 </div>
                 <div class="ib-fitem">
@@ -236,26 +148,10 @@ $current_year = date('Y');
                       <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       <input class="notranslate ib-ifto ib-rland-lbl-rt ib-comm-lotsize-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rland"></div>
-                    </div> */ ?>
                   </div>
                 </div>
               </div>
               <div class="ib-fdcol">
-              <?php /*
-                <div class="ib-fitem">
-                  <div class="ib-fititle"><?php echo __('Parking Spaces', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                  <div class="ib-ficontent">
-                    <div class="ib-wselect ib-icon-darrow">
-                      <select class="ib-fselect ib-parking-options">
-                        <option value="--"><?php echo __('Any', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                */ ?>
                 <div class="ib-fitem">
                   <div class="ib-fititle"><?php echo __('Units / Beds Range', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-ficontent">
@@ -264,19 +160,6 @@ $current_year = date('Y');
                       <span class="ib-iftxt"><?php echo __('to', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                       <input class="notranslate ib-ifto ib-rbeds-lbl-rt ib-comm-beds-inner-max" type="text" value="" placeholder="Max">
                     </div>
-                  <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rbedrooms"></div>
-                      <ul class="ib-rmarkers">
-                        <li class="ib-rmitem"><span class="ib-rmtxt"><?php echo __('Studio', IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
-                        <li class="ib-rmitem">1</li>
-                        <li class="ib-rmitem">2</li>
-                        <li class="ib-rmitem">3</li>
-                        <li class="ib-rmitem">4</li>
-                        <li class="ib-rmitem">5</li>
-                        <li class="ib-rmitem">5+</li>
-                      </ul>
-                    </div> */ ?>
                   </div>
                 </div>
                 <div class="ib-fitem">
@@ -301,26 +184,6 @@ $current_year = date('Y');
                       </div>
                     </div>
                 </div>
-                <?php /*
-                <div class="ib-fitem">
-                  <div class="ib-fititle"><?php echo __('Bathrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                  <div class="ib-ficontent">
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rbathrooms"></div>
-                      <ul class="ib-rmarkers">
-                        <li class="ib-rmitem">0</li>
-                        <li class="ib-rmitem">1</li>
-                        <li class="ib-rmitem">2</li>
-                        <li class="ib-rmitem">3</li>
-                        <li class="ib-rmitem">4</li>
-                        <li class="ib-rmitem">5</li>
-                        <li class="ib-rmitem">5+</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                */ ?>
-
                 <div class="ib-fitem">
                   <div class="ib-fititle"><?php echo __('Property Status', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                   <div class="ib-ficontent">
@@ -341,10 +204,6 @@ $current_year = date('Y');
                       <p><?php echo __('4% in high demand areas', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
                       <p><?php echo __('10% (or even higher) in low-demand areas', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
                     </div>
-                    <?php /*
-                    <div class="ib-wrange">
-                      <div class="ib-range ib-rraterange"></div>
-                    </div> */ ?>
                   </div>
                 </div>
 
@@ -405,25 +264,6 @@ $current_year = date('Y');
             </div>
           </div>
         </li>
-        <?php /*
-        <li class="ib-fitem">
-          <div class="ib-fititle"><?php echo __('Bathrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-          <div class="ib-ficontent">
-            <div class="ib-wrange">
-              <div class="ib-range ib-rbathrooms"></div>
-              <ul class="ib-rmarkers">
-                <li class="ib-rmitem">0</li>
-                <li class="ib-rmitem">1</li>
-                <li class="ib-rmitem">2</li>
-                <li class="ib-rmitem">3</li>
-                <li class="ib-rmitem">4</li>
-                <li class="ib-rmitem">5</li>
-                <li class="ib-rmitem">5+</li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        */ ?>
         <li class="ib-fitem">
           <div class="ib-fititle"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
           <div class="ib-ficontent">
@@ -454,29 +294,6 @@ $current_year = date('Y');
             </div>
           </div>
         </li>
-        <?php /*
-        <li class="ib-fitem">
-          <div class="ib-fititle"><?php echo __('Waterfront Description', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-          <div class="ib-ficontent">
-            <div class="ib-wselect ib-icon-darrow">
-              <select class="ib-fselect ib-waterfront-options">
-                <option value="--">Any</option>
-              </select>
-            </div>
-          </div>
-        </li>
-        */ ?>
-        <?php /*
-        <li class="ib-fitem">
-          <div class="ib-fititle"><?php echo __('Parking Spaces', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-          <div class="ib-ficontent">
-            <div class="ib-wselect ib-icon-darrow">
-              <select class="ib-fselect ib-parking-option">
-                <option value="--">Any</option>
-              </select>
-            </div>
-          </div>
-        </li> */ ?>
         <li class="ib-fitem">
           <div class="ib-fititle"><?php echo __('Total Lot Size Range', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
           <div class="ib-ficontent">

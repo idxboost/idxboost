@@ -4,6 +4,7 @@
   $mkting_client = get_option('mkting_client');
   $idxboost_agent_info = get_option('idxboost_agent_info');
   $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+  $show_why_register = $flex_idx_info['agent']['show_why_register'];
 
   if($disclaimer_checked == "1"){
     $checked = "checked";
@@ -104,10 +105,10 @@
   <div class="overlay_modal modalReferentFUB" id="modal_login">
 
     <div class="ms-new-wrapper-modal-login-register">
-
       <div class="modal_cm">
-  
-        <!--<div class="ms-box-info" id="msboxinfo">
+
+        <?php if($show_why_register == "1"): ?>
+        <div class="ms-box-info" id="msboxinfo">
           <div class="ms-box-info-wrapper">
             <div class="ms-box-header">
               <h5 class="ms-title">Why Create An Account?</h5>
@@ -156,7 +157,8 @@
               </ul>
             </div>
           </div>
-        </div>-->
+        </div>
+        <?php endif ?>
 
         <div class="content_md">
           <div class="heder_md">
@@ -275,16 +277,12 @@
 
                         <div class="wrapper-input">
                           <label class="agile-label ms-strong" for="agilefield-8"><?php echo __('Use phone number as password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                          <!--<input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php //echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="agile-height-default ib-input-only-numeric phoneRegisterValidation" required value="" oninput="this.value = this.value.replace(/[^0-9]/g, '');">-->
                           <input id="agilefield-8" name="register_phone" type="tel" placeholder="<?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>" class="phoneRegisterValidation" required value="">
                         </div>
                         <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                       </li>
 
-                      <?php if (
-                        (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) 
-                        // || (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"]))
-                      ): ?>
+                      <?php if ((isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ): ?>
                       <li class="pr-step pr-radio">
                         <div class="ms-header-md">
                           <span class="ms-title-modal ms-no-mb"><?php echo __("Thank You For Registering", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -361,30 +359,6 @@
                         </ul>
                       </li>
                       <?php endif; ?>
-
-                      <?php /*
-                      <!-- inicio nuevo item de facebook -->
-                      <li class="pr-step facebook-registration" id="__quizz_type_phone_ct" style="display: none">
-                        <div class="ms-header-md">
-                          <h4 class="ms-title-modal ms-no-mb"><?php echo __('Thank you for registering!', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-                          <h5 class="ms-sub-title"><?php echo __('Use Phone Number For Password', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
-                        </div>
-                        
-                        <div class="name-input-content">
-                          <div class="wrapper-input">
-                            <label class="agile-label" for="agilefield-6">
-                              <?php echo __('Phone number', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                              <span class="txtgray">(<?php echo __('Used as password', IDXBOOST_DOMAIN_THEME_LANG); ?>)</span> 
-                            </label>
-                            <input id="__signup_fb_phone" name="register_phone_facebook" type="text" class="agile-height-default" placeholder="Phone number" required value="">
-                          </div>
-                        </div>
-
-                        <button class="pr-redbtn pr-registering" type="button"><?php echo __("I'm finished", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                      </li>
-                      <!-- final nuevo item de facebook -->
-                      */ ?>
-
                     </ul>
                     <span id="agile-error-msg"></span>
                   </fieldset>
@@ -463,9 +437,6 @@
                             data-logo_alignment="left"
                             data-width="360"
                       ></div>
-                    <?php /* <a class="ico-google flex-social-login-gplus" href="#" id="gSignIn">
-                      <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </a> */ ?>
 
                     <button type="submit" aria-label="Login with Google" class="social_login_btn_temporal"></button>
                   </li>
@@ -504,15 +475,10 @@
             ?>
               <div class="ms-fub-register">
                 <div class="ms-flex-chk-ub">
-                  <?php 
-                    //$follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                    //if(!empty($follow_up_boss_api_key)){
-                  ?>
                   <div class="ms-item-chk">
                     <input type="checkbox" id="follow_up_boss_valid_register" class="follow_up_boss_valid_register" required <?php echo $checked; ?>>
                     <label for="follow_up_boss_valid_register">Follow Up Boss</label>
                   </div>
-                  <?php //} ?>
                   <div class="ms-fub-disclaimer">
                     <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
@@ -839,20 +805,15 @@
                       <input type="text" name="preferred_date" id="ss_preferred_date" value="" placeholder='<?php echo __("Choose Date", IDXBOOST_DOMAIN_THEME_LANG); ?>' class="medium">
                     </div>
                   </li>
-                  <?php /*if(!empty($mkting_client)){*/ if (($idxboost_agent_info["show_opt_in_message"])){  ?>
+                  <?php if (($idxboost_agent_info["show_opt_in_message"])){  ?>
                   <li class="gfield fub">
                     <div class="ms-flex-chk-ub">
-                      <?php 
-                        //$follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                        //if(!empty($follow_up_boss_api_key)){
-                      ?>
                       <div class="ms-item-chk">
                         <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
                         <label for="follow_up_boss_valid">Follow Up Boss</label>
                       </div>
-                      <?php //} ?>
                       <div class="ms-fub-disclaimer">
-                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?>.</a></p>
+                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                       </div>
                     </div>
                   </li>
@@ -1118,10 +1079,6 @@
                           <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                         </ul>
                       </div>
-                      <!--<select class="medium term_txt" id="term_txt">
-                        <option value="30"><?php //echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                        <option value="15"><?php //echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
-                      </select>-->
                     </div>
                   </li>
                   <li class="gfield">
@@ -2999,15 +2956,10 @@ function fb_logout() {
             <?php if (($idxboost_agent_info["show_opt_in_message"])){  ?>
               <div class="ms-fub-register">
                 <div class="ms-flex-chk-ub">
-                  <?php 
-                    //$follow_up_boss_api_key = $flex_idx_info['agent']['follow_up_boss_api_key'];
-                    //if(!empty($follow_up_boss_api_key)){
-                  ?>
                   <div class="ms-item-chk">
                     <input type="checkbox" id="follow_up_boss_valid_register_" class="follow_up_boss_valid_register" required <?php echo $checked; ?>>
                     <label for="follow_up_boss_valid_register_">Follow Up Boss</label>
                   </div>
-                  <?php //} ?>
                   <div class="ms-fub-disclaimer">
                     <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
@@ -3027,7 +2979,6 @@ function fb_logout() {
         </div>
       </div>
     </div>
-    <?php /*<div class="ib-mmclose"><span class="ib-mmctxt">Close</span></div>*/ ?>
   </div>
   <div class="ib-mmbg"></div>
 </div>

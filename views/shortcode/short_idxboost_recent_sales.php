@@ -96,10 +96,8 @@
           <button class="open-map hide"><?php echo __('Open', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           <button class="close-map"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </div>
-
       </div>
     </div>
-    <?php //if ( (!is_numeric($atts['limit']) && $atts['limit'] =='default')) { ?>
     <div id="paginator-cnt" class="gwr">
       <nav id="nav-results" class="nav-results nav-results-<?php echo $class_multi; ?>" filtemid="<?php echo $class_multi; ?>">
       </nav>
