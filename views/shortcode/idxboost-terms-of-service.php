@@ -107,7 +107,7 @@
 
   <div id="how-do-we-share-your-personal-information">
     <h3><?php echo __("How do we share your personal information?", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
-    <p><?php echo __("We don't sell, trade, or share any personal information with third parties.", IDXBOOST_DOMAIN_THEME_LANG); ?>:</p>
+    <p><?php echo __("We will not share, trade, or sell any personal information for marketing or promotional purposes with anyone outside of our business line.", IDXBOOST_DOMAIN_THEME_LANG); ?>:</p>
   </div>
 
   <div id="notice-privacy">
