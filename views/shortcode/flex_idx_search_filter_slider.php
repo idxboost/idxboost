@@ -86,6 +86,7 @@ if($disclaimer_checked == "1"){
 
   <input type="hidden" name="parking_options" value="">
   <input type="hidden" name="amenities" value="">
+  <input type="hidden" name="othersamenities" value="">
 
   <?php if (isset($atts["oh"]) && (1 == $atts["oh"])) : ?>
     <input type="hidden" name="oh" value="1">

@@ -1940,6 +1940,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['board_id'] = isset($idxboost_search_settings['board_id']) ? $idxboost_search_settings['board_id'] : null;
             $output['board_info'] = isset($idxboost_search_settings['board_info']) ? $idxboost_search_settings['board_info'] : null;
             $output['search']['amenities'] = isset($idxboost_search_settings['amenities']) ? $idxboost_search_settings['amenities'] : '';
+            $output['search']['otherpopularfeatures'] = isset($idxboost_search_settings['otherpopularfeatures']) ? $idxboost_search_settings['otherpopularfeatures'] : '';
             $output['search']['baths_range'] = isset($idxboost_search_settings['baths_range']) ? $idxboost_search_settings['baths_range'] : '';
             $output['search']['beds_range'] = isset($idxboost_search_settings['beds_range']) ? $idxboost_search_settings['beds_range'] : '';
             $output['search']['cities'] = isset($idxboost_search_settings['cities']) ? $idxboost_search_settings['cities'] : '';

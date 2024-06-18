@@ -99,6 +99,7 @@ if($disclaimer_checked == "1"){
 
   <input type="hidden" name="parking_options" value="">
   <input type="hidden" name="amenities" value="">
+  <input type="hidden" name="othersamenities" value="">
 
   <input type="hidden" name="min_sale_price" value="">
   <input type="hidden" name="max_sale_price" value="">
@@ -1333,6 +1334,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--PRICE RANGE FOR SALE-->
         <div class="ib-item-collapse ib-item-collapse-saletype ib-item-collapse-sale" style="display:none;">
           <h2 class="ib-header-collapse"><?php echo __('Price Range', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1392,6 +1394,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--BATHROOMS-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Bathrooms', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1411,6 +1414,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--TYPE-->
         <div class="ib-item-collapse -mb">
           <h2 class="ib-header-collapse"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1427,7 +1431,6 @@ if($disclaimer_checked == "1"){
           </div>
         </div>
 
-        
         <!--PARKING SPACES-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Parking Spaces', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1435,6 +1438,7 @@ if($disclaimer_checked == "1"){
             <ul class="ib-wrap-fm" id="ib-flex-m-parking"></ul>
           </div>
         </div>
+
         <!--LIVING SIZE-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Living Size', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1454,6 +1458,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--LAND SIZE-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Land Size', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1473,6 +1478,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--YEAR BUILT-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1505,6 +1511,7 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
         <!--FEATURES-->
         <div class="ib-item-collapse">
           <h2 class="ib-header-collapse"><?php echo __('Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
@@ -1514,6 +1521,30 @@ if($disclaimer_checked == "1"){
             </div>
           </div>
         </div>
+
+        <!--FEATURES EXTRAS-->
+        <?php if (in_array($flex_idx_info["board_id"], [33])) {  ?>
+        <div class="ib-item-collapse">
+          <h2 class="ib-header-collapse"><?php echo __('Other Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+          <div class="ib-body-collpase">
+            <div class="ib-wrap-fm">
+              <ul class="ib-wrap-fm ib-cl-2" id="ib-flex-m-features-extra">
+                <?php
+                  if (count($flex_idx_info["search"]) > 0 && array_key_exists("otherpopularfeatures", $flex_idx_info["search"]) && is_array($flex_idx_info["search"]["otherpopularfeatures"]) && 
+                    count($flex_idx_info["search"]["otherpopularfeatures"]) > 0  ) { 
+                    foreach ($flex_idx_info["search"]["otherpopularfeatures"] as $keyOther => $valueOther) { ?>
+                      <li class="ib-item-wrap-fm ib-btn-chk-fm">
+                        <input type="checkbox" id="ib-amt-extra-inner-amt-mb_<?php echo $keyOther; ?>" value="<?php echo $valueOther['code']; ?>" class="ib-m-features-checkboxes">
+                        <label for="ib-amt-extra-inner-amt-mb_<?php echo $keyOther; ?>"><?php echo __($valueOther['name'], IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      </li>
+                     <?php 
+                    }                    
+                  } ?>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <?php } ?>
       </div>
     </div>
     <!--Footer modal-->

@@ -34,7 +34,7 @@
   <div class="ib-mmcontent">
     <div class="ib-mwrapper ib-mgeneric">
       <div class="ib-mgheader">
-        <h4 class="ib-mghtitle">Edit Search</h4>
+        <h4 class="ib-mghtitle"><?php echo __('Edit Search', IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
       </div>
       <div class="ib-mgcontent">
         <form method="post" class="flex-edit-search-modals">
@@ -42,39 +42,39 @@
 
           <input type="hidden" name="token_alert" class="token_alert_update_criterial" value="">
           <ul class="ib-msavesearch">
-            <li class="ib-mssitem"><span class="ib-mssitxt">Email Updates</span>
+            <li class="ib-mssitem"><span class="ib-mssitxt"><?php echo __('Email Updates', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
               <div class="ib-mgiwrapper ib-mgwselect">
-                <label class="ms-hidden" for="ib-mgwselect-edit">Email Updates</label>
+                <label class="ms-hidden" for="ib-mgwselect-edit"><?php echo __('Email Updates', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 <select class="ib-mssselect" name="notification_day" id="ib-mgwselect-edit">
-                  <option value="--">No Alert</option>
-                  <option value="1" selected="">Daily</option>
-                  <option value="7">Weekly</option>
-                  <option value="30">Monthly</option>
+                  <option value="--"><?php echo __('No Alert', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="1" selected=""><?php echo __('Daily', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="7"><?php echo __('Weekly', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
+                  <option value="30"><?php echo __('Monthly', IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                 </select>
               </div>
             </li>
-            <li class="ib-mssitem"><span class="ib-mssitxt">Only Update me On</span>
+            <li class="ib-mssitem"><span class="ib-mssitxt"><?php echo __('Only Update me On', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
               <ul class="ib-mssupdate">
                 <li class="ib-mssuitem">
                   <input class="ib-msscheckbox" type="checkbox" id="ib-check-new-listing-edit" name="notification_type_edit[]" value="new_listing" checked>
-                  <label class="ib-msslabel" for="ib-check-new-listing-edit">New Listing (Always)</label>
+                  <label class="ib-msslabel" for="ib-check-new-listing-edit"><?php echo __('New Listing (Always)', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 </li>
                 <li class="ib-mssuitem">
                   <input class="ib-msscheckbox" type="checkbox" id="ib-check-price-change-edit" name="notification_type_edit[]" value="price_change" checked>
-                  <label class="ib-msslabel" for="ib-check-price-change-edit">Price Change</label>
+                  <label class="ib-msslabel" for="ib-check-price-change-edit"><?php echo __('Price Change', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 </li>
                 <li class="ib-mssuitem">
                   <input class="ib-msscheckbox" type="checkbox" id="ib-check-status-change-edit" name="notification_type_edit[]" value="status_change" checked>
-                  <label class="ib-msslabel" for="ib-check-status-change-edit">Status Change</label>
+                  <label class="ib-msslabel" for="ib-check-status-change-edit"><?php echo __('Status Change', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                 </li>
               </ul>
             </li>
           </ul>
-          <button class="ib-mgsubmit">Save Search</button>
+          <button class="ib-mgsubmit"><?php echo __('Save Search', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
         </form>
       </div>
     </div>
-    <div class="ib-mmclose js-close-mds" role="button" aria-label="Close"><span class="ib-mmctxt">Close</span></div>
+    <div class="ib-mmclose js-close-mds" role="button" aria-label="Close"><span class="ib-mmctxt"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
   </div>
   <div class="ib-mmbg"></div>
 </div>
@@ -111,8 +111,8 @@
         <div class="ms-box-info" id="msboxinfo">
           <div class="ms-box-info-wrapper">
             <div class="ms-box-header">
-              <h5 class="ms-title">Why Create An Account?</h5>
-              <button class="ms-close-box js-close-why-register" aria-label="Close Modal">
+              <h5 class="ms-title"><?php echo __('Why Create An Account?', IDXBOOST_DOMAIN_THEME_LANG); ?></h5>
+              <button class="ms-close-box js-close-why-register" aria-label="<?php echo __('Close Modal', IDXBOOST_DOMAIN_THEME_LANG); ?>">
                 <i class="idx-icon-close"></i>
               </button>
             </div>
@@ -123,8 +123,8 @@
                     <i class="idx-icon-alert"></i>
                   </div>
                   <div class="ms-info-detail">
-                    <strong>Get new alerts</strong>
-                    <p>We will notify you when a new listing that matches your search criteria hits the market. Be the first to know of new listings!</p>
+                    <strong><?php echo __('Get new alerts', IDXBOOST_DOMAIN_THEME_LANG); ?></strong>
+                    <p><?php echo __('We will notify you when a new listing that matches your search criteria hits the market. Be the first to know of new listings!', IDXBOOST_DOMAIN_THEME_LANG); ?></p>
                   </div>
                 </li>
                 <li>
@@ -132,8 +132,8 @@
                     <i class="idx-icon-check-active"></i>
                   </div>
                   <div class="ms-info-detail">
-                    <strong>Save your favorite listings</strong>
-                    <p>Save an unlimited number of listings on our site for easy access when you return.</p>
+                    <strong><?php echo __('Save your favorite listings', IDXBOOST_DOMAIN_THEME_LANG); ?></strong>
+                    <p><?php echo __('Save an unlimited number of listings on our site for easy access when you return', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
                   </div>
                 </li>
                 <li>
@@ -141,8 +141,8 @@
                     <i class="idx-icon-shared"></i>
                   </div>
                   <div class="ms-info-detail">
-                    <strong>Share properties with friends</strong>
-                    <p>Easily share your favorite properties with your friends and family via email.</p>
+                    <strong><?php echo __('Share properties with friends', IDXBOOST_DOMAIN_THEME_LANG); ?></strong>
+                    <p><?php echo __('Easily share your favorite properties with your friends and family via email', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
                   </div>
                 </li>
                 <li>
@@ -150,8 +150,8 @@
                     <i class="idx-icon-checkmark"></i>
                   </div>
                   <div class="ms-info-detail">
-                    <strong>View property history</strong>
-                    <p>View property history and keep track of listings you have recently viewed.</p>
+                    <strong><?php echo __('View property history', IDXBOOST_DOMAIN_THEME_LANG); ?></strong>
+                    <p><?php echo __('View property history and keep track of listings you have recently viewed', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
                   </div>
                 </li>
               </ul>
@@ -420,8 +420,8 @@
                     </li>
                   <?php endif; ?>
                   <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
-                  <li>
-                    <div id="g_id_onload"
+                  <li class="ms-wrapper-login-google">
+                      <div id="g_id_onload"
                               data-client_id="<?php echo $flex_idx_info["agent"]["google_client_id"]; ?>"
                               data-context="signin"
                               data-ux_mode="popup"
@@ -437,7 +437,14 @@
                             data-logo_alignment="left"
                             data-width="360"
                       ></div>
-
+                    <div class="ms-google-login-btn">
+                      <div class="ms-svg">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="LgbsSe-Bz112c"><g><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></g></svg>
+                      </div>
+                      <div class="ms-gl-text">
+                        <?php echo __('Login with Google', IDXBOOST_DOMAIN_THEME_LANG); ?>
+                      </div>
+                    </div>
                     <button type="submit" aria-label="Login with Google" class="social_login_btn_temporal"></button>
                   </li>
                   <?php endif; ?>
@@ -610,7 +617,7 @@
                   <input class="form_submit_button_search gform_button button gform_submit_button_5" type="submit" value="<?php echo __('Save Search', IDXBOOST_DOMAIN_THEME_LANG); ?>">
                 </div>
               </div>
-		</fieldset>
+		          </fieldset>
             </form>
           </div>
         </div>
@@ -685,7 +692,7 @@
                 </div>
               </div>
               <input type="hidden" name="token_alert" class="token_alert">
-		</fieldset>
+		        </fieldset>
             </form>
           </div>
         </div>
@@ -772,8 +779,8 @@
                   </li>
                   <li class="gfield">
                     <div class="ginput_container ginput_container_email">
-			<label for="ms-autocomplete-email" class="ms-hidden"><?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?></label>                      
-			<input id="ms-autocomplete-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" class="medium" name="email_address" placeholder='<?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?>' type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])): ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif;?>" required />
+                      <label for="ms-autocomplete-email" class="ms-hidden"><?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?></label>                      
+                      <input id="ms-autocomplete-email" autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" class="medium" name="email_address" placeholder='<?php echo __("Email Address", IDXBOOST_DOMAIN_THEME_LANG); ?>' type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])): ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif;?>" required />
                     </div>
                   </li>
                   <li class="gfield">
@@ -791,7 +798,7 @@
                   <li class="gfield field_sublabel_below"><?php echo __("Prefered Time and Date", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                   <li class="gfield time">
                     <div class="ginput_container ginput_container_time">
-			<label for="ss_preferred_time" class="ms-hidden"><?php echo __("Morning", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+			                  <label for="ss_preferred_time" class="ms-hidden"><?php echo __("Morning", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                         <select name="preferred_time" class="medium" id="ss_preferred_time">
                           <option value="Morning" selected><?php echo __("Morning", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
                           <option value="Afternoon"><?php echo __("Afternoon", IDXBOOST_DOMAIN_THEME_LANG); ?></option>
@@ -1220,9 +1227,9 @@ $(function() {
     $("#txt_user").focus();
   });
 
-$("#formRegister").find('input[name="register_email"]').on("focus", function() {
-  $(".dgt-email-error").hide();
-});
+  $("#formRegister").find('input[name="register_email"]').on("focus", function() {
+    $(".dgt-email-error").hide();
+  });
 
   $(".pr-next-step").on("click", function() {
     var _self = $(this);
