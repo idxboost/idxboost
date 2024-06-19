@@ -318,12 +318,12 @@
                  if (in_array($flex_idx_info["board_id"], [33])) { ?>
                 <div class="ib-fitem">
                   <div class="ib-wrapper-tabs">
-                    <button class="ms-btn-tab js-tab-amt active" data-tab="#featuresTab"><?php echo __('Features', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
-                    <button class="ms-btn-tab js-tab-amt" data-tab="#featuresExtraTab"><?php echo __('Other Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <button class="ms-btn-tab js-tab-amt" data-tab="#featuresTab"><?php echo __('Features', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <button class="ms-btn-tab js-tab-amt active" data-tab="#featuresExtraTab"><?php echo __('Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                   </div>
                   <div class="ib-ficontent">
-                    <ul id="featuresTab" class="active js-body-amt ib-wchecks ib-wchecks-col2 ib-amenities-options" data-type="inner-amt"></ul>
-                    <ul id="featuresExtraTab" class="js-body-amt ib-wchecks ib-wchecks-col2 ib-amenities-options-extra" data-type="inner-amt-extra"></ul>
+                    <ul id="featuresTab" class="js-body-amt ib-wchecks ib-wchecks-col2 ib-amenities-options" data-type="inner-amt"></ul>
+                    <ul id="featuresExtraTab" class="js-body-amt ib-wchecks ib-wchecks-col2 ib-amenities-options-extra active" data-type="inner-amt-extra"></ul>
                   </div>
                   <div class="ib-fdmatching"><?php echo __('Searching...', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                 </div>
@@ -495,7 +495,7 @@
         </li>
         <?php if (in_array($flex_idx_info["board_id"], [33])) { ?>          
         <li class="ib-fitem">
-          <div class="ib-fititle"><?php echo __('Other Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+          <div class="ib-fititle"><?php echo __('Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
           <div class="ib-ficontent">
             <ul class="b-wchecks ib-wchecks-col2 ib-amenities-options-extra" data-type="outer-amt-extra"></ul>
           </div>

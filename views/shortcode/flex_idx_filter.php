@@ -511,15 +511,15 @@
           <li class="features" style="order:9">
             <div class="gwr">
               <div class="clidxboost-icon-arrow-select ib-wrapper-tabs">
-                <button class="ms-btn-tab js-tab-amt active" data-tab="#featuresTab">
+                <button class="ms-btn-tab js-tab-amt" data-tab="#featuresTab">
                   <span><?php echo __("Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                 </button>
-                <button class="ms-btn-tab js-tab-amt" data-tab="#featuresExtraTab">
-                  <span><?php echo __("Other Popular Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                <button class="ms-btn-tab js-tab-amt active" data-tab="#featuresExtraTab">
+                  <span><?php echo __("Popular Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                 </button>
               </div>
               <div class="wrap-item">
-                <div class="wrap-checks active js-body-amt" id="featuresTab" data-type="inner-amt">
+                <div class="wrap-checks js-body-amt" id="featuresTab" data-type="inner-amt">
                   <ul>
                     <?php
                       foreach ($search_params['amenities'] as $amenity):
@@ -575,8 +575,7 @@
                     <?php endforeach; ?>
                   </ul>
                 </div>
-
-                <div class="wrap-checks js-body-amt" id="featuresExtraTab" data-type="inner-amt-extra">
+                <div class="wrap-checks js-body-amt active" id="featuresExtraTab" data-type="inner-amt-extra">
                   <ul>
                     <?php
                       if (count($flex_idx_info["search"]) > 0 && array_key_exists("otherpopularfeatures", $flex_idx_info["search"]) && is_array($flex_idx_info["search"]["otherpopularfeatures"]) && 

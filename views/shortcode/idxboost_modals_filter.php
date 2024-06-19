@@ -424,7 +424,7 @@
         <!--FEATURES EXTRAS-->
         <?php if (in_array($flex_idx_info["board_id"], [33])) { ?>
         <div class="ib-item-collapse">
-          <h2 class="ib-header-collapse"><?php echo __('Other Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+          <h2 class="ib-header-collapse"><?php echo __('Popular Features', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
           <div class="ib-body-collpase">
             <div class="ib-wrap-fm">
               <ul class="ib-wrap-fm ib-cl-2" id="ib-flex-m-features-extra">
