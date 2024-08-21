@@ -653,7 +653,14 @@ if($disclaimer_checked == "1"){
                                           <span class="ib-plist-pt">{{days_market}}</span>
                                        </li>
                                        {{/if}}
-
+                                      {{#if more_labels}}
+                                        {{#each more_labels}}
+                                        <li>
+                                          <span class="ib-plist-st">{{this.title}}</span>
+                                          <span class="ib-plist-pt">{{this.values}}</span>
+                                        </li>
+                                        {{/each}}
+                                      {{/if}}
                                     </ul>
                                  </div>
                               </div>

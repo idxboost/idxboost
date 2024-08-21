@@ -5488,3 +5488,83 @@ if (!function_exists('flex_idx_detail_agents_sc')) {
 
     add_shortcode('idxboost_detail_agent', 'flex_idx_detail_agents_sc');
 }
+
+
+if (!function_exists('idxboost_new_search_filters_sc')) {
+    function idxboost_new_search_filters_sc($atts, $content = null)
+    {
+        global $flex_idx_info;
+
+        $responseParms = [];
+        ob_start();
+
+            $atts = shortcode_atts(array(
+                'filter_id' => '',
+            ), $atts);
+
+
+          ob_start();
+
+          if ( !empty($atts["filter_id"]) ) {
+              
+              $access_token = flex_idx_get_access_token();
+              $curlParams = curl_init();
+              curl_setopt_array($curlParams, array(
+                  CURLOPT_URL => 'https://api.idxboost.dev/get/map_search_filter/'.$atts["filter_id"],
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                  ),
+                ));
+
+                $responseParms = @json_decode(curl_exec($curlParams) , true);
+                curl_close($curlParams);
+
+          }
+
+
+
+
+          $paramsSSO = [
+            "grant_type" => "client_credentials",
+            "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+            "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+          ];
+
+            $curlToken = curl_init();
+            curl_setopt_array($curlToken, array(
+              CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
+              ),
+            ));
+        $responseToken = @json_decode(curl_exec($curlToken),true);
+        curl_close($curlToken);
+        $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_search_filters.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_search_filters.php';
+        } else {
+            include FLEX_IDX_PATH . '/views/shortcode/idxboost_new_search_filters.php';
+        }
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
+    add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
+}

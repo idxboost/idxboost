@@ -5,3 +5,4 @@ feed/*
 !feed/.gitkeep
 composer.json
 composer.lock
+**/*Zone.Identifier

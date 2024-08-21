@@ -1954,6 +1954,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['search']['property_types'] = isset($idxboost_search_settings['property_types']) ? $idxboost_search_settings['property_types'] : '';
             $output['search']['rental_types'] = isset($idxboost_search_settings['default_rental_type']) ? $idxboost_search_settings['default_rental_type'] : '';
             $output['search']['view_grid_type'] = isset($idxboost_search_settings['default_view_grid']) ? $idxboost_search_settings['default_view_grid'] : '';
+            $output['search']['markets_on_map'] = isset($idxboost_search_settings['default_markets_on_map']) ? $idxboost_search_settings['default_markets_on_map'] : 'ungroup';
             $output['search']['view_icon_type'] = isset($idxboost_search_settings['default_view_icon']) ? $idxboost_search_settings['default_view_icon'] : '';
             $output['search']['schools_ratio'] = isset($idxboost_search_settings['default_schools_ratio']) ? $idxboost_search_settings['default_schools_ratio'] : '';
             $output['search']['waterfront_options'] = isset($idxboost_search_settings['waterfront_options']) ? $idxboost_search_settings['waterfront_options'] : '';
@@ -2240,7 +2241,7 @@ if (!function_exists('flex_idx_posttype_pages_fn')) {
         (t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_sub_area' ) or 
         (t1.post_status = 'publish' and t2.meta_key = '_flex_id_page' and t2.meta_value = 'flex_idx_off_market_listing' )
         
-      limit 2
+      limit 5
       ", ARRAY_A);
 
         //var_dump($building_slug);
@@ -4136,6 +4137,7 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
         $search_url = isset($_POST['search_url']) ? trim(strip_tags($_POST['search_url'])) : '';
         $search_count = isset($_POST['search_count']) ? (int)$_POST['search_count'] : 0;
         $search_query = isset($_POST['search_query']) ? trim(urldecode($_POST['search_query'])) : '';
+        $veral = isset($_POST['veral']) ? trim(urldecode($_POST['veral'])) : '1';
         $search_name = isset($_POST['search_name']) ? trim(strip_tags($_POST['search_name'])) : '';
         $type = isset($_POST['type']) ? trim(strip_tags($_POST['type'])) : '';
         $more_params = isset($_POST['more_params']) ? trim(strip_tags($_POST['more_params'])) : '';
@@ -4159,9 +4161,11 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
             'flex_credentials' => $flex_lead_credentials,
             'search_params' => $search_filter_params,
             'registration_key' => $registration_key,
+            'search_type' => $veral,
+
             'data' => array(
                 'search_board' => $board_id,
-                'search_type' => $type_filter,
+                'search_type' => $type_filter,                
                 'search_name' => $search_name,
                 'search_url' => $search_url,
                 'search_count' => $search_count,
@@ -4195,6 +4199,7 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
                     'period' => intval($notification_day),
                     'search_url' => $search_url,
                     'search_count' => $search_count,
+                    'version' => $veral,                    
                     'search_name' => $search_name,
                     'search_type' => 'search_filter',
                     'q' => $search_query_alert,
@@ -6638,7 +6643,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
-            'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']), // overwrite search settings from global
+            'search' => array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []), // overwrite search settings from global
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
@@ -6671,7 +6676,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
-            'search' => array_merge($flex_idx_info['search'], $flex_idx_info['search_filter_settings']),
+            'search' => array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []), // overwrite search settings from global
             'fields' => 'address,building,city,street,subdivision,zip,neighborhood',
             'searchFilterPermalink' => get_permalink(),
             'leadFirstName' => (!empty($flex_idx_lead["lead_info"]["first_name"])) ? $flex_idx_lead["lead_info"]["first_name"] : "",
@@ -7581,7 +7586,33 @@ if (!function_exists('flex_idx_register_assets')) {
             "priceRentValues" => $flex_idx_info["search"]["price_rent_range"],
             "priceSaleValues" => $flex_idx_info["search"]["price_sale_range"]
         ));
+
+        wp_register_script("idxboost-search-filter-reactjs", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.js", array(
+            "jquery",
+            'google-maps-api',
+            "underscore",
+            "underscore-mixins",
+            'flex-idx-filter-jquery-ui',
+            'flex-idx-filter-jquery-ui-touch',
+        ), iboost_get_mod_time("react/new_search_filter/assets/bundle.js"));
+
+        wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
+        wp_register_style("idxboost-search-filter-reactjs-style", FLEX_IDX_URI . "react/new_search_filter/assets/style.css", array(), iboost_get_mod_time("react/new_search_filter/assets/style.css"));
+
     }
+}
+
+
+function insert_assets_head_new_search_filter()
+    {
+        global $flex_idx_info;
+        ?>
+    <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
+    <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
+    
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />     
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+    <?php
 }
 
 /*****************************************/

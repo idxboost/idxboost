@@ -19,6 +19,7 @@
     main#clidxboost-terms-policy li { list-style: inherit; }    
   </STYLE>
 -->
+<style>h1, h2, h3, h4, h5 {font-weight: bold;}</style>
 <div class="r-overlay"></div>
 
 <main id="clidxboost-terms-policy">
@@ -107,7 +108,7 @@
 
   <div id="how-do-we-share-your-personal-information">
     <h3><?php echo __("How do we share your personal information?", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
-    <p><?php echo __("We will not share, trade, or sell any personal information for marketing or promotional purposes with anyone outside of our business line.", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+    <p><strong><?php echo __("Data will not be shared with third parties for marketing or promotional purposes.", IDXBOOST_DOMAIN_THEME_LANG); ?></strong></p>
   </div>
 
   <div id="notice-privacy">
@@ -160,5 +161,4 @@
     <p><a href="#atospp-terms"><?php echo __("Back to top", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
   </div>
 </main>
-
 <?php } ?>

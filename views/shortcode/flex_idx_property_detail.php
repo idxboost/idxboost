@@ -170,10 +170,12 @@
   $CollapsedPreference = '';
   $CollapsedPreferenceDetailt = [];
   $descriptionEspe = '';
+  $more_labels = [];
   $agent_contact_email_address = $flex_idx_info['agent']['agent_contact_email_address'];
   
   if (array_key_exists('logo_broker', $response))  $logo_broker=$response['logo_broker'];
   if (array_key_exists('descriptionEspe', $response))  $descriptionEspe=$response['descriptionEspe'];
+  if (array_key_exists('more_labels', $response))  $more_labels=$response['more_labels'];
   if (array_key_exists('schoolRatio', $response))  $schoolRatio=$response['schoolRatio'];
   if (array_key_exists('CollapsedPreference', $response))  $CollapsedPreference=$response['CollapsedPreference'];
   if (array_key_exists('CollapsedPreferenceDetailt', $response))  $CollapsedPreferenceDetailt=$response['CollapsedPreferenceDetailt'];
@@ -842,6 +844,16 @@
                   <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['days_market']; ?></span>
                 </li>
+                <?php } ?>
+
+                <?php if( !empty($more_labels) && is_array($more_labels) && count($more_labels) > 0 ){ 
+                  foreach ($more_labels as $key => $label) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo $label["title"]; ?></span>
+                      <span class="ib-plist-pt"><?php echo $label["values"]; ?></span>
+                    </li>                    
+                  <?php } ?>
+
                 <?php } ?>
               </ul>
             </div>
