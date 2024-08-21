@@ -684,17 +684,18 @@
                                 </div>
                             </div>
   
-                          {{#if descriptionEspe}}
-                          <div class="ib-description-especial">
-                            {{{descriptionEspe}}}
-                          </div>
-                          {{/if}}
-  
                             {{#if remark}}
                               <div class="ib-pdescription">
                                 <div class="ib-pdescription-title"><?php echo __("Description", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
                                 <p>{{remark}}</p>
                               </div>
+                            {{/if}}
+                            {{#if descriptionEspe}}
+                            <div class="ib-pdescription">
+                              <div class="ib-pdescription-line">
+                                {{{descriptionEspe}}}
+                              </div>
+                            </div>
                             {{/if}}
 
                             <?php if (in_array($flex_idx_info["board_id"], [31,33])) { ?>

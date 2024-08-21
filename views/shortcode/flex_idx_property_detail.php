@@ -858,15 +858,17 @@
               </ul>
             </div>
           </div>
-          <?php if(!empty($descriptionEspe)){ ?>
-          <div class="ib-description-especial property-description">
-            <?php echo $descriptionEspe; ?>
-          </div>
-          <?php } ?>
+          
           <?php if($property['remark'] != ''){ ?>
           <div class="ib-pdescription property-description" id="property-description">
             <div class="ib-pdescription-title"><?php echo __("Description", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
             <p><?php echo $property['remark']; ?></p>
+          </div>
+          <?php } ?>
+
+          <?php if(!empty($descriptionEspe)){ ?>
+          <div class="ib-pdescription property-description -sp">
+            <?php echo $descriptionEspe; ?>
           </div>
           <?php } ?>
 
