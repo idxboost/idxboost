@@ -5493,6 +5493,8 @@ if (!function_exists('flex_idx_detail_agents_sc')) {
 if (!function_exists('idxboost_new_search_filters_sc')) {
     function idxboost_new_search_filters_sc($atts, $content = null)
     {
+        wp_enqueue_style("idxboost-search-filter-reactjs-bundle");
+
         global $flex_idx_info;
 
         $responseParms = [];
@@ -5565,6 +5567,9 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
 
         return ob_get_clean();
     }
+
     add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
+    
+
     add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
 }

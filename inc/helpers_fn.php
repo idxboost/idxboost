@@ -7588,12 +7588,7 @@ if (!function_exists('flex_idx_register_assets')) {
         ));
 
         wp_register_script("idxboost-search-filter-reactjs", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.js", array(
-            "jquery",
-            'google-maps-api',
-            "underscore",
-            "underscore-mixins",
-            'flex-idx-filter-jquery-ui',
-            'flex-idx-filter-jquery-ui-touch',
+            "google-maps-api-react"
         ), iboost_get_mod_time("react/new_search_filter/assets/bundle.js"));
 
         wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
@@ -7605,13 +7600,16 @@ if (!function_exists('flex_idx_register_assets')) {
 
 function insert_assets_head_new_search_filter()
     {
-        global $flex_idx_info;
-        ?>
-    <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
-    <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
-    
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />     
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+        global $flex_idx_info, $post;
+
+        if ( has_shortcode( $post->post_content, 'idx_search_react' ) ) { ?>
+
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
+            <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
+            
+            <!--<link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      -->
+
+        <?php } ?>
     <?php
 }
 
