@@ -470,20 +470,23 @@ if($disclaimer_checked == "1"){
                 <p>{{agentDisclaimer}}</p>
               {{/if }}
              
-              {{#if user.company_b2b_footer }}
-                  {{#ifequals user.company_b2b_footer "idxboost_footer"}}
+              {{#if user.sps_company_b2b_footer }}
+                  {{#ifequals user.sps_company_b2b_footer "empty_footer"}}
+                    <div class="ip-footer-bottom sps-bottom-footer ip-flex-row-reverse ip-justify-content-center ip-mt-5 ip-py-2 ip-px-0 ip-text-center body-xs">
+                  {{/ifequals}}
+                  {{#ifequals user.sps_company_b2b_footer "idxboost_footer_nofollow"}}
                     <div class="ip-footer-bottom sps-bottom-footer ip-flex-row-reverse ip-justify-content-between ip-mt-5 ip-py-2 ip-px-0 ip-text-center body-xs">
                   {{/ifequals}}
-                  {{#ifequals user.company_b2b_footer "tremgroup_footer"}}
+                  {{#ifequals user.sps_company_b2b_footer "tremgroup_footer_nofollow"}}
                     <div class="ip-footer-bottom sps-bottom-footer ip-flex-row-reverse ip-justify-content-between ip-mt-5 ip-py-2 ip-px-0 ip-text-center body-xs">
                   {{/ifequals}}
               {{else}}
-                <div class="ip-footer-bottom  sps-bottom-footer ip-flex-row-reverse ip-justify-content-between ip-mt-5 ip-py-2 ip-px-0 ip-text-center body-xs">
+                <div class="ip-footer-bottom sps-bottom-footer ip-flex-row-reverse ip-justify-content-center ip-mt-5 ip-py-2 ip-px-0 ip-text-center body-xs">
               {{/if}}
               
                   <div class="ibc-c-logo-designer-wrapper ip-align-items-center ip-justify-content-center">
-                        {{#if user.company_b2b_footer }}
-                          {{#ifequals user.company_b2b_footer "idxboost_footer"}}
+                        {{#if user.sps_company_b2b_footer }}
+                          {{#ifequals user.sps_company_b2b_footer "idxboost_footer_nofollow"}}
                             <div class="ibc-c-logo-designer-img">
                               <svg class="ip-idxboost-logo" version="1.1" xmlns="http://www.w3.org/2000/svg" width="75" height="38" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 273 77" xml:space="preserve">
                                   <title>IDXBoost</title>
@@ -509,22 +512,22 @@ if($disclaimer_checked == "1"){
                             </div>
                             Powered by
                             <a class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block ibc-s-color-idxboost"
-                              href="https://www.idxboost.com" target="_blank"
+                              href="https://www.idxboost.com" target="_blank" rel="nofollow"
                               title="Real Estate Website Builder For Lead Generation">
                                 IDXBoost™
                             </a>
                           {{/ifequals}}
-                          {{#ifequals user.company_b2b_footer "tremgroup_footer"}}
+                          {{#ifequals user.sps_company_b2b_footer "tremgroup_footer_nofollow"}}
                             <div  class="ibc-c-logo-designer-img">
-                              <img src="<?php echo IDX_BOOST_SPW_ASSETS . '/assets/images/logo-tremgroup-84x19.png'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
+                              <img src="<?php echo IDX_BOOST_SPW_ASSETS . '/assets/images/logo-tremgroup-84x19.svg'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
                             </div>
                             
                             Powered by
                             
                             <a class="ibc-c-logo-designer-link ip-position-relative ip-d-inline-block"
-                              href="https://www.tremgroup.com" target="_blank"
-                              title="Real Estate Marketing Agency">
-                              The Real Estate Marketing Group
+                              href="https://www.tremgroup.com" target="_blank" rel="nofollow"
+                              title="The Real Estate Marketing Group">
+                              TREMGroup
                             </a>
                           {{/ifequals}}
                         {{/if }}

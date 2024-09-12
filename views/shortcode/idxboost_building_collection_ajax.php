@@ -83,6 +83,7 @@ $logo_broker='';
 </script>
   <form name="idxboost_collection_xr" class="idxboost_collection_xr" id="idxboost_collection_xr">
     <input type="hidden" name="action" value="idxboost_collection_list">
+    <input type="hidden" name="version" value="<?php echo $atts['version'];?>">
     <input type="hidden" name="building_id" value="<?php echo $atts['building_id'];?>">
   </form>
   

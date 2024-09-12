@@ -33,6 +33,8 @@
     $checked = ""; 
   }
 
+  $idx_v = isset($response["payload"]["idx_v"]) ? $response["payload"]["idx_v"] : "0";
+
   $cta = [];
   if ( is_array($response) && array_key_exists("payload",$response) && is_array($response["payload"]) && array_key_exists("cta",$response["payload"]) ) {
     $cta =  @json_decode($response['payload']["cta"],true);
@@ -590,7 +592,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
             <?php endif; ?>
             
           <!--shortcode para mostrar resultado-->
-          <?php echo do_shortcode('[idxboost_building_inventory building_id="'.$atts['building_id'].'" load="ajax" ]'); ?>
+          <?php echo do_shortcode('[idxboost_building_inventory building_id="'.$atts['building_id'].'" load="ajax" version="'.$idx_v.'" ]'); ?>
 
 
     <?php

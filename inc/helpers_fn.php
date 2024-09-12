@@ -1887,6 +1887,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['show_opt_in_message'] = isset($idxboost_agent_info['show_opt_in_message']) ? $idxboost_agent_info['show_opt_in_message'] : '';
             $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
             $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
+            $output['agent']['idx_v'] = isset($idxboost_agent_info['idx_v']) ? $idxboost_agent_info['idx_v'] : '';
             $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
             $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
             $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
@@ -1913,6 +1914,9 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['stat_counter_project_id'] = isset($idxboost_agent_info['stat_counter_project_id']) ? $idxboost_agent_info['stat_counter_project_id'] : "";
             $output['agent']['follow_up_boss_api_key'] = isset($idxboost_agent_info['follow_up_boss_api_key']) ? $idxboost_agent_info['follow_up_boss_api_key'] : "";
             $output['agent']['follow_up_boss_source'] = isset($idxboost_agent_info['follow_up_boss_source']) ? $idxboost_agent_info['follow_up_boss_source'] : "";
+            $output['agent']['follow_up_boss_pixel'] = isset($idxboost_agent_info['follow_up_boss_pixel']) ? $idxboost_agent_info['follow_up_boss_pixel'] : "";
+            $output['agent']['id_analytic_matomo'] = isset($idxboost_agent_info['id_analytic_matomo']) ? $idxboost_agent_info['id_analytic_matomo'] : "";
+            $output['agent']['id_analytic_matomo_enable'] = isset($idxboost_agent_info['id_analytic_matomo_enable']) ? (int)$idxboost_agent_info['id_analytic_matomo_enable'] : 0;
             $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
             $output['agent']['force_registration_forced'] = isset($idxboost_agent_info['force_registration_forced']) ? (bool)$idxboost_agent_info['force_registration_forced'] : false;
 
@@ -4161,7 +4165,7 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
             'flex_credentials' => $flex_lead_credentials,
             'search_params' => $search_filter_params,
             'registration_key' => $registration_key,
-            'search_type' => $veral,
+            'version' => $veral,
 
             'data' => array(
                 'search_board' => $board_id,
@@ -5718,6 +5722,7 @@ if (!function_exists('idxboost_collection_list_fn')) {
         $access_token = flex_idx_get_access_token();
         $filter_id = $_POST['building_id'];
         $limit = $_POST['limit'];
+        $version = isset($_POST['version']) ? $_POST['version'] : '1';
         $building_id = md5($filter_id);
         $path_feed = UPLOAD_DIR_WP . 'feed/';
 
@@ -5732,11 +5737,13 @@ if (!function_exists('idxboost_collection_list_fn')) {
             'filter_id' => $filter_id,
             'access_token' => $access_token,
             'limit' => $limit,
+            'version' => $version,
             'flex_credentials' => $flex_lead_credentials
         );
 
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
+        curl_setopt($ch, CURLOPT_URL, ($version == "1" ?  FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP_v3 : FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP  ) );
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -7607,7 +7614,7 @@ function insert_assets_head_new_search_filter()
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
             <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             
-            <!--<link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      -->
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
 
         <?php } ?>
     <?php
@@ -9153,6 +9160,26 @@ if (!function_exists('idxboost_integrations_head')) {
         if ($flex_idx_info['agent']['stat_counter_security_id'] != "") {
             echo "<script type=\"text/javascript\">var sc_project=" . $flex_idx_info['agent']['stat_counter_project_id'] . "; var sc_invisible=1; var sc_security=" . $flex_idx_info['agent']['stat_counter_security_id'] . "; var sc_https=1; </script><script type=\"text/javascript\"src=\"https://www.statcounter.com/counter/counter.js\"async></script><noscript><div class=\"statcounter\"><a title=\"Web Analytics\"href=\"http://statcounter.com/\" target=\"_blank\"><imgclass=\"statcounter\"src=\"//c.statcounter.com/" . $flex_idx_info['agent']['stat_counter_project_id'] . "/0/" . $flex_idx_info['agent']['stat_counter_security_id'] . "/1/\" alt=\"WebAnalytics\"></a></div></noscript>";
         }
+
+        if ($flex_idx_info['agent']['follow_up_boss_pixel'] != "") {
+            echo $flex_idx_info['agent']['follow_up_boss_pixel'];
+        }
+
+        if ($flex_idx_info['agent']['id_analytic_matomo'] != "" && $flex_idx_info['agent']['id_analytic_matomo_enable']) {
+            echo "<script>
+                  var _paq = window._paq = window._paq || [];
+                  /* tracker methods like \"setCustomDimension\" should be called before \"trackPageView\" */
+                  _paq.push(['trackPageView']);
+                  _paq.push(['enableLinkTracking']);
+                  (function() {
+                    var u=\"//".IDXBOOST_MATOMO_URL."/\";
+                    _paq.push(['setTrackerUrl', u+'matomo.php']);
+                    _paq.push(['setSiteId', ".$flex_idx_info['agent']['id_analytic_matomo']."]);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+                  })();
+                </script>";
+        }
     }
 }
 
@@ -9228,11 +9255,11 @@ if (!function_exists('custom_seo_page')) {
                     // validar que se use el seo, sino usar seo por defecto
                     if ($content['cmsSeo'] == 1) {
                         update_seo(
-                            $content['seo']['title'],
-                            $content['seo']['description'],
-                            $content['socialShare']['title'],
-                            $content['socialShare']['description'],
-                            $content['socialShare']['image']
+                            isset($content['seo']['title'])?$content['seo']['title']:'',
+                            isset($content['seo']['description'])?$content['seo']['description']:'',
+                            isset($content['socialShare']['title'])?$content['socialShare']['title']:'',
+                            isset($content['socialShare']['description'])?$content['socialShare']['description']:'',
+                            isset($content['socialShare']['image'])?$content['socialShare']['image']:''
                         );
                     } else {
                         update_seo_default();

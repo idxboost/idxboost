@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 4.9.20
+ * Version: 4.9.21
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -60,10 +60,12 @@ define('FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL', 'https://api-single-property.idxbo
 define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
 define('IDX_BOOST_SPW_ASSETS', 'https://idxboost-spw-assets.idxboost.us');
 define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
+define('IDXBOOST_MATOMO_URL', 'matomo.idxboost.com');
 
 /**
  * API endpoints
  */
+define('FLEX_IDX_API_SSO_TOKENS', FLEX_IDX_SSO_URL . '/realms/mci/protocol/openid-connect/token');
 define('FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING', FLEX_IDX_CPANEL_SINGLE_PROPERTY_URL . '/api/property-site-setting-get');
 define('FLEX_IDX_DISPLAY_FILTER_V3', FLEX_IDX_BASE_URL . '/filter_lookup_v3');
 define('FLEX_IDX_DISPLAY_FILTER_V2_old', FLEX_IDX_BASE_URL . '/listings/recentsales');
@@ -79,6 +81,7 @@ define('FLEX_IDX_API_IMPORT_DATA', FLEX_IDX_BASE_URL . '/account/import_data');
 define('FLEX_IDX_API_GENERATE_TOKEN', FLEX_IDX_BASE_URL . '/oauth/v2/token');
 define('FLEX_IDX_API_AUTOCOMPLETE', FLEX_IDX_BASE_URL . '/autocomplete');
 define('FLEX_IDX_API_MARKET', FLEX_IDX_BASE_URL . '/filter_lookup');
+define('FLEX_IDX_API_DISPLAY_FILTER_V4', FLEX_IDX_BASE_URL . '/filter_lookup_v4');
 define('FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS', FLEX_IDX_BASE_URL . '/listings/exclusive');
 define('FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL', FLEX_IDX_BASE_URL . '/listings/commercial/exclusive');
 define('FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD', FLEX_IDX_BASE_URL . '/listings/agent_office_sold');
@@ -94,6 +97,7 @@ define('FLEX_IDX_API_LOOKUP_OFF_MARKET_LISTING_COLLECTION', FLEX_IDX_BASE_URL . 
 define('FLEX_IDX_API_BUILDING_LOOKUP', FLEX_IDX_BASE_URL . '/building_lookup');
 define('FLEX_IDX_API_BUILDING_LOOKUP_v2', FLEX_IDX_BASE_URL . '/building_lookup_v2');
 define('FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP', FLEX_IDX_BASE_URL . '/building_collection_lookup');
+define('FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP_v3', FLEX_IDX_BASE_URL . '/v3/building_collection_lookup');
 define('FLEX_IDX_API_SUB_AREA_LOOKUP', FLEX_IDX_BASE_URL . '/sub_area_lookup');
 define('FLEX_IDX_API_SUB_AREA_COLLECTION_LOOKUP', FLEX_IDX_BASE_URL . '/sub_area_collection_lookup');
 define('FLEX_IDX_API_BUILDING_GROUP_LOOKUP', FLEX_IDX_BASE_URL . '/building_group_lookup');

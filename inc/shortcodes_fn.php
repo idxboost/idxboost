@@ -2958,6 +2958,8 @@ if (!function_exists('flex_idx_filter_sc')) {
             'registration_key' => ''
         ), $atts);
 
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
         $GLOBALS["filter_id"] = $atts["id"];
         $GLOBALS["type_filter"] = "display-filter";
 
@@ -3198,16 +3200,43 @@ if (!function_exists('flex_idx_filter_sc')) {
                 wp_enqueue_script('flex-idx-filter-js');
             }
 
-            $ch = curl_init();
+            $idx_v = "1";
+            var_dump($idx_v);
+            if ($idx_v == "1") {
 
-            curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+          if ( !empty($atts["id"]) ) {
+              
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_DISPLAY_FILTER_V4);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
 
-            $server_output = curl_exec($ch);
-            $response = json_decode($server_output, true);
+                $server_output = curl_exec($ch);
+                var_dump(FLEX_IDX_API_DISPLAY_FILTER_V4);
+                var_dump($server_output);
+                die();
+                $response = json_decode($server_output, true);
+
+
+          }
+
+
+            }else{
+
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, $endpointFilter);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+                $server_output = curl_exec($ch);
+                $response = json_decode($server_output, true);
+
+            }
 
             if ($atts['type'] == '2' || $atts['type'] == '1') {
                 wp_localize_script('idxboost_exclusive_listing', 'filter_metadata', json_encode($response));
@@ -4238,6 +4267,7 @@ if (!function_exists('idxboost_building_inventory_sc')) {
 
         $atts = shortcode_atts(array(
             'building_id' => '',
+            'version' => '0',
             'type' => 'all',
             'title' => '',
             'sub_title' => '',
@@ -4280,14 +4310,14 @@ if (!function_exists('idxboost_building_inventory_sc')) {
             wp_enqueue_script('ib_slider_building_boost');
         } else {
             wp_enqueue_style('flex-idx-filter-pages-css');
-            wp_localize_script('flex-idx-building-inventory-js', 'ib_building_inventory', ['param' => $sendParams, 'load_item' => $atts['load']]);
+            wp_localize_script('flex-idx-building-inventory-js', 'ib_building_inventory', ['version' => $atts["version"],'param' => $sendParams, 'load_item' => $atts['load']]);
             add_action('wp_footer', 'ib_tables_building_collection');
         }
 
         if ($atts['load'] != 'ajax') {
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
+            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP );
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -5512,7 +5542,7 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
               $access_token = flex_idx_get_access_token();
               $curlParams = curl_init();
               curl_setopt_array($curlParams, array(
-                  CURLOPT_URL => 'https://api.idxboost.dev/get/map_search_filter/'.$atts["filter_id"],
+                  CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["filter_id"],
                   CURLOPT_RETURNTRANSFER => true,
                   CURLOPT_ENCODING => '',
                   CURLOPT_MAXREDIRS => 10,

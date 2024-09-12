@@ -5,12 +5,13 @@
 	$api_idx_access_token = flex_idx_get_access_token();
 ?>
 <script>
-	var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
+	//var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
 	var __flex_g_settings = {
 		propertyDetailPermalink: '<?php echo get_site_url(); ?>/property'
 	}
 
 	window.idx_main_settings = {
+		paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
 		search_settings:<?php
 		if ( !empty($atts["filter_id"]) )
 			echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
