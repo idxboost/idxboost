@@ -6781,6 +6781,8 @@ if (!function_exists('flex_idx_register_assets')) {
                 'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS
             ],
             'domain_service' => FLEX_IDX_BASE_URL,
+            'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
+            'app_search_filter_v2' => FLEX_IDX_API_SEARCH_FILTER_V2,
             'fetchLeadActivitiesEndpoint' => FLEX_IDX_API_LEAD_FETCH_ACTIVITIES,
             'hideTooltipLeadEndpoint' => FLEX_IDX_API_LEAD_HIDE_TOOLTIP,
             'shareWithFriendEndpoint' => FLEX_IDX_API_SHARE_PROPERTY,
@@ -7609,7 +7611,14 @@ function insert_assets_head_new_search_filter()
     {
         global $flex_idx_info, $post;
 
-        if ( has_shortcode( $post->post_content, 'idx_search_react' ) ) { ?>
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
+        if ( 
+            (
+                has_shortcode( $post->post_content, 'ib_search_filter' ) || 
+                has_shortcode( $post->post_content, 'ib_search' ) || 
+                has_shortcode( $post->post_content, 'idx_search_react' )
+            )  && $idx_v == "1" ) { ?>
 
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
             <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
@@ -8953,17 +8962,31 @@ if (!function_exists('idxboost_cms_translate')) {
             $languages = get_option("cms_translate_settings")["list"];
             ?>
             <div id="google_translate_element"></div>
-            <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit"></script>
+            <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit" async defer></script>
             <script>
                 function googleTranslateInit() {
-                    new google.translate.TranslateElement({
-                        pageLanguage: 'en',
-                        includedLanguages: '<?php echo implode(',', $languages); ?>',
-                        multilanguagePage: true,
-                        autoDisplay: true,
-                        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                    }, 'google_translate_element');
-                }
+					let attempts = 0;
+					const maxAttempts = 5;
+
+					function initTranslate() {
+						if (typeof google !== 'undefined' && google.translate) {
+							new google.translate.TranslateElement({
+								pageLanguage: 'en',
+								includedLanguages: '<?php echo implode(',', $languages); ?>',
+								multilanguagePage: true,
+								autoDisplay: true,
+								layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+							}, 'google_translate_element');
+						} else if (attempts < maxAttempts) {
+							attempts++;
+							setTimeout(initTranslate, 1000);
+						} else {
+							console.error('Failed to load Google Translate after ' + maxAttempts + ' attempts');
+						}
+					}
+
+					initTranslate();
+				}
             </script>
             <?php
         }
@@ -9162,7 +9185,9 @@ if (!function_exists('idxboost_integrations_head')) {
         }
 
         if ($flex_idx_info['agent']['follow_up_boss_pixel'] != "") {
-            echo $flex_idx_info['agent']['follow_up_boss_pixel'];
+            echo '<script>
+            (function(w,i,d,g,e,t){w["WidgetTrackerObject"]=g;(w[g]=w[g]||function() {(w[g].q=w[g].q||[]).push(arguments);}),(w[g].ds=1*new Date());(e="script"), (t=d.createElement(e)),(e=d.getElementsByTagName(e)[0]);t.async=1;t.src=i; e.parentNode.insertBefore(t,e);}) (window,"https://widgetbe.com/agent",document,"widgetTracker"); window.widgetTracker("create", "'.$flex_idx_info['agent']['follow_up_boss_pixel'].'"); window.widgetTracker("send", "pageview");
+            </script>';
         }
 
         if ($flex_idx_info['agent']['id_analytic_matomo'] != "" && $flex_idx_info['agent']['id_analytic_matomo_enable']) {
