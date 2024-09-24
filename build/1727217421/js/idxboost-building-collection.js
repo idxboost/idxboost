@@ -1186,7 +1186,7 @@ function idxboostListCollectionForSold(element){
                         responseitems +='<td><div class="porcentaje '+textreduced+'">'+textreducedmon+'</div></td>';
                         responseitems +='<td><div class="beds">'+element['bed']+' / '+element['bath']+' / '+element['baths_half']+'</div></td>';
                         responseitems +='<td class="table-beds show-desktop"><div class="beds">'+_.formatPrice(element['sqft'])+' <span> Sq.Ft.</span></div></td>';
-                        responseitems +='<td class="table-beds show-desktop"><div class="price">$'+element['price_sqft'].toFixed(2)+'</div></td>';
+                        responseitems +='<td class="table-beds show-desktop"><div class="price">$'+( __flex_g_settings.version == "1" ? element['price_sqft'].toFixed(2) : element['price_sqft'] ) +'</div></td>';
                         responseitems +='<td class="table-beds show-desktop"><div class="dayson">'+( element.hasOwnProperty("date_close") ? ( new Date(element["date_close"] * 1000).toLocaleDateString("en-GB").replaceAll("/","-") ) :  element['parce_date_close'] )+'</div></td></tr>';
                         
                         
@@ -1279,7 +1279,7 @@ function idxboostListCollectionForSold(element){
     // htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+' <span>('+ element['living_size_m2'] +' m²)</span></li>';
     htmlgrid +='<li class="living-size"> <span>'+_.formatPrice(element['sqft'])+'</span>'+word_translate.sqft+'</li>';
     // htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft']) + ' </span>/ '+word_translate.sqft+'<span>($' + element['price_sqft_m2'] + ' m²)</span></li>';
-    htmlgrid +='<li class="price-sf"><span>$'+_.formatPrice(element['price_sqft'].toFixed(2)) + ' </span>/ '+word_translate.sqft+'</li>';
+    htmlgrid +='<li class="price-sf"><span>$'+( __flex_g_settings.version == "1" ? element['price_sqft'].toFixed(2) : _.formatPrice(element['price_sqft']) )  + ' </span>/ '+word_translate.sqft+'</li>';
     htmlgrid +='<li class="build-year"><span>Built </span>2015</li>';
     htmlgrid +='<li class="development"><span>'+element['city_name']+'</span></li>';
     if ( 

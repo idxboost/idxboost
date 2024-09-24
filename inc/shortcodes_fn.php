@@ -3311,7 +3311,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                 wp_enqueue_script('flex-idx-filter-js');
             }
 
-            $idx_v = "1";
+            //$idx_v = "1";
             if ($idx_v == "1") {
 
           if ( !empty($atts["id"]) ) {

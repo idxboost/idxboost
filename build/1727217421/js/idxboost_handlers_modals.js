@@ -125,7 +125,7 @@ Handlebars.registerHelper('formatSqft', function(sqft) {
 
 Handlebars.registerHelper('propertyPermalink', function (slug) {
   if (typeof IB_AGENT_PERMALINK !== "undefined") {
-    return IB_AGENT_PERMALINK + "/property/" + slug;
+    //return IB_AGENT_PERMALINK + "/property/" + slug;
   }
 
   return __flex_idx_filter_regular.propertyDetailPermalink + "/" + slug;
@@ -188,6 +188,7 @@ Handlebars.registerHelper('isNotSingleorCondos', function (property) {
 
 Handlebars.registerHelper('isSingleorCondos', function (property) {
   if (!(property.tw == "1" || property.mf == "1" || property.is_vacant == "1")) {
+
     if (property.more_info_info.style != "") {
       return '<li><span class="ib-plist-st">' + word_translate.style + '</span><span class="ib-plist-pt">' + property.more_info_info.style + '</span></li>';
     }
@@ -625,13 +626,50 @@ if ("undefined" === typeof loadPropertyInModal) {
     $.ajax({
       type: "POST",
       url: viewListingDetailEndpoint,
-      data: {
+      headers: {
+          'Authorization':'Bearer '+__flex_idx_filter_regular.access_token_search
+      },    
+      data: __flex_g_settings.version == "1" ? 
+        JSON.stringify({
+          board_id: __flex_g_settings.boardId,
+          mls_num :mlsNumber,       
+          access_token: IB_ACCESS_TOKEN,
+          flex_credentials: Cookies.get("ib_lead_token"),
+          registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null,
+          onimage: "noresize"
+        })
+      :
+       {
+        board_id: __flex_g_settings.boardId,
+        mls_num :mlsNumber,       
         access_token: IB_ACCESS_TOKEN,
         flex_credentials: Cookies.get("ib_lead_token"),
         registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null,
         onimage: "noresize"
       },
       success: function (response) {
+        if (__flex_g_settings.version == "1") {
+
+        
+        response.price = "$"+(new Intl.NumberFormat('en-US').format(response.price));
+        response.sqft = (new Intl.NumberFormat('en-US').format(response.sqft));
+        response.total_sqft = (new Intl.NumberFormat('en-US').format(response.total_sqft));
+        response.property_type = response.more_info.type_property;
+        response.status_name = response.more_info.status_name;
+        response.img_cnt = response.imagens.length;
+        response.days_market = response.adom;
+        response.list_date = new Date(new Date(response.list_date * 1000)).toLocaleDateString("en-GB")
+        response.furnished = response.furnished ? "Yes" : "No";
+        response.pool = response.pool ? "Yes" : "No";
+        response.water_front = response.water_front ? "Yes" : "No";
+        response.amenities = response.amenities.split(",");
+        response.price_sqft = "$"+Math.round(response.price_sqft);
+        response.gallery = response.imagens;
+        response.more_info_info = response.more_info;
+        response.feature_exterior = response.feature_exterior.split(",");
+        response.feature_interior = response.feature_interior.split(",");
+      }
+        window.responseex = response;
         if (jQuery("#_ib_lead_activity_tab").length) {
           jQuery("#_ib_lead_activity_tab button:eq(0)").click();
         }

@@ -35,7 +35,7 @@
   if ($atts['method']==0)
     $filterid=get_the_ID();
 
-  $parking=$response['info']['parking_option'];
+  //$parking=$response['info']['parking_option'];
   $features_info=$response['info']['features'];
   $othersfeatures_info=$response['info']['othersamenities'];
   
@@ -48,21 +48,21 @@
   $filter_type='0'; if(array_key_exists('filter_type',$response)) $filter_type=$response['filter_type'];
   
   $filter_params_alert=array(
-    "sale_type"=>$response['info']['rental_type'],
-    "min_beds"=>$response['info']['min_bedrooms'],
-    "max_beds"=>$response['info']['max_bedrooms'],
-    "min_baths"=>$response['info']['min_baths'],
-    "max_baths"=>$response['info']['max_baths'],
-    "min_living_size"=>$response['info']['min_living_size'],
-    "max_living_size"=>$response['info']['max_living_size']
+    "sale_type"=> isset($response['info']['rental_type']) ? $response['info']['rental_type'] : null,
+    "min_beds"=> isset($response['info']['min_bedrooms']) ? $response['info']['min_bedrooms'] : null,
+    "max_beds"=> isset($response['info']['max_bedrooms']) ? $response['info']['max_bedrooms'] : null,
+    "min_baths"=> isset($response['info']['min_baths']) ? $response['info']['min_baths'] : null,
+    "max_baths"=> isset($response['info']['max_baths']) ? $response['info']['max_baths'] : null,
+    "min_living_size"=>isset($response['info']['min_living_size']) ? $response['info']['min_living_size'] : null,
+    "max_living_size"=> isset($response['info']['max_living_size']) ? $response['info']['max_living_size'] : null
   );
 
-  if ($response['info']['rental_type']=='0') {
-      $filter_params_alert["min_sale_price"] = $response['info']['min_price'];
-      $filter_params_alert["max_sale_price"] = $response['info']['max_price'];
+  if ( isset($response) && $response['info']['rental_type']=='0') {
+      $filter_params_alert["min_sale_price"] = isset($response['info']['min_price']) ? $response['info']['min_price'] : null;
+      $filter_params_alert["max_sale_price"] = isset($response['info']['max_price']) ? $response['info']['max_price'] : null;
   }else{
-      $filter_params_alert["min_rent_price"] = $response['info']['min_price'];
-      $filter_params_alert["max_rent_price"] = $response['info']['max_price'];
+      $filter_params_alert["min_rent_price"] = isset($response['info']['min_price']) ? $response['info']['min_price'] : null;
+      $filter_params_alert["max_rent_price"] = isset($response['info']['max_price']) ? $response['info']['max_price'] : null;
   }
 ?>
 <script>
