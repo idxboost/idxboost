@@ -82,6 +82,8 @@
   <input type="hidden" name="filter_type" id="filter_type" value="<?php echo $atts['type']; ?>">
   <input type="hidden" name="limit" class="limit" value="<?php echo $atts['limit']; ?>">
   <input type="hidden" name="idx[oh]" id="idx_oh" value="<?php echo $atts['oh']; ?>">
+  <input type="hidden" name="county" id="idx_oh" value="<?php echo $atts['county']; ?>">
+  <input type="hidden" name="photo-res" id="idx_oh" value="<?php echo $atts['photo-res']; ?>">
 </form>
 <?php
   global $post;
@@ -154,11 +156,13 @@
           
           <li data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" class="propertie" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>" data-class-id="<?php echo $property['class_id']; ?>">
   
-              <?php if ($property['status'] == 5): ?>
+              <?php 
+              $statuspro = $idx_v == "1" ? $property['mls_status'] : $property['status'];
+              if ($statuspro == 5): ?>
               <div class="flex-property-new-listing"><?php echo __('rented', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-              <?php elseif($property['status'] == 2): ?>
+              <?php elseif($statuspro == 2): ?>
               <div class="flex-property-new-listing"><?php echo __('sold', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-              <?php elseif($property['status'] != 1): ?>
+              <?php elseif($statuspro != 1): ?>
               <div class="flex-property-new-listing"><?php echo $property['status_name']; ?></div>
               <?php elseif(isset($property['recently_listed']) && $property['recently_listed'] === 'yes'): ?>
               <div class="flex-property-new-listing"><?php echo __('new listing', IDXBOOST_DOMAIN_THEME_LANG); ?></div>
@@ -289,17 +293,17 @@
               // $url_property=$site_property.'/'.$property['slug'];
             ?>
               <?php if (isset($property["status"])): ?>
-              <?php if (2 == $property["status"]): ?>
-              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
-              <?php elseif(5 == $property["status"]): ?>
-              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
-              <?php elseif(6 == $property["status"]): ?>
-              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <?php if (2 == $statuspro): ?>
+                      <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <?php elseif(5 == $statuspro): ?>
+                      <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <?php elseif(6 == $statuspro): ?>
+                      <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <?php else: ?>
+                      <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <?php endif; ?>
               <?php else: ?>
-              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
-              <?php endif; ?>
-              <?php else: ?>
-              <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
+                  <a class="<?php echo $class_for_recent; ?>" href="<?php echo $url_property; ?>"><?php echo $property['full_address']; ?></a>
               <?php endif; ?>
 
             <a class="view-map-detail" data-geocode="<?php echo $property['lat']; ?>:<?php echo $property['lng']; ?>">View Map</a>

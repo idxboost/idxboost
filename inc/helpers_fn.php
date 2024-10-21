@@ -1888,6 +1888,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
             $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
             $output['agent']['idx_v'] = isset($idxboost_agent_info['idx_v']) ? $idxboost_agent_info['idx_v'] : '';
+            $output['agent']['ia_search'] = isset($idxboost_agent_info['ia_search']) ? $idxboost_agent_info['ia_search'] : '0';
             $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
             $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
             $output['agent']['track_gender'] = isset($idxboost_agent_info['track_gender']) ? $idxboost_agent_info['track_gender'] : "";
@@ -5563,6 +5564,7 @@ if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
 
         $sendParams = array(
             'access_token' => $access_token,
+
             'flex_credentials' => $flex_lead_credentials,
             'office_id' => $_POST["office_id"],
             'months_back' => $_POST["months_back"],
@@ -5574,6 +5576,8 @@ if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
             'price_max' => $_POST["price_max"],
             'order_by' => $_POST["order_by"],
             'limit' => $_POST["limit_carousel"],
+            'county' => $_POST["county"],
+            'photo_res' => $_POST["photo-res"],
             'page' => $_POST["page"]
         );
 
@@ -5969,9 +5973,16 @@ if (!function_exists('idx_exclusive_operation_slider_xhr_fn')) {
 
 function filter_search_exclusive_listing_xhr_fn()
 {
+    global $flex_idx_info;
+
+    $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
+    $county = isset($_POST['county']) ? $_POST['county'] : "";
+    $photores = isset($_POST['photo-res']) ? $_POST['photo-res'] : "";
+
     if (!empty($_POST['limit'])) $limit = $_POST['limit'];
     else     $limit = 'default';
     $access_token = flex_idx_get_access_token();
@@ -6010,9 +6021,14 @@ function filter_search_exclusive_listing_xhr_fn()
         'page' => isset($params['page']) ? (int)$params['page'] : 1,
         'view' => isset($params['view']) ? $params['view'] : 'grid',
         'sort' => isset($params['sort']) ? $params['sort'] : 'price-desc',
+        'county' => isset($county) ? $county : '',
+        'photo_res' => isset($photores) ? $photores : 'high'
     );
+
+    $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2 : FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
+
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
+    curl_setopt($ch, CURLOPT_URL, $endpointFilter);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -6835,6 +6851,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'checkLeadUsername' => FLEX_IDX_API_LEADS_CHECK_USERNAME,
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
+            'social' => $flex_idx_info["social"],
             'is_mobile' => wp_is_mobile(),
             'socketAuthUrl' => FLEX_IDX_URI_WP . 'socket-auth.php',
             'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -7195,7 +7212,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'agentFullName' => $flex_idx_info["agent"]["agent_first_name"] . " " . $flex_idx_info["agent"]["agent_last_name"],
             'agentPhoto' => $flex_idx_info["agent"]["agent_contact_photo_profile"],
             'agentPhone' => $flex_idx_info["agent"]["agent_contact_phone_number"],
-            'lookupSearchRecent' => FLEX_IDX_DISPLAY_FILTER_V2_old,
+            'lookupSearchRecent' => $idx_v == "1" ? FLEX_IDX_API_MARKET_RECENT_SALE_v2 : FLEX_IDX_DISPLAY_FILTER_V2_old,
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
@@ -7648,8 +7665,8 @@ if (!function_exists('flex_idx_register_assets')) {
             "google-maps-api-react"
         ), iboost_get_mod_time("react/new_search_filter/assets/bundle.js"));
 
-        wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
-        wp_register_style("idxboost-search-filter-reactjs-style", FLEX_IDX_URI . "react/new_search_filter/assets/style.css", array(), iboost_get_mod_time("react/new_search_filter/assets/style.css"));
+        //wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
+        //wp_register_style("idxboost-search-filter-reactjs-style", FLEX_IDX_URI . "react/new_search_filter/assets/style.css", array(), iboost_get_mod_time("react/new_search_filter/assets/style.css"));
 
     }
 }
@@ -7660,21 +7677,43 @@ function insert_assets_head_new_search_filter()
         global $flex_idx_info, $post;
 
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+        $content = $post->post_content;
 
         if ( 
             (
-                has_shortcode( $post->post_content, 'ib_search_filter' ) || 
-                has_shortcode( $post->post_content, 'ib_search' ) || 
-                has_shortcode( $post->post_content, 'idx_search_react' )
-            )  && $idx_v == "1" ) { ?>
+                has_shortcode( $content, 'ib_search_filter' ) || 
+                has_shortcode( $content, 'ib_search' ) || 
+                has_shortcode( $content, 'idx_search_react' )
+            )  && $idx_v == "1" ) { 
 
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
-            <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
-            
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+            $typeAssets = "default";
+                //validation to get data mode slider and load assets slider no default assets
+                if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
+                    if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                        $typeAssets = $coincidencias[1];
+                    }
+                }
 
-        <?php } ?>
-    <?php
+                    if ($typeAssets == "slider") { ?>
+
+                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.js"); ?>" />    ></script>  
+                        
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.css"); ?>" />                  
+
+
+                    <?php }else{ ?>
+
+                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
+                        <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
+                        
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />                  
+
+                    <?php }
+        }
 }
 
 /*****************************************/

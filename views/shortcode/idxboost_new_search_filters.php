@@ -3,6 +3,7 @@
 	$idxboost_search_filter_settings = get_option('idxboost_search_filter_settings');
 	$idxboost_agent_info = get_option('idxboost_agent_info');
 	$api_idx_access_token = flex_idx_get_access_token();
+	$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
 ?>
 <script>
 	//var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
@@ -12,6 +13,16 @@
 
 	window.idx_main_settings = {
 		paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
+		mode : '<?php echo $atts["mode"]; ?>',
+		is_commercial: '<?php echo $atts["is_commercial"]; ?>',
+		oh : '<?php echo $atts["oh"]; ?>',
+		link : '<?php echo $atts["link"]; ?>',
+		title : '<?php echo $atts["title"]; ?>',
+		gallery : '<?php echo $atts["gallery"]; ?>',
+		name_button : '<?php echo $atts["name_button"]; ?>',
+		slider_item : '<?php echo $atts["slider_item"]; ?>',
+		limit : '<?php echo $atts["limit"]; ?>',
+		active_ai : '<?php echo $ia_search; ?>',
 		search_settings:<?php
 		if ( !empty($atts["filter_id"]) )
 			echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));

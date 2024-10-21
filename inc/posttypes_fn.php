@@ -2047,3 +2047,50 @@ function media_selector_print_scripts()
             }
 
             add_filter('page_template', 'custom_page_template');
+
+            add_action( 'init',  function() {
+                global $wpdb,$flex_idx_info;
+
+                $ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
+
+                if ($ia_search == "1") {
+                    
+                    $search_url = $wpdb->get_var("
+                      select t1.post_name
+                      from {$wpdb->posts} t1
+                      inner join {$wpdb->postmeta} t2
+                      on t1.ID = t2.post_id
+                      where t1.post_type = 'flex-idx-pages'
+                      and t1.post_status = 'publish'
+                      and t2.meta_key = '_flex_id_page'
+                      and t2.meta_value = 'flex_idx_search'
+                      limit 1
+                    ");
+
+                    add_rewrite_rule("^{$search_url}/([^/]*)/?$",'index.php?myparamiaidxboost=$matches[1]','top');    
+
+                }
+
+            } ); 
+
+add_filter( 'query_vars', function( $query_vars ) {
+    $query_vars[] = 'myparamiaidxboost';
+    return $query_vars;
+} );
+
+add_filter( 'template_include', function( $template ) {
+    global $flex_idx_info, $post;
+    if ( get_query_var( 'myparamiaidxboost' ) == false || get_query_var( 'myparamiaidxboost' ) == '' ) {
+        return $template;
+    }else{
+
+        $post->post_content='[ib_search mode="ai"]';
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php')) {
+            return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php';
+        } else {
+            return FLEX_IDX_PATH . '/views/shortcode/single-flex-idx-pages-ai.php';
+        }
+    }
+
+} );

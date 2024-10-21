@@ -95,6 +95,8 @@
               var fname_result = fname.replace(" ", "_");
               var lname_result = lname.replace(" ", "_");
 
+              window.filter_view = "agent";
+
               jQuery(".form-search input[name='ib_tags']").val("agent_"+fname_result+"_"+lname_result);
             </script>
           </div>

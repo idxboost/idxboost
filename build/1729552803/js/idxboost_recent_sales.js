@@ -511,7 +511,7 @@ Handlebars.registerHelper("DFidxGalleryImages", function(property) {
 
 	htmlTemp.push('<div class="wrap-slider '+totgallery+'">');
 		htmlTemp.push('<ul>');
-			htmlTemp.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="' + property.image_url + '"></li>');
+			htmlTemp.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="' + (__flex_g_settings.version == "1" ? property.thumbnail_url : property.image_url)  + '"></li>');
 			//htmlTemp.push('<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="' + property.image_url + '"></li>');
 	    htmlTemp.push('</ul>');
 	htmlTemp.push('</div>');

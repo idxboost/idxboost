@@ -691,7 +691,15 @@ if (!function_exists('ib_search_sc')) {
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
         $atts = shortcode_atts(array(
-            'registration_key' => ''
+            'registration_key' => '',
+            'is_commercial' => '0',
+            'oh' => '0',
+            'link' => '',
+            'title' => '',
+            'name_button' => '',
+            'slider_item' => '4',
+            'limit' => '',
+            'mode' => "default"
         ), $atts);
 
         if (true !== $flex_idx_info['agent']['has_basic_idx']) {
@@ -702,7 +710,7 @@ if (!function_exists('ib_search_sc')) {
 
         if ($idx_v == "1") {
 
-            wp_enqueue_style("idxboost-search-filter-reactjs-bundle");
+            
 
               $paramsSSO = [
                 "grant_type" => "client_credentials",
@@ -814,7 +822,7 @@ if (!function_exists('ib_search_filter_sc')) {
         // wp_enqueue_style('flex-idx-search-filter-css');
         if ($atts["version_filter"] == "2") {
 
-            wp_enqueue_style("idxboost-search-filter-reactjs-bundle");
+            
 
               $paramsSSO = [
                 "grant_type" => "client_credentials",
@@ -3066,6 +3074,8 @@ if (!function_exists('flex_idx_filter_sc')) {
             "reference" => "no",
             "gallery" => "0",
             "max" => 0,
+            "county" => "",
+            "photo-res" => "high",
             'registration_key' => ''
         ), $atts);
 
@@ -3273,6 +3283,8 @@ if (!function_exists('flex_idx_filter_sc')) {
             'view' => $send_param_view,
             'page' => $page,
             'idx' => $param_url,
+            'county' => $atts["county"],
+            'photo_res' => $atts["photo-res"],
             'access_token' => $access_token,
             'version_endpoint' => 'new',
             'flex_credentials' => $flex_lead_credentials,
@@ -3283,12 +3295,12 @@ if (!function_exists('flex_idx_filter_sc')) {
 
         if ($atts["type"] != "1" && isset($atts["mode"]) && ($atts["mode"] != "slider")) {
             $is_recent_sales = 'no';
-            $endpointFilter = FLEX_IDX_API_MARKET;
+            $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_DISPLAY_FILTER_V4 : FLEX_IDX_API_MARKET);
 
             if ($atts['type'] == '2') {
                 wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
                 wp_enqueue_script('idxboost_exclusive_listing');
-                $endpointFilter = FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS;
+                $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2 : FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
 
                 if ($atts["reference"] == "yes") {
                     wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
@@ -3298,7 +3310,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                 $is_recent_sales = 'yes';
                 wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
                 wp_enqueue_script('idxboost_exclusive_listing');
-                $endpointFilter = FLEX_IDX_API_MARKET_RECENT_SALE;
+                $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_RECENT_SALE_v2 : FLEX_IDX_API_MARKET_RECENT_SALE);
 
                 if ($atts["reference"] == "yes") {
                     wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
@@ -3311,27 +3323,24 @@ if (!function_exists('flex_idx_filter_sc')) {
                 wp_enqueue_script('flex-idx-filter-js');
             }
 
-            //$idx_v = "1";
+            
+            /*
             if ($idx_v == "1") {
 
-          if ( !empty($atts["id"]) ) {
+                if ( !empty($atts["id"]) ) {
               
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_DISPLAY_FILTER_V4);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $endpointFilter );
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
 
-                $server_output = curl_exec($ch);
-                $response = json_decode($server_output, true);
-
-
-          }
-
-
-            }else{
-
+                    $server_output = curl_exec($ch);
+                    $response = json_decode($server_output, true);
+                }
+            }
+            */
                 $ch = curl_init();
 
                 curl_setopt($ch, CURLOPT_URL, $endpointFilter);
@@ -3343,7 +3352,6 @@ if (!function_exists('flex_idx_filter_sc')) {
                 $server_output = curl_exec($ch);
                 $response = json_decode($server_output, true);
 
-            }
 
             if ($atts['type'] == '2' || $atts['type'] == '1') {
                 wp_localize_script('idxboost_exclusive_listing', 'filter_metadata', json_encode($response));
@@ -3709,6 +3717,8 @@ if (!function_exists('flex_idx_dinamic_boost_agent_office_sc')) {
             "slider_item" => "4",
             "slider_play" => "0",
             "slider_speed" => "5000",
+            "county" => "",
+            "photo-res" => "high",
             'title' => ''
         ), $atts);
 
@@ -5630,7 +5640,7 @@ if (!function_exists('flex_idx_detail_agents_sc')) {
 if (!function_exists('idxboost_new_search_filters_sc')) {
     function idxboost_new_search_filters_sc($atts, $content = null)
     {
-        wp_enqueue_style("idxboost-search-filter-reactjs-bundle");
+        
 
         global $flex_idx_info;
 

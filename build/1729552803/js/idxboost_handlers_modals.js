@@ -1293,7 +1293,12 @@ if (IB_MODAL_WRAPPER.length) {
       urlParams.delete("show");
 
       if ("" === urlParams.toString()) {
-        history.pushState(null, null, ib_path_filters);
+        if (window.filter_view == "agent") {
+          history.pushState(null, null, initial_href);
+        }else{
+          history.pushState(null, null, ib_path_filters);
+        }
+        
       } else {
         history.pushState(null, null, '?' + urlParams.toString());
       }
