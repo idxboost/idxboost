@@ -370,8 +370,14 @@ if($disclaimer_checked == "1"){
                       <form class="js-ib-sp-contact-form iboost-form-validation" method="post" id="contact-us-form">
                         <fieldset>
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                          <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                           <input type="hidden" name="action" value="idxboost_contact_inquiry">
+                          <input type="hidden" name="has_agent_referer" value="{{registrationKey}}">
+                          {{#if registrationKeyBroker}}
+                            <input type="hidden" name="ib_tags" value="Property Sites Collection. {{stylesInput.headerSection.button.text}} {{websiteName}}. {{agentName}}">                    
+                          {{else}}
+                            <input type="hidden" name="ib_tags" value="Property Sites Collection, {{stylesInput.headerSection.button.text}} {{websiteName}}">
+                          {{/if}}
+                          
                           <ul>
                             <li>
                               <label for="input_name"><?php echo __("Enter your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
@@ -533,8 +539,14 @@ if($disclaimer_checked == "1"){
               <form class="js-ib-sp-contact-form iboost-form-validation" method="post" id="request-details-form">
                 <fieldset>
                   <legend>{{stylesInput.headerSection.button.text}} Form</legend>
-                  <input type="hidden" name="ib_tags" value="{{stylesInput.headerSection.button.text}} {{websiteName}}">
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
+                  <input type="hidden" name="has_agent_referer" value="{{registrationKey}}">
+                  {{#if registrationKeyBroker}}
+                    <input type="hidden" name="ib_tags" value="Property Sites Collection. {{stylesInput.headerSection.button.text}} {{websiteName}}. {{agentName}}">                    
+                  {{else}}
+                    <input type="hidden" name="ib_tags" value="Property Sites Collection, {{stylesInput.headerSection.button.text}} {{websiteName}}">
+                  {{/if}}
+                  
                   <div class="sp-input-form">
                     <label for="inputName"><?php echo __("Enter your Name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                     <input type="text" placeholder="<?php echo __("First Name *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="name" id="inputName" required>

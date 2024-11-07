@@ -83,12 +83,11 @@
                 echo do_shortcode('[flex_idx_contact_form]'); 
             ?>
             <script type="text/javascript">
-              jQuery(".flex-content-form .pt-name .medium").attr('placeholder', 'First Name*');
-              jQuery(".flex-content-form .pt-lname .medium").attr('placeholder', 'Last Name*');
-              jQuery(".flex-content-form .pt-email .medium").attr('placeholder', 'Email*');
-              jQuery(".flex-content-form .pt-phone .medium").attr('placeholder', 'Phone*');
-              jQuery(".flex-content-form .textarea").attr('placeholder', 'Message');
-              jQuery(".flex-content-form .ms-btn span").text("Send");
+              jQuery(".flex-content-form .pt-name .medium").attr('placeholder','<?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+              jQuery(".flex-content-form .pt-lname .medium").attr('placeholder','<?php echo __("Last Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+              jQuery(".flex-content-form .pt-email .medium").attr('placeholder','<?php echo __("Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*');
+              jQuery(".flex-content-form .pt-phone .medium").attr('placeholder','<?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?>');
+              jQuery(".flex-content-form .textarea").attr('placeholder','<?php echo __("Comment", IDXBOOST_DOMAIN_THEME_LANG); ?>');
 
               var fname = jQuery("#agent_fname").val();
               var lname = jQuery("#agent_lname").val();
