@@ -764,18 +764,7 @@
                 <li>
                   <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['property_type']; ?></span>
-                </li>
-                <?php
-                  if ( ($property['tw']  == "1" || $property['mf'] == "1" || $property['is_vacant'] == "1") ) {
-                    if (is_array($more_info_property) && array_key_exists("style", $more_info_property) && !empty($more_info_property["style"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["style"]; ?></span>
-                </li>
-                <?php
-                  }
-                  }
-                  ?>                              
+                </li>                             
                 
                 <?php
                 $status_name = $property['status_name'];
@@ -950,14 +939,7 @@
                   <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
                 </li>
                 <?php } ?>
-                <?php  if (!($property['tw']  == "1" || $property['mf'] == "1" || $property['is_vacant'] == "1")) { ?>
-                <?php if (is_array($more_info_property) && array_key_exists("style", $more_info_property) && !empty($more_info_property["style"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["style"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php } ?>
+               
               </ul>
             </div>
             <div class="ib-plist-card">

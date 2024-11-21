@@ -632,8 +632,6 @@ if($disclaimer_checked == "1"){
                                           <span class="ib-plist-pt">{{property_type}}</span>
                                        </li>
 
-                                       {{{isNotSingleorCondos this }}}
-
                                        <li>
                                           <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                           <span class="ib-plist-pt">{{status_name}}</span>

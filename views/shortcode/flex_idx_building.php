@@ -234,14 +234,14 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
         if( is_array($response['payload']) && array_key_exists("type_gallery", $response['payload']) && !empty($response['payload']["type_gallery"]) ) {
           if ($response['payload']["type_gallery"]== "2") {
             if (count($response['payload']['gallery_building']) > 0) { ?>
-            <div class="gs-container-slider clidxboost-full-slider">
+            <div id="buildingSliderPicture" class="gs-container-slider clidxboost-full-slider">
               <?php foreach ($response['payload']['gallery_building'] as $key => $value) { ?>
               <img data-lazy="<?php echo $value['url_image']; ?>" alt="<?php echo $value['name_image']; ?>" class="img-slider gs-lazy">
               <?php } ?>
             </div>
             <?php }}elseif ($response['payload']["type_gallery"]=="1") { ?>
             <!-- NUEVA ESTRUCTURA SLIDER -->
-            <div class="ms-slider-buildings">
+            <div id="buildingSliderPicture" class="ms-slider-buildings">
               <div class="wrap-result view-grid ms-sm-grid">
                 <div class="ib-filter-slider-building" data-filter="building" id="buildingSlider">
                   <div class="wrap-result view-grid">
@@ -279,7 +279,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
       <!-- OPCIONES -->
       <div class="moptions">
         <ul class="slider-option">
-          <li>
+          <li id="activePicture">
             <button class="option-switch js-option-building js-option-building-photo ms-gallery-fs" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
           <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
@@ -1626,8 +1626,9 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
   /*RECUPERANDO VIDEO*/
   jQuery(window).on("load", function (e) {
+    var inventory = jQuery("#buildingSliderPicture");
     var galleryType = jQuery("#viewGallery").val() * 1;
-    //console.log("TIPO DE GALERIA="+galleryType);
+
     switch (galleryType) {
     case 2:
       console.log("TIPO VIDEO");
@@ -1639,10 +1640,15 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
       break;
     case 0:
       console.log("TIPO FOTO");
-      jQuery("#show-gallery").trigger("click");
+      if(inventory.length){
+        jQuery("#show-gallery").trigger("click");
+      }else{
+        jQuery("#activePicture").remove();
+        jQuery("#show-map").trigger("click");
+      }
       break;
     }
-	});
+  });
 
 </script>
 

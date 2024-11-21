@@ -3929,6 +3929,16 @@ if (!function_exists('idx_agent_filter_sc')) {
 
         $response = json_decode($server_output, true);
 
+        $ptypes_checked = array();
+
+        if (!empty($response)) {
+            if (array_key_exists('info', $response)) {
+                foreach ($response['info']['property_type_list'] as $ptype_filter) {
+                    $ptypes_checked[] = $ptype_filter["value"];
+                }
+            }
+        }
+        
         wp_localize_script('flex-idx-filter-js', 'filter_metadata', $response);
 
 

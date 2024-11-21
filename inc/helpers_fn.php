@@ -7682,7 +7682,16 @@ function insert_assets_head_new_search_filter()
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
         $content = $post->post_content;
 
+        $version_map_search_filter = "1";
+
+        if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches_mapsearchfilter)) {
+            if ( is_array($matches_mapsearchfilter) && count($matches_mapsearchfilter) > 0 &&  preg_match('/version_filter="([^"]+)"/', $matches_mapsearchfilter[0], $coinci)) {
+                $version_map_search_filter = $coinci[1];
+            }
+        }
+
         if ( 
+            ( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
             (
                 has_shortcode( $content, 'ib_search_filter' ) || 
                 has_shortcode( $content, 'ib_search' ) || 
@@ -7690,11 +7699,18 @@ function insert_assets_head_new_search_filter()
             )  && $idx_v == "1" ) { 
 
             $typeAssets = "default";
+            
+
                 //validation to get data mode slider and load assets slider no default assets
                 if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
                     if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
                         $typeAssets = $coincidencias[1];
                     }
+
+                    if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                        $typeAssets = $coincidencias[1];
+                    }
+
                 }
 
                     if ($typeAssets == "slider") { ?>

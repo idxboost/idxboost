@@ -77,7 +77,7 @@
         </div>
         <div class="ms-nw-contact-form">
           <div class="ms-nw-wrapper-contact-form">
-            <h2 class="ms-title">Connect With <?php echo $response["data"]["firstName"]; ?></h2>
+            <h2 class="ms-title"><?php echo __("Connect With", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $response["data"]["firstName"]; ?></h2>
             <?php
               if (shortcode_exists('flex_idx_contact_form'))
                 echo do_shortcode('[flex_idx_contact_form]'); 
@@ -125,7 +125,7 @@
 
         if ( !empty($agentIdSold) && $view == "sold" ) {
           if(shortcode_exists('flex_idx_contact_form'))
-              echo do_shortcode('[idx_boost_agent_office_sold agent_id="'.$agentIdSold.'" months_back="6"]');             
+              echo do_shortcode('[idx_boost_agent_office_sold agent_id="'.$agentIdSold.'" months_back="36"]');             
             //[idx_boost_agent_office_sold office_id="(.+?)" months_back="(.+?)"\]
         }          
       ?>

@@ -23,6 +23,9 @@
 		slider_item : '<?php echo $atts["slider_item"]; ?>',
 		limit : '<?php echo $atts["limit"]; ?>',
 		active_ai : '<?php echo $ia_search; ?>',
+		boost_conversion_active: (__flex_g_settings.force_registration_forced == "yes" ),
+		restriction_mode: (__flex_g_settings.force_registration === "0" ? "soft":"forced"),
+		clicks_registration: __flex_g_settings.signup_left_clicks,
 		search_settings:<?php
 		if ( !empty($atts["filter_id"]) )
 			echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));

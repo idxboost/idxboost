@@ -638,8 +638,6 @@
                                         <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                         <span class="ib-plist-pt">{{property_type}}</span>
                                       </li>
-  
-                                      {{{isNotSingleorCondos this }}}
                                       
                                       <li>
                                         <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
