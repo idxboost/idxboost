@@ -1245,7 +1245,7 @@ var yDown = null;
                         }
 
                         listingHTML.push('</div>');
-                        listingHTML.push('<a href="'+(flex_idx_filter_params.siteUrl+'/off-market-listing/'+item.property_slug)+'" class="view-detail">'+item.full_address+'</a>');
+                        listingHTML.push('<a href="'+(flex_idx_filter_params.propertyDetailPermalink+'/'+item.property_slug)+'" class="view-detail">'+item.full_address+'</a>');
                         listingHTML.push('<a class="view-map-detail" data-geocode="'+item.lat + ':' + item.lng+'">View Map</a>');
                         listingHTML.push('</li>');
                     }

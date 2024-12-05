@@ -7682,6 +7682,7 @@ function insert_assets_head_new_search_filter()
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
         $content = $post->post_content;
 
+        /*
         $version_map_search_filter = "1";
 
         if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches_mapsearchfilter)) {
@@ -7689,9 +7690,10 @@ function insert_assets_head_new_search_filter()
                 $version_map_search_filter = $coinci[1];
             }
         }
+        */
 
         if ( 
-            ( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
+            //( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
             (
                 has_shortcode( $content, 'ib_search_filter' ) || 
                 has_shortcode( $content, 'ib_search' ) || 
@@ -10144,3 +10146,67 @@ if (!function_exists('flex_idx_generate_schema_product')) {
 
 add_action('idx_gtm_head', 'flex_idx_generate_schema_by_page', 0);
 // --------Schema - SEO--------
+
+if (!function_exists('idxboost_cms_get_menu')) {
+    function idxboost_cms_get_menu() {
+        global $flex_idx_info, $idxboost_cms_menu;
+
+        // Check if we already have the response cached
+        if (!isset($idxboost_cms_menu)) {
+            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu';
+            $args = array(
+                'method'    => 'POST',
+                'timeout'   => 60,
+                'headers'   => array(
+                    'Content-Type' => 'application/json',
+                ),
+                'body'      => wp_json_encode( array(
+                    'registration_key' => get_option( 'idxboost_registration_key' )
+                ))
+            );
+
+            $response = wp_remote_post($url, $args);
+            $response_code = wp_remote_retrieve_response_code($response);
+
+            if (!is_wp_error($response) && $response_code === 200) {
+                $idxboost_cms_menu = json_decode(wp_remote_retrieve_body($response), true);
+            } else {
+                $idxboost_cms_menu = []; // Handle error case
+            }
+        }
+
+        return $idxboost_cms_menu;
+    }
+}
+
+if (!function_exists('idxboost_cms_get_header_footer')) {
+    function idxboost_cms_get_header_footer() {
+        global $flex_idx_info, $idxboost_cms_header_footer;
+
+        // Check if we already have the response cached
+        if (!isset($idxboost_cms_header_footer)) {
+            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer';
+            $args = array(
+                'method'    => 'POST',
+                'timeout'   => 60,
+                'headers'   => array(
+                    'Content-Type' => 'application/json',
+                ),
+                'body'      => wp_json_encode( array(
+                    'registration_key' => get_option( 'idxboost_registration_key' )
+                ))
+            );
+
+            $response = wp_remote_post($url, $args);
+            $response_code = wp_remote_retrieve_response_code($response);
+
+            if (!is_wp_error($response) && $response_code === 200) {
+                $idxboost_cms_header_footer = json_decode(wp_remote_retrieve_body($response), true);
+            } else {
+                $idxboost_cms_header_footer = []; // Handle error case
+            }
+        }
+
+        return $idxboost_cms_header_footer;
+    }
+}

@@ -191,9 +191,11 @@ if($disclaimer_checked == "1"){
 
               {{#if (ifVisibility visibilityRegions.amenities)}}
                 <section class="sps-section" id="sps-amenities">
-                  <h2 class="sps-section-title">
-                    <?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                  </h2>
+                  {{#if sections.amenities.title }}
+                    <h2 class="sps-section-title">
+                      {{sections.amenities.title}}
+                    </h2>
+                  {{/if}}
 
                   {{#if propertyAmenities}}
                     <ul class="sps-amenities-list columns-{{stylesInput.amenities.columns}}">
@@ -230,9 +232,11 @@ if($disclaimer_checked == "1"){
                 <div class="sps-wrap-media">
                 {{#if (ifVisibility visibilityRegions.videoTour)}}
                   <div class="sps-tab-body" id="sps-media-tour">
-                    <h2 class="sps-section-title">
-                      <?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </h2>
+                    {{#if sections.videoTour.title }}
+                      <h2 class="sps-section-title">
+                        {{sections.videoTour.title}}
+                      </h2>
+                    {{/if}}
 
                     <div id="sps-virtual">
                       {{#if propertyMetadata.propertyVideos}}
@@ -265,9 +269,11 @@ if($disclaimer_checked == "1"){
 
                 {{#if (ifVisibility visibilityRegions.floorplans)}}
                   <div class="sps-tab-body" id="sps-media-floorplan">
-                    <h2 class="sps-section-title">
-                      <?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </h2>
+                    {{#if sections.floorplans.title }}
+                      <h2 class="sps-section-title">
+                        {{sections.floorplans.title}}
+                      </h2>
+                    {{/if}}
 
                     {{#if propertyFloorplans}}
                       <div id="sps-floorplans">
@@ -310,15 +316,17 @@ if($disclaimer_checked == "1"){
 
               {{#if (ifVisibility visibilityRegions.location)}}
                 <div class="sps-section" id="sps-location">
-                  <h2 class="sps-section-title">
-                    <?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                  </h2>
+                  {{#if sections.location.title }}
+                    <h2 class="sps-section-title">
+                      {{sections.location.title}}
+                    </h2>
+                  {{/if}}
                   {{#if propertyLocationCoords}}
-                  <div class="sps-map" id="googleMap" data-img="googleMap"
-                    data-zoom="{{#if propertyLocationCoords.zoom}} {{propertyLocationCoords.zoom}} {{else}}16{{/if}}"
-                    data-lat="{{#if propertyLocationCoords.lat}} {{propertyLocationCoords.lat}} {{else}}43.542194{{/if}}" 
-                    data-lng="{{#if propertyLocationCoords.lng}} {{propertyLocationCoords.lng}} {{else}}-5.676875{{/if}}">
-                  </div>
+                    <div class="sps-map" id="googleMap" data-img="googleMap"
+                      data-zoom="{{#if propertyLocationCoords.zoom}} {{propertyLocationCoords.zoom}} {{else}}16{{/if}}"
+                      data-lat="{{#if propertyLocationCoords.lat}} {{propertyLocationCoords.lat}} {{else}}43.542194{{/if}}" 
+                      data-lng="{{#if propertyLocationCoords.lng}} {{propertyLocationCoords.lng}} {{else}}-5.676875{{/if}}">
+                    </div>
                   {{else}}
                     <div class="sps-map">
                       <img class="sps-map-img" alt=""
@@ -332,9 +340,11 @@ if($disclaimer_checked == "1"){
                 <div class="sps-section" id="sps-contact">
                   <div class="sps-wrap-form">
 
-                    <h2 class="sps-form-title">
-                      <?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?>
-                    </h2>
+                    {{#if sections.contactUs.title }}
+                      <h2 class="sps-form-title">
+                        {{sections.contactUs.title}}
+                      </h2>
+                    {{/if}}
                     
                     <div class="sps-contact-header">
                       {{#if agentPhotoProfile.ObjectURL}}

@@ -795,33 +795,35 @@ if (!function_exists('ib_search_filter_sc')) {
 
         //$atts["version_filter"] = "1";
 
-        if ( !empty($atts["id"]) ) {
-              
-              $access_token = flex_idx_get_access_token();
-              $curlParams = curl_init();
-              curl_setopt_array($curlParams, array(
-                  CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["id"],
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => 'access_token='.$access_token,
-                  CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/x-www-form-urlencoded'
-                  ),
-                ));
-
-                $responseParms = @json_decode(curl_exec($curlParams) , true);
-                curl_close($curlParams);
-                $atts["version_filter"] = $responseParms["params"]["version_filter"];
-        }
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
         // wp_enqueue_style('flex-idx-search-filter-css');
-        if ($atts["version_filter"] == "2") {
+        if ($idx_v == "1") {
 
+
+            if ( !empty($atts["id"]) ) {
+                  
+                  $access_token = flex_idx_get_access_token();
+                  $curlParams = curl_init();
+                  curl_setopt_array($curlParams, array(
+                      CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["id"],
+                      CURLOPT_RETURNTRANSFER => true,
+                      CURLOPT_ENCODING => '',
+                      CURLOPT_MAXREDIRS => 10,
+                      CURLOPT_TIMEOUT => 0,
+                      CURLOPT_FOLLOWLOCATION => true,
+                      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                      CURLOPT_CUSTOMREQUEST => 'POST',
+                      CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                      CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/x-www-form-urlencoded'
+                      ),
+                    ));
+
+                    $responseParms = @json_decode(curl_exec($curlParams) , true);
+                    curl_close($curlParams);
+                    $atts["version_filter"] = $responseParms["params"]["version_filter"];
+            }
             
 
               $paramsSSO = [

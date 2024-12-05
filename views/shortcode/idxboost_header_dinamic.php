@@ -1,37 +1,6 @@
 <?php
 
-$result = [];
-
-if ( 
-    ! empty($GLOBALS) && 
-    array_key_exists('idx_header_footer', $GLOBALS) && 
-    ! empty($GLOBALS['idx_header_footer'])
-) {
-    $result = $GLOBALS['idx_header_footer'];
-} else {
-
-    global $flex_idx_info;
-
-    $data = array(
-        'registration_key' => get_option('idxboost_registration_key')
-    );
-    $payload = json_encode($data);
-    
-    $ch = curl_init(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-    // Set HTTP Header for POST request
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($payload)
-    ));
-
-    $result = @json_decode(curl_exec($ch), true);
-    $GLOBALS['idx_header_footer'] = $result;
-    curl_close($ch);
-}
+$result = idxboost_cms_get_header_footer();
 
 $variable = do_shortcode("[idxboost_dinamic_menu]");
 $idxboost_dinamic_credential_lead_dinamic = do_shortcode('[idxboost_dinamic_credential_lead_dinamic]');
@@ -50,9 +19,8 @@ if ( is_array($result) && count($result) > 0 ) {
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_menu_mobile]", $idxboost_dinamic_menu_mobile, $result['data']['header']['content']);
         $result['data']['header']['content'] = str_replace("[idxboost_dinamic_credential_lead]", $idxboost_dinamic_credential_lead_dinamic, $result['data']['header']['content']);
         $result['data']['header']['content'] = str_replace("[idxboost_lead_activities]", do_shortcode('[idxboost_lead_activities]'), $result['data']['header']['content']);
+        echo $result['data']['header']['content'];
     }
-    
-    echo $result['data']['header']['content'];
 }
 ?>
 

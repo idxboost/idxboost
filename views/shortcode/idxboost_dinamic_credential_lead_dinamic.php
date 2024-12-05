@@ -2,7 +2,7 @@
 
 <div class="ip-login js-login">
     <?php if ( false === $flex_idx_lead ) : ?>
-        <ul class="ip-login-wrap item-no-hea" id="user-options">
+        <ul class="ip-login-wrap item-no-hea ibc-u-d-flex ibc-u-align-items-center" id="user-options">
             <li class="ip-login-item login" data-modal="modal_login" data-tab="tabLogin">
                 <button class="lg-login ip-login-btn"
                         aria-label="<?php echo __('Login', IDXBOOST_DOMAIN_THEME_LANG); ?>">
@@ -12,7 +12,7 @@
                     </span>
                 </button>
             </li>
-            <li class="ip-login-item register" data-modal="modal_login" data-tab="tabRegister">
+            <li class="ip-login-item register ibc-u-position-relative ip-pl-2" data-modal="modal_login" data-tab="tabRegister">
                 <button class="lg-register ip-login-btn"
                         aria-label="<?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?>">
                     <span class="ip-login-text">

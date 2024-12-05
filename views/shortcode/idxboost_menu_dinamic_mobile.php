@@ -1,32 +1,14 @@
 <?php
 global $flex_idx_info;
 
-$data = array(
-    'registration_key' => get_option('idxboost_registration_key')
-);
+$idxboost_cms_menu = idxboost_cms_get_menu();
+    
+$htmlmenu = [];
 
-$payload = json_encode($data);
-// Prepare new cURL resource
-$ch = curl_init(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-
-// Set HTTP Header for POST request
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json',
-    'Content-Length: ' . strlen($payload))
-);
-
-$result = @json_decode(curl_exec($ch),true);
-
-$htmlmenu =[];
-
-if (is_array($result) && count($result)> 0) {
+if (is_array($idxboost_cms_menu) && count($idxboost_cms_menu) > 0) {
     $htmlmenu[] = '<ul>';
 
-    foreach ($result as $key => $value) {
+    foreach ($idxboost_cms_menu as $key => $value) {
         if (is_array($value['child']) && count($value['child']) > 0) {
             foreach ($value['child'] as $key => $menu) {
 
@@ -38,9 +20,9 @@ if (is_array($result) && count($result)> 0) {
                 }
 
                 $is_external_link = '';
-				if (array_key_exists('target', $menu) && $menu['target'] != '') {
-					$is_external_link = 'target="'. $menu['target'] .'"';
-				}
+                if (array_key_exists('target', $menu) && $menu['target'] != '') {
+                    $is_external_link = 'target="'. $menu['target'] .'"';
+                }
 
                 $htmlmenu[] = '<li class="ip-menu-item'. $has_class .'">';
                 $htmlmenu[] = '<div class="ip-menu-item-wrapper">';
@@ -51,8 +33,8 @@ if (is_array($result) && count($result)> 0) {
                     $htmlmenu[] = '<ul class="ip-submenu js-submenu">';
                     foreach ($menu['subItems'] as $key => $submenu) {
                         $is_external_link_two = '';
-						if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
-							$is_external_link_two = 'target="'. $submenu['target'] .'"';
+                        if (array_key_exists('target', $submenu) && $submenu['target'] != '') {
+                            $is_external_link_two = 'target="'. $submenu['target'] .'"';
                         }
                         
                         $htmlmenu[] = '<li class="ip-menu-item">';
@@ -65,19 +47,10 @@ if (is_array($result) && count($result)> 0) {
 
             }
         }
-
-        if (array_key_exists("cta", $value) && is_array($value['cta']) && count($value['cta'] ) > 0) {
-			$htmlmenu[] = $value["cta"]["content"];
-		}
     }
     
     $htmlmenu[] = '</ul>';
 }
-
-$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-// Close cURL session handle
-curl_close($ch);
 
 if (is_array($htmlmenu) && count($htmlmenu) > 0) {
     echo implode('', $htmlmenu);

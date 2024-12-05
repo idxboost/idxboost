@@ -11,6 +11,18 @@
 		propertyDetailPermalink: '<?php echo get_site_url(); ?>/property'
 	}
 
+	<?php 
+	//var_dump($flex_idx_info["agent"]["force_registration"]);
+	//var_dump($idxboost_agent_info['force_registration_forced']);
+	
+		$force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
+	 	$force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
+		$signup_left_clicks = ( $force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
+	
+	//var_dump($force_registration_forced);
+	?>
+
+
 	window.idx_main_settings = {
 		paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
 		mode : '<?php echo $atts["mode"]; ?>',
@@ -23,9 +35,12 @@
 		slider_item : '<?php echo $atts["slider_item"]; ?>',
 		limit : '<?php echo $atts["limit"]; ?>',
 		active_ai : '<?php echo $ia_search; ?>',
-		boost_conversion_active: (__flex_g_settings.force_registration_forced == "yes" ),
-		restriction_mode: (__flex_g_settings.force_registration === "0" ? "soft":"forced"),
-		clicks_registration: __flex_g_settings.signup_left_clicks,
+		
+
+		force_registration: Boolean(<?php echo $force_registration; ?>),
+		force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
+		signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+
 		search_settings:<?php
 		if ( !empty($atts["filter_id"]) )
 			echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
