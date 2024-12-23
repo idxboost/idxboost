@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'search-icons';
-  src:  url('fonts/search-icons.eot?r4v64f');
-  src:  url('fonts/search-icons.eot?r4v64f#iefix') format('embedded-opentype'),
-    url('fonts/search-icons.ttf?r4v64f') format('truetype'),
-    url('fonts/search-icons.woff?r4v64f') format('woff'),
-    url('fonts/search-icons.svg?r4v64f#search-icons') format('svg');
+  src:  url('fonts/search-icons.eot?1qs6nd');
+  src:  url('fonts/search-icons.eot?1qs6nd#iefix') format('embedded-opentype'),
+    url('fonts/search-icons.ttf?1qs6nd') format('truetype'),
+    url('fonts/search-icons.woff?1qs6nd') format('woff'),
+    url('fonts/search-icons.svg?1qs6nd#search-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.sf-icon-houses:before {
+  content: "\e96a";
+}
+.sf-icon-bed:before {
+  content: "\e96b";
+}
+.sf-icon-house-sale:before {
+  content: "\e96c";
+}
+.sf-icon-dollar:before {
+  content: "\e96d";
+}
+.sf-icon-messenger:before {
+  content: "\e968";
+}
+.sf-icon-telegram:before {
+  content: "\e969";
+}
+.sf-icon-copy:before {
+  content: "\e967";
+}
+.sf-icon-send-plane:before {
+  content: "\e966";
+}
 .sf-icon-warning:before {
   content: "\ea07";
 }

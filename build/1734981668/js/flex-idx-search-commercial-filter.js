@@ -140,6 +140,28 @@ if (typeof originalPositionY === "undefined") {
 	var originalPositionY;
 }
 
+// Definir el orden específico
+const customOrder = ["Industrial", "Land", "Business", "Multifamily"];
+
+// Función de comparación para ordenar según el orden personalizado
+__flex_idx_search_filter.commercial_types.sort((a, b) => {
+  const aIndex = customOrder.indexOf(a.label);
+  const bIndex = customOrder.indexOf(b.label);
+
+  // Si ambos elementos están en el orden personalizado, los ordenamos por su índice
+  if (aIndex !== -1 && bIndex !== -1) {
+    return aIndex - bIndex;
+  }
+
+  // Si solo uno de los elementos está en el orden personalizado, se coloca primero
+  if (aIndex !== -1) return -1;
+  if (bIndex !== -1) return 1;
+
+  // Si ninguno está en el orden personalizado, ordenamos alfabéticamente por el label
+  return a.label.localeCompare(b.label);
+});
+
+
 (function ($) {
 
 _.mixin({
