@@ -1182,12 +1182,25 @@ function idxboostListCollectionForSold(element){
                         if (reduced_price !== 0  )
                           textreducedmon=reduced_price+'%';
                         
+                        //let date_close_format = ( element.hasOwnProperty("date_close") ? ( new Date(element["date_close"] * 1000).toLocaleDateString("en-US").replaceAll("/","-") ) :  element['parce_date_close'] );
+
+                        let date_close_format = "";
+                        if (element.hasOwnProperty("date_close") ) {
+                          let dateTemp = ( new Date(element["date_close"] * 1000).toLocaleDateString("en-US").replaceAll("/","-") ).split("-");
+                          if (dateTemp.length == 3 ){
+                              dateTemp[0] = dateTemp[0].padStart(2,"0");
+                              dateTemp[1] = dateTemp[1].padStart(2,"0");
+                          }                          
+                          date_close_format = dateTemp.join("-")
+                        }else{
+                          date_close_format = element['parce_date_close'];
+                        }
 
                         responseitems +='<td><div class="porcentaje '+textreduced+'">'+textreducedmon+'</div></td>';
                         responseitems +='<td><div class="beds">'+element['bed']+' / '+element['bath']+' / '+element['baths_half']+'</div></td>';
                         responseitems +='<td class="table-beds show-desktop"><div class="beds">'+_.formatPrice(element['sqft'])+' <span> Sq.Ft.</span></div></td>';
                         responseitems +='<td class="table-beds show-desktop"><div class="price">$'+( __flex_g_settings.version == "1" ? element['price_sqft'].toFixed(2) : element['price_sqft'] ) +'</div></td>';
-                        responseitems +='<td class="table-beds show-desktop"><div class="dayson">'+( element.hasOwnProperty("date_close") ? ( new Date(element["date_close"] * 1000).toLocaleDateString("en-US").replaceAll("/","-") ) :  element['parce_date_close'] )+'</div></td></tr>';
+                        responseitems +='<td class="table-beds show-desktop"><div class="dayson">'+date_close_format+'</div></td></tr>';
                         
                         
 
