@@ -2048,6 +2048,7 @@ function media_selector_print_scripts()
 
             add_filter('page_template', 'custom_page_template');
 
+            /*
             add_action( 'init',  function() {
                 global $wpdb,$flex_idx_info;
 
@@ -2072,6 +2073,7 @@ function media_selector_print_scripts()
                 }
 
             } ); 
+            */
 
 add_filter( 'query_vars', function( $query_vars ) {
     $query_vars[] = 'myparamiaidxboost';

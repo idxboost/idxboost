@@ -6830,6 +6830,9 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', 'style_map_idxboost', $descr_tools_map_style);
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
+
+            'site_name' => get_bloginfo('name'),
+            'registration_key' => get_option('idxboost_registration_key'),
             'board_info' => $board_info,
             'version' => $idx_v,
             'events' => [
@@ -8560,7 +8563,7 @@ if (!function_exists('flex_agent_format_phone_number')) {
         return preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $input);
     }
 }
-
+/*
 if (!function_exists('idxboost_language_default_plugin')) {
     function idxboost_language_default_plugin($lang)
     {
@@ -8590,6 +8593,7 @@ if (!function_exists('idxboost_language_default_plugin')) {
 
     add_filter('locale', 'idxboost_language_default_plugin');
 }
+*/
 
 /**
  * IDXBoost CMS
@@ -10208,5 +10212,41 @@ if (!function_exists('idxboost_cms_get_header_footer')) {
         }
 
         return $idxboost_cms_header_footer;
+    }
+}
+
+if (!function_exists('idxboost_language_default_plugin')) {
+    function idxboost_language_default_plugin($lang)
+    {
+        $flex_idx_info = flex_idx_get_info();
+        if (array_key_exists('search', $flex_idx_info)) {
+            if (array_key_exists('default_language', $flex_idx_info['search']))
+                if (!empty($flex_idx_info['search']['default_language']))
+                    $default_language = $flex_idx_info['search']['default_language'];
+                else
+                    $default_language = 'en';
+            else
+                $default_language = 'en';
+        } else {
+            $default_language = 'en';
+        }
+
+        $text_language = '';
+        $text_language = $default_language . '_' . strtoupper($default_language);
+        return $text_language;
+    }
+
+    add_filter('locale', 'idxboost_language_default_plugin');
+}
+
+
+
+add_action( 'after_setup_theme', 'my_languagues_setup' );
+        if (!defined('IDXBOOST_DOMAIN_THEME_LANG')) {
+            define('IDXBOOST_DOMAIN_THEME_LANG', 'idxboost');
+        }
+function my_languagues_setup(){
+    if(get_locale() != "en_EN" ){
+        load_textdomain( IDXBOOST_DOMAIN_THEME_LANG, FLEX_IDX_PATH.'/languages/'.get_locale().'.mo' );
     }
 }
