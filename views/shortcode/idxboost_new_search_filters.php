@@ -68,7 +68,7 @@
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
  GOOGLE MAP -->
 
-<div id="root" style="overflow-y: hidden"></div>
+<div id="root"></div>
 <div id="tutorial-ai-modal"></div>
 <div id="property-modal"></div>
 <div id="gallery-modal"></div>

@@ -2261,11 +2261,12 @@ if(scrollTopElement.length){
 
 	function handleMarkerClick(marker, property, map) {
 		return function() {
+			let nf = new Intl.NumberFormat('en-US');
 			if (property.group.length > 1) {
 				// multiple
 				infobox_content.push('<div class="mapview-container">');
 				infobox_content.push('<div class="mapviwe-header">');
-				infobox_content.push('<h2>' + property.item.heading + '</h2>');
+				infobox_content.push('<h2>' + (property.item.hasOwnProperty("heading") ? property.item.heading : "" )  + '</h2>');
 				infobox_content.push('<span class="build">' + property.group.length + '</span>');
 				infobox_content.push('<button class="closeInfo"><span>'+word_translate.close+'</span></button>');
 				infobox_content.push('</div>');
@@ -2292,7 +2293,7 @@ if(scrollTopElement.length){
 					infobox_content.push('<li class="beds"><b>' + property_group.bed + '</b> <span> ' + textpropertybed + '</span></li>');
 					infobox_content.push('<li class="baths"><b>' + property_group.bath + '</b> <span> ' + textpropertybath + '</span></li>');
 					infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property_group.sqft) + '</span> Sq.Ft.<span>(' + property_group.living_size_m2 + ' m²)</span></li>');
-					infobox_content.push('<li class="price-sf"><span>$' + property_group.price_sqft + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m²)</span></li>');
+					infobox_content.push('<li class="price-sf"><span>$' + (__flex_g_settings.version == 1 ? nf.format(property_group.price_sqft.toFixed(0)) : property_group.price_sqft  )  + ' </span>/ Sq.Ft.<span>($' + property_group.price_sqft_m2 + ' m²)</span></li>');
 					infobox_content.push('</ul>');
 					infobox_content.push('<div class="mapviwe-img">');
 					
@@ -2303,7 +2304,11 @@ if(scrollTopElement.length){
 	                    ) {
 	                    	infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto">');
 	                    }else{
-	                        infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');
+	                    	if (__flex_g_settings.version == 1) {
+	                        	infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.thumbnail_url + '">');
+	                    	}else{
+	                    		infobox_content.push('<img title="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" alt="' + property_group.address_short.replace(/# /, "#") + ', ' + property_group.address_large.replace(/ , /, ", ") + '" src="' + property_group.gallery[0] + '">');	                    		
+	                    	}
 	                    }
 
 					infobox_content.push('</div>');
@@ -2327,7 +2332,7 @@ if(scrollTopElement.length){
 				// single
 				infobox_content.push('<div class="mapview-container">');
 				infobox_content.push('<div class="mapviwe-header">');
-				infobox_content.push('<h2>' + property.item.heading + '</h2>');
+				infobox_content.push('<h2>' + (property.item.hasOwnProperty("heading") ? property.item.heading : "" ) + '</h2>');
 				infobox_content.push('<button class="closeInfo"><span>'+word_translate.close+'</span></button>');
 				infobox_content.push('</div>');
 				infobox_content.push('<div class="mapviwe-body">');
@@ -2351,7 +2356,7 @@ if(scrollTopElement.length){
 				infobox_content.push('<li class="beds"><b>' + property.item.bed + '</b> <span> ' + textpropertyitembed + '</span></li>');
 				infobox_content.push('<li class="baths"><b>' + property.item.bath + '</b> <span> ' + textpropertyitembath + '</span></li>');
 				infobox_content.push('<li class="living-size"> <span>' + _.formatPrice(property.item.sqft) + '</span> Sq.Ft.<span>(' + property.item.living_size_m2 + ' m²)</span></li>');
-				infobox_content.push('<li class="price-sf"><span>$' + property.item.price_sqft + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m²)</span></li>');
+				infobox_content.push('<li class="price-sf"><span>$' + (__flex_g_settings.version == 1 ? nf.format( property.item.price_sqft.toFixed(0) ) : property.item.price_sqft )  + ' </span>/ Sq.Ft.<span>($' + property.item.price_sqft_m2 + ' m²)</span></li>');
 				infobox_content.push('</ul>');
 				infobox_content.push('<div class="mapviwe-img">');
 				
@@ -2362,7 +2367,12 @@ if(scrollTopElement.length){
 	                    ) {
 	                    	infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '"><img src="'+__flex_g_settings.board_info.board_logo_url+'" style="position: absolute;bottom: 10px;z-index: 2;width: 80px;right: 10px;height:auto">');
 	                    }else{
-	                        infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');
+	                    	if (__flex_g_settings.version == 1) {
+	                    		infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.thumbnail_url + '">');
+	                    	}else{
+	                    		infobox_content.push('<img title="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" alt="' + property.item.address_short.replace(/# /, "#") + ', ' + property.item.address_large.replace(/ , /, ", ") + '" src="' + property.item.gallery[0] + '">');
+	                    	}
+	                        
 	                    }
 
 				infobox_content.push('</div>');

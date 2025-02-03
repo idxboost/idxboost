@@ -2275,6 +2275,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
         $access_token = flex_idx_get_access_token();
         $search_params = $flex_idx_info['search'];
         $template_not_found = false;
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
         $atts = shortcode_atts(array(
             'registration_key' => ''
@@ -2368,6 +2369,36 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
         // build facebook url share
         $site_title = get_bloginfo('name');
+
+        $access_token_service = "";
+        if ($idx_v == "1") {
+
+              $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+              ];
+
+                $curlToken = curl_init();
+                curl_setopt_array($curlToken, array(
+                  CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                  ),
+                ));
+            $responseToken = @json_decode(curl_exec($curlToken),true);
+            curl_close($curlToken);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+        }
+
 
         if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
             $board_id = 100;
@@ -2480,21 +2511,43 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
         } else {
 
+            $sendParamsnewSearch = [];
+
+            if ( $type_lookup == "sold" ) {
+                $sendParamsnewSearch = ['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'], 'for' => 'sold' ];
+            }else{
+                $sendParamsnewSearch = ['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'] ];
+            }
+
             $ch = curl_init();
 
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+            curl_setopt($ch, CURLOPT_URL, ($idx_v == "1") ? FLEX_IDX_API_PROPERTY_DETAIL_V2 : FLEX_IDX_API_LOOKUP );
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, ($idx_v == "1") ? json_encode($sendParamsnewSearch) : http_build_query($sendParams) );
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+            if ($idx_v == "1") {
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Authorization: '.$access_token_service
+                  ) );
+            }
+
 
             $server_output = curl_exec($ch);
             curl_close($ch);
 
-            $response = json_decode($server_output, true);
-
             $current_url = home_url($wp_request);
-            $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+            $response = json_decode($server_output, true);
+            
+
+            if($idx_v == "1"){
+                $property = $response;
+            }else{
+                $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+            }
+
 
             //$template_not_found
 
@@ -2503,18 +2556,29 @@ if (!function_exists('flex_idx_property_detail_sc')) {
                 $sendParams["type_lookup"] = "sold";
 
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+                curl_setopt($ch, CURLOPT_URL, ($idx_v == "1") ? FLEX_IDX_API_PROPERTY_DETAIL_V2 : FLEX_IDX_API_LOOKUP );
+
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, ($idx_v == "1") ? json_encode(['for' => 'sold' ,'mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'] ]) : http_build_query($sendParams)  );
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+                if ($idx_v == "1") {
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json',
+                        'Authorization: '.$access_token_service
+                      ) );
+                }
 
                 $server_output = curl_exec($ch);
                 curl_close($ch);
                 $response = json_decode($server_output, true);
 
                 $current_url = home_url($wp_request);
-                $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+                if($idx_v == "1"){
+                    $property = $response;
+                }else{
+                    $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+                }
 
 
                 if (count($property) > 0) {

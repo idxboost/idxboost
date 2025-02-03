@@ -4198,10 +4198,13 @@ jQuery(document).ready(function() {
 	var windowSize = jQuery(window).width();
 	var heightHeader = jQuery("header").outerHeight();
 	var heightHeaderAdd = heightHeader + 49;
-	if(windowSize > 1023){
+	if(windowSize > 1023){	
 		jQuery("#flex-filters-theme .gwr-breadcrumb").css({'position':'fixed','z-index':'5','top':heightHeader});
 		jQuery("#flex-filters-theme .ib-filter-container.fixed-box").css({'position':'fixed','top':heightHeaderAdd});
-		jQuery("#flex-filters-theme").css({'margin-top':'49px'});
+		if (window.__flex_g_settings.version != "1") {
+			jQuery("#flex-filters-theme").css({'margin-top':'49px'});
+		}		
+		
 	}
 });
 

@@ -20,6 +20,8 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
     {
         global $wp, $wpdb, $flex_idx_info, $flex_idx_lead;
 
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
         if (true !== $flex_idx_info['agent']['has_basic_idx']) {
             return "";
         }
@@ -106,88 +108,147 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             ),
         );
 
-        if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
-            $board_id = 100;
-            $ed = "";
-            $sd = "";
-            $extra_day_in = "";
-            $extra_day_out = "";
-            if (is_array($_GET) && count($_GET) > 0) {
-                if (array_key_exists("sd", $_GET)) {
-                    $sd = $_GET["sd"];
-                }
+        $access_token_service = "";
+        if ($idx_v == "1") {
 
-                if (array_key_exists("ed", $_GET)) {
-                    $ed = $_GET["ed"];
-                }
+              $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+              ];
 
-                if (array_key_exists("extra_day_in", $_GET)) {
-                    $extra_day_in = $_GET["extra_day_in"];
-                }
+                $curlToken = curl_init();
+                curl_setopt_array($curlToken, array(
+                  CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                  ),
+                ));
+            $responseToken = @json_decode(curl_exec($curlToken),true);
+            curl_close($curlToken);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
 
-                if (array_key_exists("extra_day_out", $_GET)) {
-                    $extra_day_out = $_GET["extra_day_out"];
-                }
-
-                if (array_key_exists("board", $_GET)) {
-                    $board_id = $_GET["board"];
-                }
-
-            }
 
             $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => FLEX_IDX_BASE_URL . "/rentals_listings/{$slug}",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => http_build_query(
 
-                    array(
-                        'type_search' => 'slug',
-                        'board_id' => $board_id,
-                        'check_in' => $sd,
-                        'check_out' => $ed,
-                        "extra_day_in" => $extra_day_in,
-                        "extra_day_out" => $extra_day_out,
-                        'access_token' => $access_token
-                    )
-                ),
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => FLEX_IDX_API_SEARCH_FILTER_V2.'/property/detail',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS => json_encode(['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'] ]),
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: '.$access_token_service
+              ),
             ));
 
-            $server_output = curl_exec($curl);
-            $response = json_decode($server_output, true);
+            $response = curl_exec($curl);
+            $property = @json_decode($response, true);
+
             curl_close($curl);
-            $current_url = home_url($wp_request);
-            $property = (isset($response) && is_array($response) && count($response) > 0) ? $response : array();
-            $GLOBALS["property"] = $property;
-        } else {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
-            $response = json_decode($server_output, true);
-
-            // var_dump(FLEX_IDX_API_LOOKUP);
-            // var_dump($sendParams);
-            // var_dump($response);
-            // exit;
-
-            $current_url = home_url($wp_request);
-            $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+            
             $GLOBALS["property"] = $property;
 
-            // var_dump($GLOBALS['property']);
-            // exit;
+        }else{
+            
+            if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
+                $board_id = 100;
+                $ed = "";
+                $sd = "";
+                $extra_day_in = "";
+                $extra_day_out = "";
+                if (is_array($_GET) && count($_GET) > 0) {
+                    if (array_key_exists("sd", $_GET)) {
+                        $sd = $_GET["sd"];
+                    }
+
+                    if (array_key_exists("ed", $_GET)) {
+                        $ed = $_GET["ed"];
+                    }
+
+                    if (array_key_exists("extra_day_in", $_GET)) {
+                        $extra_day_in = $_GET["extra_day_in"];
+                    }
+
+                    if (array_key_exists("extra_day_out", $_GET)) {
+                        $extra_day_out = $_GET["extra_day_out"];
+                    }
+
+                    if (array_key_exists("board", $_GET)) {
+                        $board_id = $_GET["board"];
+                    }
+
+                }
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => FLEX_IDX_BASE_URL . "/rentals_listings/{$slug}",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => http_build_query(
+
+                        array(
+                            'type_search' => 'slug',
+                            'board_id' => $board_id,
+                            'check_in' => $sd,
+                            'check_out' => $ed,
+                            "extra_day_in" => $extra_day_in,
+                            "extra_day_out" => $extra_day_out,
+                            'access_token' => $access_token
+                        )
+                    ),
+                ));
+
+                $server_output = curl_exec($curl);
+                $response = json_decode($server_output, true);
+                curl_close($curl);
+                $current_url = home_url($wp_request);
+                $property = (isset($response) && is_array($response) && count($response) > 0) ? $response : array();
+                $GLOBALS["property"] = $property;
+            } else {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+                $server_output = curl_exec($ch);
+                curl_close($ch);
+                $response = json_decode($server_output, true);
+
+                // var_dump(FLEX_IDX_API_LOOKUP);
+                // var_dump($sendParams);
+                // var_dump($response);
+                // exit;
+
+                $current_url = home_url($wp_request);
+                $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
+                $GLOBALS["property"] = $property;
+
+                // var_dump($GLOBALS['property']);
+                // exit;
+            }
+
         }
+
 
         return $property;
     }
@@ -6102,6 +6163,8 @@ if (!function_exists('idxboost_get_data_slider_xhr_fn')) {
 
 function flex_idx_filter_page_xhr_fn()
 {
+    global $flex_idx_info;
+
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
@@ -6119,11 +6182,14 @@ function flex_idx_filter_page_xhr_fn()
     if (empty($filter_token_ID)) {
         $filter_token_ID = $_POST['filter_panel'];
     }
+
+    $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
     if (isset($_POST['filter_panel_type'])) {
         $enpoint = FLEX_IDX_API_TRACK_PROPERTY_AGENT_OR_OFFICE;
         $filter_listing_type = $_POST['filter_panel_type_a'];
     } else {
-        $enpoint = FLEX_IDX_API_MARKET;
+        $enpoint = ($idx_v == "1" ? FLEX_IDX_API_DISPLAY_FILTER_V4 : FLEX_IDX_API_MARKET);
     }
     if ('' != $filter_token_ID) {
         $filter_listing_type = 0;

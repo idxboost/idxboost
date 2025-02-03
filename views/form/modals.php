@@ -3317,7 +3317,7 @@ $(function() {
     <li class="beds">{{bed}} <?php echo __('beds', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span></li>
     <li class="baths">{{bath}} {{DFformatBathsHalf baths_half}} <span><?php echo __('baths', IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
     <li class="living-size"> <span>{{DFformatSqft sqft}} <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-    <li class="price-sf"><span>{{DFformatPrice price_sqft}} </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?><span>({{DFformatPrice price_sqft_m2}} m²)</span></li>
+    <li class="price-sf"><span>{{DFformatPrice price_sqft}} </span>/ <?php echo __("Sq.Ft.", IDXBOOST_DOMAIN_THEME_LANG); ?> </li>
 
     {{{DFhandleDevelopment this}}}
 

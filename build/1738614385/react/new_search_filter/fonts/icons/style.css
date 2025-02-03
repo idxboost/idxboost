@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'search-icons';
-  src:  url('fonts/search-icons.eot?edht2l');
-  src:  url('fonts/search-icons.eot?edht2l#iefix') format('embedded-opentype'),
-    url('fonts/search-icons.ttf?edht2l') format('truetype'),
-    url('fonts/search-icons.woff?edht2l') format('woff'),
-    url('fonts/search-icons.svg?edht2l#search-icons') format('svg');
+  src:  url('fonts/search-icons.eot?iuix0n');
+  src:  url('fonts/search-icons.eot?iuix0n#iefix') format('embedded-opentype'),
+    url('fonts/search-icons.ttf?iuix0n') format('truetype'),
+    url('fonts/search-icons.woff?iuix0n') format('woff'),
+    url('fonts/search-icons.svg?iuix0n#search-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.sf-icon-current-location:before {
+  content: "\e96f";
+}
 .sf-icon-isle:before {
   content: "\e96e";
 }

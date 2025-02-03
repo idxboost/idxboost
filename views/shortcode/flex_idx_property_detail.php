@@ -50,6 +50,15 @@
   </div>
 </div>
 <?php else: ?>
+
+ <?php
+ if ($idx_v == "1") {
+  $property['gallery'] = $property['imagens'];
+  $property['img_cnt'] =  ( is_array($property['imagens']) && count($property['imagens']) > 0 ) ? count($property['imagens']) : 0;
+  unset($property['imagens']);
+ }
+
+ ?> 
 <script>
   var lastOpenedProperty = "<?php echo $property['mls_num']; ?>";
   // // track listing view
@@ -1335,11 +1344,11 @@
                   </ul>
                   <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
                   <a class="layout-img" href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>">
-                  <img class="lazy-img" data-src="<?php echo $rel_item['gallery'][0]; ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
+                  <img class="lazy-img" data-src="<?php echo (($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0]); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
                   </a>
                   <?php else: ?>
                   <a class="layout-img" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
-                  <img class="lazy-img" data-src="<?php echo $rel_item['gallery'][0]; ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
+                  <img class="lazy-img" data-src="<?php echo ( ($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0] ); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
                   </a>
                   <?php endif; ?>
                 </article>
