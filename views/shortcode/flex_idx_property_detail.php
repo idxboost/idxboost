@@ -218,12 +218,17 @@
   
   $agent_info_name = $flex_idx_info['agent']['agent_first_name'] . ' ' . $flex_idx_info['agent']['agent_last_name'];
   $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
-  ?>
-<div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
+?>
+
+<div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs searchEngineWithReactActive">
   <section class="title-conteiner gwr animated fixed-box">
     <div class="content-fixed">
       <div class="content-fixed-title">
-        <h1 class="title-page ms-property-title"><?php echo str_replace('# ', '#', $property['address_short']); ?><span><?php echo $property['address_large']; ?></span></h1>
+        <h1 class="title-page ms-property-title">
+          <?php echo str_replace('# ', '#', $property['address_short']); ?>
+          <span><?php echo $property['address_large']; ?></span>
+        </h1>
+        
         <div class="breadcrumb-options">
           <div class="ms-property-search">
             <div class="ms-wrapper-btn-new-share">
@@ -246,9 +251,22 @@
                     <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
                     </a>
                   </li>
+                  <li class="ib-btnContact ms-hidden">
+                    <button id="msContactModal"  
+                      aria-label="<?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?>" 
+                      data-tool="tooltip" 
+                      data-tool-detail="<?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?>" 
+                      data-tool-position="bottom">
+                      <i class="idx-icon-mail-envelope-closed"></i>
+                    </button>
+                  </li>
                   <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-                  <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Facebook</a></li>
-                  <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                  <li><a class="btnFacebook ib-plsitem ib-plifb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Facebook</a></li>
+                  <li><a class="btnTwitter ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                  <li class="ms-hidden"><a class="btnWhatsapp" onclick="btnWhatsapp()" rel="nofollow" data-url="https://api.whatsapp.com/send?text=<?php echo $property_permalink; ?>">Whatsapp</a></li>
+                  <li class="ms-hidden"><a class="btnTelegram" onclick="btnTelegram()" rel="nofollow" data-url="https://t.me/share/url?url=<?php echo $property_permalink; ?>">Telegram</a></li>
+                  <li class="ms-hidden"><a class="btnLinkedin" onclick="btnLinkedin()" rel="nofollow" data-url="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo $property_permalink; ?>">Linkedin</a></li>
+                  <li class="ms-hidden"><a class="btnPinterest" onclick="btnPinterest()" rel="nofollow" data-url="https://pinterest.com/pin/create/button/?url=<?php echo $property_permalink; ?>&media=<?php echo $property['gallery'][0]; ?>&description=<?php echo strip_tags($property['remark']); ?>">Pinterest</a></li>
                 </ul>
               </div>
             </div>
@@ -288,7 +306,25 @@
           <?php endif;?>
           <?php endif; ?>
         </div>
+ 
+        <div class="ms-actions ms-hidden">
+          <?php if (1 == $property['status']): ?>
+            <div class="ms-btn-save-action">
+              <?php if ($property['is_favorite']): ?>
+              <button class="chk_save chk_save_property dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <span class="ib-piltxt active"></span>
+              </button>
+              <?php else: ?>
+              <button class="chk_save chk_save_property dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <span class="ib-piltxt"></span>
+              </button>
+              <?php endif;?>
+            </div>
+          <?php endif;?>
+          <button id="shareBtn" class="ms-sf-btn" aria-label="<?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?>"><i class="idx-icon-shared"></i></button>
+        </div>
       </div>
+      
       <ul class="content-fixed-btn">
         <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow"><span><?php echo __("Back to results", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
         <li>
@@ -407,18 +443,18 @@
           <?php if ($property["is_commercial"] != 1){ ?>
           <li class="ib-pilitem ib-pilbeds">
             <span class="ib-pilnumber"><?php echo $property['bed']; ?></span>
-            <span class="ib-piltxt"><?php echo __("Bedroom(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
-            <span class="ib-piltxt -min"><?php echo __("Beds(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            <span class="ib-piltxt"><?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
+            <span class="ib-piltxt -min"><?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <li class="ib-pilitem ib-pilbaths">
             <span class="ib-pilnumber"><?php echo $property['bath']; ?></span>
-            <span class="ib-piltxt"><?php echo __("Bathroom(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
-            <span class="ib-piltxt -min"><?php echo __("Baths(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            <span class="ib-piltxt"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
+            <span class="ib-piltxt -min"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <li class="ib-pilitem ib-pilhbaths ms-hidden-mb">
             <span class="ib-pilnumber"><?php echo $property['baths_half']; ?></span>
-            <span class="ib-piltxt"><?php echo __("Half Bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
-            <span class="ib-piltxt -min"><?php echo __("Half Bath(s)", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            <span class="ib-piltxt"><?php echo __("Half Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
+            <span class="ib-piltxt -min"><?php echo __("Half Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <?php }else{ ?>
           <li class="ib-pilitem ib-pilbeds">
@@ -765,35 +801,52 @@
           <div class="ib-plist-details -border">
             <div class="ib-plist-card">
               <h2 class="ib-plist-card-title"><?php echo __('Basic Information', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-              <ul class="ib-plist-list">
-                <li>
+              <ul class="ib-plist-list -basic">
+                
+                <?php if (!empty($property['mls_num'])){ ?>
+                <li class="icon-search">
                   <span class="ib-plist-st"><?php echo __('MLS', IDXBOOST_DOMAIN_THEME_LANG); ?> #</span>
                   <span class="ib-plist-pt"><?php echo $property['mls_num']; ?></span>
                 </li>
-                <li>
+                <?php } ?>
+
+                <?php if (!empty($property['property_type'])){ ?>
+                <li class="icon-home">
                   <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['property_type']; ?></span>
-                </li>                             
+                </li>
+                <?php } ?>                         
                 
                 <?php
                 $status_name = $property['status_name'];
-                 if($property["status"] == "2"){
-                    $status_name = ($property["is_rental"] == "1") ? __('Rented', IDXBOOST_DOMAIN_THEME_LANG) : __('Sold', IDXBOOST_DOMAIN_THEME_LANG);
-                 }
+                if($property["status"] == "2"){
+                  $status_name = ($property["is_rental"] == "1") ? __('Rented', IDXBOOST_DOMAIN_THEME_LANG) : __('Sold', IDXBOOST_DOMAIN_THEME_LANG);
+                }
                 ?>
-                <li>
+
+                <?php if (!empty($status_name)){ ?>
+                <li class="icon-info">
                   <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $status_name; ?></span>
                 </li>
-                <li>
+                <?php } ?>
+
+                <?php if (!empty($property['subdivision'])){ ?>
+                <li class="icon-department">
                   <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['subdivision']; ?></span>
                 </li>
-                <li>
+                <?php } ?>
+
+                <?php if (!empty($property['year'])){ ?>
+                <li class="icon-tool">
                   <span class="ib-plist-st"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['year']; ?></span>
                 </li>
-                <li>
+                <?php } ?>
+
+                <?php if (!empty($property['total_sqft'])){ ?>
+                <li class="icon-ruler">
                   <?php 
                     $inputvalTotalsqft = floatval( str_replace ( ",", "", $property["total_sqft"] ) );
                     $valetvalTotalsqft = number_format($property["total_sqft"] );
@@ -826,19 +879,22 @@
                     ?></span>
                   <span class="ib-plist-pt"><?php echo $valetvalTotalsqft; ?></span>
                 </li>
+                <?php } ?>
+
                 <?php if ($type_lookup == "sold") { ?>
-                <li>
+                <li class="icon-calendar">
                   <span class="ib-plist-st"><?php echo __('Date Closed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo date('m/d/Y', $property['date_close']); ?></span>
                 </li>
                 <?php }else{ ?>
-                <li>
+                <li class="icon-calendar">
                   <span class="ib-plist-st"><?php echo __('Date Listed', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo date('m/d/Y', $property['list_date']); ?></span>
                 </li>
                 <?php } ?>
+                
                 <?php if( !empty($property['days_market']) ){  ?>
-                <li>
+                <li class="icon-time">
                   <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['days_market']; ?></span>
                 </li>
@@ -948,7 +1004,6 @@
                   <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
                 </li>
                 <?php } ?>
-               
               </ul>
             </div>
             <div class="ib-plist-card">
@@ -1312,51 +1367,38 @@
           <?php if (!empty($property['related_items'])) : ?>
           <div class="similar-properties">
             <h2 class="title-similar-list"><?php echo __("Similar Properties For", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property['is_rental'] == 1 ? __("Rent", IDXBOOST_DOMAIN_THEME_LANG) : __("Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-            <ul>
+            <ul class="ms-sf-similar-properties-list">
               <?php foreach ($property['related_items'] as $rel_item) : ?>
-              <li>
-                <article>
-                  <h3 class="ms-title">
-                    <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
-                    <a href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>" title="<?php echo str_replace('# ', '#', $rel_item['address_short']); ?>">
-                    <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>
-                    </a>
-                    <?php else: ?>
-                    <a href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>" title="<?php echo str_replace('# ', '#', $rel_item['address_short']); ?>">
-                    <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>
-                    </a>
-                    <?php endif; ?>
-                  </h3>
-                  <ul>
-                    <li class="address"><span><?php echo $rel_item['address_large']; ?></span></li>
-                    <li class="price">$<?php echo number_format($rel_item['price']); ?></li>
-                    <li> <span><?php echo $rel_item['bed']; ?> </span>
-                      <?php
-                        if ($rel_item['bed'] > 1) {
-                          echo __("Bed(s)", IDXBOOST_DOMAIN_THEME_LANG);
-                        } else {
-                          echo __("Bed(s)", IDXBOOST_DOMAIN_THEME_LANG);
-                        }
-                        ?>
-                    </li>
-                    <li> <span><?php echo $rel_item['bath']; ?><?php if ($rel_item['baths_half'] > 0) : ?>.5<?php endif; ?></span> <?php echo __("Baths", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
-                    <li> <span><?php echo number_format($rel_item['sqft']); ?> </span><?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?>.</li>
-                  </ul>
-                  <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
-                  <a class="layout-img" href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>">
-                  <img class="lazy-img" data-src="<?php echo (($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0]); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
-                  </a>
+              <li class="ms-sf-item">
+                <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
+                <a class="ms-sf-property-card" href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>">
                   <?php else: ?>
-                  <a class="layout-img" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
-                  <img class="lazy-img" data-src="<?php echo ( ($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0] ); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>">
-                  </a>
+                <a class="ms-sf-property-card" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
                   <?php endif; ?>
-                </article>
+                  <div class="ms-sf-property-card-dody" title="View Detail of 6470 Oxford Circle #102, Vero Beach, FL 32966">
+                    <div class="ms-sf-property-card-slider">
+                      <img src="<?php echo ( ($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0] ); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>" style="object-fit: cover; background-color: white;">
+                    </div>
+                    <div class="ms-sf-property-card-info">
+                      <div class="ms-sf-property-card-price">$<?php echo number_format($rel_item['price']); ?></div>
+                      <div class="ms-sf-property-card-detail">
+                        <div class="ms-sf-property-card-item"><strong><?php echo $rel_item['bed']; ?></strong> Beds</div>
+                        <div class="ms-sf-property-card-item"><strong><?php echo $rel_item['bath']; ?><?php if ($rel_item['baths_half'] > 0) : ?>.5<?php endif; ?></strong> Baths</div>
+                        <div class="ms-sf-property-card-item"><strong><?php echo number_format($rel_item['sqft']); ?></strong> Sq.Ft</div>
+                      </div>
+                      <div class="ms-sf-property-card-address">
+                        <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>,
+                        <?php echo $rel_item['address_large']; ?>
+                      </div>
+                    </div>
+                  </div>
+                </a>
               </li>
               <?php endforeach; ?>
             </ul>
           </div>
           <?php endif; ?>
+
           <?php if( in_array($flex_idx_info["board_id"], ["13","14"]) ){ ?>
           <div class="ib-idx-info">
             <div class="ms-msg">
@@ -1375,7 +1417,7 @@
                   <img src="<?php echo $property['board_info']["board_logo_url"];?>">
                 </div>
                 <?php } ?>
-   
+  
 
                     <?php if( $flex_idx_info["agent"]["restriction_idx"] == "1" ){ ?>
                     <p><?php echo $flex_idx_info["agent"]["broker_title_associate"]; ?></p>
@@ -1401,12 +1443,19 @@
       <div class="aside ib-mb-show">
         <div class="ms-form-detail msModalDetail">
           <div class="form-content">
+            <div class="ms-sf-modal-header ms-sf-ct">
+              <div class="ms-sf-flex">
+                <span class="ms-sf-title"><?php echo __('Contact Agent', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+              </div>
+            </div>
             <div class="avatar-content">
               <div class="content-avatar-image"><img class="lazy-img" data-src="<?php echo $agent_info_photo; ?>" title="<?php echo $agent_info_name; ?>" alt="<?php echo $agent_info_name; ?>"></div>
               <div class="avatar-information">
-                <h2><?php echo $agent_info_name; ?></h2>
+                <h2 class="ms-avatar-title"><?php echo $agent_info_name; ?></h2>
                 <?php if (!empty($agent_info_phone)): ?>
-                <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="Call to <?php echo flex_agent_format_phone_number($agent_info_phone); ?>"><?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG);?>. <?php echo $agent_info_phone; ?></a>
+                <div class="ms-phone-wp">
+                  <?php echo __('Ph', IDXBOOST_DOMAIN_THEME_LANG);?>. <a class="phone-avatar" href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" title="Call to <?php echo flex_agent_format_phone_number($agent_info_phone); ?>"><?php echo $agent_info_phone; ?></a>
+                </div>
                 <?php endif; ?>
               </div>
             </div>
@@ -1575,9 +1624,35 @@
   </script>
   -->
 <script>
+
+  <?php if ($idx_v == "1") { ?>
+  jQuery("body").addClass("searchEngineWithReactActive");
+<?php } ?>
+
   function idxsharefb(){
     window.open('http://www.facebook.com/sharer/sharer.php?u='+window.location.href, 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
   }
+
+  function btnWhatsapp(){
+    var urlWhatsapp = jQuery(".btnWhatsapp").attr("data-url");
+    window.open(urlWhatsapp, 'Whatsapp', 'width=600,height=400'); return false;
+  }
+
+  function btnTelegram(){
+    var urlTelegram = jQuery(".btnTelegram").attr("data-url");
+    window.open(urlTelegram, 'Telegram', 'width=600,height=400'); return false;
+  }
+
+  function btnLinkedin(){
+    var urlLinkedin = jQuery(".btnLinkedin").attr("data-url");
+    window.open(urlLinkedin, 'Linkedin', 'width=600,height=400'); return false;
+  }
+
+  function btnPinterest(){
+    var urlPinterest = jQuery(".btnPinterest").attr("data-url");
+    window.open(urlPinterest, 'Pinterest', 'width=600,height=400'); return false;
+  }
+
 </script>
 <!--
   <script type="text/javascript">
@@ -1661,6 +1736,56 @@
       }, 3000);
       <?php endif; ?>
   
+      /*------------------------------------------------------------------------------------------*/
+      jQuery(document).on("click", "#msContactModal", function() {
+        jQuery(".ib-active-float-form").trigger("click");
+      });
+
+      jQuery(document).on("click", "#shareBtn", function() {
+        jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
+      });
+
+      jQuery(document).on("click", "#fullScreenModal .chk_save", function() {
+        jQuery(".ms-btn-save-action .chk_save").trigger("click");
+      });
+
+      jQuery(document).on("click", ".js-show-share-friend", function(e) {
+        e.preventDefault();
+        jQuery(".ms-sf-share-options").css({'display':'none'});
+        jQuery(".ms-sf-form-hidden").css({'display':'block'});
+      });
+
+      jQuery(document).on("click", ".js-hidden-share-friend", function(e) {
+        e.preventDefault();
+        jQuery(".ms-sf-share-options").css({'display':'block'});
+        jQuery(".ms-sf-form-hidden").css({'display':'none'});
+      });
+
+      jQuery(document).on("click", ".js-show-facebook", function(e) {
+        e.preventDefault();
+        jQuery(".btnFacebook").trigger("click");
+      });
+      jQuery(document).on("click", ".js-show-whatsApp", function(e) {
+        e.preventDefault();
+        jQuery(".btnWhatsapp").trigger("click");
+      });
+      jQuery(document).on("click", ".js-show-linkedin", function(e) {
+        e.preventDefault();
+        jQuery(".btnLinkedin").trigger("click");
+      });
+      jQuery(document).on("click", ".js-show-twitter", function(e) {
+        e.preventDefault();
+        jQuery(".btnTwitter").trigger("click");
+      });
+      jQuery(document).on("click", ".js-show-telegram", function(e) {
+        e.preventDefault();
+        jQuery(".btnTelegram").trigger("click");
+      });
+      jQuery(document).on("click", ".js-show-pinterest", function(e) {
+        e.preventDefault();
+        jQuery(".btnPinterest").trigger("click");
+      });
+
       /*------------------------------------------------------------------------------------------*/
       /* Incializando las funciones respectivas para las escuelas (NICHE)
       /*------------------------------------------------------------------------------------------*/
@@ -2046,7 +2171,6 @@
                     jQuery("#ib-email-thankyou").addClass("ib-md-active");
                 });
             });
-  
           }
       });
   

@@ -972,12 +972,14 @@
     <div class="ib-mmcontent modal_cm">
       <div class="ib-mwrapper ib-mgeneric ms-wrapper-modal">
         <div class="ms-modal-header">
-          <span class="ms-title"><?php echo __("Email to a Friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-          <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          <span class="ms-title"><?php echo __("Share this property", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
         </div>
         <div class="ms-modal-body">
-          <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
-            <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
+          <div class="ms-paragraph">
+            <p><?php echo __("Recomend this to a friend, just enter their email below", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+          </div>
+
+          <div class="ib-property-share-friend-f msx">
             <div class="ms-flex">
               <div class="ms-form-item">
                 <div class="ms-wrapper-img" id="mediaModal"></div>
@@ -986,50 +988,76 @@
               <div class="ms-form-item">
                 <div class="ms-wrapper-details" id="msInfoPropertyModal"></div>
               </div>
-
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <label class="ms-hidden" for="friend-email"><?php echo __("Friend&#039s email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="friend-email" name="friend_email" placeholder="<?php echo __("Friend&#039s Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="" required>
-                </div>
-              </div>
-
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label class="ms-hidden" for="friend-name"><?php echo __("Friend name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="friend-name" name="friend_name" placeholder="<?php echo __("Friend&#039s Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="" required>
-                </div>
-              </div>
-
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label for="ms-your-email" class="ms-hidden"><?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="your-email" name="your_email" placeholder="<?php echo __("Your Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
-                </div>
-              </div>
-
-              <div class="ms-form-item">
-                <div class="ms-group-input">
-                  <label for="ms-your-name" class="ms-hidden"><?php echo __("Enter your name", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <input class="ib-meinput" id="your-name" name="your_name" placeholder="<?php echo __("Your Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
-                </div>
-              </div>
-
-              <div class="ms-form-item -full">
-                <div class="ms-group-input">
-                  <label for="friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                  <textarea class="ib-metextarea" id="friend-comments" name="comments" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>*" data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>"></textarea>
-                </div>
-              </div>
-
-              <div class="ms-wrapper-btn">
-                <button class="ms-btn ib-mgsubmit" aria-label="<?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?>" type="submit">
-                  <span><?php echo __("Submit", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                </button>
-              </div>
             </div>
-          </form>
+          </div>
+
+          <div class="ms-sf-wrapper-share-options -newView">
+            <div class="ms-sf-share-options">
+              <ul>
+                <li><button class="ms-sf-btn -xl -clipboard js-copy-link" aria-label="Copy Link"><i class="idx-icon-copy"></i><span>Copy Link <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-share-friend" aria-label="Email"><i class="idx-icon-envelope"></i><span>Email</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-facebook" aria-label="Facebook"><i class="idx-icon-facebook"></i><span>Facebook</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-whatsApp" aria-label="WhatsApp"><i class="idx-icon-whatsapp"></i><span>WhatsApp</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-linkedin" aria-label="Linkedin"><i class="idx-icon-linkedin2"></i><span>Linkedin</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-twitter" aria-label="Twitter"><i class="idx-icon-twitter"></i><span>Twitter</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-telegram" aria-label="Telegram"><i class="idx-icon-telegram"></i><span>Telegram</span></button></li>
+                <li><button class="ms-sf-btn -xl js-show-pinterest" aria-label="Pinterest"><i class="idx-icon-pinterest-p"></i><span>Pinterest</span></button></li>
+              </ul>
+            </div>
+            <div class="ms-sf-form-hidden">
+              <form method="post" class="ib-property-share-friend-f iboost-secured-recaptcha-form">
+                <input type="hidden" name="mls_number" class="ib-property-share-mls-num" value="">
+                <div class="ms-flex">
+                  <div class="ms-form-item">
+                    <div class="ms-group-input">
+                      <span class="ms-to"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <label class="ms-hidden" for="friend-email"><?php echo __("To", IDXBOOST_DOMAIN_THEME_LANG); ?>*</label>
+                      <input class="ib-meinput" id="friend-email" name="friend_email" placeholder="<?php echo __("Recipient Email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="" required>
+                    </div>
+                  </div>
+
+                  <div class="ms-form-item">
+                    <div class="ms-group-input">
+                      <label class="ms-hidden" for="friend-name"><?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*</label>
+                      <input class="ib-meinput" id="friend-name" name="friend_name" placeholder="<?php echo __("Recipient Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="" required>
+                    </div>
+                  </div>
+
+                  <div class="ms-form-item">
+                    <div class="ms-group-input">
+                      <label for="ms-your-email" class="ms-hidden"><?php echo __("From", IDXBOOST_DOMAIN_THEME_LANG); ?>*</label>
+                      <input class="ib-meinput" id="your-email" name="your_email" placeholder="<?php echo __("Enter your email", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="email" value="<?php if (isset($flex_idx_lead['lead_info']['email_address'])) : ?><?php echo $flex_idx_lead['lead_info']['email_address']; ?><?php endif; ?>" required>
+                    </div>
+                  </div>
+
+                  <div class="ms-form-item">
+                    <div class="ms-group-input">
+                      <label for="ms-your-name" class="ms-hidden"><?php echo __("Name", IDXBOOST_DOMAIN_THEME_LANG); ?>*</label>
+                      <input class="ib-meinput" id="your-name" name="your_name" placeholder="<?php echo __("Enter Your Full Name*", IDXBOOST_DOMAIN_THEME_LANG); ?>*" type="text" value="<?php if (isset($flex_idx_lead['lead_info']['first_name'])) : ?><?php echo $flex_idx_lead['lead_info']['first_name']; ?><?php endif; ?>" required>
+                    </div>
+                  </div>
+
+                  <div class="ms-form-item -full">
+                    <div class="ms-group-input">
+                      <label for="friend-comments"><?php echo __("Message", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                      <textarea class="ib-metextarea" id="friend-comments" name="comments" type="text" placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>*" data-comment="<?php echo __("Hi. Check out the property I found on", IDXBOOST_DOMAIN_THEME_LANG); ?>"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="ms-form-item -full">
+                    <span class="ms-sf-small-text">* <?php echo __("Required fields", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  </div>
+
+                  <div class="ms-wrapper-btn">
+                    <button class="ms-sf-btn -silver -xl js-hidden-share-friend" type="button"><?php echo __("Cancel", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+                    <button class="ms-btn ib-mgsubmit" aria-label="<?php echo __("Continue", IDXBOOST_DOMAIN_THEME_LANG); ?>" type="submit">
+                      <span><?php echo __("Continue", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       <div class="ib-mmclose"><span class="ib-mmctxt"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></span></div>
