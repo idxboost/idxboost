@@ -2526,6 +2526,7 @@ function fb_login() {
                             }
                           } else if ("signin" === response.logon_type) {
                             if (typeof dataLayer !== "undefined") {
+                              dataLayer.push({'event': 'facebook_register'});
                               dataLayer.push({'event': 'facebook_signin'});
                             }
                           }
