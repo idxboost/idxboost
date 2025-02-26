@@ -2,7 +2,9 @@
 
 function custom_title($title_parts)
 {
+    global $wp;
     $title_property = "";
+
     if ($title_parts["title"] == "Property Details") {
         $detail_property = title_flex_idx_property_detail_sc([], null);
         if (is_array($detail_property) && count($detail_property) > 0) {
@@ -10,10 +12,57 @@ function custom_title($title_parts)
             $title_parts['title'] = $title_property;
         }
     }
+
+    $wp_request_exp = explode('/', $wp->request);
+    $page_slug = current($wp_request_exp);
+
+    if( $GLOBALS["idx_path_development_detailt"] == $page_slug ){
+        $detail_new_development= title_flex_idx_new_development_detail_sc($wp);
+        $title_parts['title'] = ( array_key_exists("data", $detail_new_development) &&  is_array($detail_new_development["data"]) &&  count($detail_new_development["data"]) > 0 && array_key_exists("building_name", $detail_new_development["data"]) ) ? get_bloginfo('name')." - ".$detail_new_development["data"]["building_name"] . ' | ' . get_bloginfo()  : "";
+
+    }
+
     return $title_parts;
 }
 
 add_filter('document_title_parts', 'custom_title');
+
+if (!function_exists('title_flex_idx_new_development_detail_sc')) {
+    function title_flex_idx_new_development_detail_sc($wp) {
+        $wp_request_exp = explode('/', $wp->request);
+        $page_slug = current($wp_request_exp);
+        list($page, $slug) = $wp_request_exp;
+        
+        if ( !empty($slug) ) {
+
+            if ( array_key_exists("idx_new_development_detail",$GLOBALS) && is_array($GLOBALS["idx_new_development_detail"]) && count($GLOBALS["idx_new_development_detail"]) > 0  ){
+                $responseNewDevelopment = $GLOBALS["idx_new_development_detail"];
+            }else{
+
+                $curl_new_development = curl_init();
+                            curl_setopt_array($curl_new_development, array(
+                              CURLOPT_URL => FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL."/api/buildings/main_link?mainLink={$slug}",
+                              CURLOPT_RETURNTRANSFER => true,
+                              CURLOPT_ENCODING => '',
+                              CURLOPT_MAXREDIRS => 10,
+                              CURLOPT_TIMEOUT => 0,
+                              CURLOPT_FOLLOWLOCATION => true,
+                              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                              CURLOPT_CUSTOMREQUEST => 'GET',
+                              CURLOPT_HTTPHEADER => array(
+                                'Content-Type: application/x-www-form-urlencoded'
+                              ),
+                            ));
+                $responseNewDevelopment = @json_decode(curl_exec($curl_new_development),true);        
+
+                $GLOBALS["idx_new_development_detail"] = $responseNewDevelopment;
+            }
+        }
+
+        return (is_array($responseNewDevelopment) && count($responseNewDevelopment) > 0 ) ? $responseNewDevelopment : [];
+    }
+        
+}
 
 if (!function_exists('title_flex_idx_property_detail_sc')) {
     function title_flex_idx_property_detail_sc($atts, $content = null)
@@ -7750,6 +7799,7 @@ function insert_assets_head_new_search_filter()
 
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
         $content = $post->post_content;
+        $is_load_map = false;
 
         /*
         $version_map_search_filter = "1";
@@ -7769,6 +7819,7 @@ function insert_assets_head_new_search_filter()
                 has_shortcode( $content, 'idx_search_react' )
             )  && $idx_v == "1" ) { 
 
+            $is_load_map = true;
             $typeAssets = "default";
             
 
@@ -7802,9 +7853,38 @@ function insert_assets_head_new_search_filter()
 
                         <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />                  
 
-                    <?php }
+                    <?php } 
+        }
+
+        if ($idx_v == "1" ) { ?>
+                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.js?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.js"); ?>" />    ></script>  
+                        <?php if(!$is_load_map) { ?>
+                        <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
+                        <?php } ?>
+                        
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/property-modal/fonts/icons/style.css?ver='.iboost_get_mod_time("react/property-modal/fonts/icons/style.css"); ?>" />      
+
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.css?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.css"); ?>" />     
+            <?php
         }
 }
+
+
+function insert_assets_head_new_development_collections() {
+        global $flex_idx_info, $post;
+
+        $content = $post->post_content;
+
+        if ( has_shortcode( $content, 'new_development_collections' ) ) { ?>
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>" /></script>  
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new-developments/fonts/icons/style.css"); ?>" />      
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>" />                  
+<?php 
+        }
+}
+
+
+
 
 /*****************************************/
 if (!function_exists('ib_tables_building_collection')) {

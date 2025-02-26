@@ -2035,6 +2035,31 @@ function insert_fb_in_head()
 
     $wp_request_exp = explode('/', $wp->request);
     $page_slug = current($wp_request_exp);
+    list($page, $slug) = $wp_request_exp;
+
+    if ($page_slug == "new-development") { 
+        $responseNewDevelopment = title_flex_idx_new_development_detail_sc($wp);
+        $address_property = "";
+        $addressPropertyDescription = "";
+        $property_image = "";
+
+            if ( 
+                array_key_exists("data", $responseNewDevelopment) && 
+                is_array($responseNewDevelopment["data"]) && 
+                count($responseNewDevelopment["data"]) > 0 
+            ) {
+                $address_property = array_key_exists("building_name", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["building_name"] : "";
+                $addressPropertyDescription =  array_key_exists("description", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["description"] : "";
+                $property_image =  ( array_key_exists("images_url", $responseNewDevelopment["data"]) && is_array($responseNewDevelopment["data"]["images_url"]) && count($responseNewDevelopment["data"]["images_url"]) >0 )  ? $responseNewDevelopment["data"]["images_url"][0] : "";
+            }
+        ?>
+        <meta property="og:title" content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="<?php echo $domain_host; ?>"/>
+        <meta property="og:description" content="<?php echo $addressPropertyDescription; ?>"/>
+        <meta property="og:image" content="<?php echo $property_image; ?>"/>
+    <?php 
+    }
 
     // echo '<!-- debug:uri ';
     // var_dump($domain_host);
@@ -2105,7 +2130,7 @@ function insert_fb_in_head()
         }
         $address_property = $data['address_short'] . ' ' . $data['address_large'];
         $mls_num_property = $data['mls_num'];
-        $city_name = $data['city_name'];
+        $city_name = array_key_exists("city_name", $data) ? $data['city_name'] : "";
 
         if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
             $text_rental = 'For Vacation Rental';
@@ -5795,4 +5820,43 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
     
 
     add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
+}
+
+
+if (!function_exists('new_development_collections_sc')) {
+    function new_development_collections_sc($atts, $content = null)
+    {
+        global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'name' => '',
+            'sort' => 'price-desc'
+        ), $atts);
+
+        ob_start();
+        $list_sort = 
+        [
+            "price-desc",
+            "price-asc",
+            "completion_year-desc",
+            "building_name-asc", 
+            "building_name-desc"
+        ];
+
+        if ( !in_array( $atts["sort"] , $list_sort)) {
+            $atts["sort"] = 'price-desc';
+        }
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_development_collections.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_new_development_collections', 1);
+    add_shortcode('new_development_collections', 'new_development_collections_sc');
 }

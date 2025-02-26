@@ -73,6 +73,39 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
         );
 
 
+        
+        if (false == get_option('idxboost_new_development_collections_pages') ) {
+
+            $wp_flex_page_new_developmet_collection  = wp_insert_post(array(
+                'post_title' => 'New Developments',
+                'post_name' => 'new-developments',
+                'post_content' => '[new_development_collections]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-idx-pages"
+            ));
+            update_post_meta($wp_flex_page_new_developmet_collection, '_flex_id_page', 'flex_idx_new_development_collections' );
+            
+            add_option('idxboost_new_development_collections_pages', 'yes');
+            
+        }
+
+        if (false == get_option('idxboost_new_development_detail_pages')) {
+            $wp_flex_page_new_developmet_detail = wp_insert_post(array(
+                'post_title' => 'New Development Detail',
+                'post_name' => 'new-development',
+                'post_content' => '[new_development_collections]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-idx-pages"
+            ));
+            update_post_meta($wp_flex_page_new_developmet_detail, '_flex_id_page', 'flex_idx_new_development_detail' );
+            
+            add_option('idxboost_new_development_detail_pages', 'yes');
+        }
+        
+
+
         if (false == get_option('idxboost_dinamic_pages')) {
             $wp_flex_page = wp_insert_post(array(
                 'post_title' => 'Contact Page',
@@ -2073,7 +2106,6 @@ function media_selector_print_scripts()
                 }
 
             } ); 
-            */
 
 add_filter( 'query_vars', function( $query_vars ) {
     $query_vars[] = 'myparamiaidxboost';
@@ -2092,6 +2124,58 @@ add_filter( 'template_include', function( $template ) {
             return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php';
         } else {
             return FLEX_IDX_PATH . '/views/shortcode/single-flex-idx-pages-ai.php';
+        }
+    }
+
+} );
+*/
+
+
+            add_action( 'init',  function() {
+                global $wpdb,$flex_idx_info;
+
+                //$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
+
+                //if ($ia_search == "1") {
+                    
+                    $search_new_developmet = $wpdb->get_var("
+                      select t1.post_name
+                      from {$wpdb->posts} t1
+                      inner join {$wpdb->postmeta} t2
+                      on t1.ID = t2.post_id
+                      where t1.post_type = 'flex-idx-pages'
+                      and t1.post_status = 'publish'
+                      and t2.meta_key = '_flex_id_page'
+                      and t2.meta_value = 'flex_idx_new_development_detail'
+                      limit 1
+                    ");
+
+                    $GLOBALS["idx_path_development_detailt"] = $search_new_developmet;
+
+                    add_rewrite_rule("^{$search_new_developmet}/([^/]*)/?$",'index.php?idxparamnewdevelopment=$matches[1]','top');    
+
+                //}
+
+            } ); 
+
+
+add_filter( 'query_vars', function( $query_vars ) {
+    $query_vars[] = 'idxparamnewdevelopment';
+    return $query_vars;
+} );
+
+add_filter( 'template_include', function( $template ) {
+    global $flex_idx_info, $post;
+    if ( get_query_var( 'idxparamnewdevelopment' ) == false || get_query_var( 'idxparamnewdevelopment' ) == '' ) {
+        return $template;
+    }else{
+        
+        $post->post_content='[new_development_collections]';//no realiza impresion mas que para referenciar libreria
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php')) {
+            return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php';
+        } else {
+            return FLEX_IDX_PATH . '/views/shortcode/single-idx-pages-new-development.php';
         }
     }
 

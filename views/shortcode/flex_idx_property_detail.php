@@ -11,6 +11,23 @@
   }
 </style>
 <?php 
+
+    function getconvertToHoursMins($time)
+    {
+        if ($time < 1) {
+            return;
+        }
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        if (floatval($hours) == 0) {
+            return sprintf('%02d minutes', $minutes);
+        } else {
+            //return sprintf('%02d hours %02d minutes', $hours, $minutes);
+            return sprintf('%02d hours', $hours);
+        }
+    }
+
+  $idxboost_search_settings = get_option('idxboost_search_settings');
   $idxboost_term_condition = get_option('idxboost_term_condition');
   $idxboost_agent_info = get_option('idxboost_agent_info');
 
@@ -220,8 +237,13 @@
   $agent_info_phone = $flex_idx_info['agent']['agent_contact_phone_number'];
 ?>
 
-<div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs searchEngineWithReactActive">
+<div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
+
+  <?php if ($idx_v == "1") { ?>
+  <section class="title-conteiner gwr -sticky">
+  <?php }else{ ?>
   <section class="title-conteiner gwr animated fixed-box">
+  <?php } ?>
     <div class="content-fixed">
       <div class="content-fixed-title">
         <h1 class="title-page ms-property-title">
@@ -252,7 +274,7 @@
                     </a>
                   </li>
                   <li class="ib-btnContact ms-hidden">
-                    <button id="msContactModal"  
+                    <button id="msContactModal" class="msContactModal"  
                       aria-label="<?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?>" 
                       data-tool="tooltip" 
                       data-tool-detail="<?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?>" 
@@ -321,7 +343,7 @@
               <?php endif;?>
             </div>
           <?php endif;?>
-          <button id="shareBtn" class="ms-sf-btn" aria-label="<?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?>"><i class="idx-icon-shared"></i></button>
+          <button id="shareBtn" class="ms-sf-btn shareBtn" aria-label="<?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?>"><i class="idx-icon-shared"></i></button>
         </div>
       </div>
       
@@ -402,6 +424,36 @@
     <div class="temporal-content"></div>
     <div class="gwr">
       <div class="container">
+
+        <?php if ($idx_v == "1") { ?>
+        <div class="ms-sf-view-actions">
+          <?php //if (1 == $property['status']): ?>
+            <?php if ($property['is_favorite']): ?>
+              <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <span class="active"></span>
+              </button>
+            <?php else: ?>
+              <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite" data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" class="dgt-mark-favorite" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <span></span>
+              </button>
+            <?php endif;?>
+          <?php //endif;?>
+
+          <button class="ms-sf-btn shareBtn" aria-label="Share">
+            <i class="sf-icon-shared"></i>
+          </button>
+          
+          <?php if (!empty($agent_info_phone)){ ?>
+          <a href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" class="ms-sf-btn">
+            <i class="sf-icon-phone"></i>
+          </a>
+          <?php } ?>
+
+          <button class="ms-sf-btn msContactModal">
+            <i class="sf-icon-envelope-active"></i>
+          </button>
+        </div>
+        <?php } ?>  
 
         <ul class="property-information" data-inf="price:<?php echo isset($property['is_sold']) ? $property['price_sold'] : $property['price']; ?>|beds:<?php echo $property['bed']; ?>|baths:<?php echo $property['bath']; ?>|sqft:<?php echo $property['sqft']; ?>">
           <li class="price-property">
@@ -831,6 +883,21 @@
                 </li>
                 <?php } ?>
 
+                <?php if ($idx_v == 1  && !empty($property["more_info"]['type_property'])){ ?>
+                <li class="icon-home">
+                  <span class="ib-plist-st"><?php echo __('Type', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property["more_info"]['type_property']; ?></span>
+                </li>
+                <?php } ?>
+
+                <?php if ($idx_v == 1  && !empty($property["more_info"]['status_name'])){ ?>
+                <li class="icon-info">
+                  <span class="ib-plist-st"><?php echo __('Status', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property["more_info"]['status_name']; ?></span>
+                </li>
+                <?php } ?>                
+
+                
                 <?php if (!empty($property['subdivision'])){ ?>
                 <li class="icon-department">
                   <span class="ib-plist-st"><?php echo __('Subdivision/Complex', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -838,12 +905,18 @@
                 </li>
                 <?php } ?>
 
-                <?php if (!empty($property['year'])){ ?>
+                <?php if ($idx_v == 1  && !empty($property['year_built'])){ ?>
+                <li class="icon-tool">
+                  <span class="ib-plist-st"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['year_built']; ?></span>
+                </li>
+                <?php } elseif (!empty($property['year'])){ ?>
                 <li class="icon-tool">
                   <span class="ib-plist-st"><?php echo __('Year Built', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['year']; ?></span>
                 </li>
                 <?php } ?>
+
 
                 <?php if (!empty($property['total_sqft'])){ ?>
                 <li class="icon-ruler">
@@ -880,6 +953,7 @@
                   <span class="ib-plist-pt"><?php echo $valetvalTotalsqft; ?></span>
                 </li>
                 <?php } ?>
+                
 
                 <?php if ($type_lookup == "sold") { ?>
                 <li class="icon-calendar">
@@ -893,6 +967,37 @@
                 </li>
                 <?php } ?>
                 
+
+                <?php if ($idx_v == 1 ){ 
+
+
+                  if ( array_key_exists('adom', $property) && $property["adom"] > 0  ) {
+                    $days_on_market_value = $property["adom"];
+                  }else{
+
+                    $timezone_user = $idxboost_search_settings['board_info']['tz_name'];
+                    $dateformated = gmdate("Y-m-d H:i:s", $property["list_date"]);
+
+                    $date_property_list_date = new \DateTime( $dateformated , new \DateTimeZone("Z"));
+                    $date_property_list_date->setTimezone(new \DateTimeZone($timezone_user));
+
+                    $date_now = new \DateTime("NOW", new \DateTimeZone($timezone_user));
+                    $diff_send = $date_property_list_date->diff($date_now);
+
+                    $minutes_before_send = ($diff_send->days * 24 * 60) + ($diff_send->h * 60) + $diff_send->i;
+
+                        if ($minutes_before_send < 1440) {
+                            $days_on_market_value = $text_age . getconvertToHoursMins($minutes_before_send) . " ago";
+                        }
+                  }
+
+                  ?>
+                <li class="icon-time">
+                  <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $days_on_market_value; ?></span>
+                </li>
+                <?php } ?>
+
                 <?php if( !empty($property['days_market']) ){  ?>
                 <li class="icon-time">
                   <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
@@ -949,63 +1054,213 @@
               </ul>
             </div>
             <?php endif;?>
+
+            <?php
+            $amenities = array_key_exists("amenities", $property) ? explode(",", $property['amenities']) : [];
+
+
+             if ($idx_v == "1" && is_array($amenities) && count($amenities) > 0 ) { ?>
+
+              <div class="ib-plist-card">
+                <h2 class="ib-plist-card-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+                  <ul class="ib-plist-list">
+                    
+                    <?php foreach ($amenities as $key => $amenity) { ?>
+                      <li><?php echo $amenity; ?></li>
+                    <?php } ?>                    
+                  </ul>
+              </div>
+
+
+            <?php } ?>
+
             <div class="ib-plist-card">
               <h2 class="ib-plist-card-title"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
               <ul class="ib-plist-list">
+                <?php if ($idx_v == 1 ){ ?>
+
                 <li>
                   <span class="ib-plist-st"><?php echo __("Waterfront", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['water_front'] == 1 ? 'Yes' : 'No'; ?></span>
                 </li>
-                <?php if( !empty($property['wv']) ){  ?>
+
                 <li>
-                  <span class="ib-plist-st"><?php echo __("WF Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property['wv']; ?></span>
+                  <span class="ib-plist-st"><?php echo __("Parking Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property["parking"]; ?></span>
                 </li>
-                <?php } ?>
+
                 <li>
                   <span class="ib-plist-st"><?php echo __("Pool", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['pool'] == 1 ? 'Yes' : 'No'; ?></span>
                 </li>
-                <?php if (is_array($more_info_property) && array_key_exists("view", $more_info_property) && !empty($more_info_property["view"])) { ?>
+
+                <?php if (array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["view"]; ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['more_info']["view"]; ?></span>
                 </li>
                 <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("construction", $more_info_property) && !empty($more_info_property["construction"])) { ?>
+
+                <?php if (array_key_exists("construction", $property["more_info"]) && !empty($property['more_info']["construction"])  ) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Construction Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["construction"]; ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['more_info']["construction"]; ?></span>
                 </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("architectural_style", $more_info_property) && !empty($more_info_property["architectural_style"])) { ?>
+                <?php } ?>                
+                
+                    <?php if (array_key_exists("waterfront_frontage", $property["more_info"]) && !empty($property['more_info']["waterfront_frontage"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Waterfront Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["waterfront_frontage"]; ?></span>
+                    </li>
+                    <?php } ?>
+
                 <li>
-                  <span class="ib-plist-st"><?php echo __("Design Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["architectural_style"]; ?></span>
+                  <span class="ib-plist-st"><?php echo __("Parking Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property["parking_desc"]; ?></span>
                 </li>
-                <?php } ?>
+
                 <?php if (isset($property['feature_exterior']) && is_array($property['feature_exterior']) && !empty($property['feature_exterior'])){ ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo implode(", ",$property['feature_exterior']); ?></span>
                 </li>
                 <?php } ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Parking Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["parking"]; ?></span>
-                </li>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Parking Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["parking_desc"]; ?></span>
-                </li>
-                <?php if (is_array($more_info_property) && array_key_exists("roof", $more_info_property) && !empty($more_info_property["roof"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Roof Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
-                </li>
+
+
+                <?php if ( array_key_exists("feature_exterior", $property) && !empty($property["feature_exterior"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["feature_exterior"]; ?></span>
+                    </li>                
                 <?php } ?>
+
+                <?php if (array_key_exists("roof", $property["more_info"]) && !empty($property['more_info']["roof"])  ) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Roof Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['more_info']["roof"]; ?></span>
+                  </li>
+                <?php } ?>
+
+                <?php if ( array_key_exists("style", $property["more_info"]) && !empty($property['more_info']["style"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["style"]; ?></span>
+                    </li>                
+                <?php } ?>
+
+
+
+                <?php }else{ ?>
+
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Waterfront", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['water_front'] == 1 ? 'Yes' : 'No'; ?></span>
+                  </li>
+
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Parking Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property["parking"]; ?></span>
+                  </li>
+
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Pool", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['pool'] == 1 ? 'Yes' : 'No'; ?></span>
+                  </li>
+
+                  <?php if (is_array($more_info_property) && array_key_exists("view", $more_info_property) && !empty($more_info_property["view"])) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $more_info_property["view"]; ?></span>
+                  </li>
+                  <?php } ?>
+
+                  <?php if (array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['more_info']["view"]; ?></span>
+                  </li>
+                  <?php } ?>
+
+                  <?php if (array_key_exists("construction", $property["more_info"]) && !empty($property['more_info']["construction"])  ) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Construction Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['more_info']["construction"]; ?></span>
+                  </li>
+                  <?php } ?>                
+                  
+                      <?php if (array_key_exists("waterfront_frontage", $property["more_info"]) && !empty($property['more_info']["waterfront_frontage"])  ) { ?>
+                      <li>
+                        <span class="ib-plist-st"><?php echo __("Waterfront Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        <span class="ib-plist-pt"><?php echo $property["more_info"]["waterfront_frontage"]; ?></span>
+                      </li>
+                      <?php } ?>
+
+
+                  <?php if( !empty($property['wv']) ){  ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("WF Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property['wv']; ?></span>
+                  </li>
+                  <?php } ?>
+
+
+                  <?php if (is_array($more_info_property) && array_key_exists("construction", $more_info_property) && !empty($more_info_property["construction"])) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Construction Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $more_info_property["construction"]; ?></span>
+                  </li>
+                  <?php } ?>
+                  <?php if (is_array($more_info_property) && array_key_exists("architectural_style", $more_info_property) && !empty($more_info_property["architectural_style"])) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Design Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $more_info_property["architectural_style"]; ?></span>
+                  </li>
+                  <?php } ?>
+
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Parking Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $property["parking_desc"]; ?></span>
+                  </li>
+
+                  <?php if (isset($property['feature_exterior']) && is_array($property['feature_exterior']) && !empty($property['feature_exterior'])){ ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo implode(", ",$property['feature_exterior']); ?></span>
+                  </li>
+                  <?php } ?>
+
+
+                  <?php if ($idx_v == 1 && array_key_exists("feature_exterior", $property) && !empty($property["feature_exterior"])  ) { ?>
+                      <li>
+                        <span class="ib-plist-st"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        <span class="ib-plist-pt"><?php echo $property["feature_exterior"]; ?></span>
+                      </li>                
+                  <?php } ?>
+                  
+
+                  <?php if ($idx_v == 1 && array_key_exists("style", $property["more_info"]) && !empty($property['more_info']["style"])  ) { ?>
+                      <li>
+                        <span class="ib-plist-st"><?php echo __("Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                        <span class="ib-plist-pt"><?php echo $property["more_info"]["style"]; ?></span>
+                      </li>                
+                  <?php } ?>
+
+
+                  <?php if (is_array($more_info_property) && array_key_exists("roof", $more_info_property) && !empty($more_info_property["roof"])) { ?>
+                  <li>
+                    <span class="ib-plist-st"><?php echo __("Roof Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                    <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
+                  </li>
+                  <?php } ?>
+
+
+                <?php } ?>
+
+
               </ul>
             </div>
+
             <div class="ib-plist-card">
               <h2 class="ib-plist-card-title"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
               <ul class="ib-plist-list">
@@ -1028,7 +1283,8 @@
                         echo number_format($property["sqft"] ); 
                       }                      
                     }
-                    ?></span>
+                    ?><?php echo __("Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                    </span>
                 </li>
                 <?php if (is_array($more_info_property) && array_key_exists("cooling", $more_info_property) && !empty($more_info_property["cooling"])) { ?>
                 <li>
@@ -1036,30 +1292,72 @@
                   <span class="ib-plist-pt"><?php echo $more_info_property["cooling"]; ?></span>
                 </li>
                 <?php } ?>                                       
+
+                <?php if ($idx_v == 1 && array_key_exists("cooling", $property["more_info"]) && !empty($property['more_info']["cooling"])  ) { ?>
+                <li>
+                  <span class="ib-plist-st"><?php echo __("Cooling Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property["more_info"]["cooling"]; ?></span>
+                </li>
+                <?php } ?>                                                       
+
                 <?php if (is_array($more_info_property) && array_key_exists("appliance", $more_info_property) && !empty($more_info_property["appliance"])) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Equipment Appliances", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $more_info_property["appliance"]; ?></span>
                 </li>
                 <?php } ?>   
+
+                <?php if ($idx_v == 1 && array_key_exists("appliance", $property["more_info"]) && !empty($property['more_info']["appliance"])  ) { ?>
+                <li>
+                  <span class="ib-plist-st"><?php echo __("Equipment Appliances", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['more_info']["appliance"]; ?></span>
+                </li>
+                <?php } ?>   
+                
+
                 <?php if (is_array($more_info_property) && array_key_exists("floor_desc", $more_info_property) && !empty($more_info_property["floor_desc"])) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Floor Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $more_info_property["floor_desc"]; ?></span>
                 </li>
                 <?php } ?>
+
+                <?php if ($idx_v == 1 && array_key_exists("floor_desc", $property["more_info"]) && !empty($property['more_info']["floor_desc"])  ) { ?>
+                <li>
+                  <span class="ib-plist-st"><?php echo __("Floor Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['more_info']["floor_desc"]; ?></span>
+                </li>
+                <?php } ?>
+
+
+                <?php if ($idx_v == 1 && array_key_exists("heating", $property["more_info"]) && !empty($property['more_info']["heating"])  ) { ?>
+                <li>
+                  <span class="ib-plist-st"><?php echo __("Heating Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['more_info']["heating"]; ?></span>
+                </li>
+                <?php } ?>
+
                 <?php if (is_array($more_info_property) && array_key_exists("heating", $more_info_property) && !empty($more_info_property["heating"])) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Heating Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $more_info_property["heating"]; ?></span>
                 </li>
                 <?php } ?>
+
                 <?php if (isset($property['feature_interior']) && is_array($property['feature_interior']) && !empty($property['feature_interior'])){ ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo implode(", ",$property['feature_interior']); ?></span>
                 </li>
                 <?php } ?>
+
+                <?php if ($idx_v == 1 && isset($property['feature_interior']) && !empty($property['feature_interior'])){ ?>
+                <li>
+                  <span class="ib-plist-st"><?php echo __("Interior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                  <span class="ib-plist-pt"><?php echo $property['feature_interior']; ?></span>
+                </li>
+                <?php } ?>
+
                 <li>
                   <span class="ib-plist-st"><?php echo __("Sqft", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php 
@@ -1081,278 +1379,586 @@
                         echo number_format($property["sqft"] ); 
                       }                    
                     }
-                    ?></span>
+                    ?> <?php echo __("Sq.Ft", IDXBOOST_DOMAIN_THEME_LANG); ?>
+</span>
                 </li>
               </ul>
             </div>
             <div class="ib-plist-card">
               <h2 class="ib-plist-card-title"><?php echo __("Property Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-              <ul class="ib-plist-list">
-                <?php if (is_array($more_info_property) && array_key_exists("addres", $more_info_property) && !empty($more_info_property["addres"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["addres"]; ?></span>
-                </li>
+                <?php if ($idx_v == 1 ){ ?>
+
+
+                  <ul class="ib-plist-list">
+                    <?php if ( array_key_exists("address_short", $property) && !empty($property["address_short"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["address_short"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if( !empty($property["lot_size"])){ ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Aprox. Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo number_format($property["lot_size"]); ?></span>
+                    </li>
+                    <?php } ?>                                                                     
+                    <?php if (array_key_exists("architectural_style", $property["more_info"]) && !empty($property['more_info']["architectural_style"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Architectural Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["architectural_style"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("assoc_fee_paid", $property["more_info"]) && !empty($property['more_info']["assoc_fee_paid"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Association Fee Frequency", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property['more_info']["assoc_fee_paid"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("attached_garage", $property["more_info"]) && !empty($property['more_info']["attached_garage"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Attached Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["attached_garage"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("city", $property["more_info"]) && !empty($property['more_info']["city"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["city"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("community_features", $property["more_info"]) && !empty($property['more_info']["community_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Community Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["community_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("construction", $property["more_info"]) && !empty($property['more_info']["construction"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Construction Materials", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["construction"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("county", $property["more_info"]) && !empty($property['more_info']["county"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("County", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["county"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("covered_spaces", $property["more_info"]) && !empty($property['more_info']["covered_spaces"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Covered Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["covered_spaces"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("faces", $property["more_info"]) && !empty($property['more_info']["faces"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Direction Faces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["faces"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("frontage_lenght", $property["more_info"]) && !empty($property['more_info']["frontage_lenght"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Frontage Length", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["frontage_lenght"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Furnished Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo ($property["furnished"] ? "yes" : "no"); ?></span>
+                    </li>
+
+
+
+                    <?php if (array_key_exists("garage", $property["more_info"]) && !empty($property['more_info']["garage"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["garage"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("levels", $property["more_info"]) && !empty($property['more_info']["levels"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Levels", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["levels"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("terms", $property["more_info"]) && !empty($property['more_info']["terms"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Listing Terms", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["terms"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("lot_features", $property["more_info"]) && !empty($property['more_info']["lot_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Lot Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["lot_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("ocupant_type", $property["more_info"]) && !empty($property['more_info']["ocupant_type"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Occupant Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["ocupant_type"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("parking_features", $property["more_info"]) && !empty($property['more_info']["parking_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Parking Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["parking_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("patio_features", $property["more_info"]) && !empty($property['more_info']["patio_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Patio And Porch Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["patio_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("pets", $property["more_info"]) && !empty($property['more_info']["pets"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Pets Allowed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["pets"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("pool_features", $property["more_info"]) && !empty($property['more_info']["pool_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Pool Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["pool_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("possession", $property["more_info"]) && !empty($property['more_info']["possession"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Possession", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["possession"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("postal_city", $property["more_info"]) && !empty($property['more_info']["postal_city"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Postal City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["postal_city"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("public_section", $property["more_info"]) && !empty($property['more_info']["public_section"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Public Survey Section", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["public_section"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("public_survey_township", $property["more_info"]) && !empty($property['more_info']["public_survey_township"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Public Survey Township", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["public_survey_township"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("roof", $property["more_info"]) && !empty($property['more_info']["roof"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Roof", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["roof"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("sewer", $property["more_info"]) && !empty($property['more_info']["sewer"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Sewer Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["sewer"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+
+
+
+                    <?php if ( !empty($property["short_sale"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Short Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo ($property["short_sale"] ? "yes" : "no"); ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("stories", $property["more_info"]) && !empty($property['more_info']["stories"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Stories", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["stories"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if ($property["is_commercial"] == 0){ ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("HOA Fees", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo "$".number_format($property["assoc_fee"]); ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Subdivision Complex", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["complex"]; ?></span>
+                    </li>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Subdivision Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["subdivision"]; ?></span>
+                    </li>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo "$".number_format($property["tax_amount"]); ?></span>
+                    </li>
+                    
+                    <?php if (array_key_exists("tax_information", $property["more_info"]) && !empty($property['more_info']["tax_information"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Legal desc", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["tax_information"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Year", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property['tax_year']; ?></span>
+                    </li>
+
+                    <?php if (array_key_exists("terms", $property["more_info"]) && !empty($property['more_info']["terms"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Terms Considered", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["terms"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("type_property", $property["more_info"]) && !empty($property['more_info']["type_property"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Type of Property", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["type_property"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["view"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (array_key_exists("water_source", $property["more_info"]) && !empty($property['more_info']["water_source"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Water Source", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["water_source"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("window_features", $property["more_info"]) && !empty($property['more_info']["window_features"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Window Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["window_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("year_built_details", $property["more_info"]) && !empty($property['more_info']["year_built_details"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Year Built Details", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["year_built_details"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+
+                    <?php if (array_key_exists("waterfront_frontage", $property["more_info"]) && !empty($property['more_info']["waterfront_frontage"])  ) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Waterfront Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["more_info"]["waterfront_frontage"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                  </ul>
+                  
+
+                <?php }else{ ?>
+
+                  <ul class="ib-plist-list">
+                    <?php if (is_array($more_info_property) && array_key_exists("addres", $more_info_property) && !empty($more_info_property["addres"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Address", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["addres"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if( !empty($property["lot_size"])){ ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Aprox. Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo number_format($property["lot_size"]); ?></span>
+                    </li>
+                    <?php } ?>                                                                     
+                    <?php if (is_array($more_info_property) && array_key_exists("architectural_style", $more_info_property) && !empty($more_info_property["architectural_style"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Architectural Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["architectural_style"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("assoc_fee_paid", $more_info_property) && !empty($more_info_property["assoc_fee_paid"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Association Fee Frequency", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["assoc_fee_paid"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("attached_garage", $more_info_property) && !empty($more_info_property["attached_garage"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Attached Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["attached_garage"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("city", $more_info_property) && !empty($more_info_property["city"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["city"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("community_features", $more_info_property) && !empty($more_info_property["community_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Community Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["community_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("construction", $more_info_property) && !empty($more_info_property["construction"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Construction Materials", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["construction"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("county", $more_info_property) && !empty($more_info_property["county"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("County", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["county"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("covered_spaces", $more_info_property) && !empty($more_info_property["covered_spaces"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Covered Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["covered_spaces"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("faces", $more_info_property) && !empty($more_info_property["faces"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Direction Faces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["faces"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("frontage_lenght", $more_info_property) && !empty($more_info_property["frontage_lenght"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("FrontageLength", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["frontage_lenght"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Furnished Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["furnished"]; ?></span>
+                    </li>
+                    <?php if (is_array($more_info_property) && array_key_exists("garage", $more_info_property) && !empty($more_info_property["garage"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["garage"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("levels", $more_info_property) && !empty($more_info_property["levels"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Levels", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["levels"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("terms", $more_info_property) && !empty($more_info_property["terms"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Listing Terms", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["terms"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if ( !empty($property["lot_desc"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Lot Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["lot_desc"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("lot_features", $more_info_property) && !empty($more_info_property["lot_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Lot Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["lot_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("ocupant_type", $more_info_property) && !empty($more_info_property["ocupant_type"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Occupant Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["ocupant_type"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("parking_features", $more_info_property) && !empty($more_info_property["parking_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Parking Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["parking_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("patio_features", $more_info_property) && !empty($more_info_property["patio_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Patio And Porch Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["patio_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("pets", $more_info_property) && !empty($more_info_property["pets"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Pets Allowed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["pets"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("pool_features", $more_info_property) && !empty($more_info_property["pool_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Pool Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["pool_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("possession", $more_info_property) && !empty($more_info_property["possession"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Possession", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["possession"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("postal_city", $more_info_property) && !empty($more_info_property["postal_city"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Postal City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["postal_city"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("public_section", $more_info_property) && !empty($more_info_property["public_section"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Public Survey Section", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["public_section"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("public_survey_township", $more_info_property) && !empty($more_info_property["public_survey_township"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Public Survey Township", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["public_survey_township"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("roof", $more_info_property) && !empty($more_info_property["roof"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Roof", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("senior_community", $more_info_property) && !empty($more_info_property["senior_community"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Senior Community", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["senior_community"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("sewer", $more_info_property) && !empty($more_info_property["sewer"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Sewer Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["sewer"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Short Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["short_sale"]; ?></span>
+                    </li>
+                    <?php if (is_array($more_info_property) && array_key_exists("stories", $more_info_property) && !empty($more_info_property["stories"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Stories", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["stories"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if ($property["is_commercial"] == 0){ ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("HOA Fees", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["assoc_fee"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Subdivision Complex", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["complex"]; ?></span>
+                    </li>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Subdivision Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property["subdivision"]; ?></span>
+                    </li>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo "$".number_format($property["tax_amount"]); ?></span>
+                    </li>
+                    <?php if (is_array($more_info_property) && array_key_exists("tax_information", $more_info_property) && !empty($more_info_property["tax_information"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Information", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["tax_information"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Tax Year", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $property['tax_year']; ?></span>
+                    </li>
+                    <?php if (is_array($more_info_property) && array_key_exists("terms", $more_info_property) && !empty($more_info_property["terms"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Terms Considered", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["terms"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("type_property", $more_info_property) && !empty($more_info_property["type_property"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Type of Property", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["type_property"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("view", $more_info_property) && !empty($more_info_property["view"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["view"]; ?></span>
+                    </li>
+                    <?php } ?>
+                    <?php if (is_array($more_info_property) && array_key_exists("waterfront_frontage", $more_info_property) && !empty($more_info_property["waterfront_frontage"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Water Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["waterfront_frontage"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (is_array($more_info_property) && array_key_exists("window_features", $more_info_property) && !empty($more_info_property["window_features"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Window Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["window_features"]; ?></span>
+                    </li>
+                    <?php } ?>
+
+                    <?php if (is_array($more_info_property) && array_key_exists("zoning", $more_info_property) && !empty($more_info_property["zoning"])) { ?>
+                    <li>
+                      <span class="ib-plist-st"><?php echo __("Zoning", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                      <span class="ib-plist-pt"><?php echo $more_info_property["zoning"]; ?></span>
+                    </li>
+                    <?php } ?>
+                  </ul>
+
+
                 <?php } ?>
-                <?php if( !empty($property["lot_size"])){ ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Aprox. Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo number_format($property["lot_size"]); ?></span>
-                </li>
-                <?php } ?>                                                                     
-                <?php if (is_array($more_info_property) && array_key_exists("architectural_style", $more_info_property) && !empty($more_info_property["architectural_style"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Architectural Style", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["architectural_style"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("assoc_fee_paid", $more_info_property) && !empty($more_info_property["assoc_fee_paid"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Association Fee Frequency", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["assoc_fee_paid"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("attached_garage", $more_info_property) && !empty($more_info_property["attached_garage"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Attached Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["attached_garage"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("city", $more_info_property) && !empty($more_info_property["city"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["city"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("community_features", $more_info_property) && !empty($more_info_property["community_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Community Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["community_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("construction", $more_info_property) && !empty($more_info_property["construction"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Construction Materials", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["construction"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("county", $more_info_property) && !empty($more_info_property["county"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("County", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["county"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("covered_spaces", $more_info_property) && !empty($more_info_property["covered_spaces"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Covered Spaces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["covered_spaces"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("faces", $more_info_property) && !empty($more_info_property["faces"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Direction Faces", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["faces"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("frontage_lenght", $more_info_property) && !empty($more_info_property["frontage_lenght"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("FrontageLength", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["frontage_lenght"]; ?></span>
-                </li>
-                <?php } ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Furnished Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["furnished"]; ?></span>
-                </li>
-                <?php if (is_array($more_info_property) && array_key_exists("garage", $more_info_property) && !empty($more_info_property["garage"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Garage", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["garage"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("levels", $more_info_property) && !empty($more_info_property["levels"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Levels", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["levels"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("terms", $more_info_property) && !empty($more_info_property["terms"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Listing Terms", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["terms"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if ( !empty($property["lot_desc"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Lot Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["lot_desc"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("lot_features", $more_info_property) && !empty($more_info_property["lot_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Lot Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["lot_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("ocupant_type", $more_info_property) && !empty($more_info_property["ocupant_type"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Occupant Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["ocupant_type"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("parking_features", $more_info_property) && !empty($more_info_property["parking_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Parking Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["parking_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("patio_features", $more_info_property) && !empty($more_info_property["patio_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Patio And Porch Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["patio_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("pets", $more_info_property) && !empty($more_info_property["pets"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Pets Allowed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["pets"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("pool_features", $more_info_property) && !empty($more_info_property["pool_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Pool Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["pool_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("possession", $more_info_property) && !empty($more_info_property["possession"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Possession", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["possession"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("postal_city", $more_info_property) && !empty($more_info_property["postal_city"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Postal City", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["postal_city"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("public_section", $more_info_property) && !empty($more_info_property["public_section"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Public Survey Section", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["public_section"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("public_survey_township", $more_info_property) && !empty($more_info_property["public_survey_township"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Public Survey Township", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["public_survey_township"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("roof", $more_info_property) && !empty($more_info_property["roof"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Roof", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["roof"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("senior_community", $more_info_property) && !empty($more_info_property["senior_community"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Senior Community", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["senior_community"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("sewer", $more_info_property) && !empty($more_info_property["sewer"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Sewer Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["sewer"]; ?></span>
-                </li>
-                <?php } ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Short Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["short_sale"]; ?></span>
-                </li>
-                <?php if (is_array($more_info_property) && array_key_exists("stories", $more_info_property) && !empty($more_info_property["stories"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Stories", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["stories"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if ($property["is_commercial"] == 0){ ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("HOA Fees", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["assoc_fee"]; ?></span>
-                </li>
-                <?php } ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Subdivision Complex", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["complex"]; ?></span>
-                </li>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Subdivision Info", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property["subdivision"]; ?></span>
-                </li>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Tax Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo "$".number_format($property["tax_amount"]); ?></span>
-                </li>
-                <?php if (is_array($more_info_property) && array_key_exists("tax_information", $more_info_property) && !empty($more_info_property["tax_information"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Tax Information", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["tax_information"]; ?></span>
-                </li>
-                <?php } ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Tax Year", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $property['tax_year']; ?></span>
-                </li>
-                <?php if (is_array($more_info_property) && array_key_exists("terms", $more_info_property) && !empty($more_info_property["terms"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Terms Considered", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["terms"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("type_property", $more_info_property) && !empty($more_info_property["type_property"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Type of Property", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["type_property"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("view", $more_info_property) && !empty($more_info_property["view"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["view"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("waterfront_frontage", $more_info_property) && !empty($more_info_property["waterfront_frontage"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Water Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["waterfront_frontage"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("water_source", $more_info_property) && !empty($more_info_property["water_source"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Water Source", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["water_source"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("window_features", $more_info_property) && !empty($more_info_property["window_features"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Window Features", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["window_features"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("year_built_details", $more_info_property) && !empty($more_info_property["year_built_details"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Year Built Details", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["year_built_details"]; ?></span>
-                </li>
-                <?php } ?>
-                <?php if (is_array($more_info_property) && array_key_exists("zoning", $more_info_property) && !empty($more_info_property["zoning"])) { ?>
-                <li>
-                  <span class="ib-plist-st"><?php echo __("Zoning", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                  <span class="ib-plist-pt"><?php echo $more_info_property["zoning"]; ?></span>
-                </li>
-                <?php } ?>
-              </ul>
+
             </div>
           </div>
           <div class="ib-wrapper-top-map list-details clidxboost-exterior-container active ms-loadmap" id="locationMap">
@@ -1737,11 +2343,11 @@
       <?php endif; ?>
   
       /*------------------------------------------------------------------------------------------*/
-      jQuery(document).on("click", "#msContactModal", function() {
+      jQuery(document).on("click", ".msContactModal", function() {
         jQuery(".ib-active-float-form").trigger("click");
       });
 
-      jQuery(document).on("click", "#shareBtn", function() {
+      jQuery(document).on("click", ".shareBtn", function() {
         jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
       });
 

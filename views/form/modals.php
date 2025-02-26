@@ -6,6 +6,8 @@
   $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
   $show_why_register = $flex_idx_info['agent']['show_why_register'];
 
+  $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
   if($disclaimer_checked == "1"){
     $checked = "checked";
     $checked_active = "";
@@ -28,6 +30,23 @@
     var originalPositionY;
   }
 </script>
+
+
+
+<?php if( $idx_v == "1" ) {  ?>
+<div id="root-property-modal"></div>
+<div id="tutorial-ai-modal"></div>
+<div id="property-modal"></div>
+<div id="gallery-modal"></div>
+<div id="share-modal"></div>
+<div id="contact-modal"></div>
+<div id="video-modal"></div>
+<div id="calculator-modal"></div>
+<div id="save-modal"></div>
+<div id="collection-modal"></div>
+<?php } ?>
+
+
 
 <!--MODAL EDIT ALERT FORM HISTORY MENU-->
 <div class="ib-modal-master" data-id="edit-search" id="ib-fsearch-edit-modal">

@@ -1,6 +1,33 @@
 <!-- modal property html -->
 <div id="flex_idx_modal_wrapper"></div>
 
+<script>
+  <?php 
+    $idxboost_search_settings = get_option('idxboost_search_settings');
+    $idxboost_agent_info = get_option('idxboost_agent_info');
+    $api_idx_access_token = flex_idx_get_access_token();  
+    
+    global $flex_idx_info;
+    $force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
+    $force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
+    $signup_left_clicks = ( $force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
+    ?>
+
+
+  window.idx_main_settings = {
+
+    force_registration: Boolean(<?php echo $force_registration; ?>),
+    force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
+    signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+
+    search_settings:<?php echo json_encode($idxboost_search_settings); ?>,
+    agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
+    access_token:"<?php echo $api_idx_access_token; ?>",
+    board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>
+  } 
+</script>
+
+
 <?php
   $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? sanitize_text_field($flex_idx_info['agent']['agent_contact_phone_number']) : '';
 
