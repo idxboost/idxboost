@@ -1705,9 +1705,12 @@ if (!function_exists('idx_off_market_listing_carousel_sc')) {
             'tag' => 'default',
             'limit' => '20',
             "slider_item" => "4",
-            'title' => ''
+            'title' => '',
+            "gallery" => "0",
+            "max" => 0,
         ), $atts);
 
+        $gallery_val = $atts["gallery"];
         $access_token = flex_idx_get_access_token();
 
         if (get_option('idxboost_client_status') != 'active') {
@@ -1973,7 +1976,7 @@ if (!function_exists('fb_flex_idx_sub_area_social_sc')) {
 
 function insert_fb_in_head()
 {
-    global $wpdb, $wp;
+    global $wpdb, $wp,$flex_idx_info;
 
     // TODO: por que usaron esta validacion, ya existe la url y el path sanitizado usando site_url() y $wp->request?
     // $host= $_SERVER["HTTP_HOST"]; $url= $_SERVER["REQUEST_URI"];
@@ -2052,7 +2055,10 @@ function insert_fb_in_head()
                 $addressPropertyDescription =  array_key_exists("description", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["description"] : "";
                 $property_image =  ( array_key_exists("images_url", $responseNewDevelopment["data"]) && is_array($responseNewDevelopment["data"]["images_url"]) && count($responseNewDevelopment["data"]["images_url"]) >0 )  ? $responseNewDevelopment["data"]["images_url"][0] : "";
             }
-        ?>
+
+        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) { ?>
+            <title><?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?></title>
+        <?php } ?>
         <meta property="og:title" content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
         <meta property="og:type" content="website"/>
         <meta property="og:url" content="<?php echo $domain_host; ?>"/>
@@ -5575,6 +5581,12 @@ if (!function_exists('idx_page_shortcode_render')) {
         if (preg_match($pattern, $content, $match)) {
             $ib_building_filter = do_shortcode($match[0]);
             $content = str_replace($match[0], $ib_building_filter, $content);
+        }
+
+        $pattern = '~\[idx_off_market_listing_carousel slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
+        if (preg_match($pattern, $content, $match)) {
+            $ib_off_market_filter = do_shortcode($match[0]);
+            $content = str_replace($match[0], $ib_off_market_filter, $content);
         }
 
         $pattern = '~\[idxboost_cms_section_blog id=\"(.*?)\" format=\"(.*?)\" show_date=\"(.*?)\" show_excerpt=\"(.*?)\" columns=\"(.*?)\" max_post=\"(.*?)\"\]~';

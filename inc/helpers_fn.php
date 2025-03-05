@@ -9480,15 +9480,24 @@ if (!function_exists('custom_seo_page')) {
             !empty($flex_idx_info['agent']['has_cms']) &&
             $flex_idx_info['agent']['has_cms'] != false
         ) {
-
-            $metas = get_post_meta($post->ID, 'idx_page_type');
-            $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
+        
+            if ($post->ID == "0" && $post->post_mime_type == "flex_idx_new_development_detail") {
+                $type_filter = $post->post_mime_type;
+                $metas =  'new-development-detail';
+            }else{
+                $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
+                $metas = get_post_meta($post->ID, 'idx_page_type');
+            }         
 
             if (
-                (!empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
-                is_home() or is_front_page() or
-                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
-                ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
+                $metas != "new-development-detail" &&
+                (
+                    (!empty($metas) && ($metas[0] == 'custom' or $metas[0] == 'landing')) or
+                    is_home() or is_front_page() or
+                    ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_about") or
+                    ($post->post_type == 'flex-idx-pages' && $type_filter == "flex_idx_page_contact")
+                ) 
+                
             ) {
                 $page_type = '';
                 $post_id = '';
@@ -9554,7 +9563,7 @@ if (!function_exists('custom_seo_page')) {
 
                 if (!(
                     $post->post_type == 'flex-idx-pages' &&
-                    in_array($type_filter, ['flex_idx_building', 'flex_idx_property_detail'])
+                    in_array($type_filter, ['flex_idx_building', 'flex_idx_property_detail','flex_idx_new_development_detail'])
                 )) {
                     $response = wp_remote_post(
                         IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',

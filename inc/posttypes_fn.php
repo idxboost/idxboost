@@ -2170,7 +2170,11 @@ add_filter( 'template_include', function( $template ) {
         return $template;
     }else{
         
+        $post->post_type='flex-idx-pages';
         $post->post_content='[new_development_collections]';//no realiza impresion mas que para referenciar libreria
+        $post->ID=0;
+        $post->post_mime_type = "flex_idx_new_development_detail";
+        
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php')) {
             return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php';
