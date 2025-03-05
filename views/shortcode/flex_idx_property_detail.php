@@ -204,7 +204,10 @@
   if (array_key_exists('more_labels', $response))  $more_labels=$response['more_labels'];
   if (array_key_exists('schoolRatio', $response))  $schoolRatio=$response['schoolRatio'];
   if (array_key_exists('CollapsedPreference', $response))  $CollapsedPreference=$response['CollapsedPreference'];
-  if (array_key_exists('CollapsedPreferenceDetailt', $response))  $CollapsedPreferenceDetailt=$response['CollapsedPreferenceDetailt'];
+  if (array_key_exists('CollapsedPreferenceDetailt', $response))  {  
+    $CollapsedPreferenceDetailt= @unserialize($response['CollapsedPreferenceDetailt']);
+    $CollapsedPreferenceDetailt = (is_array($CollapsedPreferenceDetailt) && count($CollapsedPreferenceDetailt) > 0 ) ? $CollapsedPreferenceDetailt : [];
+  }
   
   ?>
 <?php
@@ -1056,7 +1059,7 @@
             <?php endif;?>
 
             <?php
-            $amenities = array_key_exists("amenities", $property) ? explode(",", $property['amenities']) : [];
+            $amenities = ($idx_v == "1" && array_key_exists("amenities", $property) ) ?  explode(",", $property['amenities']) : [];
 
 
              if ($idx_v == "1" && is_array($amenities) && count($amenities) > 0 ) { ?>
@@ -1175,21 +1178,21 @@
                   </li>
                   <?php } ?>
 
-                  <?php if (array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
+                  <?php if (array_key_exists("more_info", $property) &&  array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
                   <li>
                     <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                     <span class="ib-plist-pt"><?php echo $property['more_info']["view"]; ?></span>
                   </li>
                   <?php } ?>
 
-                  <?php if (array_key_exists("construction", $property["more_info"]) && !empty($property['more_info']["construction"])  ) { ?>
+                  <?php if (array_key_exists("more_info", $property) && array_key_exists("construction", $property["more_info"]) && !empty($property['more_info']["construction"])  ) { ?>
                   <li>
                     <span class="ib-plist-st"><?php echo __("Construction Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                     <span class="ib-plist-pt"><?php echo $property['more_info']["construction"]; ?></span>
                   </li>
                   <?php } ?>                
                   
-                      <?php if (array_key_exists("waterfront_frontage", $property["more_info"]) && !empty($property['more_info']["waterfront_frontage"])  ) { ?>
+                      <?php if (array_key_exists("more_info", $property) && array_key_exists("waterfront_frontage", $property["more_info"]) && !empty($property['more_info']["waterfront_frontage"])  ) { ?>
                       <li>
                         <span class="ib-plist-st"><?php echo __("Waterfront Description", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                         <span class="ib-plist-pt"><?php echo $property["more_info"]["waterfront_frontage"]; ?></span>
