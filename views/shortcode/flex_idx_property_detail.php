@@ -512,14 +512,20 @@
             <span class="ib-piltxt -min"><?php echo __("Half Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <?php }else{ ?>
-          <li class="ib-pilitem ib-pilbeds">
+          <li class="ib-pilitem ib-pilbeds" style="flex-grow:1">
+            <?php if ($idx_v == 1  && $property["class_id"] == 29 && $property["is_commercial"] ){ ?>
+            <span class="ib-pilnumber"><?php echo __("business", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <?php }elseif ($idx_v == 1  && $property["class_id"] != 29 && $property["is_commercial"] ){ ?>
+            <span class="ib-pilnumber"><?php echo __("Commercial", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <?php }else{ ?>  
             <span class="ib-pilnumber"><?php echo $property['property_type']; ?></span>
+          <?php } ?>
             <span class="ib-piltxt"><?php echo __("Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
             <span class="ib-piltxt -min"><?php echo __("Type", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <?php } ?>
           <?php if(1 == $property["is_commercial"]): ?>
-          <li class="ib-pilitem ib-pilsize">
+          <li class="ib-pilitem ib-pilsize" style="flex-grow:1">
             <span class="ib-pilnumber"><?php
               $inputLotsize = floatval( str_replace ( ",", "", $property["lot_size"] ) );
               $hasAcreLot = false;
@@ -536,8 +542,8 @@
               }
               
               ?> </span>
-            <span class="ib-piltxt"><?php echo __("Approx Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span> 
-            <span class="ib-piltxt -min"><?php echo __("Lot Size", IDXBOOST_DOMAIN_THEME_LANG); ?>.</span>
+            <span class="ib-piltxt">Sq.Ft</span> 
+            <span class="ib-piltxt -min">Sq.Ft</span>
           </li>
           <?php else: ?>
           <li class="ib-pilitem ib-pilsize">

@@ -4194,7 +4194,7 @@ jQuery(document).on('click', '.ib-modal-master .ib-pvslider .gs-item-slider', fu
 	activeFullScreen(photo);
 });
 
-jQuery(document).ready(function() {
+/*jQuery(document).ready(function() {
 	var windowSize = jQuery(window).width();
 	var heightHeader = jQuery("header").outerHeight();
 	var heightHeaderAdd = heightHeader + 49;
@@ -4204,9 +4204,8 @@ jQuery(document).ready(function() {
 		if (window.__flex_g_settings.version != "1") {
 			jQuery("#flex-filters-theme").css({'margin-top':'49px'});
 		}		
-		
 	}
-});
+});*/
 
 jQuery(document).on('click', '.js-active-why-register', function () {
 	jQuery("body").addClass("showMessageWhyRegister");

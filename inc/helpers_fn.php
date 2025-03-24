@@ -6948,6 +6948,7 @@ if (!function_exists('flex_idx_register_assets')) {
 
             'site_name' => get_bloginfo('name'),
             'registration_key' => get_option('idxboost_registration_key'),
+            'api_new_developments' => FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL,
             'board_info' => $board_info,
             'version' => $idx_v,
             'events' => [
@@ -7825,6 +7826,7 @@ function insert_assets_head_new_search_filter()
 
                 //validation to get data mode slider and load assets slider no default assets
                 if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
+                    $GLOBALS["idx_page_map_search_filter"] = "yes";
                     if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
                         $typeAssets = $coincidencias[1];
                     }

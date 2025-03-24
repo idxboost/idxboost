@@ -49,7 +49,7 @@
   <div class="content-filters" <?php if($filter_type_fl != 3): ?> style="display:none;" <?php endif; ?> >
     <div class="animated fixed-box" id="wrap-filters">
       <div class="gwr gwr-filters">
-        <div id="header-filters">
+        <div id="header-filters" style="display: none">
           <div class="idx_logo_web">
             <?php if (function_exists('idx_the_custom_logo_header')): ?>
             <?php idx_the_custom_logo_header(); ?>

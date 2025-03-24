@@ -43,7 +43,6 @@
 <div id="video-modal"></div>
 <div id="calculator-modal"></div>
 <div id="save-modal"></div>
-<div id="collection-modal"></div>
 <?php } ?>
 
 

@@ -62,7 +62,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 <div class="content-filters">
 	<div id="wrap-filters" class="animated fixed-box search-page-ft">
 		<div class="gwr gwr-filters">
-			<div id="header-filters">
+			<div id="header-filters" style="display: none">
         <div class="idx_logo_web">
 			<?php if (function_exists('idx_the_custom_logo_header')): ?>
 				<?php idx_the_custom_logo_header(); ?>
