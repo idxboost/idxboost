@@ -7841,7 +7841,7 @@ function insert_assets_head_new_search_filter()
 
                         <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.js"); ?>" />    ></script>  
                         
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver='.iboost_get_mod_time("react/shortcode_slider/fonts/icons/style.css"); ?>" />      
 
                         <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.css"); ?>" />                  
 
@@ -7858,7 +7858,7 @@ function insert_assets_head_new_search_filter()
                     <?php } 
         }
 
-        if ($idx_v == "1" ) { ?>
+        if ($idx_v == "1" && $typeAssets != "slider" ) { ?>
                         <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.js?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.js"); ?>" />    ></script>  
                         <?php if(!$is_load_map) { ?>
                         <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
