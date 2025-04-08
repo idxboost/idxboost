@@ -3,6 +3,7 @@
 	$idxboost_search_filter_settings = get_option('idxboost_search_filter_settings');
 	$idxboost_agent_info = get_option('idxboost_agent_info');
 	$api_idx_access_token = flex_idx_get_access_token();
+	$idxboost_term_condition = get_option('idxboost_term_condition');
 	$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
 ?>
 <script>
@@ -35,6 +36,8 @@
 		slider_item : '<?php echo $atts["slider_item"]; ?>',
 		limit : '<?php echo $atts["limit"]; ?>',
 		active_ai : '<?php echo $ia_search; ?>',
+		company_info : {company_name : '<?php echo $idxboost_term_condition["company_name"]; ?>' },
+
 		
 
 		force_registration: Boolean(<?php echo $force_registration; ?>),

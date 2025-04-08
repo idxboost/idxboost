@@ -123,10 +123,10 @@
         <div class="ms-flex-chk-ub">
           <div class="ms-item-chk">
             <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
-            <label for="follow_up_boss_valid">Follow Up Boss</label>
+            <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
           </div>
           <div class="ms-fub-disclaimer">
-            <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+            <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
           </div>
         </div>
       </li>

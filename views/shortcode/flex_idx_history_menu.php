@@ -1,72 +1,65 @@
 <div class="ms-wrap-profile-btn" id="ib-lead-history-menu-btn" style="display:none;">
-  <button class="ms-btn-profile" aria-label="Show profile">
+  <button class="ms-btn-profile js-open-history-menu" aria-label="Show profile">
     <span class="ib-lead-first-letter-name">&nbsp;</span>
   </button>
   <div class="msn-bubble" id="ib-lead-history-tooltip-help" style="display:none;">
     <h4><?php echo __("Thank you for registering!", IDXBOOST_DOMAIN_THEME_LANG); ?></h4>
-      <p><?php echo __("Now you can look at your favorites and viewed listings from your", IDXBOOST_DOMAIN_THEME_LANG); ?> <span><?php echo __("personalized experience view", IDXBOOST_DOMAIN_THEME_LANG); ?></span></p>
-      <a href="#" class="ms-btn-bubble ib-lead-hide-bubble-exp"><?php echo __("Got it, thanks!", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+    <p><?php echo __("Now you can look at your favorites and viewed listings from your", IDXBOOST_DOMAIN_THEME_LANG); ?> <span><?php echo __("personalized experience view", IDXBOOST_DOMAIN_THEME_LANG); ?></span></p>
+    <a href="#" class="ms-btn-bubble ib-lead-hide-bubble-exp"><?php echo __("Got it, thanks!", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
   </div>
 </div>
 
 <div class="ms-profile-menu">
-  <div class="ms-header-profile">
+  <div class="ms-header-center">
+    <button class="ms-btn-back idx-icon-arrow-select" aria-label="<?php echo __('Close Menu', IDXBOOST_DOMAIN_THEME_LANG); ?>"></button>
     <div class="ms-btn-profile">
-      <span class="ib-lead-first-letter-name">&nbsp;</span>
+      <span class="ib-lead-first-letter-name"></span>
     </div>
     <div class="ms-wrap-name">
-      <h4 class="ms-title ib-lead-fullname">&nbsp;</h4>
-      <span class="ms-sub-title"><a href="<?php echo $flex_idx_info["pages"]["flex_idx_profile"]["guid"]; ?>"><?php echo __('Profile', IDXBOOST_DOMAIN_THEME_LANG); ?></a></span>
+      <span class="ms-title ib-lead-fullname"></span>
+      <a href="<?php echo $flex_idx_info["pages"]["flex_idx_profile"]["guid"]; ?>" class="ms-btn-edit idx-icon-edit-element" aria-label="<?php echo __('My Profile', IDXBOOST_DOMAIN_THEME_LANG); ?>"></a>
     </div>
-    <button class="ms-btn-back" aria-label="Close profile">
-      <span></span>
-    </button>
+    <div class="ms-wrapper-back-logout">
+      <i class="idx-icon-logout-exit"></i>
+      <a href="/" class="flex-logout-link"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+    </div>
   </div>
 
-  <div class="ms-header-agent">
-    <div class="ms-wrap-detail">
-      <div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper"></div>
-    
-      <div class="ms-info-agent">
-        <h3 class="ms-title ib-lead-firstname">&nbsp;</h3>
-        <p><?php echo __("Call or email if you need immediate assistance. Thanks!", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
-        <h4 class="ms-sub-title ib-agent-fullname">&nbsp;</h4>
+  <div class="ms-wrapper-scroll">
+    <div class="ms-header-agent">
+      <div class="ms-wrap-detail">
+        <div class="ms-wrapper-agent-info">
+          <div class="ms-info-agent">
+            <div class="ms-title ib-lead-firstname"></div>
+            <p><?php echo __("Call us if you need immediate assistance. Thanks!", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+          </div>
+          <div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper"></div>
+        </div>
         <div class="ms-wrap-action">
-          <a href="#" class="ms-phone ib-agent-phonenumber" title="Phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-          <a href="#" class="ms-email ib-agent-emailaddress" title="Email"><?php echo __('Email', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+          <a href="/" class="ms-phone ib-agent-phonenumber"><?php echo __('Call Now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+          <a href="/" class="ms-email ib-agent-emailaddress"><?php echo __('Send Message', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
         </div>
       </div>
     </div>
-    <button class="ms-btn-show" aria-label="Show Profile">
-      <span class="ms-arrow ib-lead-firstname">&nbsp;</span>
-    </button>
 
-    <button class="ms-btn-hidden" aria-label="<?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?>">
-        <span class="ms-close"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-    </button>
+    <div class="ms-header-tab" id="_ib_lead_activity_tab">
+      <button class="ms-tab ms-tab-history active" data-tab="history" aria-label="<?php echo __("History", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("History", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
+      <button class="ms-tab ms-tab-favorites" data-tab="favorites" aria-label="<?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
+      <button class="ms-tab ms-tab-searches" data-tab="searches" aria-label="<?php echo __("Saved Searches", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("Saved Searches", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
+    </div>
+
+    <div class="ms-wrap-tab">
+      <div class="ms-profile-list">
+        <div class="ms-body-tab">
+          <div class="ms-wrap-items" id="_ib_lead_activity_rows"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="ms-body-profile ms-wrap-tab">
-    <div class="ms-profile-list">
-
-      <div class="ms-header-tab" id="_ib_lead_activity_tab">
-          <button class="ms-tab ms-tab-history active" data-tab="history" aria-label="<?php echo __("History", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("History", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
-          <button class="ms-tab ms-tab-favorites" data-tab="favorites" aria-label="<?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
-          <button class="ms-tab ms-tab-searches" data-tab="searches" aria-label="<?php echo __("Saved Searches", IDXBOOST_DOMAIN_THEME_LANG); ?>"><span><?php echo __("Saved Searches", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button>
-      </div>
-
-      <div class="ms-body-tab">
-        <div class="ms-wrap-items" id="_ib_lead_activity_rows"></div>
-      </div>
-
-      <div class="ms-footer-tab">
-        <div class="ib-cpagination">
-          <nav class="ib-wpagination ib-pagination-ctrl2" id="_ib_lead_activity_pagination" aria-label="Pagination"></nav>
-        </div>
-
-        <div class="ms-log">
-          <a href="#" class="flex-logout-link"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-        </div>
+  <div class="ms-footer-tab" id="_pagination_wrapper">
+    <div class="ib-cpagination">
+      <nav class="ib-wpagination ib-pagination-ctrl2" id="_ib_lead_activity_pagination" aria-label="Pagination"></nav>
     </div>
   </div>
 </div>
@@ -74,6 +67,15 @@
 <script>
 (function ($) {
   $(function() {
+
+    $(document).on('click', '.js-open-history-menu', function () {
+      $("body").addClass("openHistoryMenu");
+    });
+
+    $(document).on('click', '.ms-btn-back', function () {
+      $("body").removeClass("openHistoryMenu");
+    });
+
   	//show modal edit search
     $(document).on('click', '.js-edit-mds', function () {
       document.getElementById("ib-check-price-change-edit").checked = false;
@@ -113,9 +115,6 @@
             $('#modal_properties_send .body_md .ico_ok').text(data.message);
             active_modal($('#modal_properties_send'));
           }
-                        
-                        
-
         }
       });
     });
@@ -213,7 +212,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -296,7 +295,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.saved_listings_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -374,7 +373,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.saved_searches_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -433,7 +432,7 @@
                   lead_listing_views_html.push('</div>');
                   lead_listing_views_html.push('</div>');
                   lead_listing_views_html.push('<div class="ms-property-actions">');
-                  lead_listing_views_html.push('<button data-mls="'+lead_listing_views[i].mls_num+'" data-token-alert="'+lead_listing_views[i].token_alert+'" class="ib-la-rf ms-save" aria-label="'+word_translate.save+'"><span>'+word_translate.save+'</span></button>');
+                  lead_listing_views_html.push('<button data-mls="'+lead_listing_views[i].mls_num+'" data-token-alert="'+lead_listing_views[i].token_alert+'" class="ib-la-rf ms-delete" aria-label="'+word_translate.save+'"><span>'+word_translate.save+'</span></button>');
                   // lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
                   lead_listing_views_html.push('</div>');
                   lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
@@ -470,7 +469,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.saved_listings_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -544,7 +543,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.saved_searches_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -630,7 +629,7 @@
                   lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
                 }
 
-                jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
               }
             }
             }
@@ -643,13 +642,15 @@
     // hide property from listings views
     $(document).on("click", ".ib-la-hp", function(event) {
       event.stopPropagation();
-
       var token_id = $(this).data("mls");
-
-      console.log(token_id);
-      console.log('removing...');
-
-      $(this).parent().parent().remove();
+      var parent = $(this).parents(".ms-item");
+      //console.log(token_id);
+      //console.log('removing...');
+      //$(this).parent().parent().remove();
+      parent.addClass("animation");
+      setTimeout(function(){ 
+        parent.remove();
+      }, 600);
 
       $.ajax({
         url: __flex_g_settings.ajaxUrl,
@@ -672,14 +673,16 @@
     // remove favorite from personalized view widget
     $(document).on("click", ".ib-la-rf", function(event) {
       event.stopPropagation();
-
       var token_alert = $(this).data("token-alert");
       var token_id = $(this).data("mls");
-
-      console.log(token_alert);
-      console.log('removing...');
-      
-      $(this).parent().parent().remove();
+      var parent = $(this).parents(".ms-item");
+      //console.log(token_alert);
+      //console.log('removing...');
+      parent.addClass("animation");
+      setTimeout(function(){ 
+        parent.remove();
+      }, 600);
+      //$(this).parent().parent().remove();
 
       $.ajax({
         url: __flex_g_settings.ajaxUrl,
@@ -704,14 +707,16 @@
     // remove saved search from personalized view widget
     $(document).on("click", ".ib-la-rss", function(event) {
       event.stopPropagation();
-
       var token_alert = $(this).data("token-alert");
       var token_id = $(this).data("id");
-
-      console.log(token_alert);
-      console.log('removing...');
-
-      $(this).parent().parent().remove();
+      //console.log(token_alert);
+      //console.log('removing...');
+      //$(this).parent().parent().remove();
+      var parent = $(this).parents(".ms-item");
+      parent.addClass("animation");
+      setTimeout(function(){ 
+        parent.remove();
+      }, 600);
       
       $.ajax({
         url: __flex_g_settings.ajaxUrl,

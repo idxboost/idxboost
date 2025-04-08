@@ -9026,17 +9026,6 @@ if (!function_exists('idxboost_cms_assets')) {
                     update_option("cms_custom_style", trim($head_json['globalCss']));
                 }
 
-                // Load loader
-                // if (
-                //     array_key_exists("loader", $head_json) &&
-                //     array_key_exists("content", $head_json['loader'])
-                // ) {
-                //     update_option("cms_loader", trim($head_json['loader']['content']));
-                // }
-
-                // Get translate settings
-                update_option("cms_translate_settings", "");
-
                 if (
                     array_key_exists("translate", $head_json) &&
                     !empty($head_json['translate']) &&

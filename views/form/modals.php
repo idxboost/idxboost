@@ -505,7 +505,7 @@
                     <label for="follow_up_boss_valid_register" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
                 </div>
               </div>
@@ -838,7 +838,7 @@
                         <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                       </div>
                       <div class="ms-fub-disclaimer">
-                        <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                        <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                       </div>
                     </div>
                   </li>
@@ -1788,7 +1788,7 @@ function handleCredentialResponse(token) {
                               jQuery(".ib-lead-firstname").html(word_translate.hello+" " + response.lead_info.first_name + "!");
 
                               jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
-                              jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+                              //jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
                               jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
                               jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
                               jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
@@ -1855,7 +1855,7 @@ function handleCredentialResponse(token) {
                                     lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
                                   }
 
-                                  jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                  jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
                                 }
                               }
                             }
@@ -2220,7 +2220,7 @@ function handleCredentialResponse(token) {
                               jQuery(".ib-lead-firstname").html(word_translate.hello+" " + response.lead_info.first_name + "!");
 
                               jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
-                              jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+                              //jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
                               jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
                               jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
                               jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
@@ -2287,7 +2287,7 @@ function handleCredentialResponse(token) {
                                     lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
                                   }
 
-                                  jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                  jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
                                 }
                               }
                             }
@@ -2603,7 +2603,7 @@ function fb_login() {
                                   jQuery(".ib-lead-firstname").html(word_translate.hello+" " + response.lead_info.first_name + "!");
 
                                   jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
-                                  jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+                                  //jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
                                   jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
                                   jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
                                   jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
@@ -2670,7 +2670,7 @@ function fb_login() {
                                         lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
                                       }
 
-                                      jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
+                                      jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
                                     }
                                   }
                                 }
@@ -3015,7 +3015,7 @@ function fb_logout() {
                     <label for="follow_up_boss_valid_register_" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
                 </div>
               </div>

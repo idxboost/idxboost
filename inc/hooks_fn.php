@@ -301,7 +301,7 @@ add_action('wp_print_scripts', 'print_inline_js');
 add_action('wp_enqueue_scripts', 'idxboost_cms_register_assets');
 
 // CMS. Enqueue assets
-add_action('wp_enqueue_scripts', 'idxboost_cms_enqueue_assets');
+add_action('wp_enqueue_scripts', 'idxboost_cms_enqueue_assets', 20);
 
 // CMS. Setup
 add_action('wp_head', 'idxboost_cms_setup', 101);

@@ -73,6 +73,11 @@
   $property['gallery'] = $property['imagens'];
   $property['img_cnt'] =  ( is_array($property['imagens']) && count($property['imagens']) > 0 ) ? count($property['imagens']) : 0;
   unset($property['imagens']);
+
+  $property["office_name"]  = !empty($property["office_id"]["name"] ) ? $property["office_id"]["name"] : "";
+  $property["phone_office"] = !empty($property["office_id"]["phone"] ) ? $property["office_id"]["phone"] : "";
+  $property['board_info'] = $idxboost_search_settings['board_info'];
+  
  }
 
  ?> 
@@ -123,7 +128,8 @@
   
       if (false === disablePopup) {
         if (true === IB_HAS_LEFT_CLICKS) {
-        if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) <= 0) && ("yes" === __flex_g_settings.anonymous)) {
+        //if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) <= 0) && ("yes" === __flex_g_settings.anonymous)) {
+        if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) >= parseInt(__flex_g_settings.signup_left_clicks, 10)) && ("yes" === __flex_g_settings.anonymous)) {
             if (__flex_g_settings.hasOwnProperty("force_registration_forced") && ("yes" == __flex_g_settings.force_registration_forced)) {
               $("#modal_login").find(".close").remove();
             }
@@ -319,7 +325,7 @@
           <?php echo __("New Search", IDXBOOST_DOMAIN_THEME_LANG); ?>
           </a>
           <?php endif; ?>
-          <?php if (1 == $property['status']): ?>
+          <?php if ( is_array($property) && array_key_exists("status",$property) &&  1 == $property['status']): ?>
           <?php if ($property['is_favorite']): ?>
           <button class="chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
           <span class="active"></span>
@@ -502,7 +508,8 @@
             <span class="ib-piltxt -min"><?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <li class="ib-pilitem ib-pilbaths">
-            <span class="ib-pilnumber"><?php echo $property['bath']; ?></span>
+            <span class="ib-pilnumber ib-mobile-bath-both"><?php echo ( ( floatval($property["baths_half"]) > 0 ) ?  floatval($property['bath'])+0.5 : $property['bath'] ) ; ?></span>
+            <span class="ib-pilnumber ib-mobile-bath"><?php echo $property['bath']; ?></span>
             <span class="ib-piltxt"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
             <span class="ib-piltxt -min"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
@@ -1103,7 +1110,7 @@
                   <span class="ib-plist-pt"><?php echo $property['pool'] == 1 ? 'Yes' : 'No'; ?></span>
                 </li>
 
-                <?php if (array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
+                <?php if ( array_key_exists("view", $property["more_info"]) && !empty($property['more_info']["view"])  ) { ?>
                 <li>
                   <span class="ib-plist-st"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property['more_info']["view"]; ?></span>
@@ -2168,10 +2175,10 @@
                       <div class="ms-flex-chk-ub">
                         <div class="ms-item-chk">
                           <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
-                          <label for="follow_up_boss_valid">Follow Up Boss</label>
+                          <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                         </div>
                         <div class="ms-fub-disclaimer">
-                          <p><?php echo __("By submitting this form you agree to be contacted by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __('via call, email, and text. To opt out, you can reply "stop" at any time or click the unsubscribe link in the emails. For more information see our', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms and Conditions", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                          <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                         </div>
                       </div>
                     </li>
