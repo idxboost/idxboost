@@ -5,6 +5,7 @@
   $idxboost_agent_info = get_option('idxboost_agent_info');
   $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
   $show_why_register = $flex_idx_info['agent']['show_why_register'];
+  $idxboost_term_condition = get_option('idxboost_term_condition');
 
   $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
@@ -19,6 +20,7 @@
 ?>
 <script type="text/javascript">
   var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["user_show_quizz"]) && ("1" == $flex_idx_info["agent"]["user_show_quizz"])) ? '1' : '0'; ?>';
+  window.idx_company_info = {company_name : '<?php echo $idxboost_term_condition["company_name"]; ?>' };
 
   var IS_CUSTOM_SIGNUP = false;
 

@@ -4202,18 +4202,18 @@ jQuery(document).on('click', '.ib-modal-master .ib-pvslider .gs-item-slider', fu
 	activeFullScreen(photo);
 });
 
-/*jQuery(document).ready(function() {
+jQuery(document).ready(function() {
 	var windowSize = jQuery(window).width();
 	var heightHeader = jQuery("header").outerHeight();
 	var heightHeaderAdd = heightHeader + 49;
 	if(windowSize > 1023){	
-		jQuery("#flex-filters-theme .gwr-breadcrumb").css({'position':'fixed','z-index':'5','top':heightHeader});
-		jQuery("#flex-filters-theme .ib-filter-container.fixed-box").css({'position':'fixed','top':heightHeaderAdd});
+		jQuery(".single-flex-landing-pages #flex-filters-theme .gwr-breadcrumb").css({'position':'fixed','z-index':'5','top':heightHeader});
+		jQuery(".single-flex-landing-pages #flex-filters-theme .ib-filter-container.fixed-box").css({'position':'fixed','top':heightHeaderAdd});
 		if (window.__flex_g_settings.version != "1") {
-			jQuery("#flex-filters-theme").css({'margin-top':'49px'});
+			jQuery(".single-flex-landing-pages #flex-filters-theme").css({'margin-top':'49px'});
 		}		
 	}
-});*/
+});
 
 jQuery(document).on('click', '.js-active-why-register', function () {
 	jQuery("body").addClass("showMessageWhyRegister");
