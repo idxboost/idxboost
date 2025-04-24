@@ -3175,8 +3175,10 @@ if (!function_exists('flex_idx_filter_sc')) {
             "max" => 0,
             "county" => "",
             "photo-res" => "high",
+            "order" => "price-desc",
             'registration_key' => ''
         ), $atts);
+
 
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
@@ -3211,9 +3213,14 @@ if (!function_exists('flex_idx_filter_sc')) {
 
         $valid_views = array('view-grid', 'view-list', 'view-map');
 
+
         $order = (isset($wp_request_exp[1]) && in_array($wp_request_exp[1], $valid_sortings)) ? $wp_request_exp[1] : null;
         $view = (isset($wp_request_exp[2]) && in_array($wp_request_exp[2], $valid_views)) ? $wp_request_exp[2] : '';
         $page = isset($wp_request_exp[3]) ? (int)preg_replace('/[^\d]/', '', $wp_request_exp[3]) : 1;
+
+        if ( empty($order) ) {
+            $order =$atts["order"];
+        }
 
         $param_url = [];
 
@@ -3234,6 +3241,11 @@ if (!function_exists('flex_idx_filter_sc')) {
         if ($atts['mode'] == 'multi-slider') {
             $sale_type[] = 0;
         }
+
+        if ( !empty($order) ) {
+            $param_url['sort'] = $order;
+        }
+
 
         if (!empty($_GET)) {
 
@@ -3391,6 +3403,7 @@ if (!function_exists('flex_idx_filter_sc')) {
             'flex_credentials' => $flex_lead_credentials,
             'registration_key' => $atts['registration_key']
         );
+
 
         wp_enqueue_style('flex-idx-filter-pages-css');
 
