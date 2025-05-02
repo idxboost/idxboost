@@ -5889,3 +5889,42 @@ if (!function_exists('new_development_collections_sc')) {
     add_action('wp_head', 'insert_assets_head_new_development_collections', 1);
     add_shortcode('new_development_collections', 'new_development_collections_sc');
 }
+
+
+if (!function_exists('dashtodash_sc')) {
+    function dashtodash_sc($atts, $content = null)
+    {
+        global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'name' => '',
+            'sort' => 'price-desc'
+        ), $atts);
+
+        ob_start();
+        $list_sort = 
+        [
+            "price-desc",
+            "price-asc",
+            "completion_year-desc",
+            "building_name-asc", 
+            "building_name-desc"
+        ];
+
+        if ( !in_array( $atts["sort"] , $list_sort)) {
+            $atts["sort"] = 'price-desc';
+        }
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/dashtodash_sc.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/dashtodash_sc.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/dashtodash_sc.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_dashtodash_sc', 1);
+    add_shortcode('new_development_collections', 'dashtodash_sc');
+}

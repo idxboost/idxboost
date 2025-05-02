@@ -1,3 +1,20 @@
+	<?php  if ( is_array($responseParms) && count($responseParms) > 0) { ?>
+<script>
+	var IB_IS_SEARCH_FILTER_PAGE = true;
+  var IB_SEARCH_FILTER_PAGE = true;
+  var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
+
+  jQuery(function() {
+    if (true === IB_SEARCH_FILTER_PAGE) {
+      jQuery('#formRegister').append('<input type="hidden" name="source_registration_title" value="' + IB_SEARCH_FILTER_PAGE_TITLE + '">');
+      jQuery('#formRegister').append('<input type="hidden" name="source_registration_url" value="' + location.href + '">');
+      jQuery("#formRegister_ib_tags").val(IB_SEARCH_FILTER_PAGE_TITLE);
+    }
+  });
+</script>
+
+<?php  } ?>
+
 <?php
 	$idxboost_search_settings = get_option('idxboost_search_settings');
 	$idxboost_search_filter_settings = get_option('idxboost_search_filter_settings');
@@ -34,6 +51,9 @@
 		name_button : '<?php echo $atts["name_button"]; ?>',
 		slider_item : '<?php echo $atts["slider_item"]; ?>',
 		limit : '<?php echo $atts["limit"]; ?>',
+		saveListings : '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
+		rk : '<?php echo get_option('flex_idx_alerts_keys'); ?>',
+		wp_web_id : '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
 		active_ai : '<?php echo $ia_search; ?>',
 
 		
@@ -71,6 +91,50 @@
 
 <div id="root-search"></div>
 
+<script type="text/javascript">
+
+function saveFilterSearchForLead() {
+
+        var search_url = location.href;
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+            if (pattern.test(initial_href)) {
+                var search_url = initial_href;
+            } else {
+                var search_url = __flex_idx_search_filter_v2.searchFilterPermalink + initial_href;
+            }
+        }
+
+
+        var search_count = window.idx_data_filter_alert.count;
+        var search_condition = window.idx_data_filter_alert.condition;
+        var search_name = IB_SEARCH_FILTER_PAGE_TITLE;
+        var search_filter_params = window.idx_data_filter_alert.params;
+        var search_filter_ID = '<?php echo $atts["id"]; ?>';
+
+        if ("no" === __flex_g_settings.anonymous && (typeof search_filter_ID !== "undefined")) {
+            jQuery.ajax({
+                type: "POST",
+                url: window.idx_main_settings.saveListings.replace(/{{filterId}}/g, search_filter_ID),
+                data: {
+                    access_token: window.idx_main_settings.access_token,
+                    search_rk: window.idx_main_settings.rk,
+                    search_wp_web_id: window.idx_main_settings.wp_web_id,
+                    flex_credentials: Cookies.get("ib_lead_token"),
+                    search_filter_id: search_filter_ID,
+                    search_url: search_url,
+                    search_count: search_count,
+                    search_condition: search_condition,
+                    search_name: search_name,
+                    search_params: JSON.stringify({})
+                },
+                success: function (response) {
+                    // console.log("The search filter has been saved successfully.");
+                }
+            });
+        }
+    }	
+</script>
 
 <?php if($atts["mode"] == "slider"){ ?>
 <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.js"); ?>" />    ></script>  

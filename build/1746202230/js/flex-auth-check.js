@@ -312,8 +312,9 @@ function idx_auto_save_building(lead_data){
 }
 	
 //Pusher.logToConsole = true;
-var socket;
-var channel;
+// var socket;
+// var channel;
+
 var fullSlider;
 
 		var style_map=[];
@@ -322,15 +323,15 @@ var fullSlider;
 			style_map=JSON.parse(style_map_idxboost);
 		}   
 		
-socket = new Pusher(__flex_g_settings.pusher.app_key, {
-	cluster: __flex_g_settings.pusher.app_cluster,
-	encrypted: true,
-	authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-});
-
-if ("undefined" !== typeof Cookies.get("ib_lead_token")) {
-	socket.subscribe(__flex_g_settings.pusher.presence_channel);
-}
+// socket = new Pusher(__flex_g_settings.pusher.app_key, {
+// 	cluster: __flex_g_settings.pusher.app_cluster,
+// 	encrypted: true,
+// 	authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+// });
+//
+// if ("undefined" !== typeof Cookies.get("ib_lead_token")) {
+// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+// }
 
 // socket.subscribe(__flex_g_settings.pusher.presence_channel);
 
@@ -1167,17 +1168,17 @@ function validate_price(evt) {
 							Cookies.set("_ib_left_click_force_registration", 0);
 						}
 
-						if ("undefined" !== typeof socket) {
-							socket.disconnect();
-
-							socket = new Pusher(__flex_g_settings.pusher.app_key, {
-								cluster: __flex_g_settings.pusher.app_cluster,
-								encrypted: true,
-								authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-							});
-							
-							socket.subscribe(__flex_g_settings.pusher.presence_channel);
-						}
+						// if ("undefined" !== typeof socket) {
+						// 	socket.disconnect();
+						//
+						// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
+						// 		cluster: __flex_g_settings.pusher.app_cluster,
+						// 		encrypted: true,
+						// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+						// 	});
+						//
+						// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+						// }
 
 						// callback [login]
 
@@ -1647,17 +1648,17 @@ function validate_price(evt) {
 								}
 
 								//socket.subscribe(__flex_g_settings.pusher.presence_channel);
-								if ("undefined" !== typeof socket) {
-									socket.disconnect();
-
-									socket = new Pusher(__flex_g_settings.pusher.app_key, {
-										cluster: __flex_g_settings.pusher.app_cluster,
-										encrypted: true,
-										authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-									});
-									
-									socket.subscribe(__flex_g_settings.pusher.presence_channel);
-								}
+								// if ("undefined" !== typeof socket) {
+								// 	socket.disconnect();
+								//
+								// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
+								// 		cluster: __flex_g_settings.pusher.app_cluster,
+								// 		encrypted: true,
+								// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+								// 	});
+								//
+								// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+								// }
 
 								// save last logged in username
 								Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
@@ -2055,17 +2056,17 @@ function validate_price(evt) {
 							}
 
 							//socket.subscribe(__flex_g_settings.pusher.presence_channel);
-							if ("undefined" !== typeof socket) {
-								socket.disconnect();
-
-								socket = new Pusher(__flex_g_settings.pusher.app_key, {
-									cluster: __flex_g_settings.pusher.app_cluster,
-									encrypted: true,
-									authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-								});
-								
-								socket.subscribe(__flex_g_settings.pusher.presence_channel);
-							}
+							// if ("undefined" !== typeof socket) {
+							// 	socket.disconnect();
+							//
+							// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
+							// 		cluster: __flex_g_settings.pusher.app_cluster,
+							// 		encrypted: true,
+							// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+							// 	});
+							//
+							// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+							// }
 
 							// save last logged in username
 							Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
@@ -2625,7 +2626,7 @@ function validate_price(evt) {
 
 		$(document).on("click", ".flex-logout-link", function(event) {
 			event.preventDefault();
-			socket.unsubscribe(__flex_g_settings.pusher.presence_channel);
+			//socket.unsubscribe(__flex_g_settings.pusher.presence_channel);
 			
 			Cookies.remove('ib_lead_token');
 			Cookies.remove("_ib_user_firstname");
