@@ -126,7 +126,8 @@ function saveFilterSearchForLead() {
                     search_count: search_count,
                     search_condition: search_condition,
                     search_name: search_name,
-                    search_params: JSON.stringify({})
+                    version: 2,
+                    search_params: (search_filter_params)
                 },
                 success: function (response) {
                     // console.log("The search filter has been saved successfully.");
