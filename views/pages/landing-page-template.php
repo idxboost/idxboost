@@ -1,6 +1,4 @@
 <?php
-get_header();
-
 global $flex_idx_info, $post;
 
 $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-template';
@@ -25,14 +23,19 @@ if ( ! is_wp_error( $response ) && $response_code === 200 ) {
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
     
     if ( isset( $body['pages'][0]['content'] ) && ! empty( $body['pages'][0]['content'] ) ) {        
-        idx_page_shortcode_render( $body['pages'][0]['content'] );
+        $post->post_content = idx_page_shortcode_render( $body['pages'][0]['content'] );
     } else {
         idxboost_cms_page_under_construction();
+        exit();
     }
     
 } else {
     idxboost_cms_page_under_maintenance();
-    die();
+    exit();
 }
+
+get_header();
+
+the_content();
 
 get_footer();

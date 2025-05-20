@@ -535,7 +535,7 @@ if($disclaimer_checked == "1"){
                           {{/ifequals}}
                           {{#ifequals user.sps_company_b2b_footer "tremgroup_footer_nofollow"}}
                             <div  class="ibc-c-logo-designer-img">
-                              <img src="<?php echo IDX_BOOST_SPW_ASSETS . '/assets/images/logo-tremgroup-84x19.svg'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
+                              <img src="<?php echo get_cms_assets_base_url() . '/assets/images/logo-tremgroup-84x19.svg'; ?>" alt="The Real Estate Marketing Group Logo" title="The Real Estate Marketing Group" />
                             </div>
                             
                             Powered by

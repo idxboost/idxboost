@@ -1,3 +1,5 @@
+<?php get_header(); ?>
+
 <style>
 	.ip-tripwire {
 		display: none;
@@ -51,3 +53,5 @@
 	<div class="layer-mx"></div>
 	
 </main>
+
+<?php get_footer(); ?>

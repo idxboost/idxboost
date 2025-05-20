@@ -5544,77 +5544,10 @@ if (!function_exists('idxboost_cms_page_under_maintenance')) {
 if (!function_exists('idx_page_shortcode_render')) {
     function idx_page_shortcode_render($content)
     {
-        $content = str_replace("[idxboost_dinamic_menu]", do_shortcode("[idxboost_dinamic_menu]"), $content);
-        $content = str_replace("[idxboost_dinamic_menu_mobile]", do_shortcode('[idxboost_dinamic_menu_mobile]'), $content);
-        $content = str_replace("[idxboost_dinamic_autocompleted]", do_shortcode("[flex_autocomplete]"), $content);
-        $content = str_replace('[idxboost_dinamic_credential_lead]', do_shortcode('[idxboost_dinamic_credential_lead_dinamic]'), $content);
-        $content = str_replace('[idxboost_lead_activities]', do_shortcode('[idxboost_lead_activities]'), $content);
-
-        $pattern = '~\[idxboost_cms_notification id=\"(.*?)\" message=\"(.*?)\"]~';
-        if (preg_match_all($pattern, $content, $match)) {
-            foreach ($match[0] as $item) {
-                $ib_cms_notification = do_shortcode($item);
-                $content = str_replace($item, $ib_cms_notification, $content);
-            }
-        }
-
-        $pattern = '~\[ib_quick_search_rentals\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_quick_search_rentals = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_quick_search_rentals, $content);
-        }
-
-        $pattern = '~\[list_property_collection slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-        }
-
-        $pattern = '~\[flex_idx_filter type="2" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-        }
-
-        $pattern = '~\[flex_idx_filter type="1" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_idxboost_dinamic_listings = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_idxboost_dinamic_listings, $content);
-        }
-
-        $pattern = '~\[flex_idx_filter id="(.+?)" slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $variable_flex_idx_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $variable_flex_idx_filter, $content);
-        }
-
-        $pattern = '~\[ib_search_filter id="(.+?)" slider_item="(.+?) mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?(\sis_commercial=\"[0-9]\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_search_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_search_filter, $content);
-        }
-
-        $pattern = '~\[idxboost_building_inventory building_id="(.+?)" load="ajax" slider_item="(.+?)" type="sale" view="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_building_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_building_filter, $content);
-        }
-
-        $pattern = '~\[idx_off_market_listing_carousel slider_item="(.+?)" mode="slider"(\sgallery=\"[01]\")?(\slimit=\"[0-9]{1,4}\")?\]~';
-        if (preg_match($pattern, $content, $match)) {
-            $ib_off_market_filter = do_shortcode($match[0]);
-            $content = str_replace($match[0], $ib_off_market_filter, $content);
-        }
-
-        $pattern = '~\[idxboost_cms_section_blog id=\"(.*?)\" format=\"(.*?)\" show_date=\"(.*?)\" show_excerpt=\"(.*?)\" columns=\"(.*?)\" max_post=\"(.*?)\"\]~';
-        if (preg_match_all($pattern, $content, $match)) {
-            foreach ($match[0] as $item) {
-                $ib_cms_blog = do_shortcode($item);
-                $content = str_replace($item, $ib_cms_blog, $content);
-            }
-        }
-
-        echo $content;
+        remove_filter('the_content', 'wpautop');
+        $content = str_replace('[idxboost_dinamic_autocompleted]', ('[flex_autocomplete]'), $content);
+        $content = str_replace('[idxboost_dinamic_credential_lead]', ('[idxboost_dinamic_credential_lead_dinamic]'), $content);
+        return $content;
     }
 }
 
