@@ -107,7 +107,7 @@ $logo_broker='';
                     <div class="gwr ms-full-wrap">
                       <ul id="sub-filters">
                         <li id="link-favorites">
-                          <a class="clidxboost-icon-favorite" href="#" title="Save Favorites" rel="nofollow">
+                          <a class="clidxboost-icon-favorite" role="button" title="Save Favorites" rel="nofollow">
                             <span><span>0</span>Favorites</span>
                           </a>
                         </li>

@@ -83,7 +83,7 @@ while ( have_posts() ) : the_post(); ?>
             <a class="email" href="mailto:<?php echo $agent_info['info']['contact_email']; ?>"><?php echo $agent_info['info']['contact_email']; ?></a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="mapa"><?php echo $idx_contact_address; ?></a>
+            <a role="button" class="mapa"><?php echo $idx_contact_address; ?></a>
           </li>
         </ul>
       </div>

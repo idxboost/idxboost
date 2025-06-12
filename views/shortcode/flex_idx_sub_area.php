@@ -198,21 +198,21 @@
     <div class="ms-community-wrap-nav">
       <nav class="ms-community-nav">
         <ul>
-          <?php if( !empty($description_building) ) { ?><li><a href="#overview" title="<?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
-          <?php if( !empty($amenities_build) ) { ?><li><a href="#amenites" title="<?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
-          <li class="js-available-homes" ><a href="#available-homes" title="<?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+          <?php if( !empty($description_building) ) { ?><li><a rel="nofollow" href="#overview" title="<?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Overview", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
+          <?php if( !empty($amenities_build) ) { ?><li><a rel="nofollow" href="#amenites" title="<?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li><?php } ?>
+          <li class="js-available-homes" ><a rel="nofollow" href="#available-homes" title="<?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Available Homes", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
           
           <?php if ( $exist_section_location ) { ?>          
-          <li><a href="#location" title="<?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+          <li><a rel="nofollow" href="#location" title="<?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Location", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>
 
 
         <?php if( !empty($exist_floor_plan) ){ ?>
-          <li><a href="#floorplans" title="<?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+          <li><a rel="nofollow" href="#floorplans" title="<?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Floorplans", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>
           
           <?php if( $exist_section_download ){ ?>
-            <li><a href="#downloads" title="<?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+            <li><a rel="nofollow" href="#downloads" title="<?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __("Downloads", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
         <?php } ?>          
         </ul>
       </nav>
@@ -399,7 +399,7 @@
                 <?php foreach ($floor_plan_view_thumbs as $value_thumbs) { ?>
                   <li>
                     <div class="ms-floorplans-item">
-                      <a href="javascript:void(0)" class="ms-wrap-img ms-show-floorplans" title="Line 01">
+                      <a role="button" class="ms-wrap-img ms-show-floorplans" title="Line 01">
                         <img data-real-type="image" data-img="<?php echo $value_thumbs['url']; ?>" src="<?php echo $value_thumbs['url']; ?>" class="ms-lazy" alt="<?php echo $value_thumbs['title']; ?>">
                       </a>
                       

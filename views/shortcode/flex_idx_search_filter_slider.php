@@ -264,10 +264,10 @@ if($disclaimer_checked == "1"){
                   <div class="ms-wrapper-dropdown-menu">
                     <button id="calculatorYears"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                     <ul id="calculatorYearsList" class="ms-dropdown-menu" role="menu">
-                      <li><a href="#" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                      <li><a href="#" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                      <li><a href="#" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                      <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a role="button" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a role="button" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a role="button" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                      <li><a role="button" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                     </ul>
                   </div>
                 </div>
@@ -503,9 +503,9 @@ if($disclaimer_checked == "1"){
                       <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                       <ul class="ms-share-list">
                         <li class="ib-pscitem ib-psemailfriend" data-status="{{status_type}}" data-mls="{{mls_num}}" data-permalink="" data-lg="{{lng}}" data-lt="{{lat}}">
-                          <a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                          <a role="button" class="ib-psbtn" aria-label="Email to a friend"><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                         </li>
-                        <li><a href="" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                        <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                         <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
                         <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsitw" data-address="{{ address_short }} {{ address_large}}" data-price="{{price}}" data-type="{{class_id}}" data-rental="{{is_rental}}" data-mls="{{mls_num}}">Twitter</a></li>
                       </ul>
@@ -526,7 +526,7 @@ if($disclaimer_checked == "1"){
                   <li class="ib-pvitem {{ markMapActive this }}" data-id="map" data-loaded="no" data-lat="{{lat}}" data-lng="{{lng}}" data-><?php echo __("Map View", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
                   {{#if virtual_tour}}
                   <li class="ib-pvitem" data-id="video">
-                      <a class="ib-plvideo" href="{{virtual_tour}}" title="Video" target="_blank"><?php echo __("Video", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                      <a class="ib-plvideo" href="{{virtual_tour}}" title="Video" target="_blank" rel="nofollow"><?php echo __("Video", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                   </li>
                   {{/if}}
                 </ul>
@@ -557,6 +557,23 @@ if($disclaimer_checked == "1"){
             <div class="ib-pbia">
               <div class="ib-pwinfo">
                 <div class="ib-pinfo">
+
+                  <!--NUEVO-->
+                  <div class="ms-sf-view-actions" style="z-index:3; top: 70px">
+                    <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite ib-pfavorite {{ idxFavoriteClass this }}" data-mls="{{mls_num}}" data-token-alert="{{token_alert}}">
+                      <span></span>
+                    </button>
+
+                    <button class="ms-sf-btn shareBtn" aria-label="Share">
+                      <i class="idx-icon-shared"></i>
+                    </button>
+
+                    <a href="tel:<?php echo preg_replace('/[^\d]/', '', $idx_contact_phone); ?>" class="ms-sf-btn"><i class="idx-icon-phone"></i></a>
+
+                    <button class="ms-sf-btn btn-request ib-active-float-form">Request Information</button>
+                  </div>
+                  <!--NUEVO-->
+
                   <div class="ib-pilf">
 
                                  <ul class="ib-pilist">
@@ -585,11 +602,11 @@ if($disclaimer_checked == "1"){
                                     <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                                     <ul class="ms-share-list">
                                       <li class="ib-pscitem ib-psemailfriend" data-status="Active" data-mls="A11132797" data-permalink="">
-                                        <a href="javascript:void(0)" class="ib-psbtn" aria-label="Email to a friend">Email to a friend</a>
+                                        <a role="button" class="ib-psbtn" aria-label="Email to a friend">Email to a friend</a>
                                       </li>
-                                      <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
-                                      <li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsifb">Facebook</a></li>
-                                      <li><a href="https://testlgv2.staging.wpengine.com/property/13711-sw-84th-st-e-miami-fl-33183-a11132797" class="ib-plsitem ib-plsitw" data-address="13711 SW 84th St #E Miami, FL 33183" data-price="$320,000" data-type="Condominiums" data-rental="0" data-mls="A11132797">Twitter</a></li>
+                                      <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("Copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                                      <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsifb">Facebook</a></li>
+                                      <li><a href="{{ propertyPermalink slug }}" class="ib-plsitem ib-plsitw" data-address="13711 SW 84th St #E Miami, FL 33183" data-price="$320,000" data-type="Condominiums" data-rental="0" data-mls="A11132797">Twitter</a></li>
                                     </ul>
                                   </div>
                                 </div>
@@ -1126,7 +1143,7 @@ if($disclaimer_checked == "1"){
                                       <?php if (in_array($flex_idx_info["board_id"], ["31"])) { ?>
                                         <img src="https://idxboost-spw-assets.idxboost.us/logos/nwmls.jpg" style="position: absolute;top: 5px;right: 5px;width: 45px;">
                                       <?php } ?>                                                                            
-                                      <a class="ib-splink" href="#" title="<?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}">
+                                      <a class="ib-splink" role="button" title="<?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}">
                                           <span class="ib-spltxt"><?php echo __("Details of", IDXBOOST_DOMAIN_THEME_LANG); ?> {{address_short}} {{address_large}}</span>
                                       </a>
                                     </li>
@@ -1216,7 +1233,7 @@ if($disclaimer_checked == "1"){
                             <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                           </div>
                           <div class="ms-fub-disclaimer">
-                            <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                            <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                           </div>
                         </div>
                       </div>
@@ -1729,3 +1746,8 @@ if($disclaimer_checked == "1"){
     <div class="gs-container-slider ib-properties-slider" id="search-filter-slider-<?php echo $atts['id']; ?>"></div>
   </div>
 </section>
+<script>
+  jQuery(document).on("click", ".shareBtn", function() {
+    jQuery(".showfriendEmail").trigger("click");
+  });
+</script>

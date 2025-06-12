@@ -203,7 +203,7 @@
           </ul>
           <?php } ?>
         </div>
-        <a href="/" title="View more listings" class="clidxboost-btn-link"> <span><?php echo __("View all listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+        <a role="button" title="View more listings" class="clidxboost-btn-link"> <span><?php echo __("View all listings", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
       </div>
       <?php  } ?>
     </div>

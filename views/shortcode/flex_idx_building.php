@@ -151,7 +151,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
 <main class="property-details theme-3">
   <div id="full-main" class="ms-property-detail-page ms-wrapper-actions-fs">
-    <section class="title-conteiner gwr animated fixed-box">
+    <section class="title-conteiner gwr -sticky">
       <div class="content-fixed">
         <div class="content-fixed-title">
           <h1 class="title-page ms-property-title" 
@@ -172,7 +172,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                   <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                   <ul class="ms-share-list">
                     <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="{{mls_num}}" data-status="{{status_type}}">
-                      <a rel="nofollow" href="javascript:void(0)" 
+                      <a rel="nofollow" role="button" 
                         class="ib-psbtn showfriendEmail" 
                         data-modal="modal_email_to_friend" 
                         data-origin="2"
@@ -187,16 +187,16 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                       <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
                       </a>
                     </li>
-                    <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                    <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                     <li>
-                      <a class="ib-plsitem ib-plsifb" 
+                      <a role="button" class="ib-plsitem ib-plsifb" 
                         data-share-url="<?php echo $building_permalink; ?>" 
                         data-share-title="<?php echo $post->post_title; ?>" 
                         data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
                         data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
                         onclick="idxsharefb_building()" rel="nofollow">Facebook</a>
                     </li>
-                    <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                    <li><a role="button" class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
                   </ul>
                 </div>
               </div>
@@ -212,7 +212,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
             <!--<button class="clidxboost-icon-envelope show-modal" data-modal="modal_email_to_friend">
               <span><?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
               </button>-->
-            <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
+            <a role="button" class="btn-request" style="padding: 0 10px">
             <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
             </a>
           </li>
@@ -322,8 +322,36 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
         <div class="temporal-content-bl"></div>
         <div class="gwr">
           <div class="container">
-            <div class="property-details theme-2 r-hidden">
+            <div class="ms-sf-view-actions">
+              <?php if ($response['payload']['is_favorite'] == 1) : ?>
+                <button
+                  data-permalink="<?php echo $building_permalink; ?>" 
+                  data-building-id="<?php echo $response['payload']['cod_building']; ?>" 
+                  class="ms-sf-btn flex_b_mark_f flex_b_marked chk_save">
+                  <span class="active"></span>
+                </button>
+              <?php else: ?>
+                <button 
+                  data-permalink="<?php echo $building_permalink; ?>" 
+                  data-building-id="<?php echo $response['payload']['cod_building']; ?>" 
+                  class="ms-sf-btn flex_b_mark_f chk_save">
+                  <span></span>
+                </button>
+              <?php endif;?>
 
+              <button class="ms-sf-btn shareBtn" aria-label="Share">
+                <i class="idx-icon-shared"></i>
+              </button>
+              
+              <?php if (!empty($agent_info_phone)){ ?>
+                <a href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" class="ms-sf-btn">
+                  <i class="idx-icon-phone"></i>
+                </a>
+              <?php } ?>
+
+              <button class="ms-sf-btn msContactModal btn-request">Request Information</button>
+            </div>
+            <div class="property-details theme-2 r-hidden">
               <ul class="property-information">
                 <?php if ($type_building == 0) { ?>
                   <li class="price">
@@ -333,27 +361,24 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                 <?php } else { ?>
                   <li class="price"><?php echo $response['payload']['price_building']; ?><span><?php echo __("Today's Prices", IDXBOOST_DOMAIN_THEME_LANG); ?></span></li>
                 <?php } ?>
-
                 <li class="sale"><button id="sale-count-uni-cons" class="fbc-group active-fbc sale-count-uni-cons">0 <span><?php echo __("For Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
                 <li class="rent"><button id="rent-count-uni-cons" class="fbc-group rent-count-uni-cons">0 <span><?php echo __("For Rent", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
                 <li class="pending"><button id="pending-count-uni-cons" class="fbc-group pending-count-uni-cons">0 <span><?php echo __("Pending", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
                 <li class="sold"><button id="sold-count-uni-cons" class="fbc-group sold-count-uni-cons">0 <span><?php echo __("Sold", IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
-
                 <li class="btn-save favorite">
                   <?php if ($response['payload']['is_favorite'] == 1) : ?>
-                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                    <a role="button" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f flex_b_marked chk_save"><span class="active"><?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php else : ?>
-                    <a href="javascript:void(0)" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
+                    <a role="button" data-permalink="<?php echo $building_permalink; ?>" data-building-id="<?php echo $response['payload']['cod_building']; ?>" class="flex_b_mark_f chk_save"><span><?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a>
                   <?php endif; ?>
                 </li>
-
                 <li class="ms-share-hidden">
                   <div class="ms-wrapper-btn-new-share">
                     <div class="ms-wrapper">
                       <button class="ms-share-btn"><?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                       <ul class="ms-share-list">
                         <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
-                          <a rel="nofollow" href="javascript:void(0)" 
+                          <a rel="nofollow" role="button" 
                           class="ib-psbtn showfriendEmail" 
                           data-modal="modal_email_to_friend" 
                           data-origin="2"
@@ -368,7 +393,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                             <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
                           </a>
                         </li>
-                        <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                        <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                         <li>
                           <a class="ib-plsitem ib-plsifb" 
                           data-share-url="<?php echo $building_permalink; ?>" 
@@ -376,14 +401,13 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                           data-share-description="<?php echo $post->post_title . ' - ' . $building_default_address; ?>" 
                           data-share-image="<?php echo str_replace("https://idxboost.com","https://www.idxboost.com", $response['payload']['gallery_building'][0]["url_image"]); ?>" 
                           onclick="idxsharefb_building()" rel="nofollow">Facebook</a></li>                        
-                        <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+                        <li><a role="button" class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
                       </ul>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-
             <?php 
             if ( wp_is_mobile() ) {
             if (
@@ -471,9 +495,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
               ?>
 
-              <div class="ib-cta-wrapper <?php echo $columns_cta; ?> <?php echo $format_cta; ?>" style="
-
-              ">
+              <div class="ib-cta-wrapper <?php echo $columns_cta; ?> <?php echo $format_cta; ?>">
                 <?php
                   if ( array_key_exists("items", $cta) && is_array($cta["items"]) && count($cta["items"])> 0 ) {  
                   foreach ($cta["items"] as $keycta => $itemcta) { ?>
@@ -631,7 +653,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                           }
                           ?>
                         <li class="ib-item">
-                          <a href="javascript:void(0)" class="ib-item-fp fp-btn">
+                          <a role="button" class="ib-item-fp fp-btn">
                             <img src="<?php echo $url_img_floorplan; ?>" class="img-bz" alt="<?php echo $tag_floorplan; ?>" title="<?php echo $title_floorplan; ?>">
                             <?php  if (!empty($title_floorplan )) {
                               echo '<h3 class="ib-fp-caption">'.$title_floorplan.'</h3>';
@@ -928,7 +950,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                                   <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                                 </div>
                                 <div class="ms-fub-disclaimer">
-                                  <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                                  <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                                 </div>
                               </div>
                             </li>
@@ -1186,7 +1208,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                               <label for="follow_up_boss_valid_" aria-label="Follow Up Boss"></label>
                             </div>
                             <div class="ms-fub-disclaimer">
-                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                             </div>
                           </div>
                         </li>
@@ -1650,6 +1672,25 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
     }
   });
 
-</script>
 
+  //TOP FIXED TITLE HEADER
+  jQuery(window).on("load resize",function(){
+    var header = jQuery("#header");
+    if(header.length){
+      var header_size = jQuery("#header").outerHeight();
+    }else{
+      var header_size = jQuery("#ip-header").outerHeight();
+    }
+    jQuery(".title-conteiner.-sticky").css({'top':header_size});
+    jQuery(".ms-sf-view-actions").css({'top':header_size + 70});
+  });
+
+  jQuery(document).on("click", ".msContactModal", function() {
+    jQuery(".ib-active-float-form").trigger("click");
+  });
+
+  jQuery(document).on("click", ".shareBtn", function() {
+    jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
+  });
+</script>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

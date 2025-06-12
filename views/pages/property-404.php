@@ -15,7 +15,7 @@ get_header(); ?>
 	    <p class="align-center-fx">We’re sorry, but the property (MLS #: <?php echo $mls_num; ?> | <?php echo $address_slug; ?> ) you are looking for appears to have been removed or is currently unavailable for download from our system. We encourage you to initiate a new search.</p>
 	    <!--<span>Here are some helpful links instead:</span>-->
 	  </div>
-	  <a href="/" class="clidxboost-btn-link"><span>Go to Home page</span></a>
+	  <a href="/" class="clidxboost-btn-link" rel="nofollow"><span>Go to Home page</span></a>
 	  <!--
 	  <ul class="list-deployed">
 	    <li><a href="">Home</a></li>

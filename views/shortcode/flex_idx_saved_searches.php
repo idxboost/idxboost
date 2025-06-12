@@ -1,7 +1,7 @@
 <?php if ($flex_idx_lead === false): ?>
 
 <div class="clidxboost-msg-info" id="box_flex_alerts_msg" style="max-width: 90%">
-  <p><?php echo __('You need to', IDXBOOST_DOMAIN_THEME_LANG); ?> <a class="flex-login-link" href="#"><?php echo __('login', IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __('to view this page', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+  <p><?php echo __('You need to', IDXBOOST_DOMAIN_THEME_LANG); ?> <a class="flex-login-link" role="button"><?php echo __('login', IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __('to view this page', IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
 </div>
 
 <?php else: ?>

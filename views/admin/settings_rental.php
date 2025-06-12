@@ -474,7 +474,7 @@ wp_enqueue_style('flex-idx-admin');
               <div class="ms-block-msg">
                 <ol>
                   <li>
-                    <p>To obtain the coordinates of the address, please go to the following link <a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank">get coordinates</a></p>
+                    <p>To obtain the coordinates of the address, please go to the following link <a href="https://www.latlong.net/convert-address-to-lat-long.html" target="_blank" rel="nofollow">get coordinates</a></p>
                   </li>
                   <li>
                     <p>The coordinates obtained copy and paste in the respective input fields.</p>

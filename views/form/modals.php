@@ -190,7 +190,7 @@
           <div class="body_md">
             <ul class="header-tab">
               <li>
-                <a href="javascript:void(0)" 
+                <a role="button" 
                 data-tab="tabLogin" 
                 class="ib-tabLogin active" 
                 data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>" 
@@ -199,12 +199,12 @@
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0)" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <a role="button" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>">
                   <?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?>
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0)" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+                <a role="button" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>" data-text-force="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>">
                   <?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>
                 </a>
               </li>
@@ -212,7 +212,7 @@
 
             <div id="tabLogin" class="item_tab active" data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>">
               <div class="ms-text">
-                <?php echo __('Not registered yet?', IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="javascript:void(0)" class="ms-strong ms-tab" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Register now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                <?php echo __('Not registered yet?', IDXBOOST_DOMAIN_THEME_LANG); ?> <a role="button" class="ms-strong ms-tab" data-tab="tabRegister" data-text="<?php echo __('Register for a personalized experience', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Register now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
               </div>
               <div class="form_content">
                 <form id="formLogin" method="post">
@@ -433,7 +433,7 @@
                 <ul class="social_login <?php echo $checked_active; ?>" id="socialMediaRegister">
                   <?php if (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && "1" == $flex_idx_info["agent"]["facebook_login_enabled"]): ?>
                     <li>
-                      <a class="ico-facebook flex-social-login-fb" href="#" onclick="fb_login();">
+                      <a role="button" class="ico-facebook flex-social-login-fb" onclick="fb_login();">
                         <?php echo __('Login with Facebook', IDXBOOST_DOMAIN_THEME_LANG); ?>
                       </a>
                       <button type="submit" aria-label="Login with Facebook" class="social_login_btn_temporal"></button>
@@ -471,7 +471,7 @@
                   <li>
                     <span class="ms-label" id="msRst">
                       <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                      <a role="button" id="ms-link" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                     </span>
                     <!--
                     <div class="ms-wrapper-btn -wr">
@@ -488,7 +488,7 @@
                 <li>
                     <span class="ms-label" id="msRst">
                       <span id="ms-text"><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                      <a id="ms-link" href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                      <a role="button" id="ms-link" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
                     </span>
                 </li>
               </ul>
@@ -507,7 +507,7 @@
                     <label for="follow_up_boss_valid_register" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
                 </div>
               </div>
@@ -517,10 +517,10 @@
 
             <div class="<?php echo $class_ft; ?>">
               <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-              <a target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
+              <a rel="nofollow" target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
                 <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
               </a> 
-              <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
+              <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>
             </div>
           </div>
         </div>
@@ -537,12 +537,12 @@
     <div class="ms-hidden-text">
       <span id="mstextRst">
         <span><?php echo __('Already registered?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-        <a href="javascript:void(0)" class="ms-tab" data-tab="tabLogin" data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Log in ', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <a role="button" class="ms-tab" data-tab="tabLogin" data-text="<?php echo __('Welcome Back', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Log in ', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
       </span>
 
       <span id="mstextFst">
         <span><?php echo __('Forgot your password?', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-        <a href="javascript:void(0)" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+        <a role="button" class="ms-tab" data-tab="tabReset" data-text="<?php echo __('Reset Password', IDXBOOST_DOMAIN_THEME_LANG); ?>"><?php echo __('Reset now', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
       </span>
     </div>
   </div>
@@ -1128,10 +1128,10 @@
                       <div class="ms-wrapper-dropdown-menu medium">
                         <button id="calculatorYears"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                         <ul id="calculatorYearsList" class="ms-dropdown-menu" role="menu">
-                          <li><a href="#" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                          <li><a href="#" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                          <li><a href="#" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                          <li><a href="#" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a role="button" data-value="30" class="-js-item-cl"><?php echo __('30 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a role="button" data-value="20" class="-js-item-cl"><?php echo __('20 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a role="button" data-value="15" class="-js-item-cl"><?php echo __('15 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                          <li><a role="button" data-value="10" class="-js-item-cl"><?php echo __('10 Years', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                         </ul>
                       </div>
                     </div>
@@ -1241,7 +1241,7 @@
           <div class="confirm-message alt-ss">
             <span class="alt-ss-title"><?php echo __('Subscribe Alert', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             <p></p>
-            <a href="#" class="btn-link"><?php echo __('Continue searching for homes', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+            <a role="button" class="btn-link"><?php echo __('Continue searching for homes', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
           </div>
         </div>
       </div>
@@ -1316,7 +1316,7 @@ $(function() {
             if ('USERNAME_NOT_AVAILABLE' == response.error) {
               var msg_err = response.message;
 
-              msg_err += ' <a href="javascript:void(0)" class="ms-tab" data-tab="tabLogin" data-text="Welcome Back">Login here</a> ';
+              msg_err += ' <a role="button" class="ms-tab" data-tab="tabLogin" data-text="Welcome Back">Login here</a> ';
 
               $(".dgt-email-error").html(msg_err);
             } else if ('INVALID_EMAIL_ADDRESS' == response.error) {
@@ -1805,15 +1805,15 @@ function handleCredentialResponse(token) {
                                 var lead_listing_views_html = [];
 
                                 for (var i = 0, l = lead_listing_views.length; i < l; i++) {
-                                  lead_listing_views_html.push('<div class="ms-item">');
-                                  lead_listing_views_html.push('<div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper">');
+                                  lead_listing_views_html.push('<div class="ms-history-menu-item">');
+                                  lead_listing_views_html.push('<div class="ms-history-menu-wrap-img ib-agent-photo-thumbnail-wrapper">');
                                   lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
                                   lead_listing_views_html.push('</div>');
-                                  lead_listing_views_html.push('<div class="ms-property-detail">');
-                                  lead_listing_views_html.push('<h3 class="ms-title">'+lead_listing_views[i].address_short+'</h3>');
-                                  lead_listing_views_html.push('<h4 class="ms-address">'+lead_listing_views[i].address_large+'</h4>');
-                                  lead_listing_views_html.push('<h5 class="ms-price">'+lead_listing_views[i].price+'</h5>');
-                                  lead_listing_views_html.push('<div class="ms-details">');
+                                  lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
+                                  lead_listing_views_html.push('<h3 class="ms-history-menu-title">'+lead_listing_views[i].address_short+'</h3>');
+                                  lead_listing_views_html.push('<h4 class="ms-history-menu-address">'+lead_listing_views[i].address_large+'</h4>');
+                                  lead_listing_views_html.push('<h5 class="ms-history-menu-price">'+lead_listing_views[i].price+'</h5>');
+                                  lead_listing_views_html.push('<div class="ms-history-menu-details">');
                                     lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' '+word_translate.beds+'</span>');
                                     lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' '+word_translate.baths+'</span>');
                                     lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' '+word_translate.sqft+'</span>');
@@ -1823,7 +1823,7 @@ function handleCredentialResponse(token) {
                                   //lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
                                   //lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
                                   //lead_listing_views_html.push('</div>');
-                                  lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
+                                  lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-history-menu-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
                                   lead_listing_views_html.push('</div>');
                                 }
 
@@ -1836,7 +1836,7 @@ function handleCredentialResponse(token) {
                                   var lead_listing_views_paging = [];
 
                                   if (response.lead_info.listing_views_pagination.has_prev_page) {
-                                    lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
+                                    lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'"></a>');
                                   }
 
                                   lead_listing_views_paging.push('<div class="ib-paglinks">');
@@ -1845,19 +1845,19 @@ function handleCredentialResponse(token) {
 
                                   for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
                                     if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                                      lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                      lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
                                     } else {
-                                      lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                      lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
                                     }
                                   }
 
                                   lead_listing_views_paging.push('</div>');
 
                                   if (response.lead_info.listing_views_pagination.has_next_page) {
-                                    lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                                    lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'"></a>');
                                   }
 
-                                  jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
+                                  jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
                                 }
                               }
                             }
@@ -2620,25 +2620,25 @@ function fb_login() {
                                     var lead_listing_views_html = [];
 
                                     for (var i = 0, l = lead_listing_views.length; i < l; i++) {
-                                      lead_listing_views_html.push('<div class="ms-item">');
-                                      lead_listing_views_html.push('<div class="ms-wrap-img ib-agent-photo-thumbnail-wrapper">');
+                                      lead_listing_views_html.push('<div class="ms-history-menu-item">');
+                                      lead_listing_views_html.push('<div class="ms-history-menu-wrap-img ib-agent-photo-thumbnail-wrapper">');
                                       lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
                                       lead_listing_views_html.push('</div>');
-                                      lead_listing_views_html.push('<div class="ms-property-detail">');
-                                      lead_listing_views_html.push('<h3 class="ms-title">'+lead_listing_views[i].address_short+'</h3>');
-                                      lead_listing_views_html.push('<h4 class="ms-address">'+lead_listing_views[i].address_large+'</h4>');
-                                      lead_listing_views_html.push('<h5 class="ms-price">'+lead_listing_views[i].price+'</h5>');
-                                      lead_listing_views_html.push('<div class="ms-details">');
+                                      lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
+                                      lead_listing_views_html.push('<h3 class="ms-history-menu-title">'+lead_listing_views[i].address_short+'</h3>');
+                                      lead_listing_views_html.push('<h4 class="ms-history-menu-address">'+lead_listing_views[i].address_large+'</h4>');
+                                      lead_listing_views_html.push('<h5 class="ms-history-menu-price">'+lead_listing_views[i].price+'</h5>');
+                                      lead_listing_views_html.push('<div class="ms-history-menu-details">');
                                         lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' '+word_translate.beds+'</span>');
                                         lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' '+word_translate.baths+'</span>');
                                         lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' '+word_translate.sqft+'</span>');
                                       lead_listing_views_html.push('</div>');
                                       lead_listing_views_html.push('</div>');
-                                      //lead_listing_views_html.push('<div class="ms-property-actions">');
-                                      //lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
-                                      //lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
+                                      //lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
+                                      //lead_listing_views_html.push('<button class="ms-history-menu-save"><span>save</span></button>');
+                                      //lead_listing_views_html.push('<button class="ms-history-menu-delete"><span>Delete</span></button>');
                                       //lead_listing_views_html.push('</div>');
-                                      lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
+                                      lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-history-menu-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
                                       lead_listing_views_html.push('</div>');
                                     }
 
@@ -2651,7 +2651,7 @@ function fb_login() {
                                       var lead_listing_views_paging = [];
 
                                       if (response.lead_info.listing_views_pagination.has_prev_page) {
-                                        lead_listing_views_paging.push('<a class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'" href="#"></a>');
+                                        lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'"></a>');
                                       }
 
                                       lead_listing_views_paging.push('<div class="ib-paglinks">');
@@ -2660,19 +2660,19 @@ function fb_login() {
 
                                       for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
                                         if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-                                          lead_listing_views_paging.push('<a class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                          lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
                                         } else {
-                                          lead_listing_views_paging.push('<a class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'" href="#">'+lead_listing_views_page_range[i]+'</a>');
+                                          lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
                                         }
                                       }
 
                                       lead_listing_views_paging.push('</div>');
 
                                       if (response.lead_info.listing_views_pagination.has_next_page) {
-                                        lead_listing_views_paging.push('<a class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'" href="#"></a>');
+                                        lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'"></a>');
                                       }
 
-                                      jQuery("#_ib_lead_activity_pagination").html('<div class="ms-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
+                                      jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
                                     }
                                   }
                                 }
@@ -3017,7 +3017,7 @@ function fb_logout() {
                     <label for="follow_up_boss_valid_register_" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                    <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                   </div>
                 </div>
               </div>
@@ -3025,7 +3025,7 @@ function fb_logout() {
             
               <div class="ms-footer-sm">
                 <p><?php echo __("In agreement with our", IDXBOOST_DOMAIN_THEME_LANG); ?> 
-                <a target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
+                <a rel="nofollow" target="_blank" href="/terms-and-conditions/" title="<?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?> (Opens a new window)">
                   <?php echo __("Terms of Use", IDXBOOST_DOMAIN_THEME_LANG); ?>
                 </a> 
                 <span><?php echo __("and", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a></span></p>

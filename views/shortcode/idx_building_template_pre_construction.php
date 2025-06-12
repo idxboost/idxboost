@@ -267,7 +267,7 @@
                     onclick="idxsharefb()"
                     title="Facebook"
                     rel="nofollow"><?php echo __("Facebook", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
-                  <li><a class="ico-twitter" href="#" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" title="Twitter" rel="nofollow"><?php echo __("Twitter", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                  <li><a class="ico-twitter" role="button" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" title="Twitter" rel="nofollow"><?php echo __("Twitter", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
                 </ul>
               </div>
               <ul class="action-list">
@@ -420,7 +420,7 @@
                             <td><span><?php echo __("Terrace SqFt", IDXBOOST_DOMAIN_THEME_LANG); ?></span><?php echo $size_m2; ?></td>
                             <td><span><?php echo __("Total SqFt", IDXBOOST_DOMAIN_THEME_LANG); ?></span><?php echo $size_sqft; ?></td>
                             <td><span><?php echo __("Total (m2)", IDXBOOST_DOMAIN_THEME_LANG); ?></span><?php echo $size_m2; ?></td>
-                            <td class="ms-fp-link"><a href="#"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG).' '.$response['payload']['name_building'].' '.__("Floorplan", IDXBOOST_DOMAIN_THEME_LANG); ?></a></td>
+                            <td class="ms-fp-link"><a role="button"><?php echo __("View", IDXBOOST_DOMAIN_THEME_LANG).' '.$response['payload']['name_building'].' '.__("Floorplan", IDXBOOST_DOMAIN_THEME_LANG); ?></a></td>
                           </tr>                            
                             
                           <?php } ?>
@@ -562,7 +562,7 @@
                                 <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                               </div>
                               <div class="ms-fub-disclaimer">
-                                <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                                <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                               </div>
                             </div>
                           </li>
@@ -702,7 +702,7 @@
                               <label for="follow_up_boss_valid_" aria-label="Follow Up Boss"></label>
                             </div>
                             <div class="ms-fub-disclaimer">
-                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                             </div>
                           </div>
                         <?php } ?>

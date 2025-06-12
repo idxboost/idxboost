@@ -92,7 +92,7 @@ else:
     ?>
 
     <div class="ip-text-center">
-        No blogs found. <a href="<?php echo esc_url( get_site_url() . '/wp-admin/edit.php' ); ?>">Click here to start blogging.</a>
+        No blogs found. <a href="<?php echo esc_url( get_site_url() . '/wp-admin/edit.php' ); ?>" rel="nofollow">Click here to start blogging.</a>
     </div>
 
     <?php 

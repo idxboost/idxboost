@@ -136,7 +136,7 @@
                         </a>
                       </li>
                     -->
-                      <li><a href="#" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                      <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?> <span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
                       <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remarks']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Faceboook</a></li>
                       <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
                     </ul>
@@ -147,13 +147,13 @@
               <div class="ms-property-call-action">
                 <a href="tel:<?php echo flex_agent_format_phone_number($agent_info_phone); ?>" class="ib-pbtnphone"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></a>
               </div>
-              <a href="https://testlgv2.staging.wpengine.com/search" class="btn link-search clidxboost-icon-search">New Search</a>
+              <a href="https://testlgv2.staging.wpengine.com/search" class="btn link-search clidxboost-icon-search" rel="nofollow">New Search</a>
             </div>
           </div>
           <ul class="content-fixed-btn">
-            <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow"><span>Back to results</span></a></li>
+            <li><a href="<?php echo wp_get_referer(); ?>" class="clidxboost-icon-arrow" rel="nofollow"><span>Back to results</span></a></li>
             <li>
-              <a href="javascript:void(0)" class="btn-request" style="padding: 0 10px">
+              <a role="button" class="btn-request" style="padding: 0 10px">
                 <span style="justify-content: center"><?php echo flex_agent_format_phone_number($agent_info_phone); ?></span>
               </a>
             </li>
@@ -537,7 +537,7 @@
                               <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                             </div>
                             <div class="ms-fub-disclaimer">
-                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
+                              <p><?php echo __("I agree to receive marketing and customer service calls, emails and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?>. <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" target="_blank" rel="nofollow"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" target="_blank" rel="nofollow"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
                             </div>
                           </div>
                         </li>

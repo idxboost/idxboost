@@ -281,7 +281,7 @@ if (empty($response['view']))  $viewfilter='grid'; else $viewfilter=$response['v
 <div id="wrap-subfilters" style="margin-top:15px;display:none !important;">
     <div class="gwr">
         <ul id="sub-filters">
-            <li id="link-favorites"><a href="#" title="My Saved Listings" class="clidxboost-icon-favorite"><span><span><?php echo number_format($response_canti['count']); ?></span><?php echo __('Favorites', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+            <li id="link-favorites"><a role="button" title="My Saved Listings" class="clidxboost-icon-favorite"><span><span><?php echo number_format($response_canti['count']); ?></span><?php echo __('Favorites', IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
             <li id="filter-by" class="clidxboost-icon-arrow-select">
                 <select id="flex_idx_sort" class="flex_idx_sort flex_idx_sort-<?php echo $class_multi; ?>" data-permalink="<?php the_permalink(); ?>" data-currpage="<?php echo $response['pagination']['current_page_number']; ?>" filtemid="<?php echo $class_multi; ?>">
                   <option value="list_date-desc" <?php selected($response['order'], 'list_date-desc'); ?>><?php echo __("Newest Listings", IDXBOOST_DOMAIN_THEME_LANG); ?></option>

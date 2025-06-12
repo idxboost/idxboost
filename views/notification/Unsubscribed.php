@@ -10,6 +10,6 @@
     <style type="text/css">.mobile_menu_div_100 { width: 100%; } </style>
   </head>
   <body>
-<a href="">Unsuscribe</a>
+<a href="" rel="nofollow">Unsuscribe</a>
   </body>
 </html>

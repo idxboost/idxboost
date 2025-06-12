@@ -680,9 +680,11 @@
     <div class="gwr">
       <ul id="sub-filters">
         <li id="link-favorites">
-          <a href="#" title="<?php echo __("My Saved Listings", IDXBOOST_DOMAIN_THEME_LANG); ?>" class="clidxboost-icon-favorite">
-          <span>
-          <span><?php echo number_format($response_canti['count']); ?></span><?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          <a role="button" title="<?php echo __("My Saved Listings", IDXBOOST_DOMAIN_THEME_LANG); ?>" class="clidxboost-icon-favorite">
+            <span>
+              <span><?php echo number_format($response_canti['count']); ?></span>
+              <?php echo __("Favorites", IDXBOOST_DOMAIN_THEME_LANG); ?>
+            </span>
           </a>
         </li>
         <li id="filter-by" class="clidxboost-icon-arrow-select">

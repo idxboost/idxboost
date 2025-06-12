@@ -2,8 +2,8 @@
 <div class="external-login" id="user-options">
     <!-- ESTRUCTURA SIN LOGIN -->
     <div class="external-lg-btn">
-      <a href="#" class="external-lg-item" data-modal="modal_login" data-tab="tabLogin"><?php echo __('Sign In', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
-      <a href="#" class="external-lg-item" data-modal="modal_login" data-tab="tabRegister"><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+      <a role="button" class="external-lg-item" data-modal="modal_login" data-tab="tabLogin"><?php echo __('Sign In', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+      <a role="button" class="external-lg-item" data-modal="modal_login" data-tab="tabRegister"><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></a>
     </div>
 </div>
 <?php else: $my_flex_pages = flex_user_list_pages(); ?>    
@@ -18,7 +18,7 @@
 	      	<?php foreach ($my_flex_pages as $my_flex_page): ?>
 	      		<li><a href="<?php echo $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a></li>
 	      	<?php endforeach; ?>
-	      		<li><a href="#" class="flex-logout-link" id="flex-logout-link"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+	      		<li><a role="button" class="flex-logout-link" id="flex-logout-link"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
 	      </ul>
       <?php endif; ?>	      
     </div>

@@ -67,5 +67,10 @@
 
 </script>  
 
-<div id="root-new-developments"></div>
+<div id="root-dash-to-dash"></div>
+<div id="dtd-property-modal"></div>
+<div id="dtd-gallery-modal"></div>
+<div id="dtd-files-modal"></div>
+<div id="dtd-share-modal"></div>
+<div id="dtd-contact-modal"></div>
 

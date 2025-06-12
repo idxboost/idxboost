@@ -7,12 +7,12 @@
  }  ?>
 <ul class="ib-inventory-list">
 	<?php if($sale_count>0){ ?>
-		<li><a href="<?php echo $link_building; ?>#!for-sale"><span><?php echo $sale_count; ?></span><?php echo __("For sale", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+		<li><a rel="nofollow" href="<?php echo $link_building; ?>#!for-sale"><span><?php echo $sale_count; ?></span><?php echo __("For sale", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
 	<?php } ?>
 	<?php if($rent_count>0){ ?>
-		<li><a href="<?php echo $link_building; ?>#!for-rent"><span><?php echo $rent_count; ?></span><?php echo __("For Rent", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+		<li><a rel="nofollow" href="<?php echo $link_building; ?>#!for-rent"><span><?php echo $rent_count; ?></span><?php echo __("For Rent", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
 	<?php } ?>
 	<?php if($rent_count>0){ ?>
-		<li><a href="<?php echo $link_building; ?>#!sold"><span><?php echo $sold_count; ?></span><?php echo __("Sold", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+		<li><a rel="nofollow" href="<?php echo $link_building; ?>#!sold"><span><?php echo $sold_count; ?></span><?php echo __("Sold", IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
 	<?php } ?>
 </ul>

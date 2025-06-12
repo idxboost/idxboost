@@ -401,7 +401,7 @@ if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|c
 	<div class="gwr">
 		<span id="title-subfilters"></span>
 		<ul id="sub-filters">
-			<li id="link-favorites"><a href="#" title="#" class="clidxboost-icon-favorite"><span><span><?php echo number_format($response_canti['count']); ?></span>Favorites</span></a></li>
+			<li id="link-favorites"><a role="button" class="clidxboost-icon-favorite"><span><span><?php echo number_format($response_canti['count']); ?></span>Favorites</span></a></li>
 			<li id="filter-by" class="clidxboost-icon-arrow-select">
 			<span class="filter-text"><?php echo __("Highest Price", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
 			<select id="flex_filter_sort">
