@@ -2037,6 +2037,11 @@ if (!function_exists('flex_idx_get_info')) {
 
             $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool)$idxboost_agent_info['has_crm'] : false;
 
+            $output['agent']['company_footer_follow'] = isset($idxboost_agent_info['company_footer_follow']) ? (bool)$idxboost_agent_info['company_footer_follow'] : false;
+            $output['agent']['company_sps_footer_follow'] = isset($idxboost_agent_info['company_sps_footer_follow']) ? (bool)$idxboost_agent_info['company_sps_footer_follow'] : false;
+            $output['agent']['company_footer_name'] = isset($idxboost_agent_info['company_footer_name']) ? $idxboost_agent_info['company_footer_name'] : null;
+            $output['agent']['company_sps_footer_name'] = isset($idxboost_agent_info['company_sps_footer_name']) ? $idxboost_agent_info['company_sps_footer_name'] : null;
+
             $output['agent']['restriction_idx'] = isset($idxboost_agent_info['restriction_idx']) ? $idxboost_agent_info['restriction_idx'] : "0";
             $output['agent']['broker_title_associate'] = isset($idxboost_agent_info['broker_title_associate']) ? $idxboost_agent_info['broker_title_associate'] : "";
             $output['agent']['broker_exclude_listings'] = isset($idxboost_agent_info['broker_exclude_listings']) ? $idxboost_agent_info['broker_exclude_listings'] : "";
@@ -5838,7 +5843,7 @@ if (!function_exists('idxboost_collection_list_fn')) {
         $access_token = flex_idx_get_access_token();
         $filter_id = $_POST['building_id'];
         $limit = $_POST['limit'];
-        $version = isset($_POST['version']) ? $_POST['version'] : '1';
+        $version = isset($_POST['version']) ? $_POST['version'] : '0';
         $building_id = md5($filter_id);
         $path_feed = UPLOAD_DIR_WP . 'feed/';
 
@@ -7891,7 +7896,7 @@ function insert_assets_head_dashtodash_sc() {
 
         $content = $post->post_content;
 
-        if ( has_shortcode( $content, 'new_development_collections' ) ) { ?>
+        if ( has_shortcode( $content, 'dashtodash' ) ) { ?>
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.js?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.js"); ?>" /></script>  
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/fonts/icons/style.css?ver='.iboost_get_mod_time("react/dash-to-dash/fonts/icons/style.css"); ?>" />      
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.css?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.css"); ?>" />                  

@@ -2169,6 +2169,8 @@ add_filter( 'template_include', function( $template ) {
     if ( get_query_var( 'idxparamnewdevelopment' ) == false || get_query_var( 'idxparamnewdevelopment' ) == '' ) {
         return $template;
     }else{
+
+        $post = empty($post) ?  (object) ["ID" => 0 ] : $post;
         
         $post->post_type='flex-idx-pages';
         $post->post_content='[new_development_collections]';//no realiza impresion mas que para referenciar libreria

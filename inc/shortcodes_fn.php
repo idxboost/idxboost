@@ -3394,7 +3394,7 @@ if (!function_exists('flex_idx_filter_sc')) {
             'view' => $send_param_view,
             'page' => $page,
             'dom' => $atts["dom"],
-            'pending' => $atts["pending"],
+            'hide_pending' => $atts["pending"],
             'idx' => $param_url,
             'county' => $atts["county"],
             'photo_res' => $atts["photo-res"],
@@ -5859,5 +5859,5 @@ if (!function_exists('dashtodash_sc')) {
         return ob_get_clean();
     }
     add_action('wp_head', 'insert_assets_head_dashtodash_sc', 1);
-    add_shortcode('new_development_collections', 'dashtodash_sc');
+    add_shortcode('dashtodash', 'dashtodash_sc');
 }
