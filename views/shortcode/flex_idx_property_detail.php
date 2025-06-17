@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://idxboost.com/custom_player/0001/css/index.css" type="text/css" media="all"/>
 <style>
   .ib-idx-info{
     order: 5
@@ -858,6 +859,11 @@
             -->
           <div class="ib-plist-details -border">
             <div class="ib-plist-card">
+              <?php if (wp_is_mobile()) {
+                if (!empty($response['url_video'])){ ?>
+                  <div class="ms-wrapper-property-video" data-video="<?php echo $response['url_video']; ?>" data-poster="<?php echo $response['image_video']; ?>" data-action="<?php echo $response['autoplay_video']; ?>"></div>
+                <?php }
+              } ?>
               <h2 class="ib-plist-card-title"><?php echo __('Basic Information', IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
               <ul class="ib-plist-list -basic">
                 
@@ -2053,6 +2059,13 @@
         </div>
       </div>
       <div class="aside ib-mb-show">
+
+        <?php if (!wp_is_mobile()) {
+          if (!empty($response['url_video'])){ ?>
+            <div class="ms-wrapper-property-video" data-video="<?php echo $response['url_video']; ?>" data-poster="<?php echo $response['image_video']; ?>" data-action="<?php echo $response['autoplay_video']; ?>"></div>
+          <?php }
+        } ?>
+
         <div class="ms-form-detail msModalDetail">
           <div class="form-content">
             <div class="ms-sf-modal-header ms-sf-ct">
@@ -2639,6 +2652,24 @@
         elemBottom = elemTop + $(elem).height();
         return ((elemBottom > docViewTop) && (elemTop < docViewBottom));
       }
+
+      function initCustomPlayers() {
+        const players = document.querySelectorAll(".ms-custom-player");
+        const observerOptions = { root: null, rootMargin: "0px", threshold: 0.25 };
+
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const container = entry.target;
+              const index = [...players].indexOf(container);
+              new CustomPlayer(container, index);
+              obs.unobserve(container);
+            }
+          });
+        }, observerOptions);
+
+        players.forEach(player => observer.observe(player));
+      }
       
       $(window).load(function() { 
         loadMapLocation(); 
@@ -2657,6 +2688,42 @@
           var calc_mg = calculate_mortgage(pp, dp, ty, ir);
           console.log(calc_mg);
           $(".ib-price-calculator").text("$" + calc_mg.monthly+"/mo");
+
+
+          const videoWrappers = jQuery('.ms-wrapper-property-video');
+
+          if (videoWrappers.length) {
+            videoWrappers.each(function () {
+              const $this = jQuery(this);
+              const videoUrl = $this.attr("data-video");
+              const videoPoster = $this.attr("data-poster");
+              const videoAction = $this.attr("data-action");
+              if (videoAction === "1") {
+                $this.empty().html(`
+                  <div class="ms-custom-player" data-src="${videoUrl}" data-autoplay="true" data-muted="true" data-loop="true"></div>
+                `);
+                initCustomPlayers();
+              } else {
+                $this.html(`
+                  <div class="ms-wrapper-video-property">
+                    <img src="${videoPoster}" alt="Video">
+                    <button class="ms-btn-play-video idx-icon-play js-play-video-property" 
+                            aria-label="Play Video" 
+                            data-video="${videoUrl}">
+                    </button>
+                  </div>
+                `);
+              }
+            });
+          }
+
+          jQuery(document).on("click", ".js-play-video-property", function () {
+            const videoUrl = jQuery(this).attr("data-video");
+            jQuery(this).parents(".ms-wrapper-property-video").empty().html(`
+              <div class="ms-custom-player" data-src="${videoUrl}" data-autoplay="true" data-muted="false" data-loop="true"></div>
+            `);
+            initCustomPlayers();
+          });
   
       });
       $(window).scroll(function() { loadMapLocation(); });
@@ -2807,3 +2874,6 @@
 
   })(jQuery);
 </script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script type="text/javascript" src="https://idxboost.com/custom_player/0001/js/index.min.js"></script>
