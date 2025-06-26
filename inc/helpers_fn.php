@@ -5675,13 +5675,13 @@ if (!function_exists('ib_boost_dinamic_data_xhr_fn')) {
 if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
     function ib_boost_dinamic_data_agent_office_xhr_fn()
     {
-        global $wp, $wpdb;
+        global $wp, $wpdb, $flex_idx_info;
         $access_token = flex_idx_get_access_token();
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $board_id = $flex_idx_info['board_id'];
 
         $sendParams = array(
             'access_token' => $access_token,
-
             'flex_credentials' => $flex_lead_credentials,
             'office_id' => $_POST["office_id"],
             'months_back' => $_POST["months_back"],
@@ -5695,19 +5695,76 @@ if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
             'limit' => $_POST["limit_carousel"],
             'county' => $_POST["county"],
             'photo_res' => $_POST["photo-res"],
-            'page' => $_POST["page"]
+            'page' => $_POST["page"],
+            'board_id' => $board_id
         );
 
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        $response = json_decode($server_output, true);
-        curl_close($ch);
+        if ($idx_v == "1") {
+
+              $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+              ];
+
+                $curlToken = curl_init();
+                curl_setopt_array($curlToken, array(
+                  CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => '',
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 0,
+                  CURLOPT_FOLLOWLOCATION => true,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => 'POST',
+                  CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                  CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                  ),
+                ));
+            $responseToken = @json_decode(curl_exec($curlToken),true);
+            curl_close($curlToken);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_V2_ELASTIC,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS => json_encode($sendParams),
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: '.$access_token_service
+              ),
+            ));
+
+            $response_service = curl_exec($curl);
+            $response = @json_decode($response_service, true);
+
+
+        }else{
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS );
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+            $server_output = curl_exec($ch);
+            $response = json_decode($server_output, true);
+            curl_close($ch);
+        }
+
+
         ob_start();
         wp_send_json($response);
         exit;
@@ -6222,6 +6279,11 @@ function flex_idx_filter_page_xhr_fn()
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
+    $hide_pending = isset($_POST['hide_pending']) ? (int)$_POST['hide_pending'] : "default";
+    $dom = isset($_POST['dom']) ? (int)$_POST['dom'] : "default";
+    $county = isset($_POST['county']) ? (int)$_POST['county'] : "";
+    $photores = isset($_POST['photores']) ? (int)$_POST['photores'] : "default";
+
     if (!empty($_POST['limit'])) $limit = $_POST['limit'];
     else     $limit = 'default';
     $access_token = flex_idx_get_access_token();
@@ -6256,6 +6318,10 @@ function flex_idx_filter_page_xhr_fn()
         'access_token' => $access_token,
         'flex_credentials' => $flex_lead_credentials,
         'version_endpoint' => 'new',
+        'hide_pending' => $hide_pending,
+        'dom' => $dom,
+        'county' => $county,
+        'photo_res' => $photores,
         'data' => array(
             'ip_address' => $ip_address,
             'url_referer' => $referer,
@@ -6269,6 +6335,7 @@ function flex_idx_filter_page_xhr_fn()
         'view' => isset($params['view']) ? $params['view'] : 'grid',
         'sort' => isset($params['sort']) ? $params['sort'] : 'price-desc',
     );
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $enpoint);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -8771,6 +8838,7 @@ if (!function_exists('idxboost_cms_setup')) {
         global $flex_idx_info, $post;
 
         $idxboost_cms_theme = 'standard';
+        if (get_option("idxboost_cms_company") == 'avanti') $idxboost_cms_theme = 'ip-theme-avanti';
         if (get_option("idxboost_cms_company") == 'compass') $idxboost_cms_theme = 'ip-theme-compass';
         if (get_option("idxboost_cms_company") == 'resf') $idxboost_cms_theme = 'ip-theme-resf';
 

@@ -81,7 +81,12 @@
   <input type="hidden" name="filter_search_url_params" value='<?php echo flex_get_filter_url_params(); ?>'>
   <?php endif; ?> 
   <input type="hidden" name="search_count" id="search_count" value="<?php echo $response['counter']; ?>">
-  
+    
+  <input type="hidden" name="hide_pending" id="hide_pending" value="<?php echo $atts["pending"]; ?>">
+  <input type="hidden" name="dom" id="dom" value="<?php echo $atts["dom"]; ?>">
+  <input type="hidden" name="county" id="county" value="<?php echo $atts["county"]; ?>">
+  <input type="hidden" name="photores" id="idx_photores" value="<?php echo $atts["photo-res"]; ?>">
+
   <input type="hidden" name="idx[min_price]" id="idx_min_price" value="<?php echo $response['info']['min_price']; ?>">
   <input type="hidden" name="idx[max_price]" id="idx_max_price" value="<?php echo $response['info']['max_price']; ?>">
   

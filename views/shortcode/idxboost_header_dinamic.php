@@ -26,6 +26,7 @@ if ( is_array($result) && count($result) > 0 ) {
 
 <script>
     <?php
+    $is_avanti = strpos($template_id, "avanti");
     $is_compass = strpos($template_id, "compass");
     $is_resf = strpos($template_id, "resf");
     ?>
@@ -45,7 +46,9 @@ if ( is_array($result) && count($result) > 0 ) {
         }
     }
 
-    if ( is_numeric($is_compass) ) {
+    if ( is_numeric($is_avanti) ) {
+        echo "document.body.classList.add('ip-theme-avanti');";
+    } else if ( is_numeric($is_compass) ) {
         echo "document.body.classList.add('ip-theme-compass');";
     } else if ( is_numeric($is_resf) ) {
         echo "document.body.classList.add('ip-theme-resf');";
