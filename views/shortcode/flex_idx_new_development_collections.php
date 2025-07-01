@@ -68,4 +68,5 @@
 </script>  
 
 <div id="root-new-developments"></div>
+<div id="nd-contact-modal"></div>
 

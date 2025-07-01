@@ -7930,6 +7930,10 @@ function insert_assets_head_new_search_filter()
                     <?php } 
         }
 
+        if ($idx_v == "1" && has_shortcode( $content, 'idx_boost_agent_office' )  ) {
+            $is_load_map = true;
+        }
+
         if ($idx_v == "1" && $typeAssets != "slider" ) { ?>
                         <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.js?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.js"); ?>" />    ></script>  
                         <?php if(!$is_load_map) { ?>

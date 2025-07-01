@@ -54,6 +54,7 @@
 
 
 	window.idx_main_settings = {
+		paths: '<?php echo FLEX_IDX_URI."react/dash-to-dash/"; ?>',
 		active_ai : '<?php echo $ia_search; ?>',
 		force_registration: Boolean(<?php echo $force_registration; ?>),
 		force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
