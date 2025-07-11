@@ -409,20 +409,22 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
               </ul>
             </div>
             <?php 
-            if ( wp_is_mobile() ) {
-            if (
-                array_key_exists('payload', $response) && 
-                array_key_exists('hackbox', $response['payload']) && 
-                is_array($response['payload']['hackbox']) && 
-                array_key_exists('status', $response['payload']['hackbox'] ) 
-                && $response['payload']['hackbox']['status'] != false
-              ) { ?>
-
-              <div class="ib-wrap-hackbox-building">
-                <?php 
-                echo $response['payload']['hackbox']['result']['content']; ?>
-              </div>
-            <?php }} ?>
+              if ( wp_is_mobile() ) {
+                if (
+                  array_key_exists('payload', $response) && 
+                  array_key_exists('hackbox', $response['payload']) && 
+                  is_array($response['payload']['hackbox']) && 
+                  array_key_exists('status', $response['payload']['hackbox'] ) 
+                  && $response['payload']['hackbox']['status'] != false
+                ) {
+                    ?>
+                    <div class="ib-wrap-hackbox-building">
+                      <?php echo $response['payload']['hackbox']['result']['content']; ?>
+                    </div>
+                    <?php 
+                  }
+              } 
+            ?>
 
           <div class="panel-options" style="padding: 0">
             <div class="options-list">
@@ -1003,7 +1005,10 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                 </li>
               <?php } ?>
 
-              <?php if (
+              
+              <?php 
+              if ( ! wp_is_mobile() ) {
+                if (
                 array_key_exists('payload', $response) &&
                 array_key_exists('hackbox', $response['payload']) &&
                 is_array($response['payload']['hackbox']) &&
@@ -1015,7 +1020,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                   <?php
                   echo $response['payload']['hackbox']['result']['content']; ?>
                 </li>
-              <?php } ?>
+              <?php }} ?>
 
             </ul>
 
