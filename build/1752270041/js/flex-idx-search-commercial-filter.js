@@ -6188,6 +6188,17 @@ function handleFilterSearchLookup(event) {
 				// IB_GMAP_FIT_TO_BOUNDS = false;
 			}
 
+			// TODO: refactor this function. This avoid display hackbox form behind the items
+			if (window.idxpages && window.idxpages.hackbox) {
+				if (typeof window.idxpages.hackbox.addPortal === 'function') {
+					window.idxpages.hackbox.addPortal();
+				}
+
+				if (typeof window.idxpages.hackbox.handleModal === 'function') {
+					window.idxpages.hackbox.handleModal();
+				}
+			}
+
 			// @todo
 			/*
 			if (false === IB_GMAP_BOUNDS_LOADED) {

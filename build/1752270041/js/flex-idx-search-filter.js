@@ -4217,52 +4217,52 @@ function handleFilterSearchLookup(event) {
 			dataAlert=response;
 			dataAlert.params.active_property_type
 
-//remove property type no active
-jQuery(".ib-types-options li, #ib-flex-m-types li").each(function(params) {
-    
-    if(jQuery(this).find("input").val() == "2" ){
-        
-        if( !response.params.active_property_type.includes("homes") ){
-            jQuery(this).remove();
-        }
-    }
+			//remove property type no active
+			jQuery(".ib-types-options li, #ib-flex-m-types li").each(function(params) {
+				
+				if(jQuery(this).find("input").val() == "2" ){
+					
+					if( !response.params.active_property_type.includes("homes") ){
+						jQuery(this).remove();
+					}
+				}
 
-     if(jQuery(this).find("input").val() == "1" ){
-        
-        if( !response.params.active_property_type.includes("condos") ){
-            jQuery(this).remove();
-        }
-    }
-    
-     if(jQuery(this).find("input").val() == "mf" ){
-        
-        if( !response.params.active_property_type.includes("multifamily") ){
-            jQuery(this).remove();
-        }
-    }
-    
-     if(jQuery(this).find("input").val() == "valand" ){
-        
-        if( !response.params.active_property_type.includes("vacantland") ){
-            jQuery(this).remove();
-        }
-    }
-    
-     if(jQuery(this).find("input").val() == "tw" ){
-        
-        if( !response.params.active_property_type.includes("townhouse") ){
-            jQuery(this).remove();
-        }
-    }
-    
-     if(jQuery(this).find("input").val() == "co_op" ){
-        
-        if( !response.params.active_property_type.includes("co_op") ){
-            jQuery(this).remove();
-        }
-    }    
-})
-//remove property type no active
+				if(jQuery(this).find("input").val() == "1" ){
+					
+					if( !response.params.active_property_type.includes("condos") ){
+						jQuery(this).remove();
+					}
+				}
+				
+				if(jQuery(this).find("input").val() == "mf" ){
+					
+					if( !response.params.active_property_type.includes("multifamily") ){
+						jQuery(this).remove();
+					}
+				}
+				
+				if(jQuery(this).find("input").val() == "valand" ){
+					
+					if( !response.params.active_property_type.includes("vacantland") ){
+						jQuery(this).remove();
+					}
+				}
+				
+				if(jQuery(this).find("input").val() == "tw" ){
+					
+					if( !response.params.active_property_type.includes("townhouse") ){
+						jQuery(this).remove();
+					}
+				}
+				
+				if(jQuery(this).find("input").val() == "co_op" ){
+					
+					if( !response.params.active_property_type.includes("co_op") ){
+						jQuery(this).remove();
+					}
+				}    
+			})
+			//remove property type no active
 
 			if (typeof IS_SEARCH_FILTER_CARROUSEL !== "undefined") {
 				// console.dir(response);
@@ -5209,6 +5209,17 @@ jQuery(".ib-types-options li, #ib-flex-m-types li").each(function(params) {
 				}
 				
 				// IB_GMAP_FIT_TO_BOUNDS = false;
+			}
+
+			// TODO: refactor this function. This avoid display hackbox form behind the items
+			if (window.idxpages && window.idxpages.hackbox) {
+				if (typeof window.idxpages.hackbox.addPortal === 'function') {
+					window.idxpages.hackbox.addPortal();
+				}
+
+				if (typeof window.idxpages.hackbox.handleModal === 'function') {
+					window.idxpages.hackbox.handleModal();
+				}
 			}
 
 			// @todo

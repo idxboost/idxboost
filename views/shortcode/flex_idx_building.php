@@ -1692,5 +1692,16 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   jQuery(document).on("click", ".shareBtn", function() {
     jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
   });
+
+  // TODO: refactor this function. This avoid display hackbox form behind the items
+  if (window.idxpages && window.idxpages.hackbox) {
+    if (typeof window.idxpages.hackbox.addPortal === 'function') {
+      window.idxpages.hackbox.addPortal();
+    }
+
+    if (typeof window.idxpages.hackbox.handleModal === 'function') {
+      window.idxpages.hackbox.handleModal();
+    }
+  }
 </script>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

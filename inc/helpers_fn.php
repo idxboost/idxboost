@@ -2045,7 +2045,9 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['restriction_idx'] = isset($idxboost_agent_info['restriction_idx']) ? $idxboost_agent_info['restriction_idx'] : "0";
             $output['agent']['broker_title_associate'] = isset($idxboost_agent_info['broker_title_associate']) ? $idxboost_agent_info['broker_title_associate'] : "";
             $output['agent']['broker_exclude_listings'] = isset($idxboost_agent_info['broker_exclude_listings']) ? $idxboost_agent_info['broker_exclude_listings'] : "";
-            
+            $output['agent']['dash_to_dash_api_key'] = isset($idxboost_agent_info['dash_to_dash_api_key']) ? $idxboost_agent_info['dash_to_dash_api_key'] : "";
+            $output['agent']['dash_to_dash_app_id'] = isset($idxboost_agent_info['dash_to_dash_app_id']) ? $idxboost_agent_info['dash_to_dash_app_id'] : "";
+
             // social info
             #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
             #$output['social'] = flex_map_array($list_social_info);
@@ -6279,9 +6281,9 @@ function flex_idx_filter_page_xhr_fn()
     $params = isset($_POST['idx']) ? $_POST['idx'] : array();
     $filter_ID = isset($_POST['filter_ID']) ? (int)$_POST['filter_ID'] : 0;
     $filter_type = isset($_POST['filter_type']) ? (int)$_POST['filter_type'] : 0;
-    $hide_pending = isset($_POST['hide_pending']) ? (int)$_POST['hide_pending'] : "default";
-    $dom = isset($_POST['dom']) ? (int)$_POST['dom'] : "default";
-    $county = isset($_POST['county']) ? (int)$_POST['county'] : "";
+    $hide_pending = isset($_POST['hide_pending']) ? $_POST['hide_pending'] : "default";
+    $dom = isset($_POST['dom']) ? $_POST['dom'] : "default";
+    $county = isset($_POST['county']) ? $_POST['county'] : "";
     $photores = isset($_POST['photores']) ? (int)$_POST['photores'] : "default";
 
     if (!empty($_POST['limit'])) $limit = $_POST['limit'];

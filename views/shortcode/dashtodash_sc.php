@@ -37,6 +37,8 @@
 
 	<?php 
 		$force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
+		$dash_to_dash_api_key = isset($flex_idx_info["agent"]["dash_to_dash_api_key"]) ? $flex_idx_info["agent"]["dash_to_dash_api_key"] : "";
+		$dash_to_dash_app_id = isset($flex_idx_info["agent"]["dash_to_dash_app_id"]) ? $flex_idx_info["agent"]["dash_to_dash_app_id"] : "";
 	 	$force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
 		$signup_left_clicks = ( $force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
 	
@@ -63,7 +65,11 @@
 		agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
 		access_token:"<?php echo $api_idx_access_token; ?>",
 		board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>
-	}	
+	}
+    window.idx_dash_to_dash_settings = {
+        company_api_key:"<?php echo $dash_to_dash_api_key; ?>",
+        company_app_id:"<?php echo $dash_to_dash_app_id; ?>",
+    }
 	window.idxtoken="<?php echo $access_token_service; ?>";
 
 </script>  
