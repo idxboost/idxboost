@@ -252,8 +252,8 @@ if ("undefined" !== typeof IB_PAGE_PROPERTY_DETAIL) {
 		if (false === (window.parent != window)) {
 			// not in a iframe
 			if ("yes" === __flex_g_settings.anonymous) {
-				var IB_CURRENT_LEFT_CLICKS = parseInt(Cookies.get("_ib_left_click_force_registration"), 10);
-				Cookies.set("_ib_left_click_force_registration", IB_CURRENT_LEFT_CLICKS + 1);
+				// var IB_CURRENT_LEFT_CLICKS = parseInt(Cookies.get("_ib_left_click_force_registration"), 10);
+				// Cookies.set("_ib_left_click_force_registration", IB_CURRENT_LEFT_CLICKS + 1);
 
 				// var IB_CURRENT_LEFT_CLICKS = (parseInt(Cookies.get("_ib_left_click_force_registration"), 10) - 1);
 				// Cookies.set("_ib_left_click_force_registration", IB_CURRENT_LEFT_CLICKS);
@@ -1036,9 +1036,9 @@ function validate_price(evt) {
 
 						var lead_token = response.lead_token;
 
-						Cookies.set('ib_lead_token', lead_token, {
-							expires: 30
-						});
+						Cookies.set("_ib_left_click_force_registration", 0);
+						//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+						Cookies.set('ib_lead_token', lead_token);
 
 						// if available history menu for lead
 						if (jQuery("#ib-lead-history-menu-btn").length) {
@@ -1428,9 +1428,9 @@ function validate_price(evt) {
 					if (response.success === true) {           
 						var lead_token = response.lead_token;
 
-						Cookies.set('ib_lead_token', lead_token, {
-							expires: 30
-						});
+						Cookies.set("_ib_left_click_force_registration", 0);
+						//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+						Cookies.set('ib_lead_token', lead_token);
 
 						$(".close").click();
 						var text_mailbox='';
@@ -1519,10 +1519,10 @@ function validate_price(evt) {
 									Cookies.set("_ib_left_click_force_registration", 0);
 								}
 
+								Cookies.set("_ib_left_click_force_registration", 0);
 								// stores into cookies current lead token
-								Cookies.set('ib_lead_token', response.lead_token, {
-									expires: 30
-								});
+								//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+								Cookies.set('ib_lead_token', lead_token);
 
 								// if available history menu for lead
 								if (jQuery("#ib-lead-history-menu-btn").length) {
@@ -1927,10 +1927,11 @@ function validate_price(evt) {
 								Cookies.set("_ib_left_click_force_registration", 0);
 							}
 
+							Cookies.set("_ib_left_click_force_registration", 0);
+
 							// stores into cookies current lead token
-							Cookies.set('ib_lead_token', response.lead_token, {
-								expires: 30
-							});
+							//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+							Cookies.set('ib_lead_token', lead_token);
 
 							// if available history menu for lead
 							if (jQuery("#ib-lead-history-menu-btn").length) {
@@ -2627,6 +2628,8 @@ function validate_price(evt) {
 		$(document).on("click", ".flex-logout-link", function(event) {
 			event.preventDefault();
 			//socket.unsubscribe(__flex_g_settings.pusher.presence_channel);
+			console.log('logout triggered');
+			//alert('[error] event propagation click on document parent');
 			
 			Cookies.remove('ib_lead_token');
 			Cookies.remove("_ib_user_firstname");
@@ -3582,6 +3585,8 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 		}
 
 		// if user has logged out
+		// TODO: this block of code conflicts
+		/*
 		if('yes' === __flex_g_settings.anonymous) {
 			// remove cookies
 			Cookies.remove('ib_lead_token');
@@ -3594,6 +3599,7 @@ $(document.body).on('click', '#clidxboost-modal-search', ()=>{
 
 			Cookies.remove("social_register");
 		}
+		*/
 	});
 
 	/*MENU DE AÑOS CALCULADORA*/
@@ -4428,4 +4434,9 @@ jQuery(document).on("click", ".js-tab-amt", function(event) {
 	jQuery(".js-body-amt").removeClass("active");
 	jQuery(dataTab).addClass("active");
 	jQuery(this).addClass("active");
+});
+
+jQuery(document).on('click', 'body.openHistoryMenu .ms-overlay.js-toggle-menu', function(event){
+	event.preventDefault();
+	jQuery(".ms-history-menu-btn-back").trigger("click");
 });

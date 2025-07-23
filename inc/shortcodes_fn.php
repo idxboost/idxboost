@@ -2636,7 +2636,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $facebook_share_url = '//www.facebook.com/sharer/sharer.php';
             $facebook_share_params = http_build_query(array(
                 'u' => $property_permalink,
-                'picture' => $property['gallery'][0],
+                'picture' => ( ($idx_v == 1) ? $property['imagens'][0] : $property['gallery'][0] ),
                 'title' => $property['address_short'] . ' ' . $property['address_large'],
                 'caption' => $site_title,
                 'description' => $property['remark'],

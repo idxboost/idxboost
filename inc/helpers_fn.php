@@ -2047,6 +2047,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['broker_exclude_listings'] = isset($idxboost_agent_info['broker_exclude_listings']) ? $idxboost_agent_info['broker_exclude_listings'] : "";
             $output['agent']['dash_to_dash_api_key'] = isset($idxboost_agent_info['dash_to_dash_api_key']) ? $idxboost_agent_info['dash_to_dash_api_key'] : "";
             $output['agent']['dash_to_dash_app_id'] = isset($idxboost_agent_info['dash_to_dash_app_id']) ? $idxboost_agent_info['dash_to_dash_app_id'] : "";
+            $output['agent']['disclaimer_fub'] = isset($idxboost_agent_info['disclaimer_fub']) ? $idxboost_agent_info['disclaimer_fub'] : "";
 
             // social info
             #$list_social_info = $wpdb->get_results('SELECT `key`,`value` FROM flex_idx_settings WHERE `key` LIKE "%_social_url"', ARRAY_A);
@@ -2329,9 +2330,8 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                                         <?php } ?>
 
                                         <?php if (!empty($encode_token)) { ?>
-                                        Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>", {
-                                            expires: 30
-                                        });
+                                        Cookies.set("_ib_left_click_force_registration", 0);
+                                        Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>");
                                         <?php
                                         $_COOKIE['ib_lead_token'] = $encode_token;
                                         } ?>
@@ -7876,6 +7876,8 @@ function insert_assets_head_new_search_filter()
         $content = $post->post_content;
         $is_load_map = false;
 
+        $typeAssets = "default";
+
         /*
         $version_map_search_filter = "1";
 
@@ -7895,7 +7897,7 @@ function insert_assets_head_new_search_filter()
             )  && $idx_v == "1" ) { 
 
             $is_load_map = true;
-            $typeAssets = "default";
+            
             
 
                 //validation to get data mode slider and load assets slider no default assets
@@ -7936,7 +7938,7 @@ function insert_assets_head_new_search_filter()
             $is_load_map = true;
         }
 
-        if ($idx_v == "1" && $typeAssets != "slider" ) { ?>
+        if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode( $content, 'flex_idx_property_detail' ) ) { ?>
                         <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.js?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.js"); ?>" />    ></script>  
                         <?php if(!$is_load_map) { ?>
                         <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>

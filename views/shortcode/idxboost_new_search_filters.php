@@ -3,6 +3,7 @@
 	var IB_IS_SEARCH_FILTER_PAGE = true;
   var IB_SEARCH_FILTER_PAGE = true;
   var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
+  var initial_href;
 
   jQuery(function() {
     if (true === IB_SEARCH_FILTER_PAGE) {
@@ -39,6 +40,10 @@
 	//var_dump($force_registration_forced);
 	?>
 
+	__flex_idx_search_filter_v2 = {
+		searchFilterPermalink : '<?php echo get_permalink(); ?>',
+	};
+	
 
 	window.idx_main_settings = {
 		paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',

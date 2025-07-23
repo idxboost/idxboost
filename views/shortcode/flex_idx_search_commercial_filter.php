@@ -476,10 +476,10 @@ $idx_contact_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']
                     </div>
                   </div>
                   <div class="ms-property-call-action">
-                    <div class="ib-requestinfo ib-phbtn"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                    <button class="ib-requestinfo ib-phbtn"><?php echo __("Inquire", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                   </div>
-                  <div class="ib-pbtnopen ib-phbtn" data-permalink="{{ propertyPermalink slug }}"><?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
-                  <div class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></div>
+                  <a href="{{ propertyPermalink slug }}" class="ib-phbtn -order" target="_blank"><i class="idx-icon-open"></i> <?php echo __("Open", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+                  <button class="ib-pbtnclose ib-phbtn"><?php echo __("Close", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 </div>
               </div>
             </div>

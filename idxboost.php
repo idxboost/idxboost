@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 5.0.6
+ * Version: 5.0.7
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -151,7 +151,7 @@ define('FLEX_IDX_API_COMMERCIAL_SEARCH_V2_LOOKUP', FLEX_IDX_BASE_URL . '/commerc
 define('FLEX_IDX_API_SEARCH_FILTER', FLEX_IDX_BASE_URL . '/search_filter_lookup');
 define('FLEX_IDX_API_SEARCH_COMMERCIAL_FILTER', FLEX_IDX_BASE_URL . '/search_commercial_filter_lookup');
 define('FLEX_IDX_API_SEARCH_LISTING', FLEX_IDX_BASE_URL . '/listings/{{mlsNumber}}');
-define('FLEX_IDX_API_PROPERTY_DETAIL_V2', FLEX_IDX_API_SEARCH_FILTER_V2 . '/property/detail');
+define('FLEX_IDX_API_PROPERTY_DETAIL_V2', FLEX_IDX_API_SEARCH_FILTER_V2 . '/property/v2/detail');
 define('FLEX_IDX_API_SEARCH_TRACK', FLEX_IDX_BASE_URL . '/listings/{{mlsNumber}}/track');
 define('FLEX_IDX_API_SEARCH_FILTER_SAVE', FLEX_IDX_BASE_URL . '/listings/{{filterId}}/save');
 define('FLEX_IDX_API_REGULAR_FILTER_SAVE', FLEX_IDX_BASE_URL . '/filter/{{filterId}}/auto_save');
@@ -224,7 +224,7 @@ function iboost_print_googlerecaptcha()
             if (!isset($flex_idx_info['agent']['recaptcha_site_key']) || empty($flex_idx_info['agent']['recaptcha_site_key'])) {
                 return;
             }
-            
+
             $output = <<<HTML
             <script src="https://www.google.com/recaptcha/enterprise.js?render={$flex_idx_info['agent']['recaptcha_site_key']}"></script>
             HTML;

@@ -131,6 +131,7 @@
         if (true === IB_HAS_LEFT_CLICKS) {
         //if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) <= 0) && ("yes" === __flex_g_settings.anonymous)) {
         if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) >= parseInt(__flex_g_settings.signup_left_clicks, 10)) && ("yes" === __flex_g_settings.anonymous)) {
+            console.log('force modal on property page');
             if (__flex_g_settings.hasOwnProperty("force_registration_forced") && ("yes" == __flex_g_settings.force_registration_forced)) {
               $("#modal_login").find(".close").remove();
             }
@@ -461,7 +462,12 @@
               $text_to_rent='';
               if($property['is_rental'] != 0)
               $text_to_rent='/'.__("month", IDXBOOST_DOMAIN_THEME_LANG);
-              echo number_format($property['price']).$text_to_rent; ?>
+              if( $idx_v == "1" && $property["mls_status"] == "2" ) { 
+                echo number_format($property['price_sold']).$text_to_rent;
+              }else{
+                echo number_format($property['price']).$text_to_rent; 
+              }
+              ?>
             <!--
               <div class="ib-pipasking">
                 <div class="ib-pipatxt -mobile">
@@ -1982,40 +1988,12 @@
               <div id="googleMap" class="ms-map" data-real-type="mapa" data-img="googleMap" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
             </div>
           </div>
-          <?php if (!empty($property['related_items'])) : ?>
-          <div class="similar-properties">
+          
+
+          <div class="similar-properties" id="similar-properties">
             <h2 class="title-similar-list"><?php echo __("Similar Properties For", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $property['is_rental'] == 1 ? __("Rent", IDXBOOST_DOMAIN_THEME_LANG) : __("Sale", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-            <ul class="ms-sf-similar-properties-list">
-              <?php foreach ($property['related_items'] as $rel_item) : ?>
-              <li class="ms-sf-item">
-                <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
-                <a class="ms-sf-property-card" href="<?php echo $agent_permalink; ?>/property/<?php echo $rel_item['slug']; ?>">
-                  <?php else: ?>
-                <a class="ms-sf-property-card" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/<?php echo $rel_item['slug']; ?>">
-                  <?php endif; ?>
-                  <div class="ms-sf-property-card-dody" title="View Detail of 6470 Oxford Circle #102, Vero Beach, FL 32966">
-                    <div class="ms-sf-property-card-slider">
-                      <img src="<?php echo ( ($idx_v == 1 ) ? $rel_item['imagens'][0] : $rel_item['gallery'][0] ); ?>" alt="<?php echo str_replace('# ' , '#', $rel_item['address_short']); ?>" style="object-fit: cover; background-color: white;">
-                    </div>
-                    <div class="ms-sf-property-card-info">
-                      <div class="ms-sf-property-card-price">$<?php echo number_format($rel_item['price']); ?></div>
-                      <div class="ms-sf-property-card-detail">
-                        <div class="ms-sf-property-card-item"><strong><?php echo $rel_item['bed']; ?></strong> Beds</div>
-                        <div class="ms-sf-property-card-item"><strong><?php echo $rel_item['bath']; ?><?php if ($rel_item['baths_half'] > 0) : ?>.5<?php endif; ?></strong> Baths</div>
-                        <div class="ms-sf-property-card-item"><strong><?php echo number_format($rel_item['sqft']); ?></strong> Sq.Ft</div>
-                      </div>
-                      <div class="ms-sf-property-card-address">
-                        <?php echo str_replace('# ', '#', $rel_item['address_short']); ?>,
-                        <?php echo $rel_item['address_large']; ?>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <?php endforeach; ?>
-            </ul>
+            <ul class="ms-sf-similar-properties-list"></ul>
           </div>
-          <?php endif; ?>
 
           <?php if( in_array($flex_idx_info["board_id"], ["13","14"]) ){ ?>
           <div class="ib-idx-info">
@@ -2181,7 +2159,7 @@
                           <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                         </div>
                         <div class="ms-fub-disclaimer">
-                          <p><?php echo __("I agree to receive marketing and customer service calls and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" rel="nofollow" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a>.</p>
+                          <p><?php echo $flex_idx_info['agent']['disclaimer_fub']; ?></p>
                         </div>
                       </div>
                     </li>
@@ -2289,6 +2267,96 @@
     jQuery(".title-conteiner.-sticky").css({'top':header_size});
     jQuery(".ms-sf-view-actions").css({'top':header_size + 70});
   });
+
+function number_format(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function loadRelatedProperties() {
+    var settingsRelatedProperty = {
+    "url": "<?php echo FLEX_IDX_API_SEARCH_FILTER_V2.'/property/related_items'; ?>",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+        "mls_num": '<?php echo $property["mls_num"]; ?>',
+        "board_id": <?php echo $flex_idx_info["board_id"]; ?>
+    }),
+    };
+
+    jQuery.ajax(settingsRelatedProperty).done(function (response) {
+    console.log(response);
+    if (response.length > 0){
+        jQuery("#similar-properties").show();
+
+        var listPropertyRelated = [];
+
+    response.forEach(rel_item => {
+
+        var bath = rel_item.bath+( (rel_item.baths_half > 0  ) ? .5 : null );
+        var sqft = number_format(rel_item.sqft);
+        var price = number_format(rel_item.price);
+        var imagens = rel_item.hasOwnProperty("imagens") ? rel_item["imagens"][0] : rel_item["gallery"][0];
+        var address_short = rel_item.address_short;
+        var slug = rel_item.slug;
+
+        listPropertyRelated.push('<li class="ms-sf-item">');
+        <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
+        listPropertyRelated.push('<a class="ms-sf-property-card" href="<?php echo $agent_permalink; ?>/property/"'+slug+'>');
+        <?php else: ?>
+        listPropertyRelated.push('<a class="ms-sf-property-card" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/"'+slug+'>');
+        <?php endif; ?>
+        listPropertyRelated.push('<div class="ms-sf-property-card-dody" title="'+rel_item.full_address+'">');
+        listPropertyRelated.push('<div class="ms-sf-property-card-slider">');
+        listPropertyRelated.push('<img src="'+imagens+'" alt="'+address_short+'" style="object-fit: cover; background-color: white;">');
+                        listPropertyRelated.push('</div>');
+        listPropertyRelated.push('<div class="ms-sf-property-card-info">');
+                        listPropertyRelated.push('<div class="ms-sf-property-card-price">$'+price+'</div>');
+                        listPropertyRelated.push('<div class="ms-sf-property-card-detail">');
+                            listPropertyRelated.push('<div class="ms-sf-property-card-item"><strong>'+rel_item.bed+'</strong> Beds</div>');
+                            listPropertyRelated.push('<div class="ms-sf-property-card-item"><strong>'+bath+'</strong> Baths</div>');
+                            listPropertyRelated.push('<div class="ms-sf-property-card-item"><strong>'+sqft+'</strong> Sq.Ft</div>');
+                        listPropertyRelated.push('</div>');
+                        listPropertyRelated.push('<div class="ms-sf-property-card-address">');
+                            listPropertyRelated.push(address_short+",")
+                            listPropertyRelated.push(rel_item.address_large)
+                        listPropertyRelated.push('</div>');
+                        listPropertyRelated.push('</div>');
+                    listPropertyRelated.push('</div>');
+                    listPropertyRelated.push('</a>');
+                listPropertyRelated.push('</li>');
+            });
+
+
+        jQuery(".ms-sf-similar-properties-list").html(listPropertyRelated.join(""));
+    }
+    
+
+
+    });    
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const target = document.querySelector("#similar-properties");
+    if (!target) {
+        console.warn("Elemento #similar-properties no encontrado");
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                loadRelatedProperties();
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+
+    observer.observe(target);
+});
+
 </script>
 <!--
   <script type="text/javascript">
@@ -2874,6 +2942,50 @@
 
   })(jQuery);
 </script>
+<!--
+//TODO: Esta es una solución temporal para ejecutar el modal del registro en modo force cuando nos encontramos en el bord de Canadá y en un SOLD property
+se debe mejorar la validación de SOLD ya que esta solución captura el termino "sold" de la url, a futuro este valor ya no estará presente en la misma
+-->
+<?php if (in_array($flex_idx_info["board_id"],["36"])){ ?>
+<script>
+  setTimeout(function() { 
+
+    if (window.location.href.toLowerCase().includes("sold")) {
+      jQuery(".lg-register").trigger("click");
+
+      // Activamos el modal y configuramos las pestañas
+      jQuery("#modal_login").addClass("active_modal").find('[data-tab]').removeClass('active');
+      jQuery("#modal_login").find('[data-tab]:eq(1)').addClass('active');
+
+      jQuery("#modal_login").find(".item_tab").removeClass("active");
+
+      jQuery("#tabRegister").addClass("active");
+
+      // Asignamos contenido al mensaje
+      jQuery("#modal_login #msRst").empty().html(jQuery("#mstextRst").html());
+
+      // Modificamos botones y apariencia
+      jQuery("button.close-modal").addClass("ib-close-mproperty");
+      jQuery(".overlay_modal").css("background-color", "rgba(0,0,0,0.8)");
+
+      // Asignamos el título de la pestaña activa
+      jQuery("#modal_login h2").html(jQuery("#modal_login").find('[data-tab]:eq(1)').data("text-force"));
+
+      // Asignamos el texto personalizado del encabezado
+      var titleText = jQuery(".header-tab a[data-tab='tabRegister']").attr('data-text');
+      jQuery("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
+
+      // Quitamos botón de cerrar personalizado
+      jQuery("#modal_login .ib-close-mproperty").remove();
+
+      // Deshabilitamos interacción con overlay
+      jQuery("#modal_login .overlay_modal_closer").css({ 'pointer-events': 'none' });
+    }
+
+  }, 900);
+</script>
+<?php } ?>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script type="text/javascript" src="https://idxboost.com/custom_player/0001/js/index.min.js"></script>

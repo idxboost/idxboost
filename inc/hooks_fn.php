@@ -399,3 +399,5 @@ function add_type_attribute_display_filter_fn($tag, $handle, $src) {
 }
 
 // ******************* APPS REACT *******************//
+
+add_filter( 'wp_speculation_rules_configuration', '__return_null' );

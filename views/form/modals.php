@@ -452,7 +452,7 @@
                             data-type="standard"
                             data-shape="rectangular"
                             data-theme="outline"
-                            data-text="$ {button.text}"
+                            data-text="signin_with"
                             data-size="large"
                             data-logo_alignment="left"
                             data-width="360"
@@ -507,7 +507,7 @@
                     <label for="follow_up_boss_valid_register" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("I agree to receive marketing and customer service calls and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" rel="nofollow" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a>.</p>
+                    <p><?php echo $flex_idx_info['agent']['disclaimer_fub']; ?></p>
                   </div>
                 </div>
               </div>
@@ -840,7 +840,7 @@
                         <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                       </div>
                       <div class="ms-fub-disclaimer">
-                        <p><?php echo __("I agree to receive marketing and customer service calls and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" rel="nofollow" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a>.</p>
+                        <p><?php echo $flex_idx_info['agent']['disclaimer_fub']; ?></p>
                       </div>
                     </div>
                   </li>
@@ -1724,6 +1724,8 @@ function handleCredentialResponse(token) {
                     }
 
                     if (response.success === true) {
+
+
                       if ("signup" === response.logon_type) {
                         if (typeof dataLayer !== "undefined") {
                           dataLayer.push({'event': 'google_register'});
@@ -1735,8 +1737,10 @@ function handleCredentialResponse(token) {
                       }
 
                       idx_auto_save_building(response);
-                      
-                      Cookies.set('ib_lead_token', response.lead_token, { expires: 30 });
+
+                      Cookies.set("_ib_left_click_force_registration", 0);
+                      // Cookies.set('ib_lead_token', response.lead_token, { expires: 30 });
+                        Cookies.set('ib_lead_token', response.lead_token);
 
                         // if available history menu for lead
                         if (jQuery("#ib-lead-history-menu-btn").length) {
@@ -1996,7 +2000,7 @@ function handleCredentialResponse(token) {
 
                         setTimeout(function () {
                             if (typeof originalPositionY !== "undefined") {
-                              if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
+                              if (!jQuery(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
                                 console.log('restoring to: ' + originalPositionY);
                                 window.scrollTo(0,originalPositionY);
                               }
@@ -2550,10 +2554,12 @@ function fb_login() {
                               dataLayer.push({'event': 'facebook_signin'});
                             }
                           }
-                          
-                            Cookies.set('ib_lead_token', response.lead_token, {
-                              expires: 30
-                            });
+
+                            Cookies.set("_ib_left_click_force_registration", 0);
+                            Cookies.set('ib_lead_token', response.lead_token);
+                            // Cookies.set('ib_lead_token', response.lead_token, {
+                            //   expires: 30
+                            // });
 
                             // if available history menu for lead
                             if (jQuery("#ib-lead-history-menu-btn").length) {
@@ -3017,7 +3023,7 @@ function fb_logout() {
                     <label for="follow_up_boss_valid_register_" aria-label="Follow Up Boss"></label>
                   </div>
                   <div class="ms-fub-disclaimer">
-                    <p><?php echo __("I agree to receive marketing and customer service calls and text messages from", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idxboost_term_condition["company_name"]; ?> <?php echo __("Consent is not a condition of purchase. Msg/data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="/terms-and-conditions/#atospp-privacy" rel="nofollow" target="_blank"><?php echo __("Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?></a> & <a href="/terms-and-conditions/#follow-up-boss" rel="nofollow" target="_blank"><?php echo __("Terms of Service", IDXBOOST_DOMAIN_THEME_LANG); ?></a>.</p>
+                    <p><?php echo $flex_idx_info['agent']['disclaimer_fub']; ?></p>
                   </div>
                 </div>
               </div>
@@ -3362,7 +3368,17 @@ $(function() {
 
   <ul class="features">
     <li class="address">{{{DFhandleFormatAddress this}}}</li>
-    <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental status }}</li>
+      
+      <?php if( $idx_v == "1" ) {  ?>
+        {{#if ../is_sold}}
+          <li class="price">{{DFformatPrice price_sold}} {{DFrentalType is_rental status }}</li>
+        {{else}}
+          <li class="price">{{DFformatPrice price_sold}} {{DFrentalType is_rental status }}</li>
+        {{/if}}
+      <?php }else{ ?>
+        <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental status }}</li>
+      <?php } ?>
+    
     {{{DFidxReduced reduced}}}
     <li class="beds">{{bed}} <?php echo __('beds', IDXBOOST_DOMAIN_THEME_LANG); ?><span></span></li>
     <li class="baths">{{bath}} {{DFformatBathsHalf baths_half}} <span><?php echo __('baths', IDXBOOST_DOMAIN_THEME_LANG); ?> </span></li>
