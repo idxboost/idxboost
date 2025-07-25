@@ -2950,7 +2950,8 @@ se debe mejorar la validación de SOLD ya que esta solución captura el termino 
 <script>
   setTimeout(function() { 
 
-    if (window.location.href.toLowerCase().includes("sold")) {
+    if (window.location.href.toLowerCase().includes("sold") && !jQuery("body").hasClass("logged")) {
+      // Simula clic en botón de registro
       jQuery(".lg-register").trigger("click");
 
       // Activamos el modal y configuramos las pestañas
@@ -2958,7 +2959,6 @@ se debe mejorar la validación de SOLD ya que esta solución captura el termino 
       jQuery("#modal_login").find('[data-tab]:eq(1)').addClass('active');
 
       jQuery("#modal_login").find(".item_tab").removeClass("active");
-
       jQuery("#tabRegister").addClass("active");
 
       // Asignamos contenido al mensaje
@@ -2969,16 +2969,17 @@ se debe mejorar la validación de SOLD ya que esta solución captura el termino 
       jQuery(".overlay_modal").css("background-color", "rgba(0,0,0,0.8)");
 
       // Asignamos el título de la pestaña activa
-      jQuery("#modal_login h2").html(jQuery("#modal_login").find('[data-tab]:eq(1)').data("text-force"));
+      const tabText = jQuery("#modal_login").find('[data-tab]:eq(1)').data("text-force");
+      jQuery("#modal_login h2").html(tabText);
 
       // Asignamos el texto personalizado del encabezado
-      var titleText = jQuery(".header-tab a[data-tab='tabRegister']").attr('data-text');
+      const titleText = jQuery(".header-tab a[data-tab='tabRegister']").attr('data-text');
       jQuery("#modal_login .modal_cm .content_md .heder_md .ms-title-modal").html(titleText);
 
-      // Quitamos botón de cerrar personalizado
+      // Quitamos botón de cerrar personalizado (por si quedó uno duplicado)
       jQuery("#modal_login .ib-close-mproperty").remove();
 
-      // Deshabilitamos interacción con overlay
+      // Deshabilitamos interacción con overlay closer
       jQuery("#modal_login .overlay_modal_closer").css({ 'pointer-events': 'none' });
     }
 

@@ -1522,7 +1522,7 @@ function validate_price(evt) {
 								Cookies.set("_ib_left_click_force_registration", 0);
 								// stores into cookies current lead token
 								//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
-								Cookies.set('ib_lead_token', lead_token);
+								Cookies.set('ib_lead_token', response.lead_token);
 
 								// if available history menu for lead
 								if (jQuery("#ib-lead-history-menu-btn").length) {
