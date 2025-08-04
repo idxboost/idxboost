@@ -822,7 +822,7 @@ Handlebars.registerHelper("DFidxPermalink", function(slug) {
 
 					var contentData = {
 				      properties:response.items,
-				      is_sold: true
+				      is_sold: false
 				  	};
 				  	//TEMPLATE PROPERTY
 					var sourcePro = Handlebars.compile(IB_COMMERCIAL.html());

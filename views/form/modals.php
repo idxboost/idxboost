@@ -3373,7 +3373,7 @@ $(function() {
         {{#if ../is_sold}}
           <li class="price">{{DFformatPrice price_sold}} {{DFrentalType is_rental status }}</li>
         {{else}}
-          <li class="price">{{DFformatPrice price_sold}} {{DFrentalType is_rental status }}</li>
+          <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental status }}</li>
         {{/if}}
       <?php }else{ ?>
         <li class="price">{{DFformatPrice price}} {{DFrentalType is_rental status }}</li>

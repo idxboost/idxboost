@@ -1,3 +1,20 @@
+const TRACKING_PARAMS = [
+  "gad_source",
+  "gad_campaignid",
+  "gbraid",
+  "gclid",
+];
+
+function getCleanHref() {
+  const url = new URL(window.location.href);
+  for (const param of TRACKING_PARAMS) {
+    url.searchParams.delete(param);
+  }
+  return url.toString();
+}
+
+
+
 // @todo last opened property
 var lastOpenedProperty;
 // @todo load property modal function

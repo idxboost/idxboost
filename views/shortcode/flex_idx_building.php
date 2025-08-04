@@ -601,6 +601,15 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                 <li class="item-list"> <span><?php echo __('Average Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span class="ib_inventory_days_market">0</span></li>
                 <?php } ?>
                 <li class="item-list"> <span><?php echo __('City', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $response['payload']['city_building_name']; ?></span></li>
+                  <?php  if (
+                      !empty($response) &&
+                      is_array($response) &&
+                      !empty($response['payload']) &&
+                      is_array($response['payload']) &&
+                      !empty($response['payload']['development'])
+                  ) { ?>
+                      <li class="item-list"> <span><?php echo __('Developer', IDXBOOST_DOMAIN_THEME_LANG); ?></span><span><?php echo $response['payload']['development']; ?></span></li>
+                  <?php   } ?>
               </ul>
             </div>
             <?php if (!empty($amenities_build)): ?>

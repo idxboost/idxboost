@@ -4442,7 +4442,7 @@ if (style_map_idxboost != undefined && style_map_idxboost != '') {
                     search_wp_web_id: __flex_idx_search_filter_v2.wp_web_id,
                     flex_credentials: Cookies.get("ib_lead_token"),
                     search_filter_id: IB_SEARCH_FILTER.data("filter-id"),
-                    search_url: search_url,
+                    search_url: getCleanHref(),
                     search_count: search_count,
                     search_condition: search_condition,
                     search_name: search_name,
