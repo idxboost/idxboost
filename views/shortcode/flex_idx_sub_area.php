@@ -57,7 +57,7 @@
   if (array_key_exists('payload', $response)) { 
     if (array_key_exists('property_display_sold', $response['payload'])) { 
         $property_display_sold=$response['payload']['property_display_sold'];
-        if (@count($response['payload']['properties']['sale']['items']) <= 0 || @count($response['payload']['properties']['rent']['items']) <= 0) { 
+        if ((is_array($response['payload']['properties']['sale']['items']) && @count($response['payload']['properties']['sale']['items']) <= 0) || (is_array($response['payload']['properties']['rent']['items']) && @count($response['payload']['properties']['rent']['items']) <= 0)) { 
           if ($property_display_sold=='list') 
             $response['payload']['modo_view']=2;  
           else

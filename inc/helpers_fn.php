@@ -3483,6 +3483,8 @@ if (!function_exists('flex_idx_connect_fn')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_VERIFY_CREDENTIALS);
         curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
@@ -6683,10 +6685,10 @@ if (!function_exists('flex_idx_register_assets')) {
         // cookies manager
         wp_register_script('flex-cookies-manager', FLEX_IDX_URI . 'js/vendor/js.cookie.min.js', array(), iboost_get_mod_time("js/vendor/js.cookie.min.js"), true);
         // pusher
-//        wp_register_script('flex-pusher-js', '//js.pusher.com/4.1/pusher.min.js', array(), false, true);
+        //    wp_register_script('flex-pusher-js', '//js.pusher.com/4.1/pusher.min.js', array(), false, true);
         // auth check
         wp_register_script('flex-auth-check', FLEX_IDX_URI . 'js/flex-auth-check.js', array(
-//            'flex-pusher-js',
+            //    'flex-pusher-js',
             'flex-cookies-manager',
             'jquery',
             'underscore',
@@ -7019,7 +7021,6 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', 'style_map_idxboost', $descr_tools_map_style);
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
-
             'site_name' => get_bloginfo('name'),
             'registration_key' => get_option('idxboost_registration_key'),
             'api_new_developments' => FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL,
@@ -7111,7 +7112,6 @@ if (!function_exists('flex_idx_register_assets')) {
         // flex autocomplete [end]
 
         wp_register_style('flex-idx-single-property-collection-css', FLEX_IDX_URI . 'css/single-property.min.css', array(), iboost_get_mod_time("css/single-property.min.css"));
-
 
         // Build detail page
         wp_register_style('flex-idx-building-floorplan', FLEX_IDX_URI . 'css/floorplan.min.css', array(), iboost_get_mod_time("css/floorplan.min.css"));
@@ -7349,7 +7349,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
         ));
 
-
         wp_localize_script('idxboost_filter_boost', 'flex_idx_filter_params', array(
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
@@ -7380,7 +7379,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/")
         ));
 
-
         wp_localize_script('idxboost_recent_sales_dinamic', '__flex_idx_recent_sales', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'rk' => get_option('flex_idx_alerts_keys'),
@@ -7388,7 +7386,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'agentFullName' => $flex_idx_info["agent"]["agent_first_name"] . " " . $flex_idx_info["agent"]["agent_last_name"],
             'agentPhoto' => $flex_idx_info["agent"]["agent_contact_photo_profile"],
             'agentPhone' => $flex_idx_info["agent"]["agent_contact_phone_number"],
-            'lookupAgentRecentSold' => FLEX_IDX_API_AGENT_LISTINGS_SOLD_V2,
+            'lookupAgentRecentSold' => ($idx_v == "1") ? FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_V2_ELASTIC : FLEX_IDX_API_AGENT_LISTINGS_SOLD_V2,
             'propertyDetailPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"),
             'accessToken' => flex_idx_get_access_token(),
             'boardId' => $flex_idx_info['board_id'],
@@ -7419,7 +7417,6 @@ if (!function_exists('flex_idx_register_assets')) {
             //'leadCountryCodePhoneNumber' => (!empty($flex_idx_lead["lead_info"]["country_code_phone"])) ? $flex_idx_lead["lead_info"]["country_code_phone"] : ""
         ));
 
-
         wp_register_script('flex-idx-sub-area-inventory-js', FLEX_IDX_URI . 'js/idxboost-sub-area-collection.js', array(
             'underscore-mixins',
             'underscore',
@@ -7448,7 +7445,6 @@ if (!function_exists('flex_idx_register_assets')) {
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
 
-
         wp_register_script('slider-single-property-collection-js', FLEX_IDX_URI . 'js/flex-slider-single-property.js', array(
             'underscore-mixins',
             'underscore',
@@ -7461,7 +7457,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'get-video-id-js'
             //'flex-idx-slider',
         ), iboost_get_mod_time("js/idxboost-single-property-collection.js"));
-
 
         wp_localize_script('flex-idx-building-inventory-js', 'word_translate', $translation_array);
         wp_localize_script('flex-idx-building-inventory-js', 'idxboost_collection_params', array(
@@ -7633,7 +7628,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'sitewp' => get_permalink()
         ));
 
-
         wp_localize_script('idxboost_slider_type', 'idx_param_slider', array(
             'endpoint_v3' => FLEX_IDX_DISPLAY_FILTER_V3,
             'endpoint_v2' => FLEX_IDX_DISPLAY_FILTER_V2_old,
@@ -7717,7 +7711,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'sitewp' => get_permalink()
         ));
 
-
         wp_localize_script('ib_slider_filter_boost_agent_office', 'idx_param_slider', array(
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
@@ -7736,7 +7729,6 @@ if (!function_exists('flex_idx_register_assets')) {
             'searchPermalink' => rtrim($flex_idx_info["pages"]["flex_idx_search"]["guid"], "/"),
             'sitewp' => get_permalink()
         ));
-
 
         wp_localize_script('idxboost_exclusive_listing', 'flex_idx_filter_params', array(
             'rk' => get_option('flex_idx_alerts_keys'),
@@ -7864,6 +7856,9 @@ if (!function_exists('flex_idx_register_assets')) {
         //wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
         //wp_register_style("idxboost-search-filter-reactjs-style", FLEX_IDX_URI . "react/new_search_filter/assets/style.css", array(), iboost_get_mod_time("react/new_search_filter/assets/style.css"));
 
+        // Custom Player
+        wp_register_script('custom-player', FLEX_IDX_URI . 'js/vendor/custom-player/custom-player.js', '', iboost_get_mod_time('js/vendor/custom-player/custom-player.js'), true);
+        wp_register_style('custom-player', FLEX_IDX_URI . 'js/vendor/custom-player/custom-player.css', '', iboost_get_mod_time('js/vendor/custom-player/custom-player.css'), false);
     }
 }
 
@@ -7961,6 +7956,31 @@ function insert_assets_head_new_development_collections() {
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>" /></script>  
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new-developments/fonts/icons/style.css"); ?>" />      
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>" />                  
+<?php 
+        }
+}
+
+function insert_assets_head_new_collections_properties() {
+        global $flex_idx_info, $post;
+
+        $content = $post->post_content;
+
+        if ( has_shortcode( $content, 'new_collections_properties' ) ) { ?>
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections/bundle.js?ver='.iboost_get_mod_time("react/collections/bundle.js"); ?>" /></script>            
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections/bundle.css?ver='.iboost_get_mod_time("react/collections/bundle.css"); ?>" />                  
+<?php 
+        }
+}
+
+function insert_assets_head_new_collections_properties_details() {
+        global $flex_idx_info, $post;
+
+        $content = $post->post_content;
+
+        if ( has_shortcode( $content, 'new_collections_properties_details' ) ) { ?>
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.js?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.js"); ?>" /></script>      
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.css?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.css"); ?>" />
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.css"); ?>" />               
 <?php 
         }
 }
@@ -10490,12 +10510,11 @@ if (!function_exists('idxboost_language_default_plugin')) {
     add_filter('locale', 'idxboost_language_default_plugin');
 }
 
-
-
 add_action( 'after_setup_theme', 'my_languagues_setup' );
-        if (!defined('IDXBOOST_DOMAIN_THEME_LANG')) {
-            define('IDXBOOST_DOMAIN_THEME_LANG', 'idxboost');
-        }
+if (!defined('IDXBOOST_DOMAIN_THEME_LANG')) {
+    define('IDXBOOST_DOMAIN_THEME_LANG', 'idxboost');
+}
+
 function my_languagues_setup(){
     if(get_locale() != "en_EN" ){
         load_textdomain( IDXBOOST_DOMAIN_THEME_LANG, FLEX_IDX_PATH.'/languages/'.get_locale().'.mo' );

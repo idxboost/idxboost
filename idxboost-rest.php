@@ -13,6 +13,9 @@ class IDXBoost_REST_API_Endpoints
     const API_DELETE_PAGES = '/delete_page';
     const API_REPLACE_FAVICON = '/replace_favicon';
     const API_REPLACE_URL_SITE = '/replace_url_site';
+    const API_ADD_PROPERTY_GROUP = '/add_property_group';
+    const API_UPDATE_PROPERTY_GROUP = '/update_property_group';
+    const API_DELETE_PROPERTY_GROUP = '/delete_property_group';
 
 
     public static function registerEndpoints()
@@ -34,6 +37,24 @@ class IDXBoost_REST_API_Endpoints
         register_rest_route($dns_api_rest_name_version, self::API_GET_POST, array(
             'methods' => WP_REST_Server::CREATABLE,
             'callback' => ['IDXBoost_REST_API_Endpoints', 'getPost'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
+        ));
+
+        register_rest_route($dns_api_rest_name_version, self::API_ADD_PROPERTY_GROUP, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'addPropertyGroup'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
+        ));
+
+        register_rest_route($dns_api_rest_name_version, self::API_UPDATE_PROPERTY_GROUP, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'updatePropertyGroup'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
+        ));
+
+        register_rest_route($dns_api_rest_name_version, self::API_DELETE_PROPERTY_GROUP, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'deletePropertyGroup'],
             'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
 
@@ -440,6 +461,189 @@ class IDXBoost_REST_API_Endpoints
         }
 
         return new WP_REST_Response($response);
+    }
+
+
+    public static function addPropertyGroup(WP_REST_Request $request)
+    {
+        $reg_key    = sanitize_text_field($_POST['reg_key']);
+        $post_title = sanitize_text_field($_POST['post_title']);
+        $group_id = sanitize_text_field($_POST['group_id']);
+        $post_name = sanitize_title($post_title);
+
+        if (!$reg_key || !$post_title) {
+            return new WP_REST_Response([
+                'status' => 400,
+                'message' => 'Bad Request',
+                'data' => []
+            ]);
+        }
+
+        if (get_option('idxboost_registration_key') != $reg_key) {
+            return new WP_REST_Response([
+                'status' => '403',
+                'message' => 'Forbidden',
+                'data' => []
+            ]);
+        }
+
+        $current_user_id = get_current_user_id();
+        $post_status = 'publish';
+        $post_type = 'flex-idx-pages';
+
+        $post_id = wp_insert_post(array(
+            'post_title' => $post_title,
+            'post_name' => $post_name,
+            'post_content' => '[list_property_collection column="two"]',
+            'post_status' => $post_status,
+            'post_author' => $current_user_id,
+            'post_type' => $post_type
+        ));
+
+        update_post_meta($post_id, '_flex_id_page', 'flex_idx_page_our_property_collection');
+
+        add_post_meta($group_id, 'property_collection_group_id', $group_id);
+
+
+        if (is_wp_error($post_id)) {
+            return WP_REST_Response([
+                'status' => 500,
+                'message' => 'Some error was occurred while creating the post',
+                'data' => $post_id->get_error_messages()
+            ]);
+        }
+
+        // Obtener permalink
+        $permalink = get_permalink($post_id);
+        return new WP_REST_Response([
+            'status' => 200,
+            'message' => 'Post successfully created',
+            'data' => [
+                'post_id' => $post_id,
+                'post_name' => $post_name,
+                'permalink' => $permalink
+            ]
+        ]);
+    }
+
+    public static function updatePropertyGroup(WP_REST_Request $request)
+    {
+        $reg_key    = sanitize_text_field($_POST['reg_key']);
+        $post_id    = intval($_POST['post_id']);
+        $post_title = sanitize_text_field($_POST['post_title']);
+        $group_id = sanitize_text_field($_POST['group_id']);
+
+        if (!$post_id || !$post_title) {
+            return new WP_REST_Response([
+                'status'  => 400,
+                'message' => 'Bad Request',
+                'data'    => []
+            ]);
+        }
+
+        if (get_option('idxboost_registration_key') != $reg_key) {
+            return new WP_REST_Response([
+                'status' => '403',
+                'message' => 'Forbidden',
+                'data' => []
+            ]);
+        }
+
+        $post = get_post($post_id);
+        if (!$post) {
+            return [
+                'status'  => 404,
+                'message' => 'Post no encontrado',
+                'data'    => []
+            ];
+        }
+
+        $post_name = sanitize_title($post_title);
+
+        // Actualizar post
+        $updated_post = [
+            'ID'         => $post_id,
+            'post_title' => $post_title,
+            'post_name'  => $post_name
+        ];
+
+        $result = wp_update_post($updated_post, true);
+
+
+        update_post_meta($post_id, 'property_collection_group_id', $group_id);
+
+        if (is_wp_error($result)) {
+            return WP_REST_Response([
+                'status' => 500,
+                'message' => 'Some error was occurred while creating the post',
+                'data' => $post_id->get_error_messages()
+            ]);
+        }
+
+        // Obtener permalink actualizado
+        $permalink = get_permalink($post_id);
+
+        return new WP_REST_Response([
+            'status'  => 200,
+            'message' => 'Post successfully updated',
+            'data'    => [
+                'post_id'   => $post_id,
+                'post_name' => $post_name,
+                'permalink' => $permalink
+            ]
+        ]);
+    }
+
+    public static function deletePropertyGroup(WP_REST_Request $request)
+    {
+        $reg_key = sanitize_text_field($_POST['reg_key']);
+        $post_id = intval($_POST['post_id']);
+
+        if (!$post_id) {
+            return new WP_REST_Response([
+                'status'  => 400,
+                'message' => 'Bad Request',
+                'data'    => []
+            ], 400);
+        }
+
+        // Validar API key
+        if (get_option('idxboost_registration_key') != $reg_key) {
+            return new WP_REST_Response([
+                'status'  => 403,
+                'message' => 'Forbidden',
+                'data'    => []
+            ], 403);
+        }
+
+        // Verificar que el post exista
+        $post = get_post($post_id);
+        if (!$post) {
+            return new WP_REST_Response([
+                'status'  => 404,
+                'message' => 'Post not found',
+                'data'    => []
+            ], 404);
+        }
+
+        // Eliminar post
+        $deleted = wp_delete_post($post_id, true); // true = eliminar permanentemente
+
+        if (!$deleted) {
+            return new WP_REST_Response([
+                'status'  => 500,
+                'message' => 'Error deleting the post',
+                'data'    => []
+            ], 500);
+        }
+
+        return new WP_REST_Response([
+            'status'  => 200,
+            'message' => 'Post successfully deleted',
+            'data'    => [
+                'post_id' => $post_id
+            ]
+        ], 200);
     }
 
     public static function replaceUrlSite(WP_REST_Request $request)

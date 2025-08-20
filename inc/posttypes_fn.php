@@ -103,6 +103,36 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
             
             add_option('idxboost_new_development_detail_pages', 'yes');
         }
+
+        if (false == get_option('idxboost_new_collections_properties_pages') ) {
+
+            $wp_flex_page_collections  = wp_insert_post(array(
+                'post_title' => 'Collections',
+                'post_name' => 'collections',
+                'post_content' => '[new_collections_properties]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-idx-pages"
+            ));
+            update_post_meta($wp_flex_page_collections, '_flex_id_page', 'flex_idx_new_collections_properties' );
+            
+            add_option('idxboost_new_collections_properties_pages', 'yes');
+            
+        }
+
+        if (false == get_option('idxboost_new_collections_detail_pages')) {
+            $wp_flex_page_collections_detail = wp_insert_post(array(
+                'post_title' => 'Collection',
+                'post_name' => 'collection',
+                'post_content' => '[new_collections_properties_details]',
+                'post_status' => $post_status,
+                'post_author' => $current_user_id,
+                'post_type' => "flex-idx-pages"
+            ));
+            update_post_meta($wp_flex_page_collections_detail, '_flex_id_page', 'flex_idx_new_collections_properties_details' );
+            
+            add_option('idxboost_new_collections_detail_pages', 'yes');
+        }
         
 
 
@@ -2131,32 +2161,32 @@ add_filter( 'template_include', function( $template ) {
 */
 
 
-            add_action( 'init',  function() {
-                global $wpdb,$flex_idx_info;
+add_action( 'init',  function() {
+    global $wpdb,$flex_idx_info;
 
-                //$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
+    //$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
 
-                //if ($ia_search == "1") {
-                    
-                    $search_new_developmet = $wpdb->get_var("
-                      select t1.post_name
-                      from {$wpdb->posts} t1
-                      inner join {$wpdb->postmeta} t2
-                      on t1.ID = t2.post_id
-                      where t1.post_type = 'flex-idx-pages'
-                      and t1.post_status = 'publish'
-                      and t2.meta_key = '_flex_id_page'
-                      and t2.meta_value = 'flex_idx_new_development_detail'
-                      limit 1
-                    ");
+    //if ($ia_search == "1") {
+        
+        $search_new_developmet = $wpdb->get_var("
+          select t1.post_name
+          from {$wpdb->posts} t1
+          inner join {$wpdb->postmeta} t2
+          on t1.ID = t2.post_id
+          where t1.post_type = 'flex-idx-pages'
+          and t1.post_status = 'publish'
+          and t2.meta_key = '_flex_id_page'
+          and t2.meta_value = 'flex_idx_new_development_detail'
+          limit 1
+        ");
 
-                    $GLOBALS["idx_path_development_detailt"] = $search_new_developmet;
+        $GLOBALS["idx_path_development_detailt"] = $search_new_developmet;
 
-                    add_rewrite_rule("^{$search_new_developmet}/([^/]*)/?$",'index.php?idxparamnewdevelopment=$matches[1]','top');    
+        add_rewrite_rule("^{$search_new_developmet}/([^/]*)/?$",'index.php?idxparamnewdevelopment=$matches[1]','top');    
 
-                //}
+    //}
 
-            } ); 
+} ); 
 
 
 add_filter( 'query_vars', function( $query_vars ) {
@@ -2182,6 +2212,58 @@ add_filter( 'template_include', function( $template ) {
             return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php';
         } else {
             return FLEX_IDX_PATH . '/views/shortcode/single-idx-pages-new-development.php';
+        }
+    }
+
+} );
+
+//COLLECTION PROPERTIES
+
+add_action( 'init',  function() {
+    global $wpdb,$flex_idx_info;
+        
+        $search_collection_properties = $wpdb->get_var("
+          select t1.post_name
+          from {$wpdb->posts} t1
+          inner join {$wpdb->postmeta} t2
+          on t1.ID = t2.post_id
+          where t1.post_type = 'flex-idx-pages'
+          and t1.post_status = 'publish'
+          and t2.meta_key = '_flex_id_page'
+          and t2.meta_value = 'flex_idx_new_collections_properties_details'
+          limit 1
+        ");
+
+        $GLOBALS["idx_path_collections_properties_details"] = $search_collection_properties;
+
+        add_rewrite_rule("^{$search_collection_properties}/([^/]*)/?$",'index.php?idxparamncollectionproperties=$matches[1]','top');    
+
+} ); 
+
+
+add_filter( 'query_vars', function( $query_vars ) {
+    $query_vars[] = 'idxparamncollectionproperties';
+    return $query_vars;
+} );
+
+add_filter( 'template_include', function( $template ) {
+    global $flex_idx_info, $post;
+    if ( get_query_var( 'idxparamncollectionproperties' ) == false || get_query_var( 'idxparamncollectionproperties' ) == '' ) {
+        return $template;
+    }else{
+
+        $post = empty($post) ?  (object) ["ID" => 0 ] : $post;
+        
+        $post->post_type='flex-idx-pages';
+        $post->post_content='[new_collections_properties_details"]';
+        $post->ID=0;
+        $post->post_mime_type = "flex_idx_new_collections_properties_details";
+        
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php')) {
+            return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php';
+        } else {
+            return FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_collections_properties_details.php';
         }
     }
 

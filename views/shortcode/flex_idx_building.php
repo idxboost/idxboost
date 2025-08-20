@@ -1667,15 +1667,15 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
     switch (galleryType) {
     case 2:
-      console.log("TIPO VIDEO");
+      // console.log("TIPO VIDEO");
       jQuery("#show-video").trigger("click");
       break;
     case 1:
-      console.log("TIPO MAPA");
+      // console.log("TIPO MAPA");
       jQuery("#show-map").trigger("click");
       break;
     case 0:
-      console.log("TIPO FOTO");
+      // console.log("TIPO FOTO");
       if(inventory.length){
         jQuery("#show-gallery").trigger("click");
       }else{
@@ -1706,16 +1706,5 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   jQuery(document).on("click", ".shareBtn", function() {
     jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
   });
-
-  // TODO: refactor this function. This avoid display hackbox form behind the items
-  if (window.idxpages && window.idxpages.hackbox) {
-    if (typeof window.idxpages.hackbox.addPortal === 'function') {
-      window.idxpages.hackbox.addPortal();
-    }
-
-    if (typeof window.idxpages.hackbox.handleModal === 'function') {
-      window.idxpages.hackbox.handleModal();
-    }
-  }
 </script>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

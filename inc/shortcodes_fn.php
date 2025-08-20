@@ -799,54 +799,56 @@ if (!function_exists('ib_search_filter_sc')) {
 
         // wp_enqueue_style('flex-idx-search-filter-css');
         if ($idx_v == "1") {
-
-
+            
             if ( !empty($atts["id"]) ) {
-                  
-                  $access_token = flex_idx_get_access_token();
-                  $curlParams = curl_init();
-                  curl_setopt_array($curlParams, array(
-                      CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["id"],
-                      CURLOPT_RETURNTRANSFER => true,
-                      CURLOPT_ENCODING => '',
-                      CURLOPT_MAXREDIRS => 10,
-                      CURLOPT_TIMEOUT => 0,
-                      CURLOPT_FOLLOWLOCATION => true,
-                      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                      CURLOPT_CUSTOMREQUEST => 'POST',
-                      CURLOPT_POSTFIELDS => 'access_token='.$access_token,
-                      CURLOPT_HTTPHEADER => array(
+                $access_token = flex_idx_get_access_token();
+                $curlParams = curl_init();
+                curl_setopt_array($curlParams, array(
+                    CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["id"],
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                    CURLOPT_HTTPHEADER => array(
                         'Content-Type: application/x-www-form-urlencoded'
-                      ),
-                    ));
+                    ),
+                ));
 
-                    $responseParms = @json_decode(curl_exec($curlParams) , true);
-                    curl_close($curlParams);
-                    $atts["version_filter"] = $responseParms["params"]["version_filter"];
+                $responseParms = @json_decode(curl_exec($curlParams) , true);
+                curl_close($curlParams);
+                $atts["version_filter"] = $responseParms["params"]["version_filter"];
             }
             
 
-              $paramsSSO = [
+            // Librería custom player para Hackbox que contengan videos
+            wp_enqueue_script('custom-player');
+            wp_enqueue_style('custom-player');
+              
+            $paramsSSO = [
                 "grant_type" => "client_credentials",
                 "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
                 "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
-              ];
+            ];
 
-                $curlToken = curl_init();
-                curl_setopt_array($curlToken, array(
-                  CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-                  CURLOPT_HTTPHEADER => array(
+            $curlToken = curl_init();
+            curl_setopt_array($curlToken, array(
+                CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/x-www-form-urlencoded'
-                  ),
-                ));
+                ),
+            ));
             $responseToken = @json_decode(curl_exec($curlToken),true);
             curl_close($curlToken);
             $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
@@ -856,8 +858,8 @@ if (!function_exists('ib_search_filter_sc')) {
             } else {
                 include FLEX_IDX_PATH . '/views/shortcode/idxboost_new_search_filters.php';
             }
-
-        }else{
+        
+        } else {
 
             if (isset($atts["is_commercial"]) && (1 == $atts["is_commercial"])) {
 
@@ -881,6 +883,10 @@ if (!function_exists('ib_search_filter_sc')) {
                     if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php')) {
                         include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_commercial_filter.php';
                     } else {
+                        // Librería custom player para Hackbox que contengan videos
+                        wp_enqueue_script('custom-player');
+                        wp_enqueue_style('custom-player');
+                        
                         include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_commercial_filter.php';
                     }
                 }
@@ -903,6 +909,10 @@ if (!function_exists('ib_search_filter_sc')) {
                         include FLEX_IDX_PATH . '/views/shortcode/flex_idx_search_filter_slider.php';
                     }
                 } else {
+                    // Librería custom player para Hackbox que contengan videos
+                    wp_enqueue_script('custom-player');
+                    wp_enqueue_style('custom-player');
+                    
                     if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter.php')) {
                         include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_search_filter.php';
                     } else {
@@ -3619,6 +3629,9 @@ if (!function_exists('flex_idx_filter_sc')) {
             }
         } else {
 
+            // Librería custom player para Hackbox que contengan videos
+            wp_enqueue_script('custom-player');
+            wp_enqueue_style('custom-player');
             wp_enqueue_script("ib-track-display-filter-view-js");
 
             if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter.php')) {
@@ -3924,6 +3937,10 @@ if (!function_exists('flex_idx_dinamic_boost_agent_office_sold_sc')) {
 
         $search_params = $flex_idx_info['search'];
 
+        $board_id = $flex_idx_info['board_id'];
+
+        $atts["board_id"] = $board_id;
+
         $agent_info_name = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
         $agent_last_name = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
         $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
@@ -3947,6 +3964,7 @@ if (!function_exists('flex_idx_dinamic_boost_agent_office_sold_sc')) {
             $atts["view"] = "grid";
             wp_localize_script('idxboost_recent_sales_dinamic', '__flex_rs_filter', $atts);
             wp_enqueue_script('idxboost_recent_sales_dinamic');
+            wp_enqueue_style('flex-idx-filter-pages-css');
 
             //wp_enqueue_style('flex-idx-filter-pages-css');
             //wp_localize_script('idxboost_dinamic_agent_office', 'filter_metadata', $atts );
@@ -4124,6 +4142,10 @@ if (!function_exists('flex_idx_buildind_sc')) {
 
         // load javascript file only for track event view
         wp_enqueue_script('ib-track-building-view-js');
+        
+        // Librería custom player para Hackbox que contengan videos
+        wp_enqueue_script('custom-player');
+        wp_enqueue_style('custom-player');
 
         if (array_key_exists('result_detailt_building', $GLOBALS)) {
             $response = $GLOBALS['result_detailt_building'];
@@ -4221,6 +4243,10 @@ if (!function_exists('flex_idx_sub_area_sc')) {
         
         wp_enqueue_style('flex-idx-filter-pages-css');
         add_action('wp_footer', 'ib_sub_area_footer');
+
+        // Librería custom player para Hackbox que contengan videos
+        wp_enqueue_script('custom-player');
+        wp_enqueue_style('custom-player');
 
         if (array_key_exists('result_detailt_building', $GLOBALS)) {
             $response = $GLOBALS['result_detailt_building'];
@@ -5703,68 +5729,62 @@ if (!function_exists('flex_idx_detail_agents_sc')) {
 if (!function_exists('idxboost_new_search_filters_sc')) {
     function idxboost_new_search_filters_sc($atts, $content = null)
     {
-        
-
         global $flex_idx_info;
 
         $responseParms = [];
         ob_start();
 
-            $atts = shortcode_atts(array(
-                'filter_id' => '',
-            ), $atts);
+        $atts = shortcode_atts(array(
+            'filter_id' => '',
+        ), $atts);
 
+        ob_start();
 
-          ob_start();
-
-          if ( !empty($atts["filter_id"]) ) {
-              
-              $access_token = flex_idx_get_access_token();
-              $curlParams = curl_init();
-              curl_setopt_array($curlParams, array(
-                  CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["filter_id"],
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => 'access_token='.$access_token,
-                  CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/x-www-form-urlencoded'
-                  ),
-                ));
-
-                $responseParms = @json_decode(curl_exec($curlParams) , true);
-                curl_close($curlParams);
-
-          }
-
-
-
-
-          $paramsSSO = [
-            "grant_type" => "client_credentials",
-            "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
-            "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
-          ];
-
-            $curlToken = curl_init();
-            curl_setopt_array($curlToken, array(
-              CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => '',
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 0,
-              CURLOPT_FOLLOWLOCATION => true,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => 'POST',
-              CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-              CURLOPT_HTTPHEADER => array(
+        if ( !empty($atts["filter_id"]) ) {
+            
+            $access_token = flex_idx_get_access_token();
+            $curlParams = curl_init();
+            curl_setopt_array($curlParams, array(
+                CURLOPT_URL => FLEX_IDX_BASE_URL.'/get/map_search_filter/'.$atts["filter_id"],
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/x-www-form-urlencoded'
-              ),
+                ),
             ));
+
+            $responseParms = @json_decode(curl_exec($curlParams) , true);
+            curl_close($curlParams);
+
+        }
+
+        $paramsSSO = [
+        "grant_type" => "client_credentials",
+        "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+        "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+        ];
+
+        $curlToken = curl_init();
+        curl_setopt_array($curlToken, array(
+            CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+            CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/x-www-form-urlencoded'
+            ),
+        ));
         $responseToken = @json_decode(curl_exec($curlToken),true);
         curl_close($curlToken);
         $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
@@ -5779,8 +5799,6 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
     }
 
     add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
-    
-
     add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
 }
 
@@ -5821,6 +5839,82 @@ if (!function_exists('new_development_collections_sc')) {
     }
     add_action('wp_head', 'insert_assets_head_new_development_collections', 1);
     add_shortcode('new_development_collections', 'new_development_collections_sc');
+}
+
+if (!function_exists('new_collections_properties_sc')) {
+    function new_collections_properties_sc($atts, $content = null)
+    {
+        global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'name' => '',
+            'sort' => 'price-desc'
+        ), $atts);
+
+        ob_start();
+        $list_sort = 
+        [
+            "price-desc",
+            "price-asc",
+            "completion_year-desc",
+            "building_name-asc", 
+            "building_name-desc"
+        ];
+
+        if ( !in_array( $atts["sort"] , $list_sort)) {
+            $atts["sort"] = 'price-desc';
+        }
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_collections_properties.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_new_collections_properties', 1);
+    add_shortcode('new_collections_properties', 'new_collections_properties_sc');
+}
+
+if (!function_exists('new_collections_properties_details_sc')) {
+    function new_collections_properties_details_sc($atts, $content = null)
+    {
+        global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'name' => '',
+            'sort' => 'price-desc'
+        ), $atts);
+
+        ob_start();
+        $list_sort = 
+        [
+            "price-desc",
+            "price-asc",
+            "completion_year-desc",
+            "building_name-asc", 
+            "building_name-desc"
+        ];
+
+        if ( !in_array( $atts["sort"] , $list_sort)) {
+            $atts["sort"] = 'price-desc';
+        }
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_collections_properties_details.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_new_collections_properties_details', 1);
+    add_shortcode('new_collections_properties_details', 'new_collections_properties_details_sc');
 }
 
 
