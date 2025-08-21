@@ -1033,7 +1033,7 @@
                 <?php } ?>
 
                 <?php if( ($flex_idx_info["board_id"] == "36") && ( !empty($property["more_info"]) && array_key_exists("county", $property["more_info"]) ) ){  ?>
-                <li class="icon-time">
+                <li class="icon-houses">
                   <span class="ib-plist-st"><?php echo __('Community Name', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                   <span class="ib-plist-pt"><?php echo $property["more_info"]['county']; ?></span>
                 </li>
@@ -2317,13 +2317,13 @@ function loadRelatedProperties() {
         var price = number_format(rel_item.price);
         var imagens = rel_item.hasOwnProperty("imagens") ? rel_item["imagens"][0] : rel_item["gallery"][0];
         var address_short = rel_item.address_short;
-        var slug = rel_item.slug;
+        var slug = '<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/'+rel_item.slug;
 
         listPropertyRelated.push('<li class="ms-sf-item">');
         <?php if (isset($agent_permalink) && !empty($agent_permalink)): ?>
-        listPropertyRelated.push('<a class="ms-sf-property-card" href="<?php echo $agent_permalink; ?>/property/"'+slug+'>');
+        listPropertyRelated.push('<a class="ms-sf-property-card" href="'+slug+'">');
         <?php else: ?>
-        listPropertyRelated.push('<a class="ms-sf-property-card" href="<?php echo rtrim($flex_idx_info["pages"]["flex_idx_property_detail"]["guid"], "/"); ?>/"'+slug+'>');
+        listPropertyRelated.push('<a class="ms-sf-property-card" href="'+slug+'">');
         <?php endif; ?>
         listPropertyRelated.push('<div class="ms-sf-property-card-dody" title="'+rel_item.full_address+'">');
         listPropertyRelated.push('<div class="ms-sf-property-card-slider">');

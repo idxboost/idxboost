@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'idx-icons';
-  src:  url('../fonts/icons/fonts/idx-icons.eot?wuvgc6');
-  src:  url('../fonts/icons/fonts/idx-icons.eot?wuvgc6#iefix') format('embedded-opentype'),
-    url('../fonts/icons/fonts/idx-icons.ttf?wuvgc6') format('truetype'),
-    url('../fonts/icons/fonts/idx-icons.woff?wuvgc6') format('woff'),
-    url('../fonts/icons/fonts/idx-icons.svg?wuvgc6#idx-icons') format('svg');
+  src:  url('../fonts/icons/fonts/idx-icons.eot?r6hn4b');
+  src:  url('../fonts/icons/fonts/idx-icons.eot?r6hn4b#iefix') format('embedded-opentype'),
+    url('../fonts/icons/fonts/idx-icons.ttf?r6hn4b') format('truetype'),
+    url('../fonts/icons/fonts/idx-icons.woff?r6hn4b') format('woff'),
+    url('../fonts/icons/fonts/idx-icons.svg?r6hn4b#idx-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.idx-icon-houses:before {
+  content: "\e99d";
+}
 .idx-icon-logout-exit:before {
   content: "\e99b";
 }
