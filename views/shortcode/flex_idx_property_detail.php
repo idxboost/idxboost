@@ -1,4 +1,29 @@
 <link rel="stylesheet" href="https://idxboost.com/custom_player/0001/css/index.css" type="text/css" media="all"/>
+<script>
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+function setCookie(name, value, days = 7) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+}
+
+let cookieValue = getCookie('_ib_left_click_force_registration');
+
+if (cookieValue && !isNaN(cookieValue)) {
+  // Si existe y es numérico, incrementar en 1
+  let newValue = parseInt(cookieValue, 10) + 1;
+  setCookie('_ib_left_click_force_registration', newValue);
+} else {
+  // Si no existe o no es numérico, establecer en 1
+  setCookie('_ib_left_click_force_registration', 1);
+}
+
+</script>
 <style>
   .ib-idx-info{
     order: 5
@@ -126,7 +151,6 @@
       var currentUrl = new URLSearchParams(location.search);
       var disablePopup = currentUrl.has('nonmodal') ? true : false;
       //console.log(currentUrl.has('nonmodal=yes'))
-  
       if (false === disablePopup) {
         if (true === IB_HAS_LEFT_CLICKS) {
         //if ((parseInt(Cookies.get("_ib_left_click_force_registration"), 10) <= 0) && ("yes" === __flex_g_settings.anonymous)) {
