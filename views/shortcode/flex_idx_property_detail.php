@@ -529,16 +529,19 @@ if (cookieValue && !isNaN(cookieValue)) {
             <span class="ib-piltxt -min"><?php echo __("Bed", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
           <li class="ib-pilitem ib-pilbaths">
-            <?php  if ($idx_v != "1" && ($idx_v == "1" && $flex_idx_info["board_id"] != "36") ) { ?>
-            <span class="ib-pilnumber ib-mobile-bath-both"><?php echo ( ( floatval($property["baths_half"]) > 0 ) ?  floatval($property['bath'])+0.5 : $property['bath'] ) ; ?></span>
-          <?php  }else{ ?>
             <span class="ib-pilnumber ib-mobile-bath-both"><?php echo $property['bath'] ; ?></span>
-              <?php } ?>
+            <?php
+              if ($idx_v != "1" || ($idx_v == "1" && $flex_idx_info["board_id"] != "36") ) { ?>
+            <span class="ib-pilnumber ib-mobile-bath"><?php echo ( ( floatval($property["baths_half"]) > 0 ) ?  floatval($property['bath'])+0.5 : $property['bath'] ) ; ?></span>
+          <?php  }else{ ?>
             <span class="ib-pilnumber ib-mobile-bath"><?php echo $property['bath']; ?></span>
+          <?php } ?>
+
+            
             <span class="ib-piltxt"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span> 
             <span class="ib-piltxt -min"><?php echo __("Bath", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
           </li>
-           <?php  if ($idx_v != "1" && ($idx_v == "1" && $flex_idx_info["board_id"] != "36") ) { ?>
+           <?php  if ($idx_v != "1" || ($idx_v == "1" && $flex_idx_info["board_id"] != "36") ) { ?>
 
             <li class="ib-pilitem ib-pilhbaths ms-hidden-mb">
               <span class="ib-pilnumber"><?php echo $property['baths_half']; ?></span>
