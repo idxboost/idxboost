@@ -7039,6 +7039,7 @@ if (!function_exists('flex_idx_register_assets')) {
             'api_get_ip_lead' => IDX_BOOST_GET_COUNTRY_LEAD,
 
             'request_form_rentals' => FLEX_IDX_API_INQUIRY_PROPERTY_FORM,
+            'ib_building_collection_api' => FLEX_IDX_API_SEARCH_FILTER_V2."/building/collection_custom",
 
             'signup_left_clicks' => (isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : null),
             'force_registration_forced' => (isset($flex_idx_info["agent"]["force_registration_forced"]) && ("1" == $flex_idx_info["agent"]["force_registration_forced"])) ? "yes" : "no",

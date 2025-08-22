@@ -4163,6 +4163,8 @@ if (!function_exists('flex_idx_buildind_sc')) {
             $GLOBALS['result_detailt_building'] = $response;
         }
 
+        wp_localize_script('flex-idx-building-js', 'ib_detail_building', $GLOBALS['result_detailt_building'] );
+
         $search_params = $flex_idx_info['search'];
 
         $agent_info_name = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';

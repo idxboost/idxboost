@@ -23,7 +23,8 @@
     search_settings:<?php echo json_encode($idxboost_search_settings); ?>,
     agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
     access_token:"<?php echo $api_idx_access_token; ?>",
-    board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>
+    board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
+    paths: '<?php echo FLEX_IDX_URI . "react/collections_detail/"; ?>',
   } 
 </script>
 
