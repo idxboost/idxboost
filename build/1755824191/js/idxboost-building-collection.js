@@ -1,3 +1,8 @@
+var response_raw_sale = [];
+var response_raw_rental = [];
+var response_raw_pending = [];
+var response_raw_sold = [];
+
 var html_slider_building=[];
 //let listbedsold=[],listbedpending=[],listbedsale=[],listbedrent=[];
 let listbed = {sale:[],rent:[],pending:[],sold:[]};
@@ -244,6 +249,450 @@ function ib_change_view(view,tab){
   
   idxboosttabview();
   ib_call_object_change++;
+}
+
+function hasAnyCountGreaterThanZero(data) {
+  const properties = data.payload.properties;
+  
+  return Object.values(properties).some(prop => prop.count > 0);
+}
+
+
+function ib_init_script_elastic() {
+  Promise.all([
+    callApiIndividual("sale"),
+    callApiIndividual("rental"),
+    callApiIndividual("pending"),
+    callApiIndividual("sold")
+  ]).then(responses => {
+    console.log("Todas las llamadas se completaron:", responses );
+
+var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
+
+  var response = {
+  "payload": { 
+    "new_template" : "",
+    "modo_view": "1",
+    "type_building" : "0",
+    "type_gallery": "1",
+
+    "meta" :{
+      "sale_min_max_price" : {
+        "min" : response_raw_sale["avg"]["min_price"],
+        "max" : response_raw_sale["avg"]["max_price"]
+      },
+      "avg_price_sqft" : response_raw_sale["avg"]["sqft"],
+      "building_dom_days" : response_raw_sale["avg"]["sum_adoms"],
+      "building_avg_days" : (buildingDomDays > 0) ? Math.round(buildingDomDays / response_raw_sale["_count"]) : 0
+    },
+    "properties": {
+      "sale": {
+        "count": response_raw_sale["_count"],
+        "items": response_raw_sale["items"]
+      },
+      "rent": {
+        "count": response_raw_rental["_count"],
+        "items": response_raw_rental["items"]
+      },
+      "pending": {
+        "count": response_raw_pending["_count"],
+        "items": response_raw_pending["items"]
+      },
+      "sold": {
+        "count": response_raw_sold["_count"],
+        "items": response_raw_sold["items"]
+      }
+    }
+  }
+};
+
+window.response_building = response
+
+  var tot_sale=0, tot_rent=0,tot_sold=0,tot_porc=0,tot_porc_label=0,label_price='';
+  $('.aside .property-information .price, .wp-statisticss, .condo-statics, .idxboost-collection-show-desktop, .fbc-group, #filter-views, .ib_content_views_building, .js-title-building-pre-construction').hide();
+    if(ib_building_inventory.load_item=='ajax'){
+      jQuery('#dataTable-floorplan-grid').DataTable({ "paging": false }).order([3, 'desc']).draw();
+
+                   if ( hasAnyCountGreaterThanZero(response) ) {
+
+                  let allbedsale= response.payload.properties.sale.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.sale = [...new Set(allbedsale)]
+
+
+                  let allbedpending= response.payload.properties.pending.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.pending = [...new Set(allbedpending)]
+
+
+                  let allbedsold= response.payload.properties.sold.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.sold = [...new Set(allbedsold)]
+
+
+                  let allbedrent= response.payload.properties.rent.items.map(function(item) {
+                      return parseInt(item.bed);
+                  });
+                  listbed.rent = [...new Set(allbedrent)]
+
+                  idxboostCollecBuil=response;
+
+                  $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
+                  /* NEW SLIDER*/
+                  /* NEW SLIDER*/
+                  if (idxboostCollecBuil.payload.type_gallery == "1") {
+                    // console.log("gallery for properties");
+                      if (idxboostCollecBuil.payload.properties.sale.items.length > 0 || idxboostCollecBuil.payload.properties.rent.items.length > 0 ) {
+                        if (idxboostCollecBuil.payload.properties.sale.items.length > 0) {
+                          idxboostCollecBuil.payload.properties.sale.items.slice(0,15).forEach(function(element) {
+                            html_slider_building.push(idx_slider_building_html(element) );
+                          });
+                        }else if (idxboostCollecBuil.payload.properties.rent.items.length > 0) {
+                          idxboostCollecBuil.payload.properties.rent.items.slice(0,15).forEach(function(element) {
+                            html_slider_building.push(idx_slider_building_html(element) );
+                          });
+                        }
+                      }else{
+                        $('.js-option-building').each(function(){
+                          if ( $(this).attr("data-view") == "map" ) {
+                            $(this).show();
+                            $(this).click();
+                            //$("#map-view").addClass("active");
+                          }else if($(this).attr("data-view") == "gallery") {
+                            $(this).hide();
+                          }
+                        });
+                      }
+
+                    if (html_slider_building.length>0){
+                      $(".ib-filter-slider-building").html(html_slider_building.join(' ')).ready(function(){ idxboostTypeIcon(); });
+
+                      genMultiSliderBuilding(".ib-filter-slider-building");
+                      $(".ib-filter-slider-building").addClass('clidxboost-properties-slider');
+                      myLazyLoad.update();
+                    }
+
+                  }else if (idxboostCollecBuil.payload.type_gallery == "2") {
+                    // console.log("gallery for properties");
+                    if ($(".js-gallery-building").length == 0) {
+                        $('.js-option-building').each(function(){
+                          if ( $(this).attr("data-view") == "map" ) {
+                            $(this).show();
+                            $(this).click();
+                            //$("#map-view").addClass("active");
+                          }else if($(this).attr("data-view") == "gallery") {
+                            $(this).hide();
+                          }
+                        });
+                    }
+                  }
+                  /* NEW SLIDER*/
+                  /* NEW SLIDER*/
+                  //
+                  if (response.payload.property_display_active == "grid") {
+                    if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("grid");
+                    }else{
+                      $('.idxboost_collection_filterviews .grid').click();
+                    }
+                  }else{
+                   if (__flex_g_settings.is_mobile =="1" ) {
+                      $('.idxboost_collection_filterviews select').val("list");
+                    }else{
+                      $('.idxboost_collection_filterviews .list').click();
+                    }
+
+                  }
+
+                  if (__flex_g_settings.is_mobile =="1" ) {
+                    $('.idxboost_collection_filterviews select').change();
+                  }
+                  //
+
+                  $('.js-bedroom').html( response.payload.bed_building);
+                  $('.js-year').html( response.payload.year_building);
+                  $('.js-floor_building').html( response.payload.floor_building);
+                  $('.js-city_building_name').html( response.payload.name_city);
+                  $('.js-unit_building').html( response.payload.unit);
+                  $('.ib_building_unit').val(response.payload.unit);
+                  /*TAGS*/
+
+                  IB_SEARCH_FILTER_PAGE_TITLE = response.payload.building_name;
+                  jQuery(function() {
+                    if (true === IB_SEARCH_FILTER_PAGE) {
+                      jQuery('#formRegister').append('<input type="hidden" name="source_registration_title" value="'+IB_SEARCH_FILTER_PAGE_TITLE+'">');
+                      jQuery('#formRegister').append('<input type="hidden" name="source_registration_url" value="'+location.href+'">');
+                    }
+                  });
+                  /*TAGS*/
+
+                  tot_sale=response.payload.properties.sale.count;
+                  tot_rent=response.payload.properties.rent.count;
+                  tot_pending=response.payload.properties.pending.count;
+                  tot_sold=response.payload.properties.sold.count;
+                  tot_porc=jQuery('.item-list-units-un').text();
+                  tot_rest= parseInt(tot_porc)-tot_sale-tot_rent;
+                  tot_porc_label=tot_porc;
+
+                  // console.log(tot_sale);
+                  // console.log( tot_rent);
+                  // console.log(tot_sold);
+
+                  if (tot_sale>0 || tot_rent>0 ){
+                    $('.js-block-detail-building').show();
+                  }
+
+                  if ( (tot_sale>0 || tot_rent>0 || tot_sold>0)  && 
+
+                    (
+                      (response.payload.new_template=='1' && response.payload.type_building =='1' ) || 
+                      response.payload.type_building =='0'
+                    )
+                    ){
+                    $('.js-title-building-pre-construction').show();
+                    $('.idxboost-collection-show-desktop, .fbc-group, #filter-views, .ib_content_views_building, .idx-tab-building').attr('style','');
+                    
+                    if (tot_sale>0){
+                      $('.sale-count-uni-cons').parent('.sale').show();
+                    }else{
+                      $('#flex_filter_sort').find('option').each(function(keys_option){
+                        if($(this).val()=='sale')
+                        $(this).remove();
+                      });                                          
+                    }
+
+                    if (tot_pending>0){
+                      $('.pending-count-uni-cons').parent('.pending').show();
+                    }else{
+                      $('#flex_filter_sort').find('option').each(function(keys_option){
+                        if($(this).val()=='pending')
+                        $(this).remove();
+                      });                                          
+                    }
+
+                    if (tot_sold>0){
+                      $('.sold-count-uni-cons').parent('.sold').show()
+                    }else{
+                      $('#flex_filter_sort').find('option').each(function(keys_option){
+                        if($(this).val()=='sold')
+                        $(this).remove();
+                      });                                          
+                    }
+
+                    if (tot_rent>0){
+                      $('.rent-count-uni-cons').parent('.rent').show();
+                    }else{
+                      $('#flex_filter_sort').find('option').each(function(keys_option){
+                        if($(this).val()=='rent')
+                        $(this).remove();
+                      });                                          
+                    }
+
+                  }else{
+                    $('.idx-tab-building').hide();
+                    $('.rent-count-uni-cons').parent('.rent').hide();
+                    $('.sold-count-uni-cons').parent('.sold').hide();
+                    $('.pending-count-uni-cons').parent('.pending').hide();
+                    $('.sale-count-uni-cons').parent('.sale').hide();
+
+                    if (response.payload.new_template=='1' && response.payload.type_building =='1' ) {
+                      $('.ms-nav-tab li.ib-pre-availability').remove();
+                      $('.ib-nav-pre-construction li:first-child button').click();
+
+                    }
+                    
+                  }
+
+                  if(tot_sale>0){
+                    $('.ib_collection_tab').val('tab_sale');
+                    $('.flex-open-tb-sale').addClass('active-fbc');
+                  }else if (tot_rent>0){
+                    $('.ib_collection_tab').val('tab_rent');
+                    $('.flex-open-tb-rent').addClass('active-fbc');
+                  }else if (tot_sold>0){
+                    $('.ib_collection_tab').val('tab_sold');
+                    $('.flex-open-tb-sold').addClass('active-fbc');
+                  }else if (tot_pending>0){
+                    $('.ib_collection_tab').val('tab_pending');
+                    $('.flex-open-tb-pending').addClass('active-fbc');
+                  }
+
+                  if (response.payload.meta.sale_min_max_price.min != undefined && response.payload.meta.sale_min_max_price !='' && 
+                    (
+                      (response.payload.new_template=='1' && response.payload.type_building =='1' ) || 
+                      response.payload.type_building =='0'
+                    )
+                     ){
+                    $('.aside .property-information .price').show();
+                    label_price='$'+_.formatShortPrice(response.payload.meta.sale_min_max_price.min)+' '+word_translate.to+' '+'$'+_.formatShortPrice(response.payload.meta.sale_min_max_price.max);
+                    $('.property-information .price').html(label_price+"<span>"+word_translate.todays_prices+"</span>" );
+                    $('.js-building-price-range').val(label_price);
+
+                    $('.ib_inventory_min_max_price').html(label_price );                    
+                  }
+
+                  if (response.payload.type_building=='1') {
+                    $('.aside .property-information .price').show();
+                  }
+
+                  $('.data-inventory').find('.cir-sta.sale').text(tot_sale);
+                  $('.data-inventory').find('.cir-sta.rent').text(tot_rent);
+
+                   var idx_porc_sale=0;
+                   var idx_porc_rent=0;
+                   var idx_porc_sold=0;
+
+                   if(tot_porc !='' && tot_porc!="0" ){
+                     idx_porc_sale=Math.round((tot_sale/tot_porc)*100);
+                     idx_porc_rent=Math.round((tot_rent/tot_porc)*100);
+                   }
+
+                   if($('.ib_building_unit').val() !='' && $('.ib_building_unit').val()!="0" ){
+                     idx_porc_sold=Math.round(tot_sold*100/parseInt($('.ib_building_unit').val()));
+                   }             
+                  $('.condo-statics .ib_inventory_sale').html( idx_porc_sale +'%' );
+                  $('.condo-statics .ib_inventory_rent').html( idx_porc_rent +'%' );
+                  $('.ib_inventory_avg_price').html( '$'+_.formatShortPrice(Math.round(response.payload.meta.avg_price_sqft)) );
+
+                  $('.condo-statics .ib_inventory_previous').html( idx_porc_sold +'%' );
+                  
+                  
+                  $('.ib_inventory_days_market').html(response.payload.meta.building_avg_days);                  
+
+                  $('.flex-open-tb-sale button, #sale-count-uni-cons').html(' '+tot_sale+'<span>'+word_translate.for_sale+'</span>');
+                  $('.flex-open-tb-rent button, #rent-count-uni-cons').html(' '+tot_rent+'<span>'+word_translate.for_rent+'</span>');
+                  $('.flex-open-tb-pending button, #pending-count-uni-cons').html(' '+tot_pending+'<span>'+word_translate.pending+'</span>');
+                  $('.flex-open-tb-sold button, #sold-count-uni-cons').html(' '+tot_sold+'<span>'+word_translate.sold+'</span>');
+
+                  if (response.payload.properties.sale.count==0){
+                    $('#flex_tab_sale, .flex-open-tb-sale').hide();
+                  }
+                  if (response.payload.properties.rent.count==0){
+                    $('#flex_tab_rent, .flex-open-tb-rent').hide();
+                  }
+                  if (response.payload.properties.pending.count==0){
+                    $('#flex_tab_pending, .flex-open-tb-pending').hide();
+                  }                  
+                  if (response.payload.properties.sold.count==0){
+                    $('#flex_tab_sold, .flex-open-tb-sold').hide();
+                  }
+
+                  if(response.payload.meta != undefined && ( (tot_sale>0|| tot_rent>0) && 
+
+                      (
+                        (response.payload.new_template=='1' && response.payload.type_building =='1' ) || 
+                        response.payload.type_building =='0'
+                      )
+
+                    ) ){
+                    $('.condo-statics').show();
+                  }
+
+                  chart_container_obj = $("#chart-container");
+
+                  if (response.payload.new_template=='1' && response.payload.type_building =='1' ) {
+                    $('.wp-statisticss').show();
+                  }
+
+                  if( (tot_sale>0|| tot_rent>0) && 
+                      (
+                        (response.payload.new_template=='1' && response.payload.type_building =='1' ) || 
+                        response.payload.type_building =='0'
+                      )
+                    ){
+                    $('.wp-statisticss').show();
+                    if (chart_container_obj.length) {
+                      FusionCharts.ready(function () {
+                          var revenueChart = new FusionCharts({type: 'doughnut2d',renderAt: 'chart-container',width: 380,height: 250,events: { chartClick: { cancelled: true } },
+                            dataSource: {
+                              "chart": {"numberPrefix": "$","paletteColors": "#0072ac,#434343,#99999a","bgColor": "#ffffff","showBorder": "0","use3DLighting": "0","showShadow": "0","enableSmartLabels": "0","startingAngle": "330","showLabels": "0","showPercentValues": "1","showLegend": "1","legendShadow": "0","legendBorderAlpha": "0","defaultCenterLabel": tot_porc_label + " "+word_translate.units,"centerLabelBold": "2","showTooltip": "0","decimals": "0","captionFontSize": "18","subcaptionFontSize": "14","subcaptionFontBold": "0" },
+                              "data": [ {"value": tot_sale}, {"value": tot_rent},{"value": tot_rest} ]
+                            }
+                          }).render();
+                      });
+                    }
+                  }
+
+                  idxboostCollectiIn();
+                  ib_change_view( $('.ib_collection_view').val() ,$('.ib_collection_tab').val() );
+                    }
+
+
+    }
+
+
+
+
+  }).catch(error => {
+    console.error("Ocurrió un error en alguna llamada:", error);
+  });
+}
+
+
+function callApiIndividual(typecall = "sale") {
+  return new Promise((resolve, reject) => {
+    var filter_query = { ...ib_detail_building.payload.params_search };
+
+    switch (typecall) {
+      case "sale":
+        filter_query.for = "sale";
+        break;
+      case "rental":
+        filter_query.for = "rental";
+        break;
+      case "pending":
+        filter_query.for = "sale";
+        filter_query.status = "6";
+        break;
+      case "sold":
+        filter_query.for = "sold";
+        filter_query.limit = "350";
+        filter_query.year_search = "3";
+        filter_query.isRental = "no";
+        break;
+    }
+
+    console.log("payload send",filter_query)
+
+    jQuery.ajax({
+      url: __flex_g_settings.ib_building_collection_api,
+      method: "POST",
+      data: JSON.stringify(filter_query),
+      contentType: "application/json",
+      dataType: "json",
+      success: function (response) {
+        if (response && response.status === true) {
+          //console.log(`[${typecall}]`, response);
+          resolve(response); // ✅ Resolvemos la promesa con la respuesta
+
+    switch (typecall) {
+      case "sale":
+        response_raw_sale = response;
+        break;
+      case "rental":
+        response_raw_rental = response;
+        break;
+      case "pending":
+        response_raw_pending = response;
+        break;
+      case "sold":
+        response_raw_sold = response;
+        break;
+    }
+
+
+        } else {
+          reject(`Error en respuesta de ${typecall}`);
+        }
+      },
+      error: function (xhr, status, error) {
+        reject(`Error AJAX en ${typecall}: ${error}`);
+      }
+    });
+  });
 }
 
 
@@ -836,7 +1285,14 @@ $(function() {
         $('.rent-count-uni-cons').parent('.rent').hide();
         $('.pending-count-uni-cons').parent('.pending').hide();
 
-        ib_init_script();
+        if (__flex_g_settings.version == "1") {
+
+          ib_init_script_elastic();
+
+        }else{
+          ib_init_script();
+        }
+        
 
         $(document).on('change','#filter-by select',function() {
           var value_item=$(this).val();
@@ -1280,7 +1736,7 @@ function idxboostListCollectionForSold(element){
       }else if (type_property=='pending') {
         txt_marketing = word_translate.condos_pending;
       }
-      htmlgrid +='<h3 class="ms-type-bl">'+txt_marketing+'<span>'+idxboostCollecBuil.payload.building_name+'</span></h3>';
+      htmlgrid +='<h3 class="ms-type-bl">'+txt_marketing+'<span>'+ib_detail_building.payload.name_building+'</span></h3>';
     }
     
     htmlgrid +='<ul class="features">';
