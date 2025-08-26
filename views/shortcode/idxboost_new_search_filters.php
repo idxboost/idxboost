@@ -3,7 +3,7 @@
 	var IB_IS_SEARCH_FILTER_PAGE = true;
   var IB_SEARCH_FILTER_PAGE = true;
   var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
-  var initial_href;
+  var initial_href="";
 
   jQuery(function() {
     if (true === IB_SEARCH_FILTER_PAGE) {

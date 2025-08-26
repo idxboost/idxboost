@@ -7923,7 +7923,7 @@ function insert_assets_head_new_search_filter()
                         <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
                         <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
                         
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.css"); ?>" />      
+                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.min.css"); ?>" />      
 
                         <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />                  
 
@@ -7981,7 +7981,7 @@ function insert_assets_head_new_collections_properties_details() {
         if ( has_shortcode( $content, 'new_collections_properties_details' ) ) { ?>
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.js?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.js"); ?>" /></script>      
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.css?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.css"); ?>" />
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.css"); ?>" />               
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.min.css"); ?>" />               
 <?php 
         }
 }
