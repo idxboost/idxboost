@@ -1787,19 +1787,24 @@ function idxboostListCollectionForSold(element){
       });
     }
 
-    if (element.hasOwnProperty("imagens") && element["imagens"] != "" ) {
-      element["imagens"].forEach(function(itemimage,aux) {
-        if (itemimage != "") {
-          if (aux==0) {
-            elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
-          }else{
-            elementgallery +='<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+    if (__flex_g_settings.version == "1") {
+
+      if (element.hasOwnProperty("imagens") && element["imagens"] != "" ) {
+        element["imagens"].forEach(function(itemimage,aux) {
+          if (itemimage != "") {
+            if (aux==0) {
+              elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+            }else{
+              elementgallery +='<li class="flex-slider-item-hidden"><img class="flex-lazy-image" data-original="'+itemimage+'" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+            }
           }
-        }
-      });
-    }else{
-      elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://idxboost-spw-assets.idxboost.us/photos/default_thumbnail.jpg" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+        });
+      }else{
+        elementgallery +='<li class="flex-slider-current"><img class="flex-lazy-image" data-original="https://idxboost-spw-assets.idxboost.us/photos/default_thumbnail.jpg" alt="'+element['address_short']+' '+element['address_large']+'"></li>';
+      }
+      
     }
+
 
     htmlgrid +=elementgallery;
     htmlgrid +='</ul><button class="prev flex-slider-prev" aria-label="Prev"><span class="clidxboost-icon-arrow-select"></span></button><button class="next flex-slider-next" aria-label="Next"><span class="clidxboost-icon-arrow-select"></span></button>';
