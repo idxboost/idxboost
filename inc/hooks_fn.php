@@ -328,6 +328,12 @@ add_action('get_footer', 'idxboost_cms_tripwire', 101, 1);
 // CMS. Load translate
 add_action('get_footer', 'idxboost_cms_translate', 101, 1);
 
+// CMS. Remove default dns-prefetch for specific domains and add https://
+add_filter('wp_resource_hints', 'idxboost_cms_remove_default_dns_prefetch', 20, 2);
+
+// CMS. Print custom dns-prefetch with https://
+add_action('wp_head', 'idxboost_cms_print_custom_dns_prefetch', 1);
+
 // CMS. Update post
 add_action('edit_post', 'idx_edit_post', 10, 2);
 

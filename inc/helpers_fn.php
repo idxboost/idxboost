@@ -303,7 +303,6 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
     }
 }
 
-
 if (!function_exists('iboost_get_mod_time')) {
     function iboost_get_mod_time($filename)
     {
@@ -3425,7 +3424,6 @@ if (!function_exists('idx_save_tools_admin_form_fn')) {
     }
 }
 
-
 if (!function_exists('fc_idx_save_tools_admin')) {
     function fc_idx_save_tools_admin($parameters)
     {
@@ -5897,6 +5895,7 @@ if (!function_exists('idxboost_collection_building')) {
         return json_decode($server_output, true);
     }
 }
+
 if (!function_exists('idxboost_collection_list_fn')) {
     function idxboost_collection_list_fn()
     {
@@ -7654,7 +7653,11 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('ib_slider_filter', 'idx_param_slider', array(
             'endpoint_v3' => FLEX_IDX_DISPLAY_FILTER_V3,
             'endpoint_v2' => FLEX_IDX_DISPLAY_FILTER_V2_old,
-            'endpoint_v2_exclusive' => FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS,
+            'endpoint_colletion_v3' => FLEX_IDX_API_MARKET_RECENT_SALE_v2,
+            'endpoint_v2_exclusive' => FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS,            
+            'endpoint_v3_exclusive' => FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2,
+            'endpoint_v3_sold_listing' => FLEX_IDX_API_MARKET_RECENT_SALE_v2,
+
             'accessToken' => flex_idx_get_access_token(),
             'rk' => get_option('flex_idx_alerts_keys'),
             'wp_web_id' => get_option('flex_idx_alerts_app_id'),
@@ -7863,6 +7866,113 @@ if (!function_exists('flex_idx_register_assets')) {
     }
 }
 
+/**
+ * Imprime los assets de un build de Vite leyendo el manifest.json.
+ * Si falta el manifest, cae a los assets legacy.
+ *
+ * @param array $opts {
+ *   @type string distDir         Ruta absoluta al /dist
+ *   @type string distUrl         URL pública al /dist
+ *   @type string|null iconCssUrl URL de un css extra (p.ej. iconos)
+ *   @type string|null legacyJs   URL del bundle.js legacy (fallback)
+ *   @type string[]  legacyCss    Array de CSS legacy (fallback)
+ * }
+ * @return bool true si se usó manifest (Vite), false si se usó fallback.
+ */
+function ib_print_vite_assets(array $opts): bool {
+  $distDir     = rtrim($opts['distDir'] ?? '', '/') . '/';
+  $distUrl     = rtrim($opts['distUrl'] ?? '', '/') . '/';
+  $iconCssUrl  = $opts['iconCssUrl'] ?? null;
+  $legacyJs    = $opts['legacyJs']   ?? null;
+  $legacyCss   = $opts['legacyCss']  ?? [];
+
+  // Evitar imprimir dos veces el mismo build (clave: distDir)
+  static $printed = [];
+  if (!empty($printed[$distDir])) {
+    // Aún así permite imprimir el iconCss si no se imprimió antes
+    if ($iconCssUrl && empty($printed[$distDir.'__icon'])) {
+      echo '<link rel="stylesheet" href="'.esc_url($iconCssUrl).'" />' . "\n";
+      $printed[$distDir.'__icon'] = true;
+    }
+    return true;
+  }
+
+  $manifestPath = $distDir . 'manifest.json';
+  if (is_readable($manifestPath)) {
+    $manifest = json_decode(file_get_contents($manifestPath), true);
+    $entry = null;
+    if (is_array($manifest)) {
+      foreach ($manifest as $chunk) {
+        if (!empty($chunk['isEntry'])) { $entry = $chunk; break; }
+      }
+    }
+
+    if ($entry) {
+      // 1) Preload de imports del entry (js + css)
+      if (!empty($entry['imports'])) {
+        foreach ($entry['imports'] as $imp) {
+          if (!empty($manifest[$imp]['file'])) {
+            echo '<link rel="modulepreload" href="' . esc_url($distUrl . $manifest[$imp]['file']) . '" crossorigin />' . "\n";
+          }
+          if (!empty($manifest[$imp]['css'])) {
+            foreach ($manifest[$imp]['css'] as $css) {
+              echo '<link rel="preload" as="style" href="' . esc_url($distUrl . $css) . '" />' . "\n";
+            }
+          }
+        }
+      }
+
+      // 2) CSS del entry
+      if (!empty($entry['css'])) {
+        foreach ($entry['css'] as $css) {
+          echo '<link rel="stylesheet" href="' . esc_url($distUrl . $css) . '" />' . "\n";
+        }
+      }
+
+      // 2.5) CSS extra (iconos)
+      if ($iconCssUrl) {
+        echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '" />' . "\n";
+        $printed[$distDir.'__icon'] = true;
+      }
+
+      // 3) JS principal
+      echo '<script type="module" crossorigin src="' . esc_url($distUrl . $entry['file']) . '"></script>' . "\n";
+
+      $printed[$distDir] = true;
+      return true;
+    }
+  }
+
+  // ---- Fallback legacy ----
+  if ($legacyJs) {
+    echo '<script type="module" crossorigin src="' . esc_url($legacyJs) . '"></script>' . "\n";
+  }
+  foreach ($legacyCss as $cssUrl) {
+    echo '<link rel="stylesheet" href="' . esc_url($cssUrl) . '" />' . "\n";
+  }
+  if ($iconCssUrl) {
+    echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '" />' . "\n";
+    $printed[$distDir.'__icon'] = true;
+  }
+  $printed[$distDir] = true;
+  return false;
+}
+
+function insert_assets_head_dns_prefetch_img() {
+        $idxboost_search_settings = get_option('idxboost_search_settings');
+
+        $cdn_images = $idxboost_search_settings["board_info"]["cdn_images"];
+        $cdn_thumbnail = $idxboost_search_settings["board_info"]["cdn_thumbnail"];
+        ?>
+        <link rel="dns-prefetch" href="<?php echo $cdn_images; ?>" />
+        <link rel="dns-prefetch" href="<?php echo $cdn_thumbnail; ?>" />
+        <link rel="dns-prefetch" href="<?php echo FLEX_IDX_BASE_URL; ?>" />
+        <link rel="dns-prefetch" href="<?php echo FLEX_IDX_CPANEL_URL; ?>" />
+<?php
+}
+
+add_action('wp_head', 'insert_assets_head_dns_prefetch_img', 2);
+
 
 function insert_assets_head_new_search_filter()
     {
@@ -7920,12 +8030,20 @@ function insert_assets_head_new_search_filter()
 
                     <?php }else{ ?>
 
-                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.js?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.js"); ?>" />    ></script>  
-                        <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
-                        
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/new_search_filter/fonts/icons/style.min.css"); ?>" />      
-
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver='.iboost_get_mod_time("react/new_search_filter/assets/bundle.css"); ?>" />                  
+                        <?php
+                        ib_print_vite_assets([
+                            'distDir'    => FLEX_IDX_PATH . 'react/new_search_filter/dist/',
+                            'distUrl'    => FLEX_IDX_URI  . 'react/new_search_filter/dist/',
+                            'iconCssUrl' => FLEX_IDX_URI  . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
+                                            iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css'),
+                            'legacyJs'   => FLEX_IDX_URI  . 'react/new_search_filter/assets/bundle.js?ver=' .
+                                            iboost_get_mod_time('react/new_search_filter/assets/bundle.js'),
+                            'legacyCss'  => [
+                                FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver=' .
+                                iboost_get_mod_time('react/new_search_filter/assets/bundle.css'),
+                            ],
+                        ]);
+                        ?>
 
                     <?php } 
         }
@@ -7935,18 +8053,23 @@ function insert_assets_head_new_search_filter()
         }
 
         if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode( $content, 'flex_idx_property_detail' ) ) { ?>
-                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.js?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.js"); ?>" />    ></script>  
-                        <?php if(!$is_load_map) { ?>
-                        <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
-                        <?php } ?>
-                        
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/property-modal/fonts/icons/style.css?ver='.iboost_get_mod_time("react/property-modal/fonts/icons/style.css"); ?>" />      
-
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/property-modal/assets/bundle.css?ver='.iboost_get_mod_time("react/property-modal/assets/bundle.css"); ?>" />     
+            <?php
+            ib_print_vite_assets([
+                'distDir'    => FLEX_IDX_PATH . 'react/property-modal/dist/',
+                'distUrl'    => FLEX_IDX_URI  . 'react/property-modal/dist/',
+                'iconCssUrl' => FLEX_IDX_URI  . 'react/property-modal/fonts/icons/style.css?ver=' .
+                                iboost_get_mod_time('react/property-modal/fonts/icons/style.css'),
+                'legacyJs'   => FLEX_IDX_URI  . 'react/property-modal/assets/bundle.js?ver=' .
+                                iboost_get_mod_time('react/property-modal/assets/bundle.js'),
+                'legacyCss'  => [
+                    FLEX_IDX_URI . 'react/property-modal/assets/bundle.css?ver=' .
+                    iboost_get_mod_time('react/property-modal/assets/bundle.css'),
+                ],
+            ]);
+            ?>
             <?php
         }
 }
-
 
 function insert_assets_head_new_development_collections() {
         global $flex_idx_info, $post;
@@ -7954,10 +8077,11 @@ function insert_assets_head_new_development_collections() {
         $content = $post->post_content;
 
         if ( has_shortcode( $content, 'new_development_collections' ) ) { ?>
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>" /></script>  
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>"></script>  
+            <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new-developments/fonts/icons/style.css"); ?>" />      
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>" />                  
-<?php 
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>" />
+            <?php 
         }
 }
 
@@ -7967,9 +8091,9 @@ function insert_assets_head_new_collections_properties() {
         $content = $post->post_content;
 
         if ( has_shortcode( $content, 'new_collections_properties' ) ) { ?>
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections/bundle.js?ver='.iboost_get_mod_time("react/collections/bundle.js"); ?>" /></script>            
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections/bundle.css?ver='.iboost_get_mod_time("react/collections/bundle.css"); ?>" />                  
-<?php 
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections/bundle.js?ver='.iboost_get_mod_time("react/collections/bundle.js"); ?>"></script>            
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections/bundle.css?ver='.iboost_get_mod_time("react/collections/bundle.css"); ?>" />
+            <?php 
         }
 }
 
@@ -7979,13 +8103,13 @@ function insert_assets_head_new_collections_properties_details() {
         $content = $post->post_content;
 
         if ( has_shortcode( $content, 'new_collections_properties_details' ) ) { ?>
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.js?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.js"); ?>" /></script>      
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.js?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.js"); ?>"></script>
+            <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.css?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.css"); ?>" />
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.min.css"); ?>" />               
-<?php 
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.min.css"); ?>" />
+            <?php 
         }
 }
-
 
 function insert_assets_head_dashtodash_sc() {
         global $flex_idx_info, $post;
@@ -7993,13 +8117,13 @@ function insert_assets_head_dashtodash_sc() {
         $content = $post->post_content;
 
         if ( has_shortcode( $content, 'dashtodash' ) ) { ?>
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.js?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.js"); ?>" /></script>  
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.js?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.js"); ?>"></script>  
+            <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/fonts/icons/style.css?ver='.iboost_get_mod_time("react/dash-to-dash/fonts/icons/style.css"); ?>" />      
-            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.css?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.css"); ?>" />                  
-<?php 
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.css?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.css"); ?>" />
+            <?php 
         }
 }
-
 
 /*****************************************/
 if (!function_exists('ib_tables_building_collection')) {
@@ -9222,7 +9346,7 @@ if (!function_exists('idxboost_cms_cta_modal')) {
     }
 }
 
-if ( ! function_exists( 'idxboost_cms_tripwire' ) ) {
+if (!function_exists('idxboost_cms_tripwire')) {
     function idxboost_cms_tripwire()
     {
         global $flex_idx_info, $post;
@@ -9427,6 +9551,132 @@ if (!function_exists('idxboost_get_header_dinamic')) {
     add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
 }
 
+if (!function_exists('idxboost_cms_get_menu')) {
+    function idxboost_cms_get_menu() {
+        global $flex_idx_info, $idxboost_cms_menu;
+
+        // Check if we already have the response cached
+        if (!isset($idxboost_cms_menu)) {
+            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu';
+            $args = array(
+                'method'    => 'POST',
+                'timeout'   => 60,
+                'headers'   => array(
+                    'Content-Type' => 'application/json',
+                ),
+                'body'      => wp_json_encode( array(
+                    'registration_key' => get_option( 'idxboost_registration_key' )
+                ))
+            );
+
+            $response = wp_remote_post($url, $args);
+            $response_code = wp_remote_retrieve_response_code($response);
+
+            if (!is_wp_error($response) && $response_code === 200) {
+                $idxboost_cms_menu = json_decode(wp_remote_retrieve_body($response), true);
+            } else {
+                $idxboost_cms_menu = []; // Handle error case
+            }
+        }
+
+        return $idxboost_cms_menu;
+    }
+}
+
+if (!function_exists('idxboost_cms_get_header_footer')) {
+    function idxboost_cms_get_header_footer() {
+        global $flex_idx_info, $idxboost_cms_header_footer;
+
+        // Check if we already have the response cached
+        if (!isset($idxboost_cms_header_footer)) {
+            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer';
+            $args = array(
+                'method'    => 'POST',
+                'timeout'   => 60,
+                'headers'   => array(
+                    'Content-Type' => 'application/json',
+                ),
+                'body'      => wp_json_encode( array(
+                    'registration_key' => get_option( 'idxboost_registration_key' )
+                ))
+            );
+
+            $response = wp_remote_post($url, $args);
+            $response_code = wp_remote_retrieve_response_code($response);
+
+            if (!is_wp_error($response) && $response_code === 200) {
+                $idxboost_cms_header_footer = json_decode(wp_remote_retrieve_body($response), true);
+            } else {
+                $idxboost_cms_header_footer = []; // Handle error case
+            }
+        }
+
+        return $idxboost_cms_header_footer;
+    }
+}
+
+if (!function_exists('idxboost_footer_header_dinamic')) {
+    function idxboost_footer_header_dinamic($name)
+    {
+        global $flex_idx_info, $post;
+        $flex_idx_page_type = get_post_meta($post->ID, 'idx_page_type', true);
+
+        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
+
+            $show_footer = true;
+
+            if (
+                in_array($post->post_type, ["flex-idx-pages", "flex-landing-pages"]) ||
+                is_front_page() ||
+                $flex_idx_page_type == 'landing'
+            ) {
+                $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
+                $show_footer = false;
+
+                if (!empty($type_filter) && !in_array($type_filter, ["flex_idx_search"])) {
+                    $show_footer = true;
+                }
+            }
+
+            if ($show_footer) {
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
+                }
+            }
+        }
+    }
+
+    add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
+}
+
+if (!function_exists('idxboost_cms_remove_default_dns_prefetch')) {
+    function idxboost_cms_remove_default_dns_prefetch( $urls, $relation_type ) {
+        if ($relation_type === 'dns-prefetch') {
+            $urls = array_filter($urls, function($url) {
+                return !in_array($url, [
+                    'api-cms.idxboost.dev',
+                    'api-cms.idxboost.com',
+                    'idxboost-spw-assets.idxboost.us',
+                ], true );
+            });
+        }
+        
+        return $urls;
+    }
+}
+
+if (! function_exists('idxboost_cms_print_custom_dns_prefetch')) {
+    function idxboost_cms_print_custom_dns_prefetch() {
+        $assets_base_url = defined('IB_ASSETS_DEV') 
+            ? 'https://api-cms.idxboost.dev'
+            : 'https://idxboost-spw-assets.idxboost.us';
+
+        echo "<link rel='dns-prefetch' href='". esc_url( $assets_base_url ) ."' />";
+    }
+}
+
 if (!function_exists('idx_edit_post')) {
     function idx_edit_post($post_ID, $post)
     {
@@ -9465,42 +9715,6 @@ if (!function_exists('hide_editor')) {
             remove_post_type_support('page', 'editor');
         }
     }
-}
-
-if (!function_exists('idxboost_footer_header_dinamic')) {
-    function idxboost_footer_header_dinamic($name)
-    {
-        global $flex_idx_info, $post;
-        $flex_idx_page_type = get_post_meta($post->ID, 'idx_page_type', true);
-
-        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
-
-            $show_footer = true;
-
-            if (
-                in_array($post->post_type, ["flex-idx-pages", "flex-landing-pages"]) ||
-                is_front_page() ||
-                $flex_idx_page_type == 'landing'
-            ) {
-                $type_filter = get_post_meta($post->ID, '_flex_id_page', true);
-                $show_footer = false;
-
-                if (!empty($type_filter) && !in_array($type_filter, ["flex_idx_search"])) {
-                    $show_footer = true;
-                }
-            }
-
-            if ($show_footer) {
-                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php')) {
-                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_footer_dinamic.php';
-                } else {
-                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_footer_dinamic.php';
-                }
-            }
-        }
-    }
-
-    add_action('get_footer', 'idxboost_footer_header_dinamic', 100, 1);
 }
 
 if (!function_exists('update_seo')) {
@@ -10006,6 +10220,7 @@ if (!function_exists("remove_canonical")) {
         }
     }
 }
+
 // ------Quick Search Rental------
 if (!function_exists('flex_idx_admin_render_settings_rental_page')) {
     function flex_idx_admin_render_settings_rental_page()
@@ -10422,70 +10637,6 @@ if (!function_exists('flex_idx_generate_schema_product')) {
 
 add_action('idx_gtm_head', 'flex_idx_generate_schema_by_page', 0);
 // --------Schema - SEO--------
-
-if (!function_exists('idxboost_cms_get_menu')) {
-    function idxboost_cms_get_menu() {
-        global $flex_idx_info, $idxboost_cms_menu;
-
-        // Check if we already have the response cached
-        if (!isset($idxboost_cms_menu)) {
-            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu';
-            $args = array(
-                'method'    => 'POST',
-                'timeout'   => 60,
-                'headers'   => array(
-                    'Content-Type' => 'application/json',
-                ),
-                'body'      => wp_json_encode( array(
-                    'registration_key' => get_option( 'idxboost_registration_key' )
-                ))
-            );
-
-            $response = wp_remote_post($url, $args);
-            $response_code = wp_remote_retrieve_response_code($response);
-
-            if (!is_wp_error($response) && $response_code === 200) {
-                $idxboost_cms_menu = json_decode(wp_remote_retrieve_body($response), true);
-            } else {
-                $idxboost_cms_menu = []; // Handle error case
-            }
-        }
-
-        return $idxboost_cms_menu;
-    }
-}
-
-if (!function_exists('idxboost_cms_get_header_footer')) {
-    function idxboost_cms_get_header_footer() {
-        global $flex_idx_info, $idxboost_cms_header_footer;
-
-        // Check if we already have the response cached
-        if (!isset($idxboost_cms_header_footer)) {
-            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer';
-            $args = array(
-                'method'    => 'POST',
-                'timeout'   => 60,
-                'headers'   => array(
-                    'Content-Type' => 'application/json',
-                ),
-                'body'      => wp_json_encode( array(
-                    'registration_key' => get_option( 'idxboost_registration_key' )
-                ))
-            );
-
-            $response = wp_remote_post($url, $args);
-            $response_code = wp_remote_retrieve_response_code($response);
-
-            if (!is_wp_error($response) && $response_code === 200) {
-                $idxboost_cms_header_footer = json_decode(wp_remote_retrieve_body($response), true);
-            } else {
-                $idxboost_cms_header_footer = []; // Handle error case
-            }
-        }
-
-        return $idxboost_cms_header_footer;
-    }
-}
 
 if (!function_exists('idxboost_language_default_plugin')) {
     function idxboost_language_default_plugin($lang)

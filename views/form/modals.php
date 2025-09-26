@@ -102,16 +102,16 @@
 <!--MODAL GALLERY-->
 <div id="content-modals">
 
-  <!-- FULL SLIDER -->
+  <!-- FULL SLIDER
   <div class="overlay_modal" id="modal_img_propertie">
     <div class="content-modal-full-slider">
       <div class="modal-full-slider">
         <span class="title worked"></span>
         <div class="wrapper-img">
           <ul class="actions-buttons">
-            <li class="close-modal"><button><span class="icon-close"><?php echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
+            <li class="close-modal"><button><span class="icon-close"><?php //echo __('Close', IDXBOOST_DOMAIN_THEME_LANG); ?></span></button></li>
           </ul>
-          <span class="numeration"><span>2</span> <?php echo __('of', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>14</span></span>
+          <span class="numeration"><span>2</span> <?php //echo __('of', IDXBOOST_DOMAIN_THEME_LANG); ?> <span>14</span></span>
           <img src="/" class="img" alt="Idxboost" width="1" height="1">
           <button class="prev nav" aria-label="Prev"><span class="icon-arrow-select"></span></button>
           <button class="next nav" aria-label="Next"><span class="icon-arrow-select"> </span></button>
@@ -119,7 +119,7 @@
       </div>
     </div>
     <div class="overlay_modal_closer" data-id="modal_img_propertie"></div>
-  </div>
+  </div> -->
 
   <!-- REGISTER LOGIN registration_forced-->
   <div class="overlay_modal modalReferentFUB" id="modal_login">

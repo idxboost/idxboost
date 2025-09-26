@@ -58,11 +58,12 @@ if (!function_exists('ib_crm_listings_collection_sc')) {
             'limit' => '20',
             'column' => 'two',
             'mode' => 'default',
-            "slider_item" => "4",
-            "slider_play" => "0",
-            "slider_speed" => "5000",
+            'slider_item' => '4',
+            'slider_play' => '0',
+            'slider_speed' => '5000',
             'title' => '',
-            "gallery" => "0"
+            "gallery" => '0',
+            'group_id' => '',
         ), $atts);
 
         $gallery_val = $atts["gallery"];
@@ -79,7 +80,8 @@ if (!function_exists('ib_crm_listings_collection_sc')) {
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'ajaxgetProperty' => FLEX_IDX_GET_SINGLE_PROPERTY,
                 'ajaxSetting' => FLEX_IDX_SINGLE_PROPERTY_COLLECTION_SETTING,
-                'rg' => $idxboost_registration_key
+                'rg' => $idxboost_registration_key,
+                'groupId' => $atts['group_id'],
             ]
         );
 
@@ -123,7 +125,8 @@ if (!function_exists('ib_crm_listings_collection_slider_sc')) {
             'limit' => 'default',
             'column' => 'four',
             'link_more' => '',
-            'title' => ''
+            'title' => '',
+            'group_id' => '',
         ), $atts);
 
         wp_localize_script('slider-single-property-collection-js', 'ib_property_collection_slider',
@@ -131,6 +134,7 @@ if (!function_exists('ib_crm_listings_collection_slider_sc')) {
                 'order' => $atts['order'],
                 'limit' => $atts['limit'],
                 'ajaxlist' => FLEX_IDX_SINGLE_PROPERTY_COLLECTION,
+                'groupId' => $atts['group_id'],
             ]
         );
 
@@ -759,7 +763,7 @@ if (!function_exists('ib_search_sc')) {
 
         return ob_get_clean();
     }
-    add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 999);
     add_shortcode('ib_search', 'ib_search_sc');
 }
 
@@ -927,7 +931,7 @@ if (!function_exists('ib_search_filter_sc')) {
 
         return ob_get_clean();
     }
-    add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 999);
 
     add_shortcode('ib_search_filter', 'ib_search_filter_sc');
 }
@@ -2048,243 +2052,263 @@ function insert_fb_in_head()
 
     $wp_request_exp = explode('/', $wp->request);
     $page_slug = current($wp_request_exp);
-    list($page, $slug) = $wp_request_exp;
+    if ( !empty($page_slug) ) {
 
-    if ($page_slug == "new-development") { 
-        $responseNewDevelopment = title_flex_idx_new_development_detail_sc($wp);
-        $address_property = "";
-        $addressPropertyDescription = "";
-        $property_image = "";
+        list($page, $slug) = $wp_request_exp;
+        
+        if ($page_slug == "new-development") { 
+            $responseNewDevelopment = title_flex_idx_new_development_detail_sc($wp);
+            $address_property = "";
+            $addressPropertyDescription = "";
+            $property_image = "";
 
-            if ( 
-                array_key_exists("data", $responseNewDevelopment) && 
-                is_array($responseNewDevelopment["data"]) && 
-                count($responseNewDevelopment["data"]) > 0 
-            ) {
-                $address_property = array_key_exists("building_name", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["building_name"] : "";
-                $addressPropertyDescription =  array_key_exists("description", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["description"] : "";
-                $property_image =  ( array_key_exists("images_url", $responseNewDevelopment["data"]) && is_array($responseNewDevelopment["data"]["images_url"]) && count($responseNewDevelopment["data"]["images_url"]) >0 )  ? $responseNewDevelopment["data"]["images_url"][0] : "";
-            }
+                if ( 
+                    array_key_exists("data", $responseNewDevelopment) && 
+                    is_array($responseNewDevelopment["data"]) && 
+                    count($responseNewDevelopment["data"]) > 0 
+                ) {
+                    $address_property = array_key_exists("building_name", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["building_name"] : "";
+                    $addressPropertyDescription =  array_key_exists("description", $responseNewDevelopment["data"]) ? $responseNewDevelopment["data"]["description"] : "";
+                    $property_image =  ( array_key_exists("images_url", $responseNewDevelopment["data"]) && is_array($responseNewDevelopment["data"]["images_url"]) && count($responseNewDevelopment["data"]["images_url"]) >0 )  ? $responseNewDevelopment["data"]["images_url"][0] : "";
+                }
 
-        if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) { ?>
-            <title><?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?></title>
-        <?php } ?>
-        <meta property="og:title" content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="<?php echo $domain_host; ?>"/>
-        <meta property="og:description" content="<?php echo $addressPropertyDescription; ?>"/>
-        <meta property="og:image" content="<?php echo $property_image; ?>"/>
-    <?php 
-    }
+            if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) { ?>
+                <title><?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?></title>
+            <?php } ?>
+            <meta property="og:title" content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content="<?php echo $domain_host; ?>"/>
+            <meta property="og:description" content="<?php echo $addressPropertyDescription; ?>"/>
+            <meta property="og:image" content="<?php echo $property_image; ?>"/>
+        <?php 
+        }
 
-    // echo '<!-- debug:uri ';
-    // var_dump($domain_host);
-    // var_dump($wp_request_exp);
-    // var_dump($page_slug);
-    // var_dump($page_slug);
-    // var_dump($keys_property);
-    // var_dump($property_slug);
-    // echo '-->';
-
-    // if (is_numeric($postproperty) && $postproperty>=0 ) {
-    if ('property' === $page_slug) {
         // echo '<!-- debug:uri ';
         // var_dump($domain_host);
         // var_dump($wp_request_exp);
         // var_dump($page_slug);
-        // var_dump($GLOBALS);
+        // var_dump($page_slug);
+        // var_dump($keys_property);
+        // var_dump($property_slug);
         // echo '-->';
 
-        if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
-            $board_id = 100;
-            $ed = "";
-            $sd = "";
-            $extra_day_in = "";
-            $extra_day_out = "";
-            if (is_array($_GET) && count($_GET) > 0) {
-                if (array_key_exists("sd", $_GET)) {
-                    $sd = $_GET["sd"];
-                }
+        // if (is_numeric($postproperty) && $postproperty>=0 ) {
+        if ('property' === $page_slug) {
+            // echo '<!-- debug:uri ';
+            // var_dump($domain_host);
+            // var_dump($wp_request_exp);
+            // var_dump($page_slug);
+            // var_dump($GLOBALS);
+            // echo '-->';
 
-                if (array_key_exists("ed", $_GET)) {
-                    $ed = $_GET["ed"];
-                }
-
-                if (array_key_exists("extra_day_in", $_GET)) {
-                    $extra_day_in = $_GET["extra_day_in"];
-                }
-
-                if (array_key_exists("extra_day_out", $_GET)) {
-                    $extra_day_out = $_GET["extra_day_out"];
-                }
-
-                if (array_key_exists("board", $_GET)) {
-                    $board_id = $_GET["board"];
-                }
-
-                $domain_host = $domain_host."?vr=1&sd={$sd}&ed={$ed}&board={$board_id}";
-
-            }
-        }
-
-        $property_head = [];
-
-        if (is_array($GLOBALS) && count($GLOBALS) > 0 && array_key_exists("property", $GLOBALS) && is_array($GLOBALS["property"]) && count($GLOBALS["property"]) > 0) {
-            $property_head = $GLOBALS["property"];
-        } else {
-            $property_head = title_flex_idx_property_detail_sc([], null);
-        }
-
-        // echo '<!-- debug:og ';
-        // var_dump($property_head);
-        // echo '-->';
-
-        $data = $property_head;
-        //$GLOBALS['property']= $data;
-        if (!is_array($data) || (is_array($data) && count($data) == 0)) {
-            return false;
-        }
-        $address_property = $data['address_short'] . ' ' . $data['address_large'];
-        $mls_num_property = $data['mls_num'];
-        $city_name = array_key_exists("city_name", $data) ? $data['city_name'] : "";
-
-        if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
-            $text_rental = 'For Vacation Rental';
-        } else {
-            $is_rental = $data['is_rental'];
-            if ($is_rental == '0') {
-                $text_rental = 'For Sale';
-            } else {
-                $text_rental = 'For Rent';
-            }
-        }
-
-        if (empty($data) || !is_array($data) || (is_array($data) && count($data) == 0)) {
-            if (!empty($GLOBALS) && is_array($GLOBALS) && array_key_exists('property_address', $GLOBALS) && !empty($GLOBALS['property_address'])) {
-                $address_property = $GLOBALS['property_address'];
-            }
-        }
-
-        if (empty($mls_num_property)) {
-            if (!empty($GLOBALS) && is_array($GLOBALS) && array_key_exists('property_mls', $GLOBALS) && !empty($GLOBALS['property_mls'])) {
-                $mls_num_property = $GLOBALS['property_mls'];
-            }
-        }
-
-        if (isset($data["remark"]) && !empty($data["remark"])) {
-            $addressPropertyDescription = $data["remark"];
-        } else {
-            $addressPropertyDescription = 'Photos and Property information for ' . $address_property . ' | ' . $mls_num_property . '. Obtain complete property details, maps, schools and more. Contact or request additional information';
-        }
-
-        $keywordsProperty = $address_property . ' , ' . $city_name . ' Real Estate, ' . $city_name . ' properties ' . $text_rental;
-        $property_image = '';
-        if (array_key_exists('gallery', $data)) {
-            if (array_key_exists(0, $data['gallery'])) {
-                $property_image_boo = preg_match('/(https)|(http)/', $data['gallery'][0]);
-                $property_image = $data['gallery'][0];
-                if (is_numeric($property_image_boo)) {
-                    if ($property_image_boo == '0')
-                        $property_image = 'http:' . $data['gallery'][0];
-                }
-            }
-        }
-        remove_action('wp_head', 'rel_canonical');
-        add_action('wp_head', 'idx_property_rel_canonical');
-
-        ?>
-        <title><?php echo get_bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?></title>
-        <meta property="og:title"
-              content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="<?php echo $domain_host; ?>"/>
-        <meta property="og:description" content="<?php echo $addressPropertyDescription; ?>"/>
-        <meta property="og:image" content="<?php echo $property_image; ?>"/>
-        <meta name="keywords" content="<?php echo $keywordsProperty; ?>"/>
-        <meta name="description" content="<?php echo $addressPropertyDescription; ?>">
-        <?php
-    } ?>
-
-    <?php
-    // if (is_numeric($postbuilding) && $postbuilding>=0 ) {
-    if ('building' === $page_slug) {
-        $url_image = '';
-        $og_name_building = '';
-        $building_addresses = '';
-
-
-        $og_building = fb_flex_idx_buildind_social_sc();
-
-        if (!empty($og_building) && is_array($og_building) && array_key_exists('success', $og_building) && $og_building['success'] != false) {
-
-            $og_building_serial_address = @unserialize($og_building['payload']['address_building']);
-
-            if (is_array($og_building_serial_address) && count($og_building_serial_address) > 0) {
-                $og_building_addresses = $og_building_serial_address[0];
-            }
-            if ($og_building['payload']['og_image_url']) {
-                $url_image = $og_building['payload']['og_image_url'];
-            } else {
-                if ($og_building['payload']['type_gallery'] == "1") {
-                    $response = idxboost_collection_building($og_building['payload']['codBuilding']);
-                    if ($response['payload']['properties']) {
-                        if (count($response['payload']['properties']['sale']['items']) > 0) {
-                            $url_image = $response['payload']['properties']['sale']['items'][0]['gallery'][0];
-                        }
+            if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
+                $board_id = 100;
+                $ed = "";
+                $sd = "";
+                $extra_day_in = "";
+                $extra_day_out = "";
+                if (is_array($_GET) && count($_GET) > 0) {
+                    if (array_key_exists("sd", $_GET)) {
+                        $sd = $_GET["sd"];
                     }
+
+                    if (array_key_exists("ed", $_GET)) {
+                        $ed = $_GET["ed"];
+                    }
+
+                    if (array_key_exists("extra_day_in", $_GET)) {
+                        $extra_day_in = $_GET["extra_day_in"];
+                    }
+
+                    if (array_key_exists("extra_day_out", $_GET)) {
+                        $extra_day_out = $_GET["extra_day_out"];
+                    }
+
+                    if (array_key_exists("board", $_GET)) {
+                        $board_id = $_GET["board"];
+                    }
+
+                    $domain_host = $domain_host."?vr=1&sd={$sd}&ed={$ed}&board={$board_id}";
+
+                }
+            }
+
+            $property_head = [];
+
+            if (is_array($GLOBALS) && count($GLOBALS) > 0 && array_key_exists("property", $GLOBALS) && is_array($GLOBALS["property"]) && count($GLOBALS["property"]) > 0) {
+                $property_head = $GLOBALS["property"];
+            } else {
+                $property_head = title_flex_idx_property_detail_sc([], null);
+            }
+
+            // echo '<!-- debug:og ';
+            // var_dump($property_head);
+            // echo '-->';
+
+            $data = $property_head;
+            //$GLOBALS['property']= $data;
+            if (!is_array($data) || (is_array($data) && count($data) == 0)) {
+                return false;
+            }
+            $address_property = $data['address_short'] . ' ' . $data['address_large'];
+            $mls_num_property = $data['mls_num'];
+            $city_name = array_key_exists("city_name", $data) ? $data['city_name'] : "";
+
+            if (is_array($_GET) && count($_GET) > 0 && array_key_exists("vr", $_GET) && $_GET["vr"] == "1") {
+                $text_rental = 'For Vacation Rental';
+            } else {
+                $is_rental = $data['is_rental'];
+                if ($is_rental == '0') {
+                    $text_rental = 'For Sale';
                 } else {
-                    if (is_array($og_building['payload']['gallery_building'])) {
-                        if (count($og_building['payload']['gallery_building']) > 0) {
-                            $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
-                        }
+                    $text_rental = 'For Rent';
+                }
+            }
+
+            if (empty($data) || !is_array($data) || (is_array($data) && count($data) == 0)) {
+                if (!empty($GLOBALS) && is_array($GLOBALS) && array_key_exists('property_address', $GLOBALS) && !empty($GLOBALS['property_address'])) {
+                    $address_property = $GLOBALS['property_address'];
+                }
+            }
+
+            if (empty($mls_num_property)) {
+                if (!empty($GLOBALS) && is_array($GLOBALS) && array_key_exists('property_mls', $GLOBALS) && !empty($GLOBALS['property_mls'])) {
+                    $mls_num_property = $GLOBALS['property_mls'];
+                }
+            }
+
+            if (isset($data["remark"]) && !empty($data["remark"])) {
+                $addressPropertyDescription = $data["remark"];
+            } else {
+                $addressPropertyDescription = 'Photos and Property information for ' . $address_property . ' | ' . $mls_num_property . '. Obtain complete property details, maps, schools and more. Contact or request additional information';
+            }
+
+            $keywordsProperty = $address_property . ' , ' . $city_name . ' Real Estate, ' . $city_name . ' properties ' . $text_rental;
+            $property_image = '';
+            if (array_key_exists('gallery', $data)) {
+                if (array_key_exists(0, $data['gallery'])) {
+                    $property_image_boo = preg_match('/(https)|(http)/', $data['gallery'][0]);
+                    $property_image = $data['gallery'][0];
+                    if (is_numeric($property_image_boo)) {
+                        if ($property_image_boo == '0')
+                            $property_image = 'http:' . $data['gallery'][0];
                     }
                 }
             }
 
-            $og_name_building = $og_building['payload']['name_building'];
-        }
-        ?>
-        <meta property="og:title" content="<?php echo $og_name_building; ?>"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="<?php echo $domain_host; ?>"/>
-        <meta property="og:description" content="<?php echo strip_tags($og_building_addresses); ?>"/>
-        <meta property="og:image" content="<?php echo $url_image; ?>"/>
-        <?php
-    }
-    ?>
-    <?php
-    //if (is_numeric($postsubarea) && $postsubarea>=0 ) {
-    if ('sub-area' === $page_slug) {
-        $url_image = '';
-        $og_name_building = '';
-        $building_addresses = '';
-        $og_building = fb_flex_idx_sub_area_social_sc();
+            if (array_key_exists('imagens', $data)) {
 
-        if (!empty($og_building) && is_array($og_building) && array_key_exists('success', $og_building) && $og_building['success'] != false) {
+                if (is_array($data['imagens']) && count($data['imagens']) > 0 ) {
+                    $property_image_boo = preg_match('/(https)|(http)/', $data['imagens'][0]);
+                    $property_image = $data['imagens'][0];
 
-            $og_building_serial_address = @unserialize($og_building['payload']['address_building']);
-
-            if (is_array($og_building_serial_address) && count($og_building_serial_address) > 0) {
-                $og_building_addresses = $og_building_serial_address[0];
-            }
-            if (is_array($og_building['payload']['gallery_building'])) {
-                if (count($og_building['payload']['gallery_building']) > 0) {
-                    $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
+                    if (is_numeric($property_image_boo)) {
+                        if ($property_image_boo == '0')
+                            $property_image = 'http:' . $data['imagens'][0];
+                    }                    
                 }
-            }
 
-            $og_name_building = $og_building['payload']['name_building'];
+            }
+            
+
+            remove_action('wp_head', 'rel_canonical');
+            add_action('wp_head', 'idx_property_rel_canonical');
+
+            ?>
+            <title><?php echo get_bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?></title>
+            <meta property="og:title"
+                  content="<?php bloginfo('name'); ?> - <?php echo $address_property . ' | ' . get_bloginfo(); ?>"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content="<?php echo $domain_host; ?>"/>
+            <meta property="og:description" content="<?php echo $addressPropertyDescription; ?>"/>
+            <meta property="og:image" content="<?php echo $property_image; ?>"/>
+            <meta name="keywords" content="<?php echo $keywordsProperty; ?>"/>
+            <meta name="description" content="<?php echo $addressPropertyDescription; ?>">
+            <?php
+        } ?>
+
+        <?php
+        // if (is_numeric($postbuilding) && $postbuilding>=0 ) {
+        if ('building' === $page_slug) {
+            $url_image = '';
+            $og_name_building = '';
+            $building_addresses = '';
+
+
+            $og_building = fb_flex_idx_buildind_social_sc();
+
+            if (!empty($og_building) && is_array($og_building) && array_key_exists('success', $og_building) && $og_building['success'] != false) {
+
+                $og_building_serial_address = @unserialize($og_building['payload']['address_building']);
+
+                if (is_array($og_building_serial_address) && count($og_building_serial_address) > 0) {
+                    $og_building_addresses = $og_building_serial_address[0];
+                }
+                if ($og_building['payload']['og_image_url']) {
+                    $url_image = $og_building['payload']['og_image_url'];
+                } else {
+                    if ($og_building['payload']['type_gallery'] == "1") {
+                        $response = idxboost_collection_building($og_building['payload']['codBuilding']);
+                        if ($response['payload']['properties']) {
+                            if (count($response['payload']['properties']['sale']['items']) > 0) {
+                                $url_image = $response['payload']['properties']['sale']['items'][0]['gallery'][0];
+                            }
+                        }
+                    } else {
+                        if (is_array($og_building['payload']['gallery_building'])) {
+                            if (count($og_building['payload']['gallery_building']) > 0) {
+                                $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
+                            }
+                        }
+                    }
+                }
+
+                $og_name_building = $og_building['payload']['name_building'];
+            }
+            ?>
+            <meta property="og:title" content="<?php echo $og_name_building; ?>"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content="<?php echo $domain_host; ?>"/>
+            <meta property="og:description" content="<?php echo strip_tags($og_building_addresses); ?>"/>
+            <meta property="og:image" content="<?php echo $url_image; ?>"/>
+            <?php
         }
         ?>
-        <meta property="og:title" content="<?php echo $og_name_building; ?>"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="<?php echo $domain_host; ?>"/>
-        <meta property="og:description" content="<?php echo strip_tags($og_building_addresses); ?>"/>
-        <meta property="og:image" content="<?php echo $url_image; ?>"/>
         <?php
+        //if (is_numeric($postsubarea) && $postsubarea>=0 ) {
+        if ('sub-area' === $page_slug) {
+            $url_image = '';
+            $og_name_building = '';
+            $building_addresses = '';
+            $og_building = fb_flex_idx_sub_area_social_sc();
+
+            if (!empty($og_building) && is_array($og_building) && array_key_exists('success', $og_building) && $og_building['success'] != false) {
+
+                $og_building_serial_address = @unserialize($og_building['payload']['address_building']);
+
+                if (is_array($og_building_serial_address) && count($og_building_serial_address) > 0) {
+                    $og_building_addresses = $og_building_serial_address[0];
+                }
+                if (is_array($og_building['payload']['gallery_building'])) {
+                    if (count($og_building['payload']['gallery_building']) > 0) {
+                        $url_image = $og_building['payload']['gallery_building'][0]['url_image'];
+                    }
+                }
+
+                $og_name_building = $og_building['payload']['name_building'];
+            }
+            ?>
+            <meta property="og:title" content="<?php echo $og_name_building; ?>"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content="<?php echo $domain_host; ?>"/>
+            <meta property="og:description" content="<?php echo strip_tags($og_building_addresses); ?>"/>
+            <meta property="og:image" content="<?php echo $url_image; ?>"/>
+            <?php
+        }
+
+
     }
-    ?>
-    <?php
+
 }
 
 add_action('wp_head', 'insert_fb_in_head', 0);
@@ -5800,7 +5824,7 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
         return ob_get_clean();
     }
 
-    add_action('wp_head', 'insert_assets_head_new_search_filter', 1);
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 999);
     add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
 }
 

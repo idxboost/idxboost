@@ -22,7 +22,7 @@ if ( ! is_wp_error( $response ) && $response_code === 200 ) {
     
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
     
-    if ( isset( $body['pages'][0]['content'] ) && ! empty( $body['pages'][0]['content'] ) ) {        
+    if ( isset( $body['pages'][0]['content'] ) && ! empty( $body['pages'][0]['content'] ) ) {
         $post->post_content = idx_page_shortcode_render( $body['pages'][0]['content'] );
     } else {
         idxboost_cms_page_under_construction();

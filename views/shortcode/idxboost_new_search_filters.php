@@ -1,6 +1,8 @@
 	<?php  if ( is_array($responseParms) && count($responseParms) > 0) { ?>
 <script>
-	var IB_IS_SEARCH_FILTER_PAGE = true;
+	var temp_mode = '<?php echo $atts["mode"]; ?>';
+	//var IB_IS_SEARCH_FILTER_PAGE = <?php echo ( is_array($atts) && array_key_exists("mode",$atts) && $atts["mode"] != "slider") ? true : false; ?>;
+	var IB_IS_SEARCH_FILTER_PAGE = temp_mode != "slider" ? true : false;
   var IB_SEARCH_FILTER_PAGE = true;
   var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
   var initial_href="";

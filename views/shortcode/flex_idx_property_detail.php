@@ -457,19 +457,46 @@ if (cookieValue && !isNaN(cookieValue)) {
       <div class="container">
 
         <div class="ms-sf-view-actions">
-            <?php if ($property['is_favorite']): ?>
-              <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <span class="active"></span>
-              </button>
-            <?php else: ?>
-              <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite" data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" class="dgt-mark-favorite" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
-                <span></span>
-              </button>
-            <?php endif;?>
+          <?php if ($property['is_favorite']): ?>
+            <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite dgt-mark-favorite" data-address="<?php echo $property['address_short']; ?>" data-alert-token="<?php echo $property['token_alert']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <span class="active"></span>
+            </button>
+          <?php else: ?>
+            <button class="ms-sf-btn chk_save chk_save_property btn-active-favorite" data-address="<?php echo $property['address_short']; ?>" data-mls="<?php echo $property['mls_num']; ?>" data-class-id="<?php echo $property['class_id']; ?>" class="dgt-mark-favorite" data-save="<?php echo __("Save", IDXBOOST_DOMAIN_THEME_LANG); ?>" data-remove="<?php echo __("Remove", IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <span></span>
+            </button>
+          <?php endif;?>
 
-          <button class="ms-sf-btn shareBtn" aria-label="Share">
+          <!--<button class="ms-sf-btn shareBtn" aria-label="Share">
             <i class="idx-icon-shared"></i>
-          </button>
+          </button>-->
+
+          <div class="ms-wrapper-btn-new-share">
+            <div class="ms-wrapper">
+              <button class="ms-share-btn" aria-label="<?php echo __("Share", IDXBOOST_DOMAIN_THEME_LANG); ?>"></button>
+              <ul class="ms-share-list">
+                <li class="ib-pscitem ib-psemailfriend -emailtofriendbuilding" data-permalink="" data-mls="<?php echo $property["mls_num"]; ?>" data-status="">
+                  <a rel="nofollow" href="javascript:void(0)" 
+                    class="ib-psbtn showfriendEmail" 
+                    data-modal="modal_email_to_friend" 
+                    data-origin="1"
+                    data-media="ib-pva-photos"
+                    data-price="$<?php echo number_format($property['price']); ?>"
+                    data-beds="<?php echo $property['bed']; ?>"
+                    data-baths="<?php echo $property['bath']; ?>"
+                    data-sqft="<?php echo number_format($property['sqft']); ?>"
+                    data-address="<?php echo str_replace('# ', '#', $property['address_short']); ?>, <?php echo $property['address_large']; ?>"
+                    data-lg="<?php echo $property['lng']; ?>" 
+                    data-lt="<?php echo $property['lat']; ?>">
+                  <?php echo __("Email to a friend", IDXBOOST_DOMAIN_THEME_LANG); ?>
+                  </a>
+                </li>
+                <li><a role="button" class="ib-pllink -clipboard"><?php echo __("Copy Link", IDXBOOST_DOMAIN_THEME_LANG); ?><span class="-copied"><?php echo __("copied", IDXBOOST_DOMAIN_THEME_LANG); ?></span></a></li>
+                <li><a class="ib-plsitem ib-plsifb property-detail-share-fb" data-share-url="<?php echo $property_permalink; ?>" data-share-title="<?php echo str_replace('# ', '#', $property['address_short']);; ?> <?php echo $property['address_large']; ?>" data-share-description="<?php echo strip_tags($property['remark']); ?>" data-share-image="<?php echo $property['gallery'][0]; ?>" onclick="idxsharefb()" rel="nofollow">Facebook</a></li>
+                <li><a class="ib-plsitem ib-plsitw" onclick="window.open('<?php echo $twitter_share_url; ?>','s_tw','width=600,height=400'); return false;" rel="nofollow">Twitter</a></li>
+              </ul>
+            </div>
+          </div>
           
           <?php if (!empty($agent_info_phone)){ ?>
           <a href="tel:<?php echo preg_replace('/[^\d]/', '', $agent_info_phone); ?>" class="ms-sf-btn">

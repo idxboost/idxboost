@@ -1,10 +1,10 @@
 <?php
-if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
+if (!function_exists('flex_idx_setup_pages_fn')) {
     function flex_idx_setup_pages_fn()
     {
         $current_user_id = get_current_user_id();
-        $post_status     = 'publish';
-        $post_type       = 'flex-idx-pages';
+        $post_status = 'publish';
+        $post_type = 'flex-idx-pages';
 
         $flex_idx_pages = array(
             0 => array(
@@ -73,10 +73,9 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
         );
 
 
-        
-        if (false == get_option('idxboost_new_development_collections_pages') ) {
+        if (false == get_option('idxboost_new_development_collections_pages')) {
 
-            $wp_flex_page_new_developmet_collection  = wp_insert_post(array(
+            $wp_flex_page_new_developmet_collection = wp_insert_post(array(
                 'post_title' => 'New Developments',
                 'post_name' => 'new-developments',
                 'post_content' => '[new_development_collections]',
@@ -84,10 +83,10 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
                 'post_author' => $current_user_id,
                 'post_type' => "flex-idx-pages"
             ));
-            update_post_meta($wp_flex_page_new_developmet_collection, '_flex_id_page', 'flex_idx_new_development_collections' );
-            
+            update_post_meta($wp_flex_page_new_developmet_collection, '_flex_id_page', 'flex_idx_new_development_collections');
+
             add_option('idxboost_new_development_collections_pages', 'yes');
-            
+
         }
 
         if (false == get_option('idxboost_new_development_detail_pages')) {
@@ -99,14 +98,14 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
                 'post_author' => $current_user_id,
                 'post_type' => "flex-idx-pages"
             ));
-            update_post_meta($wp_flex_page_new_developmet_detail, '_flex_id_page', 'flex_idx_new_development_detail' );
-            
+            update_post_meta($wp_flex_page_new_developmet_detail, '_flex_id_page', 'flex_idx_new_development_detail');
+
             add_option('idxboost_new_development_detail_pages', 'yes');
         }
 
-        if (false == get_option('idxboost_new_collections_properties_pages') ) {
+        if (false == get_option('idxboost_new_collections_properties_pages')) {
 
-            $wp_flex_page_collections  = wp_insert_post(array(
+            $wp_flex_page_collections = wp_insert_post(array(
                 'post_title' => 'Collections',
                 'post_name' => 'collections',
                 'post_content' => '[new_collections_properties]',
@@ -114,10 +113,10 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
                 'post_author' => $current_user_id,
                 'post_type' => "flex-idx-pages"
             ));
-            update_post_meta($wp_flex_page_collections, '_flex_id_page', 'flex_idx_new_collections_properties' );
-            
+            update_post_meta($wp_flex_page_collections, '_flex_id_page', 'flex_idx_new_collections_properties');
+
             add_option('idxboost_new_collections_properties_pages', 'yes');
-            
+
         }
 
         if (false == get_option('idxboost_new_collections_detail_pages')) {
@@ -129,11 +128,10 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
                 'post_author' => $current_user_id,
                 'post_type' => "flex-idx-pages"
             ));
-            update_post_meta($wp_flex_page_collections_detail, '_flex_id_page', 'flex_idx_new_collections_properties_details' );
-            
+            update_post_meta($wp_flex_page_collections_detail, '_flex_id_page', 'flex_idx_new_collections_properties_details');
+
             add_option('idxboost_new_collections_detail_pages', 'yes');
         }
-        
 
 
         if (false == get_option('idxboost_dinamic_pages')) {
@@ -169,7 +167,7 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
             ));
 
             update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_page_our_property_collection');
-            
+
             add_option('idxboost_dinamic_pages', 'yes');
         }
 
@@ -182,8 +180,8 @@ if ( ! function_exists( 'flex_idx_setup_pages_fn' ) ) {
                 'post_author' => $current_user_id,
                 'post_type' => $post_type,
             ));
-            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_agent_detail' );
-            
+            update_post_meta($wp_flex_page, '_flex_id_page', 'flex_idx_agent_detail');
+
             add_option('idxboost_dinamic_pages_agent', 'yes');
         }
 
@@ -358,6 +356,7 @@ function function_single_idx_off_market_listings($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_idx_off_market_listings');
 
 function function_single_building($single_template)
@@ -373,6 +372,7 @@ function function_single_building($single_template)
     }
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_building');
 
 function function_single_sub_area($single_template)
@@ -389,6 +389,7 @@ function function_single_sub_area($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_sub_area');
 
 function function_idx_agent_page($single_template)
@@ -396,7 +397,7 @@ function function_idx_agent_page($single_template)
     global $flex_idx_info, $post, $wp;
 
     if ($post->post_type == 'idx-agents') {
-        $wp_request     = $wp->request;
+        $wp_request = $wp->request;
         $wp_request_exp = explode('/', $wp_request);
 
         if ($post->post_type == 'idx-agents') {
@@ -476,6 +477,7 @@ function function_idx_agent_page($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_idx_agent_page');
 
 function function_single_filter_page($single_template)
@@ -488,6 +490,7 @@ function function_single_filter_page($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_filter_page');
 
 function function_single_landing_filter_page($single_template)
@@ -500,6 +503,7 @@ function function_single_landing_filter_page($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_landing_filter_page');
 
 function function_single_idx_page($single_template)
@@ -512,6 +516,7 @@ function function_single_idx_page($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_idx_page');
 
 //TITULO_PAGE
@@ -523,10 +528,11 @@ function func_filter_id()
 function func_build_filterid($post)
 {
     $flex_building_page_id = get_post_meta($post->ID, '_flex_building_page_id', true);
-?>
+    ?>
     <input name="_flex_building_page_id" class="widefat" type="text" value="<?php echo $flex_building_page_id; ?>">
-<?php
+    <?php
 }
+
 add_action('add_meta_boxes', 'func_filter_id');
 
 function func_sub_area_filter_id()
@@ -537,10 +543,11 @@ function func_sub_area_filter_id()
 function func_sub_area_build_filterid($post)
 {
     $flex_building_page_id = get_post_meta($post->ID, '_flex_building_page_id', true);
-?>
+    ?>
     <input name="_flex_building_page_id" class="widefat" type="text" value="<?php echo $flex_building_page_id; ?>">
-<?php
+    <?php
 }
+
 add_action('add_meta_boxes', 'func_sub_area_filter_id');
 
 function custom_save_filterid_build_subarea($post_id, $post)
@@ -559,6 +566,7 @@ function custom_save_filterid_build_subarea($post_id, $post)
         update_post_meta($post_id, '_flex_building_page_id', sanitize_text_field($_POST['_flex_building_page_id']));
     }
 }
+
 add_action('save_post_idx-sub-area', 'custom_save_filterid_build_subarea', 10, 2);
 
 /*OFF MARKET LISTINGS*/
@@ -570,14 +578,15 @@ function func_filter_id_off_market_listings()
 function func_filterid_off_market_listing($post)
 {
     $flex_building_page_id = get_post_meta($post->ID, '_flex_token_listing_page_id', true);
-?>
+    ?>
     <input name="_flex_token_listing_page_id" class="widefat" type="text" value="<?php echo $flex_building_page_id; ?>">
     <?php
 }
+
 add_action('add_meta_boxes', 'func_filter_id_off_market_listings');
 /*OFF MARKET LISTINGS*/
 
-if ( ! function_exists( 'flex_filter_page_metaboxes_save' ) ) {
+if (!function_exists('flex_filter_page_metaboxes_save')) {
     function flex_filter_page_metaboxes_save($post_id)
     {
         global $wpdb;
@@ -636,6 +645,7 @@ function custom_save_filterid_build($post_id, $post)
         update_post_meta($post_id, '_flex_building_page_id', sanitize_text_field($_POST['_flex_building_page_id']));
     }
 }
+
 add_action('save_post_flex-idx-building', 'custom_save_filterid_build', 10, 2);
 
 
@@ -655,25 +665,27 @@ function custom_save_filterid_off_market_listing($post_id, $post)
         update_post_meta($post_id, '_flex_token_listing_page_id', sanitize_text_field($_POST['_flex_token_listing_page_id']));
     }
 }
+
 add_action('save_post_idx-off-market', 'custom_save_filterid_off_market_listing', 10, 2);
 //FIN TITLE_PAGE
 
-if ( ! function_exists( 'flex_filter_page_id_cb' ) ) {
+if (!function_exists('flex_filter_page_id_cb')) {
     function flex_filter_page_id_cb($post)
     {
         wp_nonce_field(basename(__FILE__), 'flex_filter_page_meta_box_nonce');
 
         // retrieve the _food_cholesterol current value
         $flex_filter_page_id = get_post_meta($post->ID, '_flex_filter_page_id', true);
-    ?>
+        ?>
         <div class="inside">
-            <input type="text" class="widefat" name="_flex_filter_page_id" value="<?php echo esc_html__($flex_filter_page_id); ?>">
+            <input type="text" class="widefat" name="_flex_filter_page_id"
+                   value="<?php echo esc_html__($flex_filter_page_id); ?>">
         </div>
-    <?php
+        <?php
     }
 }
 
-if ( ! function_exists( 'flex_filter_page_fl_cb' ) ) {
+if (!function_exists('flex_filter_page_fl_cb')) {
     function flex_filter_page_fl_cb($post)
     {
         wp_nonce_field(basename(__FILE__), 'flex_filter_page_meta_box_nonce');
@@ -682,7 +694,7 @@ if ( ! function_exists( 'flex_filter_page_fl_cb' ) ) {
         if ("" == $flex_filter_page_fl) {
             $flex_filter_page_fl = 3;
         }
-    ?>
+        ?>
         <div class="inside">
             <p><input type="radio" name="_flex_filter_page_fl" <?php checked($flex_filter_page_fl, 3); ?> value="3">
                 Default</p>
@@ -693,11 +705,11 @@ if ( ! function_exists( 'flex_filter_page_fl_cb' ) ) {
             <p><input type="radio" name="_flex_filter_page_fl" <?php checked($flex_filter_page_fl, 0); ?> value="0">
                 Hide Search Bar</p>
         </div>
-    <?php
+        <?php
     }
 }
 
-if ( ! function_exists( 'flex_filter_page_references_fl_cb' ) ) {
+if (!function_exists('flex_filter_page_references_fl_cb')) {
     function flex_filter_page_references_fl_cb($post)
     {
         wp_nonce_field(basename(__FILE__), 'flex_filter_page_meta_box_nonce');
@@ -706,29 +718,31 @@ if ( ! function_exists( 'flex_filter_page_references_fl_cb' ) ) {
         if ("" == $flex_filter_page_refrences) {
             $flex_filter_page_refrences = '0';
         }
-    ?>
-        <input type="checkbox" name="_flex_filter_page_references" value="1" <?php if (!empty($flex_filter_page_refrences) && $flex_filter_page_refrences == "1") {
-                                                                                    echo "checked";
-                                                                                } ?>> Active
-    <?php
+        ?>
+        <input type="checkbox" name="_flex_filter_page_references"
+               value="1" <?php if (!empty($flex_filter_page_refrences) && $flex_filter_page_refrences == "1") {
+            echo "checked";
+        } ?>> Active
+        <?php
     }
 }
 
-if ( ! function_exists( 'flex_filter_page_show_home_cb' ) ) {
+if (!function_exists('flex_filter_page_show_home_cb')) {
     function flex_filter_page_show_home_cb($post)
     {
         wp_nonce_field(basename(__FILE__), 'flex_filter_page_meta_box_nonce');
 
         $flex_filter_page_show_home = (int)get_post_meta($post->ID, '_flex_filter_page_show_home', true);
-    ?>
+        ?>
         <div class="inside">
-            <input type="checkbox" name="_flex_filter_page_show_home" <?php checked($flex_filter_page_show_home, 1); ?> value="1"> Show as featured in Homepage
+            <input type="checkbox" name="_flex_filter_page_show_home" <?php checked($flex_filter_page_show_home, 1); ?>
+                   value="1"> Show as featured in Homepage
         </div>
-    <?php
+        <?php
     }
 }
 
-if ( ! function_exists( 'flex_filter_page_metaboxes' ) ) {
+if (!function_exists('flex_filter_page_metaboxes')) {
     function flex_filter_page_metaboxes($post)
     {
         add_meta_box('flex_filter_page_id', 'ID - Filter Page', 'flex_filter_page_id_cb', 'flex-filter-pages', 'side');
@@ -739,7 +753,7 @@ if ( ! function_exists( 'flex_filter_page_metaboxes' ) ) {
 }
 add_action('add_meta_boxes_flex-filter-pages', 'flex_filter_page_metaboxes');
 
-if ( ! function_exists( 'flex_filter_page_metaboxes_save' ) ) {
+if (!function_exists('flex_filter_page_metaboxes_save')) {
     function flex_filter_page_metaboxes_save($post_id)
     {
         global $wpdb;
@@ -776,7 +790,7 @@ if ( ! function_exists( 'flex_filter_page_metaboxes_save' ) ) {
     add_action('save_post_flex-filter-pages', 'flex_filter_page_metaboxes_save', 10, 2);
 }
 
-if ( ! function_exists( 'flex_idx_posttype_pages_pre_get_posts_fn' ) ) {
+if (!function_exists('flex_idx_posttype_pages_pre_get_posts_fn')) {
     function flex_idx_posttype_pages_pre_get_posts_fn($query)
     {
         if (!$query->is_main_query() || 2 != count($query->query) || !isset($query->query['page'])) {
@@ -805,6 +819,7 @@ function iboost_remove_front_slug_types($post_link, $post, $leavename)
 
     return $post_link;
 }
+
 add_filter('post_type_link', 'iboost_remove_front_slug_types', 10, 3);
 
 //POST_TYPE_ALERT_PAGE
@@ -829,23 +844,23 @@ function idx_alerts_page()
         'capability_type' => 'post',
     ));
 
-    $current_user_id      = get_current_user_id();
-    $post_status          = 'publish';
-    $post_type            = 'idx-alerts-page';
+    $current_user_id = get_current_user_id();
+    $post_status = 'publish';
+    $post_type = 'idx-alerts-page';
     $flex_idx_pages_alert = array(
         0 => array(
-            'post_title'  => 'flx-unsubscribe',
-            'post_name'   => 'flx-unsubscribe',
+            'post_title' => 'flx-unsubscribe',
+            'post_name' => 'flx-unsubscribe',
             'post_status' => $post_status,
             'post_author' => $current_user_id,
-            'post_type'   => $post_type,
+            'post_type' => $post_type,
         ),
         1 => array(
-            'post_title'  => 'flx-edit-information',
-            'post_name'   => 'flx-edit-information',
+            'post_title' => 'flx-edit-information',
+            'post_name' => 'flx-edit-information',
             'post_status' => $post_status,
             'post_author' => $current_user_id,
-            'post_type'   => $post_type,
+            'post_type' => $post_type,
         ),
     );
 
@@ -863,6 +878,7 @@ function idx_alerts_page()
 
     add_option('flex_idx_imported_initial_alerts', 'yes');
 }
+
 add_action('init', 'idx_alerts_page');
 
 function function_single_alerts($single_template)
@@ -875,6 +891,7 @@ function function_single_alerts($single_template)
 
     return $single_template;
 }
+
 add_filter('single_template', 'function_single_alerts');
 
 function idx_add_role_alerts()
@@ -882,6 +899,7 @@ function idx_add_role_alerts()
     $admins = get_role('administrator');
     $admins->add_cap('edit_flex_idx_alerts_page');
 }
+
 add_action('admin_init', 'idx_add_role_alerts');
 //POST_TYPE_ALERT_PAGE
 
@@ -891,10 +909,11 @@ function idx_style_add_role()
     $admins = get_role('administrator');
     $admins->add_cap('edit_flex_idx_building');
 }
+
 add_action('admin_init', 'idx_style_add_role');
 
-$my_post    = array('post_title' => wp_strip_all_tags('Plugin Style'), 'post_content' => '', 'post_status' => 'publish', 'post_type' => 'idx-style');
-$argumento  = array('post_type' => 'idx-style', 'post_status' => 'publish');
+$my_post = array('post_title' => wp_strip_all_tags('Plugin Style'), 'post_content' => '', 'post_status' => 'publish', 'post_type' => 'idx-style');
+$argumento = array('post_type' => 'idx-style', 'post_status' => 'publish');
 $wp_contact = new WP_Query($argumento);
 
 if (!$wp_contact->have_posts()) {
@@ -910,10 +929,10 @@ function func_idx_style($post)
 {
     wp_nonce_field('cyb_meta_box', 'cyb_meta_box_idx_style');
 
-    $post_meta              = get_post_custom($post->ID);
-    $idx_style_boton        = '';
-    $idx_style_texto        = '';
-    $idx_style_body         = '';
+    $post_meta = get_post_custom($post->ID);
+    $idx_style_boton = '';
+    $idx_style_texto = '';
+    $idx_style_body = '';
     $idx_style_second_color = '';
 
     if (isset($post_meta['idx_style_second_color'][0])) {
@@ -953,40 +972,46 @@ function func_idx_style($post)
     }
 
     ?>
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css" />
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css"/>
     <script src="<?php echo FLEX_IDX_URI; ?>/js/vendor/color-picker.min.js"></script>
     <div class="item_object">
         <label>Primary Plugin Color</label>
-        <input class="idx_style_boton" name="idx_style_boton" id="idx_style_1" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_boton); ?>">
+        <input class="idx_style_boton" name="idx_style_boton" id="idx_style_1" placeholder="#000000" type="text"
+               value="<?php echo esc_attr($idx_style_boton); ?>">
         <div class="change_button" id="change_button_1" bo="1">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Secondary Plugin Color</label>
-        <input class="idx_style_boton" name="idx_style_second_color" id="idx_style_6" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_second_color); ?>">
+        <input class="idx_style_boton" name="idx_style_second_color" id="idx_style_6" placeholder="#000000" type="text"
+               value="<?php echo esc_attr($idx_style_second_color); ?>">
         <div class="change_button" id="change_button_6" bo="6">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Text Color</label>
-        <input class="idx_style_boton" name="idx_style_text_color" id="idx_style_7" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_text_color); ?>">
+        <input class="idx_style_boton" name="idx_style_text_color" id="idx_style_7" placeholder="#000000" type="text"
+               value="<?php echo esc_attr($idx_style_text_color); ?>">
         <div class="change_button" id="change_button_7" bo="7">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Headlines</label>
-        <input class="idx_style_texto" name="idx_style_texto" id="idx_style_2" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_texto); ?>">
+        <input class="idx_style_texto" name="idx_style_texto" id="idx_style_2" placeholder="#000000" type="text"
+               value="<?php echo esc_attr($idx_style_texto); ?>">
         <div class="change_button" id="change_button_2" bo="2">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Body Text</label>
-        <input class="idx_style_body" name="idx_style_body" id="idx_style_3" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_body); ?>">
+        <input class="idx_style_body" name="idx_style_body" id="idx_style_3" placeholder="#000000" type="text"
+               value="<?php echo esc_attr($idx_style_body); ?>">
         <div class="change_button" id="change_button_3" bo="3">Select Color</div>
     </div>
     <div class="item_object">
         <label>search bar Text</label>
-        <input class="idx_style_search_bar_texto" name="idx_style_search_bar_texto" id="idx_style_4" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_search_bar_texto); ?>">
+        <input class="idx_style_search_bar_texto" name="idx_style_search_bar_texto" id="idx_style_4"
+               placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_search_bar_texto); ?>">
         <div class="change_button" id="change_button_4" bo="4">Select Color</div>
     </div>
 
@@ -994,37 +1019,41 @@ function func_idx_style($post)
         <label>search bar Background</label>
         <select name="idx_style_search_bar_bose" id="idx_style_search_bar_bose">
             <option value="transparent" <?php if (esc_attr($idx_style_search_bar_bose) == "transparent") {
-                                            echo "selected";
-                                        }
-                                        ?>>transparent
+                echo "selected";
+            }
+            ?>>transparent
             </option>
             <option value="fill" <?php if (esc_attr($idx_style_search_bar_bose) == "fill") {
-                                        echo "selected";
-                                    }
-                                    ?>>fill
+                echo "selected";
+            }
+            ?>>fill
             </option>
         </select>
-        <input class="idx_style_search_bar_body" name="idx_style_search_bar_body" id="idx_style_5" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_search_bar_body); ?>">
+        <input class="idx_style_search_bar_body" name="idx_style_search_bar_body" id="idx_style_5" placeholder="#000000"
+               type="text" value="<?php echo esc_attr($idx_style_search_bar_body); ?>">
         <div class="change_button" id="change_button_5" bo="5">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Favorites Button Style </label>
-        <label><input type="radio" class="idx_select_image_heart" name="idx_select_image" value="corazon.png" <?php if (esc_attr($idx_select_image) == 'corazon.png') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                                ?>> Heart</label>
-        <label><input type="radio" class="idx_select_image_square" name="idx_select_image" value="cuadrado.png" <?php if (esc_attr($idx_select_image) == 'cuadrado.png') {
-                                                                                                                    echo "checked";
-                                                                                                                }
-                                                                                                                ?>> Square</label>
+        <label><input type="radio" class="idx_select_image_heart" name="idx_select_image"
+                      value="corazon.png" <?php if (esc_attr($idx_select_image) == 'corazon.png') {
+                echo "checked";
+            }
+            ?>> Heart</label>
+        <label><input type="radio" class="idx_select_image_square" name="idx_select_image"
+                      value="cuadrado.png" <?php if (esc_attr($idx_select_image) == 'cuadrado.png') {
+                echo "checked";
+            }
+            ?>> Square</label>
     </div>
 
     <div class="item_object">
         <div class="change_button_default" id="button_default">Default (Back to original)</div>
     </div>
     <div class="item_object">
-        <iframe src="<?php echo FLEX_IDX_URI; ?>/preview_plugin/iframe_preview.html" id="iframeID" style="width:100%;height:1200px;"></iframe>
+        <iframe src="<?php echo FLEX_IDX_URI; ?>/preview_plugin/iframe_preview.html" id="iframeID"
+                style="width:100%;height:1200px;"></iframe>
     </div>
     <style type="text/css">
         .change_button,
@@ -1070,7 +1099,7 @@ function func_idx_style($post)
             return 'rgba(' + arrByte[1] + ', ' + arrByte[2] + ', ' + arrByte[3] + ', 0.5)';
         }
 
-        jQuery('#idx_style_search_bar_bose, input[name=idx_select_image]').change(function() {
+        jQuery('#idx_style_search_bar_bose, input[name=idx_select_image]').change(function () {
             func_preview();
         });
 
@@ -1091,8 +1120,8 @@ function func_idx_style($post)
             jQuery('#iframeID').contents().find('body').append('<style type="text/css">' + style_texto_point + select_image_point + style_boton_point + style_body_point_status_search + style_search_bar_texto + '</style>');
         }
 
-        jQuery(window).on("load", function() {
-            jQuery('.change_button').click(function() {
+        jQuery(window).on("load", function () {
+            jQuery('.change_button').click(function () {
                 jQuery('.color-picker').remove();
                 if (jQuery(this).hasClass('button_on')) {
                     jQuery(this).removeClass('button_on');
@@ -1106,13 +1135,13 @@ function func_idx_style($post)
                     var picker = new CP(jQuery(texto_id_input).get(0), false),
                         button = document.getElementById(button_id_input),
                         button_html = button.innerHTML;
-                    picker.on("change", function(color) {
+                    picker.on("change", function (color) {
                         this.target.value = "#" + color;
                     });
                     picker[picker.visible ? "exit" : "enter"]();
                 }
             });
-            jQuery('#button_default').click(function() {
+            jQuery('#button_default').click(function () {
                 jQuery('.idx_style_boton').val('');
                 jQuery('.idx_style_texto').val('');
                 jQuery('.idx_style_body').val('');
@@ -1125,8 +1154,9 @@ function func_idx_style($post)
             func_preview();
         });
     </script>
-<?php
+    <?php
 }
+
 add_action('add_meta_boxes', 'func_idx_meta_style');
 
 function func_idx_save_style($post_id, $post)
@@ -1135,65 +1165,66 @@ function func_idx_save_style($post_id, $post)
         update_post_meta($post_id, 'idx_style_boton', sanitize_text_field($_POST['idx_style_boton']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_boton');
-    }
+            delete_post_meta($post_id, 'idx_style_boton');
+        }
 
     if (isset($_POST['idx_style_second_color'])) {
         update_post_meta($post_id, 'idx_style_second_color', sanitize_text_field($_POST['idx_style_second_color']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_second_color');
-    }
+            delete_post_meta($post_id, 'idx_style_second_color');
+        }
 
     if (isset($_POST['idx_style_texto'])) {
         update_post_meta($post_id, 'idx_style_texto', sanitize_text_field($_POST['idx_style_texto']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_texto');
-    }
+            delete_post_meta($post_id, 'idx_style_texto');
+        }
 
     if (isset($_POST['idx_style_body'])) {
         update_post_meta($post_id, 'idx_style_body', sanitize_text_field($_POST['idx_style_body']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_body');
-    }
+            delete_post_meta($post_id, 'idx_style_body');
+        }
 
     if (isset($_POST['idx_select_image'])) {
         update_post_meta($post_id, 'idx_select_image', sanitize_text_field($_POST['idx_select_image']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_select_image');
-    }
+            delete_post_meta($post_id, 'idx_select_image');
+        }
 
     if (isset($_POST['idx_style_search_bar_body'])) {
         update_post_meta($post_id, 'idx_style_search_bar_body', sanitize_text_field($_POST['idx_style_search_bar_body']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_select_image');
-    }
+            delete_post_meta($post_id, 'idx_select_image');
+        }
 
     if (isset($_POST['idx_style_search_bar_texto'])) {
         update_post_meta($post_id, 'idx_style_search_bar_texto', sanitize_text_field($_POST['idx_style_search_bar_texto']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_search_bar_texto');
-    }
+            delete_post_meta($post_id, 'idx_style_search_bar_texto');
+        }
 
     if (isset($_POST['idx_style_text_color'])) {
         update_post_meta($post_id, 'idx_style_text_color', sanitize_text_field($_POST['idx_style_text_color']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_text_color');
-    }
+            delete_post_meta($post_id, 'idx_style_text_color');
+        }
 
     if (isset($_POST['idx_style_search_bar_bose'])) {
         update_post_meta($post_id, 'idx_style_search_bar_bose', sanitize_text_field($_POST['idx_style_search_bar_bose']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_search_bar_bose');
-    }
+            delete_post_meta($post_id, 'idx_style_search_bar_bose');
+        }
 }
+
 add_action('save_post', 'func_idx_save_style', 10, 2);
 //FIN DE LOS CAMPOS
 
@@ -1205,24 +1236,24 @@ function convert_rgba($hex)
 
 function idx_func_style_on()
 {
-    $my_post                                           = array('post_title' => wp_strip_all_tags('style plugin idx'), 'post_content' => '', 'post_status' => 'publish', 'post_type' => 'idx-style');
-    $argumento                                         = array('post_type' => 'idx-style', 'post_status' => 'publish');
-    $wp_contact                                        = new WP_Query($argumento);
-    $count_ite                                         = 0;
-    $idx_style_second_color_point                      = '';
-    $style_texto_point                                 = '';
-    $select_image_point                                = '';
-    $style_boton_point                                 = '';
-    $style_body_point_rgba_transparent                 = '';
-    $style_search_bar_texto                            = '';
-    $idx_style_texto_theme_point                       = '';
-    $idx_style_body_text_theme_point                   = '';
+    $my_post = array('post_title' => wp_strip_all_tags('style plugin idx'), 'post_content' => '', 'post_status' => 'publish', 'post_type' => 'idx-style');
+    $argumento = array('post_type' => 'idx-style', 'post_status' => 'publish');
+    $wp_contact = new WP_Query($argumento);
+    $count_ite = 0;
+    $idx_style_second_color_point = '';
+    $style_texto_point = '';
+    $select_image_point = '';
+    $style_boton_point = '';
+    $style_body_point_rgba_transparent = '';
+    $style_search_bar_texto = '';
+    $idx_style_texto_theme_point = '';
+    $idx_style_body_text_theme_point = '';
     $idx_style_search_bar_bose_theme_transparent_point = '';
-    $style_title_galery                                = '';
-    $image_footer_firt                                 = '';
-    $image_footer_second                               = '';
-    $image_footer_third                                = '';
-    $idx_style_plugin_sec_pri                          = '';
+    $style_title_galery = '';
+    $image_footer_firt = '';
+    $image_footer_second = '';
+    $image_footer_third = '';
+    $idx_style_plugin_sec_pri = '';
 
     while ($wp_contact->have_posts()) : $wp_contact->the_post();
         $custom_fields = get_post_custom();
@@ -1425,13 +1456,13 @@ function idx_func_style_on()
     $wp_contact_theme = new WP_Query($argumento_theme);
 
     while ($wp_contact_theme->have_posts()) : $wp_contact_theme->the_post();
-        $custom_fields                   = get_post_custom();
-        $idx_style_texto_theme           = $custom_fields['idx_style_texto_theme'][0];
-        $idx_style_body_text_theme       = $custom_fields['idx_style_body_text_theme'][0];
+        $custom_fields = get_post_custom();
+        $idx_style_texto_theme = $custom_fields['idx_style_texto_theme'][0];
+        $idx_style_body_text_theme = $custom_fields['idx_style_body_text_theme'][0];
         $idx_style_search_bar_bose_theme = $custom_fields['idx_style_search_bar_bose_theme'][0];
         $idx_style_search_bar_body_theme = $custom_fields['idx_style_search_bar_body_theme'][0];
-        $post_thumbnail_id               = get_post_thumbnail_id(get_the_ID());
-        $post_thumbnail_url              = wp_get_attachment_url($post_thumbnail_id);
+        $post_thumbnail_id = get_post_thumbnail_id(get_the_ID());
+        $post_thumbnail_url = wp_get_attachment_url($post_thumbnail_id);
     endwhile;
 
     wp_reset_postdata();
@@ -1476,6 +1507,7 @@ function idx_func_style_on()
         $idx_style_plugin_sec_pri .
         ' </style>';
 }
+
 //add_action('wp_footer', 'idx_func_style_on');
 
 /*THEME_STYLE_CUSTOMIZER*/
@@ -1484,6 +1516,7 @@ function idx_style_theme_func()
     $labels_theme_style = array('name' => 'Configuration Theme Style', 'menu_name' => 'Theme Style', 'name_admin_bar' => 'Theme Style', 'edit_item' => 'Edit Theme Style');
     register_post_type('idx-style-theme', array('public' => true, 'has_archive' => false, 'exclude_from_search' => true, 'show_ui' => true, 'show_in_nav_menus' => true, 'show_in_menu' => true, 'show_in_admin_bar' => false, 'labels' => $labels_theme_style, 'rewrite' => false, 'capabilities' => array('create_posts' => false, 'edit_post' => 'edit_flex_idx_theme_style', 'delete_post' => false), 'supports' => array('thumbnail'), 'capability_type' => 'post'));
 }
+
 // add_action('init', 'idx_style_theme_func');
 
 function idx_style_add_theme_role()
@@ -1491,6 +1524,7 @@ function idx_style_add_theme_role()
     $admins = get_role('administrator');
     $admins->add_cap('edit_flex_idx_theme_style');
 }
+
 // add_action('admin_init', 'idx_style_add_theme_role');
 
 /*$my_post_theme   = array('post_title' => wp_strip_all_tags('Theme Style'), 'post_content' => '', 'post_status' => 'publish', 'post_type' => 'idx-style-theme');
@@ -1511,10 +1545,10 @@ function func_idx_style_theme($post)
     add_action('admin_footer', 'media_selector_print_scripts');
     wp_nonce_field('cyb_meta_box', 'cyb_meta_box_idx_style_theme');
 
-    $post_meta       = get_post_custom($post->ID);
+    $post_meta = get_post_custom($post->ID);
     $idx_style_boton = '';
     $idx_style_texto = '';
-    $idx_style_body  = '';
+    $idx_style_body = '';
 
     if (isset($post_meta['idx_style_texto_theme'][0])) {
         $idx_style_texto_theme = $post_meta['idx_style_texto_theme'][0];
@@ -1532,35 +1566,38 @@ function func_idx_style_theme($post)
         $idx_style_search_bar_body_theme = $post_meta['idx_style_search_bar_body_theme'][0];
     }
 
-?>
-    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css" />
+    ?>
+    <link rel="stylesheet" href="<?php echo FLEX_IDX_URI; ?>/css/vendor/color-picker.min.css"/>
     <script src="<?php echo FLEX_IDX_URI; ?>/js/vendor/color-picker.min.js"></script>
     <div class="item_object">
         <label>Color Text Menu</label>
-        <input class="idx_style_texto_theme" name="idx_style_texto_theme" id="idx_style_2" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_texto_theme); ?>">
+        <input class="idx_style_texto_theme" name="idx_style_texto_theme" id="idx_style_2" placeholder="#000000"
+               type="text" value="<?php echo esc_attr($idx_style_texto_theme); ?>">
         <div class="change_button" id="change_button_2" bo="2">Select Color</div>
     </div>
 
     <div class="item_object">
         <label>Body Text</label>
-        <input class="idx_style_body_text_theme" name="idx_style_body_text_theme" id="idx_style_3" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_body_text_theme); ?>">
+        <input class="idx_style_body_text_theme" name="idx_style_body_text_theme" id="idx_style_3" placeholder="#000000"
+               type="text" value="<?php echo esc_attr($idx_style_body_text_theme); ?>">
         <div class="change_button" id="change_button_3" bo="3">Select Color</div>
     </div>
     <div class="item_object">
         <label>Footer bar Background</label>
         <select name="idx_style_search_bar_bose_theme" id="idx_style_search_bar_bose_theme">
             <option value="transparent" <?php if (esc_attr($idx_style_search_bar_bose) == "transparent") {
-                                            echo "selected";
-                                        }
-                                        ?>>transparent
+                echo "selected";
+            }
+            ?>>transparent
             </option>
             <option value="fill" <?php if (esc_attr($idx_style_search_bar_bose) == "fill") {
-                                        echo "selected";
-                                    }
-                                    ?>>fill
+                echo "selected";
+            }
+            ?>>fill
             </option>
         </select>
-        <input class="idx_style_search_bar_body_theme" name="idx_style_search_bar_body_theme" id="idx_style_5" placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_search_bar_body_theme); ?>">
+        <input class="idx_style_search_bar_body_theme" name="idx_style_search_bar_body_theme" id="idx_style_5"
+               placeholder="#000000" type="text" value="<?php echo esc_attr($idx_style_search_bar_body_theme); ?>">
         <div class="change_button" id="change_button_5" bo="5">Select Color</div>
     </div>
 
@@ -1572,32 +1609,42 @@ function func_idx_style_theme($post)
     <div class="item_object">
         <?php wp_enqueue_media(); ?>
         <div class='image-preview-wrapper'>
-            <img id='image-preview-first' src='<?php echo wp_get_attachment_url(get_option('footer_media_first_id')); ?>' height='100'>
+            <img id='image-preview-first'
+                 src='<?php echo wp_get_attachment_url(get_option('footer_media_first_id')); ?>' height='100'>
         </div>
-        <input id="upload_image_button" conjun="#footer_image_first" previ="#image-preview-first" type="button" class="button" value="<?php _e('Footer Logo'); ?>" />
-        <input type='hidden' name='footer_image_first' id='footer_image_first' value='<?php echo get_option('footer_media_first_id'); ?>'>
+        <input id="upload_image_button" conjun="#footer_image_first" previ="#image-preview-first" type="button"
+               class="button" value="<?php _e('Footer Logo'); ?>"/>
+        <input type='hidden' name='footer_image_first' id='footer_image_first'
+               value='<?php echo get_option('footer_media_first_id'); ?>'>
     </div>
 
     <div class="item_object">
         <?php wp_enqueue_media(); ?>
         <div class='image-preview-wrapper'>
-            <img id='image-preview-second' src='<?php echo wp_get_attachment_url(get_option('footer_media_second_id')); ?>' height='100'>
+            <img id='image-preview-second'
+                 src='<?php echo wp_get_attachment_url(get_option('footer_media_second_id')); ?>' height='100'>
         </div>
-        <input id="upload_image_button_second" type="button" previ="#image-preview-second" conjun="#footer_image_second" class="button" value="<?php _e('Broker Logo 1'); ?>" />
-        <input type='hidden' name='footer_image_second' id='footer_image_second' value='<?php echo get_option('footer_media_second_id'); ?>'>
+        <input id="upload_image_button_second" type="button" previ="#image-preview-second" conjun="#footer_image_second"
+               class="button" value="<?php _e('Broker Logo 1'); ?>"/>
+        <input type='hidden' name='footer_image_second' id='footer_image_second'
+               value='<?php echo get_option('footer_media_second_id'); ?>'>
     </div>
 
     <div class="item_object">
         <?php wp_enqueue_media(); ?>
         <div class='image-preview-wrapper'>
-            <img id='image-preview-third' src='<?php echo wp_get_attachment_url(get_option('footer_media_third')); ?>' height='100'>
+            <img id='image-preview-third' src='<?php echo wp_get_attachment_url(get_option('footer_media_third')); ?>'
+                 height='100'>
         </div>
-        <input id="upload_image_button_third" type="button" previ="#image-preview-third" conjun="#footer_image_third" class="button" value="<?php _e('Broker Logo 2'); ?>" />
-        <input type='hidden' name='footer_image_third' id='footer_image_third' value='<?php echo get_option('footer_media_third'); ?>'>
+        <input id="upload_image_button_third" type="button" previ="#image-preview-third" conjun="#footer_image_third"
+               class="button" value="<?php _e('Broker Logo 2'); ?>"/>
+        <input type='hidden' name='footer_image_third' id='footer_image_third'
+               value='<?php echo get_option('footer_media_third'); ?>'>
     </div>
 
     <div class="item_object">
-        <iframe src="<?php echo FLEX_IDX_URI; ?>preview_plugin/iframe_theme.html" id="iframeID" style="width:100%;height:550px;"></iframe>
+        <iframe src="<?php echo FLEX_IDX_URI; ?>preview_plugin/iframe_theme.html" id="iframeID"
+                style="width:100%;height:550px;"></iframe>
     </div>
     <style type="text/css">
         .item_object img {
@@ -1648,7 +1695,7 @@ function func_idx_style_theme($post)
             return 'rgba(' + arrByte[1] + ', ' + arrByte[2] + ', ' + arrByte[3] + ', 0.5)';
         }
 
-        jQuery('#idx_style_search_bar_bose_theme, input[name=idx_select_image]').change(function() {
+        jQuery('#idx_style_search_bar_bose_theme, input[name=idx_select_image]').change(function () {
             func_preview();
         });
 
@@ -1691,9 +1738,9 @@ function func_idx_style_theme($post)
             jQuery('#iframeID').contents().find('body').append('<style type="text/css">' + style_texto_point + style_boton_point + style_body_point_status_search + style_title_menu + style_title_galery + image_footer_firt + image_footer_second + image_footer_third + '</style>');
         }
 
-        jQuery(window).on("load", function() {
+        jQuery(window).on("load", function () {
             jQuery('#postimagediv h2.hndle.ui-sortable-handle span').text("Logo Theme");
-            jQuery('.change_button').click(function() {
+            jQuery('.change_button').click(function () {
                 jQuery('.color-picker').remove();
                 if (jQuery(this).hasClass('button_on')) {
                     jQuery(this).removeClass('button_on');
@@ -1707,7 +1754,7 @@ function func_idx_style_theme($post)
                     var picker = new CP(jQuery(texto_id_input).get(0), false),
                         button = document.getElementById(button_id_input),
                         button_html = button.innerHTML;
-                    picker.on("change", function(color) {
+                    picker.on("change", function (color) {
                         this.target.value = "#" + color;
                     });
                     picker[picker.visible ? "exit" : "enter"]();
@@ -1715,11 +1762,11 @@ function func_idx_style_theme($post)
             });
 
 
-            jQuery('#button_sent').click(function() {
+            jQuery('#button_sent').click(function () {
                 func_preview();
             });
 
-            jQuery('#button_default').click(function() {
+            jQuery('#button_default').click(function () {
                 jQuery('#idx_style_2').val('');
                 jQuery('#idx_style_3').val('');
                 jQuery('#idx_style_5').val('');
@@ -1728,14 +1775,15 @@ function func_idx_style_theme($post)
 
             func_preview();
 
-            jQuery('#_thumbnail_id').change(function() {
+            jQuery('#_thumbnail_id').change(function () {
                 console.log(jQuery('.thickbox img').attr('src'));
             });
 
         });
     </script>
-<?php
+    <?php
 }
+
 // add_action('add_meta_boxes', 'func_idx_meta_style_theme');
 
 function func_idx_save_style_theme($post_id, $post)
@@ -1744,29 +1792,29 @@ function func_idx_save_style_theme($post_id, $post)
         update_post_meta($post_id, 'idx_style_texto_theme', sanitize_text_field($_POST['idx_style_texto_theme']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_texto_theme');
-    }
+            delete_post_meta($post_id, 'idx_style_texto_theme');
+        }
 
     if (isset($_POST['idx_style_body_text_theme'])) {
         update_post_meta($post_id, 'idx_style_body_text_theme', sanitize_text_field($_POST['idx_style_body_text_theme']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_body_text_theme');
-    }
+            delete_post_meta($post_id, 'idx_style_body_text_theme');
+        }
 
     if (isset($_POST['idx_style_search_bar_bose_theme'])) {
         update_post_meta($post_id, 'idx_style_search_bar_bose_theme', sanitize_text_field($_POST['idx_style_search_bar_bose_theme']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_search_bar_bose_theme');
-    }
+            delete_post_meta($post_id, 'idx_style_search_bar_bose_theme');
+        }
 
     if (isset($_POST['idx_style_search_bar_body_theme'])) {
         update_post_meta($post_id, 'idx_style_search_bar_body_theme', sanitize_text_field($_POST['idx_style_search_bar_body_theme']));
     } else
         if (isset($post_id)) {
-        delete_post_meta($post_id, 'idx_style_search_bar_body_theme');
-    }
+            delete_post_meta($post_id, 'idx_style_search_bar_body_theme');
+        }
 
     if (isset($_POST['footer_image_first'])) {
         update_option('footer_media_first_id', absint($_POST['footer_image_first']));
@@ -1780,6 +1828,7 @@ function func_idx_save_style_theme($post_id, $post)
         update_option('footer_media_third', absint($_POST['footer_image_third']));
     }
 }
+
 // add_action('save_post', 'func_idx_save_style_theme', 10, 2);
 
 function media_selector_print_scripts()
@@ -1788,16 +1837,16 @@ function media_selector_print_scripts()
     $my_saved_attachment_post_id = get_option('footer_media_second_id', 0);
     $my_saved_attachment_post_id = get_option('footer_media_third', 0);
 
-?>
+    ?>
     <script type='text/javascript'>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
 
             var file_frame;
             var wp_media_post_id = wp.media.model.settings.post.id;
             var set_to_post_id = <?php echo $my_saved_attachment_post_id; ?>;
             var conjun = '';
             var previ = '';
-            jQuery('#upload_image_button, #upload_image_button_second, #upload_image_button_third').on('click', function(event) {
+            jQuery('#upload_image_button, #upload_image_button_second, #upload_image_button_third').on('click', function (event) {
                 event.preventDefault();
                 conjun = jQuery(this).attr('conjun');
                 previ = jQuery(this).attr('previ');
@@ -1815,7 +1864,7 @@ function media_selector_print_scripts()
                     },
                     multiple: false // Set to true to allow multiple files to be selected
                 });
-                file_frame.on('select', function() {
+                file_frame.on('select', function () {
                     attachment = file_frame.state().get('selection').first().toJSON();
                     $(previ).attr('src', attachment.url).css('width', 'auto');
                     $(conjun).val(attachment.id);
@@ -1823,352 +1872,354 @@ function media_selector_print_scripts()
                 });
                 file_frame.open();
             });
-            jQuery('a.add_media').on('click', function() {
+            jQuery('a.add_media').on('click', function () {
                 wp.media.model.settings.post.id = wp_media_post_id;
             });
         });
     </script><?php
-            }
+}
 
-            /*THEME_STYLE_CUSTOMIZER*/
+/*THEME_STYLE_CUSTOMIZER*/
 
-            /*DINAMIC LABEL*/
-            add_action('add_meta_boxes', 'dynamic_add_custom_box');
-            /* Do something with the data entered */
-            add_action('save_post', 'dynamic_save_postdata');
-            function dynamic_add_custom_box()
-            {
-                add_meta_box('dynamic_sectionid', __('Slider Complements', 'myplugin_textdomain'), 'dynamic_inner_custom_box', 'dgt-slider');
-            }
+/*DINAMIC LABEL*/
+add_action('add_meta_boxes', 'dynamic_add_custom_box');
+/* Do something with the data entered */
+add_action('save_post', 'dynamic_save_postdata');
+function dynamic_add_custom_box()
+{
+    add_meta_box('dynamic_sectionid', __('Slider Complements', 'myplugin_textdomain'), 'dynamic_inner_custom_box', 'dgt-slider');
+}
 
-            function dynamic_inner_custom_box()
-            {
-                global $post;
-                wp_nonce_field(plugin_basename(__FILE__), 'dynamicMeta_noncename');
-                $post_meta = get_post_custom($post->ID);
-                $headline_slider = '';
-                if (isset($post_meta['headline_slider'][0])) {
-                    $headline_slider = $post_meta['headline_slider'][0];
-                }
+function dynamic_inner_custom_box()
+{
+    global $post;
+    wp_nonce_field(plugin_basename(__FILE__), 'dynamicMeta_noncename');
+    $post_meta = get_post_custom($post->ID);
+    $headline_slider = '';
+    if (isset($post_meta['headline_slider'][0])) {
+        $headline_slider = $post_meta['headline_slider'][0];
+    }
 
-                if (isset($post_meta['slider_url_dgt'][0])) {
-                    $slider_url_dgt = $post_meta['slider_url_dgt'][0];
-                }
+    if (isset($post_meta['slider_url_dgt'][0])) {
+        $slider_url_dgt = $post_meta['slider_url_dgt'][0];
+    }
 
-                ?>
+    ?>
 
     <div id="meta_inner">
-        <div class="item_complements">
-            <div>Link</div>
-            <input name="slider_url_dgt" size="28" id="slider_url_dgt" placeholder="http://dgtalliance.com" type="text" value="<?php echo esc_attr($slider_url_dgt); ?>">
-        </div>
-        <div class="item_complements">
-            <div>Headline</div>
-            <input name="headline_slider" id="headline_slider" placeholder="Headline text" type="text" value="<?php echo esc_attr($headline_slider); ?>">
-        </div>
-        <div class="item_complements">
-            <div>Details</div>
-            <?php
+    <div class="item_complements">
+        <div>Link</div>
+        <input name="slider_url_dgt" size="28" id="slider_url_dgt" placeholder="http://dgtalliance.com" type="text"
+               value="<?php echo esc_attr($slider_url_dgt); ?>">
+    </div>
+    <div class="item_complements">
+        <div>Headline</div>
+        <input name="headline_slider" id="headline_slider" placeholder="Headline text" type="text"
+               value="<?php echo esc_attr($headline_slider); ?>">
+    </div>
+    <div class="item_complements">
+        <div>Details</div>
+        <?php
 
-                $songs = null;
-                $songs = get_post_meta($post->ID, 'defini', true);
-                $c = 0;
+        $songs = null;
+        $songs = get_post_meta($post->ID, 'defini', true);
+        $c = 0;
 
-                if (count($songs) > 0 && is_array($songs)) {
-                    foreach ($songs as $track) {
-                        if (isset($track['title']) || isset($track['track'])) {
-                            printf('<p><input type="text" name="defini[%1$s][title]" value="%2$s" /><span class="remove">%4$s</span></p>', $c, $track['title'], $track['track'], __('Remove'));
-                            $c = $c + 1;
-                        }
-                    }
+        if (count($songs) > 0 && is_array($songs)) {
+            foreach ($songs as $track) {
+                if (isset($track['title']) || isset($track['track'])) {
+                    printf('<p><input type="text" name="defini[%1$s][title]" value="%2$s" /><span class="remove">%4$s</span></p>', $c, $track['title'], $track['track'], __('Remove'));
+                    $c = $c + 1;
                 }
-
-            ?>
-            <span id="here"></span>
-            <span class="add button button-primary button-large"><?php _e('Add'); ?></span>
-        </div>
-        <style type="text/css">
-            .item_complements p {
-                line-height: 3.5;
             }
+        }
 
-            .item_complements div {
-                font-weight: bold;
-                margin-bottom: 8px;
-            }
+        ?>
+        <span id="here"></span>
+        <span class="add button button-primary button-large"><?php _e('Add'); ?></span>
+    </div>
+    <style type="text/css">
+        .item_complements p {
+            line-height: 3.5;
+        }
 
-            .item_complements {
-                margin-bottom: 15px;
-            }
+        .item_complements div {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
 
-            span.remove:hover {
-                background-color: #900c0c;
-            }
+        .item_complements {
+            margin-bottom: 15px;
+        }
 
+        span.remove:hover {
+            background-color: #900c0c;
+        }
+
+        .item_complements input {
+            width: 80%;
+            height: 39px;
+            padding-left: 15px;
+        }
+
+        span.remove {
+            padding: 11px;
+            background-color: red;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 680px) {
             .item_complements input {
-                width: 80%;
-                height: 39px;
-                padding-left: 15px;
+                width: 100%;
             }
-
-            span.remove {
-                padding: 11px;
-                background-color: red;
-                color: white;
-                cursor: pointer;
-            }
-
-            @media screen and (max-width: 680px) {
-                .item_complements input {
-                    width: 100%;
-                }
-            }
-        </style>
-        <script>
-            var $ = jQuery.noConflict();
-            $(document).ready(function() {
-                var count = <?php echo $c; ?>;
-                $(".add").click(function() {
-                    count = count + 1;
-                    $('#here').append('<p><input type="text" name="defini[' + count + '][title]" value="" /><span class="remove">Remove</span></p>');
-                    return false;
-                });
-                $(".remove").live('click', function() {
-                    $(this).parent().remove();
-                });
+        }
+    </style>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function () {
+            var count = <?php echo $c; ?>;
+            $(".add").click(function () {
+                count = count + 1;
+                $('#here').append('<p><input type="text" name="defini[' + count + '][title]" value="" /><span class="remove">Remove</span></p>');
+                return false;
             });
-        </script>
+            $(".remove").live('click', function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
     </div><?php
 
+}
+
+function dynamic_save_postdata($post_id)
+{
+    if (isset($_POST['headline_slider'])) {
+        update_post_meta($post_id, 'headline_slider', sanitize_text_field($_POST['headline_slider']));
+    } else if (isset($post_id)) {
+        delete_post_meta($post_id, 'headline_slider');
+    }
+
+    if (isset($_POST['slider_url_dgt'])) {
+        update_post_meta($post_id, 'slider_url_dgt', sanitize_text_field($_POST['slider_url_dgt']));
+    } else if (isset($post_id)) {
+        delete_post_meta($post_id, 'slider_url_dgt');
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!isset($_POST['dynamicMeta_noncename'])) {
+        return;
+    }
+
+    if (!wp_verify_nonce($_POST['dynamicMeta_noncename'], plugin_basename(__FILE__))) {
+        return;
+    }
+
+    $songs = $_POST['defini'];
+
+    update_post_meta($post_id, 'defini', $songs);
+}
+
+/*DINAMIC LABEL*/
+
+function flexidx_custom_toolbar_link($wp_admin_bar)
+{
+    $args = array(
+        'id' => 'wpflexidx_toolbar',
+        'title' => '<div class="idxboost-toggle-admin" style="background-image: url(' . FLEX_IDX_URI . 'images/rocket.svg);width: 15px;height: 24px;background-position: center;background-repeat: no-repeat;position: relative;background-size: contain;display: inline-block;vertical-align: middle;margin-top: -3px;margin-right: 7px;" ></div><span class="ab-label">' . 'IDX Boost - MLS Search Technology' . '</span></a>',
+        'href' => '#',
+        'meta' => array(
+            'class' => 'wpflexidx_toolbar',
+            'title' => 'IDX Boost - MLS Search Technology',
+        ),
+    );
+    $wp_admin_bar->add_node($args);
+
+    $args = array(
+        'id' => 'wpflexidx_toolbar-guides-map-search',
+        'title' => 'Map Search Filters',
+        'href' => admin_url('edit.php?post_type=flex-landing-pages'),
+        'parent' => 'wpflexidx_toolbar',
+        'meta' => array(
+            'class' => 'wpflexidx_toolbar-guides',
+            'title' => 'Map Search Filters',
+        ),
+    );
+    $wp_admin_bar->add_node($args);
+
+
+    $args = array(
+        'id' => 'wpflexidx_toolbar-guides',
+        'title' => 'Display Filters',
+        'href' => admin_url('edit.php?post_type=flex-filter-pages'),
+        'parent' => 'wpflexidx_toolbar',
+        'meta' => array(
+            'class' => 'wpflexidx_toolbar-guides',
+            'title' => 'Display Filters',
+        ),
+    );
+    $wp_admin_bar->add_node($args);
+
+    $args =
+        array(
+            'id' => 'My-IDX-Buildings',
+            'title' => 'My Buildings',
+            'href' => admin_url('edit.php?post_type=flex-idx-building'),
+            'parent' => 'wpflexidx_toolbar',
+            'meta' => array(
+                'class' => 'wpflexidx_toolbar-tutorials',
+                'title' => 'My Buildings',
+            ),
+        );
+    $wp_admin_bar->add_node($args);
+
+    $args =
+        array(
+            'id' => 'My-IDX-Sub-Area',
+            'title' => 'My Master Plans',
+            'href' => admin_url('edit.php?post_type=idx-sub-area'),
+            'parent' => 'wpflexidx_toolbar',
+            'meta' => array(
+                'class' => 'wpflexidx_toolbar-tutorials',
+                'title' => 'My Master Plans',
+            ),
+        );
+    $wp_admin_bar->add_node($args);
+
+    $args = array(
+        'id' => 'My-IDX-Pages',
+        'title' => 'Page’s URL Slug',
+        'href' => admin_url('edit.php?post_type=flex-idx-pages'),
+        'parent' => 'wpflexidx_toolbar',
+        'meta' => array(
+            'class' => 'wpflexidx_toolbar-tutorials',
+            'title' => 'Page’s URL Slug',
+        ),
+    );
+    $wp_admin_bar->add_node($args);
+    global $flex_idx_info;
+
+    // Schema Seo
+    if ($flex_idx_info['agent']['has_generate_schema']) {
+        $args = array(
+            'id' => 'wpflexidx_toolbar-schemas',
+            'title' => 'Schemas',
+            'href' => admin_url('admin.php?page=flex-idx-schemas'),
+            'parent' => 'wpflexidx_toolbar',
+            'meta' => array(
+                'class' => 'wpflexidx_toolbar-guides',
+                'title' => 'Schemas',
+            ),
+        );
+        $wp_admin_bar->add_node($args);
+    }
+
+    // Settings Rental
+
+    if ($flex_idx_info['agent']['has_vacations_rentals']) {
+        $args = array(
+            'id' => 'wpflexidx_toolbar-settings-rental',
+            'title' => 'Settings for Rental',
+            'href' => admin_url('admin.php?page=flex-idx-settings-rental'),
+            'parent' => 'wpflexidx_toolbar',
+            'meta' => array(
+                'class' => 'wpflexidx_toolbar-guides',
+                'title' => 'Settings for Rental',
+            ),
+        );
+        $wp_admin_bar->add_node($args);
+    }
+
+}
+
+add_action('admin_bar_menu', 'flexidx_custom_toolbar_link', 999);
+
+
+function custom_page_template($page_template)
+{
+    global $post, $flex_idx_info;
+
+    if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
+        $metas = get_post_meta($post->ID, 'idx_page_type');
+
+        if (!empty($metas) && $metas[0] == 'custom') {
+            $page_template = FLEX_IDX_PATH . '/views/pages/custom-page-template.php';
+        }
+
+        if (!empty($flex_idx_info['agent']['has_cms_form']) && $flex_idx_info['agent']['has_cms_form'] != false) {
+            if (!empty($metas) && $metas[0] == 'landing') {
+                $page_template = FLEX_IDX_PATH . '/views/pages/landing-page-template.php';
             }
+        }
+    }
 
-            function dynamic_save_postdata($post_id)
-            {
-                if (isset($_POST['headline_slider'])) {
-                    update_post_meta($post_id, 'headline_slider', sanitize_text_field($_POST['headline_slider']));
-                } else if (isset($post_id)) {
-                    delete_post_meta($post_id, 'headline_slider');
-                }
+    return $page_template;
+}
 
-                if (isset($_POST['slider_url_dgt'])) {
-                    update_post_meta($post_id, 'slider_url_dgt', sanitize_text_field($_POST['slider_url_dgt']));
-                } else if (isset($post_id)) {
-                    delete_post_meta($post_id, 'slider_url_dgt');
-                }
+add_filter('page_template', 'custom_page_template');
 
-                if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-                    return;
-                }
+/*
+add_action( 'init',  function() {
+    global $wpdb,$flex_idx_info;
 
-                if (!isset($_POST['dynamicMeta_noncename'])) {
-                    return;
-                }
+    $ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
 
-                if (!wp_verify_nonce($_POST['dynamicMeta_noncename'], plugin_basename(__FILE__))) {
-                    return;
-                }
+    if ($ia_search == "1") {
 
-                $songs = $_POST['defini'];
+        $search_url = $wpdb->get_var("
+          select t1.post_name
+          from {$wpdb->posts} t1
+          inner join {$wpdb->postmeta} t2
+          on t1.ID = t2.post_id
+          where t1.post_type = 'flex-idx-pages'
+          and t1.post_status = 'publish'
+          and t2.meta_key = '_flex_id_page'
+          and t2.meta_value = 'flex_idx_search'
+          limit 1
+        ");
 
-                update_post_meta($post_id, 'defini', $songs);
-            }
+        add_rewrite_rule("^{$search_url}/([^/]*)/?$",'index.php?myparamiaidxboost=$matches[1]','top');
 
-            /*DINAMIC LABEL*/
+    }
 
-            function flexidx_custom_toolbar_link($wp_admin_bar)
-            {                
-                $args = array(
-                    'id' => 'wpflexidx_toolbar',
-                    'title' => '<div class="idxboost-toggle-admin" style="background-image: url(' . FLEX_IDX_URI . 'images/rocket.svg);width: 15px;height: 24px;background-position: center;background-repeat: no-repeat;position: relative;background-size: contain;display: inline-block;vertical-align: middle;margin-top: -3px;margin-right: 7px;" ></div><span class="ab-label">' . 'IDX Boost - MLS Search Technology' . '</span></a>',
-                    'href' => '#',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar',
-                        'title' => 'IDX Boost - MLS Search Technology',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-
-                $args = array(
-                    'id' => 'wpflexidx_toolbar-guides-map-search',
-                    'title' => 'Map Search Filters',
-                    'href' => admin_url('edit.php?post_type=flex-landing-pages'),
-                    'parent' => 'wpflexidx_toolbar',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar-guides',
-                        'title' => 'Map Search Filters',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-
-
-                $args = array(
-                    'id' => 'wpflexidx_toolbar-guides',
-                    'title' => 'Display Filters',
-                    'href' => admin_url('edit.php?post_type=flex-filter-pages'),
-                    'parent' => 'wpflexidx_toolbar',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar-guides',
-                        'title' => 'Display Filters',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-
-                $args =
-                    array(
-                        'id' => 'My-IDX-Buildings',
-                        'title' => 'My Buildings',
-                        'href' => admin_url('edit.php?post_type=flex-idx-building'),
-                        'parent' => 'wpflexidx_toolbar',
-                        'meta' => array(
-                            'class' => 'wpflexidx_toolbar-tutorials',
-                            'title' => 'My Buildings',
-                        ),
-                    );
-                $wp_admin_bar->add_node($args);
-
-                $args =
-                    array(
-                        'id' => 'My-IDX-Sub-Area',
-                        'title' => 'My Master Plans',
-                        'href' => admin_url('edit.php?post_type=idx-sub-area'),
-                        'parent' => 'wpflexidx_toolbar',
-                        'meta' => array(
-                            'class' => 'wpflexidx_toolbar-tutorials',
-                            'title' => 'My Master Plans',
-                        ),
-                    );
-                $wp_admin_bar->add_node($args);
-
-                $args = array(
-                    'id' => 'My-IDX-Pages',
-                    'title' => 'Page’s URL Slug',
-                    'href' => admin_url('edit.php?post_type=flex-idx-pages'),
-                    'parent' => 'wpflexidx_toolbar',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar-tutorials',
-                        'title' => 'Page’s URL Slug',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-                global $flex_idx_info; 
-
-                // Schema Seo
-                if($flex_idx_info['agent']['has_generate_schema']){
-                $args = array(
-                    'id' => 'wpflexidx_toolbar-schemas',
-                    'title' => 'Schemas',
-                    'href' => admin_url('admin.php?page=flex-idx-schemas'),
-                    'parent' => 'wpflexidx_toolbar',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar-guides',
-                        'title' => 'Schemas',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-                }
-
-                // Settings Rental 
-                                
-                if($flex_idx_info['agent']['has_vacations_rentals']){
-                $args = array(
-                    'id' => 'wpflexidx_toolbar-settings-rental',
-                    'title' => 'Settings for Rental',
-                    'href' => admin_url('admin.php?page=flex-idx-settings-rental'),
-                    'parent' => 'wpflexidx_toolbar',
-                    'meta' => array(
-                        'class' => 'wpflexidx_toolbar-guides',
-                        'title' => 'Settings for Rental',
-                    ),
-                );
-                $wp_admin_bar->add_node($args);
-                }
-
-            }
-
-            add_action('admin_bar_menu', 'flexidx_custom_toolbar_link', 999);
-
-
-            function custom_page_template($page_template)
-            {
-                global $post, $flex_idx_info;
-
-                if (!empty($flex_idx_info['agent']['has_cms']) && $flex_idx_info['agent']['has_cms'] != false) {
-                    $metas = get_post_meta($post->ID, 'idx_page_type');
-
-                    if (!empty($metas) && $metas[0] == 'custom') {
-                        $page_template = FLEX_IDX_PATH . '/views/pages/custom-page-template.php';
-                    }
-
-                    if (!empty($flex_idx_info['agent']['has_cms_form']) && $flex_idx_info['agent']['has_cms_form'] != false) {
-                        if (!empty($metas) && $metas[0] == 'landing') {
-                            $page_template = FLEX_IDX_PATH . '/views/pages/landing-page-template.php';
-                        }
-                    }
-                }
-
-                return $page_template;
-            }
-
-            add_filter('page_template', 'custom_page_template');
-
-            /*
-            add_action( 'init',  function() {
-                global $wpdb,$flex_idx_info;
-
-                $ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
-
-                if ($ia_search == "1") {
-                    
-                    $search_url = $wpdb->get_var("
-                      select t1.post_name
-                      from {$wpdb->posts} t1
-                      inner join {$wpdb->postmeta} t2
-                      on t1.ID = t2.post_id
-                      where t1.post_type = 'flex-idx-pages'
-                      and t1.post_status = 'publish'
-                      and t2.meta_key = '_flex_id_page'
-                      and t2.meta_value = 'flex_idx_search'
-                      limit 1
-                    ");
-
-                    add_rewrite_rule("^{$search_url}/([^/]*)/?$",'index.php?myparamiaidxboost=$matches[1]','top');    
-
-                }
-
-            } ); 
+} );
 
 add_filter( 'query_vars', function( $query_vars ) {
-    $query_vars[] = 'myparamiaidxboost';
-    return $query_vars;
+$query_vars[] = 'myparamiaidxboost';
+return $query_vars;
 } );
 
 add_filter( 'template_include', function( $template ) {
-    global $flex_idx_info, $post;
-    if ( get_query_var( 'myparamiaidxboost' ) == false || get_query_var( 'myparamiaidxboost' ) == '' ) {
-        return $template;
-    }else{
+global $flex_idx_info, $post;
+if ( get_query_var( 'myparamiaidxboost' ) == false || get_query_var( 'myparamiaidxboost' ) == '' ) {
+return $template;
+}else{
 
-        $post->post_content='[ib_search mode="ai"]';
+$post->post_content='[ib_search mode="ai"]';
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php')) {
-            return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php';
-        } else {
-            return FLEX_IDX_PATH . '/views/shortcode/single-flex-idx-pages-ai.php';
-        }
-    }
+if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php')) {
+return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-flex-idx-pages-ai.php';
+} else {
+return FLEX_IDX_PATH . '/views/shortcode/single-flex-idx-pages-ai.php';
+}
+}
 
 } );
 */
 
 
-add_action( 'init',  function() {
-    global $wpdb,$flex_idx_info;
+add_action('init', function () {
+    global $wpdb, $flex_idx_info;
 
     //$ia_search = ( array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
 
     //if ($ia_search == "1") {
-        
-        $search_new_developmet = $wpdb->get_var("
+
+    $search_new_developmet = $wpdb->get_var("
           select t1.post_name
           from {$wpdb->posts} t1
           inner join {$wpdb->postmeta} t2
@@ -2180,33 +2231,33 @@ add_action( 'init',  function() {
           limit 1
         ");
 
-        $GLOBALS["idx_path_development_detailt"] = $search_new_developmet;
+    $GLOBALS["idx_path_development_detailt"] = $search_new_developmet;
 
-        add_rewrite_rule("^{$search_new_developmet}/([^/]*)/?$",'index.php?idxparamnewdevelopment=$matches[1]','top');    
+    add_rewrite_rule("^{$search_new_developmet}/([^/]*)/?$", 'index.php?idxparamnewdevelopment=$matches[1]', 'top');
 
     //}
 
-} ); 
+});
 
 
-add_filter( 'query_vars', function( $query_vars ) {
+add_filter('query_vars', function ($query_vars) {
     $query_vars[] = 'idxparamnewdevelopment';
     return $query_vars;
-} );
+});
 
-add_filter( 'template_include', function( $template ) {
+add_filter('template_include', function ($template) {
     global $flex_idx_info, $post;
-    if ( get_query_var( 'idxparamnewdevelopment' ) == false || get_query_var( 'idxparamnewdevelopment' ) == '' ) {
+    if (get_query_var('idxparamnewdevelopment') == false || get_query_var('idxparamnewdevelopment') == '') {
         return $template;
-    }else{
+    } else {
 
-        $post = empty($post) ?  (object) ["ID" => 0 ] : $post;
-        
-        $post->post_type='flex-idx-pages';
-        $post->post_content='[new_development_collections]';//no realiza impresion mas que para referenciar libreria
-        $post->ID=0;
+        $post = empty($post) ? (object)["ID" => 0] : $post;
+
+        $post->post_type = 'flex-idx-pages';
+        $post->post_content = '[new_development_collections]';//no realiza impresion mas que para referenciar libreria
+        $post->ID = 0;
         $post->post_mime_type = "flex_idx_new_development_detail";
-        
+
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php')) {
             return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/single-idx-pages-new-development.php';
@@ -2215,14 +2266,14 @@ add_filter( 'template_include', function( $template ) {
         }
     }
 
-} );
+});
 
 //COLLECTION PROPERTIES
 
-add_action( 'init',  function() {
-    global $wpdb,$flex_idx_info;
-        
-        $search_collection_properties = $wpdb->get_var("
+add_action('init', function () {
+    global $wpdb, $flex_idx_info;
+
+    $search_collection_properties = $wpdb->get_var("
           select t1.post_name
           from {$wpdb->posts} t1
           inner join {$wpdb->postmeta} t2
@@ -2234,31 +2285,38 @@ add_action( 'init',  function() {
           limit 1
         ");
 
-        $GLOBALS["idx_path_collections_properties_details"] = $search_collection_properties;
+    $GLOBALS["idx_path_collections_properties_details"] = $search_collection_properties;
 
-        add_rewrite_rule("^{$search_collection_properties}/([^/]*)/?$",'index.php?idxparamncollectionproperties=$matches[1]','top');    
-
-} ); 
+    add_rewrite_rule("^{$search_collection_properties}/([^/]*)/?$", 'index.php?idxparamncollectionproperties=$matches[1]', 'top');
 
 
-add_filter( 'query_vars', function( $query_vars ) {
+//    add_rewrite_rule(
+//        '^([^/]+)/([^/]+)/?$',
+//        'index.php?post_type=flex-idx-pages&name=$matches[2]',
+//        'top'
+//    );
+
+
+});
+
+add_filter('query_vars', function ($query_vars) {
     $query_vars[] = 'idxparamncollectionproperties';
     return $query_vars;
-} );
+});
 
-add_filter( 'template_include', function( $template ) {
+add_filter('template_include', function ($template) {
     global $flex_idx_info, $post;
-    if ( get_query_var( 'idxparamncollectionproperties' ) == false || get_query_var( 'idxparamncollectionproperties' ) == '' ) {
+    if (get_query_var('idxparamncollectionproperties') == false || get_query_var('idxparamncollectionproperties') == '') {
         return $template;
-    }else{
+    } else {
 
-        $post = empty($post) ?  (object) ["ID" => 0 ] : $post;
-        
-        $post->post_type='flex-idx-pages';
-        $post->post_content='[new_collections_properties_details"]';
-        $post->ID=0;
+        $post = empty($post) ? (object)["ID" => 0] : $post;
+
+        $post->post_type = 'flex-idx-pages';
+        $post->post_content = '[new_collections_properties_details]';
+        $post->ID = 0;
         $post->post_mime_type = "flex_idx_new_collections_properties_details";
-        
+
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php')) {
             return IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_collections_properties_details.php';
@@ -2267,4 +2325,36 @@ add_filter( 'template_include', function( $template ) {
         }
     }
 
-} );
+});
+
+
+add_filter('post_type_link', function ($permalink, $post, $leavename, $sample) {
+    if ($post->post_type === 'flex-idx-pages') {
+        $p_slug = $post->post_name;
+
+        $group_id = get_post_meta($post->ID, 'property_collection_group_id', true);
+
+        if ($group_id) {
+            // Buscar el slug del collection
+            $collection = get_posts([
+                'post_type'      => 'flex-idx-pages',
+                'meta_query'     => [
+                    [
+                        'key'   => '_flex_id_page',
+                        'value' => 'flex_idx_page_our_property_collection',
+                    ],
+                ],
+                'posts_per_page' => 1,
+                'order'          => 'ASC',
+            ]);
+
+            if (!empty($collection)) {
+                $slug_collection = $collection[0]->post_name;
+
+                // Devolvemos la nueva URL
+                return home_url("/{$slug_collection}/{$p_slug}/");
+            }
+        }
+    }
+    return $permalink;
+}, 10, 4);
