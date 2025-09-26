@@ -7874,8 +7874,6 @@ if (!function_exists('flex_idx_register_assets')) {
  *   @type string distDir         Ruta absoluta al /dist
  *   @type string distUrl         URL pública al /dist
  *   @type string|null iconCssUrl URL de un css extra (p.ej. iconos)
- *   @type string|null legacyJs   URL del bundle.js legacy (fallback)
- *   @type string[]  legacyCss    Array de CSS legacy (fallback)
  * }
  * @return bool true si se usó manifest (Vite), false si se usó fallback.
  */
@@ -7883,8 +7881,6 @@ function ib_print_vite_assets(array $opts): bool {
   $distDir     = rtrim($opts['distDir'] ?? '', '/') . '/';
   $distUrl     = rtrim($opts['distUrl'] ?? '', '/') . '/';
   $iconCssUrl  = $opts['iconCssUrl'] ?? null;
-  $legacyJs    = $opts['legacyJs']   ?? null;
-  $legacyCss   = $opts['legacyCss']  ?? [];
 
   // Evitar imprimir dos veces el mismo build (clave: distDir)
   static $printed = [];
@@ -7898,64 +7894,59 @@ function ib_print_vite_assets(array $opts): bool {
   }
 
   $manifestPath = $distDir . 'manifest.json';
-  if (is_readable($manifestPath)) {
-    $manifest = json_decode(file_get_contents($manifestPath), true);
-    $entry = null;
-    if (is_array($manifest)) {
-      foreach ($manifest as $chunk) {
-        if (!empty($chunk['isEntry'])) { $entry = $chunk; break; }
-      }
-    }
+  if (!is_readable($manifestPath)) {
+    $printed[$distDir] = true;
+    return false;
+  }
 
-    if ($entry) {
-      // 1) Preload de imports del entry (js + css)
-      if (!empty($entry['imports'])) {
-        foreach ($entry['imports'] as $imp) {
-          if (!empty($manifest[$imp]['file'])) {
-            echo '<link rel="modulepreload" href="' . esc_url($distUrl . $manifest[$imp]['file']) . '" crossorigin />' . "\n";
-          }
-          if (!empty($manifest[$imp]['css'])) {
-            foreach ($manifest[$imp]['css'] as $css) {
-              echo '<link rel="preload" as="style" href="' . esc_url($distUrl . $css) . '" />' . "\n";
-            }
-          }
+  $manifest = json_decode(file_get_contents($manifestPath), true);
+  if (!is_array($manifest)) {
+    $printed[$distDir] = true;
+    return false;
+  }
+
+  // Buscar entry (isEntry = true)
+  $entry = null;
+  foreach ($manifest as $chunk) {
+    if (!empty($chunk['isEntry'])) { $entry = $chunk; break; }
+  }
+  if (!$entry || empty($entry['file'])) {
+    $printed[$distDir] = true;
+    return false;
+  }
+
+  // 1) Preload de imports (js + css)
+  if (!empty($entry['imports'])) {
+    foreach ($entry['imports'] as $imp) {
+      if (!empty($manifest[$imp]['file'])) {
+        echo '<link rel="modulepreload" href="' . esc_url($distUrl . $manifest[$imp]['file']) . '" crossorigin />' . "\n";
+      }
+      if (!empty($manifest[$imp]['css'])) {
+        foreach ($manifest[$imp]['css'] as $css) {
+          echo '<link rel="preload" as="style" href="' . esc_url($distUrl . $css) . '" />' . "\n";
         }
       }
-
-      // 2) CSS del entry
-      if (!empty($entry['css'])) {
-        foreach ($entry['css'] as $css) {
-          echo '<link rel="stylesheet" href="' . esc_url($distUrl . $css) . '" />' . "\n";
-        }
-      }
-
-      // 2.5) CSS extra (iconos)
-      if ($iconCssUrl) {
-        echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '" />' . "\n";
-        $printed[$distDir.'__icon'] = true;
-      }
-
-      // 3) JS principal
-      echo '<script type="module" crossorigin src="' . esc_url($distUrl . $entry['file']) . '"></script>' . "\n";
-
-      $printed[$distDir] = true;
-      return true;
     }
   }
 
-  // ---- Fallback legacy ----
-  if ($legacyJs) {
-    echo '<script type="module" crossorigin src="' . esc_url($legacyJs) . '"></script>' . "\n";
+  // 2) CSS del entry
+  if (!empty($entry['css'])) {
+    foreach ($entry['css'] as $css) {
+      echo '<link rel="stylesheet" href="' . esc_url($distUrl . $css) . '" />' . "\n";
+    }
   }
-  foreach ($legacyCss as $cssUrl) {
-    echo '<link rel="stylesheet" href="' . esc_url($cssUrl) . '" />' . "\n";
-  }
+
+  // 2.5) CSS extra (iconos)
   if ($iconCssUrl) {
     echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '" />' . "\n";
     $printed[$distDir.'__icon'] = true;
   }
+
+  // 3) JS principal
+  echo '<script type="module" crossorigin src="' . esc_url($distUrl . $entry['file']) . '"></script>' . "\n";
+
   $printed[$distDir] = true;
-  return false;
+  return true;
 }
 
 function insert_assets_head_dns_prefetch_img() {
@@ -8032,16 +8023,10 @@ function insert_assets_head_new_search_filter()
 
                         <?php
                         ib_print_vite_assets([
-                            'distDir'    => FLEX_IDX_PATH . 'react/new_search_filter/dist/',
+                            'distDir'    => ib_get_idx_path() . 'react/new_search_filter/dist/',
                             'distUrl'    => FLEX_IDX_URI  . 'react/new_search_filter/dist/',
                             'iconCssUrl' => FLEX_IDX_URI  . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
-                                            iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css'),
-                            'legacyJs'   => FLEX_IDX_URI  . 'react/new_search_filter/assets/bundle.js?ver=' .
-                                            iboost_get_mod_time('react/new_search_filter/assets/bundle.js'),
-                            'legacyCss'  => [
-                                FLEX_IDX_URI . 'react/new_search_filter/assets/bundle.css?ver=' .
-                                iboost_get_mod_time('react/new_search_filter/assets/bundle.css'),
-                            ],
+                                            iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css')
                         ]);
                         ?>
 
@@ -8055,16 +8040,10 @@ function insert_assets_head_new_search_filter()
         if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode( $content, 'flex_idx_property_detail' ) ) { ?>
             <?php
             ib_print_vite_assets([
-                'distDir'    => FLEX_IDX_PATH . 'react/property-modal/dist/',
+                'distDir'    => ib_get_idx_path() . 'react/property-modal/dist/',
                 'distUrl'    => FLEX_IDX_URI  . 'react/property-modal/dist/',
                 'iconCssUrl' => FLEX_IDX_URI  . 'react/property-modal/fonts/icons/style.css?ver=' .
-                                iboost_get_mod_time('react/property-modal/fonts/icons/style.css'),
-                'legacyJs'   => FLEX_IDX_URI  . 'react/property-modal/assets/bundle.js?ver=' .
-                                iboost_get_mod_time('react/property-modal/assets/bundle.js'),
-                'legacyCss'  => [
-                    FLEX_IDX_URI . 'react/property-modal/assets/bundle.css?ver=' .
-                    iboost_get_mod_time('react/property-modal/assets/bundle.css'),
-                ],
+                                iboost_get_mod_time('react/property-modal/fonts/icons/style.css')
             ]);
             ?>
             <?php
