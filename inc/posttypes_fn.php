@@ -2290,12 +2290,31 @@ add_action('init', function () {
     add_rewrite_rule("^{$search_collection_properties}/([^/]*)/?$", 'index.php?idxparamncollectionproperties=$matches[1]', 'top');
 
 
-//    add_rewrite_rule(
-//        '^([^/]+)/([^/]+)/?$',
-//        'index.php?post_type=flex-idx-pages&name=$matches[2]',
-//        'top'
-//    );
+    $collection_slug = '';
 
+    $collection = get_posts([
+        'post_type' => 'flex-idx-pages',
+        'meta_query' => [
+            [
+                'key' => '_flex_id_page',
+                'value' => 'flex_idx_page_our_property_collection',
+            ],
+        ],
+        'posts_per_page' => 1,
+        'orderby' => 'date',
+        'order' => 'ASC',
+    ]);
+
+    if (!empty($collection) && isset($collection[0]->post_name)) {
+        $collection_slug = $collection[0]->post_name;
+    }
+    if ($collection_slug != '') {
+        add_rewrite_rule(
+            "^{$collection_slug}/([^/]+)/?$", // captura el post_name
+            'index.php?post_type=flex-idx-pages&name=$matches[1]',
+            'top'
+        );
+    }
 
 });
 
@@ -2329,32 +2348,41 @@ add_filter('template_include', function ($template) {
 
 
 add_filter('post_type_link', function ($permalink, $post, $leavename, $sample) {
-    if ($post->post_type === 'flex-idx-pages') {
-        $p_slug = $post->post_name;
 
-        $group_id = get_post_meta($post->ID, 'property_collection_group_id', true);
+    if ($post->post_type !== 'flex-idx-pages') {
+        return $permalink;
+    }
 
-        if ($group_id) {
-            // Buscar el slug del collection
-            $collection = get_posts([
-                'post_type'      => 'flex-idx-pages',
-                'meta_query'     => [
-                    [
-                        'key'   => '_flex_id_page',
-                        'value' => 'flex_idx_page_our_property_collection',
-                    ],
+    $group_id = get_post_meta($post->ID, 'property_collection_group_id', true);
+    if (!$group_id) {
+        return $permalink;
+    }
+
+    // Cache simple para no consultar en cada llamada
+    static $slug_collection = null;
+
+    if (is_null($slug_collection)) {
+        $collection = get_posts([
+            'post_type' => 'flex-idx-pages',
+            'meta_query' => [
+                [
+                    'key' => '_flex_id_page',
+                    'value' => 'flex_idx_page_our_property_collection',
                 ],
-                'posts_per_page' => 1,
-                'order'          => 'ASC',
-            ]);
+            ],
+            'posts_per_page' => 1,
+            'posts_per_page' => 1,
+            'orderby' => 'date',
+            'order' => 'ASC',
+        ]);
 
-            if (!empty($collection)) {
-                $slug_collection = $collection[0]->post_name;
-
-                // Devolvemos la nueva URL
-                return home_url("/{$slug_collection}/{$p_slug}/");
-            }
+        if (!empty($collection) && isset($collection[0]->post_name)) {
+            $slug_collection = $collection[0]->post_name;
+        } else {
+            return $permalink;
         }
     }
-    return $permalink;
+
+    return esc_url(home_url("/{$slug_collection}/{$post->post_name}/"));
+
 }, 10, 4);

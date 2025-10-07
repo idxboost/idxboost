@@ -2054,7 +2054,7 @@ function insert_fb_in_head()
     $page_slug = current($wp_request_exp);
     if ( !empty($page_slug) ) {
 
-        list($page, $slug) = $wp_request_exp;
+        list($page, $slug) = array_pad($wp_request_exp, 2, null);
         
         if ($page_slug == "new-development") { 
             $responseNewDevelopment = title_flex_idx_new_development_detail_sc($wp);
@@ -5824,7 +5824,7 @@ if (!function_exists('idxboost_new_search_filters_sc')) {
         return ob_get_clean();
     }
 
-    add_action('wp_head', 'insert_assets_head_new_search_filter', 999);
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 5);
     add_shortcode("idx_search_react", "idxboost_new_search_filters_sc");
 }
 

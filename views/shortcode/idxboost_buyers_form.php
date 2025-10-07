@@ -18,7 +18,7 @@ if($disclaimer_checked == "1"){
       <input type="hidden" name="registration_key" value="<?php echo $atts['registration_key']; ?>">
     <?php endif; ?> 
     
-    <input type="hidden" name="ib_tags" value="">
+    <input type="hidden" name="ib_tags" value="i want to buy">
     <input type="hidden" name="action" value="lead_submission_buy">
     
     <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>

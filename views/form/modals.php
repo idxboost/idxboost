@@ -1,21 +1,23 @@
 <?php
-  global $flex_idx_info, $flex_idx_lead;
-  $idxboost_term_condition = get_option('idxboost_term_condition');
-  $mkting_client = get_option('mkting_client');
-  $idxboost_agent_info = get_option('idxboost_agent_info');
-  $disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
-  $show_why_register = $flex_idx_info['agent']['show_why_register'];
-  $idxboost_term_condition = get_option('idxboost_term_condition');
 
-  $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+global $flex_idx_info, $flex_idx_lead;
 
-  if($disclaimer_checked == "1"){
-    $checked = "checked";
-    $checked_active = "";
-  }else{
-    $checked = "";
-    $checked_active = "disabled";
-  }
+$idxboost_term_condition = get_option('idxboost_term_condition');
+$mkting_client = get_option('mkting_client');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+$disclaimer_checked = $flex_idx_info['agent']['disclaimer_checked'];
+$show_why_register = $flex_idx_info['agent']['show_why_register'];
+$idxboost_term_condition = get_option('idxboost_term_condition');
+
+$idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
+if ($disclaimer_checked == "1") {
+  $checked = "checked";
+  $checked_active = "";
+} else {
+  $checked = "";
+  $checked_active = "disabled";
+}
 
 ?>
 <script type="text/javascript">
@@ -23,17 +25,13 @@
   window.idx_company_info = {company_name : '<?php echo $idxboost_term_condition["company_name"]; ?>' };
 
   var IS_CUSTOM_SIGNUP = false;
-
   // console.log(SIGNUP_EXTENDS_QUIZZ);
-
   //var SIGNUP_EXTENDS_QUIZZ = '<?php echo (isset($flex_idx_info["agent"]["force_registration"]) && ("1" == $flex_idx_info["agent"]["force_registration"])) ? '1' : '0'; ?>';
 
   if (typeof originalPositionY === "undefined") {
     var originalPositionY;
   }
 </script>
-
-
 
 <?php if( $idx_v == "1" ) {  ?>
 <div id="root-property-modal"></div>
@@ -3294,14 +3292,19 @@ $(function() {
 var schedule_form;
 
 $(function() {
-  // datepicker for schedule form
-  var dateToday = new Date();
-  $("#ss_preferred_date").datepicker({
-    minDate: dateToday,
-    beforeShow:function(){
-      $("#ss_preferred_date").parent().append($('#ui-datepicker-div'));
-    }
-  });
+  if (
+    typeof $.fn.datepicker === "function" 
+    && $("#ss_preferred_date").length
+  ) {
+    // datepicker for schedule form
+    var dateToday = new Date();
+    $("#ss_preferred_date").datepicker({
+      minDate: dateToday,
+      beforeShow:function(){
+        $("#ss_preferred_date").parent().append($('#ui-datepicker-div'));
+      }
+    });
+  }
   
   // handle submission for schedule form
   schedule_form = $("#form-scheduled");

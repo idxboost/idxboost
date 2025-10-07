@@ -6674,8 +6674,8 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('mask-input', 'idx_translate_setting', $word_translate_setting);
 
         //PHONE INPUT FORMAT
-        wp_register_script('intl-tel-input', FLEX_IDX_URI . 'js/vendor/intltelinput/js/intlTelInput.min.js');
-        wp_register_script('input-mask', FLEX_IDX_URI . 'js/jquery.mask.min.js');
+        wp_register_script('intl-tel-input', FLEX_IDX_URI . 'js/vendor/intltelinput/js/intlTelInput.min.js', array(), iboost_get_mod_time("js/vendor/intltelinput/js/intlTelInput.min.js"), true);
+        wp_register_script('input-mask', FLEX_IDX_URI . 'js/jquery.mask.min.js', array(), iboost_get_mod_time("js/jquery.mask.min.js"), true);
 
         // underscore
         wp_register_script('underscore-mixins', FLEX_IDX_URI . 'js/underscore.mixins.js', array('underscore'), iboost_get_mod_time("js/underscore.mixins.js"));
@@ -7010,14 +7010,19 @@ if (!function_exists('flex_idx_register_assets')) {
         /*MAP STYLE IDXBOOST*/
         $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
         $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
-        $descr_tools_map_style = [];
-
+        $descr_tools_map_style = '';
 
         if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
             $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
         }
         /*MAP STYLE IDXBOOST*/
-        wp_localize_script('flex-auth-check', 'style_map_idxboost', $descr_tools_map_style);
+        
+        // Output the variable as a JS string (safe encoding)
+        wp_add_inline_script(
+            'flex-auth-check',
+            'var style_map_idxboost = ' . wp_json_encode($descr_tools_map_style ?: '') . ';',
+            'before'
+        );
 
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
             'site_name' => get_bloginfo('name'),
@@ -7853,9 +7858,9 @@ if (!function_exists('flex_idx_register_assets')) {
             "priceSaleValues" => $flex_idx_info["search"]["price_sale_range"]
         ));
 
-        wp_register_script("idxboost-search-filter-reactjs", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.js", array(
-            "google-maps-api-react"
-        ), iboost_get_mod_time("react/new_search_filter/assets/bundle.js"));
+        // wp_register_script("idxboost-search-filter-reactjs", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.js", array(
+        //     "google-maps-api-react"
+        // ), iboost_get_mod_time("react/new_search_filter/assets/bundle.js"));
 
         //wp_register_style("idxboost-search-filter-reactjs-bundle", FLEX_IDX_URI . "react/new_search_filter/assets/bundle.css", array(), iboost_get_mod_time("react/new_search_filter/assets/bundle.css"));
         //wp_register_style("idxboost-search-filter-reactjs-style", FLEX_IDX_URI . "react/new_search_filter/assets/style.css", array(), iboost_get_mod_time("react/new_search_filter/assets/style.css"));
@@ -7866,116 +7871,108 @@ if (!function_exists('flex_idx_register_assets')) {
     }
 }
 
-/**
- * Imprime los assets de un build de Vite leyendo el manifest.json.
- * Si falta el manifest, cae a los assets legacy.
- *
- * @param array $opts {
- *   @type string distDir         Ruta absoluta al /dist
- *   @type string distUrl         URL pública al /dist
- *   @type string|null iconCssUrl URL de un css extra (p.ej. iconos)
- * }
- * @return bool true si se usó manifest (Vite), false si se usó fallback.
- */
-function ib_print_vite_assets(array $opts): bool {
-  $distDir     = rtrim($opts['distDir'] ?? '', '/') . '/';
-  $distUrl     = rtrim($opts['distUrl'] ?? '', '/') . '/';
-  $iconCssUrl  = $opts['iconCssUrl'] ?? null;
+if (!function_exists('idxboost_print_vite_assets')) {
+    /**
+     * Imprime los assets de un build de Vite leyendo el manifest.json.
+     * Divide la carga: CSS + preload en <head>, script principal en <footer>
+     *
+     * @param array $opts {
+     *   @type string distDir         Ruta absoluta al /dist
+     *   @type string distUrl         URL pública al /dist
+     *   @type string|null iconCssUrl URL de un css extra (p.ej. iconos)
+     * }
+     */
+    function idxboost_print_vite_assets(array $opts): void
+    {
+        $distDir     = rtrim($opts['distDir'] ?? '', '/') . '/';
+        $distUrl     = rtrim($opts['distUrl'] ?? '', '/') . '/';
+        $iconCssUrl  = $opts['iconCssUrl'] ?? null;
 
-  // Evitar imprimir dos veces el mismo build (clave: distDir)
-  static $printed = [];
-  if (!empty($printed[$distDir])) {
-    // Aún así permite imprimir el iconCss si no se imprimió antes
-    if ($iconCssUrl && empty($printed[$distDir.'__icon'])) {
-      echo '<link rel="stylesheet" href="'.esc_url($iconCssUrl).'" />' . "\n";
-      $printed[$distDir.'__icon'] = true;
-    }
-    return true;
-  }
+        static $printed = [];
+        if (!empty($printed[$distDir])) return;
+        $printed[$distDir] = true;
 
-  $manifestPath = $distDir . 'manifest.json';
-  if (!is_readable($manifestPath)) {
-    $printed[$distDir] = true;
-    return false;
-  }
+        $manifestPath = $distDir . 'manifest.json';
+        if (!is_readable($manifestPath)) return;
 
-  $manifest = json_decode(file_get_contents($manifestPath), true);
-  if (!is_array($manifest)) {
-    $printed[$distDir] = true;
-    return false;
-  }
+        $manifest = json_decode(file_get_contents($manifestPath), true);
+        if (!is_array($manifest)) return;
 
-  // Buscar entry (isEntry = true)
-  $entry = null;
-  foreach ($manifest as $chunk) {
-    if (!empty($chunk['isEntry'])) { $entry = $chunk; break; }
-  }
-  if (!$entry || empty($entry['file'])) {
-    $printed[$distDir] = true;
-    return false;
-  }
-
-  // 1) Preload de imports (js + css)
-  if (!empty($entry['imports'])) {
-    foreach ($entry['imports'] as $imp) {
-      if (!empty($manifest[$imp]['file'])) {
-        echo '<link rel="modulepreload" href="' . esc_url($distUrl . $manifest[$imp]['file']) . '" crossorigin />' . "\n";
-      }
-      if (!empty($manifest[$imp]['css'])) {
-        foreach ($manifest[$imp]['css'] as $css) {
-          echo '<link rel="preload" as="style" href="' . esc_url($distUrl . $css) . '" />' . "\n";
+        $entry = null;
+        foreach ($manifest as $chunk) {
+            if (!empty($chunk['isEntry'])) { $entry = $chunk; break; }
         }
-      }
+        if (!$entry || empty($entry['file'])) return;
+
+        // función que imprime los links
+        $print_links = function() use ($entry, $manifest, $distUrl, $iconCssUrl) {
+            if (!empty($entry['imports'])) {
+                foreach ($entry['imports'] as $imp) {
+                    if (!empty($manifest[$imp]['file'])) {
+                        echo '<link rel="modulepreload" href="' . esc_url($distUrl . $manifest[$imp]['file']) . '" crossorigin>' . "\n";
+                    }
+                    
+                    if (!empty($manifest[$imp]['css'])) {
+                        foreach ($manifest[$imp]['css'] as $css) {
+                            echo '<link rel="preload" as="style" href="' . esc_url($distUrl . $css) . '">' . "\n";
+                        }
+                    }
+                }
+            }
+            
+            if (!empty($entry['css'])) {
+                foreach ($entry['css'] as $css) {
+                    echo '<link rel="stylesheet" href="' . esc_url($distUrl . $css) . '">' . "\n";
+                }
+            }
+            
+            if ($iconCssUrl) {
+                echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '">' . "\n";
+            }
+        };
+
+        // --- HEAD: links ---
+        if (did_action('wp_head')) {
+            // ya estamos dentro de wp_head → imprimir directo
+            $print_links();
+        } else {
+            add_action('wp_head', $print_links, 5);
+        }
+
+        // --- FOOTER: script ---
+        add_action('wp_footer', function() use ($entry, $distUrl) {
+            echo '<script type="module" crossorigin src="' . esc_url($distUrl . $entry['file']) . '"></script>' . "\n";
+        }, 5);
     }
-  }
-
-  // 2) CSS del entry
-  if (!empty($entry['css'])) {
-    foreach ($entry['css'] as $css) {
-      echo '<link rel="stylesheet" href="' . esc_url($distUrl . $css) . '" />' . "\n";
-    }
-  }
-
-  // 2.5) CSS extra (iconos)
-  if ($iconCssUrl) {
-    echo '<link rel="stylesheet" href="' . esc_url($iconCssUrl) . '" />' . "\n";
-    $printed[$distDir.'__icon'] = true;
-  }
-
-  // 3) JS principal
-  echo '<script type="module" crossorigin src="' . esc_url($distUrl . $entry['file']) . '"></script>' . "\n";
-
-  $printed[$distDir] = true;
-  return true;
 }
 
-function insert_assets_head_dns_prefetch_img() {
-        $idxboost_search_settings = get_option('idxboost_search_settings');
-
-        $cdn_images = $idxboost_search_settings["board_info"]["cdn_images"];
-        $cdn_thumbnail = $idxboost_search_settings["board_info"]["cdn_thumbnail"];
-        ?>
+function insert_assets_head_dns_prefetch_img()
+{
+    $idxboost_search_settings = get_option('idxboost_search_settings');
+    $cdn_images = $idxboost_search_settings["board_info"]["cdn_images"];
+    $cdn_thumbnail = $idxboost_search_settings["board_info"]["cdn_thumbnail"];
+    ?>
         <link rel="dns-prefetch" href="<?php echo $cdn_images; ?>" />
         <link rel="dns-prefetch" href="<?php echo $cdn_thumbnail; ?>" />
         <link rel="dns-prefetch" href="<?php echo FLEX_IDX_BASE_URL; ?>" />
         <link rel="dns-prefetch" href="<?php echo FLEX_IDX_CPANEL_URL; ?>" />
-<?php
+    <?php
 }
 
 add_action('wp_head', 'insert_assets_head_dns_prefetch_img', 2);
 
 
 function insert_assets_head_new_search_filter()
-    {
-        global $flex_idx_info, $post;
+{
+    global $flex_idx_info, $post;
 
-        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
-        $content = $post->post_content;
-        $is_load_map = false;
+    $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+    $content = $post->post_content;
+    $is_load_map = false;
 
-        $typeAssets = "default";
+    $typeAssets = "default";
 
-        /*
+    /*
         $version_map_search_filter = "1";
 
         if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches_mapsearchfilter)) {
@@ -7983,125 +7980,143 @@ function insert_assets_head_new_search_filter()
                 $version_map_search_filter = $coinci[1];
             }
         }
-        */
+    */
 
-        if ( 
-            //( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
-            (
-                has_shortcode( $content, 'ib_search_filter' ) || 
-                has_shortcode( $content, 'ib_search' ) || 
-                has_shortcode( $content, 'idx_search_react' )
-            )  && $idx_v == "1" ) { 
+    if ( 
+        //( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
+        (
+            has_shortcode($content, 'ib_search_filter') || 
+            has_shortcode($content, 'ib_search') || 
+            has_shortcode($content, 'idx_search_react')
+        )  
+        && $idx_v == "1" 
+    ) {
+        $is_load_map = true;
 
-            $is_load_map = true;
+        //validation to get data mode slider and load assets slider no default assets
+        if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
+            $GLOBALS["idx_page_map_search_filter"] = "yes";
             
-            
+            if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                $typeAssets = $coincidencias[1];
+            }
 
-                //validation to get data mode slider and load assets slider no default assets
-                if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
-                    $GLOBALS["idx_page_map_search_filter"] = "yes";
-                    if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
-                        $typeAssets = $coincidencias[1];
-                    }
-
-                    if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
-                        $typeAssets = $coincidencias[1];
-                    }
-
-                }
-
-                    if ($typeAssets == "slider") { ?>
-
-                        <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.js"); ?>" />    ></script>  
-                        
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver='.iboost_get_mod_time("react/shortcode_slider/fonts/icons/style.css"); ?>" />      
-
-                        <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver='.iboost_get_mod_time("react/shortcode_slider/assets/bundle.css"); ?>" />                  
-
-
-                    <?php }else{ ?>
-
-                        <?php
-                        ib_print_vite_assets([
-                            'distDir'    => ib_get_idx_path() . 'react/new_search_filter/dist/',
-                            'distUrl'    => FLEX_IDX_URI  . 'react/new_search_filter/dist/',
-                            'iconCssUrl' => FLEX_IDX_URI  . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
-                                            iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css')
-                        ]);
-                        ?>
-
-                    <?php } 
+            if ( is_array($matches) && count($matches) > 0 &&  preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                $typeAssets = $coincidencias[1];
+            }
         }
 
-        if ($idx_v == "1" && has_shortcode( $content, 'idx_boost_agent_office' )  ) {
-            $is_load_map = true;
-        }
-
-        if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode( $content, 'flex_idx_property_detail' ) ) { ?>
-            <?php
-            ib_print_vite_assets([
-                'distDir'    => ib_get_idx_path() . 'react/property-modal/dist/',
-                'distUrl'    => FLEX_IDX_URI  . 'react/property-modal/dist/',
-                'iconCssUrl' => FLEX_IDX_URI  . 'react/property-modal/fonts/icons/style.css?ver=' .
-                                iboost_get_mod_time('react/property-modal/fonts/icons/style.css')
-            ]);
+        if ($typeAssets == "slider") {
             ?>
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.js'); ?>"></script>  
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver=' . iboost_get_mod_time('react/shortcode_slider/fonts/icons/style.css'); ?>" />
+            <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.css'); ?>" />
             <?php
-        }
+        } else {
+            idxboost_print_vite_assets([
+                'distDir'    => ib_get_idx_path() . 'react/new_search_filter/dist/',
+                'distUrl'    => FLEX_IDX_URI  . 'react/new_search_filter/dist/',
+                'iconCssUrl' => FLEX_IDX_URI  . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
+                                iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css')
+            ]);
+
+            // --- Remueve la acción que encola los scripts antiguos ---
+            if (has_action('wp_footer', 'greatsliderLoad')) {
+                remove_action('wp_footer', 'greatsliderLoad');
+            }
+
+            // --- Como respaldo, añade un limpiador tardío en el footer ---
+            add_action( 'wp_footer', 'idxboost_remove_conflicting_scripts', 9999 );
+        } 
+    }
+
+    if ($idx_v == "1" && has_shortcode($content, 'idx_boost_agent_office')) {
+        $is_load_map = true;
+    }
+
+    if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode($content, 'flex_idx_property_detail')) {
+        idxboost_print_vite_assets([
+            'distDir'    => ib_get_idx_path() . 'react/property-modal/dist/',
+            'distUrl'    => FLEX_IDX_URI  . 'react/property-modal/dist/',
+            'iconCssUrl' => FLEX_IDX_URI  . 'react/property-modal/fonts/icons/style.css?ver=' .
+                            iboost_get_mod_time('react/property-modal/fonts/icons/style.css')
+        ]);
+    }
 }
 
-function insert_assets_head_new_development_collections() {
-        global $flex_idx_info, $post;
+/**
+ * Limpia los handles conflictivos si llegan a encolarse.
+ */
+function idxboost_remove_conflicting_scripts() {
+    $handles = ['flex-print-area','greatslider','flex-idx-slider'];
+    foreach ( $handles as $h ) {
+        if ( wp_script_is( $h, 'enqueued' ) || wp_script_is( $h, 'registered' ) ) {
+            wp_dequeue_script( $h );
+            wp_deregister_script( $h );
+        }
+    }
+}
 
-        $content = $post->post_content;
+function insert_assets_head_new_development_collections()
+{
+    global $flex_idx_info, $post;
 
-        if ( has_shortcode( $content, 'new_development_collections' ) ) { ?>
+    $content = $post->post_content;
+
+    if (has_shortcode($content, 'new_development_collections')) { 
+        ?>
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>"></script>  
             <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.css?ver='.iboost_get_mod_time("react/new-developments/fonts/icons/style.css"); ?>" />      
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver='.iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>" />
-            <?php 
-        }
+        <?php
+    }
 }
 
-function insert_assets_head_new_collections_properties() {
-        global $flex_idx_info, $post;
+function insert_assets_head_new_collections_properties()
+{
+    global $flex_idx_info, $post;
 
-        $content = $post->post_content;
+    $content = $post->post_content;
 
-        if ( has_shortcode( $content, 'new_collections_properties' ) ) { ?>
-            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections/bundle.js?ver='.iboost_get_mod_time("react/collections/bundle.js"); ?>"></script>            
+    if (has_shortcode($content, 'new_collections_properties')) {
+        ?>
+            <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections/bundle.js?ver='.iboost_get_mod_time("react/collections/bundle.js"); ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections/bundle.css?ver='.iboost_get_mod_time("react/collections/bundle.css"); ?>" />
-            <?php 
-        }
+        <?php
+    }
 }
 
-function insert_assets_head_new_collections_properties_details() {
-        global $flex_idx_info, $post;
+function insert_assets_head_new_collections_properties_details()
+{
+    global $flex_idx_info, $post;
 
-        $content = $post->post_content;
+    $content = $post->post_content;
 
-        if ( has_shortcode( $content, 'new_collections_properties_details' ) ) { ?>
+    if (has_shortcode($content, 'new_collections_properties_details')) {
+        ?>
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.js?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.js"); ?>"></script>
             <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/assets/bundle.css?ver='.iboost_get_mod_time("react/collections_detail/assets/bundle.css"); ?>" />
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/collections_detail/fonts/icons/style.min.css?ver='.iboost_get_mod_time("react/collections_detail/fonts/icons/style.min.css"); ?>" />
-            <?php 
-        }
+        <?php 
+    }
 }
 
-function insert_assets_head_dashtodash_sc() {
-        global $flex_idx_info, $post;
+function insert_assets_head_dashtodash_sc()
+{
+    global $flex_idx_info, $post;
 
-        $content = $post->post_content;
+    $content = $post->post_content;
 
-        if ( has_shortcode( $content, 'dashtodash' ) ) { ?>
+    if (has_shortcode($content, 'dashtodash')) {
+        ?>
             <script type="module" crossorigin src="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.js?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.js"); ?>"></script>  
             <script async src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/fonts/icons/style.css?ver='.iboost_get_mod_time("react/dash-to-dash/fonts/icons/style.css"); ?>" />      
             <link rel="stylesheet" href="<?php echo FLEX_IDX_URI . 'react/dash-to-dash/assets/bundle.css?ver='.iboost_get_mod_time("react/dash-to-dash/assets/bundle.css"); ?>" />
-            <?php 
-        }
+        <?php
+    }
 }
 
 /*****************************************/
@@ -8992,7 +9007,6 @@ if (!function_exists('idxboost_cms_register_assets')) {
     function idxboost_cms_register_assets()
     {
         global $flex_idx_info, $post, $wp;
-        $idx_new_search = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
         if (
             !empty($flex_idx_info['agent']['has_cms']) &&
@@ -9064,23 +9078,13 @@ if (!function_exists('idxboost_cms_register_assets')) {
                 true
             );
 
-            if ($idx_new_search == "1") {
-                wp_register_script(
-                    'carbonite-pages-contact',
-                    get_cms_assets_base_url() . '/assets/js/pages/contact.js',
-                    array('carbonite'),
-                    '',
-                    true
-                );
-            } else {
-                wp_register_script(
-                    'carbonite-pages-contact',
-                    get_cms_assets_base_url() . '/assets/js/pages/contact.js',
-                    array('carbonite', 'google-maps-api'),
-                    '',
-                    true
-                );
-            }
+            wp_register_script(
+                'carbonite-pages-contact',
+                get_cms_assets_base_url() . '/assets/js/pages/contact.js',
+                array('carbonite', 'google-maps-api'),
+                '',
+                true
+            );
 
             wp_register_script(
                 'carbonite-addons-loader',
@@ -9648,11 +9652,39 @@ if (!function_exists('idxboost_cms_remove_default_dns_prefetch')) {
 
 if (! function_exists('idxboost_cms_print_custom_dns_prefetch')) {
     function idxboost_cms_print_custom_dns_prefetch() {
+        global $flex_idx_info, $post;
+
+        $typeAssets = "default";
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+        $content = $post->post_content;
         $assets_base_url = defined('IB_ASSETS_DEV') 
             ? 'https://api-cms.idxboost.dev'
             : 'https://idxboost-spw-assets.idxboost.us';
 
-        echo "<link rel='dns-prefetch' href='". esc_url( $assets_base_url ) ."' />";
+        if (
+            (
+                has_shortcode($content, 'ib_search_filter') || 
+                has_shortcode($content, 'ib_search') || 
+                has_shortcode($content, 'idx_search_react')
+            )  
+            && $idx_v == "1" 
+        ) {
+            // validation to get data mode slider and load assets slider no default assets
+            if (preg_match('/\[ib_search_filter\s+([^]]+)\]/', $content, $matches)) {
+                $GLOBALS["idx_page_map_search_filter"] = "yes";
+                if (preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                    $typeAssets = $coincidencias[1];
+                }
+            }
+
+            if ($typeAssets != "slider") {
+                echo "<link rel='preconnect' href='" . esc_url($assets_base_url) . "' crossorigin />";
+                echo '<link rel="preload" as="image" href="https://idxboost-spw-assets.idxboost.us/photos/default_thumbnail.jpg">';
+                return;
+            }
+        }
+        
+        echo "<link rel='dns-prefetch' href='". $assets_base_url ."' />";
     }
 }
 
@@ -10641,13 +10673,24 @@ if (!function_exists('idxboost_language_default_plugin')) {
     add_filter('locale', 'idxboost_language_default_plugin');
 }
 
-add_action( 'after_setup_theme', 'my_languagues_setup' );
 if (!defined('IDXBOOST_DOMAIN_THEME_LANG')) {
     define('IDXBOOST_DOMAIN_THEME_LANG', 'idxboost');
 }
 
-function my_languagues_setup(){
-    if(get_locale() != "en_EN" ){
-        load_textdomain( IDXBOOST_DOMAIN_THEME_LANG, FLEX_IDX_PATH.'/languages/'.get_locale().'.mo' );
+function my_languagues_setup()
+{
+    if (get_locale() != "en_EN") {
+        load_textdomain(IDXBOOST_DOMAIN_THEME_LANG, FLEX_IDX_PATH . '/languages/' . get_locale() . '.mo');
     }
 }
+
+add_action( 'after_setup_theme', 'my_languagues_setup' );
+
+function remove_unused_scripts() {
+    // Asegúrate de correr después de que los plugins/themes los encolaron
+    wp_dequeue_script('flex-idx-filter-jquery-ui');
+    wp_deregister_script('flex-idx-filter-jquery-ui');
+    wp_dequeue_script('flex-idx-filter-jquery-ui-touch');
+    wp_deregister_script('flex-idx-filter-jquery-ui-touch');
+}
+// add_action('wp_enqueue_scripts', 'remove_unused_scripts', 999);
