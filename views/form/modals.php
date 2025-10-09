@@ -219,6 +219,7 @@ if ($disclaimer_checked == "1") {
                   <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
                   <input type="hidden" name="logon_type" value="email">
                   <input name="action" type="hidden" value="flex_idx_lead_signin">
+                  <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                   <ul class="form_md" id="cntLoginForm">
                     <li class="form_input">
                       <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
@@ -261,6 +262,7 @@ if ($disclaimer_checked == "1") {
                     <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
                     <input type="hidden" class="ib_property_signup_price" name="__property_signup_price" value="">
                     <input type="hidden" name="action" value="flex_idx_lead_signup">
+                    <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
 
                     <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
                       <input type="hidden" name="gclid_field" id="gclid_field_form_lead_registration">
@@ -1695,7 +1697,8 @@ function handleCredentialResponse(token) {
                     logon_type: "google",
                     action: "flex_idx_lead_signin",
                     ib_tags: jQuery("#formRegister_ib_tags").val(),
-                    registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null                    
+                    registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null,
+                    security: __flex_g_settings.security,
                 },
                 dataType: "json",
                 success: function(response) {
@@ -2516,7 +2519,8 @@ function fb_login() {
                         source_registration_title: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? IB_SEARCH_FILTER_PAGE_TITLE : null,
                         source_registration_url: (typeof IB_SEARCH_FILTER_PAGE_TITLE !== 'undefined') ? location.href : null,
                         ib_tags: jQuery("#formRegister_ib_tags").val(),
-                        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null
+                        registration_key: (typeof IB_AGENT_REGISTRATION_KEY !== "undefined") ? IB_AGENT_REGISTRATION_KEY : null,
+                        security: __flex_g_settings.security,
                     },
                     dataType: "json",
                     success: function(response) {
@@ -2856,13 +2860,17 @@ function fb_login() {
 
                           }, 3000);
                         } else {
-                          var textmessage='';
-                          if (response.message=='Invalid credentials, try again.') 
+                          var textmessage = '';
+                          
+                          if (response.message=='Invalid credentials, try again.') {
                             textmessage=word_translate.invalid_credentials_try_again;
-                          else if (response.message=='Logged in succesfully.')
+                          } else if (response.message=='Logged in succesfully.') {
                             textmessage=word_translate.logged_in_succesfully;
-                            sweetAlert(word_translate.oops, textmessage, "error");
+                          } else if (response?.code === 'invalid_security_token') {
+                            textmessage = response.message;
+                          }
 
+                          sweetAlert(word_translate.oops, textmessage, "error");
                         }
                     }
                 });

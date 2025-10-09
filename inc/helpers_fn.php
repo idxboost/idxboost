@@ -2643,6 +2643,15 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
 
         $password = $phone;
 
+        // Verificar el nonce
+        if (!check_ajax_referer('ajax_nonce', 'security', false)) {
+            wp_send_json([
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
+            ]);
+        }
+
         $sendParams = array(
             'access_token' => $access_token,
             'email' => $email,
@@ -2810,6 +2819,15 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
         $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
         $ib_tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+
+        // Verificar el nonce
+        if (!check_ajax_referer('ajax_nonce', 'security', false)) {
+            wp_send_json([
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
+            ]);
+        }
 
         $sendParams = array(
             'access_token' => $access_token,
@@ -7087,7 +7105,8 @@ if (!function_exists('flex_idx_register_assets')) {
             'has_cms' => isset($flex_idx_info['agent']['has_cms']) ? (bool)$flex_idx_info['agent']['has_cms'] : false,
             'recaptcha_site_key' => isset($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : null,
             'recaptcha_api_key' => isset($flex_idx_info['agent']['recaptcha_api_key']) ? $flex_idx_info['agent']['recaptcha_api_key'] : null,
-            'overwrite_settings' => $search_filter_settings
+            'overwrite_settings' => $search_filter_settings,
+            'security' => wp_create_nonce('ajax_nonce'),
         ));
 
         wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]));

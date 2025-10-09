@@ -1385,11 +1385,15 @@ function validate_price(evt) {
 
 					} else {
 						
-						if (response.message=='Invalid credentials, try again.') 
-							textmessage=word_translate.invalid_credentials_try_again;
-						else if (response.message=='Logged in succesfully.')
-							textmessage=word_translate.logged_in_succesfully;
-							sweetAlert(word_translate.oops, textmessage, "error");
+						if (response.message == 'Invalid credentials, try again.') {
+							textmessage = word_translate.invalid_credentials_try_again;
+						} else if (response.message == 'Logged in succesfully.') {
+							textmessage = word_translate.logged_in_succesfully;
+						} else if (response?.code === 'invalid_security_token') {
+							textmessage = response.message;
+						}
+
+						sweetAlert(word_translate.oops, textmessage, "error");
 					}
 				}
 			});
