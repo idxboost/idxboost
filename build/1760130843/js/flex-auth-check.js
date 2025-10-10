@@ -1032,7 +1032,7 @@ function validate_price(evt) {
 			var usernameCache = '',
 				passwordCache = '';
 			var seriaLogin = _self.serializeArray();
-			var textmessage='';
+			var textmessage = '';
 
 			$.ajax({
 				url: __flex_g_settings.ajaxUrl,
@@ -1046,9 +1046,9 @@ function validate_price(evt) {
 							jQuery("body").addClass("logged");
 							jQuery(".js-login").addClass("ip-d-none");
 						}
-						
+
 						if (typeof dataLayer !== "undefined") {
-							dataLayer.push({'event': 'email_signin'});
+							dataLayer.push({ 'event': 'email_signin' });
 						}
 
 						var lead_token = response.lead_token;
@@ -1060,14 +1060,14 @@ function validate_price(evt) {
 						// if available history menu for lead
 						if (jQuery("#ib-lead-history-menu-btn").length) {
 							jQuery.ajax({
-								url :__flex_g_settings.fetchLeadActivitiesEndpoint,
+								url: __flex_g_settings.fetchLeadActivitiesEndpoint,
 								method: "POST",
 								data: {
 									access_token: __flex_g_settings.accessToken,
 									flex_credentials: Cookies.get("ib_lead_token")
 								},
 								dataType: "json",
-								success: function(response) {
+								success: function (response) {
 									if ("yes" === response.lead_info.show_help_tooltip) {
 										jQuery("#ib-lead-history-tooltip-help").show();
 									}
@@ -1119,27 +1119,27 @@ function validate_price(evt) {
 										for (var i = 0, l = lead_listing_views.length; i < l; i++) {
 											lead_listing_views_html.push('<div class="ms-history-menu-item">');
 											lead_listing_views_html.push('<div class="ms-history-menu-wrap-img">');
-											lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
+											lead_listing_views_html.push('<img src="' + lead_listing_views[i].thumbnail + '">');
 											lead_listing_views_html.push('</div>');
 											lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
-											lead_listing_views_html.push('<h3 class="ms-history-menu-title">'+lead_listing_views[i].address_short+'</h3>');
-											lead_listing_views_html.push('<h4 class="ms-history-menu-address">'+lead_listing_views[i].address_large+'</h4>');
-											lead_listing_views_html.push('<h5 class="ms-history-menu-price">'+lead_listing_views[i].price+'</h5>');
+											lead_listing_views_html.push('<h3 class="ms-history-menu-title">' + lead_listing_views[i].address_short + '</h3>');
+											lead_listing_views_html.push('<h4 class="ms-history-menu-address">' + lead_listing_views[i].address_large + '</h4>');
+											lead_listing_views_html.push('<h5 class="ms-history-menu-price">' + lead_listing_views[i].price + '</h5>');
 											lead_listing_views_html.push('<div class="ms-history-menu-details">');
-												lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' Beds</span>');
-												lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' Baths</span>');
-												lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' SqFt</span>');
+											lead_listing_views_html.push('<span>' + lead_listing_views[i].bed + ' Beds</span>');
+											lead_listing_views_html.push('<span>' + lead_listing_views[i].bath + ' Baths</span>');
+											lead_listing_views_html.push('<span>' + lead_listing_views[i].sqft + ' SqFt</span>');
 											lead_listing_views_html.push('</div>');
 											lead_listing_views_html.push('</div>');
 											//console.log(lead_listing_views[i].mls_num);
 											lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
-											lead_listing_views_html.push('<button data-mls="'+lead_listing_views[i].mls_num+'" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
+											lead_listing_views_html.push('<button data-mls="' + lead_listing_views[i].mls_num + '" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
 											lead_listing_views_html.push('</div>');
 											//lead_listing_views_html.push('<div class="ms-property-actions">');
 											//lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
 											//lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
 											//lead_listing_views_html.push('</div>');
-											lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-history-menu-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
+											lead_listing_views_html.push('<a href="' + __flex_g_settings.propertyDetailPermalink + '/' + lead_listing_views[i].slug + '" target="_blank" class="ms-history-menu-link">' + lead_listing_views[i].address_short + ' ' + lead_listing_views[i].address_large + '</a>');
 											lead_listing_views_html.push('</div>');
 										}
 
@@ -1152,28 +1152,28 @@ function validate_price(evt) {
 											var lead_listing_views_paging = [];
 
 											if (response.lead_info.listing_views_pagination.has_prev_page) {
-												lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'"></a>');
+												lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page - 1) + '"></a>');
 											}
 
 											lead_listing_views_paging.push('<div class="ib-paglinks">');
 
 											var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
 
-											for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
+											for (var i = 0, l = lead_listing_views_page_range.length; i < l; i++) {
 												if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-													lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
+													lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
 												} else {
-													lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
+													lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
 												}
 											}
 
 											lead_listing_views_paging.push('</div>');
 
 											if (response.lead_info.listing_views_pagination.has_next_page) {
-												lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'"></a>');
+												lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page + 1) + '"></a>');
 											}
 
-											jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
+											jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">' + lead_listing_views_paging.join("") + '</div>');
 										}
 									}
 								}
@@ -1221,15 +1221,15 @@ function validate_price(evt) {
 
 						var newPhoneFormat = Cookies.get("_ib_user_code_phone");
 						var newPhoneNumber = Cookies.get("_ib_user_phone");
-						
-						if(typeof newPhoneFormat === "undefined" || newPhoneFormat === "null" || newPhoneFormat === "" || newPhoneFormat === "0"){
+
+						if (typeof newPhoneFormat === "undefined" || newPhoneFormat === "null" || newPhoneFormat === "" || newPhoneFormat === "0") {
 							newPhoneNumberFormat = newPhoneNumber;
-						}else{
-							newPhoneNumberFormat = "+"+newPhoneFormat+newPhoneNumber;
+						} else {
+							newPhoneNumberFormat = "+" + newPhoneFormat + newPhoneNumber;
 						}
 
 						Cookies.set("_ib_user_new_phone_number", newPhoneNumberFormat);
-						
+
 						$("#_ib_fn_inq").val(response.first_name);
 						$("#_ib_ln_inq").val(response.last_name);
 						$("#_ib_em_inq").val(response.email);
@@ -1245,8 +1245,8 @@ function validate_price(evt) {
 
 						//Building default label
 						var ob_form_building_footer;
-						ob_form_building_footer=$('.flex_idx_building_form');
-						if (ob_form_building_footer.length>0){
+						ob_form_building_footer = $('.flex_idx_building_form');
+						if (ob_form_building_footer.length > 0) {
 							ob_form_building_footer.find('[name="first_name"]').val(response.first_name);
 							ob_form_building_footer.find('[name="last_name"]').val(response.last_name);
 							ob_form_building_footer.find('[name="email"]').val(response.email);
@@ -1254,11 +1254,11 @@ function validate_price(evt) {
 							ob_form_building_footer.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
 							ob_form_building_footer.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
 						}
-						
+
 						//modal regular filter default label
 						var ob_form_modal;
-						ob_form_modal=$('.ib-propery-inquiry-f');
-						if (ob_form_modal.length>0){
+						ob_form_modal = $('.ib-propery-inquiry-f');
+						if (ob_form_modal.length > 0) {
 							ob_form_modal.find('[name="first_name"]').val(response.first_name);
 							ob_form_modal.find('[name="last_name"]').val(response.last_name);
 							ob_form_modal.find('[name="email_address"]').val(response.email);
@@ -1267,8 +1267,8 @@ function validate_price(evt) {
 						}
 
 						var ob_form_regular_contact_form;
-						ob_form_regular_contact_form=$('#flex_idx_contact_form');
-						if (ob_form_regular_contact_form.length>0){
+						ob_form_regular_contact_form = $('#flex_idx_contact_form');
+						if (ob_form_regular_contact_form.length > 0) {
 							ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
 							ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
 							ob_form_regular_contact_form.find('[name="email"]').val(response.email);
@@ -1278,8 +1278,8 @@ function validate_price(evt) {
 
 						//Off market listing default label
 						var ob_form_off_market_listing;
-						ob_form_off_market_listing=$('#flex-idx-property-form');
-						if (ob_form_off_market_listing.length>0){
+						ob_form_off_market_listing = $('#flex-idx-property-form');
+						if (ob_form_off_market_listing.length > 0) {
 							ob_form_off_market_listing.find('[name="first_name"]').val(response.first_name);
 							ob_form_off_market_listing.find('[name="last_name"]').val(response.last_name);
 							ob_form_off_market_listing.find('[name="email"]').val(response.email);
@@ -1289,8 +1289,8 @@ function validate_price(evt) {
 
 						//Property form react Vacation Rentals
 						var ob_property_form_vacation_rentals;
-						ob_property_form_vacation_rentals=$('#propertyForm');
-						if (ob_property_form_vacation_rentals.length>0){
+						ob_property_form_vacation_rentals = $('#propertyForm');
+						if (ob_property_form_vacation_rentals.length > 0) {
 							ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
 							ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
 							ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
@@ -1300,8 +1300,8 @@ function validate_price(evt) {
 
 						// Sets user information on CMS Forms
 						if (
-							typeof idxpages === 'object' && 
-							idxpages.forms && 
+							typeof idxpages === 'object' &&
+							idxpages.forms &&
 							typeof idxpages.forms.init === 'function'
 						) {
 							idxpages.forms.init();
@@ -1313,9 +1313,9 @@ function validate_price(evt) {
 						__flex_g_settings.anonymous = "no";
 
 						//force registration for building
-						idx_auto_save_building(response);            
+						idx_auto_save_building(response);
 						//force registration for building
-						
+
 						if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
 							// track listing view
 							$.ajax({
@@ -1325,9 +1325,9 @@ function validate_price(evt) {
 									action: "track_property_view",
 									board_id: __flex_g_settings.boardId,
 									mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
-									mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")) )
+									mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")))
 								},
-								success: function(response) {
+								success: function (response) {
 									console.log("track done for property #" + lastOpenedProperty);
 									Cookies.set("_ib_user_listing_views", JSON.stringify([]));
 								}
@@ -1351,10 +1351,10 @@ function validate_price(evt) {
 
 						localStorage.setItem('idxboost_credential', JSON.stringify(objectCredential));
 
-						if (response.message=='Invalid credentials, try again.') 
-							textmessage=word_translate.invalid_credentials_try_again;
-						else if (response.message=='Logged in succesfully.')
-							textmessage=word_translate.logged_in_succesfully;
+						if (response.message == 'Invalid credentials, try again.')
+							textmessage = word_translate.invalid_credentials_try_again;
+						else if (response.message == 'Logged in succesfully.')
+							textmessage = word_translate.logged_in_succesfully;
 
 						swal({
 							title: word_translate.good_job,
@@ -1364,17 +1364,17 @@ function validate_price(evt) {
 							showConfirmButton: false
 						});
 
-						if(typeof fc_ib_response_register === 'function') {
-								fc_ib_response_register(response,'login');
+						if (typeof fc_ib_response_register === 'function') {
+							fc_ib_response_register(response, 'login');
 						}
 
 						setTimeout(function () {
 							if (typeof originalPositionY !== "undefined") {
 								if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
 									console.log('restoring to: ' + originalPositionY);
-									window.scrollTo(0,originalPositionY);
+									window.scrollTo(0, originalPositionY);
 								}
-						 	}
+							}
 
 							/*CONSULTAR*/
 							jQuery(".iboost-form-validation-loaded").each(function () {
@@ -1384,7 +1384,7 @@ function validate_price(evt) {
 						}, 300);
 
 					} else {
-						
+
 						if (response.message == 'Invalid credentials, try again.') {
 							textmessage = word_translate.invalid_credentials_try_again;
 						} else if (response.message == 'Logged in succesfully.') {
@@ -1397,7 +1397,7 @@ function validate_price(evt) {
 					}
 				}
 			});
-			
+
 			$('.content_md').removeClass('ms-hidden-extras');
 		});
 
@@ -1491,832 +1491,855 @@ function validate_price(evt) {
 			var _self = $(this);
 			var fub_chk = _self.parents("#modal_login").find(jQuery(".follow_up_boss_valid_register"));
 
-			if(fub_chk.length){
+			if (fub_chk.length) {
 
-				if(!fub_chk.prop('checked')){
+				if (!fub_chk.prop('checked')) {
 					alert("You must accept the terms and conditions, and the privacy policy to continue");
 					fub_chk.addClass("error");
 					return;
+				} else {
+					if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute !== 'function') {
+						textmessage = 'The security verification service is currently unavailable. Please try again later.';
+						sweetAlert(word_translate.oops, textmessage, "error");
+						console.error('reCAPTCHA is not configured correctly or the script is missing.');
+						return;
+					}
+					
+					grecaptcha.ready(function() {
+                        grecaptcha
+                        .execute(__flex_g_settings.google_recaptcha_public_key, { action: 'flex_idx_lead_signup' })
+                        .then(function(token) {
+							_self.prepend('<input type="hidden" name="recaptcha_response" value="' + token + '">');
+							
+							var formData = _self.serialize();
+							var objectCredential = [];
+							var usernameCache = '',
+								passwordCache = '';
+							var seriaLogin = _self.serializeArray();
 
-				}else{
+							// hide registration form
+							$("#modal_login").removeClass("active_modal");
 
-					var formData = _self.serialize();
-					var objectCredential = [];
-					var usernameCache = '',
-							passwordCache = '';
-					var seriaLogin = _self.serializeArray();
+							swal({
+								title: word_translate.your_account_is_being_created,
+								text: word_translate.this_might_take_a_while_do_not_reload_thepage,
+								type: "info",
+								showConfirmButton: false,
+								closeOnClickOutside: false,
+								closeOnEsc: false
+							});
 
-					// hide registration form
-					$("#modal_login").removeClass("active_modal");
+							$.ajax({
+								url: __flex_g_settings.ajaxUrl,
+								method: "POST",
+								data: formData,
+								dataType: "json",
+								success: function (response) {
+									// if registration is sucessfully.
+									if (true === response.success) {
+										if (typeof dataLayer !== "undefined") {
+											dataLayer.push({ 'event': 'email_register' });
+										}
 
-					swal({
-						title: word_translate.your_account_is_being_created,
-						text: word_translate.this_might_take_a_while_do_not_reload_thepage,
-						type: "info",
-						showConfirmButton: false,
-						closeOnClickOutside: false,
-						closeOnEsc: false
-					});
+										if (__flex_g_settings.has_cms == "1") {
+											jQuery("body").addClass("logged");
+											jQuery(".js-login").addClass("ip-d-none");
+										}
 
-					$.ajax({
-						url: __flex_g_settings.ajaxUrl,
-						method: "POST",
-						data: formData,
-						dataType: "json",
-						success: function (response) {
-							// if registration is sucessfully.
-							if (true === response.success) {
-								if (typeof dataLayer !== "undefined") {
-									dataLayer.push({'event': 'email_register'});
-								}
+										if (true === IB_HAS_LEFT_CLICKS) {
+											//Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
+											Cookies.set("_ib_left_click_force_registration", 0);
+										}
 
-								if (__flex_g_settings.has_cms == "1") {
-									jQuery("body").addClass("logged");
-									jQuery(".js-login").addClass("ip-d-none");
-								}
+										Cookies.set("_ib_left_click_force_registration", 0);
+										// stores into cookies current lead token
+										//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+										Cookies.set('ib_lead_token', response.lead_token);
 
-								if (true === IB_HAS_LEFT_CLICKS) {
-									//Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
-									Cookies.set("_ib_left_click_force_registration", 0);
-								}
-
-								Cookies.set("_ib_left_click_force_registration", 0);
-								// stores into cookies current lead token
-								//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
-								Cookies.set('ib_lead_token', response.lead_token);
-
-								// if available history menu for lead
-								if (jQuery("#ib-lead-history-menu-btn").length) {
-									jQuery.ajax({
-										url :__flex_g_settings.fetchLeadActivitiesEndpoint,
-										method: "POST",
-										data: {
-											access_token: __flex_g_settings.accessToken,
-											flex_credentials: Cookies.get("ib_lead_token")
-										},
-										dataType: "json",
-										success: function(response) {
-											if ("yes" === response.lead_info.show_help_tooltip) {
-												jQuery("#ib-lead-history-tooltip-help").show();
-											}
-
-											jQuery("#ib-lead-history-menu-btn").show();
-
-											// fill generated values
-											var fill_first_letter_name_values = [];
-
-											if (response.lead_info.first_name.length) {
-												fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
-											}
-
-											if (response.lead_info.last_name.length) {
-												fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
-											}
-
-											jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
-
-											if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
-												jQuery(".ib-lead-first-letter-name").css({
-													'background-color': 'transparent',
-													'background-image': 'url(' + response.lead_info.photo_url + ')',
-													'background-repeat': 'no-repeat',
-													'background-size': 'contain',
-													'background-position': 'center center',
-													'text-indent': '-9999px'
-												});
-											}
-
-											jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
-											jQuery(".ib-lead-firstname").html("Hello " + response.lead_info.first_name + "!");
-
-											jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
-											jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
-											jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
-											jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
-											jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
-											jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
-
-											// fill activity lead
-											jQuery("#_ib_lead_activity_rows").empty();
-											jQuery("#_ib_lead_activity_pagination").empty();
-
-											if (response.lead_info.listing_views.length) {
-												var lead_listing_views = response.lead_info.listing_views;
-												var lead_listing_views_html = [];
-
-												for (var i = 0, l = lead_listing_views.length; i < l; i++) {
-													lead_listing_views_html.push('<div class="ms-history-menu-item">');
-													lead_listing_views_html.push('<div class="ms-history-menu-wrap-img">');
-													lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
-													lead_listing_views_html.push('</div>');
-													lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
-													lead_listing_views_html.push('<h3 class="ms-history-menu-title">'+lead_listing_views[i].address_short+'</h3>');
-													lead_listing_views_html.push('<h4 class="ms-history-menu-address">'+lead_listing_views[i].address_large+'</h4>');
-													lead_listing_views_html.push('<h5 class="ms-history-menu-price">'+lead_listing_views[i].price+'</h5>');
-													lead_listing_views_html.push('<div class="ms-history-menu-details">');
-														lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' Beds</span>');
-														lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' Baths</span>');
-														lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' SqFt</span>');
-													lead_listing_views_html.push('</div>');
-													lead_listing_views_html.push('</div>');
-													//console.log(lead_listing_views[i].mls_num);
-													lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
-													lead_listing_views_html.push('<button data-mls="'+lead_listing_views[i].mls_num+'" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
-													lead_listing_views_html.push('</div>');
-													//lead_listing_views_html.push('<div class="ms-property-actions">');
-													//lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
-													//lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
-													//lead_listing_views_html.push('</div>');
-													lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-history-menu-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
-													lead_listing_views_html.push('</div>');
-												}
-
-												jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
-											}
-
-											// build pagination
-											if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-												if (response.lead_info.listing_views_pagination.total_pages > 1) {
-													var lead_listing_views_paging = [];
-
-													if (response.lead_info.listing_views_pagination.has_prev_page) {
-														lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'"></a>');
+										// if available history menu for lead
+										if (jQuery("#ib-lead-history-menu-btn").length) {
+											jQuery.ajax({
+												url: __flex_g_settings.fetchLeadActivitiesEndpoint,
+												method: "POST",
+												data: {
+													access_token: __flex_g_settings.accessToken,
+													flex_credentials: Cookies.get("ib_lead_token")
+												},
+												dataType: "json",
+												success: function (response) {
+													if ("yes" === response.lead_info.show_help_tooltip) {
+														jQuery("#ib-lead-history-tooltip-help").show();
 													}
 
-													lead_listing_views_paging.push('<div class="ib-paglinks">');
+													jQuery("#ib-lead-history-menu-btn").show();
 
-													var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+													// fill generated values
+													var fill_first_letter_name_values = [];
 
-													for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-														if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-															lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
-														} else {
-															lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
+													if (response.lead_info.first_name.length) {
+														fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
+													}
+
+													if (response.lead_info.last_name.length) {
+														fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
+													}
+
+													jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
+
+													if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
+														jQuery(".ib-lead-first-letter-name").css({
+															'background-color': 'transparent',
+															'background-image': 'url(' + response.lead_info.photo_url + ')',
+															'background-repeat': 'no-repeat',
+															'background-size': 'contain',
+															'background-position': 'center center',
+															'text-indent': '-9999px'
+														});
+													}
+
+													jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
+													jQuery(".ib-lead-firstname").html("Hello " + response.lead_info.first_name + "!");
+
+													jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
+													jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+													jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
+													jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
+													jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
+													jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
+
+													// fill activity lead
+													jQuery("#_ib_lead_activity_rows").empty();
+													jQuery("#_ib_lead_activity_pagination").empty();
+
+													if (response.lead_info.listing_views.length) {
+														var lead_listing_views = response.lead_info.listing_views;
+														var lead_listing_views_html = [];
+
+														for (var i = 0, l = lead_listing_views.length; i < l; i++) {
+															lead_listing_views_html.push('<div class="ms-history-menu-item">');
+															lead_listing_views_html.push('<div class="ms-history-menu-wrap-img">');
+															lead_listing_views_html.push('<img src="' + lead_listing_views[i].thumbnail + '">');
+															lead_listing_views_html.push('</div>');
+															lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
+															lead_listing_views_html.push('<h3 class="ms-history-menu-title">' + lead_listing_views[i].address_short + '</h3>');
+															lead_listing_views_html.push('<h4 class="ms-history-menu-address">' + lead_listing_views[i].address_large + '</h4>');
+															lead_listing_views_html.push('<h5 class="ms-history-menu-price">' + lead_listing_views[i].price + '</h5>');
+															lead_listing_views_html.push('<div class="ms-history-menu-details">');
+															lead_listing_views_html.push('<span>' + lead_listing_views[i].bed + ' Beds</span>');
+															lead_listing_views_html.push('<span>' + lead_listing_views[i].bath + ' Baths</span>');
+															lead_listing_views_html.push('<span>' + lead_listing_views[i].sqft + ' SqFt</span>');
+															lead_listing_views_html.push('</div>');
+															lead_listing_views_html.push('</div>');
+															//console.log(lead_listing_views[i].mls_num);
+															lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
+															lead_listing_views_html.push('<button data-mls="' + lead_listing_views[i].mls_num + '" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
+															lead_listing_views_html.push('</div>');
+															//lead_listing_views_html.push('<div class="ms-property-actions">');
+															//lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
+															//lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
+															//lead_listing_views_html.push('</div>');
+															lead_listing_views_html.push('<a href="' + __flex_g_settings.propertyDetailPermalink + '/' + lead_listing_views[i].slug + '" target="_blank" class="ms-history-menu-link">' + lead_listing_views[i].address_short + ' ' + lead_listing_views[i].address_large + '</a>');
+															lead_listing_views_html.push('</div>');
+														}
+
+														jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
+													}
+
+													// build pagination
+													if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+														if (response.lead_info.listing_views_pagination.total_pages > 1) {
+															var lead_listing_views_paging = [];
+
+															if (response.lead_info.listing_views_pagination.has_prev_page) {
+																lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page - 1) + '"></a>');
+															}
+
+															lead_listing_views_paging.push('<div class="ib-paglinks">');
+
+															var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+
+															for (var i = 0, l = lead_listing_views_page_range.length; i < l; i++) {
+																if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+																	lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
+																} else {
+																	lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
+																}
+															}
+
+															lead_listing_views_paging.push('</div>');
+
+															if (response.lead_info.listing_views_pagination.has_next_page) {
+																lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page + 1) + '"></a>');
+															}
+
+															jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
 														}
 													}
-
-													lead_listing_views_paging.push('</div>');
-
-													if (response.lead_info.listing_views_pagination.has_next_page) {
-														lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'"></a>');
-													}
-
-													jQuery("#_ib_lead_activity_pagination").html(lead_listing_views_paging.join(""));
 												}
-											}
-										}
-									});
-								}
-
-								//socket.subscribe(__flex_g_settings.pusher.presence_channel);
-								// if ("undefined" !== typeof socket) {
-								// 	socket.disconnect();
-								//
-								// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
-								// 		cluster: __flex_g_settings.pusher.app_cluster,
-								// 		encrypted: true,
-								// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-								// 	});
-								//
-								// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
-								// }
-
-								// save last logged in username
-								Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
-
-								// store first name
-								Cookies.set("_ib_user_firstname", response.first_name);
-
-								// store last name
-								Cookies.set("_ib_user_lastname", response.last_name);
-
-								// store email
-								Cookies.set("_ib_user_email", response.email);
-								
-								jQuery("#_ib_fn_inq").val(response.first_name);
-								jQuery("#_ib_ln_inq").val(response.last_name);
-								jQuery("#_ib_em_inq").val(response.email);
-								jQuery("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
-
-								jQuery("._ib_fn_inq").val(response.first_name);
-								jQuery("._ib_ln_inq").val(response.last_name);
-								jQuery("._ib_em_inq").val(response.email);
-								jQuery("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
-								jQuery("._ib_pc_inq").val(Cookies.get("_ib_user_code_phone"));
-
-								jQuery(".phoneCodeValidation").val(Cookies.get("_ib_user_code_phone"));
-
-								//Building default label
-								var ob_form_building_footer;
-								ob_form_building_footer=jQuery('.flex_idx_building_form');
-								if (ob_form_building_footer.length>0){
-									ob_form_building_footer.find('input[name="first_name"]').val(response.first_name);
-									ob_form_building_footer.find('input[name="last_name"]').val(response.last_name);
-									ob_form_building_footer.find('input[name="email"]').val(response.email);
-									ob_form_building_footer.find('input[name="email_address"]').val(response.email);
-									ob_form_building_footer.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-								}
-								
-								//modal regular filter default label
-								var ob_form_modal;
-								ob_form_modal=jQuery('.ib-propery-inquiry-f');
-								if (ob_form_modal.length>0){
-									ob_form_modal.find('input[name="first_name"]').val(response.first_name);
-									ob_form_modal.find('input[name="last_name"]').val(response.last_name);
-									ob_form_modal.find('input[name="email_address"]').val(response.email);
-									ob_form_modal.find('input[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-								}
-
-								var ob_form_regular_contact_form;
-								ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
-								if (ob_form_regular_contact_form.length>0){
-									ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
-									ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
-									ob_form_regular_contact_form.find('[name="email"]').val(response.email);
-									ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
-								}
-
-								//Off market listing default label
-								var ob_form_off_market_listing;
-								ob_form_off_market_listing=jQuery('#flex-idx-property-form');
-								if (ob_form_off_market_listing.length>0){
-									ob_form_off_market_listing.find('input[name="first_name"]').val(response.first_name);
-									ob_form_off_market_listing.find('input[name="last_name"]').val(response.last_name);
-									ob_form_off_market_listing.find('input[name="email"]').val(response.email);
-									ob_form_off_market_listing.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-								}
-
-								var ob_contact_form;
-								ob_contact_form = jQuery('#ip-form');
-								if (ob_contact_form.length>0){
-									ob_contact_form.find('input[name="name"]').val(response.first_name);
-									ob_contact_form.find('input[name="lastname"]').val(response.last_name);
-									ob_contact_form.find('input[name="email"]').val(response.email);
-									ob_contact_form.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-								}
-
-								//Property form react Vacation Rentals
-								var ob_property_form_vacation_rentals;
-								ob_property_form_vacation_rentals = jQuery('#propertyForm');
-								if (ob_property_form_vacation_rentals.length>0){
-									ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
-									ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
-									ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
-									ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-									ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
-								}
-
-								// store phone
-								//console.log("REGISTER_ib_user_phone"+Cookies.get("_ib_user_phone"));
-								//console.log("REGISTER_ib_user_code_phone"+Cookies.get("_ib_user_code_phone"));
-								//console.log("REGISTER_ib_user_new_phone_number"+Cookies.get("_ib_user_new_phone_number"));
-
-								// Sets user information on CMS Forms
-								if (
-									typeof idxpages === 'object' && 
-									idxpages.forms && 
-									typeof idxpages.forms.init === 'function'
-								) {
-									idxpages.forms.init();
-								}
-
-								// updates lead list menu HTML
-								$("#user-options").html(response.output);
-								$(".lg-wrap-login:eq(0)").html(response.output);
-								$(".lg-wrap-login:eq(0)").addClass("active");
-
-								$('html').removeClass('modal_mobile');
-
-								// reset registration form
-								_self.trigger('reset');
-
-								// overwrite lead status globally
-								__flex_g_settings.anonymous = "no";
-
-								console.log(Cookies.get("_ib_user_listing_views"));
-								console.log(lastOpenedProperty);
-
-								//if ("undefined" !== lastOpenedProperty) {
-								// if (typeof lastOpenedProperty !== "undefined") {
-								// 	// if (typeof loadPropertyInModal !== "undefined") {
-								// 		window.loadPropertyInModal(lastOpenedProperty);
-								// 	// }
-								// }
-
-								if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
-									// track listing view
-									$.ajax({
-										type: "POST",
-										url: __flex_g_settings.ajaxUrl,
-										data: {
-											action: "track_property_view",
-											board_id: __flex_g_settings.boardId,
-											mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
-											mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")) )
-										},
-										success: function(response) {
-											console.log("track done for property #" + lastOpenedProperty);
-											Cookies.set("_ib_user_listing_views", JSON.stringify([]));
-										}
-									});
-								}
-
-								// notify user with success message
-
-								var ib_log_message = response.message;
-								if (response.message=='Logged in succesfully.'){
-									ib_log_message=word_translate.logged_in_succesfully;
-								}else if(response.message=='Your account has been created successfully.'){
-									ib_log_message=word_translate.your_account_has_been_created_successfully;
-								}
-
-								swal({
-									title: word_translate.congratulations,
-									text: ib_log_message,
-									type: "success",
-									showConfirmButton: false,
-									closeOnClickOutside: true,
-									closeOnEsc: true,
-									timer: 3000
-								});
-
-								if(typeof fc_ib_response_register === 'function') {
-										fc_ib_response_register(response,'register');
-								}
-
-								setTimeout(function () {
-									if (typeof originalPositionY !== "undefined") {
-										if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
-											console.log('restoring to: ' + originalPositionY);
-											window.scrollTo(0,originalPositionY);
-										}
-									}
-								}, 3000);
-								
-								if ( ("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
-										("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE) 
-								) {
-									// save filter for lead is it doesnt exists
-									saveFilterSearchForLead();
-								}
-
-								if (typeof gtagfucntion == 'function') {
-									gtagfucntion();
-								} //to generate the google tag conversion of signed in user
-							} else {
-								// notify user with error message
-								var textmessage='';
-
-								if (response.message=='Invalid credentials, try again.') {
-									textmessage=word_translate.invalid_credentials_try_again;
-								} else if (response.message=='Logged in succesfully.') {
-									textmessage=word_translate.logged_in_succesfully;
-								} else {
-									textmessage = response.message;
-								}
-
-								swal({
-									title: word_translate.oops,
-									text: textmessage,
-									type: "error",
-									showConfirmButton: false,
-									closeOnClickOutside: true,
-									closeOnEsc: true,
-									timer: 3000
-								});
-
-								setTimeout(function () {
-									// show first screen of registration form
-									$("#formRegister").find(".pr-step").removeClass("active");
-									$("#formRegister").find(".pr-step:eq(0)").addClass("active");
-
-									// show registration form
-									$("#modal_login").addClass("active_modal");
-								}, 3000);
-							}
-						}
-					});
-
-					$('.content_md').removeClass('ms-hidden-extras');
-
-				}
-
-			}else{
-
-				var formData = _self.serialize();
-				var objectCredential = [];
-				var usernameCache = '',
-						passwordCache = '';
-				var seriaLogin = _self.serializeArray();
-
-				// hide registration form
-				$("#modal_login").removeClass("active_modal");
-
-				swal({
-					title: word_translate.your_account_is_being_created,
-					text: word_translate.this_might_take_a_while_do_not_reload_thepage,
-					type: "info",
-					showConfirmButton: false,
-					closeOnClickOutside: false,
-					closeOnEsc: false
-				});
-
-				$.ajax({
-					url: __flex_g_settings.ajaxUrl,
-					method: "POST",
-					data: formData,
-					dataType: "json",
-					success: function (response) {
-						// if registration is sucessfully.
-						if (true === response.success) {
-							if (typeof dataLayer !== "undefined") {
-								dataLayer.push({'event': 'email_register'});
-							}
-
-							var lead_token = response.hasOwnProperty("lead_token") ? response.lead_token : "";
-
-							if (__flex_g_settings.has_cms == "1") {
-								jQuery("body").addClass("logged");
-								jQuery(".js-login").addClass("ip-d-none");
-							}
-
-							if (true === IB_HAS_LEFT_CLICKS) {
-								//Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
-								Cookies.set("_ib_left_click_force_registration", 0);
-							}
-
-							Cookies.set("_ib_left_click_force_registration", 0);
-
-							// stores into cookies current lead token
-							//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
-							Cookies.set('ib_lead_token', lead_token);
-
-							// if available history menu for lead
-							if (jQuery("#ib-lead-history-menu-btn").length) {
-								jQuery.ajax({
-									url :__flex_g_settings.fetchLeadActivitiesEndpoint,
-									method: "POST",
-									data: {
-										access_token: __flex_g_settings.accessToken,
-										flex_credentials: Cookies.get("ib_lead_token")
-									},
-									dataType: "json",
-									success: function(response) {
-										if ("yes" === response.lead_info.show_help_tooltip) {
-											jQuery("#ib-lead-history-tooltip-help").show();
-										}
-
-										jQuery("#ib-lead-history-menu-btn").show();
-
-										// fill generated values
-										var fill_first_letter_name_values = [];
-
-										if (response.lead_info.first_name.length) {
-											fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
-										}
-
-										if (response.lead_info.last_name.length) {
-											fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
-										}
-
-										jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
-
-										if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
-											jQuery(".ib-lead-first-letter-name").css({
-												'background-color': 'transparent',
-												'background-image': 'url(' + response.lead_info.photo_url + ')',
-												'background-repeat': 'no-repeat',
-												'background-size': 'contain',
-												'background-position': 'center center',
-												'text-indent': '-9999px'
 											});
 										}
 
-										jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
-										jQuery(".ib-lead-firstname").html("Hello " + response.lead_info.first_name + "!");
+										//socket.subscribe(__flex_g_settings.pusher.presence_channel);
+										// if ("undefined" !== typeof socket) {
+										// 	socket.disconnect();
+										//
+										// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
+										// 		cluster: __flex_g_settings.pusher.app_cluster,
+										// 		encrypted: true,
+										// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+										// 	});
+										//
+										// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+										// }
 
-										jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
-										//jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
-										jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
-										jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
-										jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
-										jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
+										// save last logged in username
+										Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
 
-										// fill activity lead
-										jQuery("#_ib_lead_activity_rows").empty();
-										jQuery("#_ib_lead_activity_pagination").empty();
+										// store first name
+										Cookies.set("_ib_user_firstname", response.first_name);
 
-										if (response.lead_info.listing_views.length) {
-											var lead_listing_views = response.lead_info.listing_views;
-											var lead_listing_views_html = [];
+										// store last name
+										Cookies.set("_ib_user_lastname", response.last_name);
 
-											for (var i = 0, l = lead_listing_views.length; i < l; i++) {
-												lead_listing_views_html.push('<div class="ms-history-menu-item">');
-												lead_listing_views_html.push('<div class="ms-history-menu-wrap-img">');
-												lead_listing_views_html.push('<img src="'+lead_listing_views[i].thumbnail+'">');
-												lead_listing_views_html.push('</div>');
-												lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
-												lead_listing_views_html.push('<h3 class="ms-history-menu-title">'+lead_listing_views[i].address_short+'</h3>');
-												lead_listing_views_html.push('<h4 class="ms-history-menu-address">'+lead_listing_views[i].address_large+'</h4>');
-												lead_listing_views_html.push('<h5 class="ms-history-menu-price">'+lead_listing_views[i].price+'</h5>');
-												lead_listing_views_html.push('<div class="ms-history-menu-details">');
-													lead_listing_views_html.push('<span>'+lead_listing_views[i].bed+' Beds</span>');
-													lead_listing_views_html.push('<span>'+lead_listing_views[i].bath+' Baths</span>');
-													lead_listing_views_html.push('<span>'+lead_listing_views[i].sqft+' SqFt</span>');
-												lead_listing_views_html.push('</div>');
-												lead_listing_views_html.push('</div>');
-												//console.log(lead_listing_views[i].mls_num);
-												lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
-												lead_listing_views_html.push('<button data-mls="'+lead_listing_views[i].mls_num+'" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
-												lead_listing_views_html.push('</div>');
-												//lead_listing_views_html.push('<div class="ms-property-actions">');
-												//lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
-												//lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
-												//lead_listing_views_html.push('</div>');
-												lead_listing_views_html.push('<a href="'+__flex_g_settings.propertyDetailPermalink+'/'+lead_listing_views[i].slug+'" target="_blank" class="ms-history-menu-link">'+lead_listing_views[i].address_short + ' ' +  lead_listing_views[i].address_large +'</a>');
-												lead_listing_views_html.push('</div>');
-											}
+										// store email
+										Cookies.set("_ib_user_email", response.email);
 
-											jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
+										jQuery("#_ib_fn_inq").val(response.first_name);
+										jQuery("#_ib_ln_inq").val(response.last_name);
+										jQuery("#_ib_em_inq").val(response.email);
+										jQuery("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+
+										jQuery("._ib_fn_inq").val(response.first_name);
+										jQuery("._ib_ln_inq").val(response.last_name);
+										jQuery("._ib_em_inq").val(response.email);
+										jQuery("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+										jQuery("._ib_pc_inq").val(Cookies.get("_ib_user_code_phone"));
+
+										jQuery(".phoneCodeValidation").val(Cookies.get("_ib_user_code_phone"));
+
+										//Building default label
+										var ob_form_building_footer;
+										ob_form_building_footer = jQuery('.flex_idx_building_form');
+										if (ob_form_building_footer.length > 0) {
+											ob_form_building_footer.find('input[name="first_name"]').val(response.first_name);
+											ob_form_building_footer.find('input[name="last_name"]').val(response.last_name);
+											ob_form_building_footer.find('input[name="email"]').val(response.email);
+											ob_form_building_footer.find('input[name="email_address"]').val(response.email);
+											ob_form_building_footer.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 										}
 
-										// build pagination
-										if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
-											if (response.lead_info.listing_views_pagination.total_pages > 1) {
-												var lead_listing_views_paging = [];
-
-												if (response.lead_info.listing_views_pagination.has_prev_page) {
-													lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page - 1 )+'"></a>');
-												}
-
-												lead_listing_views_paging.push('<div class="ib-paglinks">');
-
-												var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
-
-												for (var i = 0, l =  lead_listing_views_page_range.length; i < l; i++) {
-													if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
-														lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
-													} else {
-														lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="'+lead_listing_views_page_range[i]+'">'+lead_listing_views_page_range[i]+'</a>');
-													}
-												}
-
-												lead_listing_views_paging.push('</div>');
-
-												if (response.lead_info.listing_views_pagination.has_next_page) {
-													lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="'+(response.lead_info.listing_views_pagination.current_page + 1 )+'"></a>');
-												}
-
-												jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">'+lead_listing_views_paging.join("")+'</div>');
-											}
+										//modal regular filter default label
+										var ob_form_modal;
+										ob_form_modal = jQuery('.ib-propery-inquiry-f');
+										if (ob_form_modal.length > 0) {
+											ob_form_modal.find('input[name="first_name"]').val(response.first_name);
+											ob_form_modal.find('input[name="last_name"]').val(response.last_name);
+											ob_form_modal.find('input[name="email_address"]').val(response.email);
+											ob_form_modal.find('input[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
 										}
-									}
-								});
-							}
 
-							//socket.subscribe(__flex_g_settings.pusher.presence_channel);
-							// if ("undefined" !== typeof socket) {
-							// 	socket.disconnect();
-							//
-							// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
-							// 		cluster: __flex_g_settings.pusher.app_cluster,
-							// 		encrypted: true,
-							// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-							// 	});
-							//
-							// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
-							// }
+										var ob_form_regular_contact_form;
+										ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
+										if (ob_form_regular_contact_form.length > 0) {
+											ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
+											ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
+											ob_form_regular_contact_form.find('[name="email"]').val(response.email);
+											ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+										}
 
-							// save last logged in username
-							Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
+										//Off market listing default label
+										var ob_form_off_market_listing;
+										ob_form_off_market_listing = jQuery('#flex-idx-property-form');
+										if (ob_form_off_market_listing.length > 0) {
+											ob_form_off_market_listing.find('input[name="first_name"]').val(response.first_name);
+											ob_form_off_market_listing.find('input[name="last_name"]').val(response.last_name);
+											ob_form_off_market_listing.find('input[name="email"]').val(response.email);
+											ob_form_off_market_listing.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+										}
 
-							// store first name
-							Cookies.set("_ib_user_firstname", response.first_name);
+										var ob_contact_form;
+										ob_contact_form = jQuery('#ip-form');
+										if (ob_contact_form.length > 0) {
+											ob_contact_form.find('input[name="name"]').val(response.first_name);
+											ob_contact_form.find('input[name="lastname"]').val(response.last_name);
+											ob_contact_form.find('input[name="email"]').val(response.email);
+											ob_contact_form.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+										}
 
-							// store last name
-							Cookies.set("_ib_user_lastname", response.last_name);
+										//Property form react Vacation Rentals
+										var ob_property_form_vacation_rentals;
+										ob_property_form_vacation_rentals = jQuery('#propertyForm');
+										if (ob_property_form_vacation_rentals.length > 0) {
+											ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
+											ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
+											ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
+											ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+											ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+										}
 
-							// store email
-							Cookies.set("_ib_user_email", response.email);
-							
-							jQuery("#_ib_fn_inq").val(response.first_name);
-							jQuery("#_ib_ln_inq").val(response.last_name);
-							jQuery("#_ib_em_inq").val(response.email);
-							jQuery("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+										// store phone
+										//console.log("REGISTER_ib_user_phone"+Cookies.get("_ib_user_phone"));
+										//console.log("REGISTER_ib_user_code_phone"+Cookies.get("_ib_user_code_phone"));
+										//console.log("REGISTER_ib_user_new_phone_number"+Cookies.get("_ib_user_new_phone_number"));
 
-							jQuery("._ib_fn_inq").val(response.first_name);
-							jQuery("._ib_ln_inq").val(response.last_name);
-							jQuery("._ib_em_inq").val(response.email);
-							jQuery("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
-							jQuery("._ib_pc_inq").val(Cookies.get("_ib_user_code_phone"));
+										// Sets user information on CMS Forms
+										if (
+											typeof idxpages === 'object' &&
+											idxpages.forms &&
+											typeof idxpages.forms.init === 'function'
+										) {
+											idxpages.forms.init();
+										}
 
-							jQuery(".phoneCodeValidation").val(Cookies.get("_ib_user_code_phone"));
+										// updates lead list menu HTML
+										$("#user-options").html(response.output);
+										$(".lg-wrap-login:eq(0)").html(response.output);
+										$(".lg-wrap-login:eq(0)").addClass("active");
 
-							//Building default label
-							var ob_form_building_footer;
-							ob_form_building_footer=jQuery('.flex_idx_building_form');
-							if (ob_form_building_footer.length>0){
-								ob_form_building_footer.find('input[name="first_name"]').val(response.first_name);
-								ob_form_building_footer.find('input[name="last_name"]').val(response.last_name);
-								ob_form_building_footer.find('input[name="email"]').val(response.email);
-								ob_form_building_footer.find('input[name="email_address"]').val(response.email);
-								ob_form_building_footer.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-							}
-							
-							//modal regular filter default label
-							var ob_form_modal;
-							ob_form_modal=jQuery('.ib-propery-inquiry-f');
-							if (ob_form_modal.length>0){
-								ob_form_modal.find('input[name="first_name"]').val(response.first_name);
-								ob_form_modal.find('input[name="last_name"]').val(response.last_name);
-								ob_form_modal.find('input[name="email_address"]').val(response.email);
-								ob_form_modal.find('input[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-							}
+										$('html').removeClass('modal_mobile');
 
-							var ob_form_regular_contact_form;
-							ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
-							if (ob_form_regular_contact_form.length>0){
-								ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
-								ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
-								ob_form_regular_contact_form.find('[name="email"]').val(response.email);
-								ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
-							}
+										// reset registration form
+										_self.trigger('reset');
 
-							//Off market listing default label
-							var ob_form_off_market_listing;
-							ob_form_off_market_listing=jQuery('#flex-idx-property-form');
-							if (ob_form_off_market_listing.length>0){
-								ob_form_off_market_listing.find('input[name="first_name"]').val(response.first_name);
-								ob_form_off_market_listing.find('input[name="last_name"]').val(response.last_name);
-								ob_form_off_market_listing.find('input[name="email"]').val(response.email);
-								ob_form_off_market_listing.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-							}
+										// overwrite lead status globally
+										__flex_g_settings.anonymous = "no";
 
-							var ob_contact_form;
-							ob_contact_form = jQuery('#ip-form');
-							if (ob_contact_form.length>0){
-								ob_contact_form.find('input[name="name"]').val(response.first_name);
-								ob_contact_form.find('input[name="lastname"]').val(response.last_name);
-								ob_contact_form.find('input[name="email"]').val(response.email);
-								ob_contact_form.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
-							}
+										console.log(Cookies.get("_ib_user_listing_views"));
+										console.log(lastOpenedProperty);
 
-							//Property form react Vacation Rentals
-							var ob_property_form_vacation_rentals;
-							ob_property_form_vacation_rentals = jQuery('#propertyForm');
-							if (ob_property_form_vacation_rentals.length>0){
-								ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
-								ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
-								ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
-								ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
-								ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
-							}
+										//if ("undefined" !== lastOpenedProperty) {
+										// if (typeof lastOpenedProperty !== "undefined") {
+										// 	// if (typeof loadPropertyInModal !== "undefined") {
+										// 		window.loadPropertyInModal(lastOpenedProperty);
+										// 	// }
+										// }
 
-							// store phone
-							//console.log("REGISTER_ib_user_phone"+Cookies.get("_ib_user_phone"));
-							//console.log("REGISTER_ib_user_code_phone"+Cookies.get("_ib_user_code_phone"));
-							//console.log("REGISTER_ib_user_new_phone_number"+Cookies.get("_ib_user_new_phone_number"));
+										if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
+											// track listing view
+											$.ajax({
+												type: "POST",
+												url: __flex_g_settings.ajaxUrl,
+												data: {
+													action: "track_property_view",
+													board_id: __flex_g_settings.boardId,
+													mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
+													mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")))
+												},
+												success: function (response) {
+													console.log("track done for property #" + lastOpenedProperty);
+													Cookies.set("_ib_user_listing_views", JSON.stringify([]));
+												}
+											});
+										}
 
-							// Sets user information on CMS Forms
-							if (
-								typeof idxpages === 'object' && 
-								idxpages.forms && 
-								typeof idxpages.forms.init === 'function'
-							) {
-								idxpages.forms.init();
-							}
+										// notify user with success message
 
-							// updates lead list menu HTML
-							$("#user-options").html(response.output);
-							$(".lg-wrap-login:eq(0)").html(response.output);
-							$(".lg-wrap-login:eq(0)").addClass("active");
+										var ib_log_message = response.message;
+										if (response.message == 'Logged in succesfully.') {
+											ib_log_message = word_translate.logged_in_succesfully;
+										} else if (response.message == 'Your account has been created successfully.') {
+											ib_log_message = word_translate.your_account_has_been_created_successfully;
+										}
 
-							$('html').removeClass('modal_mobile');
+										swal({
+											title: word_translate.congratulations,
+											text: ib_log_message,
+											type: "success",
+											showConfirmButton: false,
+											closeOnClickOutside: true,
+											closeOnEsc: true,
+											timer: 3000
+										});
 
-							// reset registration form
-							_self.trigger('reset');
+										if (typeof fc_ib_response_register === 'function') {
+											fc_ib_response_register(response, 'register');
+										}
 
-							// overwrite lead status globally
-							__flex_g_settings.anonymous = "no";
+										setTimeout(function () {
+											if (typeof originalPositionY !== "undefined") {
+												if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
+													console.log('restoring to: ' + originalPositionY);
+													window.scrollTo(0, originalPositionY);
+												}
+											}
+										}, 3000);
 
-							console.log(Cookies.get("_ib_user_listing_views"));
-							console.log(lastOpenedProperty);
+										if (("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
+											("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE)
+										) {
+											// save filter for lead is it doesnt exists
+											saveFilterSearchForLead();
+										}
 
-							//if ("undefined" !== lastOpenedProperty) {
-							// if (typeof lastOpenedProperty !== "undefined") {
-							// 	// if (typeof loadPropertyInModal !== "undefined") {
-							// 		window.loadPropertyInModal(lastOpenedProperty);
-							// 	// }
-							// }
+										if (typeof gtagfucntion == 'function') {
+											gtagfucntion();
+										} //to generate the google tag conversion of signed in user
+									} else {
+										// notify user with error message
+										var textmessage = '';
 
-							if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
-								// track listing view
-								$.ajax({
-									type: "POST",
-									url: __flex_g_settings.ajaxUrl,
-									data: {
-										action: "track_property_view",
-										board_id: __flex_g_settings.boardId,
-										mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
-										mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")) )
-									},
-									success: function(response) {
-										console.log("track done for property #" + lastOpenedProperty);
-										Cookies.set("_ib_user_listing_views", JSON.stringify([]));
-									}
-								});
-							}
+										if (response.message == 'Invalid credentials, try again.') {
+											textmessage = word_translate.invalid_credentials_try_again;
+										} else if (response.message == 'Logged in succesfully.') {
+											textmessage = word_translate.logged_in_succesfully;
+										} else if (response?.code === 'missing_recaptcha_field') {
+											textmessage = 'There was an issue with the verification process. Please reload the page and try again.';
+											console.error('reCAPTCHA Error: ', response.message);
+										} else {
+											textmessage = response.message;
+										}
 
-							// notify user with success message
+										swal({
+											title: word_translate.oops,
+											text: textmessage,
+											type: "error",
+											showConfirmButton: false,
+											closeOnClickOutside: true,
+											closeOnEsc: true,
+											timer: 3000
+										});
 
-							var ib_log_message = response.message;
-							if (response.message=='Logged in succesfully.'){
-								ib_log_message=word_translate.logged_in_succesfully;
-							}else if(response.message=='Your account has been created successfully.'){
-								ib_log_message=word_translate.your_account_has_been_created_successfully;
-							}
+										setTimeout(function () {
+											// show first screen of registration form
+											$("#formRegister").find(".pr-step").removeClass("active");
+											$("#formRegister").find(".pr-step:eq(0)").addClass("active");
 
-							swal({
-								title: word_translate.congratulations,
-								text: ib_log_message,
-								type: "success",
-								showConfirmButton: false,
-								closeOnClickOutside: true,
-								closeOnEsc: true,
-								timer: 3000
-							});
-
-							if(typeof fc_ib_response_register === 'function') {
-									fc_ib_response_register(response,'register');
-							}
-
-							setTimeout(function () {
-								if (typeof originalPositionY !== "undefined") {
-									if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
-										console.log('restoring to: ' + originalPositionY);
-										window.scrollTo(0,originalPositionY);
+											// show registration form
+											$("#modal_login").addClass("active_modal");
+										}, 3000);
 									}
 								}
-							}, 3000);
-							
-							if ( ("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
-									("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE) 
-							) {
-								// save filter for lead is it doesnt exists
-								saveFilterSearchForLead();
-							}
-
-							if (typeof gtagfucntion == 'function') {
-								gtagfucntion();
-							} //to generate the google tag conversion of signed in user
-						} else {
-							// notify user with error message
-							var textmessage='';
-
-							if (response.message=='Invalid credentials, try again.') {
-								textmessage=word_translate.invalid_credentials_try_again;
-							} else if (response.message=='Logged in succesfully.') {
-								textmessage=word_translate.logged_in_succesfully;
-							} else {
-								textmessage = response.message;
-							}
-
-							swal({
-								title: word_translate.oops,
-								text: textmessage,
-								type: "error",
-								showConfirmButton: false,
-								closeOnClickOutside: true,
-								closeOnEsc: true,
-								timer: 3000
 							});
 
-							setTimeout(function () {
-								// show first screen of registration form
-								$("#formRegister").find(".pr-step").removeClass("active");
-								$("#formRegister").find(".pr-step:eq(0)").addClass("active");
+							$('.content_md').removeClass('ms-hidden-extras');
+						}).catch(() => {
+							textmessage = 'Could not complete the security verification. Please try again.';
+							sweetAlert(word_translate.oops, textmessage, "error");
+						});
+                    });
+				}
 
-								// show registration form
-								$("#modal_login").addClass("active_modal");
-							}, 3000);
-						}
-					}
+			} else {
+				grecaptcha.ready(function() {
+					grecaptcha
+					.execute(__flex_g_settings.google_recaptcha_public_key, { action: 'flex_idx_lead_signup' })
+					.then(function(token) {
+						_self.prepend('<input type="hidden" name="recaptcha_response" value="' + token + '">');
+
+						var formData = _self.serialize();
+						var objectCredential = [];
+						var usernameCache = '',
+							passwordCache = '';
+						var seriaLogin = _self.serializeArray();
+
+						// hide registration form
+						$("#modal_login").removeClass("active_modal");
+
+						swal({
+							title: word_translate.your_account_is_being_created,
+							text: word_translate.this_might_take_a_while_do_not_reload_thepage,
+							type: "info",
+							showConfirmButton: false,
+							closeOnClickOutside: false,
+							closeOnEsc: false
+						});
+
+						$.ajax({
+							url: __flex_g_settings.ajaxUrl,
+							method: "POST",
+							data: formData,
+							dataType: "json",
+							success: function (response) {
+								// if registration is sucessfully.
+								if (true === response.success) {
+									if (typeof dataLayer !== "undefined") {
+										dataLayer.push({ 'event': 'email_register' });
+									}
+
+									var lead_token = response.hasOwnProperty("lead_token") ? response.lead_token : "";
+
+									if (__flex_g_settings.has_cms == "1") {
+										jQuery("body").addClass("logged");
+										jQuery(".js-login").addClass("ip-d-none");
+									}
+
+									if (true === IB_HAS_LEFT_CLICKS) {
+										//Cookies.set("_ib_left_click_force_registration", parseInt(__flex_g_settings.signup_left_clicks, 10));
+										Cookies.set("_ib_left_click_force_registration", 0);
+									}
+
+									Cookies.set("_ib_left_click_force_registration", 0);
+
+									// stores into cookies current lead token
+									//Cookies.set('ib_lead_token', lead_token, { expires: 30 });
+									Cookies.set('ib_lead_token', lead_token);
+
+									// if available history menu for lead
+									if (jQuery("#ib-lead-history-menu-btn").length) {
+										jQuery.ajax({
+											url: __flex_g_settings.fetchLeadActivitiesEndpoint,
+											method: "POST",
+											data: {
+												access_token: __flex_g_settings.accessToken,
+												flex_credentials: Cookies.get("ib_lead_token")
+											},
+											dataType: "json",
+											success: function (response) {
+												if ("yes" === response.lead_info.show_help_tooltip) {
+													jQuery("#ib-lead-history-tooltip-help").show();
+												}
+
+												jQuery("#ib-lead-history-menu-btn").show();
+
+												// fill generated values
+												var fill_first_letter_name_values = [];
+
+												if (response.lead_info.first_name.length) {
+													fill_first_letter_name_values.push(response.lead_info.first_name.charAt(0));
+												}
+
+												if (response.lead_info.last_name.length) {
+													fill_first_letter_name_values.push(response.lead_info.last_name.charAt(0));
+												}
+
+												jQuery(".ib-lead-first-letter-name").html(fill_first_letter_name_values.join(""));
+
+												if (response.lead_info.hasOwnProperty('photo_url') && response.lead_info.photo_url.length) {
+													jQuery(".ib-lead-first-letter-name").css({
+														'background-color': 'transparent',
+														'background-image': 'url(' + response.lead_info.photo_url + ')',
+														'background-repeat': 'no-repeat',
+														'background-size': 'contain',
+														'background-position': 'center center',
+														'text-indent': '-9999px'
+													});
+												}
+
+												jQuery(".ib-lead-fullname").html(response.lead_info.first_name + " " + response.lead_info.last_name);
+												jQuery(".ib-lead-firstname").html("Hello " + response.lead_info.first_name + "!");
+
+												jQuery(".ib-agent-fullname").html(response.agent_info.first_name + " " + response.agent_info.last_name);
+												//jQuery(".ib-agent-phonenumber").html(response.agent_info.phone_number);
+												jQuery(".ib-agent-phonenumber").attr("href", "tel:" + response.agent_info.phone_number.replace(/[^\d]/g, ""));
+												jQuery(".ib-agent-emailaddress").attr("href", "mailto:" + response.agent_info.email_address);
+												jQuery(".ib-agent-photo-thumbnail-wrapper").empty();
+												jQuery(".ib-agent-photo-thumbnail-wrapper").append('<img src="' + response.agent_info.photo_url + '">');
+
+												// fill activity lead
+												jQuery("#_ib_lead_activity_rows").empty();
+												jQuery("#_ib_lead_activity_pagination").empty();
+
+												if (response.lead_info.listing_views.length) {
+													var lead_listing_views = response.lead_info.listing_views;
+													var lead_listing_views_html = [];
+
+													for (var i = 0, l = lead_listing_views.length; i < l; i++) {
+														lead_listing_views_html.push('<div class="ms-history-menu-item">');
+														lead_listing_views_html.push('<div class="ms-history-menu-wrap-img">');
+														lead_listing_views_html.push('<img src="' + lead_listing_views[i].thumbnail + '">');
+														lead_listing_views_html.push('</div>');
+														lead_listing_views_html.push('<div class="ms-history-menu-property-detail">');
+														lead_listing_views_html.push('<h3 class="ms-history-menu-title">' + lead_listing_views[i].address_short + '</h3>');
+														lead_listing_views_html.push('<h4 class="ms-history-menu-address">' + lead_listing_views[i].address_large + '</h4>');
+														lead_listing_views_html.push('<h5 class="ms-history-menu-price">' + lead_listing_views[i].price + '</h5>');
+														lead_listing_views_html.push('<div class="ms-history-menu-details">');
+														lead_listing_views_html.push('<span>' + lead_listing_views[i].bed + ' Beds</span>');
+														lead_listing_views_html.push('<span>' + lead_listing_views[i].bath + ' Baths</span>');
+														lead_listing_views_html.push('<span>' + lead_listing_views[i].sqft + ' SqFt</span>');
+														lead_listing_views_html.push('</div>');
+														lead_listing_views_html.push('</div>');
+														//console.log(lead_listing_views[i].mls_num);
+														lead_listing_views_html.push('<div class="ms-history-menu-property-actions">');
+														lead_listing_views_html.push('<button data-mls="' + lead_listing_views[i].mls_num + '" class="ib-la-hp ms-history-menu-delete"><span>Delete</span></button>');
+														lead_listing_views_html.push('</div>');
+														//lead_listing_views_html.push('<div class="ms-property-actions">');
+														//lead_listing_views_html.push('<button class="ms-save"><span>save</span></button>');
+														//lead_listing_views_html.push('<button class="ms-delete"><span>Delete</span></button>');
+														//lead_listing_views_html.push('</div>');
+														lead_listing_views_html.push('<a href="' + __flex_g_settings.propertyDetailPermalink + '/' + lead_listing_views[i].slug + '" target="_blank" class="ms-history-menu-link">' + lead_listing_views[i].address_short + ' ' + lead_listing_views[i].address_large + '</a>');
+														lead_listing_views_html.push('</div>');
+													}
+
+													jQuery("#_ib_lead_activity_rows").html(lead_listing_views_html.join(""));
+												}
+
+												// build pagination
+												if (response.lead_info.hasOwnProperty('listing_views_pagination')) {
+													if (response.lead_info.listing_views_pagination.total_pages > 1) {
+														var lead_listing_views_paging = [];
+
+														if (response.lead_info.listing_views_pagination.has_prev_page) {
+															lead_listing_views_paging.push('<a role="button" class="ib-pagprev ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page - 1) + '"></a>');
+														}
+
+														lead_listing_views_paging.push('<div class="ib-paglinks">');
+
+														var lead_listing_views_page_range = response.lead_info.listing_views_pagination.page_range_links;
+
+														for (var i = 0, l = lead_listing_views_page_range.length; i < l; i++) {
+															if (lead_listing_views_page_range[i] == response.lead_info.listing_views_pagination.current_page) {
+																lead_listing_views_paging.push('<a role="button" class="ib-plitem ib-plitem-active" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
+															} else {
+																lead_listing_views_paging.push('<a role="button" class="ib-plitem" data-page="' + lead_listing_views_page_range[i] + '">' + lead_listing_views_page_range[i] + '</a>');
+															}
+														}
+
+														lead_listing_views_paging.push('</div>');
+
+														if (response.lead_info.listing_views_pagination.has_next_page) {
+															lead_listing_views_paging.push('<a role="button" class="ib-pagnext ib-paggo" data-page="' + (response.lead_info.listing_views_pagination.current_page + 1) + '"></a>');
+														}
+
+														jQuery("#_ib_lead_activity_pagination").html('<div class="ms-history-menu-wrapper-pagination">' + lead_listing_views_paging.join("") + '</div>');
+													}
+												}
+											}
+										});
+									}
+
+									//socket.subscribe(__flex_g_settings.pusher.presence_channel);
+									// if ("undefined" !== typeof socket) {
+									// 	socket.disconnect();
+									//
+									// 	socket = new Pusher(__flex_g_settings.pusher.app_key, {
+									// 		cluster: __flex_g_settings.pusher.app_cluster,
+									// 		encrypted: true,
+									// 		authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
+									// 	});
+									//
+									// 	socket.subscribe(__flex_g_settings.pusher.presence_channel);
+									// }
+
+									// save last logged in username
+									Cookies.set("_ib_last_logged_in_username", response.last_logged_in_username);
+
+									// store first name
+									Cookies.set("_ib_user_firstname", response.first_name);
+
+									// store last name
+									Cookies.set("_ib_user_lastname", response.last_name);
+
+									// store email
+									Cookies.set("_ib_user_email", response.email);
+
+									jQuery("#_ib_fn_inq").val(response.first_name);
+									jQuery("#_ib_ln_inq").val(response.last_name);
+									jQuery("#_ib_em_inq").val(response.email);
+									jQuery("#_ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+
+									jQuery("._ib_fn_inq").val(response.first_name);
+									jQuery("._ib_ln_inq").val(response.last_name);
+									jQuery("._ib_em_inq").val(response.email);
+									jQuery("._ib_ph_inq").val(Cookies.get("_ib_user_new_phone_number"));
+									jQuery("._ib_pc_inq").val(Cookies.get("_ib_user_code_phone"));
+
+									jQuery(".phoneCodeValidation").val(Cookies.get("_ib_user_code_phone"));
+
+									//Building default label
+									var ob_form_building_footer;
+									ob_form_building_footer = jQuery('.flex_idx_building_form');
+									if (ob_form_building_footer.length > 0) {
+										ob_form_building_footer.find('input[name="first_name"]').val(response.first_name);
+										ob_form_building_footer.find('input[name="last_name"]').val(response.last_name);
+										ob_form_building_footer.find('input[name="email"]').val(response.email);
+										ob_form_building_footer.find('input[name="email_address"]').val(response.email);
+										ob_form_building_footer.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_form_building_footer.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+									}
+
+									//modal regular filter default label
+									var ob_form_modal;
+									ob_form_modal = jQuery('.ib-propery-inquiry-f');
+									if (ob_form_modal.length > 0) {
+										ob_form_modal.find('input[name="first_name"]').val(response.first_name);
+										ob_form_modal.find('input[name="last_name"]').val(response.last_name);
+										ob_form_modal.find('input[name="email_address"]').val(response.email);
+										ob_form_modal.find('input[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_form_modal.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+									}
+
+									var ob_form_regular_contact_form;
+									ob_form_regular_contact_form = jQuery('#flex_idx_contact_form');
+									if (ob_form_regular_contact_form.length > 0) {
+										ob_form_regular_contact_form.find('[name="name"]').val(response.first_name);
+										ob_form_regular_contact_form.find('[name="lastname"]').val(response.last_name);
+										ob_form_regular_contact_form.find('[name="email"]').val(response.email);
+										ob_form_regular_contact_form.find('[name="phone_number"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_form_regular_contact_form.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+									}
+
+									//Off market listing default label
+									var ob_form_off_market_listing;
+									ob_form_off_market_listing = jQuery('#flex-idx-property-form');
+									if (ob_form_off_market_listing.length > 0) {
+										ob_form_off_market_listing.find('input[name="first_name"]').val(response.first_name);
+										ob_form_off_market_listing.find('input[name="last_name"]').val(response.last_name);
+										ob_form_off_market_listing.find('input[name="email"]').val(response.email);
+										ob_form_off_market_listing.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_form_off_market_listing.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+									}
+
+									var ob_contact_form;
+									ob_contact_form = jQuery('#ip-form');
+									if (ob_contact_form.length > 0) {
+										ob_contact_form.find('input[name="name"]').val(response.first_name);
+										ob_contact_form.find('input[name="lastname"]').val(response.last_name);
+										ob_contact_form.find('input[name="email"]').val(response.email);
+										ob_contact_form.find('input[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_contact_form.find('input[name="phoneCodeValidation"]').val(Cookies.get("_ib_user_code_phone"));
+									}
+
+									//Property form react Vacation Rentals
+									var ob_property_form_vacation_rentals;
+									ob_property_form_vacation_rentals = jQuery('#propertyForm');
+									if (ob_property_form_vacation_rentals.length > 0) {
+										ob_property_form_vacation_rentals.find('[name="firstName"]').val(response.first_name);
+										ob_property_form_vacation_rentals.find('[name="lastName"]').val(response.last_name);
+										ob_property_form_vacation_rentals.find('[name="email"]').val(response.email);
+										ob_property_form_vacation_rentals.find('[name="phone"]').val(Cookies.get("_ib_user_new_phone_number"));
+										ob_property_form_vacation_rentals.find('[name="phoneCodeValidation"]').val(response.country_code_phone);
+									}
+
+									// store phone
+									//console.log("REGISTER_ib_user_phone"+Cookies.get("_ib_user_phone"));
+									//console.log("REGISTER_ib_user_code_phone"+Cookies.get("_ib_user_code_phone"));
+									//console.log("REGISTER_ib_user_new_phone_number"+Cookies.get("_ib_user_new_phone_number"));
+
+									// Sets user information on CMS Forms
+									if (
+										typeof idxpages === 'object' &&
+										idxpages.forms &&
+										typeof idxpages.forms.init === 'function'
+									) {
+										idxpages.forms.init();
+									}
+
+									// updates lead list menu HTML
+									$("#user-options").html(response.output);
+									$(".lg-wrap-login:eq(0)").html(response.output);
+									$(".lg-wrap-login:eq(0)").addClass("active");
+
+									$('html').removeClass('modal_mobile');
+
+									// reset registration form
+									_self.trigger('reset');
+
+									// overwrite lead status globally
+									__flex_g_settings.anonymous = "no";
+
+									console.log(Cookies.get("_ib_user_listing_views"));
+									console.log(lastOpenedProperty);
+
+									//if ("undefined" !== lastOpenedProperty) {
+									// if (typeof lastOpenedProperty !== "undefined") {
+									// 	// if (typeof loadPropertyInModal !== "undefined") {
+									// 		window.loadPropertyInModal(lastOpenedProperty);
+									// 	// }
+									// }
+
+									if ((typeof lastOpenedProperty !== "undefined") && lastOpenedProperty.length) {
+										// track listing view
+										$.ajax({
+											type: "POST",
+											url: __flex_g_settings.ajaxUrl,
+											data: {
+												action: "track_property_view",
+												board_id: __flex_g_settings.boardId,
+												mls_number: (typeof lastOpenedProperty === "undefined") ? "" : lastOpenedProperty,
+												mls_opened_list: ((Cookies.get("_ib_user_listing_views") === "undefined") ? [] : JSON.parse(Cookies.get("_ib_user_listing_views")))
+											},
+											success: function (response) {
+												console.log("track done for property #" + lastOpenedProperty);
+												Cookies.set("_ib_user_listing_views", JSON.stringify([]));
+											}
+										});
+									}
+
+									// notify user with success message
+
+									var ib_log_message = response.message;
+									if (response.message == 'Logged in succesfully.') {
+										ib_log_message = word_translate.logged_in_succesfully;
+									} else if (response.message == 'Your account has been created successfully.') {
+										ib_log_message = word_translate.your_account_has_been_created_successfully;
+									}
+
+									swal({
+										title: word_translate.congratulations,
+										text: ib_log_message,
+										type: "success",
+										showConfirmButton: false,
+										closeOnClickOutside: true,
+										closeOnEsc: true,
+										timer: 3000
+									});
+
+									if (typeof fc_ib_response_register === 'function') {
+										fc_ib_response_register(response, 'register');
+									}
+
+									setTimeout(function () {
+										if (typeof originalPositionY !== "undefined") {
+											if (!$(".ib-modal-master.ib-mmpd").hasClass("ib-md-active")) {
+												console.log('restoring to: ' + originalPositionY);
+												window.scrollTo(0, originalPositionY);
+											}
+										}
+									}, 3000);
+
+									if (("undefined" !== typeof IB_IS_SEARCH_FILTER_PAGE) && (true === IB_IS_SEARCH_FILTER_PAGE) ||
+										("undefined" !== typeof IB_IS_REGULAR_FILTER_PAGE) && (true === IB_IS_REGULAR_FILTER_PAGE)
+									) {
+										// save filter for lead is it doesnt exists
+										saveFilterSearchForLead();
+									}
+
+									if (typeof gtagfucntion == 'function') {
+										gtagfucntion();
+									} //to generate the google tag conversion of signed in user
+								} else {
+									// notify user with error message
+									var textmessage = '';
+
+									if (response.message == 'Invalid credentials, try again.') {
+										textmessage = word_translate.invalid_credentials_try_again;
+									} else if (response.message == 'Logged in succesfully.') {
+										textmessage = word_translate.logged_in_succesfully;
+									} else {
+										textmessage = response.message;
+									}
+
+									swal({
+										title: word_translate.oops,
+										text: textmessage,
+										type: "error",
+										showConfirmButton: false,
+										closeOnClickOutside: true,
+										closeOnEsc: true,
+										timer: 3000
+									});
+
+									setTimeout(function () {
+										// show first screen of registration form
+										$("#formRegister").find(".pr-step").removeClass("active");
+										$("#formRegister").find(".pr-step:eq(0)").addClass("active");
+
+										// show registration form
+										$("#modal_login").addClass("active_modal");
+									}, 3000);
+								}
+							}
+						});
+
+						$('.content_md').removeClass('ms-hidden-extras');
+					});
 				});
-
-				$('.content_md').removeClass('ms-hidden-extras');
-
 			}
-
 		});
 
 		//TABS DEL MODAL DE LOGIN

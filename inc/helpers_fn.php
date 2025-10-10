@@ -1368,6 +1368,7 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
         $update_relationship_cate = [];
         $meta_insert = [];
         $title_update = [];
+        $values_category = [];
 
         $meta_update['tgbuilding_url'] = array('query' => []);
         $meta_update['dgt_extra_address'] = array('query' => []);
@@ -2640,6 +2641,7 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         $source_registration_title = isset($_POST['source_registration_title']) ? trim($_POST['source_registration_title']) : '';
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
         $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
+        $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
 
         $password = $phone;
 
@@ -2648,6 +2650,15 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
             wp_send_json([
                 'code' => 'invalid_security_token',
                 'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
+            ]);
+        }
+
+        // Verificar recaptcha
+        if (!$recaptcha_response) {
+            wp_send_json([
+                'code' => 'missing_recaptcha_field',
+                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
                 'action' => 'reload_required'
             ]);
         }
@@ -2671,7 +2682,8 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
             'signup_price' => $signup_price,
             'source_registration_title' => $source_registration_title,
             'source_registration_url' => $source_registration_url,
-            'registration_key' => $registration_key
+            'registration_key' => $registration_key,
+            'recaptcha_response' => $recaptcha_response
         );
 
         $ch = curl_init();
