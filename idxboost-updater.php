@@ -19,7 +19,8 @@ class IDXBoostUpdater
 	public function set_plugin_properties()
 	{
 		$this->plugin = get_plugin_data($this->file);
-		$this->basename = plugin_basename($this->file);
+		//$this->basename = plugin_basename($this->file);
+        $this->basename = 'idxboost';
 		$this->active = is_plugin_active($this->basename);
 	}
 

@@ -3471,7 +3471,8 @@ if (!function_exists('fc_idx_save_tools_admin')) {
         //setting for environment
 
 
-        $response['success'] = false;
+        // TODO: table idx map style deactivated
+/*        $response['success'] = false;
         $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
         $idx_map_style = '';
 
@@ -3486,7 +3487,8 @@ if (!function_exists('fc_idx_save_tools_admin')) {
             $result_query = $wpdb->query("INSERT INTO {$tbl_idxboost_tools} (idx_map_style) VALUES('{$idx_map_style}'); ");
         } else {
             $result_query = $wpdb->query("UPDATE {$tbl_idxboost_tools} SET idx_map_style='{$idx_map_style}'; ");
-        }
+        }*/
+
         $response['success'] = false;
         $response['message'] = 'Your register were saved !!';
 
@@ -7038,13 +7040,13 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', 'word_translate', $translation_array);
 
         /*MAP STYLE IDXBOOST*/
-        $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
-        $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
-        $descr_tools_map_style = '';
-
-        if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
-            $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
-        }
+//        $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
+//        $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
+//        $descr_tools_map_style = '';
+//
+//        if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
+//            $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
+//        }
         /*MAP STYLE IDXBOOST*/
         
         // Output the variable as a JS string (safe encoding)
@@ -8270,23 +8272,25 @@ if (!function_exists('flex_idx_admin_render_tools_page')) {
         $descr_tools_map_style = [];
 
         /*create table*/
-        if ($wpdb->get_var("SHOW TABLES LIKE '$tbl_idxboost_tools'") != $tbl_idxboost_tools) {
-            $charset_collate = $wpdb->get_charset_collate();
+        // TODO: table idx map style deactivated
 
-            $sql = "CREATE TABLE $tbl_idxboost_tools (
-                  id int NOT NULL Primary KEY AUTO_INCREMENT,
-                  idx_map_style MEDIUMTEXT NOT NULL,
-                  UNIQUE KEY id (id)
-             ) $charset_collate;";
-            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-            dbDelta($sql);
-        }
-        /*create table*/
-
-        $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
-        if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
-            $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
-        }
+//        if ($wpdb->get_var("SHOW TABLES LIKE '$tbl_idxboost_tools'") != $tbl_idxboost_tools) {
+//            $charset_collate = $wpdb->get_charset_collate();
+//
+//            $sql = "CREATE TABLE $tbl_idxboost_tools (
+//                  id int NOT NULL Primary KEY AUTO_INCREMENT,
+//                  idx_map_style MEDIUMTEXT NOT NULL,
+//                  UNIQUE KEY id (id)
+//             ) $charset_collate;";
+//            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+//            dbDelta($sql);
+//        }
+//        /*create table*/
+//
+//        $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
+//        if (is_array($idxboost_setting_tools_map_style) && count($idxboost_setting_tools_map_style) > 0) {
+//            $descr_tools_map_style = $idxboost_setting_tools_map_style[0];
+//        }
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/admin/idx_tools.php')) {
             return include IDXBOOST_OVERRIDE_DIR . '/views/admin/idx_tools.php';
