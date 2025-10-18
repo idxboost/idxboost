@@ -4505,7 +4505,7 @@ jQuery(document).on('click', 'body.openHistoryMenu .ms-overlay.js-toggle-menu', 
 // TODO: temporal dynamic input hidden: IB-6349
 jQuery(function() {
     // contact form
-    jQuery('.js-contact-form').first().append(
+    jQuery('.js-contact-form').append(
         jQuery('<input>', {
             type: 'hidden',
             name: 'security',
@@ -4514,7 +4514,7 @@ jQuery(function() {
     );
 
     // request service
-    jQuery('.js-form').first().append(
+    jQuery('.js-form').append(
         jQuery('<input>', {
             type: 'hidden',
             name: 'security',
@@ -4576,3 +4576,4 @@ jQuery(function() {
         })
     );
 });
+
