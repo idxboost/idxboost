@@ -4500,3 +4500,79 @@ jQuery(document).on('click', 'body.openHistoryMenu .ms-overlay.js-toggle-menu', 
 	event.preventDefault();
 	jQuery(".ms-history-menu-btn-back").trigger("click");
 });
+
+
+// TODO: temporal dynamic input hidden: IB-6349
+jQuery(function() {
+    // contact form
+    jQuery('.js-contact-form').first().append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // request service
+    jQuery('.js-form').first().append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // building form
+    jQuery('.flex_idx_building_form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // i want to rent
+    jQuery('#lead_submission_rent_form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // i want to buy
+    jQuery('#lead_submission_buy_form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // i want to sell
+    jQuery('#lead_submission_sell_form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // property detail form
+    jQuery('#flex-idx-property-form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+
+    // agent contact form
+    jQuery('#flex_idx_contact_form').append(
+        jQuery('<input>', {
+            type: 'hidden',
+            name: 'security',
+            value: __flex_g_settings.security
+        })
+    );
+});
