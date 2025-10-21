@@ -116,7 +116,7 @@
 
 					// Number of properties to show
 					IB_SP_TOTAL.html(`
-						${word_translate.showing} ${pagination.start} 
+						${word_translate.showing} ${pagination.end === 0 ? '0' : pagination.start}
 						${word_translate.to} ${pagination.end}
 						${word_translate.of} 
 						${_.formatPrice(pagination.count)} ${word_translate.properties}.
