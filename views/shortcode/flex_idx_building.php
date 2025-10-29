@@ -921,6 +921,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                         <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                         <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
                         <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
+                        <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
 
                         <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
                           <input type="hidden" name="gclid_field" id="gclid_field_building">
@@ -1098,6 +1099,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                   <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                   <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
                   <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
+                  <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                   <div class="gform_body">
                     <ul class="gform_fields">
 
@@ -1187,6 +1189,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                     <input type="hidden" name="action" value="flex_idx_request_website_building_form">
                     <input type="hidden" name="building_ID" value="<?php echo get_the_ID(); ?>">
                     <input type="hidden" name="building_price_range" class="js-building-price-range" value="$0">
+                    <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                     <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
                       <input type="hidden" name="gclid_field" id="gclid_field_building">
                     <?php endif; ?>

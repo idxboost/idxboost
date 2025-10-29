@@ -24,6 +24,7 @@ if($disclaimer_checked == "1"){
     
       <input type="hidden" name="ib_tags" value="i want to rent">
       <input type="hidden" name="action" value="lead_submission_rent">
+      <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
     
       <?php if (array_key_exists('google_gtm', $flex_idx_info['agent']) && !empty($flex_idx_info['agent']['google_gtm'])) : ?>
         <input type="hidden" name="gclid_field" id="gclid_field_form_lead_submission_rent">
