@@ -1,1 +1,0 @@
-import{r as e}from"./react-vendor-CnO_ZB-6.js";const t=(t,n)=>{e.useEffect(()=>{const e=e=>{const o=t?.current;o&&!o.contains(e?.target||null)&&n(e)};return document.addEventListener("mousedown",e),document.addEventListener("touchstart",e),()=>{document.removeEventListener("mousedown",e),document.removeEventListener("touchstart",e)}},[t,n])};export{t as u};

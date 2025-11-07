@@ -28,6 +28,7 @@
 
   <input id="agent_fname" value="<?php echo $response["data"]["firstName"]; ?>" type="hidden">
   <input id="agent_lname" value="<?php echo $response["data"]["lastName"]; ?>" type="hidden">
+  <input id="agent_email" value="<?php echo $response["data"]["email"]; ?>" type="hidden">
 
     <section class="ms-nw-agent-detail">
       <div class="ms-nw-wrapper-section">
@@ -91,12 +92,14 @@
 
               var fname = jQuery("#agent_fname").val();
               var lname = jQuery("#agent_lname").val();
+              var agent_email = jQuery("#agent_email").val();
               var fname_result = fname.replace(" ", "_");
               var lname_result = lname.replace(" ", "_");
 
               window.filter_view = "agent";
 
               jQuery(".form-search input[name='ib_tags']").val("agent_"+fname_result+"_"+lname_result);
+              jQuery(".form-search input[name='ib_agent_email']").val(agent_email);
             </script>
           </div>
         </div>

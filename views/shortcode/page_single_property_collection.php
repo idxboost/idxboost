@@ -421,6 +421,7 @@ if($disclaimer_checked == "1"){
                           <legend>{{stylesInput.headerSection.button.text}} Form</legend>
                           <input type="hidden" name="action" value="idxboost_contact_inquiry">
                           <input type="hidden" name="has_agent_referer" value="{{registrationKey}}">
+                          <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                           {{#if registrationKeyBroker}}
                             <input type="hidden" name="ib_tags" value="Property Sites Collection. {{stylesInput.headerSection.button.text}} {{websiteName}}. {{agentName}}">                    
                           {{else}}
@@ -593,6 +594,7 @@ if($disclaimer_checked == "1"){
                   <legend>{{stylesInput.headerSection.button.text}} Form</legend>
                   <input type="hidden" name="action" value="idxboost_contact_inquiry">
                   <input type="hidden" name="has_agent_referer" value="{{registrationKey}}">
+                  <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                   {{#if registrationKeyBroker}}
                     <input type="hidden" name="ib_tags" value="Property Sites Collection. {{stylesInput.headerSection.button.text}} {{websiteName}}. {{agentName}}">                    
                   {{else}}

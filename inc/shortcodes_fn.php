@@ -3209,7 +3209,7 @@ if (!function_exists('flex_idx_filter_sc')) {
             "max" => 0,
             "county" => "",
             "photo-res" => "high",
-            "order" => "price-desc",
+            "order" => "",
             'registration_key' => ''
         ), $atts);
 
