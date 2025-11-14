@@ -40,33 +40,44 @@
             <h1 class="ms-wr-name"><?php echo $complete_name; ?></h1>
             <h2 class="ms-wr-position"><?php echo $response["data"]["title"]; ?></h2>
             <ul class="ms-wr-contact-info">
-              <li><a href="tel:+<?php echo $phone_call; ?>" class="ms-nw-phone"><i class="idx-icon-phone"></i> <?php echo $phone; ?></a></li>
-              <li><a href="mailto:<?php echo $email; ?>" class="ms-nw-email"><i class="idx-icon-mail-envelope-closed"></i> <?php echo $email; ?></a></li>
+
+            <?php if( !empty($phone) ){  ?>
+            <li><a href="tel:+<?php echo $phone_call; ?>" class="ms-nw-phone"><i class="idx-icon-phone"></i> <?php echo $phone; ?></a></li>
+            <?php }  ?> 
+            <?php if( !empty($email) ){  ?>
+            <li><a href="mailto:<?php echo $email; ?>" class="ms-nw-email"><i class="idx-icon-mail-envelope-closed"></i> <?php echo $email; ?></a></li>
+            <?php }  ?>
+            
+            
             </ul>
             <ul class="ms-nw-social-media-list">
             	<?php if( !empty($instagram) ) { ?>
-			<li><a href="<?php echo $instagram; ?>" class="ms-nw-social-media-item" title="Instagram"><i class="idx-icon-instagram"></i></a></li>
-		<?php } ?>
+			          <li><a href="<?php echo $instagram; ?>" class="ms-nw-social-media-item" title="Instagram" target="_blank"><i class="idx-icon-instagram"></i></a></li>
+		            <?php } ?>
           		
-		<?php if( !empty($linkedin) ) { ?>
-              		<li><a href="<?php echo $linkedin; ?>" class="ms-nw-social-media-item" title="Linkedin"><i class="idx-icon-linkedin2"></i></a></li>
+		            <?php if( !empty($linkedin) ) { ?>
+              		<li><a href="<?php echo $linkedin; ?>" class="ms-nw-social-media-item" title="Linkedin" target="_blank"><i class="idx-icon-linkedin2"></i></a></li>
               	<?php } ?>
 
               	<?php if( !empty($facebook) ) { ?>
-              		<li><a href="<?php echo $facebook; ?>" class="ms-nw-social-media-item" title="Facebook"><i class="idx-icon-facebook"></i></a></li>
+              		<li><a href="<?php echo $facebook; ?>" class="ms-nw-social-media-item" title="Facebook" target="_blank"><i class="idx-icon-facebook"></i></a></li>
               	<?php } ?>
 
               	<?php if( !empty($twitter) ) { ?>
-              		<li><a href="<?php echo $twitter; ?>" class="ms-nw-social-media-item" title="Twitter"><i class="idx-icon-twitter"></i></a></li>
+              		<li><a href="<?php echo $twitter; ?>" class="ms-nw-social-media-item" title="Twitter" target="_blank"><i class="idx-icon-twitter"></i></a></li>
               	<?php } ?>
 
               	<?php if( !empty($youtube) ) { ?>
-              		<li><a href="<?php echo $youtube; ?>" class="ms-nw-social-media-item" title="Youtube"><i class="idx-icon-youtube"></i></a></li>
+              		<li><a href="<?php echo $youtube; ?>" class="ms-nw-social-media-item" title="Youtube" target="_blank"><i class="idx-icon-youtube"></i></a></li>
               	<?php } ?>
 
               	<?php if( !empty($pinterest) ) { ?>
-              		<li><a href="<?php echo $pinterest; ?>" class="ms-nw-social-media-item" title="Pinterest"><i class="idx-icon-pinterest-p"></i></a></li>
+              		<li><a href="<?php echo $pinterest; ?>" class="ms-nw-social-media-item" title="Tiktok" target="_blank"><i class="idx-icon-tiktok"></i></a></li>
               	<?php } ?>
+
+                <?php if( !empty($phone) ){  ?>
+                  <li><a href="https://api.whatsapp.com/send/?phone=<?php echo $phone_call; ?>&text=Hello,%20I%20need%20more%20information" class="ms-nw-social-media-item" title="Whatsapp" target="_blank"><i class="idx-icon-whatsapp"></i></a></li>
+                <?php }  ?> 
 
             </ul>
             <?php if( !empty($biography) ) { ?>

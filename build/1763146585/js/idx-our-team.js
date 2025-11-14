@@ -41,27 +41,29 @@ function fc_list_collection(vcategory){
 		                  arrItem.push('<a href="mailto:'+item.email+'" class="ms-nw-card-email">'+item.email+'</a>');
 		                  arrItem.push('<ul class="ms-nw-social-media-list">');
 		                    if (item.instagram != "") {
-		                    arrItem.push('<li><a href="'+item.instagram+'" class="ms-nw-social-media-item" title="Instagram"><i class="idx-icon-instagram"></i></a></li>');
+		                    arrItem.push('<li><a href="'+item.instagram+'" class="ms-nw-social-media-item" title="Instagram" target="_blank"><i class="idx-icon-instagram"></i></a></li>');
 		                    }
 
 		                    if (item.linkedin != "") {
-		                    arrItem.push('<li><a href="'+item.linkedin+'" class="ms-nw-social-media-item" title="Linkeding"><i class="idx-icon-linkedin2"></i></a></li>');
+		                    arrItem.push('<li><a href="'+item.linkedin+'" class="ms-nw-social-media-item" title="Linkeding" target="_blank"><i class="idx-icon-linkedin2"></i></a></li>');
 		                    }
 		                    
 		                    if (item.facebook !="") {
-		                    arrItem.push('<li><a href="'+item.facebook+'" class="ms-nw-social-media-item" title="Facebook"><i class="idx-icon-facebook"></i></a></li>');
+		                    arrItem.push('<li><a href="'+item.facebook+'" class="ms-nw-social-media-item" title="Facebook" target="_blank"><i class="idx-icon-facebook"></i></a></li>');
 		                    }
 		                    
 		                    if (item.twitter !="") {
-		                    arrItem.push('<li><a href="'+item.twitter+'" class="ms-nw-social-media-item" title="Twitter"><i class="idx-icon-twitter"></i></a></li>');
+		                    arrItem.push('<li><a href="'+item.twitter+'" class="ms-nw-social-media-item" title="Twitter" target="_blank"><i class="idx-icon-twitter"></i></a></li>');
 		                    }
 
 		                    if (item.youtube != "") {
-		                    arrItem.push('<li><a href="'+item.youtube+'" class="ms-nw-social-media-item" title="Youtube"><i class="idx-icon-youtube"></i></a></li>');
+		                    arrItem.push('<li><a href="'+item.youtube+'" class="ms-nw-social-media-item" title="Youtube" target="_blank"><i class="idx-icon-youtube"></i></a></li>');
 		                    }
 		                    if (item.pinterest != "") {
-		                    arrItem.push('<li><a href="'+item.pinterest+'" class="ms-nw-social-media-item" title="Pinterest"><i class="idx-icon-pinterest-p"></i></a></li>');
-
+		                    arrItem.push('<li><a href="'+item.pinterest+'" class="ms-nw-social-media-item" title="Tiktok" target="_blank"><i class="idx-icon-tiktok"></i></a></li>');
+		                    }
+												if (item.phone != "") {
+		                    arrItem.push('<li><a href="https://api.whatsapp.com/send/?phone='+item.phoneMailto+'&text=Hello,%20I%20need%20more%20information" class="ms-nw-social-media-item" title="Whatsapp" target="_blank"><i class="idx-icon-whatsapp"></i></a></li>');
 		                    }
 		                  arrItem.push('</ul>');
 		                arrItem.push('</div>');
