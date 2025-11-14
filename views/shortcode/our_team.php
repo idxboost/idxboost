@@ -46,7 +46,7 @@
 		                    <?php }  ?> 
 
 		                    <?php if( !empty($item["pinterest"]) ){  ?>
-		                    	<li><a href="<?php echo $item["pinterest"]; ?>" class="ms-nw-social-media-item" title="Pinterest"><i class="idx-icon-pinterest-p"></i></a></li>
+		                    	<li><a href="<?php echo $item["pinterest"]; ?>" class="ms-nw-social-media-item" title="Tiktok"><i class="idx-icon-tiktok"></i></a></li>
 		                    <?php }  ?> 
 	                   
 		                  </ul>

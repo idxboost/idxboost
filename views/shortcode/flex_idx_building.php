@@ -300,18 +300,18 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
       <div class="moptions">
         <ul class="slider-option">
           <li id="activePicture">
-            <button class="option-switch js-option-building js-option-building-photo ms-gallery-fs" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            <button class="option-switch js-option-building-photo ms-gallery-fs" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
           <?php if ((!empty($response['payload']['lat_building'])) && (!empty($response['payload']['lng_building']))) : ?>
           <li>
-            <button class="option-switch js-option-building js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+            <button class="option-switch js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $response['payload']['lat_building']; ?>" data-lng="<?php echo $response['payload']['lng_building']; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
           </li>
           <?php else : ?>
             <?php if (!empty($latAlternative) && !empty($lngAlternative)) {
             $response['payload']['lat_building'] = $latAlternative;
             $response['payload']['lng_building'] = $lngAlternative; ?>
             <li>
-              <button class="option-switch js-option-building js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $latAlternative; ?>" data-lng="<?php echo $lngAlternative; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+              <button class="option-switch js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $latAlternative; ?>" data-lng="<?php echo $lngAlternative; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
             </li>
             <?php } ?>
           <?php endif; ?>

@@ -8070,6 +8070,7 @@ function insert_assets_head_new_search_filter()
         (
             has_shortcode($content, 'ib_search_filter') || 
             has_shortcode($content, 'ib_search') || 
+            has_shortcode($content, 'new_collections_properties_details') || 
             has_shortcode($content, 'idx_search_react')
         )  
         && $idx_v == "1" 

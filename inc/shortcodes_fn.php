@@ -5939,7 +5939,8 @@ if (!function_exists('new_collections_properties_details_sc')) {
 
         return ob_get_clean();
     }
-    add_action('wp_head', 'insert_assets_head_new_collections_properties_details', 1);
+    //add_action('wp_head', 'insert_assets_head_new_collections_properties_details', 1);
+    add_action('wp_head', 'insert_assets_head_new_search_filter', 5);
     add_shortcode('new_collections_properties_details', 'new_collections_properties_details_sc');
 }
 
