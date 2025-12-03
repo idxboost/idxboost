@@ -1656,13 +1656,23 @@ $(function() {
 <?php if (isset($flex_idx_info["agent"]["google_login_enabled"]) && "1" == $flex_idx_info["agent"]["google_login_enabled"]): ?>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
+function decodeJwtPayload(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+	
 function handleCredentialResponse(token) {
   if (!token || !token.hasOwnProperty("credential")) {
     return;
   }
 
-  var jwt = token.credential.split(".");
-  var profile = JSON.parse(atob(jwt[1]));
+  // var jwt = token.credential.split(".");
+  // var profile = JSON.parse(atob(jwt[1]));
+  var profile = decodeJwtPayload(token.credential);
 
   var google_user_info = {
     'name': profile.name,
@@ -3436,3 +3446,4 @@ $(function() {
   {{{paginationBlock this}}}
 {{/pagination}}
 </script>
+
