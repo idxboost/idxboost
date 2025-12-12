@@ -523,6 +523,60 @@ if (!function_exists('func_customizer_idxboost')) {
     }
 }
 
+
+
+
+if (!function_exists('ib_lead_submission_all_xhr_fn')) {
+    function ib_lead_submission_all_xhr_fn()
+    {
+        $response = [];
+        $access_token = flex_idx_get_access_token();
+        $lead_token = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        $registration_key = isset($_POST['registration_key']) ? ($_POST['registration_key']) : '';
+        $client_ip = get_client_ip_server();
+        $referer = isset($_SERVER['HTTP_REFERER']) ? trim(strip_tags($_SERVER['HTTP_REFERER'])) : '';
+        $origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        $country_code = isset($_POST["country_code"]) ? $_POST["country_code"] : "";
+        $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
+        $params = [
+                'ib_tags' => $tags,
+                'recaptcha_response' => $recaptcha_response,
+                "access_token" => $access_token,
+                "lead_token" => $lead_token,
+                "client_ip" => $client_ip,
+                "referer" => $referer,
+                "origin" => $origin,
+                "agent" => $agent,
+                "form_data" => $_POST['form_data'],
+                'registration_key' => $registration_key
+        ];
+
+        if (!check_ajax_referer('ajax_nonce', 'security', false)) {
+            wp_send_json_error([
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
+            ]);
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEAD_SUBMISSION_ALL);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($output, true);
+
+        wp_send_json($response);
+        exit;
+    }
+}
 // lead submission for buy
 if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
     function ib_lead_submission_buy_xhr_fn()

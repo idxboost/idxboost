@@ -222,6 +222,9 @@ add_action('wp_ajax_nopriv_flex_track_property_detail', 'flex_track_property_det
 add_action('wp_ajax_lead_submission_buy', 'ib_lead_submission_buy_xhr_fn');
 add_action('wp_ajax_nopriv_lead_submission_buy', 'ib_lead_submission_buy_xhr_fn');
 
+add_action('wp_ajax_lead_submission_all', 'ib_lead_submission_all_xhr_fn');
+add_action('wp_ajax_nopriv_lead_submission_all', 'ib_lead_submission_all_xhr_fn');
+
 // lead submission for rent
 add_action('wp_ajax_lead_submission_rent', 'ib_lead_submission_rent_xhr_fn');
 add_action('wp_ajax_nopriv_lead_submission_rent', 'ib_lead_submission_rent_xhr_fn');

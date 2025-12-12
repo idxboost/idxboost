@@ -446,8 +446,8 @@ if($disclaimer_checked == "1"){
                               <input type="tel" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="input_phone" required>
                             </li>
                             <li>
-                              <label for="input_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                              <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" cols="30" rows="10" id="input_comment" required></textarea>
+                              <label for="visible_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                              <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" cols="30" rows="10" id="visible_comment" required></textarea>
                             </li>
                           </ul>
                           <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
@@ -464,6 +464,8 @@ if($disclaimer_checked == "1"){
                           </div>
                           <?php } ?>
                           <button class="sps-btn" type="submit">{{stylesInput.headerSection.button.text}}</button>
+                          
+                          <input type="hidden" name="message" id="hidden_comment">
                         </fieldset>
                       </form>
                     </div>
@@ -618,8 +620,8 @@ if($disclaimer_checked == "1"){
                     <input type="phone" placeholder="<?php echo __("Phone *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="phone" id="inputPhone" required>
                   </div>
                   <div class="sp-input-form">
-                    <label for="inputComment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                    <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" name="message" id="inputComment" required></textarea>
+                    <label for="visible_comment"><?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?></label>
+                    <textarea placeholder="<?php echo __("Comments *", IDXBOOST_DOMAIN_THEME_LANG); ?>" id="visible_comment" required></textarea>
                   </div>
                   <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                   <div class="gfield fub sp-input-form">
@@ -637,6 +639,8 @@ if($disclaimer_checked == "1"){
                   <div class="sp-input-form">
                     <button class="sp-button" type="submit">{{stylesInput.headerSection.button.text}}</button>
                   </div>
+
+                  <input type="hidden" name="message" id="hidden_comment">
                 </fieldset>
               </form>
             </div>

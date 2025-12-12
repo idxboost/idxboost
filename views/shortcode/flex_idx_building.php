@@ -1388,6 +1388,9 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   </div>
 
 <input type="hidden" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
+<?php if( in_array($flex_idx_info["board_id"], ["36"]) ){ ?>
+  <input type="hidden" id="activeBoard" value="active">
+<?php } ?>
 
 <script type="text/javascript">
   (function ($) {
@@ -1441,6 +1444,10 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   
   $(function() {
   // setup favorite
+
+    jQuery(document).on('click', '.showLoginModal', function () {
+      jQuery("li.login").trigger("click");
+    });
 
     $(".flex_b_mark_f").on("click", function(event) {
       event.stopPropagation();
@@ -1755,6 +1762,13 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 
   jQuery(document).on("click", ".shareBtn", function() {
     jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
+  });
+
+  jQuery(document).ajaxComplete(function () {
+    if (__flex_g_settings.anonymous === "no") {
+      var tabSold = jQuery("#flex_tab_sold");
+      if (tabSold.length) tabSold.trigger("click");
+    }
   });
 </script>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

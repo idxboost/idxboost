@@ -2234,6 +2234,13 @@ function insert_fb_in_head()
             $og_name_building = '';
             $building_addresses = '';
 
+            $amenities_print = "";
+            $Meta_Building_Stories = "";
+            $Meta_Building_Units = "";
+            $year_building = "";
+            $price_building = "";
+            $development = "";
+
 
             $og_building = fb_flex_idx_buildind_social_sc();
 
@@ -2264,6 +2271,17 @@ function insert_fb_in_head()
                 }
 
                 $og_name_building = $og_building['payload']['name_building'];
+
+                $amenities_build =@json_decode($response['payload']['amenities_building'],true);
+
+                $amenities_print = (is_array($amenities_build) ? implode(", ", $amenities_build): "" ) ;
+                $Meta_Building_Stories = $og_building['payload']['floor_building'];
+                $Meta_Building_Units = $og_building['payload']['unit_building'];
+                $year_building = $og_building['payload']['year_building'];
+                $price_building = "From ".number_format($og_building['payload']['price_building'], 0);
+                $development = $og_building['payload']['development'];
+
+
             }
             ?>
             <meta property="og:title" content="<?php echo $og_name_building; ?>"/>
@@ -2271,6 +2289,20 @@ function insert_fb_in_head()
             <meta property="og:url" content="<?php echo $domain_host; ?>"/>
             <meta property="og:description" content="<?php echo strip_tags($og_building_addresses); ?>"/>
             <meta property="og:image" content="<?php echo $url_image; ?>"/>
+
+            <meta name="Meta_Building_TodaysPrices" content='<?php echo $price_building; ?>'>
+            <meta name="Meta_Building_YearBuilt" content="<?php echo $year_building; ?>">
+            <meta name="Meta_Building_Units" content="<?php echo $Meta_Building_Units; ?>">
+            <meta name="Meta_Building_Stories" content="<?php echo $Meta_Building_Stories; ?>">
+            <meta name="Meta_Building_Developer" content="<?php echo $development; ?>">
+            <meta name="Meta_Building_Amenities" content="<?php echo $amenities_print; ?>">
+
+            <meta name="Meta_Building_FloorPlans" content="Studio, 1BR, 2BR">
+            <meta name="Meta_Building_AverageDaysOnMarket" content="">
+            <meta name="Meta_Building_AveragePricePerSqft" content="">
+            <meta name="Meta_Building_ForSale" content="0">
+            <meta name="Meta_Building_ForRent" content="0">
+
             <?php
         }
         ?>
@@ -2691,6 +2723,36 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $agent_info = get_option('idxboost_agent_info');
             $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
 
+                if($idx_v == "1"){
+
+                    $curlExtraData = curl_init();
+                    curl_setopt_array($curlExtraData, array(
+                        CURLOPT_URL => FLEX_IDX_API_PROPERTY_DETAIL_EXTRA,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => http_build_query(
+
+                            array(
+                                'mls_num' => $mls_num,
+                                'access_token' => $access_token
+                            )
+                        ),
+                    ));
+
+                    $server_output_extra = curl_exec($curlExtraData);
+                    $response_extra = @json_decode($server_output_extra, true);
+                    curl_close($curlExtraData);
+
+                    if ( !empty($response_extra) && is_array($response_extra) && count($response_extra) > 0 ) {
+                        $response = array_merge($response, $response_extra);
+                    }
+                }
+                
             ob_start();
 
             if ($template_not_found) {
@@ -2709,6 +2771,9 @@ if (!function_exists('flex_idx_property_detail_sc')) {
 
             $output = ob_get_clean();
         }
+
+        wp_enqueue_script('custom-player');
+        wp_enqueue_style('custom-player');
 
 
         return $output;

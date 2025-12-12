@@ -1664,7 +1664,7 @@ function decodeJwtPayload(token) {
     }).join(''));
     return JSON.parse(jsonPayload);
 }
-	
+
 function handleCredentialResponse(token) {
   if (!token || !token.hasOwnProperty("credential")) {
     return;
@@ -3446,4 +3446,3 @@ $(function() {
   {{{paginationBlock this}}}
 {{/pagination}}
 </script>
-

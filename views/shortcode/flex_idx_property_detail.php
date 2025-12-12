@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://idxboost.com/custom_player/0001/css/index.css" type="text/css" media="all"/>
 <script>
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -52,6 +51,8 @@ if (cookieValue && !isNaN(cookieValue)) {
             return sprintf('%02d hours', $hours);
         }
     }
+  
+  $idxboost_video_configuration = $response["type_view_video"];
 
   $idxboost_search_settings = get_option('idxboost_search_settings');
   $idxboost_term_condition = get_option('idxboost_term_condition');
@@ -416,19 +417,65 @@ if (cookieValue && !isNaN(cookieValue)) {
       <div id="map-result" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"></div>
     </div>
 
+    <?php if ($idxboost_video_configuration == 1 && !empty($response['url_video'])) { ?>
+    <div id="video-view">
+      <div class="ms-wrapper-video-cover">
+        <div class="ms-header-video">
+          <button 
+          class="ms-video-play js-open-full-screen" 
+          aria-label="Play Video" 
+          data-type="video" 
+          data-video="<?php echo $response['url_video']; ?>" 
+          data-title=""></button>
+        </div>
+        <div class="ms-video-cover" id="js-temporal-video"></div>
+        <button class="ms-close js-close-temp-video-view" aria-label="Close View Video"></button>
+      </div>
+    </div>
+    <?php } ?>
+
     <div class="moptions">
       <ul class="slider-option">
         <li>
-          <button class="option-switch js-option-building ms-gallery-fs active" id="show-gallery" data-view="gallery"><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          <button class="option-switch js-option-building ms-gallery-fs active" id="show-gallery" data-view="gallery" aria-label="<?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+            <i class="idx-icon-camera"></i>
+            <span><?php echo __('photos', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          </button>
         </li>
         <li>
-          <button class="option-switch js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>"><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
+          <button class="option-switch js-option-building-map ms-map-fs" id="show-map" data-view="map" data-lat="<?php echo $property['lat']; ?>" data-lng="<?php echo $property['lng']; ?>" aria-label="<?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+            <i class="idx-icon-map ms-ml-ng"></i>
+            <span><?php echo __('map view', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          </button>
         </li>
+        
         <?php if (!empty($property["virtual_tour"])) : ?>
         <li>
-          <a class="ms-video-fs" href="<?php echo strip_tags($property["virtual_tour"]); ?>" data-type="link" title="Virtual Tour" target="_blank" rel="nofollow"><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></a>
+          <a class="ms-link-fs" href="<?php echo strip_tags($property["virtual_tour"]); ?>" data-type="link" title="<?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?>" target="_blank" rel="nofollow">
+            <i class="idx-icon-virtual-tour-cr ms-ml-ng"></i>
+            <span><?php echo __("Video Tour", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+          </a>
         </li>
         <?php endif; ?>
+        <?php if ($idxboost_video_configuration == 1 && !empty($response['url_video'])) { ?>
+        <li>
+            <button class="option-switch js-show-video-cover-pd ms-video-fs" 
+            data-type="video" 
+            id="show-video" 
+            data-view="video" 
+            data-video="<?php echo $response['url_video']; ?>" 
+            data-title="" 
+            data-autoplay="<?php echo $response['autoplay_video']; ?>" 
+            data-gallery-type="2"
+            data-poster="<?php echo $response['image_video']; ?>"
+            data-origin="property_detail"
+            data-parent="#js-temporal-video"
+            aria-label="<?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+              <i class="idx-icon-play ms-ml-ng"></i>
+              <span><?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+            </button>
+        </li>
+        <?php } ?>
       </ul>
       <button id="clidxboost-btn-flight" class="full-screen js-open-full-screen" data-type="photo" data-initial="1" data-gallery=".clidxboost-full-slider">Full screen</button>
     </div>
@@ -929,7 +976,7 @@ if (cookieValue && !isNaN(cookieValue)) {
           <div class="ib-plist-details -border">
             <div class="ib-plist-card">
               <?php if (wp_is_mobile()) {
-                if (!empty($response['url_video'])){ ?>
+                if ($idxboost_video_configuration == 2 && !empty($response['url_video'])) { ?>
                   <div class="ms-wrapper-property-video" data-video="<?php echo $response['url_video']; ?>" data-poster="<?php echo $response['image_video']; ?>" data-action="<?php echo $response['autoplay_video']; ?>"></div>
                 <?php }
               } ?>
@@ -2110,7 +2157,7 @@ if (cookieValue && !isNaN(cookieValue)) {
       <div class="aside ib-mb-show">
 
         <?php if (!wp_is_mobile()) {
-          if (!empty($response['url_video'])){ ?>
+          if ($idxboost_video_configuration == 2 && !empty($response['url_video'])) { ?>
             <div class="ms-wrapper-property-video" data-video="<?php echo $response['url_video']; ?>" data-poster="<?php echo $response['image_video']; ?>" data-action="<?php echo $response['autoplay_video']; ?>"></div>
           <?php }
         } ?>
@@ -2844,15 +2891,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 `);
                 initCustomPlayers();
               } else {
-                $this.html(`
-                  <div class="ms-wrapper-video-property">
-                    <img src="${videoPoster}" alt="Video">
-                    <button class="ms-btn-play-video idx-icon-play js-play-video-property" 
-                            aria-label="Play Video" 
-                            data-video="${videoUrl}">
-                    </button>
-                  </div>
-                `);
+
+                if(videoPoster !== ""){
+                  $this.html(`
+                    <div class="ms-wrapper-video-property">
+                      <img src="${videoPoster}" alt="Video">
+                      <button class="ms-btn-play-video idx-icon-play js-play-video-property" 
+                              aria-label="Play Video" 
+                              data-video="${videoUrl}">
+                      </button>
+                    </div>
+                  `);
+                }else{
+                  $this.empty().html(`
+                    <div class="ms-custom-player" data-src="${videoUrl}" data-autoplay="false" data-muted="true" data-loop="true"></div>
+                  `);
+                  initCustomPlayers();
+                }
               }
             });
           }
@@ -3059,6 +3114,10 @@ se debe mejorar la validación de SOLD ya que esta solución captura el termino 
 </script>
 <?php } ?>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script src="https://player.vimeo.com/api/player.js"></script>
-<script type="text/javascript" src="https://idxboost.com/custom_player/0001/js/index.min.js"></script>
+<?php if ($idxboost_video_configuration == 1 && !empty($response['url_video'])) { ?>
+<script>
+  setTimeout(function() {
+    document.querySelector('.js-show-video-cover-pd')?.click();
+  }, 900);
+</script>
+<?php } ?>
