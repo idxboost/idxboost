@@ -410,3 +410,8 @@ function add_type_attribute_display_filter_fn($tag, $handle, $src) {
 // ******************* APPS REACT *******************//
 
 add_filter( 'wp_speculation_rules_configuration', '__return_null' );
+
+
+
+add_action('wp_ajax_flex_get_email_by_token', 'flex_idx_get_email_by_invite_token');
+add_action('wp_ajax_nopriv_flex_get_email_by_token', 'flex_idx_get_email_by_invite_token');

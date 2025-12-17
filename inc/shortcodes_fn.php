@@ -714,29 +714,31 @@ if (!function_exists('ib_search_sc')) {
 
         if ($idx_v == "1") {
 
-            
+            // Librería custom player para Hackbox que contengan videos
+            wp_enqueue_script('custom-player');
+            wp_enqueue_style('custom-player');
 
-              $paramsSSO = [
+            $paramsSSO = [
                 "grant_type" => "client_credentials",
                 "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
                 "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
-              ];
+            ];
 
-                $curlToken = curl_init();
-                curl_setopt_array($curlToken, array(
-                  CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-                  CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/x-www-form-urlencoded'
-                  ),
-                ));
+            $curlToken = curl_init();
+            curl_setopt_array($curlToken, array(
+                CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
+                ),
+            ));
             $responseToken = @json_decode(curl_exec($curlToken),true);
             curl_close($curlToken);
             $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
@@ -747,7 +749,7 @@ if (!function_exists('ib_search_sc')) {
                 include FLEX_IDX_PATH . '/views/shortcode/idxboost_new_search_filters.php';
             }
 
-        }else{
+        } else{
 
             // wp_enqueue_style('flex-idx-search-filter-css');
             wp_enqueue_script('flex-idx-search-filter-v2');
@@ -2278,7 +2280,7 @@ function insert_fb_in_head()
                 $Meta_Building_Stories = $og_building['payload']['floor_building'];
                 $Meta_Building_Units = $og_building['payload']['unit_building'];
                 $year_building = $og_building['payload']['year_building'];
-                $price_building = "From ".number_format($og_building['payload']['price_building'], 0);
+                $price_building = "From ".$og_building['payload']['price_building'];
                 $development = $og_building['payload']['development'];
 
 
@@ -6046,4 +6048,42 @@ if (!function_exists('dashtodash_sc')) {
     }
     add_action('wp_head', 'insert_assets_head_dashtodash_sc', 1);
     add_shortcode('dashtodash', 'dashtodash_sc');
+}
+
+
+if (!function_exists('idx_sell_rent_dinamic_forms_sc')) {
+    function idx_sell_rent_dinamic_forms_sc($atts, $content = null)
+    {
+        //global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'type' => '',
+        ), $atts);
+
+        ob_start();
+
+        $list_type = 
+        [
+            "rent",
+            "sell",
+            "buy"
+        ];
+
+        if ( !in_array( $atts["type"] , $list_type)) {
+            $atts["type"] = 'sell';
+        }
+
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_idx_sell_rent_dinamic_forms.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_idx_sell_rent_dinamic_forms.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_idx_sell_rent_dinamic_forms.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_dinamic_forms_sell_rent_buy', 5);
+    add_shortcode('idx_sell_rent_dinamic_forms', 'idx_sell_rent_dinamic_forms_sc');
 }

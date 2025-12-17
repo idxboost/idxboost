@@ -429,7 +429,7 @@ if (cookieValue && !isNaN(cookieValue)) {
           data-title=""></button>
         </div>
         <div class="ms-video-cover" id="js-temporal-video"></div>
-        <button class="ms-close js-close-temp-video-view" aria-label="Close View Video"></button>
+        <!--<button class="ms-close js-close-temp-video-view" aria-label="Close View Video"></button>-->
       </div>
     </div>
     <?php } ?>
@@ -457,7 +457,13 @@ if (cookieValue && !isNaN(cookieValue)) {
           </a>
         </li>
         <?php endif; ?>
-        <?php if ($idxboost_video_configuration == 1 && !empty($response['url_video'])) { ?>
+        <?php 
+        
+            if (!empty($response['url_video'])) { 
+              if($idxboost_video_configuration == 2){
+                $displayNone = 'style="display:none"';
+              }
+        ?>
         <li>
             <button class="option-switch js-show-video-cover-pd ms-video-fs" 
             data-type="video" 
@@ -470,7 +476,7 @@ if (cookieValue && !isNaN(cookieValue)) {
             data-poster="<?php echo $response['image_video']; ?>"
             data-origin="property_detail"
             data-parent="#js-temporal-video"
-            aria-label="<?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?>">
+            aria-label="<?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?>" <?php echo $displayNone; ?>>
               <i class="idx-icon-play ms-ml-ng"></i>
               <span><?php echo __('video', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
             </button>
@@ -2887,7 +2893,15 @@ document.addEventListener("DOMContentLoaded", function () {
               const videoAction = $this.attr("data-action");
               if (videoAction === "1") {
                 $this.empty().html(`
+                <div class="ms-wrapper-video-property">
                   <div class="ms-custom-player" data-src="${videoUrl}" data-autoplay="true" data-muted="true" data-loop="true"></div>
+                  <button class="ms-btn-play-video idx-icon-play js-open-full-screen" 
+                    aria-label="Play Video" 
+                    data-type="video"
+                    data-title=""
+                    data-video="${videoUrl}">
+                  </button>
+                </div>
                 `);
                 initCustomPlayers();
               } else {
@@ -2896,9 +2910,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   $this.html(`
                     <div class="ms-wrapper-video-property">
                       <img src="${videoPoster}" alt="Video">
-                      <button class="ms-btn-play-video idx-icon-play js-play-video-property" 
-                              aria-label="Play Video" 
-                              data-video="${videoUrl}">
+                      <button class="ms-btn-play-video idx-icon-play js-open-full-screen" 
+                        aria-label="Play Video" 
+                        data-type="video"
+                        data-title=""
+                        data-video="${videoUrl}">
                       </button>
                     </div>
                   `);

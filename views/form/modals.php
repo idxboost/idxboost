@@ -1998,7 +1998,7 @@ function handleCredentialResponse(token) {
                         }
 
                         // notify user with success message
-
+                        var should_reload = window.location.href.includes('collection/');
                         swal({
                           title: word_translate.congratulations,
                           text: ib_log_message,
@@ -2008,6 +2008,12 @@ function handleCredentialResponse(token) {
                           closeOnEsc: true,
                           timer: 3000
                         });
+
+                        setTimeout(function() {
+                            if (should_reload) {
+                                window.location.reload();
+                            }
+                        }, 3000);
 
                         setTimeout(function () {
                             if (typeof originalPositionY !== "undefined") {
