@@ -165,6 +165,11 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
   $response['payload']['lat_building'] = $latAlternative;
   $response['payload']['lng_building'] = $lngAlternative;
 }
+
+$requiredPhoneNumber = "";
+if (isset($flex_idx_info['agent']['phone_number_required']) && ($flex_idx_info['agent']['phone_number_required'] == 1)) {
+  $requiredPhoneNumber = "required";
+}
 ?>
 
 <!-- <link rel="stylesheet" href="<?php include FLEX_IDX_PATH . '/css/floorplan.min.css';  ?>"> -->
@@ -991,7 +996,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                             <li class="gfield">
                               <div class="ginput_container ginput_container_email">
                                 <label class="gfield_label" for="phone"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" required class="_ib_ph_inq medium" name="phone" type="tel" value="<?php echo $phoneContactNumber; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                                <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium <?php echo $requiredPhoneNumber; ?>" <?php echo $requiredPhoneNumber; ?> name="phone" type="tel" value="<?php echo $phoneContactNumber; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                               </div>
                             </li>
                             <li class="gfield comments">
@@ -1255,7 +1260,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
                         <li class="gfield">
                           <div class="ginput_container ginput_container_email">
                             <label class="gfield_label"><?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
-                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium" name="phone" required type="tel" value="<?php echo $phoneContactNumber; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
+                            <input autocorrect="off" autocapitalize="off" spellcheck="false" autocomplete="disabled" autocomplete="disabled" class="_ib_ph_inq medium <?php echo $requiredPhoneNumber; ?>" <?php echo $requiredPhoneNumber; ?> name="phone" type="tel" value="<?php echo $phoneContactNumber; ?>" placeholder="<?php echo __('Phone', IDXBOOST_DOMAIN_THEME_LANG); ?>*">
                           </div>
                         </li>
                         <li class="gfield comments">

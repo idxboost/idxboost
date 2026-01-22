@@ -415,3 +415,6 @@ add_filter( 'wp_speculation_rules_configuration', '__return_null' );
 
 add_action('wp_ajax_flex_get_email_by_token', 'flex_idx_get_email_by_invite_token');
 add_action('wp_ajax_nopriv_flex_get_email_by_token', 'flex_idx_get_email_by_invite_token');
+
+// Hook general init to login users if an autologin code is specified and collection
+add_action('template_redirect', 'idx_autologin_collections');
