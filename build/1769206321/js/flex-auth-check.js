@@ -14,6 +14,22 @@ function getCleanHref() {
 }
 
 
+function mostrarTabSoldSiHayData() {
+  var canadaBoard = jQuery("#activeBoard");
+  //console.log("canadaBoard=", canadaBoard);
+
+  if (!canadaBoard.length) return;
+
+  var dataSold = jQuery("#soldDataCount").val();
+  var dataSoldNum = parseInt(dataSold, 10) || 0;
+
+  //console.log("dataSold=", dataSoldNum);
+
+  if (dataSoldNum > 0) {
+    jQuery("#flex_tab_sold").trigger("click");
+  }
+}
+
 
 // @todo last opened property
 var lastOpenedProperty;
@@ -499,6 +515,138 @@ function validate_price(evt) {
 			$(this).val(numberWithCommas($('.purchase_price_txt').val()));
 		});
 
+
+		//INICIO NUEVA VALIDACION 23/01/2026
+			$(document).on("submit", "#flex-idx-property-form", function (event) {
+				event.preventDefault();
+				event.stopPropagation();
+
+				var _self = $(this);
+				var idCodeInput = _self.attr("data-id");
+				var $tel = _self.find("input[type='tel']");
+				var isRequired = $tel.hasClass("required");
+				var telValue = ($tel.val() || "").trim();
+
+				// Reset visual errors
+				$tel.removeClass("ms-input-error");
+				_self.find(".ms-validation-text").empty();
+
+				// ==============================
+				// VALIDACIÓN TELÉFONO
+				// ==============================
+
+				// Caso 1: teléfono NO requerido y vacío → enviar
+				if (!isRequired && telValue === "") {
+					sendFlexForm(_self);
+					return;
+				}
+
+				// Caso 2: teléfono requerido → validar
+				if (isRequired) {
+					if (
+						typeof iti !== "undefined" &&
+						iti[idCodeInput] &&
+						iti[idCodeInput].isValidNumber()
+					) {
+						sendFlexForm(_self);
+					} else {
+						$tel.addClass("ms-input-error");
+						_self
+							.find(".ms-validation-text")
+							.html("<span>" + word_translate.enter_a_valid_phone_number + "</span>");
+					}
+					return;
+				}
+
+				// Caso 3: teléfono NO requerido pero con valor → validar si existe iti
+				if (telValue !== "") {
+					if (
+						typeof iti === "undefined" ||
+						!iti[idCodeInput] ||
+						!iti[idCodeInput].isValidNumber()
+					) {
+						$tel.addClass("ms-input-error");
+						_self
+							.find(".ms-validation-text")
+							.html("<span>" + word_translate.enter_a_valid_phone_number + "</span>");
+						return;
+					}
+				}
+
+				sendFlexForm(_self);
+			});
+
+
+			// ===================================
+			// FUNCIÓN CENTRAL DE ENVÍO
+			// ===================================
+			function sendFlexForm(_self) {
+
+				// Evita múltiples envíos
+				if (_self.data("sending")) return;
+				_self.data("sending", true);
+
+				// Elimina tokens previos
+				_self.find("input[name='recaptcha_response']").remove();
+
+				// Enterprise reCAPTCHA (pendiente)
+				if (
+					__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha") &&
+					__flex_g_settings.has_enterprise_recaptcha == "1"
+				) {
+					console.warn("Enterprise reCAPTCHA pendiente de implementación");
+					_self.data("sending", false);
+					return;
+				}
+
+				// Regular reCAPTCHA v3
+				grecaptcha.ready(function () {
+					grecaptcha
+						.execute(__flex_g_settings.google_recaptcha_public_key, {
+							action: "property_inquiry"
+						})
+						.then(function (token) {
+
+							_self.prepend(
+								'<input type="hidden" name="recaptcha_response" value="' + token + '">'
+							);
+
+							$.ajax({
+								url: __flex_g_settings.ajaxUrl,
+								method: "POST",
+								data: _self.serialize(),
+								dataType: "json",
+								success: function (data) {
+
+									$('#modal_properties_send .body_md .ico_ok')
+										.text(word_translate.email_sent);
+
+									active_modal($('#modal_properties_send'));
+
+									if (
+										data?.success &&
+										data?.logged_lead?.encode_token
+									) {
+										idx_setSessionForced(
+											data.logged_lead.lead_info,
+											data.logged_lead.encode_token
+										);
+									}
+
+									setTimeout(function () {
+										$('#modal_properties_send').find('.close').click();
+									}, 2000);
+								},
+								complete: function () {
+									_self.data("sending", false);
+								}
+							});
+						});
+				});
+			}
+		//FINAL NUEVA VALIDACION 23/01/2026
+		
+		/*ANTIGUA VALIDACION 23/01/2026
 		$(document).on("submit", "#flex-idx-property-form", function (event) {
 			// $("#flex-idx-property-form").on("submit", function(event) {
 			event.stopPropagation();
@@ -606,6 +754,7 @@ function validate_price(evt) {
 			//   }
 			// });
 		});
+		*/
 
 
 		$(document).on("submit", "#flex-idx-property-form-rental", function (event) {
@@ -1403,6 +1552,9 @@ function validate_price(evt) {
 							});
 
 						}, 300);
+
+						/*VALIDACION DEL LOGIN SOLD PARA EL BORD DE CANADA*/
+						mostrarTabSoldSiHayData();
 
 					} else {
 

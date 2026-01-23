@@ -2075,6 +2075,10 @@ function handleCredentialResponse(token) {
                         //     jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
                         //   }
                         // }, 3000);
+
+                        mostrarTabSoldSiHayData();
+                        //console.log("google...");
+
                     } else {
                         sweetAlert("Oops...", ib_log_message, "error");
                     }
@@ -2874,7 +2878,12 @@ function fb_login() {
                               });
                             }
 
-                          }, 3000);
+                            }, 3000);
+
+
+                            mostrarTabSoldSiHayData();
+                            //console.log("facebook...");
+
                         } else {
                           var textmessage = '';
                           

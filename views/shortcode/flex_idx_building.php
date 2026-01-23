@@ -167,7 +167,13 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 }
 
 $requiredPhoneNumber = "";
-if (isset($flex_idx_info['agent']['phone_number_required']) && ($flex_idx_info['agent']['phone_number_required'] == 1)) {
+if (
+  isset($flex_idx_info['agent']['phone_number_required']) &&
+    (
+      $flex_idx_info['agent']['phone_number_required'] == 1 ||
+      $flex_idx_info['agent']['phone_number_required'] == true
+    )
+  ) {
   $requiredPhoneNumber = "required";
 }
 ?>
@@ -1394,8 +1400,9 @@ if (isset($flex_idx_info['agent']['phone_number_required']) && ($flex_idx_info['
 
 <input type="hidden" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
 <?php if( in_array($flex_idx_info["board_id"], ["36"]) ){ ?>
-  <input type="hidden" id="activeBoard" value="active">
+  <input type="text" id="activeBoard" value="active">
 <?php } ?>
+<input type="text" id="soldDataCount" value="1">
 
 <script type="text/javascript">
   (function ($) {
@@ -1767,13 +1774,6 @@ if (isset($flex_idx_info['agent']['phone_number_required']) && ($flex_idx_info['
 
   jQuery(document).on("click", ".shareBtn", function() {
     jQuery(".breadcrumb-options .showfriendEmail").trigger("click");
-  });
-
-  jQuery(document).ajaxComplete(function () {
-    if (__flex_g_settings.anonymous === "no") {
-      var tabSold = jQuery("#flex_tab_sold");
-      if (tabSold.length) tabSold.trigger("click");
-    }
   });
 </script>
 <?php include FLEX_IDX_PATH . '/views/shortcode/idxboost_modals_filter.php';  ?>

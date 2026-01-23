@@ -611,6 +611,9 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                   }                  
                   if (response.payload.properties.sold.count==0){
                     $('#flex_tab_sold, .flex-open-tb-sold').hide();
+
+                    var soldData = jQuery("#soldDataCount");
+                    if(soldData.length){soldData.val("0")}
                   }
 
                   if(response.payload.meta != undefined && ( (tot_sale>0|| tot_rent>0) && 
@@ -1053,6 +1056,8 @@ function ib_init_script(){
                   }                  
                   if (response.payload.properties.sold.count==0){
                     $('#flex_tab_sold, .flex-open-tb-sold').hide();
+                    var soldData = jQuery("#soldDataCount");
+                    if(soldData.length){soldData.val("0")}
                   }
 
                   if(response.payload.meta != undefined && ( (tot_sale>0|| tot_rent>0) && 

@@ -1,4 +1,18 @@
-<?php global $flex_idx_info;?>
+<?php 
+
+global $flex_idx_info;
+$requiredPhoneNumber = "";
+if (
+  isset($flex_idx_info['agent']['phone_number_required']) &&
+    (
+      $flex_idx_info['agent']['phone_number_required'] == 1 ||
+      $flex_idx_info['agent']['phone_number_required'] == true
+    )
+  ) {
+  $requiredPhoneNumber = "required";
+}
+
+?>
 
 <form
     class="form-search gtm_general_contact_form iboost-secured-recaptcha-form iboost-form-validation"
@@ -105,8 +119,8 @@
                 <label class="ms-hidden" for="for_user_phone">
                     <?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?> *
                 </label>
-                <input class="medium" id="for_user_phone"
-                    name="phone" type="tel" value="" required
+                <input class="medium <?php echo $requiredPhoneNumber; ?>" id="for_user_phone"
+                    name="phone" type="tel" value="" <?php echo $requiredPhoneNumber; ?>
                     autocorrect="off" autocapitalize="off" spellcheck="false"
                     autocomplete="disabled" autocomplete="disabled">
             </li>

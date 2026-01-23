@@ -2485,14 +2485,14 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                                     <?php 
                                                     
                                                         $requiredPhoneNumber = "";
-
                                                         if (
-                                                            isset($flex_idx_info['agent']['phone_number_required']) &&
+                                                        isset($flex_idx_info['agent']['phone_number_required']) &&
                                                             (
-                                                                $flex_idx_info['agent']['phone_number_required'] == 1
+                                                            $flex_idx_info['agent']['phone_number_required'] == 1 ||
+                                                            $flex_idx_info['agent']['phone_number_required'] == true
                                                             )
                                                         ) {
-                                                            $requiredPhoneNumber = "required";
+                                                        $requiredPhoneNumber = "required";
                                                         }
                                                         
                                                     ?>
