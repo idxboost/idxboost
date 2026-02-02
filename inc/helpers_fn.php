@@ -2047,6 +2047,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['google_adwords'] = isset($idxboost_agent_info['google_adwords']) ? $idxboost_agent_info['google_adwords'] : "";
             $output['agent']['facebook_pixel'] = isset($idxboost_agent_info['facebook_pixel']) ? $idxboost_agent_info['facebook_pixel'] : "";
             $output['agent']['google_gtm'] = isset($idxboost_agent_info['google_gtm']) ? $idxboost_agent_info['google_gtm'] : "";
+            $output['agent']['extra_boards'] = isset($idxboost_agent_info['extra_boards']) ? $idxboost_agent_info['extra_boards'] : "";
             $output['agent']['stat_counter_security_id'] = isset($idxboost_agent_info['stat_counter_security_id']) ? $idxboost_agent_info['stat_counter_security_id'] : "";
             $output['agent']['stat_counter_project_id'] = isset($idxboost_agent_info['stat_counter_project_id']) ? $idxboost_agent_info['stat_counter_project_id'] : "";
             $output['agent']['follow_up_boss_api_key'] = isset($idxboost_agent_info['follow_up_boss_api_key']) ? $idxboost_agent_info['follow_up_boss_api_key'] : "";
@@ -9118,6 +9119,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
     function idxboost_cms_register_assets()
     {
         global $flex_idx_info, $post, $wp;
+        $idxboostCmsAssetsVersion = IDXBoostCMS_Assets::version();
 
         if (
                 !empty($flex_idx_info['agent']['has_cms']) &&
@@ -9133,42 +9135,63 @@ if (!function_exists('idxboost_cms_register_assets')) {
                             'flex-idx-main-project', // plugin base css
                             'flex_initial_css_main', // theme base css
                     ),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-sections',
                     get_cms_assets_base_url() . '/assets/css/carbonite-sections.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-pages-contact',
                     get_cms_assets_base_url() . '/assets/css/pages/contact.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-pages-agent',
                     get_cms_assets_base_url() . '/assets/css/pages/agent.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-addons-loader',
                     get_cms_assets_base_url() . '/assets/css/addons/loader.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-addons-translate',
                     get_cms_assets_base_url() . '/assets/css/addons/translate.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             wp_register_style(
                     'carbonite-addons-tripwire',
                     get_cms_assets_base_url() . '/assets/css/addons/tripwire.css',
                     array('carbonite'),
+                    array(
+                            'sv' => $idxboostCmsAssetsVersion
+                    )
             );
 
             // Register scripts
@@ -9177,7 +9200,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite',
                     get_cms_assets_base_url() . '/assets/js/carbonite.js',
                     array('jquery', 'get-video-id-js'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
 
@@ -9185,7 +9210,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite-sections',
                     get_cms_assets_base_url() . '/assets/js/carbonite-sections.js',
                     array('carbonite', 'greatslider'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
 
@@ -9193,7 +9220,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite-pages-contact',
                     get_cms_assets_base_url() . '/assets/js/pages/contact.js',
                     array('carbonite', 'google-maps-api'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
 
@@ -9201,7 +9230,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite-addons-loader',
                     get_cms_assets_base_url() . '/assets/js/addons/loader.js',
                     array('carbonite'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
 
@@ -9209,7 +9240,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite-addons-translate',
                     get_cms_assets_base_url() . '/assets/js/addons/translate.js',
                     array('carbonite'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
 
@@ -9217,7 +9250,9 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     'carbonite-addons-tripwire',
                     get_cms_assets_base_url() . '/assets/js/addons/tripwire.js',
                     array('carbonite'),
-                    '',
+                    array(
+                        'sv' => $idxboostCmsAssetsVersion
+                    ),
                     true
             );
         }
