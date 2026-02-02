@@ -63,6 +63,19 @@ define('IDX_BOOST_SPW_BUILDER_SERVICE', 'https://api-cms.idxboost.com');
 define('FLEX_IDX_SERVICE_SUGGESTIONS', 'https://autocomplete.idxboost.com');
 define('IDXBOOST_MATOMO_URL', 'matomo.idxboost.com');
 
+if (!class_exists('IDXBoostCMS_Assets')) {
+    final class IDXBoostCMS_Assets {
+        private static $v = null;
+
+        public static function version(): int {
+            if (self::$v === null) {
+                self::$v = intdiv(time(), 300);
+            }
+            return self::$v;
+        }
+    }
+}
+
 if (!function_exists('get_cms_assets_base_url')) {
     function get_cms_assets_base_url() {
         // IDX_BOOST_SPW_ASSETS
@@ -72,7 +85,7 @@ if (!function_exists('get_cms_assets_base_url')) {
             return $assets_base_url;
         }
 
-	return 'https://idxboost-spw-assets.idxboost.us';
+		return 'https://idxboost-spw-assets.idxboost.us';
 
     }
 }
