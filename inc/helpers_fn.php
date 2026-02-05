@@ -6024,6 +6024,59 @@ if (!function_exists('idxboost_collection_list_fn')) {
     }
 }
 
+
+function formatKSmart($num) {
+    if ($num >= 1000000) {
+        $v = $num / 1000000;
+        return rtrim(rtrim(number_format($v, 1, '.', ''), '0'), '.') . "M";
+    }
+    if ($num >= 1000) {
+        $v = $num / 1000;
+        return rtrim(rtrim(number_format($v, 1, '.', ''), '0'), '.') . "K";
+    }
+    return (string)$num;
+}
+
+if (!function_exists('idxboost_collection_building_list_fn')) {
+    function idxboost_collection_building_list_fn()
+    {
+        $filter_id = $_POST['building_id'];
+        $filter_data = $_POST['response_data'];
+        $building_id = md5($filter_id);
+        $path_feed = UPLOAD_DIR_WP . 'feed/';
+
+        if (!is_dir($path_feed)) {
+            if (!mkdir($path_feed, 0777, true)) {
+                $response["upCache"] = 'Failed to create directories...';
+            }
+        }
+
+        $post_building = $path_feed . 'condo_' . $building_id . '.json';
+        $status = file_put_contents($post_building, $filter_data);
+        $response = json_decode($filter_data, true);
+        wp_send_json($post_building);
+        exit;
+    }
+}
+
+
+if (!function_exists('get_feed_file_building_history_building_elastic_xhr_fn')) {
+    function get_feed_file_building_history_building_elastic_xhr_fn($building_id)
+    {
+        $path_feed = UPLOAD_DIR_WP . 'feed/';
+        $building_id = md5($building_id);
+        $post_building = $path_feed . 'condo_' . $building_id . '.json';
+        $result = [];
+
+        if (file_exists($post_building)) {
+            $result = @json_decode( stripslashes( file_get_contents($post_building) ), true );
+        }
+
+        return $result;
+    }
+}
+
+
 if (!function_exists('idxboost_sub_area_collection_list_fn')) {
     function idxboost_sub_area_collection_list_fn()
     {
@@ -9100,6 +9153,7 @@ if (!function_exists('idxboost_cms_setup')) {
         if (get_option("idxboost_cms_company") == 'avanti') $idxboost_cms_theme = 'ip-theme-avanti';
         if (get_option("idxboost_cms_company") == 'compass') $idxboost_cms_theme = 'ip-theme-compass';
         if (get_option("idxboost_cms_company") == 'resf') $idxboost_cms_theme = 'ip-theme-resf';
+        if (get_option("idxboost_cms_company") == 'sothebys-canada') $idxboost_cms_theme = 'ip-theme-sothebys-canada';
 
         if ('idx-agents' == $post->post_type) {
             ?>

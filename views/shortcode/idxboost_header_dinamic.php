@@ -29,6 +29,7 @@ if ( is_array($result) && count($result) > 0 ) {
     $is_avanti = strpos($template_id, "avanti");
     $is_compass = strpos($template_id, "compass");
     $is_resf = strpos($template_id, "resf");
+    $is_sothebys_canada = strpos($template_id, "sothebys-canada");
     ?>
 
     document.body.classList.add('ip');
@@ -52,6 +53,8 @@ if ( is_array($result) && count($result) > 0 ) {
         echo "document.body.classList.add('ip-theme-compass');";
     } else if ( is_numeric($is_resf) ) {
         echo "document.body.classList.add('ip-theme-resf');";
+    } else if ( is_numeric($is_sothebys_canada) ) {
+        echo "document.body.classList.add('ip-theme-sothebys-canada');";
     }
     ?>
 </script>

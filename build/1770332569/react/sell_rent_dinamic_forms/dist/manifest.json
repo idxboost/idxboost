@@ -1,0 +1,27 @@
+{
+  "_phone-input-e0238ad8.js": {
+    "file": "assets/phone-input-e0238ad8.js",
+    "imports": [
+      "_vendor-484c7feb.js"
+    ]
+  },
+  "_vendor-484c7feb.js": {
+    "file": "assets/vendor-484c7feb.js"
+  },
+  "index.css": {
+    "file": "assets/index-4c518f46.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "css": [
+      "assets/index-4c518f46.css"
+    ],
+    "file": "assets/index-3b463b36.js",
+    "imports": [
+      "_vendor-484c7feb.js",
+      "_phone-input-e0238ad8.js"
+    ],
+    "isEntry": true,
+    "src": "index.html"
+  }
+}

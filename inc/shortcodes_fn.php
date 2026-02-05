@@ -2242,6 +2242,8 @@ function insert_fb_in_head()
             $year_building = "";
             $price_building = "";
             $development = "";
+            $Meta_Building_ForSale = 0;
+            $Meta_Building_ForRent = 0;
 
 
             $og_building = fb_flex_idx_buildind_social_sc();
@@ -2257,9 +2259,9 @@ function insert_fb_in_head()
                     $url_image = $og_building['payload']['og_image_url'];
                 } else {
                     if ($og_building['payload']['type_gallery'] == "1") {
-                        $response = idxboost_collection_building($og_building['payload']['codBuilding']);
-                        if ($response['payload']['properties']) {
-                            if (count($response['payload']['properties']['sale']['items']) > 0) {
+                        $response = get_feed_file_building_history_building_elastic_xhr_fn($og_building['payload']['codBuilding']);
+                        if ( is_array($response) && array_key_exists("payload",$response) && $response['payload']['properties']) {
+                            if ( array_key_exists("sale", $response['payload']['properties'])  && count($response['payload']['properties']['sale']['items']) > 0) {
                                 $url_image = $response['payload']['properties']['sale']['items'][0]['gallery'][0];
                             }
                         }
@@ -2274,14 +2276,44 @@ function insert_fb_in_head()
 
                 $og_name_building = $og_building['payload']['name_building'];
 
-                $amenities_build =@json_decode($response['payload']['amenities_building'],true);
+                if (is_array($response) && array_key_exists("payload",$response) ) {
+                    
+                    $amenities_build =@json_decode( stripslashes( $response['payload']['amenities_building'] ) ,true);
+                    $building_meta = $response['payload']['meta'];
+                     
+                    $min_meta_price = is_numeric($building_meta["sale_min_max_price"]["min"]) ? formatKSmart($building_meta["sale_min_max_price"]["min"])  : 0;
+                    $max_meta_price = is_numeric($building_meta["sale_min_max_price"]["max"]) ? formatKSmart($building_meta["sale_min_max_price"]["max"])  : 0;
 
-                $amenities_print = (is_array($amenities_build) ? implode(", ", $amenities_build): "" ) ;
-                $Meta_Building_Stories = $og_building['payload']['floor_building'];
-                $Meta_Building_Units = $og_building['payload']['unit_building'];
-                $year_building = $og_building['payload']['year_building'];
-                $price_building = "From ".$og_building['payload']['price_building'];
-                $development = $og_building['payload']['development'];
+                    $Meta_Building_AveragePricePerSqft = is_numeric($building_meta["avg_price_sqft"]) ? formatKSmart($building_meta["avg_price_sqft"])  : 0;
+                    $Meta_Building_AverageDaysOnMarket = is_numeric($building_meta["building_avg_days"]) ? formatKSmart($building_meta["building_avg_days"])  : 0;
+                    
+
+                    $amenities_print = (is_array($amenities_build) ? implode(", ", $amenities_build): "" ) ;
+                    $Meta_Building_Stories = $og_building['payload']['floor_building'];
+                    $Meta_Building_Units = $og_building['payload']['unit_building'];
+                    $year_building = $og_building['payload']['year_building'];
+
+                    $price_building = "From {$min_meta_price} to {$max_meta_price}";
+
+                    $development = $og_building['payload']['development'];
+                    $Meta_Building_FloorPlans = "";
+
+
+                    $beds_on_building = array_unique(array_map(
+                        fn($i) =>  ($i['bed']."BR" ?? 0),
+                        $response['payload']['properties']['sale']['items']
+                    ));
+
+                    sort($beds_on_building);
+                    $beds_on_building = array_values($beds_on_building);
+                    $beds_on_building = str_replace("0BR", "Studio", $beds_on_building);
+
+                    $Meta_Building_FloorPlans = ( is_array($beds_on_building) && count($beds_on_building) > 0 ) ? implode(",", $beds_on_building) : "";
+                    $Meta_Building_ForSale = array_key_exists("sale", $response['payload']['properties']) ? $response['payload']['properties']['sale']['count'] : 0;
+                    $Meta_Building_ForRent = array_key_exists("rent", $response['payload']['properties']) ? $response['payload']['properties']['rent']['count'] : 0;
+
+                }
+
 
 
             }
@@ -2299,11 +2331,11 @@ function insert_fb_in_head()
             <meta name="Meta_Building_Developer" content="<?php echo $development; ?>">
             <meta name="Meta_Building_Amenities" content="<?php echo $amenities_print; ?>">
 
-            <meta name="Meta_Building_FloorPlans" content="Studio, 1BR, 2BR">
-            <meta name="Meta_Building_AverageDaysOnMarket" content="">
-            <meta name="Meta_Building_AveragePricePerSqft" content="">
-            <meta name="Meta_Building_ForSale" content="0">
-            <meta name="Meta_Building_ForRent" content="0">
+            <meta name="Meta_Building_FloorPlans" content="<?php echo $Meta_Building_FloorPlans; ?>">
+            <meta name="Meta_Building_AverageDaysOnMarket" content="<?php echo $Meta_Building_AverageDaysOnMarket; ?>">
+            <meta name="Meta_Building_AveragePricePerSqft" content="<?php echo $Meta_Building_AveragePricePerSqft; ?>">
+            <meta name="Meta_Building_ForSale" content="<?php echo $Meta_Building_ForSale; ?>">
+            <meta name="Meta_Building_ForRent" content="<?php echo $Meta_Building_ForRent; ?>">
 
             <?php
         }
