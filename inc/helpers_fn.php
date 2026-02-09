@@ -9151,7 +9151,9 @@ if (!function_exists('idxboost_cms_setup')) {
 
         $idxboost_cms_theme = 'standard';
         if (get_option("idxboost_cms_company") == 'avanti') $idxboost_cms_theme = 'ip-theme-avanti';
+        if (get_option("idxboost_cms_company") == 'cervera') $idxboost_cms_theme = 'ip-theme-cervera';
         if (get_option("idxboost_cms_company") == 'compass') $idxboost_cms_theme = 'ip-theme-compass';
+        if (get_option("idxboost_cms_company") == 'luxe-properties') $idxboost_cms_theme = 'ip-theme-luxe-properties';
         if (get_option("idxboost_cms_company") == 'resf') $idxboost_cms_theme = 'ip-theme-resf';
         if (get_option("idxboost_cms_company") == 'sothebys-canada') $idxboost_cms_theme = 'ip-theme-sothebys-canada';
 

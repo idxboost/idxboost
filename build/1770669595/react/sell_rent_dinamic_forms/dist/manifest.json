@@ -9,14 +9,14 @@
     "file": "assets/vendor-484c7feb.js"
   },
   "index.css": {
-    "file": "assets/index-4c518f46.css",
+    "file": "assets/index-ac870e78.css",
     "src": "index.css"
   },
   "index.html": {
     "css": [
-      "assets/index-4c518f46.css"
+      "assets/index-ac870e78.css"
     ],
-    "file": "assets/index-3b463b36.js",
+    "file": "assets/index-e91a0f12.js",
     "imports": [
       "_vendor-484c7feb.js",
       "_phone-input-e0238ad8.js"

@@ -27,7 +27,9 @@ if ( is_array($result) && count($result) > 0 ) {
 <script>
     <?php
     $is_avanti = strpos($template_id, "avanti");
+    $is_cervera = strpos($template_id, "cervera");
     $is_compass = strpos($template_id, "compass");
+    $is_luxe_properties = strpos($template_id, "luxe-properties");
     $is_resf = strpos($template_id, "resf");
     $is_sothebys_canada = strpos($template_id, "sothebys-canada");
     ?>
@@ -49,8 +51,12 @@ if ( is_array($result) && count($result) > 0 ) {
 
     if ( is_numeric($is_avanti) ) {
         echo "document.body.classList.add('ip-theme-avanti');";
+    } else if ( is_numeric($is_cervera) ) {
+        echo "document.body.classList.add('ip-theme-cervera');";
     } else if ( is_numeric($is_compass) ) {
         echo "document.body.classList.add('ip-theme-compass');";
+    } else if ( is_numeric($is_luxe_properties) ) {
+        echo "document.body.classList.add('ip-theme-luxe-properties');";
     } else if ( is_numeric($is_resf) ) {
         echo "document.body.classList.add('ip-theme-resf');";
     } else if ( is_numeric($is_sothebys_canada) ) {

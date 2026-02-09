@@ -1,7 +1,7 @@
 @font-face {
   font-family: "idx-icons";
-  src: url("../fonts/icons/fonts/idx-icons.eot?uavoy0");
-  src: url("../fonts/icons/fonts/idx-icons.eot?uavoy0#iefix") format("embedded-opentype"), url("../fonts/icons/fonts/idx-icons.ttf?uavoy0") format("truetype"), url("../fonts/icons/fonts/idx-icons.woff?uavoy0") format("woff"), url("../fonts/icons/fonts/idx-icons.svg?uavoy0#idx-icons") format("svg");
+  src: url("../fonts/icons/fonts/idx-icons.eot?sdu33d");
+  src: url("../fonts/icons/fonts/idx-icons.eot?sdu33d#iefix") format("embedded-opentype"), url("../fonts/icons/fonts/idx-icons.ttf?sdu33d") format("truetype"), url("../fonts/icons/fonts/idx-icons.woff?sdu33d") format("woff"), url("../fonts/icons/fonts/idx-icons.svg?sdu33d#idx-icons") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -682,6 +682,22 @@
 
 .idx-icon-youtube:before {
   content: "\e92a";
+}
+
+.idx-icon-line-mail:before {
+  content: "\e99f";
+}
+
+.idx-icon-line-map:before {
+  content: "\e9a0";
+}
+
+.idx-icon-line-phone:before {
+  content: "\e9a1";
+}
+
+.idx-icon-line-user:before {
+  content: "\e9a2";
 }
 
 /*********************************************/

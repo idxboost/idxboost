@@ -116,6 +116,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			var search_name = IB_SEARCH_FILTER_PAGE_TITLE;
 			var search_filter_params = window.idx_data_filter_alert.params;
 			var search_filter_ID = '<?php echo $atts["id"]; ?>';
+			var search_filter_index_boards = window.idx_data_filter_alert.hasOwnProperty("index_boards") ? window.idx_data_filter_alert.index_boards : "";
 
 			if ("no" === __flex_g_settings.anonymous && (typeof search_filter_ID !== "undefined")) {
 				jQuery.ajax({
@@ -130,6 +131,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 						search_url: search_url,
 						search_count: search_count,
 						search_condition: search_condition,
+						index_boards: search_filter_index_boards,
 						search_name: search_name,
 						version: 2,
 						search_params: (search_filter_params)
