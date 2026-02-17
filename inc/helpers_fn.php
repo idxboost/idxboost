@@ -9156,6 +9156,7 @@ if (!function_exists('idxboost_cms_setup')) {
         if (get_option("idxboost_cms_company") == 'luxe-properties') $idxboost_cms_theme = 'ip-theme-luxe-properties';
         if (get_option("idxboost_cms_company") == 'resf') $idxboost_cms_theme = 'ip-theme-resf';
         if (get_option("idxboost_cms_company") == 'sothebys-canada') $idxboost_cms_theme = 'ip-theme-sothebys-canada';
+        if (get_option("idxboost_cms_company") == 'tzinker') $idxboost_cms_theme = 'ip-theme-tzinker';
 
         if ('idx-agents' == $post->post_type) {
             ?>

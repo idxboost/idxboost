@@ -32,6 +32,7 @@ if ( is_array($result) && count($result) > 0 ) {
     $is_luxe_properties = strpos($template_id, "luxe-properties");
     $is_resf = strpos($template_id, "resf");
     $is_sothebys_canada = strpos($template_id, "sothebys-canada");
+    $is_tzinker = strpos($template_id, "tzinker");
     ?>
 
     document.body.classList.add('ip');
@@ -61,6 +62,8 @@ if ( is_array($result) && count($result) > 0 ) {
         echo "document.body.classList.add('ip-theme-resf');";
     } else if ( is_numeric($is_sothebys_canada) ) {
         echo "document.body.classList.add('ip-theme-sothebys-canada');";
+    } else if ( is_numeric($is_tzinker) ) {
+        echo "document.body.classList.add('ip-theme-tzinker');";
     }
     ?>
 </script>

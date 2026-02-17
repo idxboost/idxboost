@@ -321,12 +321,17 @@
       html_response.push('<div class="flex-property-new-listing">' + info_item.status_name + '</div>');
     }
 
+    var price_slider = _.formatPrice(info_item.price);
+    if (__flex_g_settings.version == "1") {
+      price_slider = ( info_item.hasOwnProperty("status") && info_item.status == 2 ? _.formatPrice(info_item.price_sold) : _.formatPrice(info_item.price) ) ;
+    }
+
     //html_response.push('<h2 title="'+info_item.address_short+' '+info_item.address_large+'"><span>'+info_item.address_short+'</span></h2>');
     //html_response.push('<h2 title="' + info_item.full_address + '"><span>'+info_item.full_address_top+'</span><span>'+info_item.full_address_bottom+'</span></h2>');
     html_response.push('<h2 title="' + info_item.full_address + '" class="ms-property-address"><div class="ms-title-address -address-top">' + info_item.full_address_top + '</div><div class="ms-br-line">,</div><div class="ms-title-address -address-bottom">' + info_item.full_address_bottom + '</div></h2>');
     html_response.push('<ul class="features">');
     html_response.push('<li class="address">' + info_item.address_large + '</li>');
-    html_response.push('<li class="price">$' + ( info_item.hasOwnProperty("status") && info_item.status == 2 ? _.formatPrice(info_item.price_sold) : _.formatPrice(info_item.price) ) + '</li>');
+    html_response.push('<li class="price">$' + price_slider + '</li>');
     html_response.push('<li class="pr down">2.05%</li>');
     html_response.push('<li class="beds">' + info_item.bed + '  <span>' + word_translate.beds + ' </span></li>');
     html_response.push('<li class="baths">' + info_item.bath + ' <span>' + word_translate.baths + ' </span></li>');
