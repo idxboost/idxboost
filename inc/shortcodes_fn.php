@@ -6119,3 +6119,43 @@ if (!function_exists('idx_sell_rent_dinamic_forms_sc')) {
     add_action('wp_head', 'insert_assets_head_dinamic_forms_sell_rent_buy', 5);
     add_shortcode('idx_sell_rent_dinamic_forms', 'idx_sell_rent_dinamic_forms_sc');
 }
+
+
+
+if (!function_exists('off_market_collection_sc')) {
+    function off_market_collection_sc($atts, $content = null)
+    {
+        global $flex_idx_info,$wpdb;
+
+        $atts = shortcode_atts(array(
+            'name' => '',
+            'sort' => 'price-desc'
+        ), $atts);
+
+        ob_start();
+        $list_sort = 
+        [
+            "price-desc",
+            "price-asc",
+            "completion_year-desc",
+            "building_name-asc", 
+            "building_name-desc"
+        ];
+
+        if ( !in_array( $atts["sort"] , $list_sort)) {
+            $atts["sort"] = 'price-desc';
+        }
+
+
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/off_market_collection_sc.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/off_market_collection_sc.php';
+        } else {
+                include FLEX_IDX_PATH . '/views/shortcode/off_market_collection_sc.php';
+        }            
+
+
+        return ob_get_clean();
+    }
+    add_action('wp_head', 'insert_assets_head_off_market_collection_sc', 1);
+    add_shortcode('off_market_collection', 'off_market_collection_sc');
+}

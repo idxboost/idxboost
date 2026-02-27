@@ -101,9 +101,13 @@
       <li><?php echo __("Improve our Web site and marketing efforts", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
       <li><?php echo __("Conduct research and analysis", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
       <li><?php echo __("Display content based upon your interests", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
+      <li><?php echo __("We use SMS to confirm appointments, send reminders, and notify clients of schedule updates or important changes", IDXBOOST_DOMAIN_THEME_LANG); ?></li>
     </ul>
     <p><?php echo __("By clicking the Submit button, you agree to have your information shared with us and for us to contact you via telephone, mobile phone (including through automated dialing, text SMS/MMS, or pre-recorded messaging) and/or email, even if your telephone number is on a corporate, state, or the National Do Not Call Registry, and you agree to our Privacy Policy", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+    <p><?php echo __("Carriers are not liable for delayed or undelivered messages", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+    <p><?php echo __("As always, message and data rates may apply for any messages sent to you from us and to us from you. Message frequency may vary. If you have any questions about your text plan or data plan, it is best to contact your wireless provider", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
     <p><?php echo __("To opt out, you can reply “stop” at any time or click the unsubscribe link in the emails", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+    <p><?php echo __("You can cancel the SMS service at any time. Just text "STOP". After you send the SMS message "STOP" to us, we will send you an SMS message to confirm that you have been unsubscribed. After this, you will no longer receive SMS messages from us. If you want to join again, just sign up as you did the first time, and we will start sending SMS messages to you again", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
   </div>
 
   <div id="how-do-we-share-your-personal-information">
@@ -158,6 +162,7 @@
 
     <h3><?php echo __("Contact Us", IDXBOOST_DOMAIN_THEME_LANG); ?></h3>
     <p><?php echo __("If you have any questions regarding the Privacy Policy, please call us at", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="tel:<?php echo preg_replace('/[^\d+]/', '', $flex_idx_info['agent']['agent_contact_phone_number']); ?>"><?php echo $idx_contact_phone; ?></a> <?php echo __("or send us an email to", IDXBOOST_DOMAIN_THEME_LANG); ?> <a href="mailto:<?php echo $idx_contact_email; ?>"><?php echo $idx_contact_email; ?></a>.</p>
+    <p><?php echo __("If you are experiencing issues with the messaging program you can reply with the keyword “HELP” for more assistance, or you can get help directly at", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $idx_contact_email; ?></a>.</p>
     <p><a href="#atospp-terms"><?php echo __("Back to top", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
   </div>
 </main>

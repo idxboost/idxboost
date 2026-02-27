@@ -84,6 +84,58 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/fonts/icons/style.css" />
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
 	-->
+	<?php 
+
+	if ($responseParms != NULL) {
+
+		$resultado = processIdxSearch($responseParms);
+		
+		$apiResponse = $resultado['api_response'];
+
+		if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
+		    $jsonData = [];
+
+		    foreach ($apiResponse['items'] as $item) {
+		        $propertyType = ($item['class_id'] == 1) ? "Apartment" : "SingleFamilyResidence";
+		        
+		        $jsonData[] = [
+		            "@context" => "https://schema.org",
+		            "@type" => $propertyType,
+		            "name" => !empty($item['address_short']) ? $item['address_short'] : $item['full_address'],
+		            "accommodationCategory" => $item['style'] ?? "Condominium",
+		            "floorSize" => [
+		                "@type" => "QuantitativeValue",
+		                "value" => $item['sqft'],
+		                "unitCode" => "FTK"
+		            ],
+		            "address" => [
+		                "@type" => "PostalAddress",
+		                "streetAddress" => $item['full_address'],
+		                "addressLocality" => isset($item['city']['name']) ? $item['city']['name'] : $item['address_large'],
+		                "addressRegion" => "FL",
+		                "postalCode" => $item['zip'],
+		                "addressCountry" => "US"
+		            ],
+		            "geo" => [
+		                "@type" => "GeoCoordinates",
+		                "latitude" => $item['lat'],
+		                "longitude" => $item['lng']
+		            ],
+		            "image" => $item['imagens'][0] ?? "",
+		            "url" => "https://tu-dominio.com" . $item['slug']
+		        ];
+		    }
+
+		    if (!empty($jsonData)) {
+		        $jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+		        echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
+		        echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
+		    }
+		} else {
+		    echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
+		}
+	}
+	?>
 
 	<div id="root-search">
 		<img 

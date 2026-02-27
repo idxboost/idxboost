@@ -65,6 +65,157 @@ if (!function_exists('title_flex_idx_new_development_detail_sc')) {
 
 }
 
+function getIdxDefaultParams($responseParms) {
+    $p = isset($responseParms['params']) ? $responseParms['params'] : [];
+    
+    $valueMap = ["1" => "condos", "2" => "homes", "tw" => "townhouse", "mf" => "multifamily", "valand" => "vacantland"];
+
+    
+    $types = [];
+    if (!empty($p['property_types']) && is_array($p['property_types'])) {
+        foreach ($p['property_types'] as $pt) {
+            if (isset($pt['checked']) && $pt['checked'] === true) {
+                $v = (string)$pt['value'];
+                $types[] = isset($valueMap[$v]) ? $valueMap[$v] : $v;
+            }
+        }
+    }
+    sort($types);
+
+    $result = [
+        "board_id"       => "1",
+        "extra_board_id" => "4,7",
+        "limit"          => "23",
+        "page"           => "0",
+        "hide_pending"   => "1",
+        "for"            => (isset($p['sale_type']) && $p['sale_type'] == "1") ? "rental" : "sale",
+        "sort"           => isset($p['sort_type']) ? (string)$p['sort_type'] : "list_date-desc",
+        "type"           => !empty($types) ? implode(',', $types) : "condos,homes,multifamily,townhouse,vacantland",
+        "polygon"        => isset($p['polygon_search']) ? (string)$p['polygon_search'] : ""
+    ];
+
+    $mapping = [
+        "min_sale_price"     => "min_price",
+        "max_sale_price"     => "max_price",
+        "min_beds"           => "min_beds",
+        "max_beds"           => "max_beds",
+        "min_baths"          => "min_baths",
+        "max_baths"          => "max_baths",
+        "min_living_size"    => "min_sqft",
+        "max_living_size"    => "max_sqft",
+        "min_lot_size"       => "min_lotsize",
+        "max_lot_size"       => "max_lotsize",
+        "min_year"           => "min_year",
+        "max_year"           => "max_year",
+        "parking_options"    => "parking",
+        "days_on_market"     => "dom_max",
+        "waterfront_options" => "wv",
+        "min_rent_price"     => "min_price",
+        "max_rent_price"     => "max_price"
+    ];
+
+    foreach ($mapping as $keyOrigin => $keyPayload) {
+        if (isset($p[$keyOrigin]) && $p[$keyOrigin] !== NULL && $p[$keyOrigin] !== "") {
+            $result[$keyPayload] = (string)$p[$keyOrigin];
+        }
+    }
+
+    if (!empty($p['amenities']) && is_array($p['amenities'])) {
+        $result["features"] = implode(',', $p['amenities']);
+    }
+
+    return $result;
+}
+
+
+if (!function_exists('processIdxSearch')) {
+    function processIdxSearch($responseParms) {
+
+        $newData = getIdxDefaultParams($responseParms);
+
+        foreach ($_GET as $key => $value) {
+            if ($value === '' || $value === null) continue;
+
+            switch ($key) {
+                case 'price':
+                case 'beds':
+                case 'baths':
+                case 'size':
+                case 'lot':
+                case 'built':
+                    $parts = explode('-', (string)$value);
+                    $m = [
+                        'price' => ['min_price', 'max_price'],
+                        'beds'  => ['min_beds', 'max_beds'],
+                        'baths' => ['min_baths', 'max_baths'],
+                        'size'  => ['min_sqft', 'max_sqft'],
+                        'lot'   => ['min_lotsize', 'max_lotsize'],
+                        'built' => ['min_year', 'max_year']
+                    ];
+                    if (isset($m[$key])) {
+                        $newData[$m[$key][0]] = (isset($parts[0])) ? (string)$parts[0] : "0";
+                        $newData[$m[$key][1]] = (isset($parts[1])) ? (string)$parts[1] : "0";
+                    }
+                    break;
+
+                case 'for':
+                    $newData['for'] = ($value === 'rent') ? 'rental' : (($value === 'sold') ? 'sold' : (string)$value);
+                    break;
+
+                case 'kw':
+                    $decoded = base64_decode(str_replace(['-', '_'], ['+', '/'], (string)$value));
+                    if ($decoded) {
+                        $newData['keyword_main'] = $decoded;
+                        unset($newData['polygon']);
+                    }
+                    break;
+
+                case 'type':
+                    $newData['type'] = str_replace(['house', 'condo'], ['homes', 'condos'], (string)$value);
+                    break;
+
+                case 'cp':      $newData['page'] = (string)$value; break;
+                case 'kw_att':  $newData['keyword'] = (string)$value; break;
+                case 'wf':      $newData['wv'] = (string)$value; break;
+                case 'att':     $newData['features'] = (string)$value; break;
+
+                default:                
+                    $newData[$key] = (string)$value;
+                    break;
+            }
+        }
+
+        $curl = curl_init();
+        $postFields = http_build_query($newData);
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api-idx-search.idxboost.com/search',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $postFields,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded'
+            ),
+            CURLOPT_SSL_VERIFYPEER => false,
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        return [
+            "payload_sent" => $newData,
+            "api_response" => ($err) ? ["error" => $err] : json_decode($response, true)
+        ];
+    }
+}
+
+
 if (!function_exists('title_flex_idx_property_detail_sc')) {
     function title_flex_idx_property_detail_sc($atts, $content = null)
     {
@@ -11123,3 +11274,26 @@ function insert_assets_head_dinamic_forms_sell_rent_buy()
 
 
 }
+
+
+
+function insert_assets_head_off_market_collection_sc()
+{
+    global $flex_idx_info, $post;
+
+    $content = $post->post_content;
+
+    if (has_shortcode($content, 'off_market_collection')) {
+
+        idxboost_print_vite_assets([
+            'distDir' => ib_get_idx_path() . 'react/off-markets/dist/',
+            'distUrl' => FLEX_IDX_URI . 'react/off-markets/dist/',
+            'iconCssUrl' => FLEX_IDX_URI . 'react/off-markets/fonts/icons/style.min.css?ver=' .
+            iboost_get_mod_time('react/off-markets/fonts/icons/style.min.css')
+        ]);
+
+        add_action('wp_footer', 'idxboost_remove_conflicting_scripts', 9999);
+
+    }
+}
+
