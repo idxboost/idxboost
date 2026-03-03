@@ -107,7 +107,7 @@
     <p><?php echo __("Carriers are not liable for delayed or undelivered messages", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
     <p><?php echo __("As always, message and data rates may apply for any messages sent to you from us and to us from you. Message frequency may vary. If you have any questions about your text plan or data plan, it is best to contact your wireless provider", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
     <p><?php echo __("To opt out, you can reply “stop” at any time or click the unsubscribe link in the emails", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
-    <p><?php echo __("You can cancel the SMS service at any time. Just text "STOP". After you send the SMS message "STOP" to us, we will send you an SMS message to confirm that you have been unsubscribed. After this, you will no longer receive SMS messages from us. If you want to join again, just sign up as you did the first time, and we will start sending SMS messages to you again", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
+    <p><?php echo __("You can cancel the SMS service at any time. Just text “stop”. After you send the SMS message “stop” to us, we will send you an SMS message to confirm that you have been unsubscribed. After this, you will no longer receive SMS messages from us. If you want to join again, just sign up as you did the first time, and we will start sending SMS messages to you again", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
   </div>
 
   <div id="how-do-we-share-your-personal-information">
@@ -166,4 +166,5 @@
     <p><a href="#atospp-terms"><?php echo __("Back to top", IDXBOOST_DOMAIN_THEME_LANG); ?></a></p>
   </div>
 </main>
+
 <?php } ?>
