@@ -21,8 +21,23 @@ if ( ! is_wp_error( $response ) && $response_code === 200 ) {
     
     $body = json_decode( wp_remote_retrieve_body( $response ), true );
     
-    if ( isset( $body['content'] ) && ! empty( $body['content'] ) ) {        
+    if ( isset( $body['content'] ) && ! empty( $body['content'] ) ) {
+        // Guard against $post being null (e.g. when homepage is set to "latest posts")
+        if ( is_null( $post ) ) {
+            $post = new WP_Post( (object) array(
+                'ID'             => 0,
+                'post_content'   => '',
+                'post_title'     => '',
+                'post_type'      => 'page',
+                'post_status'    => 'publish',
+                'comment_status' => 'closed',
+                'ping_status'    => 'closed',
+                'post_name'      => 'idxboost-cms-page-home',
+                'filter'         => 'raw',
+            ) );
+        }
         $post->post_content = idx_page_shortcode_render( $body['content'] );
+        setup_postdata( $post );
     } else {
         idxboost_cms_page_under_construction();
         exit();
