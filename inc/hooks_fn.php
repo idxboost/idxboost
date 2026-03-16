@@ -136,6 +136,10 @@ add_action('wp_ajax_nopriv_flex_idx_lead_signup', 'flex_lead_signup_xhr_fn');
 add_action('wp_ajax_flex_idx_lead_signin', 'flex_lead_signin_xhr_fn');
 add_action('wp_ajax_nopriv_flex_idx_lead_signin', 'flex_lead_signin_xhr_fn');
 
+add_action('wp_ajax_flex_idx_lead_email_signin', 'flex_lead_email_signin_xhr_fn');
+add_action('wp_ajax_nopriv_flex_idx_lead_email_signin', 'flex_lead_email_signin_xhr_fn');
+
+
 // lead logout
 add_action('wp_ajax_flex_idx_lead_logout', 'flex_lead_logout_xhr_fn');
 add_action('wp_ajax_nopriv_flex_idx_lead_logout', 'flex_lead_logout_xhr_fn');
@@ -246,7 +250,8 @@ add_action('admin_init', 'flex_idx_register_settings_configuration_fn');
 // setup initial post types
 add_action('init', 'flex_idx_posttype_pages_fn');
 
-add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
+//add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
+add_action('wp_head', 'idxboost_autologin_alerts_fn', 25);
 
 // Disable Open Graph meta on AMP pages
 add_filter('aioseop_enable_amp_social_meta', '__return_false');

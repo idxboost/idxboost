@@ -2175,6 +2175,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['has_generate_schema'] = isset($idxboost_agent_info['has_generate_schema']) ? $idxboost_agent_info['has_generate_schema'] : '';
             $output['agent']['has_smart_property_alerts'] = isset($idxboost_agent_info['has_smart_property_alerts']) ? $idxboost_agent_info['has_smart_property_alerts'] : '';
             $output['agent']['idx_v'] = isset($idxboost_agent_info['idx_v']) ? $idxboost_agent_info['idx_v'] : '';
+            $output['agent']['autologin_docket'] = isset($idxboost_agent_info['autologin_docket']) ? $idxboost_agent_info['autologin_docket'] : '';
             $output['agent']['ia_search'] = isset($idxboost_agent_info['ia_search']) ? $idxboost_agent_info['ia_search'] : '0';
             $output['agent']['has_cms_form'] = isset($idxboost_agent_info['has_cms_form']) ? $idxboost_agent_info['has_cms_form'] : '';
             $output['agent']['has_cms_team'] = isset($idxboost_agent_info['has_cms_team']) ? $idxboost_agent_info['has_cms_team'] : '';
@@ -3088,6 +3089,102 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         exit;
     }
 }
+
+
+if (!function_exists('flex_lead_email_signin_xhr_fn')) {
+    function flex_lead_email_signin_xhr_fn()
+    {
+        $access_token = flex_idx_get_access_token();
+        $username = isset($_POST['user_name']) ? sanitize_text_field($_POST['user_name']) : '';
+        $logon_type = isset($_POST['logon_type']) ? trim($_POST['logon_type']) : '';
+        $user_info = isset($_POST['user_info']) ? $_POST['user_info'] : null;
+        $ip_address = get_client_ip_server();
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
+        $url_origin = isset($_SERVER['HTTP_HOST']) ? trim(strip_tags($_SERVER['HTTP_HOST'])) : '';
+        $window_width = isset($_POST["window_width"]) ? (int)$_POST["window_width"] : 0;
+        $signup_price = isset($_POST["__property_signup_price"]) ? (int)$_POST["__property_signup_price"] : 0;
+
+        $source_registration_title = isset($_POST['source_registration_title']) ? trim($_POST['source_registration_title']) : '';
+        $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
+        $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
+        $ib_tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+
+        // Verificar el nonce
+        if (!check_ajax_referer('ajax_nonce', 'security', false)) {
+            wp_send_json([
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
+            ]);
+        }
+
+        $sendParams = array(
+                'access_token' => $access_token,
+                'logon_type' => $logon_type,
+                'email' => $username,
+                'user_info' => $user_info,
+                'ip_address' => $ip_address,
+                'user_agent' => $user_agent,
+                'url_origin' => $url_origin,
+                'signup_price' => $signup_price,
+                'source_registration_title' => $source_registration_title,
+                'source_registration_url' => $source_registration_url,
+                'registration_key' => $registration_key,
+                "ib_tags" => $ib_tags
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_AUTOLOGIN);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($server_output, true);
+        $flex_idx_lead = is_flex_user_logged_in();
+        $my_flex_pages = flex_user_list_pages();
+        ob_start();
+        if (!isset($response["first_name"])) {
+            $response["first_name"] = isset($user_info["first_name"]) ? strip_tags($user_info["first_name"]) : "";
+        }
+
+        // if ($window_width < 640) {
+        ?>
+        <li class="login show_modal_login_active">
+            <a href="javascript:void(0)"
+               rel="nofollow"><?php echo __('Welcome', IDXBOOST_DOMAIN_THEME_LANG) . "&nbsp;"; ?><?php echo $response["first_name"]; ?></a>
+            <div class="menu_login_active">
+                <?php if (!empty($my_flex_pages)) : ?>
+                    <ul>
+                        <?php foreach ($my_flex_pages as $my_flex_page) : ?>
+                            <li>
+                                <a href="<?php echo $my_flex_page['permalink']; ?>"><?php echo $my_flex_page['post_title']; ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                        <li><a href="#" class="flex-logout-link" id="flex-logout-link"
+                               rel="nofollow"><?php echo __('Logout', IDXBOOST_DOMAIN_THEME_LANG); ?></a></li>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        </li>
+        <?php
+        // }
+
+        $response_html = ob_get_clean();
+
+        $response["output"] = $response_html;
+
+        $response["last_logged_in_username"] = $username;
+        if (empty($response["last_logged_in_username"])) {
+            $response["last_logged_in_username"] = (!empty($user_info) && isset($user_info["email"])) ? $user_info["email"] : "";
+        }
+        wp_send_json($response);
+        exit;
+    }
+}
+
 
 if (!function_exists('get_flex_idx_search_settings')) {
     function get_flex_idx_search_settings()
@@ -4486,6 +4583,7 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim(strip_tags($_SERVER['HTTP_USER_AGENT'])) : '';
         $registration_key = isset($_POST['registration_key']) ? $_POST['registration_key'] : '';
         $type_filter = isset($_POST['type_filter']) ? trim($_POST['type_filter']) : "search_filter";
+        $index_boards = isset($_POST['index_boards']) ? trim($_POST['index_boards']) : "";
 
         $board_id = $flex_idx_info['board_id'];
         if (empty($board_id)) $board_id = 1;
@@ -4536,6 +4634,8 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
                         'search_name' => $search_name,
                         'search_type' => 'search_filter',
                         'q' => $search_query_alert,
+                        'params' => $search_filter_params,
+                        'index_boards' => $index_boards,
                         'notify_criteria' => json_encode($notification_type),
                         'listings' => json_encode($notification_type),
                         'board' => $board_id,

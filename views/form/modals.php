@@ -218,18 +218,39 @@ if ($disclaimer_checked == "1") {
                     <legend><?php echo __('Register', IDXBOOST_DOMAIN_THEME_LANG); ?></legend>                <input type="hidden" name="ib_tags" id="formLogin_ib_tags" value="">
                   <input type="hidden" name="window_width" class="formRegister_windowWidth" value="">
                   <input type="hidden" name="logon_type" value="email">
+                    <?php  if ( 
+                      !isset($idxboost_agent_info["autologin_docket"]) || 
+                      (
+                        isset($idxboost_agent_info["autologin_docket"]) && $idxboost_agent_info["autologin_docket"] != "1"
+                      )
+                  ){ ?>
                   <input name="action" type="hidden" value="flex_idx_lead_signin">
+                <?php } ?>
+
+            <?php  if ( 
+                      !isset($idxboost_agent_info["autologin_docket"]) || 
+                      (
+                        isset($idxboost_agent_info["autologin_docket"]) && $idxboost_agent_info["autologin_docket"] == "1"
+                      )
+                  ){ ?>
+                  <input name="action" type="hidden" value="flex_idx_lead_email_signin">
+                <?php } ?>
+
+
                   <input type="hidden" name="security" value="<?php echo wp_create_nonce('ajax_nonce'); ?>">
                   <ul class="form_md" id="cntLoginForm">
                     <li class="form_input">
                       <label for="txt_user"><?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <input id="txt_user" autocomplete="disabled" autocorrect="off" autocapitalize="off" spellcheck="false" name="user_name" placeholder="<?php echo __('Enter email', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="email" value="">
                     </li>
+
                     <li class="form_input">
                       <label for="txt_pwd"><?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?></label>
                       <input id="txt_pwd" name="user_pass" autocomplete="new-password" placeholder="<?php echo __('Enter password', IDXBOOST_DOMAIN_THEME_LANG); ?>" required type="password" value="">
                       <span action="hide" class="showpassord"></span>
                     </li>
+            
+
                   </ul>
                   <button class="btn_form" id="clidxboost-btn-user-login" type="submit"><?php echo __('Continue with email', IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                 </fieldset>

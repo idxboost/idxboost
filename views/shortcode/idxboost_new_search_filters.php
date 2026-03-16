@@ -150,6 +150,19 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	</div>
 
 	<script>
+
+		function getCleanHref(search_url){
+		  const url = new URL(window.location.href);
+
+		  for (const param of TRACKING_PARAMS) {
+		    console.log("param excluded:", param);
+
+		    url.searchParams.delete(param);
+		  }
+
+		  return url.toString();
+		}
+
 		function saveFilterSearchForLead() {
 			var search_url = location.href;
 			
@@ -180,7 +193,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 						search_wp_web_id: window.idx_main_settings.wp_web_id,
 						flex_credentials: Cookies.get("ib_lead_token"),
 						search_filter_id: search_filter_ID,
-						search_url: search_url,
+						search_url: getCleanHref(search_url),
 						search_count: search_count,
 						search_condition: search_condition,
 						index_boards: search_filter_index_boards,
