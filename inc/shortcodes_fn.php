@@ -6129,7 +6129,16 @@ if (!function_exists('off_market_collection_sc')) {
 
         $atts = shortcode_atts(array(
             'name' => '',
-            'sort' => 'price-desc'
+            'sort' => 'price-desc',
+            'mode' => 'all_items',
+            'group_code' => '',
+            'items_per_page' => '12',
+            'view' => 'grid',
+            'filters' => 'false',
+            'pagination' => 'true',
+            'status' => 'all',
+            'slider' => 'false',
+            'event' => ''
         ), $atts);
 
         ob_start();

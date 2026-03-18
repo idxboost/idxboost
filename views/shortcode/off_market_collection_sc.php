@@ -17,9 +17,20 @@ $idxboost_search_settings = get_option('idxboost_search_settings');
 		//var_dump($force_registration_forced);
 		?>
 
-		window.idx_main_settings = {
+		window.idx_off_markets_settings = {
 			paths: '<?php echo FLEX_IDX_URI."react/off-markets/"; ?>',
 			active_ai : '<?php echo $ia_search; ?>',
+
+			mode  : '<?php echo $atts['mode']; ?>',
+            group_code  : '<?php echo $atts['group_code']; ?>',
+            items_per_page  : '<?php echo $atts['items_per_page']; ?>',
+            view  : '<?php echo $atts['view']; ?>',
+            filters  : '<?php echo $atts['filters']; ?>',
+            pagination  : '<?php echo $atts['pagination']; ?>',
+            status  : '<?php echo $atts['status']; ?>',
+            slider  : '<?php echo $atts['slider']; ?>',
+            event  : '<?php echo $atts['event']; ?>',
+
 			force_registration: Boolean(<?php echo $force_registration; ?>),
 			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
 			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,

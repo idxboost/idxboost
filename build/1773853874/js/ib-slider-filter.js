@@ -317,7 +317,7 @@
       } else {
         html_response.push('<div class="flex-property-new-listing">' + word_translate.new_listing + '</div>');
       }
-    } else if (1 != info_item.status) {
+    } else if (info_item.hasOwnProperty("status_name") && 1 != info_item.status && info_item.status != null ) {
       html_response.push('<div class="flex-property-new-listing">' + info_item.status_name + '</div>');
     }
 
