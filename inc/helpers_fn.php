@@ -706,10 +706,19 @@ if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                    'code' => 'invalid_security_token',
-                    'message' => 'Invalid or expired security token. Please reload the page.',
-                    'action' => 'reload_required'
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
             ]);
+        }
+
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                'code' => 'missing_recaptcha_field',
+                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                'action' => 'reload_required'
+            ], 400);
+            exit;
         }
 
         $ch = curl_init();
@@ -758,10 +767,19 @@ if (!function_exists('ib_lead_submission_rent_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                    'code' => 'invalid_security_token',
-                    'message' => 'Invalid or expired security token. Please reload the page.',
-                    'action' => 'reload_required'
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
             ]);
+        }
+
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                'code' => 'missing_recaptcha_field',
+                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                'action' => 'reload_required'
+            ], 400);
+            exit;
         }
 
         $ch = curl_init();
@@ -810,10 +828,19 @@ if (!function_exists('ib_lead_submission_sell_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                    'code' => 'invalid_security_token',
-                    'message' => 'Invalid or expired security token. Please reload the page.',
-                    'action' => 'reload_required'
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
             ]);
+        }
+
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                'code' => 'missing_recaptcha_field',
+                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                'action' => 'reload_required'
+            ], 400);
+            exit;
         }
 
         $ch = curl_init();
@@ -1496,6 +1523,16 @@ if (!function_exists('flex_share_with_friend_xhr_fn')) {
             $sendParams['data']['mls_num'] = $mls_num;
             $sendParams['data']['type_property'] = $type_property;
         }
+
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                'code' => 'missing_recaptcha_field',
+                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                'action' => 'reload_required'
+            ], 400);
+            exit;
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SHARE_TO_FRIEND);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -5672,6 +5709,16 @@ if (!function_exists('flex_idx_request_property_form_fn')) {
             ]);
         }
 
+        // Verificar recaptcha
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
+            ], 400);
+            exit;
+        }
+
         $ch = curl_init();
         $endpointinquire = FLEX_IDX_API_INQUIRY_PROPERTY_FORM;
         if (!empty($flex_idx_type_form))
@@ -5784,6 +5831,16 @@ if (!function_exists('idxboost_contact_inquiry_fn')) {
             ]);
         }
 
+        // Verificar recaptcha
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
+            ], 400);
+            exit;
+        }
+
         $sendParams = array(
                 'ib_tags' => $tags,
                 'recaptcha_response' => $recaptcha_response,
@@ -5875,10 +5932,20 @@ if (!function_exists('flex_idx_request_website_building_form_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                    'code' => 'invalid_security_token',
-                    'message' => 'Invalid or expired security token. Please reload the page.',
-                    'action' => 'reload_required'
+                'code' => 'invalid_security_token',
+                'message' => 'Invalid or expired security token. Please reload the page.',
+                'action' => 'reload_required'
             ]);
+        }
+
+        // Verificar recaptcha
+        if (!$recaptcha_response) {
+            wp_send_json_error([
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
+            ], 400);
+            exit;
         }
 
         $ch = curl_init();

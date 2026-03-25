@@ -2458,6 +2458,8 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $address_slug = str_replace(" " . $zipcodeAddress, ", $zipcodeAddress", $address_slug);
         }
 
+        $extra_boards_implode = implode(",", $flex_idx_info['agent']['extra_boards']);
+
         $slug_search = "{$slug}";
         if ($type_lookup != "active") {
             $slug_search = str_replace("{$type_lookup}-", "", $slug);
@@ -2647,7 +2649,9 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             if ( $type_lookup == "sold" ) {
                 $sendParamsnewSearch = ['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'], 'for' => 'sold' ];
             }else{
-                $sendParamsnewSearch = ['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'] ];
+                $sendParamsnewSearch = ['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'], 'extra_board_id' => 
+                $extra_boards_implode
+                 ];
             }
 
             $ch = curl_init();
@@ -2690,7 +2694,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
                 curl_setopt($ch, CURLOPT_URL, ($idx_v == "1") ? FLEX_IDX_API_PROPERTY_DETAIL_V2 : FLEX_IDX_API_LOOKUP );
 
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, ($idx_v == "1") ? json_encode(['for' => 'sold' ,'mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'] ]) : http_build_query($sendParams)  );
+                curl_setopt($ch, CURLOPT_POSTFIELDS, ($idx_v == "1") ? json_encode(['for' => 'sold' ,'mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id'], 'extra_board_id' => $extra_boards_implode ]) : http_build_query($sendParams)  );
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
                 if ($idx_v == "1") {
@@ -6086,7 +6090,7 @@ if (!function_exists('dashtodash_sc')) {
 if (!function_exists('idx_sell_rent_dinamic_forms_sc')) {
     function idx_sell_rent_dinamic_forms_sc($atts, $content = null)
     {
-        //global $flex_idx_info,$wpdb;
+        global $flex_idx_info,$wpdb;
 
         $atts = shortcode_atts(array(
             'type' => '',
