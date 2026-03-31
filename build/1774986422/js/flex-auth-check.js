@@ -3962,6 +3962,34 @@ jQuery(function() {
 						jQuery("#__quizz_cancel_on_fb").removeClass("ib-active");
 						jQuery("#__quizz_type_phone_ct").addClass("ib-active");
 						jQuery("#ib-push-registration-quizz-ct").addClass("ib-md-pa ib-md-active");
+						// FIX: restaurar el codigo de pais - setTimeout para esperar que iti termine de inicializarse
+						setTimeout(function() {
+							var quizzPhoneInput = jQuery("#__signup_fb_phone");
+							if (quizzPhoneInput.length) {
+								var quizzDataId = quizzPhoneInput.closest(".iboost-form-validation-loaded").attr("data-id");
+								if (quizzDataId && typeof iti !== "undefined" && iti[quizzDataId]) {
+									var savedPhone = Cookies.get("_ib_user_new_phone_number");
+									if (savedPhone && savedPhone !== "null" && savedPhone !== "") {
+										iti[quizzDataId].setNumber(savedPhone);
+										quizzPhoneInput.removeClass("ms-input-error");
+									} else {
+										var _qId = quizzDataId;
+										var _qInput = quizzPhoneInput;
+										if (typeof __flex_g_settings !== "undefined" && __flex_g_settings.api_get_ip_lead) {
+											fetch(__flex_g_settings.api_get_ip_lead, { method: 'POST' })
+												.then(function(res) { return res.json(); })
+												.then(function(data) {
+													var country = (data && data.country) ? data.country.toLowerCase() : 'us';
+													if (iti[_qId]) { try { iti[_qId].setCountry(country); } catch(e) {} }
+													_qInput.removeClass("ms-input-error");
+												}).catch(function() { _qInput.removeClass("ms-input-error"); });
+										} else {
+											_qInput.removeClass("ms-input-error");
+										}
+									}
+								}
+							}
+						}, 900);
 					}
 				}
 			}

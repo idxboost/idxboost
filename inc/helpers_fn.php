@@ -862,7 +862,13 @@ if (!function_exists('ib_register_quizz_save_fn')) {
     {
         $response = [];
         $access_token = flex_idx_get_access_token();
-        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+        
+        //$flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) && !empty($_COOKIE['ib_lead_token'])
+		? $_COOKIE['ib_lead_token']
+		: (isset($_POST['ib_lead_token']) ? sanitize_text_field($_POST['ib_lead_token']) : '');
+
         $ch = curl_init();
         $timeline_for_purchase = isset($_POST["timeline_for_purchase"]) ? $_POST["timeline_for_purchase"] : "";
         $mortgage_approved = isset($_POST["mortgage_approved"]) ? $_POST["mortgage_approved"] : "";
@@ -2549,6 +2555,9 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                                         <?php if (!empty($encode_token)) { ?>
                                         Cookies.set("_ib_left_click_force_registration", 0);
                                         Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>");
+										Cookies.set("_ib_user_phone",            idx_info_lead.phone_number);
+										Cookies.set("_ib_user_code_phone",       idx_info_lead.country_code_phone);
+										Cookies.set("_ib_user_new_phone_number", "+" + phoneCode + phone);
                                         <?php
                                         $_COOKIE['ib_lead_token'] = $encode_token;
                                         } ?>
@@ -7489,8 +7498,10 @@ if (!function_exists('flex_idx_register_assets')) {
                 'version' => $idx_v,
                 'events' => [
                         'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS,
-                        'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS
+                        'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS,
+						'quizzSaveUrl' => admin_url('admin-ajax.php')
                 ],
+			
                 'api_service_collections' => FLEX_IDX_API_COLLECTIONS,
                 'domain_service' => FLEX_IDX_BASE_URL,
                 'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,

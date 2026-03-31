@@ -250,8 +250,8 @@ add_action('admin_init', 'flex_idx_register_settings_configuration_fn');
 // setup initial post types
 add_action('init', 'flex_idx_posttype_pages_fn');
 
-//add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
-add_action('wp_head', 'idxboost_autologin_alerts_fn', 25);
+add_action('wp_footer', 'idxboost_autologin_alerts_fn', 25);
+//add_action('wp_head', 'idxboost_autologin_alerts_fn', 25);
 
 // Disable Open Graph meta on AMP pages
 add_filter('aioseop_enable_amp_social_meta', '__return_false');

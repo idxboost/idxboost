@@ -1385,6 +1385,7 @@ $(function() {
 
       $("#__quizz_type_phone_ct").hide().removeClass("ib-active");
       $("#__quizz_type_phone_ct").next().addClass("ib-active");
+	  return;
     }
 
     var firstNameField = $("#agilefield-6").val().trim();
@@ -1452,7 +1453,8 @@ $(function() {
         });
       }
     } else {
-      if (true === IS_CUSTOM_SIGNUP) {
+		var isAlreadyLoggedIn = (__flex_g_settings.anonymous === "no");
+      if (true === IS_CUSTOM_SIGNUP || isAlreadyLoggedIn) {
           $("#ib-register-form-quizz").submit();
           $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
           swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
@@ -3125,7 +3127,7 @@ $(function() {
 
         var codePhone = jQuery("#ib-register-form-quizz").find(".country_code").val();
         var codePhoneClean = codePhone.replace(/ /g, "");
-        var numberPhone = jQuery("#ib-register-form-quizz").find("#__signup_fb_phone").val();
+        var numberPhone = jQuery("#ib-register-form-quizz").find('input[type="tel"]').val();
         var numberPhoneClean = numberPhone.replace(/ /g, "");
         var phoneRegisterQuizz = codePhoneClean.trim()+numberPhoneClean.trim();
 
@@ -3203,14 +3205,17 @@ $(function() {
         }
       }
 
-      $.ajax({
-        url: __flex_g_settings.ajaxUrl,
-        method: "POST",
-        data: dataForm,
-        dataType: "json",
-        success: function(data) {
-        }
-      });
+      var ibLeadToken = Cookies.get("ib_lead_token") ||
+		  (typeof __flex_g_settings !== "undefined" && __flex_g_settings.ib_lead_token
+		   ? __flex_g_settings.ib_lead_token : "");
+
+		$.ajax({
+			url: __flex_g_settings.ajaxUrl,
+			method: "POST",
+			data: dataForm + "&ib_lead_token=" + encodeURIComponent(ibLeadToken),
+			dataType: "json",
+			success: function(data) {}
+		});
 
     });
 
