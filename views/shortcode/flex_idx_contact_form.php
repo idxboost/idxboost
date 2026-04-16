@@ -2,6 +2,7 @@
 
 global $flex_idx_info;
 $requiredPhoneNumber = "";
+$checkboxFUB = "position:absolute; overflow:hidden; height:0; width:0; opacity: 0";
 if (
   isset($flex_idx_info['agent']['phone_number_required']) &&
     (
@@ -10,6 +11,7 @@ if (
     )
   ) {
   $requiredPhoneNumber = "required";
+  $checkboxFUB = "";
 }
 
 ?>
@@ -117,7 +119,7 @@ if (
 
             <li class="form-item pt-phone">
                 <label class="ms-hidden" for="for_user_phone">
-                    <?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?> *
+                    <?php echo __("Phone", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php if (!empty($requiredPhoneNumber)) { echo "*"; } ?> 
                 </label>
                 <input class="medium <?php echo $requiredPhoneNumber; ?>" id="for_user_phone"
                     name="phone" type="tel" value="" <?php echo $requiredPhoneNumber; ?>
@@ -166,8 +168,8 @@ if (
             <?php if (($idxboost_agent_info["show_opt_in_message"])) : ?>
             <li class="form-item full-item gfield fub">
                 <div class="ms-flex-chk-ub">
-                    <div class="ms-item-chk">
-                        <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
+                    <div class="ms-item-chk" style="<?php echo $checkboxFUB; ?>">
+                        <input type="checkbox" id="follow_up_boss_valid" <?php echo $requiredPhoneNumber; ?> <?php echo $checked; ?>>
                         <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                     </div>
 

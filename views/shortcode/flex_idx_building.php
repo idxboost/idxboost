@@ -167,6 +167,7 @@ if (!empty($latAlternative) && !empty($lngAlternative)) {
 }
 
 $requiredPhoneNumber = "";
+$checkboxFUB = "position:absolute; overflow:hidden; height:0; width:0; opacity: 0";
 if (
   isset($flex_idx_info['agent']['phone_number_required']) &&
     (
@@ -175,6 +176,7 @@ if (
     )
   ) {
   $requiredPhoneNumber = "required";
+  $checkboxFUB = "";
 }
 ?>
 
@@ -1015,8 +1017,8 @@ if (
                             <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                             <li class="gfield fub">
                               <div class="ms-flex-chk-ub">
-                                <div class="ms-item-chk">
-                                  <input type="checkbox" id="follow_up_boss_valid" required <?php echo $checked; ?>>
+                                <div class="ms-item-chk" style="<?php echo $checkboxFUB; ?>">
+                                  <input type="checkbox" id="follow_up_boss_valid" <?php echo $requiredPhoneNumber; ?> <?php echo $checked; ?>>
                                   <label for="follow_up_boss_valid" aria-label="Follow Up Boss"></label>
                                 </div>
                                 <div class="ms-fub-disclaimer">
@@ -1278,8 +1280,8 @@ if (
                         <?php if ( ($idxboost_agent_info["show_opt_in_message"]) ) {  ?>
                         <li class="gfield fub">
                           <div class="ms-flex-chk-ub">
-                            <div class="ms-item-chk">
-                              <input type="checkbox" id="follow_up_boss_valid_" required <?php echo $checked; ?>>
+                            <div class="ms-item-chk" style="<?php echo $checkboxFUB; ?>">
+                              <input type="checkbox" id="follow_up_boss_valid_" <?php echo $requiredPhoneNumber; ?> <?php echo $checked; ?>>
                               <label for="follow_up_boss_valid_" aria-label="Follow Up Boss"></label>
                             </div>
                             <div class="ms-fub-disclaimer">

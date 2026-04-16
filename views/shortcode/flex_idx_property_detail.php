@@ -2485,6 +2485,8 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                                     <?php 
                                                     
                                                         $requiredPhoneNumber = "";
+                                                        $checkboxFUB = "position:absolute; overflow:hidden; height:0; width:0; opacity: 0";
+
                                                         if (
                                                         isset($flex_idx_info['agent']['phone_number_required']) &&
                                                             (
@@ -2493,6 +2495,7 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                                             )
                                                         ) {
                                                         $requiredPhoneNumber = "required";
+                                                        $checkboxFUB = "";
                                                         }
                                                         
                                                     ?>
@@ -2516,9 +2519,9 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                             <?php if (($idxboost_agent_info["show_opt_in_message"])) { ?>
                                                 <li class="gfield fub">
                                                     <div class="ms-flex-chk-ub">
-                                                        <div class="ms-item-chk">
+                                                        <div class="ms-item-chk" style="<?php echo $checkboxFUB; ?>">
                                                             <input type="checkbox" id="follow_up_boss_valid"
-                                                                   required <?php echo $checked; ?>>
+                                                                   <?php echo $requiredPhoneNumber; ?> <?php echo $checked; ?>>
                                                             <label for="follow_up_boss_valid"
                                                                    aria-label="Follow Up Boss"></label>
                                                         </div>

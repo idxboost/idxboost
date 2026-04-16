@@ -8485,7 +8485,7 @@ function insert_assets_head_new_search_filter()
             <script type="module" crossorigin
                     src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.js'); ?>"></script>
             <link rel="stylesheet"
-                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.css?ver=' . iboost_get_mod_time('react/shortcode_slider/fonts/icons/style.css'); ?>"/>
+                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.min.css?ver=' . iboost_get_mod_time('react/shortcode_slider/fonts/icons/style.min.css'); ?>"/>
             <link rel="stylesheet"
                   href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.css'); ?>"/>
             <?php
