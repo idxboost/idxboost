@@ -926,6 +926,11 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                             <button class="ib-active-float-form"><?php echo __("Contact Agent", IDXBOOST_DOMAIN_THEME_LANG); ?></button>
                         </div>
                     </div>
+                    <?php if ($flex_idx_info["board_id"] == "43"){ ?>
+                        <div class="ms-detail-listing-courtesy">
+                            <p>Listing courtesy of: Rsident Realty. tel: <a href="tel:<?php echo $property["phone_office"];?>"><?php echo $property["phone_office"];?></a> | <?php echo $property["office_name"]; ?></p>
+                        </div>
+                    <?php } ?>
                     <div class="main-content">
                         <!--
             <div class="ib-wrapper-top-map -btn-mp">
@@ -1276,17 +1281,21 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                         }
 
                                         ?>
+                                        <?php if ($property["adom"] >= 0) { ?>
                                         <li class="icon-time">
                                             <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt"><?php echo $days_on_market_value; ?></span>
                                         </li>
+                                        <?php } ?>
                                     <?php } ?>
 
                                     <?php if (!empty($property['days_market'])) { ?>
+                                        <?php if ($property["adom"] >= 0) { ?>
                                         <li class="icon-time">
                                             <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt"><?php echo $property['days_market']; ?></span>
                                         </li>
+                                        <?php } ?>
                                     <?php } ?>
 
                                     <?php if (($flex_idx_info["board_id"] == "36") && (!empty($property["more_info"]) && array_key_exists("county", $property["more_info"]))) { ?>

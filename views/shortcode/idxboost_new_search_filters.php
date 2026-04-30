@@ -1,9 +1,8 @@
 <?php 
-if (is_array($responseParms) && count($responseParms) > 0) { 
+if (is_array($responseParms) && count($responseParms) > 0) {
 	?>
 	<script>
 		var temp_mode = '<?php echo $atts["mode"]; ?>';
-		//var IB_IS_SEARCH_FILTER_PAGE = <?php echo ( is_array($atts) && array_key_exists("mode",$atts) && $atts["mode"] != "slider") ? true : false; ?>;
 		var IB_IS_SEARCH_FILTER_PAGE = temp_mode != "slider" ? true : false;
 		var IB_SEARCH_FILTER_PAGE = true;
 		var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
@@ -17,7 +16,7 @@ if (is_array($responseParms) && count($responseParms) > 0) {
 			}
 		});
 	</script>
-	<?php  
+	<?php
 }
 
 $idxboost_search_settings = get_option('idxboost_search_settings');
@@ -40,23 +39,27 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		};
 
 		window.idx_main_settings = {
+			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
 			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
-			mode : '<?php echo $atts["mode"]; ?>',
+			mode: '<?php echo $atts["mode"]; ?>',
 			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
-			oh : '<?php echo $atts["oh"]; ?>',
-			link : '<?php echo $atts["link"]; ?>',
-			title : '<?php echo $atts["title"]; ?>',
-			gallery : '<?php echo $atts["gallery"]; ?>',
-			name_button : '<?php echo $atts["name_button"]; ?>',
-			slider_item : '<?php echo $atts["slider_item"]; ?>',
-			limit : '<?php echo $atts["limit"]; ?>',
-			saveListings : '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
-			rk : '<?php echo get_option('flex_idx_alerts_keys'); ?>',
-			wp_web_id : '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
-			active_ai : '<?php echo $ia_search; ?>',
+			oh: '<?php echo $atts["oh"]; ?>',
+			link: '<?php echo $atts["link"]; ?>',
+			title: '<?php echo $atts["title"]; ?>',
+			gallery: '<?php echo $atts["gallery"]; ?>',
+			name_button: '<?php echo $atts["name_button"]; ?>',
+			slider_item: '<?php echo $atts["slider_item"]; ?>',
+			limit: '<?php echo $atts["limit"]; ?>',
+			saveListings: '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
+			rk: '<?php echo get_option('flex_idx_alerts_keys'); ?>',
+			wp_web_id: '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
+			active_ai: '<?php echo $ia_search; ?>',
 			force_registration: Boolean(<?php echo $force_registration; ?>),
 			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
 			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
+			access_token:"<?php echo $api_idx_access_token; ?>",
+			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
 
 			search_settings: <?php
 			if ( !empty($atts["filter_id"]) )
@@ -64,13 +67,12 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			else
 				echo json_encode($idxboost_search_settings); ?>,
 			
-			//search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
-			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
-			access_token:"<?php echo $api_idx_access_token; ?>",
-			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>
+			additional_tags: <?php echo json_encode(empty($atts['tags']) 
+				? [] 
+				: array_map('trim', explode(',', $atts['tags']))); ?>
 		}	
 		
-		window.idxtoken="<?php echo $access_token_service; ?>";
+		window.idxtoken = "<?php echo $access_token_service; ?>";
 		<?php 
 			if ( is_array($responseParms) && count($responseParms) > 0) {
 				echo 'window.paramsMapSearch = '. json_encode($responseParms);
@@ -84,16 +86,18 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/fonts/icons/style.css" />
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
 	-->
-	<?php 
+	<?php
+if ($responseParms != NULL) {
 
-	if ($responseParms != NULL) {
+	$resultado = processIdxSearch($responseParms);
+	$apiResponse = $resultado['api_response'];
 
-		$resultado = processIdxSearch($responseParms);
-		
-		$apiResponse = $resultado['api_response'];
+	if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
+		$jsonData = [];
 
 		if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
 		    $jsonData = [];
+		    $baseUrl = get_site_url();
 
 		    foreach ($apiResponse['items'] as $item) {
 		        $propertyType = ($item['class_id'] == 1) ? "Apartment" : "SingleFamilyResidence";
@@ -122,7 +126,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		                "longitude" => $item['lng']
 		            ],
 		            "image" => $item['imagens'][0] ?? "",
-		            "url" => "https://tu-dominio.com" . $item['slug']
+		            "url" => $baseUrl  . '/' .  $item['slug']
 		        ];
 		    }
 
@@ -134,7 +138,16 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		} else {
 		    echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
 		}
+
+		if (!empty($jsonData)) {
+			$jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+			echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
+			echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
+		}
+	} else {
+		echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
 	}
+}
 	?>
 
 	<div id="root-search">
@@ -156,7 +169,6 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 
 		  for (const param of TRACKING_PARAMS) {
 		    console.log("param excluded:", param);
-
 		    url.searchParams.delete(param);
 		  }
 

@@ -268,7 +268,7 @@ if ($disclaimer_checked == "1") {
                         ?>
                         <p>
                             <?php
-                            $tzName = $property['board_info']['tz_name'];
+                            $tzName = !empty($flex_idx_info['board_info']['tz_name']) ? $flex_idx_info['board_info']['tz_name'] : 'UTC';
                             $timezone = new DateTimeZone($tzName);
 
                             $dt = new DateTime('now', $timezone);
@@ -281,8 +281,8 @@ if ($disclaimer_checked == "1") {
 
                             $company_name = isset($idxboost_term_condition["company_name"]) ? $idxboost_term_condition["company_name"] : "";
 
-                            $disclaimer = str_replace('{officeName}', $property["office_name"], $property['board_info']["board_disclaimer"]);
-                            $disclaimer = str_replace('{office_phone}', '<a href="tel:' . $property["phone_office"] . '">' . $property["phone_office"] . '</a>', $disclaimer);
+                            $disclaimer = str_replace('{officeName}', $flex_idx_info["office_name"] ?? '', $flex_idx_info['board_info']["board_disclaimer"]);
+                            $disclaimer = str_replace('{office_phone}', '<a href="tel:' . ($flex_idx_info["phone_office"] ?? '') . '">' . ($flex_idx_info["phone_office"] ?? '') . '</a>', $disclaimer);
                             $disclaimer = str_replace('{time_last_update}', $formatDT, $disclaimer);
 
                             $disclaimer = str_replace('{name_website}', $company_name, $disclaimer);

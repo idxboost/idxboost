@@ -8542,16 +8542,12 @@ function insert_assets_head_new_development_collections()
     $content = $post->post_content;
 
     if (has_shortcode($content, 'new_development_collections')) {
-        ?>
-        <script type="module" crossorigin
-                src="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.js?ver=' . iboost_get_mod_time("react/new-developments/assets/bundle.js"); ?>"></script>
-        <script async
-                src="<?php echo sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,marker&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]) ?>"></script>
-        <link rel="stylesheet"
-              href="<?php echo FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.css?ver=' . iboost_get_mod_time("react/new-developments/fonts/icons/style.css"); ?>"/>
-        <link rel="stylesheet"
-              href="<?php echo FLEX_IDX_URI . 'react/new-developments/assets/bundle.css?ver=' . iboost_get_mod_time("react/new-developments/assets/bundle.css"); ?>"/>
-        <?php
+        idxboost_print_vite_assets([
+            'distDir' => ib_get_idx_path() . 'react/new-developments/dist/',
+            'distUrl' => FLEX_IDX_URI . 'react/new-developments/dist/',
+            'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.min.css?ver=' .
+                iboost_get_mod_time('react/new-developments/fonts/icons/style.min.css')
+        ]);
     }
 }
 

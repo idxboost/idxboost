@@ -1730,11 +1730,12 @@ if (
       }
   });
 
-
   /*RECUPERANDO VIDEO*/
   jQuery(window).on("load", function (e) {
-    var inventory = jQuery("#buildingSliderPicture");
+    var inventory = jQuery("#buildingSliderPicture .gs-item-slider");
     var galleryType = jQuery("#viewGallery").val() * 1;
+
+    //console.log("TIPO DE VISTA: "+galleryType);
 
     switch (galleryType) {
     case 2:
@@ -1756,7 +1757,6 @@ if (
       break;
     }
   });
-
 
   //TOP FIXED TITLE HEADER
   jQuery(window).on("load resize",function(){

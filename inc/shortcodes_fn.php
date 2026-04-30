@@ -790,16 +790,15 @@ if (!function_exists('ib_search_filter_sc')) {
             'name_button' => '',
             'slider_item' => '4',
             'gallery' => '',
-            'version_filter' => "1",
-            'limit' => ''
+            'version_filter' => '1',
+            'limit' => '',
+            'tags' => '',
         ), $atts);
 
         $GLOBALS["filter_id"] = $atts["id"];
         $GLOBALS["type_filter"] = "map-search-filter";
         
         ob_start();
-
-        //$atts["version_filter"] = "1";
 
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 

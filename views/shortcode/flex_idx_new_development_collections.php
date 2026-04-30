@@ -37,14 +37,14 @@ $search_new_developmet_collection = $wpdb->get_var("
 
 	<?php
 	$force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
-	$force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
-	$signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0);
+	$force_registration_forced = ($force_registration == "1") ? $idxboost_agent_info['force_registration_forced'] : null;
+	$signup_left_clicks = ($force_registration == "1" && isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int) $flex_idx_info["agent"]["signup_left_clicks"] : 0);
 
 	//var_dump($force_registration_forced);
 	?>
 
 	window.developments_settings = {
-		folder_path: '<?php echo FLEX_IDX_URI .  'react' . DIRECTORY_SEPARATOR . 'new-developments' . DIRECTORY_SEPARATOR; ?>', // ruta donde se aloja el bundle
+		folder_path: '<?php echo FLEX_IDX_URI . 'react' . DIRECTORY_SEPARATOR . 'new-developments' . DIRECTORY_SEPARATOR; ?>', // ruta donde se aloja el bundle
 		default_params: { // objeto de params por defecto
 			sort: '<?php echo $atts["sort"]; ?>'
 		},
@@ -57,8 +57,8 @@ $search_new_developmet_collection = $wpdb->get_var("
 		root_path: '<?php echo FLEX_IDX_URI . "react/"; ?>',
 		active_ai: '<?php echo $ia_search; ?>',
 		force_registration: Boolean(<?php echo $force_registration; ?>),
-		force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
-		signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+		force_registration_forced: <?php echo $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
+		signup_left_clicks: <?php echo $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
 		search_settings: <?php echo json_encode($idxboost_search_settings); ?>,
 		agent_info: <?php echo json_encode($idxboost_agent_info); ?>,
 		access_token: "<?php echo $api_idx_access_token; ?>",
@@ -67,5 +67,9 @@ $search_new_developmet_collection = $wpdb->get_var("
 	window.idxtoken = "<?php echo $access_token_service; ?>";
 </script>
 
-<div id="root-new-developments"></div>
+<div id="root-new-developments">
+	<img src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg" width="600" height="600"
+		alt="LCP Placeholder" style="display:block; max-width:100%; height:auto;" fetchpriority="high"
+		decoding="async" />
+</div>
 <div id="nd-contact-modal"></div>
