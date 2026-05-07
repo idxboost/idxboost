@@ -2457,7 +2457,8 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $address_slug = str_replace(" " . $zipcodeAddress, ", $zipcodeAddress", $address_slug);
         }
 
-        $extra_boards_implode = implode(",", $flex_idx_info['agent']['extra_boards']);
+	    $extra_boards_raw = $flex_idx_info['agent']['extra_boards'] ?? [];
+        $extra_boards_implode = implode(",", is_array($extra_boards_raw) ? $extra_boards_raw : []);
 
         $slug_search = "{$slug}";
         if ($type_lookup != "active") {

@@ -1,3 +1,5 @@
+var inventorySliderItems = "";
+
 var response_raw_sale = [];
 var response_raw_rental = [];
 var response_raw_pending = [];
@@ -374,7 +376,7 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                   idxboostCollecBuil=response;
 
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
-                  /* NEW SLIDER*/
+
                   /* NEW SLIDER*/
                   if (idxboostCollecBuil.payload.type_gallery == "1") {
                     // console.log("gallery for properties");
@@ -388,8 +390,14 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                             html_slider_building.push(idx_slider_building_html(element) );
                           });
                         }
+
+                        inventorySliderItems = "activo";
+
                       }else{
-                        $('.js-option-building').each(function(){
+
+                        inventorySliderItems = "";
+
+                        /*$('.js-option-building').each(function(){
                           if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
                             $(this).click();
@@ -397,7 +405,7 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                           }else if($(this).attr("data-view") == "gallery") {
                             $(this).hide();
                           }
-                        });
+                        });*/
                       }
 
                     if (html_slider_building.length>0){
@@ -411,7 +419,10 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                   }else if (idxboostCollecBuil.payload.type_gallery == "2") {
                     // console.log("gallery for properties");
                     if ($(".js-gallery-building").length == 0) {
-                        $('.js-option-building').each(function(){
+
+                        inventorySliderItems = "";
+
+                        /*$('.js-option-building').each(function(){
                           if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
                             $(this).click();
@@ -419,10 +430,12 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
                           }else if($(this).attr("data-view") == "gallery") {
                             $(this).hide();
                           }
-                        });
+                        });*/
+                    }else{
+                      inventorySliderItems = "activo";
                     }
                   }
-                  /* NEW SLIDER*/
+
                   /* NEW SLIDER*/
                   //
                   
@@ -678,7 +691,34 @@ var buildingDomDays = response_raw_sale["avg"]["sum_adoms"];
 
     }
 
+    //console.log("GOKUUUUUU....!!!");
 
+    var galleryType = jQuery("#viewGallery").val() * 1; //TIPO DE GALERÍA ASIGNADO
+    //console.log("TIPO DE VISTA: "+galleryType);
+
+    if(inventorySliderItems == ""){
+      jQuery("#activePicture").remove();
+    }
+    
+    switch (galleryType) {
+      case 2:
+        //console.log("TIPO VIDEO");
+        jQuery("#show-video").trigger("click");
+        break;
+      case 1:
+        //console.log("TIPO MAPA");
+        jQuery("#show-map").trigger("click");
+        break;
+      case 0:
+        //console.log("TIPO FOTO");
+        if(inventorySliderItems == "activo"){
+          jQuery("#show-gallery").trigger("click");
+        }else{
+          jQuery("#activePicture").remove();
+          jQuery("#show-map").trigger("click");
+        }
+        break;
+    }
 
 
   }).catch(error => {
@@ -838,7 +878,7 @@ function ib_init_script(){
                   idxboostCollecBuil=response;
 
                   $('#formLogin_ib_tags, #formRegister_ib_tags').val(response.payload.building_name);
-                  /* NEW SLIDER*/
+                  
                   /* NEW SLIDER*/
                   if (idxboostCollecBuil.payload.type_gallery == "1") {
                     // console.log("gallery for properties");
@@ -852,7 +892,13 @@ function ib_init_script(){
                             html_slider_building.push(idx_slider_building_html(element) );
                           });
                         }
+
+                        inventorySliderItems = "activo";
+
                       }else{
+                        
+                        inventorySliderItems = "";
+
                         $('.js-option-building').each(function(){
                           if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
@@ -875,6 +921,9 @@ function ib_init_script(){
                   }else if (idxboostCollecBuil.payload.type_gallery == "2") {
                     // console.log("gallery for properties");
                     if ($(".js-gallery-building").length == 0) {
+
+                      inventorySliderItems = "";
+
                         $('.js-option-building').each(function(){
                           if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
@@ -884,10 +933,12 @@ function ib_init_script(){
                             $(this).hide();
                           }
                         });
+                    }else{
+                      inventorySliderItems = "activo";
                     }
                   }
                   /* NEW SLIDER*/
-                  /* NEW SLIDER*/
+
                   //
                   if (response.payload.property_display_active == "grid") {
                     if (__flex_g_settings.is_mobile =="1" ) {
@@ -1122,6 +1173,33 @@ function ib_init_script(){
              });
     }
     //jQuery('#dataTable-floorplan-grid').DataTable({ 'paging': false });
+
+    var galleryType = jQuery("#viewGallery").val() * 1; //TIPO DE GALERÍA ASIGNADO
+    //console.log("TIPO DE VISTA: "+galleryType);
+
+    if(inventorySliderItems == ""){
+      jQuery("#activePicture").remove();
+    }
+    
+    switch (galleryType) {
+      case 2:
+        //console.log("TIPO VIDEO");
+        jQuery("#show-video").trigger("click");
+        break;
+      case 1:
+        //console.log("TIPO MAPA");
+        jQuery("#show-map").trigger("click");
+        break;
+      case 0:
+        //console.log("TIPO FOTO");
+        if(inventorySliderItems == "activo"){
+          jQuery("#show-gallery").trigger("click");
+        }else{
+          jQuery("#activePicture").remove();
+          jQuery("#show-map").trigger("click");
+        }
+        break;
+    }
 }
 
 $(function() {

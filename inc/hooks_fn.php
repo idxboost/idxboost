@@ -426,3 +426,8 @@ add_action('wp_ajax_nopriv_flex_get_email_by_token', 'flex_idx_get_email_by_invi
 
 // Hook general init to login users if an autologin code is specified and collection
 add_action('template_redirect', 'idx_autologin_collections');
+
+
+// Site-wide: loader is tiny and self-gating via IntersectionObserver,
+// so paying a few KB on every page is fine.
+add_action('wp_enqueue_scripts', 'idxboost_enqueue_lead_collector_loader');

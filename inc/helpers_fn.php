@@ -11449,8 +11449,6 @@ function insert_assets_head_dinamic_forms_sell_rent_buy()
 
 }
 
-
-
 function insert_assets_head_off_market_collection_sc()
 {
     global $flex_idx_info, $post;
@@ -11471,3 +11469,88 @@ function insert_assets_head_off_market_collection_sc()
     }
 }
 
+if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
+    /**
+     * Registers and enqueues the Lead Collector lazy loader.
+     *
+     * The IIFE loader scans the DOM for `.js-open-lead-collector` and
+     * `.js-ibc-lead-collector-root` and lazy-loads the heavy UMD bundle
+     * (section-modal-wordpress/index.js + index.css) on demand.
+     *
+     * Only the loader is registered with WordPress. The heavy bundle is
+     * injected at runtime by the loader; its URLs (with cache busters) are
+     * passed via an inline `before` script that defines
+     * window.IDX_LEAD_COLLECTOR_LOADER_CONFIG.
+     */
+    function idxboost_enqueue_lead_collector_loader(): void
+    {
+        
+        if (is_admin()) {
+            return;
+        }
+
+        // Idempotent: WordPress is already idempotent on enqueue, but we
+        // also avoid recomputing mtimes/JSON if called multiple times.
+        static $done = false;
+        if ($done) {
+            return;
+        }
+
+        $base_dir = ib_get_idx_path() . 'react/sell_rent_dinamic_forms/';
+        $base_url = FLEX_IDX_URI       . 'react/sell_rent_dinamic_forms/';
+
+        $loader_rel_dir = 'react/sell_rent_dinamic_forms/section-modal-wordpress-loader/';
+        $bundle_rel_dir = 'react/sell_rent_dinamic_forms/section-modal-wordpress/';
+
+        $loader_path = $base_dir . 'section-modal-wordpress-loader/loader.js';
+        $bundle_js_path  = $base_dir . 'section-modal-wordpress/index.js';
+        $bundle_css_path = $base_dir . 'section-modal-wordpress/index.css';
+
+        if (!is_readable($loader_path) ||
+            !is_readable($bundle_js_path) ||
+            !is_readable($bundle_css_path)) {
+            return;
+        }
+
+        // Independent cache busters per file (loader and heavy bundle ship
+        // separately, so they need separate versions).
+        $loader_ver     = iboost_get_mod_time($loader_rel_dir . 'loader.js');
+        $bundle_js_ver  = iboost_get_mod_time($bundle_rel_dir . 'index.js');
+        $bundle_css_ver = iboost_get_mod_time($bundle_rel_dir . 'index.css');
+
+        // Heavy-bundle URLs go INTO the inline config — they are not
+        // enqueued by WordPress; the loader injects them at runtime.
+        $append_ver = function (string $url, $ver): string {
+            return $ver ? add_query_arg('ver', $ver, $url) : $url;
+        };
+
+        $bundle_js_url  = $append_ver($base_url . 'section-modal-wordpress/index.js',  $bundle_js_ver);
+        $bundle_css_url = $append_ver($base_url . 'section-modal-wordpress/index.css', $bundle_css_ver);
+
+        wp_register_script(
+            'idx-lc-loader',
+            $base_url . 'section-modal-wordpress-loader/loader.js',
+            [],                  // no deps
+            $loader_ver,         // WP appends ?ver=$loader_ver
+            [
+                'in_footer' => true,
+                'strategy'  => 'defer', // WP 6.3+
+            ]
+        );
+
+        // Inline config MUST come before the loader script tag so the
+        // window global exists when loader.js executes.
+        wp_add_inline_script(
+            'idx-lc-loader',
+            'window.IDX_LEAD_COLLECTOR_LOADER_CONFIG=' . wp_json_encode([
+                'bundleJsUrl'  => $bundle_js_url,
+                'bundleCssUrl' => $bundle_css_url,
+            ]) . ';',
+            'before'
+        );
+
+        wp_enqueue_script('idx-lc-loader');
+
+        $done = true;
+    }
+}

@@ -743,6 +743,7 @@ if (
     if (array_key_exists('floor_plan_view_grid', $response['payload']) && !empty($response['payload']['floor_plan_view_grid']) ) {
       
       $floor_plan_view_grid= json_decode($response['payload']['floor_plan_view_grid'],true);
+      $default_floor_plan = is_array($default_floor_plan) ? $default_floor_plan : array();
       $floor_plan_grid_keyplan='';
       if( is_array($floor_plan_view_grid) && count($floor_plan_view_grid)>0 ) { 
             if (array_key_exists('floor_plan_grid_keyplan', $response['payload']) && !empty($response['payload']['floor_plan_grid_keyplan']) ) {
@@ -941,8 +942,9 @@ if (
                         <?php endif; ?>
 
                         <?php 
-                          $phoneCode = $flex_idx_lead['lead_info']['country_code_phone'];
-                          $phoneNumber = $flex_idx_lead['lead_info']['phone_number'];
+                          $lead_info = (is_array($flex_idx_lead) && isset($flex_idx_lead['lead_info']) && is_array($flex_idx_lead['lead_info'])) ? $flex_idx_lead['lead_info'] : array();
+                          $phoneCode = isset($lead_info['country_code_phone']) ? $lead_info['country_code_phone'] : "";
+                          $phoneNumber = isset($lead_info['phone_number']) ? $lead_info['phone_number'] : "";
                           $phoneContactNumber = "";
                         
                           if (!empty($phoneNumber)){
@@ -1207,8 +1209,9 @@ if (
                       <input type="hidden" name="gclid_field" id="gclid_field_building">
                     <?php endif; ?>
                     <?php 
-                      $phoneCode = $flex_idx_lead['lead_info']['country_code_phone'];
-                      $phoneNumber = $flex_idx_lead['lead_info']['phone_number'];
+                      $lead_info = (is_array($flex_idx_lead) && isset($flex_idx_lead['lead_info']) && is_array($flex_idx_lead['lead_info'])) ? $flex_idx_lead['lead_info'] : array();
+                      $phoneCode = isset($lead_info['country_code_phone']) ? $lead_info['country_code_phone'] : "";
+                      $phoneNumber = isset($lead_info['phone_number']) ? $lead_info['phone_number'] : "";
                       $phoneContactNumber = "";
                     
                       if (!empty($phoneNumber)){
@@ -1402,7 +1405,7 @@ if (
 
 <input type="hidden" id="viewGallery" value="<?php echo $response['payload']['media_gallery_type']; ?>">
 <?php if( in_array($flex_idx_info["board_id"], ["36"]) ){ ?>
-  <input type="text" id="activeBoard" value="active">
+  <input type="hidden" id="activeBoard" value="active">
 <?php } ?>
 <input type="text" id="soldDataCount" value="1">
 
@@ -1543,20 +1546,20 @@ if (
   }
 
   /*function idxsharefb(event){
-		event.preventDefault();
-		var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
-		//params
-		var params = {
-			u: $(this).attr("data-share-url");
-		};
-		for(var prop in params) {
-			shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
-		}
-		var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
-		if (wo.focus) {
-			wo.focus();
-		}
-	}*/
+        event.preventDefault();
+        var shareURL = "https://www.facebook.com/sharer/sharer.php?"; //url base
+        //params
+        var params = {
+            u: $(this).attr("data-share-url");
+        };
+        for(var prop in params) {
+            shareURL += '&' + prop + '=' + encodeURIComponent(params[prop]);
+        }
+        var wo = window.open(shareURL, '', 'left=0,top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=0,resizable=0');
+        if (wo.focus) {
+            wo.focus();
+        }
+    }*/
   
 </script>
 <?php endif; ?>
@@ -1728,34 +1731,6 @@ if (
         });
 
       }
-  });
-
-  /*RECUPERANDO VIDEO*/
-  jQuery(window).on("load", function (e) {
-    var inventory = jQuery("#buildingSliderPicture .gs-item-slider");
-    var galleryType = jQuery("#viewGallery").val() * 1;
-
-    //console.log("TIPO DE VISTA: "+galleryType);
-
-    switch (galleryType) {
-    case 2:
-      // console.log("TIPO VIDEO");
-      jQuery("#show-video").trigger("click");
-      break;
-    case 1:
-      // console.log("TIPO MAPA");
-      jQuery("#show-map").trigger("click");
-      break;
-    case 0:
-      // console.log("TIPO FOTO");
-      if(inventory.length){
-        jQuery("#show-gallery").trigger("click");
-      }else{
-        jQuery("#activePicture").remove();
-        jQuery("#show-map").trigger("click");
-      }
-      break;
-    }
   });
 
   //TOP FIXED TITLE HEADER
