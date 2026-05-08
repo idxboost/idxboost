@@ -924,7 +924,7 @@ function ib_init_script(){
 
                       inventorySliderItems = "";
 
-                        $('.js-option-building').each(function(){
+                        /*$('.js-option-building').each(function(){
                           if ( $(this).attr("data-view") == "map" ) {
                             $(this).show();
                             $(this).click();
@@ -932,7 +932,7 @@ function ib_init_script(){
                           }else if($(this).attr("data-view") == "gallery") {
                             $(this).hide();
                           }
-                        });
+                        });*/
                     }else{
                       inventorySliderItems = "activo";
                     }
@@ -1165,6 +1165,37 @@ function ib_init_script(){
                       });
                     }
                   }
+
+                  //console.log("VEGETA...!!!!");
+
+                  var galleryType = jQuery("#viewGallery").val() * 1; //TIPO DE GALERÍA ASIGNADO
+                  //console.log("TIPO DE VISTA: " + galleryType);
+
+                  if (inventorySliderItems == "") {
+                    jQuery("#activePicture").remove();
+                  }
+
+                  switch (galleryType) {
+                    case 2:
+                      //console.log("TIPO VIDEO");
+                      jQuery("#show-video").trigger("click");
+                      break;
+                    case 1:
+                      //console.log("TIPO MAPA");
+                      jQuery("#show-map").trigger("click");
+                      break;
+                    case 0:
+                      //console.log("TIPO FOTO");
+                      if (inventorySliderItems == "activo") {
+                        jQuery("#show-gallery").trigger("click");
+                      } else {
+                        jQuery("#activePicture").remove();
+                        jQuery("#show-map").trigger("click");
+                      }
+                      break;
+                  }
+
+                  //console.log("Inventario=" + inventorySliderItems);
 
                   idxboostCollectiIn();
                   ib_change_view( $('.ib_collection_view').val() ,$('.ib_collection_tab').val() );
