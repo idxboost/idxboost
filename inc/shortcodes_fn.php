@@ -3275,504 +3275,621 @@ if (!function_exists('flex_idx_filter_sc')) {
             return "";
         }
 
+
+                $atts = shortcode_atts(array(
+                    'id' => '',
+                    'title' => '',
+                    'link' => '',
+                    'name_button' => 'view more properties',
+                    'mode' => 'default',
+                    'multi_type' => 'default',
+                    'type' => '0',
+                    'limit' => 'default',
+                    'sale_type' => 'default',
+                    'method' => '0',
+                    "target_id" => "",
+                    "sale_link" => "",
+                    "rent_link" => "",
+                    "target_label" => "",
+                    "heading" => "",
+                    'row' => 'default',
+                    "oh" => "0",
+                    "slider_item" => "4",
+                    "slider_play" => "0",
+                    "slider_speed" => "5000",
+                    "reference" => "no",
+                    "gallery" => "0",
+                    "dom" => "default",
+                    "pending" => "default",
+                    "max" => 0,
+                    "county" => "",
+                    "photo-res" => "high",
+                    "order" => "",
+                    'registration_key' => ''
+                ), $atts);
+
+
+
         $access_token = flex_idx_get_access_token();
 
         if (get_option('idxboost_client_status') != 'active') {
             return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
         }
 
-        // generate form ids
-        $unique_filter_form_ID = mt_rand();
-
-        $atts = shortcode_atts(array(
-            'id' => '',
-            'title' => '',
-            'link' => '',
-            'name_button' => 'view more properties',
-            'mode' => 'default',
-            'multi_type' => 'default',
-            'type' => '0',
-            'limit' => 'default',
-            'sale_type' => 'default',
-            'method' => '0',
-            "target_id" => "",
-            "sale_link" => "",
-            "rent_link" => "",
-            "target_label" => "",
-            "heading" => "",
-            'row' => 'default',
-            "oh" => "0",
-            "slider_item" => "4",
-            "slider_play" => "0",
-            "slider_speed" => "5000",
-            "reference" => "no",
-            "gallery" => "0",
-            "dom" => "default",
-            "pending" => "default",
-            "max" => 0,
-            "county" => "",
-            "photo-res" => "high",
-            "order" => "",
-            'registration_key' => ''
-        ), $atts);
-
-
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
-        $GLOBALS["filter_id"] = $atts["id"];
-        $GLOBALS["type_filter"] = "display-filter";
-
-        $gallery_val = $atts["gallery"];
-
-        $typeworked = '0';
-        $default_view = $flex_idx_info['search']['default_view'];
-
-        if (isset($atts['type'])) {
-            $typeworked = $atts['type'];
-        }
-
-        if ('' != $atts['id']) {
-            $atts['type'] = 0;
-        }
-
-        $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
-
-        $wp_request = $wp->request;
-        $wp_request_exp = explode('/', $wp_request);
-
-        $valid_sortings = array(
-            'order-price-desc', 'order-price-asc',
-            'order-bed-desc', 'order-bed-asc',
-            'order-sqft-desc', 'order-sqft-asc',
-            'order-year-desc', 'order-year-asc',
-            'order-list_date-desc', 'order-list_date-asc',
-        );
-
-        $valid_views = array('view-grid', 'view-list', 'view-map');
-
-
-        $order = (isset($wp_request_exp[1]) && in_array($wp_request_exp[1], $valid_sortings)) ? $wp_request_exp[1] : null;
-        $view = (isset($wp_request_exp[2]) && in_array($wp_request_exp[2], $valid_views)) ? $wp_request_exp[2] : '';
-        $page = isset($wp_request_exp[3]) ? (int)preg_replace('/[^\d]/', '', $wp_request_exp[3]) : 1;
-
-        if ( empty($order) ) {
-            $order =$atts["order"];
-        }
-
-        $param_url = [];
-
-        $sale_type = [];
-
-        if ($atts['oh'] == "1") {
-            $param_url['oh'] = "1";
-        } else {
-            $param_url['oh'] = "0";
-        }
-
-        if ($atts['sale_type'] == 'for-sale') {
-            $sale_type[] = 0;
-        } else if ($atts['sale_type'] == 'for-rent') {
-            $sale_type[] = 1;
-        }
-
-        if ($atts['mode'] == 'multi-slider') {
-            $sale_type[] = 0;
-        }
-
-        if ( !empty($order) ) {
-            $param_url['sort'] = $order;
-        }
-
-
-        if (!empty($_GET)) {
-
-            if (array_key_exists('price', $_GET)) {
-                $param_url['min_price'] = '--';
-                $param_url['max_price'] = '--';
-                if (!empty($_GET['price'])) {
-                    $temparray_price = explode('~', $_GET['price']);
-                    if (is_array($temparray_price)) {
-                        if (array_key_exists(0, $temparray_price))
-                            $param_url['min_price'] = $temparray_price[0];
-
-                        if (array_key_exists(0, $temparray_price))
-                            $param_url['max_price'] = $temparray_price[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('price_rent', $_GET)) {
-                $param_url['min_rent_price'] = '--';
-                $param_url['max_rent_price'] = '--';
-                if (!empty($_GET['price_rent'])) {
-                    $temparray_price_rent = explode('~', $_GET['price_rent']);
-                    if (is_array($temparray_price_rent)) {
-                        if (array_key_exists(0, $temparray_price_rent))
-                            $param_url['min_rent_price'] = $temparray_price_rent[0];
-
-                        if (array_key_exists(0, $temparray_price_rent))
-                            $param_url['max_rent_price'] = $temparray_price_rent[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('bed', $_GET)) {
-                $param_url['min_beds'] = '--';
-                $param_url['max_beds'] = '--';
-                if (!empty($_GET['bed'])) {
-                    $temparray_bed = explode('~', $_GET['bed']);
-                    if (is_array($temparray_bed)) {
-                        if (array_key_exists(0, $temparray_bed))
-                            $param_url['min_beds'] = $temparray_bed[0];
-
-                        if (array_key_exists(0, $temparray_bed))
-                            $param_url['max_beds'] = $temparray_bed[1];
-                    }
-                }
-            }
-
-
-            if (array_key_exists('bath', $_GET)) {
-                $param_url['min_baths'] = '--';
-                $param_url['max_baths'] = '--';
-                if (!empty($_GET['bath'])) {
-                    $temparray_bath = explode('~', $_GET['bath']);
-                    if (is_array($temparray_bath)) {
-                        if (array_key_exists(0, $temparray_bath))
-                            $param_url['min_baths'] = $temparray_bath[0];
-
-                        if (array_key_exists(0, $temparray_bath))
-                            $param_url['max_baths'] = $temparray_bath[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('sqft', $_GET)) {
-                $param_url['min_sqft'] = '--';
-                $param_url['max_sqft'] = '--';
-                if (!empty($_GET['sqft'])) {
-                    $temparray_sqft = explode('~', $_GET['sqft']);
-                    if (is_array($temparray_sqft)) {
-                        if (array_key_exists(0, $temparray_sqft))
-                            $param_url['min_sqft'] = $temparray_sqft[0];
-
-                        if (array_key_exists(0, $temparray_sqft))
-                            $param_url['max_sqft'] = $temparray_sqft[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('lotsize', $_GET)) {
-                $param_url['min_lotsize'] = '--';
-                $param_url['max_lotsize'] = '--';
-                if (!empty($_GET['lotsize'])) {
-                    $temparray_bath = explode('~', $_GET['lotsize']);
-                    if (is_array($temparray_bath)) {
-                        if (array_key_exists(0, $temparray_bath))
-                            $param_url['min_lotsize'] = $temparray_bath[0];
-
-                        if (array_key_exists(0, $temparray_bath))
-                            $param_url['max_lotsize'] = $temparray_bath[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('yearbuilt', $_GET)) {
-                $param_url['min_year'] = '--';
-                $param_url['max_year'] = '--';
-                if (!empty($_GET['yearbuilt'])) {
-                    $temparray_year = explode('~', $_GET['yearbuilt']);
-                    if (is_array($temparray_year)) {
-                        if (array_key_exists(0, $temparray_year))
-                            $param_url['min_year'] = $temparray_year[0];
-
-                        if (array_key_exists(0, $temparray_year))
-                            $param_url['max_year'] = $temparray_year[1];
-                    }
-                }
-            }
-
-            if (array_key_exists('fea', $_GET))
-                $param_url['features'] = $_GET['fea'];
-
-            if (array_key_exists('type', $_GET))
-                $param_url['tab'] = $_GET['type'];
-
-            if (array_key_exists('waterdesc', $_GET))
-                $param_url['waterfront'] = $_GET['waterdesc'];
-
-            if (array_key_exists('parking', $_GET))
-                $param_url['parking'] = $_GET['parking'];
-
-            if (array_key_exists('pagenum', $_GET))
-                $param_url['pagenum'] = $_GET['pagenum'];
-
-            if (array_key_exists('sort', $_GET))
-                $param_url['sort'] = $_GET['sort'];
-
-        }
-
-        $list_type = [];
-
-        $send_param_view = "grid";
-        if ($atts["type"] == '1') {
-            $send_param_view = !empty($view) ? $view : "view-grid";
-        } else {
-            $send_param_view = !empty($view) ? str_replace($view, "view-", "") : "grid";
-        }
-
-        $sendParams = array(
-            'filter_id' => $atts['id'],
-            'listing_type' => $atts['type'],
-            'list_type' => $list_type,
-            'limit' => $atts['limit'],
-            'order' => !empty($order) ? $order : "price-desc",
-            'sale_type' => $sale_type,
-            'view' => $send_param_view,
-            'page' => $page,
-            'dom' => $atts["dom"],
-            'hide_pending' => $atts["pending"],
-            'idx' => $param_url,
-            'county' => $atts["county"],
-            'photo_res' => $atts["photo-res"],
-            'access_token' => $access_token,
-            'version_endpoint' => 'new',
-            'flex_credentials' => $flex_lead_credentials,
-            'registration_key' => $atts['registration_key']
-        );
-
-
-        wp_enqueue_style('flex-idx-filter-pages-css');
-
-        if ($atts["type"] != "1" && isset($atts["mode"]) && ($atts["mode"] != "slider")) {
-            $is_recent_sales = 'no';
-            $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_DISPLAY_FILTER_V4 : FLEX_IDX_API_MARKET);
-
-            if ($atts['type'] == '2') {
-                wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
-                wp_enqueue_script('idxboost_exclusive_listing');
-                $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2 : FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
-
-                if ($atts["reference"] == "yes") {
-                    wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
-                }
-
-            } elseif ($atts['type'] == '1') {
-                $is_recent_sales = 'yes';
-                wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
-                wp_enqueue_script('idxboost_exclusive_listing');
-                $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_RECENT_SALE_v2 : FLEX_IDX_API_MARKET_RECENT_SALE);
-
-                if ($atts["reference"] == "yes") {
-                    wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
-                }
-
-            } else {
-                if ($atts["reference"] == "yes") {
-                    wp_localize_script('flex-idx-filter-js', 'is_references_active', $atts["reference"]);
-                }
-                wp_enqueue_script('flex-idx-filter-js');
-            }
-
-            
-            /*
-            if ($idx_v == "1") {
-
-                if ( !empty($atts["id"]) ) {
-              
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $endpointFilter );
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-                    $server_output = curl_exec($ch);
-                    $response = json_decode($server_output, true);
-                }
-            }
-            */
-                $ch = curl_init();
-
-                curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-                $server_output = curl_exec($ch);
-                $response = json_decode($server_output, true);
-
-
-            if ($atts['type'] == '2' || $atts['type'] == '1') {
-                wp_localize_script('idxboost_exclusive_listing', 'filter_metadata', json_encode($response));
-            } else {
-                wp_localize_script('flex-idx-filter-js', 'filter_metadata', $response);
-            }
-
-            if (isset($response['info']['property_type'])) {
-                $list_ptypes = array('tw', '1', '2', 'valand', 'mf','co_op');
-                $exp_property_type = explode('|', $response['info']['property_type']);
-                $catch_list_ptype = array();
-
-                foreach ($exp_property_type as $ptype) {
-                    if (in_array($ptype, $list_ptypes)) {
-                        $catch_list_ptype[] = ["value" => $ptype, "label" => $ptype];
-                    }
-                }
-
-                $response['info']['property_type_list'] = $catch_list_ptype;
-            }
-
-            $sendParams_count = array(
-                'access_token' => $access_token,
-                'flex_credentials' => $flex_lead_credentials
-            );
-
-            $chcanti = curl_init();
-
-            curl_setopt($chcanti, CURLOPT_URL, FLEX_IDX_API_FAVORITES_LIST);
-            curl_setopt($chcanti, CURLOPT_POST, 1);
-            curl_setopt($chcanti, CURLOPT_POSTFIELDS, http_build_query($sendParams_count));
-            curl_setopt($chcanti, CURLOPT_RETURNTRANSFER, true);
-            @curl_setopt($chcanti, CURLOPT_REFERER, ib_get_http_referer());
-
-            $server_output_canti = curl_exec($chcanti);
-            curl_close($chcanti);
-
-            $response_canti = json_decode($server_output_canti, true);
-
-        }
-
-        $search_params = $flex_idx_info['search'];
-
-        $agent_info_name = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
-        $agent_last_name = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
-        $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
-        $agent_info_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? $flex_idx_info['agent']['agent_contact_phone_number'] : '';
-        $agent_info_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? $flex_idx_info['agent']['agent_contact_email_address'] : '';
-
-        $ptypes_checked = array();
-
-        if (!empty($response)) {
-            if (array_key_exists('info', $response)) {
-                foreach ($response['info']['property_type_list'] as $ptype_filter) {
-                    $ptypes_checked[] = $ptype_filter["value"];
-                }
-            }
-        }
-
-        $agent_info = get_option('idxboost_agent_info');
-        $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
-        $board_id = $flex_idx_info['board_id'];
-
-        $default_view = '';
-        if (!empty($default_view)) {
-            if ($default_view != 'nmap') {
-                $default_view = $view_value;
-            } else if ($default_view == 'nmap') {
-                $default_view = 'map';
-            }
-        }
-
-        ob_start();
-
-        if (isset($atts['mode']) && ($atts['mode'] === 'thumbs')) {
-            $featured_filter_page = $wpdb->get_row("
-                SELECT ID, post_title
-                FROM {$wpdb->posts} t1
-                INNER JOIN {$wpdb->postmeta} t2
-                ON t1.ID = t2.post_id
-                WHERE t1.post_type = 'flex-filter-pages'
-                AND t1.post_status = 'publish'
-                AND t2.meta_key = '_flex_filter_page_show_home'
-                AND t2.meta_value = 1
-                ", ARRAY_A);
-
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_thumbs.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_thumbs.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_thumbs.php';
-            }
-        } else if (isset($atts["mode"]) && ($atts["mode"] === "multi-slider")) {
-            $response_rentals = idx_exclusive_operation_slider_xhr_fn($atts['type'], '', '1');
-            wp_enqueue_script('idx-exclusive-thumbs', FLEX_IDX_URI . 'js/idx-exclusive-thumbs.js');
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_filter_multi_slider.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_filter_multi_slider.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idx_filter_multi_slider.php';
-            }
-        } else if (isset($atts["mode"]) && ($atts["mode"] === "slider")) {
-
-            wp_enqueue_script('ib_slider_filter');
-
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_only_filter_thumb.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_only_filter_thumb.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idx_only_filter_thumb.php';
-            }
-        } else if (isset($atts["mode"]) && ($atts["mode"] === "grid")) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_grid.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_grid.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_grid.php';
-            }
-        } else if (isset($atts["mode"]) && ($atts["mode"] === "minimal")) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_minimal.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_minimal.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_minimal.php';
-            }
-        } else if (isset($atts["mode"]) && ($atts["mode"] === "carrousel")) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_carrousel.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_carrousel.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_carrousel.php';
-            }
-        } else if (isset($atts["type"]) && ($atts["type"] === "2")) {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/idxboost_exclusive_listing.php';
-            }
-        } else if ($atts["type"] === "1") {
-            wp_localize_script('idxboost_recent_sales', '__flex_rs_filter', [
-                "view" => "grid",
-                "page" => intval($sendParams["page"]),
-                "sort" => $sendParams["order"]
-            ]);
-
-
-            if ($atts["reference"] == "yes")
-                wp_localize_script('idxboost_recent_sales', 'is_references_active', $atts["reference"]);
-
-            wp_enqueue_script('idxboost_recent_sales');
-
-
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/short_idxboost_recent_sales.php';
-            }
-        } else {
+        if ($idx_v == "1" && empty($atts["id"]) ) {
 
             // Librería custom player para Hackbox que contengan videos
             wp_enqueue_script('custom-player');
             wp_enqueue_style('custom-player');
-            wp_enqueue_script("ib-track-display-filter-view-js");
+              
+            $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+            ];
 
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter.php';
-            } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter.php';
+            $curlToken = curl_init();
+            curl_setopt_array($curlToken, array(
+                CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                ),
+            ));
+            $responseToken = @json_decode(curl_exec($curlToken),true);
+            curl_close($curlToken);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+
+            if ($atts['type'] == '2') {
+
+                $access_token = flex_idx_get_access_token();
+                $curlParams = curl_init();
+                curl_setopt_array($curlParams, array(
+                    CURLOPT_URL => FLEX_IDX_BASE_URL.'/info/exclusive',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/x-www-form-urlencoded'
+                    ),
+                ));
+
+                $responseParms = @json_decode(curl_exec($curlParams) , true);
+                curl_close($curlParams);
+
+                $atts["version_filter"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $responseParms["data"] : [];
+
+                ob_start();
+            
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_flex_idx_filter.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_flex_idx_filter.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_new_flex_idx_filter.php';
+                    }
+                    
+            } elseif ($atts['type'] == '1') {
+
+                $access_token = flex_idx_get_access_token();
+                $curlParams = curl_init();
+                curl_setopt_array($curlParams, array(
+                    CURLOPT_URL => FLEX_IDX_BASE_URL.'/info/recentsale',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => 'access_token='.$access_token,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/x-www-form-urlencoded'
+                    ),
+                ));
+
+                $responseParms = @json_decode(curl_exec($curlParams) , true);
+                curl_close($curlParams);
+
+                $atts["version_filter"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $responseParms["data"] : [];
+
+                ob_start();
+            
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_sold_new_flex_idx_filter.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_sold_new_flex_idx_filter.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_sold_new_flex_idx_filter.php';
+                }
+
             }
+
+
+            return ob_get_clean();
+
+
+        }else{
+
+                // generate form ids
+                $unique_filter_form_ID = mt_rand();
+
+                $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
+                $GLOBALS["filter_id"] = $atts["id"];
+                $GLOBALS["type_filter"] = "display-filter";
+
+                $gallery_val = $atts["gallery"];
+
+                $typeworked = '0';
+                $default_view = $flex_idx_info['search']['default_view'];
+
+                if (isset($atts['type'])) {
+                    $typeworked = $atts['type'];
+                }
+
+                if ('' != $atts['id']) {
+                    $atts['type'] = 0;
+                }
+
+                $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
+
+                $wp_request = $wp->request;
+                $wp_request_exp = explode('/', $wp_request);
+
+                $valid_sortings = array(
+                    'order-price-desc', 'order-price-asc',
+                    'order-bed-desc', 'order-bed-asc',
+                    'order-sqft-desc', 'order-sqft-asc',
+                    'order-year-desc', 'order-year-asc',
+                    'order-list_date-desc', 'order-list_date-asc',
+                );
+
+                $valid_views = array('view-grid', 'view-list', 'view-map');
+
+
+                $order = (isset($wp_request_exp[1]) && in_array($wp_request_exp[1], $valid_sortings)) ? $wp_request_exp[1] : null;
+                $view = (isset($wp_request_exp[2]) && in_array($wp_request_exp[2], $valid_views)) ? $wp_request_exp[2] : '';
+                $page = isset($wp_request_exp[3]) ? (int)preg_replace('/[^\d]/', '', $wp_request_exp[3]) : 1;
+
+                if ( empty($order) ) {
+                    $order =$atts["order"];
+                }
+
+                $param_url = [];
+
+                $sale_type = [];
+
+                if ($atts['oh'] == "1") {
+                    $param_url['oh'] = "1";
+                } else {
+                    $param_url['oh'] = "0";
+                }
+
+                if ($atts['sale_type'] == 'for-sale') {
+                    $sale_type[] = 0;
+                } else if ($atts['sale_type'] == 'for-rent') {
+                    $sale_type[] = 1;
+                }
+
+                if ($atts['mode'] == 'multi-slider') {
+                    $sale_type[] = 0;
+                }
+
+                if ( !empty($order) ) {
+                    $param_url['sort'] = $order;
+                }
+
+
+                if (!empty($_GET)) {
+
+                    if (array_key_exists('price', $_GET)) {
+                        $param_url['min_price'] = '--';
+                        $param_url['max_price'] = '--';
+                        if (!empty($_GET['price'])) {
+                            $temparray_price = explode('~', $_GET['price']);
+                            if (is_array($temparray_price)) {
+                                if (array_key_exists(0, $temparray_price))
+                                    $param_url['min_price'] = $temparray_price[0];
+
+                                if (array_key_exists(0, $temparray_price))
+                                    $param_url['max_price'] = $temparray_price[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('price_rent', $_GET)) {
+                        $param_url['min_rent_price'] = '--';
+                        $param_url['max_rent_price'] = '--';
+                        if (!empty($_GET['price_rent'])) {
+                            $temparray_price_rent = explode('~', $_GET['price_rent']);
+                            if (is_array($temparray_price_rent)) {
+                                if (array_key_exists(0, $temparray_price_rent))
+                                    $param_url['min_rent_price'] = $temparray_price_rent[0];
+
+                                if (array_key_exists(0, $temparray_price_rent))
+                                    $param_url['max_rent_price'] = $temparray_price_rent[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('bed', $_GET)) {
+                        $param_url['min_beds'] = '--';
+                        $param_url['max_beds'] = '--';
+                        if (!empty($_GET['bed'])) {
+                            $temparray_bed = explode('~', $_GET['bed']);
+                            if (is_array($temparray_bed)) {
+                                if (array_key_exists(0, $temparray_bed))
+                                    $param_url['min_beds'] = $temparray_bed[0];
+
+                                if (array_key_exists(0, $temparray_bed))
+                                    $param_url['max_beds'] = $temparray_bed[1];
+                            }
+                        }
+                    }
+
+
+                    if (array_key_exists('bath', $_GET)) {
+                        $param_url['min_baths'] = '--';
+                        $param_url['max_baths'] = '--';
+                        if (!empty($_GET['bath'])) {
+                            $temparray_bath = explode('~', $_GET['bath']);
+                            if (is_array($temparray_bath)) {
+                                if (array_key_exists(0, $temparray_bath))
+                                    $param_url['min_baths'] = $temparray_bath[0];
+
+                                if (array_key_exists(0, $temparray_bath))
+                                    $param_url['max_baths'] = $temparray_bath[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('sqft', $_GET)) {
+                        $param_url['min_sqft'] = '--';
+                        $param_url['max_sqft'] = '--';
+                        if (!empty($_GET['sqft'])) {
+                            $temparray_sqft = explode('~', $_GET['sqft']);
+                            if (is_array($temparray_sqft)) {
+                                if (array_key_exists(0, $temparray_sqft))
+                                    $param_url['min_sqft'] = $temparray_sqft[0];
+
+                                if (array_key_exists(0, $temparray_sqft))
+                                    $param_url['max_sqft'] = $temparray_sqft[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('lotsize', $_GET)) {
+                        $param_url['min_lotsize'] = '--';
+                        $param_url['max_lotsize'] = '--';
+                        if (!empty($_GET['lotsize'])) {
+                            $temparray_bath = explode('~', $_GET['lotsize']);
+                            if (is_array($temparray_bath)) {
+                                if (array_key_exists(0, $temparray_bath))
+                                    $param_url['min_lotsize'] = $temparray_bath[0];
+
+                                if (array_key_exists(0, $temparray_bath))
+                                    $param_url['max_lotsize'] = $temparray_bath[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('yearbuilt', $_GET)) {
+                        $param_url['min_year'] = '--';
+                        $param_url['max_year'] = '--';
+                        if (!empty($_GET['yearbuilt'])) {
+                            $temparray_year = explode('~', $_GET['yearbuilt']);
+                            if (is_array($temparray_year)) {
+                                if (array_key_exists(0, $temparray_year))
+                                    $param_url['min_year'] = $temparray_year[0];
+
+                                if (array_key_exists(0, $temparray_year))
+                                    $param_url['max_year'] = $temparray_year[1];
+                            }
+                        }
+                    }
+
+                    if (array_key_exists('fea', $_GET))
+                        $param_url['features'] = $_GET['fea'];
+
+                    if (array_key_exists('type', $_GET))
+                        $param_url['tab'] = $_GET['type'];
+
+                    if (array_key_exists('waterdesc', $_GET))
+                        $param_url['waterfront'] = $_GET['waterdesc'];
+
+                    if (array_key_exists('parking', $_GET))
+                        $param_url['parking'] = $_GET['parking'];
+
+                    if (array_key_exists('pagenum', $_GET))
+                        $param_url['pagenum'] = $_GET['pagenum'];
+
+                    if (array_key_exists('sort', $_GET))
+                        $param_url['sort'] = $_GET['sort'];
+
+                }
+
+                $list_type = [];
+
+                $send_param_view = "grid";
+                if ($atts["type"] == '1') {
+                    $send_param_view = !empty($view) ? $view : "view-grid";
+                } else {
+                    $send_param_view = !empty($view) ? str_replace($view, "view-", "") : "grid";
+                }
+
+                $sendParams = array(
+                    'filter_id' => $atts['id'],
+                    'listing_type' => $atts['type'],
+                    'list_type' => $list_type,
+                    'limit' => $atts['limit'],
+                    'order' => !empty($order) ? $order : "price-desc",
+                    'sale_type' => $sale_type,
+                    'view' => $send_param_view,
+                    'page' => $page,
+                    'dom' => $atts["dom"],
+                    'hide_pending' => $atts["pending"],
+                    'idx' => $param_url,
+                    'county' => $atts["county"],
+                    'photo_res' => $atts["photo-res"],
+                    'access_token' => $access_token,
+                    'version_endpoint' => 'new',
+                    'flex_credentials' => $flex_lead_credentials,
+                    'registration_key' => $atts['registration_key']
+                );
+
+
+                wp_enqueue_style('flex-idx-filter-pages-css');
+
+                if ($atts["type"] != "1" && isset($atts["mode"]) && ($atts["mode"] != "slider")) {
+                    $is_recent_sales = 'no';
+                    $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_DISPLAY_FILTER_V4 : FLEX_IDX_API_MARKET);
+
+                    if ($atts['type'] == '2') {
+                        wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
+                        wp_enqueue_script('idxboost_exclusive_listing');
+                        $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2 : FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
+
+                        if ($atts["reference"] == "yes") {
+                            wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
+                        }
+
+                    } elseif ($atts['type'] == '1') {
+                        $is_recent_sales = 'yes';
+                        wp_localize_script('idxboost_exclusive_listing', 'is_recent_sales', $is_recent_sales);
+                        wp_enqueue_script('idxboost_exclusive_listing');
+                        $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_RECENT_SALE_v2 : FLEX_IDX_API_MARKET_RECENT_SALE);
+
+                        if ($atts["reference"] == "yes") {
+                            wp_localize_script('idxboost_exclusive_listing', 'is_references_active', $atts["reference"]);
+                        }
+
+                    } else {
+                        if ($atts["reference"] == "yes") {
+                            wp_localize_script('flex-idx-filter-js', 'is_references_active', $atts["reference"]);
+                        }
+                        wp_enqueue_script('flex-idx-filter-js');
+                    }
+
+                    
+                    /*
+                    if ($idx_v == "1") {
+
+                        if ( !empty($atts["id"]) ) {
+                      
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $endpointFilter );
+                            curl_setopt($ch, CURLOPT_POST, 1);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+                            $server_output = curl_exec($ch);
+                            $response = json_decode($server_output, true);
+                        }
+                    }
+                    */
+                        $ch = curl_init();
+
+                        curl_setopt($ch, CURLOPT_URL, $endpointFilter);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
+
+                        $server_output = curl_exec($ch);
+                        $response = json_decode($server_output, true);
+
+
+                    if ($atts['type'] == '2' || $atts['type'] == '1') {
+                        wp_localize_script('idxboost_exclusive_listing', 'filter_metadata', json_encode($response));
+                    } else {
+                        wp_localize_script('flex-idx-filter-js', 'filter_metadata', $response);
+                    }
+
+                    if (isset($response['info']['property_type'])) {
+                        $list_ptypes = array('tw', '1', '2', 'valand', 'mf','co_op');
+                        $exp_property_type = explode('|', $response['info']['property_type']);
+                        $catch_list_ptype = array();
+
+                        foreach ($exp_property_type as $ptype) {
+                            if (in_array($ptype, $list_ptypes)) {
+                                $catch_list_ptype[] = ["value" => $ptype, "label" => $ptype];
+                            }
+                        }
+
+                        $response['info']['property_type_list'] = $catch_list_ptype;
+                    }
+
+                    $sendParams_count = array(
+                        'access_token' => $access_token,
+                        'flex_credentials' => $flex_lead_credentials
+                    );
+
+                    $chcanti = curl_init();
+
+                    curl_setopt($chcanti, CURLOPT_URL, FLEX_IDX_API_FAVORITES_LIST);
+                    curl_setopt($chcanti, CURLOPT_POST, 1);
+                    curl_setopt($chcanti, CURLOPT_POSTFIELDS, http_build_query($sendParams_count));
+                    curl_setopt($chcanti, CURLOPT_RETURNTRANSFER, true);
+                    @curl_setopt($chcanti, CURLOPT_REFERER, ib_get_http_referer());
+
+                    $server_output_canti = curl_exec($chcanti);
+                    curl_close($chcanti);
+
+                    $response_canti = json_decode($server_output_canti, true);
+
+                }
+
+                $search_params = $flex_idx_info['search'];
+
+                $agent_info_name = isset($flex_idx_info['agent']['agent_contact_first_name']) ? $flex_idx_info['agent']['agent_contact_first_name'] : '';
+                $agent_last_name = isset($flex_idx_info['agent']['agent_contact_last_name']) ? $flex_idx_info['agent']['agent_contact_last_name'] : '';
+                $agent_info_photo = isset($flex_idx_info['agent']['agent_contact_photo_profile']) ? $flex_idx_info['agent']['agent_contact_photo_profile'] : '';
+                $agent_info_phone = isset($flex_idx_info['agent']['agent_contact_phone_number']) ? $flex_idx_info['agent']['agent_contact_phone_number'] : '';
+                $agent_info_email = isset($flex_idx_info['agent']['agent_contact_email_address']) ? $flex_idx_info['agent']['agent_contact_email_address'] : '';
+
+                $ptypes_checked = array();
+
+                if (!empty($response)) {
+                    if (array_key_exists('info', $response)) {
+                        foreach ($response['info']['property_type_list'] as $ptype_filter) {
+                            $ptypes_checked[] = $ptype_filter["value"];
+                        }
+                    }
+                }
+
+                $agent_info = get_option('idxboost_agent_info');
+                $registration_is_forced = (isset($agent_info["force_registration"]) && (true === $agent_info["force_registration"])) ? true : false;
+                $board_id = $flex_idx_info['board_id'];
+
+                $default_view = '';
+                if (!empty($default_view)) {
+                    if ($default_view != 'nmap') {
+                        $default_view = $view_value;
+                    } else if ($default_view == 'nmap') {
+                        $default_view = 'map';
+                    }
+                }
+
+                ob_start();
+
+                if (isset($atts['mode']) && ($atts['mode'] === 'thumbs')) {
+                    $featured_filter_page = $wpdb->get_row("
+                        SELECT ID, post_title
+                        FROM {$wpdb->posts} t1
+                        INNER JOIN {$wpdb->postmeta} t2
+                        ON t1.ID = t2.post_id
+                        WHERE t1.post_type = 'flex-filter-pages'
+                        AND t1.post_status = 'publish'
+                        AND t2.meta_key = '_flex_filter_page_show_home'
+                        AND t2.meta_value = 1
+                        ", ARRAY_A);
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_thumbs.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_thumbs.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_thumbs.php';
+                    }
+                } else if (isset($atts["mode"]) && ($atts["mode"] === "multi-slider")) {
+                    $response_rentals = idx_exclusive_operation_slider_xhr_fn($atts['type'], '', '1');
+                    wp_enqueue_script('idx-exclusive-thumbs', FLEX_IDX_URI . 'js/idx-exclusive-thumbs.js');
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_filter_multi_slider.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_filter_multi_slider.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idx_filter_multi_slider.php';
+                    }
+                } else if (isset($atts["mode"]) && ($atts["mode"] === "slider")) {
+
+                    wp_enqueue_script('ib_slider_filter');
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_only_filter_thumb.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idx_only_filter_thumb.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idx_only_filter_thumb.php';
+                    }
+                } else if (isset($atts["mode"]) && ($atts["mode"] === "grid")) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_grid.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_grid.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_grid.php';
+                    }
+                } else if (isset($atts["mode"]) && ($atts["mode"] === "minimal")) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_minimal.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_minimal.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_minimal.php';
+                    }
+                } else if (isset($atts["mode"]) && ($atts["mode"] === "carrousel")) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_carrousel.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter_carrousel.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter_carrousel.php';
+                    }
+                } else if (isset($atts["type"]) && ($atts["type"] === "2")) {
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_exclusive_listing.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_exclusive_listing.php';
+                    }
+                } else if ($atts["type"] === "1") {
+                    wp_localize_script('idxboost_recent_sales', '__flex_rs_filter', [
+                        "view" => "grid",
+                        "page" => intval($sendParams["page"]),
+                        "sort" => $sendParams["order"]
+                    ]);
+
+
+                    if ($atts["reference"] == "yes")
+                        wp_localize_script('idxboost_recent_sales', 'is_references_active', $atts["reference"]);
+
+                    wp_enqueue_script('idxboost_recent_sales');
+
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/short_idxboost_recent_sales.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/short_idxboost_recent_sales.php';
+                    }
+                } else {
+
+                    // Librería custom player para Hackbox que contengan videos
+                    wp_enqueue_script('custom-player');
+                    wp_enqueue_style('custom-player');
+                    wp_enqueue_script("ib-track-display-filter-view-js");
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_filter.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/flex_idx_filter.php';
+                    }
+                }
+
+                return ob_get_clean();
+
+
+
         }
 
-        return ob_get_clean();
+
     }
 
+    add_action('wp_head', 'insert_assets_head_flex_idx_filter', 5);
     add_shortcode('flex_idx_filter', 'flex_idx_filter_sc');
 }
+
 
 if (!function_exists('idxboost_filter_collection_sc')) {
     function idxboost_filter_collection_sc($atts, $content = null)

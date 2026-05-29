@@ -1999,6 +1999,48 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                             </li>
                                         <?php } ?>
 
+                                        <?php if (in_array($flex_idx_info["board_id"], [33]) && ($property['is_rental'] == 1)) { ?>
+
+
+                                            <?php if (!empty($property["more_info"]["move_costs"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Move Cost", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt">$<?php echo number_format($property["more_info"]["move_costs"]); ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["move_in_costs"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Move In Costs", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["move_in_costs"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["additional_fee_amount"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Additional Fee Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt">$<?php echo $property["more_info"]["additional_fee_amount"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["additional_fee_description"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Additional Fee", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["additional_fee_description"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+
+                                            <?php if (!empty($property["more_info"]["tenant_pays_desc"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Tenant Pays", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["tenant_pays_desc"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            
+                                        <?php } ?>
+
                                     </ul>
 
 
@@ -2258,6 +2300,48 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                                 <span class="ib-plist-st"><?php echo __("Zoning", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                                 <span class="ib-plist-pt"><?php echo $more_info_property["zoning"]; ?></span>
                                             </li>
+                                        <?php } ?>
+
+                                        <?php if (in_array($flex_idx_info["board_id"], [33]) && ($property['is_rental'] == 1)) { ?>
+
+
+                                            <?php if (!empty($property["more_info"]["move_costs"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Move Cost", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt">$<?php echo number_format($property["more_info"]["move_costs"]); ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["move_in_costs"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Move In Costs", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["move_in_costs"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["additional_fee_amount"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Additional Fee Amount", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt">$<?php echo $property["more_info"]["additional_fee_amount"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            <?php if (!empty($property["more_info"]["additional_fee_description"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Additional Fee", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["additional_fee_description"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+
+                                            <?php if (!empty($property["more_info"]["tenant_pays_desc"])) { ?>
+                                            <li>
+                                                <span class="ib-plist-st"><?php echo __("Tenant Pays", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["tenant_pays_desc"]; ?></span>
+                                            </li>
+                                            <?php } ?>
+
+                                            
                                         <?php } ?>
                                     </ul>
 

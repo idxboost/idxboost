@@ -65,12 +65,13 @@ if (!function_exists('title_flex_idx_new_development_detail_sc')) {
 
 }
 
-function getIdxDefaultParams($responseParms) {
+function getIdxDefaultParams($responseParms)
+{
     $p = isset($responseParms['params']) ? $responseParms['params'] : [];
-    
+
     $valueMap = ["1" => "condos", "2" => "homes", "tw" => "townhouse", "mf" => "multifamily", "valand" => "vacantland"];
 
-    
+
     $types = [];
     if (!empty($p['property_types']) && is_array($p['property_types'])) {
         foreach ($p['property_types'] as $pt) {
@@ -83,35 +84,35 @@ function getIdxDefaultParams($responseParms) {
     sort($types);
 
     $result = [
-        "board_id"       => "1",
-        "extra_board_id" => "4,7",
-        "limit"          => "23",
-        "page"           => "0",
-        "hide_pending"   => "1",
-        "for"            => (isset($p['sale_type']) && $p['sale_type'] == "1") ? "rental" : "sale",
-        "sort"           => isset($p['sort_type']) ? (string)$p['sort_type'] : "list_date-desc",
-        "type"           => !empty($types) ? implode(',', $types) : "condos,homes,multifamily,townhouse,vacantland",
-        "polygon"        => isset($p['polygon_search']) ? (string)$p['polygon_search'] : ""
+            "board_id" => "1",
+            "extra_board_id" => "4,7",
+            "limit" => "23",
+            "page" => "0",
+            "hide_pending" => "1",
+            "for" => (isset($p['sale_type']) && $p['sale_type'] == "1") ? "rental" : "sale",
+            "sort" => isset($p['sort_type']) ? (string)$p['sort_type'] : "list_date-desc",
+            "type" => !empty($types) ? implode(',', $types) : "condos,homes,multifamily,townhouse,vacantland",
+            "polygon" => isset($p['polygon_search']) ? (string)$p['polygon_search'] : ""
     ];
 
     $mapping = [
-        "min_sale_price"     => "min_price",
-        "max_sale_price"     => "max_price",
-        "min_beds"           => "min_beds",
-        "max_beds"           => "max_beds",
-        "min_baths"          => "min_baths",
-        "max_baths"          => "max_baths",
-        "min_living_size"    => "min_sqft",
-        "max_living_size"    => "max_sqft",
-        "min_lot_size"       => "min_lotsize",
-        "max_lot_size"       => "max_lotsize",
-        "min_year"           => "min_year",
-        "max_year"           => "max_year",
-        "parking_options"    => "parking",
-        "days_on_market"     => "dom_max",
-        "waterfront_options" => "wv",
-        "min_rent_price"     => "min_price",
-        "max_rent_price"     => "max_price"
+            "min_sale_price" => "min_price",
+            "max_sale_price" => "max_price",
+            "min_beds" => "min_beds",
+            "max_beds" => "max_beds",
+            "min_baths" => "min_baths",
+            "max_baths" => "max_baths",
+            "min_living_size" => "min_sqft",
+            "max_living_size" => "max_sqft",
+            "min_lot_size" => "min_lotsize",
+            "max_lot_size" => "max_lotsize",
+            "min_year" => "min_year",
+            "max_year" => "max_year",
+            "parking_options" => "parking",
+            "days_on_market" => "dom_max",
+            "waterfront_options" => "wv",
+            "min_rent_price" => "min_price",
+            "max_rent_price" => "max_price"
     ];
 
     foreach ($mapping as $keyOrigin => $keyPayload) {
@@ -129,7 +130,8 @@ function getIdxDefaultParams($responseParms) {
 
 
 if (!function_exists('processIdxSearch')) {
-    function processIdxSearch($responseParms) {
+    function processIdxSearch($responseParms)
+    {
 
         $newData = getIdxDefaultParams($responseParms);
 
@@ -145,12 +147,12 @@ if (!function_exists('processIdxSearch')) {
                 case 'built':
                     $parts = explode('-', (string)$value);
                     $m = [
-                        'price' => ['min_price', 'max_price'],
-                        'beds'  => ['min_beds', 'max_beds'],
-                        'baths' => ['min_baths', 'max_baths'],
-                        'size'  => ['min_sqft', 'max_sqft'],
-                        'lot'   => ['min_lotsize', 'max_lotsize'],
-                        'built' => ['min_year', 'max_year']
+                            'price' => ['min_price', 'max_price'],
+                            'beds' => ['min_beds', 'max_beds'],
+                            'baths' => ['min_baths', 'max_baths'],
+                            'size' => ['min_sqft', 'max_sqft'],
+                            'lot' => ['min_lotsize', 'max_lotsize'],
+                            'built' => ['min_year', 'max_year']
                     ];
                     if (isset($m[$key])) {
                         $newData[$m[$key][0]] = (isset($parts[0])) ? (string)$parts[0] : "0";
@@ -174,12 +176,20 @@ if (!function_exists('processIdxSearch')) {
                     $newData['type'] = str_replace(['house', 'condo'], ['homes', 'condos'], (string)$value);
                     break;
 
-                case 'cp':      $newData['page'] = (string)$value; break;
-                case 'kw_att':  $newData['keyword'] = (string)$value; break;
-                case 'wf':      $newData['wv'] = (string)$value; break;
-                case 'att':     $newData['features'] = (string)$value; break;
+                case 'cp':
+                    $newData['page'] = (string)$value;
+                    break;
+                case 'kw_att':
+                    $newData['keyword'] = (string)$value;
+                    break;
+                case 'wf':
+                    $newData['wv'] = (string)$value;
+                    break;
+                case 'att':
+                    $newData['features'] = (string)$value;
+                    break;
 
-                default:                
+                default:
                     $newData[$key] = (string)$value;
                     break;
             }
@@ -189,19 +199,19 @@ if (!function_exists('processIdxSearch')) {
         $postFields = http_build_query($newData);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-idx-search.idxboost.com/search',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $postFields,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/x-www-form-urlencoded'
-            ),
-            CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_URL => 'https://api-idx-search.idxboost.com/search',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $postFields,
+                CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/x-www-form-urlencoded'
+                ),
+                CURLOPT_SSL_VERIFYPEER => false,
         ));
 
         $response = curl_exec($curl);
@@ -209,8 +219,8 @@ if (!function_exists('processIdxSearch')) {
         curl_close($curl);
 
         return [
-            "payload_sent" => $newData,
-            "api_response" => ($err) ? ["error" => $err] : json_decode($response, true)
+                "payload_sent" => $newData,
+                "api_response" => ($err) ? ["error" => $err] : json_decode($response, true)
         ];
     }
 }
@@ -706,17 +716,17 @@ if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                'code' => 'invalid_security_token',
-                'message' => 'Invalid or expired security token. Please reload the page.',
-                'action' => 'reload_required'
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
             ]);
         }
 
         if (!$recaptcha_response) {
             wp_send_json_error([
-                'code' => 'missing_recaptcha_field',
-                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
-                'action' => 'reload_required'
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
             ], 400);
             exit;
         }
@@ -767,17 +777,17 @@ if (!function_exists('ib_lead_submission_rent_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                'code' => 'invalid_security_token',
-                'message' => 'Invalid or expired security token. Please reload the page.',
-                'action' => 'reload_required'
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
             ]);
         }
 
         if (!$recaptcha_response) {
             wp_send_json_error([
-                'code' => 'missing_recaptcha_field',
-                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
-                'action' => 'reload_required'
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
             ], 400);
             exit;
         }
@@ -828,17 +838,17 @@ if (!function_exists('ib_lead_submission_sell_xhr_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                'code' => 'invalid_security_token',
-                'message' => 'Invalid or expired security token. Please reload the page.',
-                'action' => 'reload_required'
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
             ]);
         }
 
         if (!$recaptcha_response) {
             wp_send_json_error([
-                'code' => 'missing_recaptcha_field',
-                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
-                'action' => 'reload_required'
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
             ], 400);
             exit;
         }
@@ -862,12 +872,12 @@ if (!function_exists('ib_register_quizz_save_fn')) {
     {
         $response = [];
         $access_token = flex_idx_get_access_token();
-        
+
         //$flex_lead_credentials = isset($_COOKIE['ib_lead_token']) ? ($_COOKIE['ib_lead_token']) : '';
 
         $flex_lead_credentials = isset($_COOKIE['ib_lead_token']) && !empty($_COOKIE['ib_lead_token'])
-		? $_COOKIE['ib_lead_token']
-		: (isset($_POST['ib_lead_token']) ? sanitize_text_field($_POST['ib_lead_token']) : '');
+                ? $_COOKIE['ib_lead_token']
+                : (isset($_POST['ib_lead_token']) ? sanitize_text_field($_POST['ib_lead_token']) : '');
 
         $ch = curl_init();
         $timeline_for_purchase = isset($_POST["timeline_for_purchase"]) ? $_POST["timeline_for_purchase"] : "";
@@ -1532,9 +1542,9 @@ if (!function_exists('flex_share_with_friend_xhr_fn')) {
 
         if (!$recaptcha_response) {
             wp_send_json_error([
-                'code' => 'missing_recaptcha_field',
-                'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
-                'action' => 'reload_required'
+                    'code' => 'missing_recaptcha_field',
+                    'message' => 'Missing reCAPTCHA verification. Please reload and try again.',
+                    'action' => 'reload_required'
             ], 400);
             exit;
         }
@@ -2248,6 +2258,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['follow_up_boss_api_key'] = isset($idxboost_agent_info['follow_up_boss_api_key']) ? $idxboost_agent_info['follow_up_boss_api_key'] : "";
             $output['agent']['follow_up_boss_source'] = isset($idxboost_agent_info['follow_up_boss_source']) ? $idxboost_agent_info['follow_up_boss_source'] : "";
             $output['agent']['follow_up_boss_pixel'] = isset($idxboost_agent_info['follow_up_boss_pixel']) ? $idxboost_agent_info['follow_up_boss_pixel'] : "";
+            $output['agent']['idx_boost_crm_pixel'] = isset($idxboost_agent_info['idx_boost_crm_pixel']) ? $idxboost_agent_info['idx_boost_crm_pixel'] : "";
             $output['agent']['id_analytic_matomo'] = isset($idxboost_agent_info['id_analytic_matomo']) ? $idxboost_agent_info['id_analytic_matomo'] : "";
             $output['agent']['id_analytic_matomo_enable'] = isset($idxboost_agent_info['id_analytic_matomo_enable']) ? (int)$idxboost_agent_info['id_analytic_matomo_enable'] : 0;
             $output['agent']['signup_left_clicks'] = isset($idxboost_agent_info['signup_left_clicks']) ? $idxboost_agent_info['signup_left_clicks'] : null;
@@ -2555,9 +2566,9 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                                         <?php if (!empty($encode_token)) { ?>
                                         Cookies.set("_ib_left_click_force_registration", 0);
                                         Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>");
-										Cookies.set("_ib_user_phone",            idx_info_lead.phone_number);
-										Cookies.set("_ib_user_code_phone",       idx_info_lead.country_code_phone);
-										Cookies.set("_ib_user_new_phone_number", "+" + phoneCode + phone);
+                                        Cookies.set("_ib_user_phone", idx_info_lead.phone_number);
+                                        Cookies.set("_ib_user_code_phone", idx_info_lead.country_code_phone);
+                                        Cookies.set("_ib_user_new_phone_number", "+" + phoneCode + phone);
                                         <?php
                                         $_COOKIE['ib_lead_token'] = $encode_token;
                                         } ?>
@@ -5941,9 +5952,9 @@ if (!function_exists('flex_idx_request_website_building_form_fn')) {
 
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
             wp_send_json_error([
-                'code' => 'invalid_security_token',
-                'message' => 'Invalid or expired security token. Please reload the page.',
-                'action' => 'reload_required'
+                    'code' => 'invalid_security_token',
+                    'message' => 'Invalid or expired security token. Please reload the page.',
+                    'action' => 'reload_required'
             ]);
         }
 
@@ -6352,7 +6363,8 @@ if (!function_exists('idxboost_collection_list_fn')) {
 }
 
 
-function formatKSmart($num) {
+function formatKSmart($num)
+{
     if ($num >= 1000000) {
         $v = $num / 1000000;
         return rtrim(rtrim(number_format($v, 1, '.', ''), '0'), '.') . "M";
@@ -6396,7 +6408,7 @@ if (!function_exists('get_feed_file_building_history_building_elastic_xhr_fn')) 
         $result = [];
 
         if (file_exists($post_building)) {
-            $result = @json_decode( stripslashes( file_get_contents($post_building) ), true );
+            $result = @json_decode(stripslashes(file_get_contents($post_building)), true);
         }
 
         return $result;
@@ -7499,9 +7511,9 @@ if (!function_exists('flex_idx_register_assets')) {
                 'events' => [
                         'trackingServiceUrl' => IDX_BOOST_LEAD_TRACKING_EVENTS,
                         'leadCheckSettings' => IDXBOOST_LEAD_CHECK_SETTINGS,
-						'quizzSaveUrl' => admin_url('admin-ajax.php')
+                        'quizzSaveUrl' => admin_url('admin-ajax.php')
                 ],
-			
+
                 'api_service_collections' => FLEX_IDX_API_COLLECTIONS,
                 'domain_service' => FLEX_IDX_BASE_URL,
                 'lookupAutocomplete' => FLEX_IDX_SERVICE_SUGGESTIONS,
@@ -8543,10 +8555,10 @@ function insert_assets_head_new_development_collections()
 
     if (has_shortcode($content, 'new_development_collections')) {
         idxboost_print_vite_assets([
-            'distDir' => ib_get_idx_path() . 'react/new-developments/dist/',
-            'distUrl' => FLEX_IDX_URI . 'react/new-developments/dist/',
-            'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.min.css?ver=' .
-                iboost_get_mod_time('react/new-developments/fonts/icons/style.min.css')
+                'distDir' => ib_get_idx_path() . 'react/new-developments/dist/',
+                'distUrl' => FLEX_IDX_URI . 'react/new-developments/dist/',
+                'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.min.css?ver=' .
+                        iboost_get_mod_time('react/new-developments/fonts/icons/style.min.css')
         ]);
     }
 }
@@ -9583,7 +9595,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/carbonite.js',
                     array('jquery', 'get-video-id-js'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -9593,7 +9605,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/carbonite-sections.js',
                     array('carbonite', 'greatslider'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -9603,7 +9615,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/pages/contact.js',
                     array('carbonite', 'google-maps-api'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -9613,7 +9625,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/addons/loader.js',
                     array('carbonite'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -9623,7 +9635,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/addons/translate.js',
                     array('carbonite'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -9633,7 +9645,7 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     get_cms_assets_base_url() . '/assets/js/addons/tripwire.js',
                     array('carbonite'),
                     array(
-                        'sv' => $idxboostCmsAssetsVersion
+                            'sv' => $idxboostCmsAssetsVersion
                     ),
                     true
             );
@@ -10322,6 +10334,109 @@ if (!function_exists('idxboost_integrations_head')) {
             </script>';
         }
 
+        if ($flex_idx_info['agent']['idx_boost_crm_pixel'] != "") {
+            echo '<!-- IDXBoost Pixel -->
+                <script>
+                (function() {
+                  var API_BASE = "https://crm-1ycrqzh4ek.idxboost.app";
+                  var TOKEN = "'.$flex_idx_info['agent']['idx_boost_crm_pixel'].'";
+                  var VISITOR_KEY = "idxb_visitor_id";
+                  var SESSION_KEY = "idxb_session_id";
+                  var EMAIL_KEY = "idxb_email";
+                
+                  function uid(prefix) {
+                    return prefix + "_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+                  }
+                  function getVisitorId() {
+                    try {
+                      var v = localStorage.getItem(VISITOR_KEY);
+                      if (!v) { v = uid("v"); localStorage.setItem(VISITOR_KEY, v); }
+                      return v;
+                    } catch (e) { return uid("v"); }
+                  }
+                  function getSessionId() {
+                    try {
+                      var s = sessionStorage.getItem(SESSION_KEY);
+                      if (!s) { s = uid("s"); sessionStorage.setItem(SESSION_KEY, s); }
+                      return s;
+                    } catch (e) { return uid("s"); }
+                  }
+                  function getEmail() {
+                    try { return localStorage.getItem(EMAIL_KEY) || undefined; } catch (e) { return undefined; }
+                  }
+                
+                  function send(payload) {
+                    try {
+                        fetch(API_BASE + "/api/v1/events", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
+                        body: JSON.stringify(payload),
+                        keepalive: true
+                      }).catch(function() {});
+                    } catch (e) {}
+                  }
+                
+                        function trackPageView(extra) {
+                            var payload = {
+                                event_type: "page_view",
+                      visitor_id: getVisitorId(),
+                      session_id: getSessionId(),
+                      page_url: location.href,
+                      page_title: document.title || undefined,
+                      referrer: document.referrer || undefined,
+                      user_agent: navigator.userAgent
+                    };
+                    var email = getEmail();
+                    if (email) payload.email = email;
+                    if (extra && typeof extra === "object") payload.metadata = extra;
+                    send(payload);
+                  }
+                
+                        // SPA route changes via History API
+                        var origPush = history.pushState;
+                        var origReplace = history.replaceState;
+                        history.pushState = function() { var r = origPush.apply(this, arguments); setTimeout(trackPageView, 0); return r; };
+                        history.replaceState = function() { var r = origReplace.apply(this, arguments); setTimeout(trackPageView, 0); return r; };
+                        window.addEventListener("popstate", function() { setTimeout(trackPageView, 0); });
+                
+                        // Public API for site code:
+                        //   IDXBoost.identify("user@example.com") — links anonymous events to a known contact
+                        //   IDXBoost.track("page_view")           — manual page_view (or other event_type)
+                        window.IDXBoost = {
+                        identify: function(email) {
+                            try { if (email) localStorage.setItem(EMAIL_KEY, String(email).trim().toLowerCase()); } catch (e) {}
+                            trackPageView();
+                        },
+                    track: function(eventType, extra) {
+                            if (eventType === "page_view") return trackPageView(extra);
+                            var payload = Object.assign({
+                        event_type: eventType,
+                        visitor_id: getVisitorId(),
+                        session_id: getSessionId()
+                      }, extra || {});
+                      var email = getEmail();
+                      if (email && !payload.email) payload.email = email;
+                      send(payload);
+                    },
+                    reset: function() {
+                            try {
+                                localStorage.removeItem(VISITOR_KEY);
+                                localStorage.removeItem(EMAIL_KEY);
+                                sessionStorage.removeItem(SESSION_KEY);
+                            } catch (e) {}
+                        }
+                  };
+                
+                  if (document.readyState === "loading") {
+                      document.addEventListener("DOMContentLoaded", function() { trackPageView(); });
+                  } else {
+                      trackPageView();
+                  }
+                })();
+                    </script>
+                <!-- End IDXBoost Pixel -->';
+        }
+
         if ($flex_idx_info['agent']['id_analytic_matomo'] != "" && $flex_idx_info['agent']['id_analytic_matomo_enable']) {
             echo "<script>
                   var _paq = window._paq = window._paq || [];
@@ -10594,77 +10709,55 @@ if (!function_exists('flex_idx_get_building_noscript_inventory')) {
 if (!function_exists('idx_autologin_collections')) {
     function idx_autologin_collections()
     {
+
+        if (isset($_GET['unsubscribeToken']) && strpos($_SERVER["REQUEST_URI"], 'unsubscribeToken=') !== false) {
+            $token = $_GET['unsubscribeToken'];
+
+            $JWT = JWT::decode($token, "e672df02eeb75d7992b262439cb25363", ['HS256']);
+            $decoded_array = (array)$JWT;
+
+            $collection = $decoded_array['collection'] ?? '';
+            $lead_id = $decoded_array['lead_id'] ?? '';
+
+           $URL = FLEX_IDX_API_COLLECTIONS.'/api/collections/unsubscribe/'.$collection.'/'.$lead_id;
+           //llamar a la ulr y redireccionar el homepage
+            wp_remote_get($URL, [
+                    'timeout' => 20,
+                    'sslverify' => false,
+            ]);
+            wp_redirect(home_url('/'));
+        }
         if (isset($_GET['secureToken']) && strpos($_SERVER["REQUEST_URI"], 'secureToken=') !== false) {
 
             $token = $_GET['secureToken'];
 
-            // --- DECODIFICACIÓN MANUAL (Ya verificamos que esto funciona) ---
-            $parts = explode('.', $token);
-            if (count($parts) < 2) return;
-            $payloadBase64 = str_replace(['-', '_'], ['+', '/'], $parts[1]);
-            $remainder = strlen($payloadBase64) % 4;
-            if ($remainder) $payloadBase64 .= str_repeat('=', 4 - $remainder);
-            $decoded_array = json_decode(base64_decode($payloadBase64), true);
-            if (!$decoded_array) return;
-
-            // --- EXTRACCIÓN DE DATOS ---
+            // --- DECODIFICACIÓN MANUAL ---
+            $JWT = JWT::decode($token, "e672df02eeb75d7992b262439cb25363", ['HS256']);
+            $decoded_array = (array)$JWT;
             $collection = $decoded_array['collection'] ?? '';
-            $mls = $decoded_array['mls'] ?? '';
-            $email = $decoded_array['email'] ?? '';
 
-            // Nombres
-            $firstName = $decoded_array['firstName'] ?? ($decoded_array['first_name'] ?? '');
-            $lastName  = $decoded_array['lastName'] ?? ($decoded_array['last_name'] ?? '');
-
-            // Teléfonos (Agregado para igualar al JS)
-            $phone = $decoded_array['phone'] ?? ($decoded_array['phone_number'] ?? '');
-            $phoneCode = $decoded_array['phone_code'] ?? '';
-
-            if (empty($firstName) && !empty($email)) {
-                $parts_email = explode('@', $email);
-                $firstName = $parts_email[0];
-            }
-
-            // ---------------------------------------------------------
-            // CONFIGURACIÓN DE COOKIES (LA CLAVE DEL ARREGLO)
-            // ---------------------------------------------------------
-            $expire = time() + (30 * 86400);
-            $path = '/';
-            $domain = ""; // Dejar vacío suele funcionar mejor que poner el host manualmente en local/staging
-            $secure = is_ssl();
-            $httponly = false; // VITAL: False
-
-            // 1. EL TOKEN: Usamos setrawcookie para que PHP NO lo modifique (no url-encode)
-            setrawcookie('ib_lead_token', $token, $expire, $path, $domain, $secure, $httponly);
-
-            // 2. DATOS DE USUARIO: Usamos setcookie normal (estos sí pueden tener espacios o tildes)
-            setcookie('_ib_user_email', $email, $expire, $path, $domain, $secure, $httponly);
-            setcookie('_ib_user_firstname', $firstName, $expire, $path, $domain, $secure, $httponly);
-            setcookie('_ib_user_lastname', $lastName, $expire, $path, $domain, $secure, $httponly);
-
-            // 3. DATOS DE TELÉFONO (Tu JS los guarda, así que PHP también debe hacerlo)
-            setcookie('_ib_user_phone', $phone, $expire, $path, $domain, $secure, $httponly);
-            setcookie('_ib_user_code_phone', $phoneCode, $expire, $path, $domain, $secure, $httponly);
-
-            // 4. PERSISTENCIA
-            setcookie('_ib_last_logged_in_username', $email, $expire, $path, $domain, $secure, $httponly);
-            setcookie('social_register', 'activo', $expire, $path, $domain, $secure, $httponly);
-
+            $idx_info_lead = [
+                    'first_name'=> $decoded_array['first_name'] ?? '',
+                    'last_name'=> $decoded_array['last_name'] ?? '',
+                    'email_address'=> $decoded_array['email'] ?? '',
+                    'phone_number'=> $decoded_array['phone_number'] ?? '',
+            ];
             ?>
+
             <script type="text/javascript">
                 <?php if (!empty($idx_info_lead)) { ?>
-                let idx_info_lead = <?php echo json_encode($decoded_array); ?>;
+                let idx_info_lead = <?php echo json_encode($idx_info_lead); ?>;
 
                 (function ($) {
                     //INICITIAL VARIABLES USER
                     $("#_ib_fn_inq").val(idx_info_lead.first_name);
                     $("#_ib_ln_inq").val(idx_info_lead.last_name);
-                    $("#_ib_em_inq").val(idx_info_lead.email);
+                    $("#_ib_em_inq").val(idx_info_lead.email_address);
                     $("#_ib_ph_inq").val(idx_info_lead.phone_number);
 
                     $("._ib_fn_inq").val(idx_info_lead.first_name);
                     $("._ib_ln_inq").val(idx_info_lead.last_name);
-                    $("._ib_em_inq").val(idx_info_lead.email);
+                    $("._ib_em_inq").val(idx_info_lead.email_address);
                     $("._ib_ph_inq").val(idx_info_lead.phone_number);
 
                     //Building default label
@@ -10675,7 +10768,7 @@ if (!function_exists('idx_autologin_collections')) {
                         ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
                         ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
-                        ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email);
+                        ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
                     }
 
                     //modal regular filter default label
@@ -10685,7 +10778,7 @@ if (!function_exists('idx_autologin_collections')) {
                         ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
                         ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
-                        ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email);
+                        ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
                     }
 
                     //Off market listing default label
@@ -10695,7 +10788,7 @@ if (!function_exists('idx_autologin_collections')) {
                         ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
                         ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
-                        ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email);
+                        ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
                     }
                     //INICITIAL VARIABLES USER
 
@@ -10722,29 +10815,25 @@ if (!function_exists('idx_autologin_collections')) {
 
                 <?php } ?>
 
-                <?php if (!empty($encode_token)) { ?>
+                <?php if (!empty($token)) { ?>
                 Cookies.set("_ib_left_click_force_registration", 0);
-                Cookies.set('ib_lead_token', "<?php echo $encode_token; ?>");
+                Cookies.set('ib_lead_token', "<?php echo $token; ?>");
+                Cookies.set("_ib_user_phone", idx_info_lead.phone_number);
+                // Cookies.set("_ib_user_code_phone", idx_info_lead.country_code_phone);
+                // Cookies.set("_ib_user_new_phone_number", "+" + phoneCode + phone);
                 <?php
-                $_COOKIE['ib_lead_token'] = $encode_token;
+                $_COOKIE['ib_lead_token'] = $token;
                 } ?>
+                window.location.href = "<?php echo home_url('/collection/' . $collection); ?>";
             </script>
             <?php
 
-            // ---------------------------------------------------------
-            // REDIRECCIÓN
-            // ---------------------------------------------------------
-            $redirect_url = home_url() . '/collection/' . $collection;
-            if (!empty($mls)) {
-                $separator = (strpos($redirect_url, '?') !== false) ? '&' : '?';
-                $redirect_url .= $separator . 'show=' . $mls;
-            }
 
-            wp_redirect($redirect_url);
-            exit();
         }
+
     }
 }
+
 if (!function_exists('idx_autologin_authenticate')) {
     function idx_autologin_authenticate()
     {
@@ -11458,10 +11547,10 @@ function insert_assets_head_off_market_collection_sc()
     if (has_shortcode($content, 'off_market_collection')) {
 
         idxboost_print_vite_assets([
-            'distDir' => ib_get_idx_path() . 'react/off-markets/dist/',
-            'distUrl' => FLEX_IDX_URI . 'react/off-markets/dist/',
-            'iconCssUrl' => FLEX_IDX_URI . 'react/off-markets/fonts/icons/style.min.css?ver=' .
-            iboost_get_mod_time('react/off-markets/fonts/icons/style.min.css')
+                'distDir' => ib_get_idx_path() . 'react/off-markets/dist/',
+                'distUrl' => FLEX_IDX_URI . 'react/off-markets/dist/',
+                'iconCssUrl' => FLEX_IDX_URI . 'react/off-markets/fonts/icons/style.min.css?ver=' .
+                        iboost_get_mod_time('react/off-markets/fonts/icons/style.min.css')
         ]);
 
         add_action('wp_footer', 'idxboost_remove_conflicting_scripts', 9999);
@@ -11484,7 +11573,7 @@ if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
      */
     function idxboost_enqueue_lead_collector_loader(): void
     {
-        
+
         if (is_admin()) {
             return;
         }
@@ -11497,25 +11586,25 @@ if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
         }
 
         $base_dir = ib_get_idx_path() . 'react/sell_rent_dinamic_forms/';
-        $base_url = FLEX_IDX_URI       . 'react/sell_rent_dinamic_forms/';
+        $base_url = FLEX_IDX_URI . 'react/sell_rent_dinamic_forms/';
 
         $loader_rel_dir = 'react/sell_rent_dinamic_forms/section-modal-wordpress-loader/';
         $bundle_rel_dir = 'react/sell_rent_dinamic_forms/section-modal-wordpress/';
 
         $loader_path = $base_dir . 'section-modal-wordpress-loader/loader.js';
-        $bundle_js_path  = $base_dir . 'section-modal-wordpress/index.js';
+        $bundle_js_path = $base_dir . 'section-modal-wordpress/index.js';
         $bundle_css_path = $base_dir . 'section-modal-wordpress/index.css';
 
         if (!is_readable($loader_path) ||
-            !is_readable($bundle_js_path) ||
-            !is_readable($bundle_css_path)) {
+                !is_readable($bundle_js_path) ||
+                !is_readable($bundle_css_path)) {
             return;
         }
 
         // Independent cache busters per file (loader and heavy bundle ship
         // separately, so they need separate versions).
-        $loader_ver     = iboost_get_mod_time($loader_rel_dir . 'loader.js');
-        $bundle_js_ver  = iboost_get_mod_time($bundle_rel_dir . 'index.js');
+        $loader_ver = iboost_get_mod_time($loader_rel_dir . 'loader.js');
+        $bundle_js_ver = iboost_get_mod_time($bundle_rel_dir . 'index.js');
         $bundle_css_ver = iboost_get_mod_time($bundle_rel_dir . 'index.css');
 
         // Heavy-bundle URLs go INTO the inline config — they are not
@@ -11524,33 +11613,129 @@ if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
             return $ver ? add_query_arg('ver', $ver, $url) : $url;
         };
 
-        $bundle_js_url  = $append_ver($base_url . 'section-modal-wordpress/index.js',  $bundle_js_ver);
+        $bundle_js_url = $append_ver($base_url . 'section-modal-wordpress/index.js', $bundle_js_ver);
         $bundle_css_url = $append_ver($base_url . 'section-modal-wordpress/index.css', $bundle_css_ver);
 
         wp_register_script(
-            'idx-lc-loader',
-            $base_url . 'section-modal-wordpress-loader/loader.js',
-            [],                  // no deps
-            $loader_ver,         // WP appends ?ver=$loader_ver
-            [
-                'in_footer' => true,
-                'strategy'  => 'defer', // WP 6.3+
-            ]
+                'idx-lc-loader',
+                $base_url . 'section-modal-wordpress-loader/loader.js',
+                [],                  // no deps
+                $loader_ver,         // WP appends ?ver=$loader_ver
+                [
+                        'in_footer' => true,
+                        'strategy' => 'defer', // WP 6.3+
+                ]
         );
 
         // Inline config MUST come before the loader script tag so the
         // window global exists when loader.js executes.
         wp_add_inline_script(
-            'idx-lc-loader',
-            'window.IDX_LEAD_COLLECTOR_LOADER_CONFIG=' . wp_json_encode([
-                'bundleJsUrl'  => $bundle_js_url,
-                'bundleCssUrl' => $bundle_css_url,
-            ]) . ';',
-            'before'
+                'idx-lc-loader',
+                'window.IDX_LEAD_COLLECTOR_LOADER_CONFIG=' . wp_json_encode([
+                        'bundleJsUrl' => $bundle_js_url,
+                        'bundleCssUrl' => $bundle_css_url,
+                ]) . ';',
+                'before'
         );
 
         wp_enqueue_script('idx-lc-loader');
 
         $done = true;
+    }
+}
+
+
+
+
+
+function insert_assets_head_flex_idx_filter()
+{
+    global $flex_idx_info, $post;
+
+    $idx_v = (array_key_exists("idx_v", $flex_idx_info["agent"]) && !empty($flex_idx_info["agent"]["idx_v"])) ? $flex_idx_info["agent"]["idx_v"] : '0';
+    $content = $post->post_content;
+    $post_name = $post->post_name;
+    $is_load_map = false;
+
+    $typeAssets = "default";
+    $typeFilter = "0";
+
+    
+    if ($post_name == "exclusive-listings") {
+        $typeFilter = "2";
+    }
+
+    if ($post_name == "sold-properties") {
+        $typeFilter = "1";
+    }    
+
+
+    if (
+            //( $version_map_search_filter == "2" && has_shortcode( $content, 'ib_search_filter' ) ) ||  //comentado temporalmente
+            // ( has_shortcode($content, 'flex_idx_filter') )
+            //&& 
+            $idx_v == "1"
+    ) {
+        $is_load_map = true;
+
+        //validation to get data mode slider and load assets slider no default assets}
+        if (preg_match('/\[flex_idx_filter\s+([^]]+)\]/', $content, $matches)) {
+            $GLOBALS["idx_page_flex_idx_filter"] = "yes";
+
+            if (is_array($matches) && count($matches) > 0 && preg_match('/mode="([^"]+)"/', $matches[0], $coincidencias)) {
+                $typeAssets = $coincidencias[1];
+            }
+
+            if (is_array($matches) && count($matches) > 0 && preg_match('/type="([^"]+)"/', $matches[0], $coincidencias)) {
+                $typeFilter = $coincidencias[1];
+            }
+        }
+        
+
+
+
+        if ($typeAssets == "slider") {
+            ?>
+            <script type="module" crossorigin
+                    src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.js'); ?>"></script>
+            <link rel="stylesheet"
+                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.min.css?ver=' . iboost_get_mod_time('react/shortcode_slider/fonts/icons/style.min.css'); ?>"/>
+            <link rel="stylesheet"
+                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.css'); ?>"/>
+            <?php
+        } else {
+            if ($typeFilter == "2" || $typeFilter == "1") {
+                
+                idxboost_print_vite_assets([
+                        'distDir' => ib_get_idx_path() . 'react/new_search_filter/dist/',
+                        'distUrl' => FLEX_IDX_URI . 'react/new_search_filter/dist/',
+                        'iconCssUrl' => FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
+                                iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css')
+                ]);
+
+                // --- Remueve la acción que encola los scripts antiguos ---
+                // if (has_action('wp_footer', 'greatsliderLoad')) {
+                //     remove_action('wp_footer', 'greatsliderLoad');
+                // }
+
+                // --- Como respaldo, añade un limpiador tardío en el footer ---
+                add_action('wp_footer', 'idxboost_remove_conflicting_scripts', 9999);
+                
+            }
+
+        }
+    }
+
+    if ($idx_v == "1" && has_shortcode($content, 'idx_boost_agent_office')) {
+        $is_load_map = true;
+    }
+
+    if ($idx_v == "1" && $typeAssets != "slider" && !has_shortcode($content, 'flex_idx_property_detail')) {
+        idxboost_print_vite_assets([
+                'distDir' => ib_get_idx_path() . 'react/property-modal/dist/',
+                'distUrl' => FLEX_IDX_URI . 'react/property-modal/dist/',
+                'iconCssUrl' => FLEX_IDX_URI . 'react/property-modal/fonts/icons/style.css?ver=' .
+                        iboost_get_mod_time('react/property-modal/fonts/icons/style.css')
+        ]);
     }
 }
