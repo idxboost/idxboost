@@ -1,0 +1,76 @@
+{
+  "_react-vendor-D-TtYezu.js": {
+    "file": "assets/react-vendor-D-TtYezu.js",
+    "name": "react-vendor"
+  },
+  "_state-BAVEsp5u.js": {
+    "file": "assets/state-BAVEsp5u.js",
+    "name": "state",
+    "imports": [
+      "_vendor-C_pmuzNh.js",
+      "_react-vendor-D-TtYezu.js"
+    ]
+  },
+  "_vendor-C_pmuzNh.js": {
+    "file": "assets/vendor-C_pmuzNh.js",
+    "name": "vendor",
+    "imports": [
+      "_react-vendor-D-TtYezu.js"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-D7WdiBeE.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_react-vendor-D-TtYezu.js",
+      "_state-BAVEsp5u.js",
+      "_vendor-C_pmuzNh.js"
+    ],
+    "dynamicImports": [
+      "src/modules/collections/components/Map/index.tsx",
+      "src/modules/collections/components/Modals/ContactModal/index.tsx",
+      "src/modules/collections/components/Modals/SchedulerModal/index.tsx"
+    ],
+    "css": [
+      "assets/index-D_w3SSux.css"
+    ]
+  },
+  "src/modules/collections/components/Map/index.tsx": {
+    "file": "assets/index-KpyrrKdd.js",
+    "name": "index",
+    "src": "src/modules/collections/components/Map/index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_react-vendor-D-TtYezu.js",
+      "_state-BAVEsp5u.js",
+      "index.html",
+      "_vendor-C_pmuzNh.js"
+    ]
+  },
+  "src/modules/collections/components/Modals/ContactModal/index.tsx": {
+    "file": "assets/index-DJdq8uFa.js",
+    "name": "index",
+    "src": "src/modules/collections/components/Modals/ContactModal/index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_react-vendor-D-TtYezu.js",
+      "_state-BAVEsp5u.js",
+      "index.html",
+      "_vendor-C_pmuzNh.js"
+    ]
+  },
+  "src/modules/collections/components/Modals/SchedulerModal/index.tsx": {
+    "file": "assets/index-S2uZ0J5f.js",
+    "name": "index",
+    "src": "src/modules/collections/components/Modals/SchedulerModal/index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_react-vendor-D-TtYezu.js",
+      "_state-BAVEsp5u.js",
+      "index.html",
+      "_vendor-C_pmuzNh.js"
+    ]
+  }
+}
