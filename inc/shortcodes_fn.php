@@ -672,13 +672,56 @@ if (!function_exists('ib_commercial_search_sc')) {
 
         ob_start();
 
-        wp_enqueue_script('flex-idx-search-commercial-v2');
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_commercial_search.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_commercial_search.php';
-        } else {
-            include FLEX_IDX_PATH . '/views/shortcode/flex_idx_commercial_search.php';
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
+        if ($idx_v == "1") {
+
+            $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+            ];
+
+            $curlToken = curl_init();
+            curl_setopt_array($curlToken, array(
+                CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                ),
+            ));
+            $responseToken = @json_decode(curl_exec($curlToken),true);
+            curl_close($curlToken);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_commercial_reactjs.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_commercial_reactjs.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/idxboost_commercial_reactjs.php';
+                    }
+
+            
+
+        }else{
+
+            wp_enqueue_script('flex-idx-search-commercial-v2');
+
+            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_commercial_search.php')) {
+                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_commercial_search.php';
+            } else {
+                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_commercial_search.php';
+            }
+
         }
+
 
         return ob_get_clean();
     }
@@ -3318,7 +3361,7 @@ if (!function_exists('flex_idx_filter_sc')) {
 
         $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
 
-        if ($idx_v == "1" && empty($atts["id"]) ) {
+        if ($idx_v == "1") {
 
             // Librería custom player para Hackbox que contengan videos
             wp_enqueue_script('custom-player');
@@ -3372,9 +3415,8 @@ if (!function_exists('flex_idx_filter_sc')) {
                 curl_close($curlParams);
 
                 $atts["version_filter"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $responseParms["data"] : [];
-
-                ob_start();
-            
+                    
+                    ob_start();
 
                     if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_flex_idx_filter.php')) {
                         include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_new_flex_idx_filter.php';
@@ -3415,10 +3457,43 @@ if (!function_exists('flex_idx_filter_sc')) {
                     include FLEX_IDX_PATH . '/views/shortcode/idxboost_sold_new_flex_idx_filter.php';
                 }
 
+            }else if ( !empty($atts["id"]) ) {
+                $access_token = flex_idx_get_access_token();
+                $curlParams = curl_init();
+                curl_setopt_array($curlParams, array(
+                    CURLOPT_URL => FLEX_IDX_BASE_URL.'/info/displayfilters',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => 'filter_id='.$atts["id"].'&access_token='.$access_token,
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/x-www-form-urlencoded'
+                    ),
+                ));
+
+                $responseParms = @json_decode(curl_exec($curlParams) , true);
+                curl_close($curlParams);
+
+                $atts["version_filter"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $responseParms["data"] : [];
+
+                ob_start();
+            
+
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_reactjs_display_filters.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_reactjs_display_filters.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_reactjs_display_filters.php';
+                }
+                
             }
 
-
             return ob_get_clean();
+
+
 
 
         }else{

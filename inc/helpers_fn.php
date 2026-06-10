@@ -7572,7 +7572,7 @@ if (!function_exists('flex_idx_register_assets')) {
                 'security' => wp_create_nonce('ajax_nonce'),
         ));
 
-        wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s&callback=Function.prototype', $flex_idx_info["agent"]["google_maps_api_key"]));
+        wp_register_script('google-maps-api', sprintf('//maps.googleapis.com/maps/api/js?libraries=drawing,geometry,places&key=%s&callback=Function.prototype&v=3.64', $flex_idx_info["agent"]["google_maps_api_key"]));
         wp_register_script('google-maps-utility-library-richmarker', FLEX_IDX_URI . 'js/vendor/richmarker.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/richmarker.min.js"));
         wp_register_script('google-maps-utility-library-infobubble', FLEX_IDX_URI . 'js/vendor/infobubble.min.js', array('google-maps-api'), iboost_get_mod_time("js/vendor/infobubble.min.js"));
         // styles for infowindows [google maps]
@@ -11647,20 +11647,27 @@ if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
 
 
 
-
 function insert_assets_head_flex_idx_filter()
 {
     global $flex_idx_info, $post;
 
     $idx_v = (array_key_exists("idx_v", $flex_idx_info["agent"]) && !empty($flex_idx_info["agent"]["idx_v"])) ? $flex_idx_info["agent"]["idx_v"] : '0';
+    $post_id = $post->ID;
     $content = $post->post_content;
     $post_name = $post->post_name;
     $is_load_map = false;
 
     $typeAssets = "default";
     $typeFilter = "0";
+    //$filter_id = "";
+    $filter_id = get_post_meta(
+        $post_id,
+        '_flex_filter_page_id',
+        true
+    );
 
-    
+
+
     if ($post_name == "exclusive-listings") {
         $typeFilter = "2";
     }
@@ -11689,10 +11696,12 @@ function insert_assets_head_flex_idx_filter()
             if (is_array($matches) && count($matches) > 0 && preg_match('/type="([^"]+)"/', $matches[0], $coincidencias)) {
                 $typeFilter = $coincidencias[1];
             }
+
+            if (is_array($matches) && count($matches) > 0 && preg_match('/id="([^"]+)"/', $matches[0], $coincidencias)) {
+                $filter_id = $coincidencias[1];
+            }            
         }
         
-
-
 
         if ($typeAssets == "slider") {
             ?>
@@ -11704,7 +11713,8 @@ function insert_assets_head_flex_idx_filter()
                   href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.css'); ?>"/>
             <?php
         } else {
-            if ($typeFilter == "2" || $typeFilter == "1") {
+
+            if ($typeFilter == "2" || $typeFilter == "1" || !empty($filter_id) ) {
                 
                 idxboost_print_vite_assets([
                         'distDir' => ib_get_idx_path() . 'react/new_search_filter/dist/',

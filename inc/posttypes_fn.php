@@ -2287,6 +2287,7 @@ add_action('init', function () {
 
     $GLOBALS["idx_path_collections_properties_details"] = $search_collection_properties;
 
+    $search_collection_properties = !empty($search_collection_properties) ? $search_collection_properties : "collection";
     add_rewrite_rule("^{$search_collection_properties}/([^/]*)/?$", 'index.php?idxparamncollectionproperties=$matches[1]', 'top');
 
 
