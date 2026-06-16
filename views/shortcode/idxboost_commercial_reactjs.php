@@ -1,11 +1,4 @@
 <?php 
-
-$rando_id = rand();
-
-if ($atts["mode"] == "slider") { 
- 	$atts["limit"] = "";
- }
-
 if (is_array($responseParms) && count($responseParms) > 0) {
 	?>
 	<script>
@@ -47,7 +40,6 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 
 		window.idx_main_settings = {
 			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
-			is_sold_listings: true,
 			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
 			mode: '<?php echo $atts["mode"]; ?>',
 			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
@@ -82,23 +74,10 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		
 		window.idxtoken = "<?php echo $access_token_service; ?>";
 		<?php 
-		$render_item =["id" => $rando_id, "filters" => [],"type" => "sold","render" => "wrap-sold-{$rando_id}"   ];
-
 			if ( is_array($responseParms) && count($responseParms) > 0) {
-				echo 'window.paramsMapSearch = '. json_encode($responseParms).';';
-				$render_item["filters"] = $responseParms;
-				echo ' var itemRand = '. json_encode($render_item);
+				echo 'window.paramsMapSearch = '. json_encode($responseParms);
 			}
 		?>
-
-		<?php if ($atts["mode"] == "slider") { ?>		
-			if (!window.filterRender) {
-			    window.filterRender = [];
-			}
-
-			window.filterRender.push(itemRand);
-							
-		<?php } ?>
 	</script>  
 
 	<!-- 
@@ -171,13 +150,7 @@ if ($responseParms != NULL) {
 }
 	?>
 
-	
-	<?php if ($atts["mode"] == "slider") { ?>		
-	<div id="wrap-sold-<?php echo $rando_id;?>">
-	<?php }else { ?>		
 	<div id="root-search">
-	<?php } ?>		
-			
 		<img 
 			src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg"
 			width="600"

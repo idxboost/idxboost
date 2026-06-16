@@ -2281,7 +2281,7 @@ function idx_slider_building_html(info_item){
             });
           }
 
-          if (info_item.hasOwnProperty("imagens")) {
+          if (info_item.hasOwnProperty("imagens") && Array.isArray(info_item.imagens)) {
             info_item.imagens.forEach(function(gallery,index_gallery){
               if (index_gallery==0){
                 html_response.push('<li class="flex-slider-current"><img class="flex-lazy-image" data-original="'+gallery+'" alt="'+info_item.address_short+' '+info_item.address_large+'"></li>');

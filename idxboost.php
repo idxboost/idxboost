@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology.
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 5.8.8
+ * Version: 5.8.9
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -264,7 +264,7 @@ function iboost_print_googlerecaptcha()
     echo $output;
 }
 
-add_action('wp_head', 'iboost_print_googlerecaptcha');
+//add_action('wp_head', 'iboost_print_googlerecaptcha');
 
 
 /**
@@ -295,3 +295,47 @@ $IDXBoostUpdater = new IDXBoostUpdater(__FILE__);
 $IDXBoostUpdater->set_username('idxboost');
 $IDXBoostUpdater->set_repository('idxboost');
 $IDXBoostUpdater->initialize();
+
+add_action('wp_footer', function () {
+  global $flex_idx_info;
+
+  $site_key = '';
+
+  if (!empty($flex_idx_info['agent']['recaptcha_site_key'])) {
+      $site_key = $flex_idx_info['agent']['recaptcha_site_key'];
+  } elseif (!empty($flex_idx_info['agent']['google_captcha_public_key'])) {
+      $site_key = $flex_idx_info['agent']['google_captcha_public_key'];
+  }
+
+  if (empty($site_key)) return;
+?>
+<script>
+  function loadRecaptchaManually() {
+    if (window.recaptchaLoaded) return;
+    window.recaptchaLoaded = true;
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js?render=<?php echo esc_js($site_key); ?>";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+    console.log("recaptcha ready")
+  }
+
+  document.addEventListener("focusin", function(e) {
+    if (e.target.closest("form")) {
+      loadRecaptchaManually();
+    }
+  });
+
+  document.addEventListener("submit", function(e) {
+    if (typeof grecaptcha === "undefined") {
+      e.preventDefault();
+      loadRecaptchaManually();
+      setTimeout(() => {
+        e.target.dispatchEvent(new Event("submit", { cancelable: true }));
+      }, 800);
+    }
+  }, true);
+</script>
+<?php
+}, 100);

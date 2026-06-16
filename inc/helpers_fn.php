@@ -10719,14 +10719,16 @@ if (!function_exists('idx_autologin_collections')) {
             $collection = $decoded_array['collection'] ?? '';
             $lead_id = $decoded_array['lead_id'] ?? '';
 
-           $URL = FLEX_IDX_API_COLLECTIONS.'/api/collections/unsubscribe/'.$collection.'/'.$lead_id;
-           //llamar a la ulr y redireccionar el homepage
+            $URL = FLEX_IDX_API_COLLECTIONS.'/api/collections/unsubscribe/'.$collection.'/'.$lead_id;
+            //llamar a la ulr y redireccionar el homepage
             wp_remote_get($URL, [
                     'timeout' => 20,
                     'sslverify' => false,
             ]);
             wp_redirect(home_url('/'));
+            exit; // Siempre es buena práctica colocar un exit después de un wp_redirect en PHP
         }
+
         if (isset($_GET['secureToken']) && strpos($_SERVER["REQUEST_URI"], 'secureToken=') !== false) {
 
             $token = $_GET['secureToken'];
@@ -10734,7 +10736,9 @@ if (!function_exists('idx_autologin_collections')) {
             // --- DECODIFICACIÓN MANUAL ---
             $JWT = JWT::decode($token, "e672df02eeb75d7992b262439cb25363", ['HS256']);
             $decoded_array = (array)$JWT;
+
             $collection = $decoded_array['collection'] ?? '';
+            $mls = $decoded_array['mls'] ?? '';
 
             $idx_info_lead = [
                     'first_name'=> $decoded_array['first_name'] ?? '',
@@ -10742,6 +10746,14 @@ if (!function_exists('idx_autologin_collections')) {
                     'email_address'=> $decoded_array['email'] ?? '',
                     'phone_number'=> $decoded_array['phone_number'] ?? '',
             ];
+
+            // --- NUEVA LÓGICA DE REDIRECCIÓN ---
+            // Construimos la URL dependiendo de si el MLS viene con datos o está vacío
+            if (!empty($mls)) {
+                $redirect_url = home_url('/collection/' . $collection . '/?show=' . $mls);
+            } else {
+                $redirect_url = home_url('/collection/' . $collection);
+            }
             ?>
 
             <script type="text/javascript">
@@ -10767,8 +10779,8 @@ if (!function_exists('idx_autologin_collections')) {
                     if (ob_form_building_footer.length > 0) {
                         ob_form_building_footer.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_building_footer.find('[name="last_name"]').val(idx_info_lead.last_name);
-                        ob_form_building_footer.find('[name="email"]').val(idx_info_lead.phone_number);
-                        ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.email_address);
+                        ob_form_building_footer.find('[name="email"]').val(idx_info_lead.email_address);
+                        ob_form_building_footer.find('[name="phone"]').val(idx_info_lead.phone_number);
                     }
 
                     //modal regular filter default label
@@ -10777,8 +10789,8 @@ if (!function_exists('idx_autologin_collections')) {
                     if (ob_form_modal.length > 0) {
                         ob_form_modal.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_modal.find('[name="last_name"]').val(idx_info_lead.last_name);
-                        ob_form_modal.find('[name="email_address"]').val(idx_info_lead.phone_number);
-                        ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.email_address);
+                        ob_form_modal.find('[name="email_address"]').val(idx_info_lead.email_address);
+                        ob_form_modal.find('[name="phone_number"]').val(idx_info_lead.phone_number);
                     }
 
                     //Off market listing default label
@@ -10787,8 +10799,8 @@ if (!function_exists('idx_autologin_collections')) {
                     if (ob_form_off_market_listing.length > 0) {
                         ob_form_off_market_listing.find('[name="first_name"]').val(idx_info_lead.first_name);
                         ob_form_off_market_listing.find('[name="last_name"]').val(idx_info_lead.last_name);
-                        ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.phone_number);
-                        ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.email_address);
+                        ob_form_off_market_listing.find('[name="email"]').val(idx_info_lead.email_address);
+                        ob_form_off_market_listing.find('[name="phone"]').val(idx_info_lead.phone_number);
                     }
                     //INICITIAL VARIABLES USER
 
@@ -10824,13 +10836,12 @@ if (!function_exists('idx_autologin_collections')) {
                 <?php
                 $_COOKIE['ib_lead_token'] = $token;
                 } ?>
-                window.location.href = "<?php echo home_url('/collection/' . $collection); ?>";
+
+                // --- APLICAR LA REDIRECCIÓN DINÁMICA AQUÍ ---
+                window.location.href = "<?php echo $redirect_url; ?>";
             </script>
             <?php
-
-
         }
-
     }
 }
 
@@ -11666,7 +11677,12 @@ function insert_assets_head_flex_idx_filter()
         true
     );
 
-
+    $typeFilter_static = get_post_meta(
+        $post_id,
+        '_flex_filter_page_fl',
+        true
+    );    
+    
 
     if ($post_name == "exclusive-listings") {
         $typeFilter = "2";
@@ -11675,6 +11691,12 @@ function insert_assets_head_flex_idx_filter()
     if ($post_name == "sold-properties") {
         $typeFilter = "1";
     }    
+
+
+    if ( !empty($typeFilter_static) ) {
+        $typeFilter = $typeFilter_static;
+    }    
+
 
 
     if (
