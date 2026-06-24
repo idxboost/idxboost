@@ -22,11 +22,18 @@ if (false === $GLOBALS['flex_idx_lead']): ?>
             font-size: 40px;
         }
     </style>
-    <div class="gwr flex-not-logged-in-msg">
-        <p><?php echo __("You need to", IDXBOOST_DOMAIN_THEME_LANG); ?> <a class="flex-login-link"
-                                                                           role="button"><?php echo __("login", IDXBOOST_DOMAIN_THEME_LANG); ?></a> <?php echo __("to view this page.", IDXBOOST_DOMAIN_THEME_LANG); ?>
-        </p>
-    </div>
+    <main class="page-deployed">
+        <div class="wrap-page-deployed align-center-fx">
+            <h1 class="title-page-deployed" style="font-size: 4.5rem; margin-bottom: 0">Login Required!</h1>
+            <div class="info-deployed">
+                <p class="align-center-fx" style="max-width:100%"><?php echo __("Please log in to view this page.", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+            </div>
+            <button class="clidxboost-btn-link flex-login-link" aria-label="Log In">
+                <span>Log In</span>
+            </button>
+        </div>
+        <div class="layer-mx"></div>
+    </main>
     <script>
         function active_modal_js(modal) {
             if (modal.classList.contains('active_modal')) {

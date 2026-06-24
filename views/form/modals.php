@@ -1383,9 +1383,9 @@ $(function() {
         }
       }
 
-      $("#__quizz_type_phone_ct").hide().removeClass("ib-active");
-      $("#__quizz_type_phone_ct").next().addClass("ib-active");
-	  return;
+      //$("#__quizz_type_phone_ct").hide().removeClass("ib-active");
+      //$("#__quizz_type_phone_ct").next().addClass("ib-active");
+	    //return;
     }
 
     var firstNameField = $("#agilefield-6").val().trim();
