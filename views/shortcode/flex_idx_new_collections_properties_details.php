@@ -153,7 +153,7 @@ if (false === $GLOBALS['flex_idx_lead']): ?>
             agent_info: <?php echo json_encode($idxboost_agent_info); ?>,
             access_token: "<?php echo $api_idx_access_token; ?>",
             board_info: <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
-            paths: '<?php echo FLEX_IDX_URI . "react/collections_detail/"; ?>',
+            paths: '<?php echo FLEX_IDX_URI . "react/new_search_filter/"; ?>',
         }
         window.idxtoken = "<?php echo $access_token_service; ?>";
 

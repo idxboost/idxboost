@@ -1753,6 +1753,14 @@ function handleCredentialResponse(token) {
                       if (typeof dataLayer !== "undefined") {
                         dataLayer.push({'event': 'google_signin'});
                       }
+
+                      setTimeout(function () {
+												var url = window.location.href;
+												if (url.indexOf('collection') !== -1 || url.indexOf('collections') !== -1) {
+													window.location.reload();
+												}
+											}, 1000);
+                      
                     }else if(response.message=='Invalid credentials, try again.'){
                         ib_log_message=word_translate.invalid_credentials_try_again;
                     }
@@ -2584,6 +2592,14 @@ function fb_login() {
                             if ("undefined" !== typeof redirectregister) {
                               custom_modal_redirect(redirectregister);
                             }
+
+                            setTimeout(function () {
+                              var url = window.location.href;
+                              if (url.indexOf('collection') !== -1 || url.indexOf('collections') !== -1) {
+                                window.location.reload();
+                              }
+                            }, 1000);
+
                         } else if(response.message=='Invalid credentials, try again.') {
                             ib_log_message=word_translate.invalid_credentials_try_again;
                         }
