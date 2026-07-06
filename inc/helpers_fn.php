@@ -11656,6 +11656,32 @@ if (!function_exists('idxboost_enqueue_lead_collector_loader')) {
 }
 
 
+add_action('wp_enqueue_scripts', 'assets_idx_inserted');
+function assets_idx_inserted() {
+
+    wp_register_style(
+        'react-css-slider',
+        FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css',
+        [],
+        iboost_get_mod_time('react/shortcode_slider/assets/bundle.js')
+    );
+    
+    wp_register_style(
+        'react-slider-min-font',
+        FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.min.css',
+        [],
+        iboost_get_mod_time('react/shortcode_slider/assets/bundle.js')
+    );
+
+    wp_enqueue_script_module(
+        'bundle-slider',
+        FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js',
+        [],
+        iboost_get_mod_time('react/shortcode_slider/assets/bundle.js')
+);
+
+
+}
 
 
 function insert_assets_head_flex_idx_filter()
@@ -11726,14 +11752,7 @@ function insert_assets_head_flex_idx_filter()
         
 
         if ($typeAssets == "slider") {
-            ?>
-            <script type="module" crossorigin
-                    src="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.js?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.js'); ?>"></script>
-            <link rel="stylesheet"
-                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/fonts/icons/style.min.css?ver=' . iboost_get_mod_time('react/shortcode_slider/fonts/icons/style.min.css'); ?>"/>
-            <link rel="stylesheet"
-                  href="<?php echo FLEX_IDX_URI . 'react/shortcode_slider/assets/bundle.css?ver=' . iboost_get_mod_time('react/shortcode_slider/assets/bundle.css'); ?>"/>
-            <?php
+
         } else {
 
             if ($typeFilter == "2" || $typeFilter == "1" || !empty($filter_id) ) {

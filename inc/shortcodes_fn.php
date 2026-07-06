@@ -3366,6 +3366,13 @@ if (!function_exists('flex_idx_filter_sc')) {
             // Librería custom player para Hackbox que contengan videos
             wp_enqueue_script('custom-player');
             wp_enqueue_style('custom-player');
+
+
+            if ($atts["mode"] == "slider") {
+                wp_enqueue_style('react-slider-min-font');
+                wp_enqueue_style('react-css-slider');
+                wp_enqueue_script('bundle-slider');
+            }
               
             $paramsSSO = [
                 "grant_type" => "client_credentials",

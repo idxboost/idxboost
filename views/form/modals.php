@@ -1948,6 +1948,10 @@ function handleCredentialResponse(token) {
                         // store email
                         Cookies.set("_ib_user_email", response.email);
 
+                        // IDXBoost CRM pixel: link site activity to this known lead.
+                        // Delayed so the plugin's internal CRM lead creation finishes first (avoids a 404 on a not-yet-created contact).
+                        setTimeout(function () { if (window.IDXBoost && typeof window.IDXBoost.identify === "function") { window.IDXBoost.identify(response.email); } }, 2000);
+
                         Cookies.set("_ib_user_phone", response.phone);
                         Cookies.set("_ib_user_code_phone", response.country_code_phone);
 
@@ -2392,6 +2396,10 @@ function handleCredentialResponse(token) {
                         // store email
                         Cookies.set("_ib_user_email", response.email);
 
+                        // IDXBoost CRM pixel: link site activity to this known lead.
+                        // Delayed so the plugin's internal CRM lead creation finishes first (avoids a 404 on a not-yet-created contact).
+                        setTimeout(function () { if (window.IDXBoost && typeof window.IDXBoost.identify === "function") { window.IDXBoost.identify(response.email); } }, 2000);
+
                         jQuery("#_ib_fn_inq").val(response.first_name);
                         jQuery("#_ib_ln_inq").val(response.last_name);
                         jQuery("#_ib_em_inq").val(response.email);
@@ -2782,6 +2790,10 @@ function fb_login() {
 
                             // store email
                             Cookies.set("_ib_user_email", response.email);
+
+                            // IDXBoost CRM pixel: link site activity to this known lead.
+                            // Delayed so the plugin's internal CRM lead creation finishes first (avoids a 404 on a not-yet-created contact).
+                            setTimeout(function () { if (window.IDXBoost && typeof window.IDXBoost.identify === "function") { window.IDXBoost.identify(response.email); } }, 2000);
 
                             Cookies.set("_ib_user_phone", response.phone);
                             Cookies.set("_ib_user_code_phone", response.country_code_phone);
