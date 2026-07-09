@@ -1439,19 +1439,24 @@ $(function() {
     }
 
     if ( (typeof SIGNUP_EXTENDS_QUIZZ !== "undefined") && ("1" == SIGNUP_EXTENDS_QUIZZ) ) {
-      console.log("show the quizz before submit the form");
 
+      if (_self.hasClass("pr-populate-phone")) {
+        // Flujo social: ocultar paso de teléfono y mostrar primer paso del quiz
+        $("#__quizz_type_phone_ct").hide().removeClass("ib-active");
+        $("#__quizz_type_phone_ct").next().addClass("ib-active");
+        return;
+      }
+
+      // Flujo email (#formRegister): estos <li> sí usan "active"
       _self.parent().removeClass("active");
       _self.parent().next().addClass("active");
 
-      if (!_self.hasClass("pr-populate-phone")) {
-        $("#modal_login button.close-modal").addClass("signup-regular-submit-close");
-        $(".signup-regular-submit-close").one("click", function() {
-          //$("button.close").click();
-          $("#formRegister").submit();
-          $(this).removeClass("signup-regular-submit-close");
-        });
-      }
+      $("#modal_login button.close-modal").addClass("signup-regular-submit-close");
+      $(".signup-regular-submit-close").one("click", function() {
+        $("#formRegister").submit();
+        $(this).removeClass("signup-regular-submit-close");
+      });
+
     } else {
 		var isAlreadyLoggedIn = (__flex_g_settings.anonymous === "no");
       if (true === IS_CUSTOM_SIGNUP || isAlreadyLoggedIn) {
