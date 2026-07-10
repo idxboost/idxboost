@@ -67,8 +67,8 @@
 		board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>
 	}
     window.idx_dash_to_dash_settings = {
-        company_api_key:"<?php echo $dash_to_dash_api_key; ?>",
-        company_app_id:"<?php echo $dash_to_dash_app_id; ?>",
+        api_key:"<?php echo $dash_to_dash_api_key; ?>",
+        app_id:"<?php echo $dash_to_dash_app_id; ?>",
     }
 	window.idxtoken="<?php echo $access_token_service; ?>";
 
