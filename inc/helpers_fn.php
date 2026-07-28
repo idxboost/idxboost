@@ -347,11 +347,13 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
             curl_close($curlToken);
             $access_token_service = (is_array($responseToken) && array_key_exists("access_token", $responseToken)) ? $responseToken["access_token"] : "";
 
+            $extra_boards_raw = $flex_idx_info['agent']['extra_boards'] ?? [];
+            $extra_boards_implode = implode(",", is_array($extra_boards_raw) ? $extra_boards_raw : []);
 
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                    CURLOPT_URL => FLEX_IDX_API_SEARCH_FILTER_V2 . '/property/detail',
+                    CURLOPT_URL => FLEX_IDX_API_PROPERTY_DETAIL_V2,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -359,7 +361,11 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => json_encode(['mls_num' => $mls_num, 'board_id' => $flex_idx_info['board_id']]),
+                    CURLOPT_POSTFIELDS => json_encode([
+                        'mls_num' => $mls_num, 
+                        'board_id' => $flex_idx_info['board_id'],
+                        'extra_board_id' => $extra_boards_implode
+                    ]),
                     CURLOPT_HTTPHEADER => array(
                             'Content-Type: application/json',
                             'Authorization: ' . $access_token_service
