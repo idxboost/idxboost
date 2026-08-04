@@ -1,7 +1,7 @@
 <?php 
 $rando_id = rand();
 
- if ($atts["mode"] == "slider") { 
+ if ($atts["mode"] == "gallery") { 
  	$atts["limit"] = "";
  }
 

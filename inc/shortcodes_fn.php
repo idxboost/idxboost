@@ -3380,6 +3380,10 @@ if (!function_exists('flex_idx_filter_sc')) {
                 "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
             ];
 
+            if ( $atts["mode"] == "slider" && intval($atts["limit"]) <= 0 ) {
+                $atts["limit"] = 16;
+            }
+
             $curlToken = curl_init();
             curl_setopt_array($curlToken, array(
                 CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,

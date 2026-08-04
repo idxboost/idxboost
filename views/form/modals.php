@@ -1363,7 +1363,7 @@ $(function() {
     /*HIDDEN HEADERS*/
   });
 
-  $(".pr-registering").on("click", function() {
+  /*$(".pr-registering").on("click", function() {
     var _self = $(this);
 
     var parentId = jQuery("#"+_self.parents(".modalReferentFUB").attr("id"));
@@ -1409,15 +1409,32 @@ $(function() {
       Cookies.set("_ib_user_code_phone", codePhoneClean.trim());
       Cookies.set("_ib_user_new_phone_number", phoneRegisterQuizz);
 
+      //var loadForm = jQuery(".iboost-form-validation-loaded");
+      //if(loadForm.length){
+        //jQuery(".iboost-form-validation-loaded").each(function () {
+          //var id = jQuery(this).attr("data-id");
+          //if(typeof id === "undefined" || id === "null" || id === ""){
+            //console.log("No tiene valor");
+          //}else{
+            //console.log("id="+id);
+            //iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+          //}
+        //});
+      //}
+
       var loadForm = jQuery(".iboost-form-validation-loaded");
       if(loadForm.length){
         jQuery(".iboost-form-validation-loaded").each(function () {
+          console.log("validando #1");
           var id = jQuery(this).attr("data-id");
-          if(typeof id === "undefined" || id === "null" || id === ""){
-            //console.log("No tiene valor");
+          if(typeof id === "undefined" || id === null || id === ""){
+            //console.log("No tiene valor")
           }else{
             //console.log("id="+id);
-            iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+            var savedNumber = Cookies.get("_ib_user_new_phone_number");
+            if (savedNumber) {  // <-- validación agregada
+              iti[id].setNumber(savedNumber);
+            }
           }
         });
       }
@@ -1458,7 +1475,183 @@ $(function() {
       });
 
     } else {
-		var isAlreadyLoggedIn = (__flex_g_settings.anonymous === "no");
+		  var isAlreadyLoggedIn = (__flex_g_settings.anonymous === "no");
+      if (true === IS_CUSTOM_SIGNUP || isAlreadyLoggedIn) {
+          $("#ib-register-form-quizz").submit();
+          $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
+          swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+      } else {
+        $("#formRegister").submit();
+      }
+      // swal(word_translate.thank_you, word_translate.your_info_has_been_saved, "success");
+      //return;
+      // console.log('submit only pho form');
+      // console.log("submit the form");
+      // ib_register_form_quizz.submit();
+      //$("#formRegister").submit();
+    }
+
+    // if (typeof SIGNUP_EXTENDS_QUIZZ === "undefined" || ((typeof SIGNUP_EXTENDS_QUIZZ !== "undefined") && ("0" === SIGNUP_EXTENDS_QUIZZ))) {
+    //   $("#modal_login .close").click();
+    //   $("#formRegister").submit();
+    //   alert("dont do this!");
+    // }
+  });*/
+
+  /**
+   * Valida el campo de teléfono, distinguiendo entre "vacío" e "inválido".
+   * Fuerza el evento blur primero para asegurar que la clase de error
+   * "ms-input-error" (agregada por la validación en tiempo real de
+   * intl-tel-input) esté actualizada antes de revisarla.
+   */
+  function getPhoneNumberStatus($input) {
+      if (!$input.length) return "invalid";
+
+      var value = $input.val().trim();
+      if (value === "") return "empty";
+
+      // Forzamos el blur para que se dispare la validación en tiempo real
+      $input.trigger("blur");
+
+      if ($input.hasClass("ms-input-error") || $input.closest(".iti").hasClass("ms-input-error")) {
+          return "invalid";
+      }
+
+      return "valid";
+  }
+
+  $(".pr-registering").on("click", function() {
+    var _self = $(this);
+    var parentId = jQuery("#"+_self.parents(".modalReferentFUB").attr("id"));
+    var fub_chk = parentId.find(jQuery(".follow_up_boss_valid_register"));
+
+    if (_self.hasClass("pr-populate-phone")) {
+      var $fbPhone = $("#__signup_fb_phone");
+      var fbPhoneStatus = getPhoneNumberStatus($fbPhone);
+
+      if ("empty" === fbPhoneStatus) {
+        alert("Please provide a phone number.");
+        return;
+      }
+
+      if ("invalid" === fbPhoneStatus) {
+        alert("Please provide a valid phone number.");
+        return;
+      }
+
+      if(fub_chk.length){
+        if(!fub_chk.prop('checked')){
+          alert("You must accept the terms and conditions, and the privacy policy to continue");
+          fub_chk.addClass("error");
+          return;
+        }
+      }
+      //$("#__quizz_type_phone_ct").hide().removeClass("ib-active");
+      //$("#__quizz_type_phone_ct").next().addClass("ib-active");
+	    //return;
+    }
+
+    var firstNameField = $("#agilefield-6").val().trim();
+    var lastNameField = $("#agilefield-7").val().trim();
+    var phoneNumberField = $("#agilefield-8").val().trim();
+
+    //REGISTRO RG
+    if(Cookies.get("social_register") !== "activo"){
+
+      Cookies.remove("_ib_user_phone");
+      Cookies.remove("_ib_user_code_phone");
+      Cookies.remove("_ib_user_new_phone_number");
+
+      var codePhone = jQuery("#formRegister").find(".country_code").val();
+      var codePhoneClean = codePhone.replace(/ /g, "");
+      var numberPhone = jQuery("#formRegister").find("#agilefield-8").val();
+      var numberPhoneClean = numberPhone.replace(/ /g, "");
+      var phoneRegisterQuizz = codePhoneClean.trim()+numberPhoneClean.trim();
+
+      Cookies.set("_ib_user_phone", numberPhoneClean.trim());
+      Cookies.set("_ib_user_code_phone", codePhoneClean.trim());
+      Cookies.set("_ib_user_new_phone_number", phoneRegisterQuizz);
+
+      /*var loadForm = jQuery(".iboost-form-validation-loaded");
+      if(loadForm.length){
+        jQuery(".iboost-form-validation-loaded").each(function () {
+          var id = jQuery(this).attr("data-id");
+          if(typeof id === "undefined" || id === "null" || id === ""){
+            //console.log("No tiene valor");
+          }else{
+            //console.log("id="+id);
+            iti[id].setNumber(Cookies.get("_ib_user_new_phone_number"));
+          }
+        });
+      }*/
+
+      var loadForm = jQuery(".iboost-form-validation-loaded");
+      if(loadForm.length){
+        jQuery(".iboost-form-validation-loaded").each(function () {
+          //console.log("validando #1");
+          var id = jQuery(this).attr("data-id");
+          if(typeof id === "undefined" || id === null || id === ""){
+            //console.log("No tiene valor")
+          }else{
+            //console.log("id="+id);
+            var savedNumber = Cookies.get("_ib_user_new_phone_number");
+            if (savedNumber) {  // <-- validación agregada
+              iti[id].setNumber(savedNumber);
+            }
+          }
+        });
+      }
+    }
+
+    if ("regular" === $("#__quizz_type").val()) {
+      if (("" === firstNameField) || ("" === lastNameField)) {
+        alert("Please fill the fields");
+        return;
+      }
+
+      var $regularPhone = $("#agilefield-8");
+      var regularPhoneStatus = getPhoneNumberStatus($regularPhone);
+
+      if ("empty" === regularPhoneStatus) {
+        alert("Please fill the fields");
+        return;
+      }
+
+      if ("invalid" === regularPhoneStatus) {
+        alert("Please provide a valid phone number.");
+        return;
+      }
+
+      if(fub_chk.length){
+        if(!fub_chk.prop('checked')){
+          alert("You must accept the terms and conditions, and the privacy policy to continue");
+          fub_chk.addClass("error");
+          return;
+        }
+      }
+    }
+
+    if ( (typeof SIGNUP_EXTENDS_QUIZZ !== "undefined") && ("1" == SIGNUP_EXTENDS_QUIZZ) ) {
+
+      if (_self.hasClass("pr-populate-phone")) {
+        // Flujo social: ocultar paso de teléfono y mostrar primer paso del quiz
+        $("#__quizz_type_phone_ct").hide().removeClass("ib-active");
+        $("#__quizz_type_phone_ct").next().addClass("ib-active");
+        return;
+      }
+
+      // Flujo email (#formRegister): estos <li> sí usan "active"
+      _self.parent().removeClass("active");
+      _self.parent().next().addClass("active");
+
+      $("#modal_login button.close-modal").addClass("signup-regular-submit-close");
+      $(".signup-regular-submit-close").one("click", function() {
+        $("#formRegister").submit();
+        $(this).removeClass("signup-regular-submit-close");
+      });
+
+    } else {
+		  var isAlreadyLoggedIn = (__flex_g_settings.anonymous === "no");
       if (true === IS_CUSTOM_SIGNUP || isAlreadyLoggedIn) {
           $("#ib-register-form-quizz").submit();
           $("#ib-push-registration-quizz-ct").removeClass('ib-md-active');
