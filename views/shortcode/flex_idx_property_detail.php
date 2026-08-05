@@ -34,6 +34,9 @@
             padding-left: 15px !important;
             padding-right: 15px !important;
         }
+        .ib-pdescription-title.min{
+            padding: 15px !important;
+        }
     }
 </style>
 <?php
@@ -53,8 +56,8 @@ function getconvertToHoursMins($time)
     }
 }
 
+$dayText = "";
 $idxboost_video_configuration = $response["type_view_video"];
-
 $idxboost_search_settings = get_option('idxboost_search_settings');
 $idxboost_term_condition = get_option('idxboost_term_condition');
 $idxboost_agent_info = get_option('idxboost_agent_info');
@@ -651,6 +654,29 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
 
                         <button class="ms-sf-btn msContactModal btn-request">Request Information</button>
                     </div>
+
+                    <?php if (in_array($flex_idx_info["board_id"], [31, 33])) {
+                        if ($type_lookup == "sold" || $property['is_rental'] != 0){ ?>
+
+                            <div class="ib-pdescription-title min"
+                                style="display: block !important; 
+                                position: relative; font-size: 14px; 
+                                padding: 15px 0; margin-bottom: 0;
+                                border-bottom: 1px solid #ccc; color: #333; font-weight: normal;">
+                                <strong>Listing Courtesy of</strong> <?php echo $property["office_name"]; ?>, <strong>Bought with</strong> <?php echo $property["office_name_seller"]; ?>
+                            </div>
+                        <?php } else { ?>
+
+                            <div class="ib-pdescription-title min"
+                                style="display: block !important; 
+                                position: relative; font-size: 14px; 
+                                padding: 15px 0; margin-bottom: 0;
+                                border-bottom: 1px solid #ccc; color: #333; font-weight: normal;">
+                                <strong>Listing Courtesy of</strong> <?php echo $property["office_name"]; ?>
+                            </div>
+
+                        <?php } ?>
+                    <?php } ?>
 
                     <ul class="property-information"
                         data-inf="price:<?php echo isset($property['is_sold']) ? $property['price_sold'] : $property['price']; ?>|beds:<?php echo $property['bed']; ?>|baths:<?php echo $property['bath']; ?>|sqft:<?php echo $property['sqft']; ?>">
@@ -1257,7 +1283,9 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                     <?php } ?>
 
 
-                                    <?php if ($idx_v == 1) {
+                                    <?php 
+                                        if ($flex_idx_info["board_id"] == "31"){ $dayText = "Days on Website"; }else{ $dayText = "Days on Market"; }
+                                        if ($idx_v == 1) {
 
 
                                         if (array_key_exists('adom', $property) && $property["adom"] > 0) {
@@ -1280,19 +1308,27 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                             }
                                         }
 
-                                        ?>
-                                        <?php if ($property["adom"] >= 0) { ?>
-                                        <li class="icon-time">
-                                            <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                            <span class="ib-plist-pt"><?php echo $days_on_market_value; ?></span>
-                                        </li>
-                                        <?php } ?>
+                                            ?>
+                                            <?php if (isset($property['adom']) && $property['adom'] >= 0) { ?>
+                                            <li class="icon-time">
+                                                <span class="ib-plist-st"><?php echo __($dayText, IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                                <span class="ib-plist-pt"><?php echo $days_on_market_value."/".$property["adom"]; ?></span>
+                                            </li>
+                                            <?php } ?>
                                     <?php } ?>
+
+                                    <?php if ($flex_idx_info["board_id"] == "31" && $type_lookup == "sold") { ?>
+                                        <li class="icon-time">
+                                            <span class="ib-plist-st"><?php echo __("Cumulative Days On Market", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                            <span class="ib-plist-pt"><?php echo $property["more_info"]["cdom"]; ?></span>
+                                        </li>
+                                    <?php } ?>
+
 
                                     <?php if (!empty($property['days_market'])) { ?>
                                         <?php if ($property["adom"] >= 0) { ?>
                                         <li class="icon-time">
-                                            <span class="ib-plist-st"><?php echo __('Days on Market', IDXBOOST_DOMAIN_THEME_LANG); ?></span>
+                                            <span class="ib-plist-st"><?php echo __($dayText, IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                             <span class="ib-plist-pt"><?php echo $property['days_market']; ?></span>
                                         </li>
                                         <?php } ?>
@@ -1307,7 +1343,7 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
 
                                     <?php if (!empty($more_labels) && is_array($more_labels) && count($more_labels) > 0) {
                                         foreach ($more_labels as $key => $label) { ?>
-                                            <li>
+                                            <li class="icon-info">
                                                 <span class="ib-plist-st"><?php echo $label["title"]; ?></span>
                                                 <span class="ib-plist-pt"><?php echo $label["values"]; ?></span>
                                             </li>
@@ -1330,19 +1366,6 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                             <div class="ib-pdescription property-description -sp">
                                 <?php echo $descriptionEspe; ?>
                             </div>
-                        <?php } ?>
-
-                        <?php if (in_array($flex_idx_info["board_id"], [31, 33])) {
-                            if ($property['status'] == "2") { ?>
-                                <div class="ib-pdescription-title"
-                                     style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">
-                                    Listing provided courtesy of <?php echo $property["office_name"]; ?> | Sold
-                                    by: <?php echo $property["office_name_seller"]; ?> </div>
-                            <?php } else { ?>
-                                <div class="ib-pdescription-title"
-                                     style="display: block !important; position: relative; font-size: 14px; padding: 15px 0; margin-bottom: 0;border-bottom: 1px dashed #ccc; color: #858585; font-weight: normal;">
-                                    Listing provided courtesy of <?php echo $property["office_name"]; ?></div>
-                            <?php } ?>
                         <?php } ?>
 
                         <?php if (in_array($property["rg_id"], ["34"])) { ?>
