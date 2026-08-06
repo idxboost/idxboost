@@ -663,7 +663,7 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                 position: relative; font-size: 14px; 
                                 padding: 15px 0; margin-bottom: 0;
                                 border-bottom: 1px solid #ccc; color: #333; font-weight: normal;">
-                                <strong>Listing Courtesy of</strong> <?php echo $property["office_name"]; ?>, <strong>Bought with</strong> <?php echo $property["office_name_seller"]; ?>
+                                <strong>Listing Courtesy of</strong> <?php echo $property["office_name"]; ?>, <strong>Bought with</strong> <?php echo $property["more_info"]['office_seller_name']; ?>
                             </div>
                         <?php } else { ?>
 
@@ -1309,10 +1309,10 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                         }
 
                                             ?>
-                                            <?php if (isset($property['adom']) && $property['adom'] >= 0) { ?>
+                                            <?php if (isset($property["more_info"]["days_market"]) && $property["more_info"]["days_market"] >= 0) { ?>
                                             <li class="icon-time">
                                                 <span class="ib-plist-st"><?php echo __($dayText, IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                                <span class="ib-plist-pt"><?php echo $days_on_market_value."/".$property["adom"]; ?></span>
+                                                <span class="ib-plist-pt"><?php echo $property["more_info"]["days_market"]; ?></span>
                                             </li>
                                             <?php } ?>
                                     <?php } ?>
@@ -1386,23 +1386,22 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                             <?php endif; ?>
 
                             <?php
-                            $amenities = ($idx_v == "1" && array_key_exists("amenities", $property)) ? explode(",", $property['amenities']) : [];
+							$amenities = ($idx_v == "1" && !empty($property['amenities']))
+								? explode(",", $property['amenities'])
+								: [];
 
-
-                            if ($idx_v == "1" && is_array($amenities) && count($amenities) > 0) { ?>
-
-                                <div class="ib-plist-card">
-                                    <h2 class="ib-plist-card-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
-                                    <ul class="ib-plist-list">
-
-                                        <?php foreach ($amenities as $key => $amenity) { ?>
-                                            <li><?php echo $amenity; ?></li>
-                                        <?php } ?>
-                                    </ul>
-                                </div>
-
-
-                            <?php } ?>
+							if ($idx_v == "1" && is_array($amenities) && count($amenities) > 0) { ?>
+								<div class="ib-plist-card pokemon">
+									<h2 class="ib-plist-card-title"><?php echo __("Amenities", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
+									<ul class="ib-plist-list">
+										<?php foreach ($amenities as $key => $amenity) {
+											$amenity = trim($amenity);
+											if ($amenity === "") continue; // por si vienen comas dobles ",," ?>
+											<li><?php echo esc_html($amenity); ?></li>
+										<?php } ?>
+									</ul>
+								</div>
+							<?php } ?>
 
                             <div class="ib-plist-card">
                                 <h2 class="ib-plist-card-title"><?php echo __("Exterior Features", IDXBOOST_DOMAIN_THEME_LANG); ?></h2>
