@@ -27,6 +27,12 @@
     .ib-idx-info {
         order: 5
     }
+    .ms-min-info-text{
+        font-size:12px; 
+        color: #4f4f4f; 
+        line-height:1.1; 
+        margin-top:10px
+    }
 
     @media (max-width: 1023px) {
         .ib-idx-info,
@@ -56,7 +62,7 @@ function getconvertToHoursMins($time)
     }
 }
 
-$dayText = "";
+$dayText = ""; $infoMessageBord31 = "";
 $idxboost_video_configuration = $response["type_view_video"];
 $idxboost_search_settings = get_option('idxboost_search_settings');
 $idxboost_term_condition = get_option('idxboost_term_condition');
@@ -1284,7 +1290,19 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
 
 
                                     <?php 
-                                        if ($flex_idx_info["board_id"] == "31"){ $dayText = "Days on Website"; }else{ $dayText = "Days on Market"; }
+                                        if ($flex_idx_info["board_id"] == "31"){ 
+
+                                            if($type_lookup !== "sold"){
+                                                $infoMessageBord31 = '<div class="ms-min-info-text">** Value based on difference between Current Date and the On Market Date of the listing.</div>';
+                                            }else{
+                                                $infoMessageBord31 = '<div class="ms-min-info-text">** Value based on difference between Close Date and the On Market Date of the listing.</div>';
+                                            }
+
+                                            $dayText = "Days on Website"; 
+                                        }else{ 
+                                            $dayText = "Days on Market"; 
+                                        }
+
                                         if ($idx_v == 1) {
 
 
@@ -1313,14 +1331,15 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                             <li class="icon-time">
                                                 <span class="ib-plist-st"><?php echo __($dayText, IDXBOOST_DOMAIN_THEME_LANG); ?></span>
                                                 <span class="ib-plist-pt"><?php echo $property["more_info"]["days_market"]; ?></span>
+                                                <?php echo $infoMessageBord31; ?>
                                             </li>
                                             <?php } ?>
                                     <?php } ?>
 
-                                    <?php if ($flex_idx_info["board_id"] == "31" && $type_lookup == "sold") { ?>
+                                    <?php if ($flex_idx_info["board_id"] == "31") { ?>
                                         <li class="icon-time">
                                             <span class="ib-plist-st"><?php echo __("Cumulative Days On Market", IDXBOOST_DOMAIN_THEME_LANG); ?></span>
-                                            <span class="ib-plist-pt"><?php echo $property["more_info"]["cdom"]; ?></span>
+                                            <span class="ib-plist-pt"><?php echo $property["rec_cdom"]; ?></span>
                                         </li>
                                     <?php } ?>
 

@@ -1678,7 +1678,21 @@ if (!function_exists('flex_idx_autocomplete_sc')) {
 
         $access_token = flex_idx_get_access_token();
 
-        $atts = shortcode_atts(array('method' => 'default'), $atts);
+        $atts = shortcode_atts(array(
+            'method'            => 'default',
+            'is_custom'         => false,
+            'filter_type'       => 'dropdown',
+            'filter_options'    => '',
+            'input_placeholder' => 'sale,rent',
+            'button_type'       => 'icon',
+            'button_text'       => 'Search Now',
+        ), $atts);
+
+        $atts['is_custom'] = filter_var($atts['is_custom'], FILTER_VALIDATE_BOOLEAN);
+
+        if (is_string($atts['filter_options'])) {
+            $atts['filter_options'] = array_map('trim', explode(',', $atts['filter_options']));
+        }
 
         if (get_option('idxboost_client_status') != 'active') {
             return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
@@ -1703,10 +1717,18 @@ if (!function_exists('flex_idx_autocomplete_sc')) {
         ob_start();
 
         if ($atts['method'] == 'default') {
-            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_autocomplete.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_autocomplete.php';
+            if ($atts['is_custom'] == true) {
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_element_quick_search.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/idxboost_cms_element_quick_search.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/idxboost_cms_element_quick_search.php';
+                }
             } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_autocomplete.php';
+                if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_autocomplete.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_autocomplete.php';
+                } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/flex_idx_autocomplete.php';
+                }
             }
         } else {
             if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_autocomplete_only.php')) {
