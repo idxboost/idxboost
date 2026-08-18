@@ -2275,6 +2275,7 @@ if (!function_exists('flex_idx_get_info')) {
             $output['agent']['recaptcha_api_key'] = isset($idxboost_agent_info['recaptcha_api_key']) ? $idxboost_agent_info['recaptcha_api_key'] : null;
 
             $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool)$idxboost_agent_info['has_crm'] : false;
+            $output['agent']['has_new_development'] = isset($idxboost_agent_info['has_new_development']) ? (bool)$idxboost_agent_info['has_new_development'] : false;
             $output['agent']['phone_number_required'] = isset($idxboost_agent_info['phone_number_required']) ? (bool)$idxboost_agent_info['phone_number_required'] : false;
 
             $output['agent']['company_footer_follow'] = isset($idxboost_agent_info['company_footer_follow']) ? (bool)$idxboost_agent_info['company_footer_follow'] : false;

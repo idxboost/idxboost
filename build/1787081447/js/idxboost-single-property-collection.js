@@ -1084,34 +1084,50 @@
 			IB_SP_FORM_CONTACT.on("submit", function (event) {
 				event.preventDefault();
 				contactForm = $(this);
+
 				addPropertyInformationToMessage(contactForm, property);
 
-				$.ajax({
-					url: ib_property_collection.ajaxUrl,
-					type: "POST",
-					data: contactForm.serialize(),
-					success: function (response) {
-						if (response.success) {
-							// handle submission via ajax
-							contactForm
-								.find('button[type="submit"]')
-								.html('Thank you!');
-							contactForm
-								.find('button[type="submit"]')
-								.after('<span class="form-message">We will contact you shortly</span>');
-							contactForm
-								.find(":input").prop("disabled", true);
+				// Elimina tokens previos
+				contactForm.find("input[name='recaptcha_response']").remove();
 
-							if (response?.logged_lead?.encode_token) {
-								if (typeof idx_setSessionForced === 'function') {
-									idx_setSessionForced(
-										response.logged_lead.lead_info, 
-										response.logged_lead.encode_token
-									);
+				grecaptcha.ready(function () {
+					grecaptcha
+						.execute(__flex_g_settings.google_recaptcha_public_key, {
+							action: "contact_inquiry"
+						})
+						.then(function (token) {
+							
+							contactForm.prepend('<input type="hidden" name="recaptcha_response" value="' + token + '">');
+
+							$.ajax({
+								url: ib_property_collection.ajaxUrl,
+								type: "POST",
+								data: contactForm.serialize(),
+								success: function (response) {
+									if (response.success) {
+										// handle submission via ajax
+										contactForm
+											.find('button[type="submit"]')
+											.html('Thank you!');
+										contactForm
+											.find('button[type="submit"]')
+											.after('<span class="form-message">We will contact you shortly</span>');
+										contactForm
+											.find(":input").prop("disabled", true);
+
+										if (response?.logged_lead?.encode_token) {
+											if (typeof idx_setSessionForced === 'function') {
+												idx_setSessionForced(
+													response.logged_lead.lead_info, 
+													response.logged_lead.encode_token
+												);
+											}
+										}
+									}
 								}
-							}
-						}
-					}
+							});
+
+						});
 				});
 			});
 		}

@@ -2646,7 +2646,7 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                                               type="text" value=""
                                                               placeholder="<?php echo __("Comments", IDXBOOST_DOMAIN_THEME_LANG); ?>"
                                                               rows="10"
-                                                              cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?><?php echo str_replace('# ', '#', $property['address_short']); ?><?php echo $property['address_large']; ?></textarea>
+                                                              cols="50"><?php echo __("I am interested in", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo str_replace('# ', '#', $property['address_short']); ?> <?php echo $property['address_large']; ?></textarea>
                                                 </div>
                                             </li>
 
