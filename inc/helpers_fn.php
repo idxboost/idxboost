@@ -2886,6 +2886,10 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
         $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
         $recaptcha_response = isset($_POST["recaptcha_response"]) ? trim(strip_tags($_POST["recaptcha_response"])) : "";
+        // First touch de marketing (cookie _ib_attr, ver idxboost_integrations_head)
+        $marketing_source_url = isset($_POST['marketing_source_url']) ? trim(strip_tags($_POST['marketing_source_url'])) : '';
+        $marketing_referrer = isset($_POST['marketing_referrer']) ? trim(strip_tags($_POST['marketing_referrer'])) : '';
+        $marketing_occurred_at = isset($_POST['marketing_occurred_at']) ? trim(strip_tags($_POST['marketing_occurred_at'])) : '';
 
         $password = $phone;
 
@@ -2928,7 +2932,10 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
                 'source_registration_title' => $source_registration_title,
                 'source_registration_url' => $source_registration_url,
                 'registration_key' => $registration_key,
-                'recaptcha_response' => $recaptcha_response
+                'recaptcha_response' => $recaptcha_response,
+                'marketing_source_url' => $marketing_source_url,
+                'marketing_referrer' => $marketing_referrer,
+                'marketing_occurred_at' => $marketing_occurred_at
         );
 
         $ch = curl_init();
@@ -3076,6 +3083,10 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
         $source_registration_url = isset($_POST['source_registration_url']) ? trim($_POST['source_registration_url']) : '';
         $registration_key = isset($_POST['registration_key']) ? trim($_POST['registration_key']) : '';
         $ib_tags = isset($_POST["ib_tags"]) ? trim(strip_tags($_POST["ib_tags"])) : "";
+        // First touch de marketing (cookie _ib_attr, ver idxboost_integrations_head)
+        $marketing_source_url = isset($_POST['marketing_source_url']) ? trim(strip_tags($_POST['marketing_source_url'])) : '';
+        $marketing_referrer = isset($_POST['marketing_referrer']) ? trim(strip_tags($_POST['marketing_referrer'])) : '';
+        $marketing_occurred_at = isset($_POST['marketing_occurred_at']) ? trim(strip_tags($_POST['marketing_occurred_at'])) : '';
 
         // Verificar el nonce
         if (!check_ajax_referer('ajax_nonce', 'security', false)) {
@@ -3099,7 +3110,10 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
                 'source_registration_title' => $source_registration_title,
                 'source_registration_url' => $source_registration_url,
                 'registration_key' => $registration_key,
-                "ib_tags" => $ib_tags
+                "ib_tags" => $ib_tags,
+                'marketing_source_url' => $marketing_source_url,
+                'marketing_referrer' => $marketing_referrer,
+                'marketing_occurred_at' => $marketing_occurred_at
         );
 
         $ch = curl_init();
@@ -10325,6 +10339,106 @@ if (!function_exists('idxboost_integrations_head')) {
     function idxboost_integrations_head()
     {
         global $flex_idx_info;
+
+        // IDXBoost CRM — First touch de marketing.
+        // Guarda la URL de LANDING (con sus utm_* / click-IDs) y el referrer en la
+        // cookie _ib_attr en la PRIMERA visita, y los inyecta en el registro. Sin
+        // esto la atribución se pierde: cuando el lead se registra ya navegó varias
+        // páginas y location.href no tiene los parámetros de campaña.
+        // Va suelto a propósito, NO depende del pixel del CRM (que es opcional por
+        // agente); el parseo lo hace el CRM en POST /api/v1/leads.
+        echo <<<'IB_ATTRIBUTION'
+<!-- IDXBoost Marketing Attribution -->
+<script>
+(function () {
+  var COOKIE = "_ib_attr";
+  var MAX_AGE = 60 * 60 * 24 * 90; // 90 días
+
+  function readCookie(name) {
+    try {
+      var m = document.cookie.match("(?:^|; )" + name + "=([^;]*)");
+      return m ? decodeURIComponent(m[1]) : null;
+    } catch (e) { return null; }
+  }
+
+  function writeCookie(name, value) {
+    try {
+      document.cookie = name + "=" + encodeURIComponent(value) +
+        "; max-age=" + MAX_AGE + "; path=/; SameSite=Lax" +
+        (location.protocol === "https:" ? "; Secure" : "");
+    } catch (e) {}
+  }
+
+  function capture() {
+    var stored = readCookie(COOKIE);
+    if (stored) {
+      try { return JSON.parse(stored); } catch (e) { /* cookie corrupta: se reescribe */ }
+    }
+    var touch = {
+      u: location.href,
+      r: document.referrer || "",
+      t: new Date().toISOString()
+    };
+    writeCookie(COOKIE, JSON.stringify(touch));
+    return touch;
+  }
+
+  var touch = capture();
+
+  window.IDXBoostAttr = {
+    get: function () {
+      return {
+        marketing_source_url: touch.u || "",
+        marketing_referrer: touch.r || "",
+        marketing_occurred_at: touch.t || ""
+      };
+    },
+    reset: function () {
+      writeCookie(COOKIE, "");
+      touch = capture();
+    }
+  };
+
+  // Se engancha a TODOS los registros (form normal y social) sin tocar cada
+  // llamada: los handlers mandan action=flex_idx_lead_signup|signin por POST.
+  function attachPrefilter() {
+    if (!window.jQuery || !window.jQuery.ajaxPrefilter) return;
+    window.jQuery.ajaxPrefilter(function (options) {
+      if (options.type && String(options.type).toUpperCase() !== "POST") return;
+
+      var attr = window.IDXBoostAttr.get();
+      if (!attr.marketing_source_url && !attr.marketing_referrer) return;
+
+      var data = options.data;
+
+      if (typeof data === "string") {
+        if (!/(^|&)action=flex_idx_lead_(signup|signin)(&|$)/.test(data)) return;
+        options.data = data +
+          "&marketing_source_url=" + encodeURIComponent(attr.marketing_source_url) +
+          "&marketing_referrer=" + encodeURIComponent(attr.marketing_referrer) +
+          "&marketing_occurred_at=" + encodeURIComponent(attr.marketing_occurred_at);
+        return;
+      }
+
+      if (data && typeof data === "object") {
+        if (data.action !== "flex_idx_lead_signup" && data.action !== "flex_idx_lead_signin") return;
+        data.marketing_source_url = attr.marketing_source_url;
+        data.marketing_referrer = attr.marketing_referrer;
+        data.marketing_occurred_at = attr.marketing_occurred_at;
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attachPrefilter);
+  } else {
+    attachPrefilter();
+  }
+})();
+</script>
+<!-- End IDXBoost Marketing Attribution -->
+IB_ATTRIBUTION;
+
         //Facebook Pixel
         if ($flex_idx_info['agent']['facebook_pixel'] != "") {
             echo "<script>!function(f,b,e,v,n,t,s)  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';  n.queue=[];t=b.createElement(e);t.async=!0;  t.src=v;s=b.getElementsByTagName(e)[0];  s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');  fbq('init', '" . $flex_idx_info['agent']['facebook_pixel'] . "');  fbq('track', 'PageView');</script><noscript><imgheight=\"1\"width=\"1\"style=\"display:none\"src=\"https://www.facebook.com/tr?id={your-pixel-id-goes-here}&ev=PageView&noscript=1\"/></noscript>";
@@ -10345,7 +10459,7 @@ if (!function_exists('idxboost_integrations_head')) {
             echo '<!-- IDXBoost Pixel -->
                 <script>
                 (function() {
-                  var API_BASE = "https://crm-1ycrqzh4ek.idxboost.app";
+                  var API_BASE = "'.IDXBOOST_CRM.'";
                   var TOKEN = "'.$flex_idx_info['agent']['idx_boost_crm_pixel'].'";
                   var VISITOR_KEY = "idxb_visitor_id";
                   var SESSION_KEY = "idxb_session_id";
