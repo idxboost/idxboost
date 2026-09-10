@@ -40,21 +40,16 @@ if (!function_exists('title_flex_idx_new_development_detail_sc')) {
                 $responseNewDevelopment = $GLOBALS["idx_new_development_detail"];
             } else {
 
-                $curl_new_development = curl_init();
-                curl_setopt_array($curl_new_development, array(
-                        CURLOPT_URL => FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL . "/api/buildings/main_link?mainLink={$slug}",
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'GET',
-                        CURLOPT_HTTPHEADER => array(
-                                'Content-Type: application/x-www-form-urlencoded'
+                $curl_new_development_body = idxboost_remote_request(FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL . "/api/buildings/main_link?mainLink={$slug}", array(
+                        'method'  => 'GET',
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                        'redirection' => 10,
+                        'httpversion' => '1.1',
+                        'headers' => array(
+                                'Content-Type' => 'application/x-www-form-urlencoded',
                         ),
                 ));
-                $responseNewDevelopment = @json_decode(curl_exec($curl_new_development), true);
+                $responseNewDevelopment = @json_decode($curl_new_development_body, true);
 
                 $GLOBALS["idx_new_development_detail"] = $responseNewDevelopment;
             }
@@ -195,28 +190,21 @@ if (!function_exists('processIdxSearch')) {
             }
         }
 
-        $curl = curl_init();
         $postFields = http_build_query($newData);
 
-        curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api-idx-search.idxboost.com/search',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $postFields,
-                CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/x-www-form-urlencoded'
+        $http = wp_remote_post('https://api-idx-search.idxboost.com/search', array(
+                'timeout'     => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                'redirection' => 10,
+                'httpversion' => '1.1',
+                'headers'     => array(
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                        'Referer'      => ib_get_http_referer(),
                 ),
-                CURLOPT_SSL_VERIFYPEER => false,
+                'body'        => $postFields,
         ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
+        $err      = is_wp_error($http) ? $http->get_error_message() : '';
+        $response = is_wp_error($http) ? '' : wp_remote_retrieve_body($http);
 
         return [
                 "payload_sent" => $newData,
@@ -328,54 +316,37 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
                     "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
             ];
 
-            $curlToken = curl_init();
-            curl_setopt_array($curlToken, array(
-                    CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/x-www-form-urlencoded'
+            $curlToken_body = idxboost_remote_request(FLEX_IDX_API_SSO_TOKENS, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/x-www-form-urlencoded',
                     ),
+                    'body'    => $paramsSSO,
             ));
-            $responseToken = @json_decode(curl_exec($curlToken), true);
-            curl_close($curlToken);
+            $responseToken = @json_decode($curlToken_body, true);
             $access_token_service = (is_array($responseToken) && array_key_exists("access_token", $responseToken)) ? $responseToken["access_token"] : "";
 
             $extra_boards_raw = $flex_idx_info['agent']['extra_boards'] ?? [];
             $extra_boards_implode = implode(",", is_array($extra_boards_raw) ? $extra_boards_raw : []);
 
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                    CURLOPT_URL => FLEX_IDX_API_PROPERTY_DETAIL_V2,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => json_encode([
+            $response = idxboost_remote_request(FLEX_IDX_API_PROPERTY_DETAIL_V2, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/json',
+                            'Authorization' => $access_token_service,
+                    ),
+                    'body'    => json_encode([
                         'mls_num' => $mls_num, 
                         'board_id' => $flex_idx_info['board_id'],
                         'extra_board_id' => $extra_boards_implode
                     ]),
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: ' . $access_token_service
-                    ),
             ));
-
-            $response = curl_exec($curl);
             $property = @json_decode($response, true);
 
-            curl_close($curl);
 
             $GLOBALS["property"] = $property;
 
@@ -410,19 +381,11 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
 
                 }
 
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                        CURLOPT_URL => FLEX_IDX_BASE_URL . "/rentals_listings/{$slug}",
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => http_build_query(
-
-                                array(
+                $server_output = idxboost_remote_request(FLEX_IDX_BASE_URL . "/rentals_listings/{$slug}", array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                        'redirection' => 10,
+                        'httpversion' => '1.1',
+                        'body'    => array(
                                         'type_search' => 'slug',
                                         'board_id' => $board_id,
                                         'check_in' => $sd,
@@ -430,25 +393,17 @@ if (!function_exists('title_flex_idx_property_detail_sc')) {
                                         "extra_day_in" => $extra_day_in,
                                         "extra_day_out" => $extra_day_out,
                                         'access_token' => $access_token
-                                )
-                        ),
+                                ),
                 ));
-
-                $server_output = curl_exec($curl);
                 $response = json_decode($server_output, true);
-                curl_close($curl);
                 $current_url = home_url($wp_request);
                 $property = (isset($response) && is_array($response) && count($response) > 0) ? $response : array();
                 $GLOBALS["property"] = $property;
             } else {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_LOOKUP, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
 
                 // var_dump(FLEX_IDX_API_LOOKUP);
@@ -520,16 +475,10 @@ if (!function_exists('flex_idx_track_property_view_xhr_fn')) {
                 "board_id" => $board_id
         ];
 
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_VIEW);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_VIEW, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
 
         $response = json_decode($output, true);
 
@@ -592,15 +541,10 @@ if (!function_exists('idxboost_agent_contact_inquiry_xhr_fn')) {
                 'server' => $_SERVER
         );
 
-        $ch = curl_init();
-        //curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_AGENT_CONTACT_FORM);
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_CONTACT_FORM);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(FLEX_IDX_API_INQUIRY_CONTACT_FORM, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         $response = json_decode($output, true);
 
@@ -636,15 +580,10 @@ if (!function_exists('update_criterial_alert_xhr_fn')) {
                 "data-notify" => implode(",", $notification_type_edit)
         ];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, IDX_BOOST_UPDATE_CRITERIAL);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(IDX_BOOST_UPDATE_CRITERIAL, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
 
         $response = json_decode($output, true);
 
@@ -737,15 +676,10 @@ if (!function_exists('ib_lead_submission_buy_xhr_fn')) {
             exit;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEAD_SUBMISSION_BUY);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(FLEX_IDX_API_LEAD_SUBMISSION_BUY, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
 
         $response = json_decode($output, true);
 
@@ -798,15 +732,10 @@ if (!function_exists('ib_lead_submission_rent_xhr_fn')) {
             exit;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEAD_SUBMISSION_RENT);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(FLEX_IDX_API_LEAD_SUBMISSION_RENT, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
 
         $response = json_decode($output, true);
 
@@ -859,14 +788,10 @@ if (!function_exists('ib_lead_submission_sell_xhr_fn')) {
             exit;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEAD_SUBMISSION_SELL);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = idxboost_remote_request(FLEX_IDX_API_LEAD_SUBMISSION_SELL, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
         $response = json_decode($output, true);
         wp_send_json($response);
         exit;
@@ -885,7 +810,6 @@ if (!function_exists('ib_register_quizz_save_fn')) {
                 ? $_COOKIE['ib_lead_token']
                 : (isset($_POST['ib_lead_token']) ? sanitize_text_field($_POST['ib_lead_token']) : '');
 
-        $ch = curl_init();
         $timeline_for_purchase = isset($_POST["timeline_for_purchase"]) ? $_POST["timeline_for_purchase"] : "";
         $mortgage_approved = isset($_POST["mortgage_approved"]) ? $_POST["mortgage_approved"] : "";
         $sell_a_home = isset($_POST["sell_a_home"]) ? $_POST["sell_a_home"] : "";
@@ -893,7 +817,6 @@ if (!function_exists('ib_register_quizz_save_fn')) {
         $quizz_type = isset($_POST["__quizz_type"]) ? $_POST["__quizz_type"] : "";
         $register_phone_facebook = isset($_POST["register_phone_facebook"]) ? $_POST["register_phone_facebook"] : "";
         $country_code = isset($_POST["country_code"]) ? $_POST["country_code"] : "";
-
 
         $sendParams = [
                 'access_token' => $access_token,
@@ -905,13 +828,10 @@ if (!function_exists('ib_register_quizz_save_fn')) {
                 "country_code" => $country_code,
                 "register_phone_facebook" => $register_phone_facebook
         ];
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_REGISTER_QUIZZ_SAVE);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_REGISTER_QUIZZ_SAVE, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
     }
@@ -932,17 +852,11 @@ if (!function_exists('ib_schools_info_xhr_fn')) {
                         ]
                 ]
         ];
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, IDX_BOOTS_NICHE);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $output = curl_exec($ch);
+        $output = idxboost_remote_request(IDX_BOOTS_NICHE, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $params,
+        ));
         $response = json_decode($output, true);
-        curl_close($ch);
         ob_start();
         if (is_array($response)) {
             ?>
@@ -1206,15 +1120,10 @@ if (!function_exists('iboost_load_property_xhr_fn')) {
                         'user_agent' => $user_agent,
                 ),
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LOOKUP, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         $current_url = home_url($wp_request);
         $property = (isset($response['success']) && $response['success'] === true) ? $response['payload'] : array();
@@ -1298,15 +1207,12 @@ if (!function_exists('idx_boots_main_css')) {
 if (!function_exists('grab_image')) {
     function grab_image($url, $saveto)
     {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1000);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
-        $raw = curl_exec($ch);
-        curl_close($ch);
+        $raw = idxboost_remote_request($url, array(
+                'method'  => 'GET',
+                'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                'idxboost_bulk' => true,
+                'redirection' => 5,
+        ));
         if (file_exists($saveto)) {
             unlink($saveto);
         } else {
@@ -1482,14 +1388,10 @@ if (!function_exists('flex_schedule_showing_fn')) {
                         'preferred_date' => $preferred_date
                 ),
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SCHEDULE_SHOWING_FORM);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_SCHEDULE_SHOWING_FORM, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -1555,14 +1457,10 @@ if (!function_exists('flex_share_with_friend_xhr_fn')) {
             exit;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SHARE_TO_FRIEND);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_SHARE_TO_FRIEND, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -1593,8 +1491,8 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
         $page = isset($_POST['page']) ? trim(strip_tags($_POST['page'])) : 0;
         $estruct_insert_page = "INSERT INTO {$wpdb->posts} (post_title,post_type,post_status,post_mime_type,post_name) values";
         $wp_postmeta_insert = "INSERT INTO {$wpdb->postmeta}(post_id,meta_key,meta_value) values";
-        $struct_table_relationship = 'INSERT into wp_term_relationships(object_id,term_taxonomy_id,term_order) values';
-        $struct_update_relationship = "UPDATE wp_term_relationships set  term_taxonomy_id = CASE ";
+        $struct_table_relationship = "INSERT into {$wpdb->term_relationships}(object_id,term_taxonomy_id,term_order) values";
+        $struct_update_relationship = "UPDATE {$wpdb->term_relationships} set  term_taxonomy_id = CASE ";
 
         $estruct_update_postmeta = "UPDATE {$wpdb->postmeta} set  meta_value = CASE ";
         $estruct_update_wppost = "UPDATE {$wpdb->posts} set  post_title = CASE ";
@@ -1647,7 +1545,7 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
 
                 $list_term_slug = array_column($categorys_loop, 'slug');
                 $list_term_id = array_column($categorys_loop, 'term_id');
-                $result_item_cat_rela = $wpdb->get_results("SELECT object_id as post_id,term_taxonomy_id as category_id FROM wp_term_relationships where term_taxonomy_id in (" . implode(',', $list_term_id) . ");", ARRAY_A);
+                $result_item_cat_rela = $wpdb->get_results("SELECT object_id as post_id,term_taxonomy_id as category_id FROM {$wpdb->term_relationships} where term_taxonomy_id in (" . implode(',', array_map('intval', $list_term_id)) . ");", ARRAY_A);
                 $columns_category = array_column($result_item_cat_rela, 'post_id');
             }
         }
@@ -1663,15 +1561,12 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                 'existing_code' => $code_existing
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_IMPORT);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_BUILDING_IMPORT, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                'idxboost_bulk' => true,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
-        curl_close($ch);
         $response_data_new_items = [];
 
         $status_data = false;
@@ -1809,7 +1704,7 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
                 }
 
                 if (count($list_update_temp) > 0) {
-                    $query_update = $estruct_update_postmeta . implode(' ', $list_update_temp) . ' END WHERE post_id in(' . implode(',', $list_building_id) . ') and meta_key in (' . implode(',', $list_update_keys) . ');';
+                    $query_update = $estruct_update_postmeta . implode(' ', $list_update_temp) . ' END WHERE post_id in(' . implode(',', array_map('intval', $list_building_id)) . ') and meta_key in (' . implode(',', $list_update_keys) . ');';
                     $wpdb->query($query_update);
                 }
             }
@@ -1817,20 +1712,20 @@ if (!function_exists('idxboost_import_building_xhr_fn')) {
 
             $list_title_temp = [];
             if (!empty($title_update) && is_array($title_update) && count($title_update) > 0) {
-                $query_update_post = $estruct_update_wppost . implode(' ', $title_update) . ' END WHERE ID in(' . implode(',', $list_building_id) . ') ;';
+                $query_update_post = $estruct_update_wppost . implode(' ', $title_update) . ' END WHERE ID in(' . implode(',', array_map('intval', $list_building_id)) . ') ;';
                 $wpdb->query($query_update_post);
             }
 
             if (!empty($update_relationship_cate) && is_array($update_relationship_cate) && count($update_relationship_cate) > 0) {
-                $query_update_categories = $struct_update_relationship . implode(' ', $update_relationship_cate) . ' END WHERE object_id in(' . implode(',', $list_building_id) . ') ;';
+                $query_update_categories = $struct_update_relationship . implode(' ', $update_relationship_cate) . ' END WHERE object_id in(' . implode(',', array_map('intval', $list_building_id)) . ') ;';
                 $wpdb->query($query_update_categories);
             }
 
             //inicio proceso guardar los nuevos items para sus metas
             if (!empty($response_data_new_items) && is_array($response_data_new_items) && count($response_data_new_items) > 0) {
-                $list_codes = '"' . implode('","', array_map(function ($item) {
-                            return $item['code'];
-                        }, $response_data_new_items)) . '"';
+                $list_codes = "'" . implode("','", array_map(function ($item) {
+                            return esc_sql($item['code']);
+                        }, $response_data_new_items)) . "'";
 
                 $result_tgbuilding_wp_new = $wpdb->get_results("SELECT post.ID,post.post_title as name,post.post_mime_type as code FROM {$wpdb->posts} post where post_type='tgbuilding' and post.post_mime_type in (" . $list_codes . ");", ARRAY_A);
                 $list_build_new = [];
@@ -2064,30 +1959,130 @@ if (!function_exists('flex_offmarlket_pages_admin_columns_content')) {
     add_action('manage_idx-off-market_posts_custom_column', 'flex_offmarlket_pages_admin_columns_content', 10, 2);
 }
 
+if (!function_exists('idxboost_is_api_url')) {
+    /**
+     * True si la URL apunta a un servicio del que depende el render del sitio.
+     * Se usa para no aplicar los topes del plugin a las llamadas de WordPress
+     * core (actualizaciones, instalacion de plugins, etc.).
+     */
+    function idxboost_is_api_url($url)
+    {
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+
+        if ($host === '') {
+            return false;
+        }
+
+        return (strpos($host, 'idxboost.') !== false) || ($host === 'maps.googleapis.com');
+    }
+}
+
+if (!function_exists('idxboost_remote_request')) {
+    /**
+     * Punto unico de salida HTTP del plugin.
+     *
+     * Devuelve el cuerpo de la respuesta como string, o false ante un error de
+     * transporte. Es el mismo contrato que curl_exec: asi los call sites
+     * migrados conservan su manejo de la respuesta sin cambios.
+     *
+     * @param string $url
+     * @param array  $args Argumentos de wp_remote_request (method, body, headers, timeout...)
+     * @return string|false
+     */
+    function idxboost_remote_request($url, $args = array())
+    {
+        $args = array_merge(array(
+                'method'  => 'POST',
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                // cURL sin CURLOPT_FOLLOWLOCATION no seguia redirecciones, y
+                // WP_Http sigue 5 por defecto. Se conserva el comportamiento
+                // original salvo que el call site pida lo contrario.
+                'redirection' => 0,
+        ), $args);
+
+        // El API rechaza peticiones sin Referer; antes lo ponia CURLOPT_REFERER
+        // en cada call site.
+        if (!isset($args['headers'])) {
+            $args['headers'] = array();
+        }
+
+        if (is_array($args['headers']) && !isset($args['headers']['Referer'])) {
+            $args['headers']['Referer'] = ib_get_http_referer();
+        }
+
+        $response = wp_remote_request($url, $args);
+
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        return wp_remote_retrieve_body($response);
+    }
+}
+
+if (!function_exists('idxboost_http_request_args')) {
+    /**
+     * Tope de timeout para las llamadas del plugin. Backstop: ningun call site
+     * deberia superarlo, pero si alguno se cuela, aqui se acota.
+     */
+    function idxboost_http_request_args($args, $url)
+    {
+        if (!idxboost_is_api_url($url)) {
+            return $args;
+        }
+
+        // Las operaciones de carga masiva se declaran explicitamente: algunas
+        // corren desde un shortcode en el front (p.ej. [shortcode_upload]) y el
+        // tope de render las cortaria a mitad.
+        if (!empty($args['idxboost_bulk'])) {
+            $max = IDXBOOST_HTTP_TIMEOUT_BULK;
+        } else {
+            $max = (is_admin() || wp_doing_cron() || wp_doing_ajax())
+                    ? IDXBOOST_HTTP_TIMEOUT_BULK
+                    : 15;
+        }
+
+        if (empty($args['timeout']) || $args['timeout'] > $max) {
+            $args['timeout'] = $max;
+        }
+
+        return $args;
+    }
+}
+
+if (!function_exists('idxboost_http_api_curl')) {
+    /**
+     * WP_Http_Curl iguala el connect timeout al timeout total. Aqui se acota
+     * aparte, que es lo que se pierde al migrar de cURL a mano a wp_remote_*.
+     */
+    function idxboost_http_api_curl($handle, $args, $url)
+    {
+        $timeout = isset($args['timeout']) ? (int) ceil($args['timeout']) : IDXBOOST_HTTP_TIMEOUT;
+        $connect = max(1, min(IDXBOOST_HTTP_CONNECT_TIMEOUT, $timeout));
+
+        curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, $connect);
+    }
+}
+
 if (!function_exists('flex_http_request')) {
     function flex_http_request($uri, $params, $method = 'POST')
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        curl_setopt($ch, CURLOPT_URL, $uri);
-        $server_output = curl_exec($ch);
-        $response = [];
-        if ($server_output === false) {
-            $response = [
-                    'error_code' => curl_errno($ch),
-                    'error_message' => htmlspecialchars(curl_error($ch)),
-            ];
-        } else {
-            $response = json_decode($server_output, true);
+        $response = wp_remote_request($uri, array(
+                'method'      => $method,
+                'timeout'     => IDXBOOST_HTTP_TIMEOUT,
+                'redirection' => 0,
+                'headers'     => array('Referer' => ib_get_http_referer()),
+                'body'        => $params,
+        ));
+
+        if (is_wp_error($response)) {
+            return array(
+                    'error_code'    => $response->get_error_code(),
+                    'error_message' => htmlspecialchars($response->get_error_message()),
+            );
         }
-        curl_close($ch);
-        return $response;
+
+        return json_decode(wp_remote_retrieve_body($response), true);
     }
 }
 
@@ -2431,15 +2426,11 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                     }
 
                     $sendParams = array('access_token' => $access_token, 'alert_token' => $_GET['token_authau'], 'event_login' => $event_auto_login);
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                    $server_output = curl_exec($ch);
+                    $server_output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN, array(
+                            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                            'body'    => $sendParams,
+                    ));
                     $dataTokentem = json_decode($server_output, true);
-                    curl_close($ch);
                     if (is_array($_COOKIE)) {
                         if (array_key_exists('ib_lead_token', $_COOKIE) == false) {
                             if (is_array($dataTokentem)) {
@@ -2486,14 +2477,10 @@ if (!function_exists('idxboost_autologin_alerts_fn')) {
                                                 "board_id" => $flex_idx_info['board_id']
                                         ];
 
-                                        $ch_listing_view = curl_init();
-                                        curl_setopt($ch_listing_view, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_VIEW);
-                                        curl_setopt($ch_listing_view, CURLOPT_POST, 1);
-                                        curl_setopt($ch_listing_view, CURLOPT_POSTFIELDS, http_build_query($params_listing_view));
-                                        curl_setopt($ch_listing_view, CURLOPT_RETURNTRANSFER, true);
-                                        curl_setopt($ch_listing_view, CURLOPT_REFERER, ib_get_http_referer());
-                                        $output_listing_view = curl_exec($ch_listing_view);
-                                        curl_close($ch_listing_view);
+                                        $output_listing_view = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_VIEW, array(
+                                                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                                                'body'    => $params_listing_view,
+                                        ));
                                         $response_listing_view = json_decode($output_listing_view, true);
                                     }
 
@@ -2842,15 +2829,10 @@ if (!function_exists('is_flex_user_logged_in')) {
                 'flex_credentials' => $flex_lead_credentials
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_CHECK_CREDENTIALS);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_CHECK_CREDENTIALS, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         $response = json_decode($server_output, true);
         if ((is_array($response) && isset($response['success'])) && true === $response['success']) {
@@ -2938,15 +2920,10 @@ if (!function_exists('flex_lead_signup_xhr_fn')) {
                 'marketing_occurred_at' => $marketing_occurred_at
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_SIGNUP);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_SIGNUP, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         $flex_idx_lead = is_flex_user_logged_in();
         $my_flex_pages = flex_user_list_pages();
@@ -3012,15 +2989,10 @@ if (!function_exists('flex_idx_get_resetpass_xhr_fn')) {
                 'reset_email' => $reset_email,
                 'token' => $tokepa
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_GET_RESET_PASSWORD);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_GET_RESET_PASSWORD, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -3040,15 +3012,10 @@ if (!function_exists('flex_idx_lead_resetpass_xhr_fn')) {
                 'reset_email' => $reset_email,
                 'password' => $password
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_RESET_PASSWORD);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_RESET_PASSWORD, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         $response = json_decode($server_output, true);
         wp_send_json($response);
@@ -3116,15 +3083,10 @@ if (!function_exists('flex_lead_signin_xhr_fn')) {
                 'marketing_occurred_at' => $marketing_occurred_at
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_LOGIN);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_LOGIN, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         $flex_idx_lead = is_flex_user_logged_in();
         $my_flex_pages = flex_user_list_pages();
@@ -3211,15 +3173,10 @@ if (!function_exists('flex_lead_email_signin_xhr_fn')) {
                 "ib_tags" => $ib_tags
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_AUTOLOGIN);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_AUTOLOGIN, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         $flex_idx_lead = is_flex_user_logged_in();
         $my_flex_pages = flex_user_list_pages();
@@ -3326,20 +3283,11 @@ if (!function_exists('flex_idx_generate_access_token')) {
                 'registration_key' => $registration_key
         );
 
-        $ch = curl_init();
-
-        curl_setopt_array($ch, array(
-                CURLOPT_URL => FLEX_IDX_API_GENERATE_NEW_TOKEN,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_REFERER => ib_get_http_referer(),
-                CURLOPT_POSTFIELDS => http_build_query($send_params)
+        $server_output = idxboost_remote_request(FLEX_IDX_API_GENERATE_NEW_TOKEN, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'redirection' => 10,
+                'body'    => $send_params,
         ));
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
 
         $response = json_decode($server_output, true);
 
@@ -3424,14 +3372,11 @@ if (!function_exists('flex_connect_launch_fn')) {
                 $response['message'] = $api_registration_launch . "is a valid URL";
                 $response['success'] = true;
                 $sendParams = array('WebsiteClient' => $api_registration_launch, 'access_token' => $access_token);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_TICKET);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_BASE_TICKET, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                        'idxboost_bulk' => true,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
             } else {
                 $response['message'] = $api_registration_launch . "is not a valid URL";
@@ -3456,14 +3401,11 @@ if (!function_exists('flex_idx_import_data_fn')) {
             $sendParams = array(
                     'registration_key' => $idxboost_registration_key
             );
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_IMPORT_DATA);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
+            $server_output = idxboost_remote_request(FLEX_IDX_API_IMPORT_DATA, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                    'idxboost_bulk' => true,
+                    'body'    => $sendParams,
+            ));
             $response = json_decode($server_output, true);
             if (!empty($response['agent_info'])) { // idxboost_agent_info
                 $agent_info = $response['agent_info'];
@@ -3865,19 +3807,17 @@ if (!function_exists('flex_idx_connect_fn')) {
                 'registration_key' => $api_registration_key,
                 'urlpoints' => get_site_url()
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_VERIFY_CREDENTIALS);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_VERIFY_CREDENTIALS, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                'idxboost_bulk' => true,
+                'body'    => $sendParams,
+        ));
 
         $response = json_decode($server_output, true);
+
+        if (!is_array($response)) {
+            $response = array();
+        }
 
         $removed_agents = [];
 
@@ -3912,8 +3852,11 @@ if (!function_exists('flex_idx_connect_fn')) {
             AND t2.meta_key = '_flex_agent_id'
             ", ARRAY_A);
 
+            $wp_agents = array();
+            $agents_id_list = (isset($response['agents_id_list']) && is_array($response['agents_id_list'])) ? $response['agents_id_list'] : array();
+
             foreach ($wp_agents_list as $wp_agent_ID) {
-                if (!in_array($wp_agent_ID['meta_value'], $response['agents_id_list'])) {
+                if (!in_array($wp_agent_ID['meta_value'], $agents_id_list)) {
                     $removed_agents[] = (int)$wp_agent_ID['post_id'];
                 }
 
@@ -4047,7 +3990,7 @@ if (!function_exists('flex_idx_connect_fn')) {
             }
 
             if (!empty($removed_agents)) {
-                $wpdb->query('DELETE FROM {$wpdb->postmeta} WHERE post_id IN(' . implode(',', $removed_agents) . ')');
+                $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id IN(" . implode(',', array_map('intval', $removed_agents)) . ")");
 
                 foreach ($removed_agents as $remove_agent_ID) {
                     wp_delete_post($remove_agent_ID, true);
@@ -4365,14 +4308,10 @@ if (!function_exists('flex_idx_profile_save_xhr_fn')) {
                         'confirm_password' => $flex_confirm_password
                 ),
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEADS_UPDATE_SETTINGS);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEADS_UPDATE_SETTINGS, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         if (isset($response['success']) && $response['success'] === true) {
             $credentials = implode('|', array($response['lead_info']['email_address'], $response['lead_info']['password']));
@@ -4454,15 +4393,11 @@ if (!function_exists('flex_update_search_xhr_fn')) {
                         'notification_day' => $notification_day,
                         'typeOption' => 'update',
                 );
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response['cpanel'] = $server_output;
-                curl_close($ch);
                 break;
         }
         wp_send_json($response);
@@ -4496,14 +4431,10 @@ if (!function_exists('idxboost_history_building_xhr_fn')) {
         }
 
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $result = file_put_contents($post_building, $server_output);
         return '1';
     }
@@ -4619,14 +4550,10 @@ if (!function_exists('idx_force_registration_building_xhr_fn')) {
                     'interval' => $notification_day,
                     'notification_types' => $notification_type,
             ];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
+            $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                    'body'    => $sendParams,
+            ));
             $response = json_decode($server_output, true);
         }
         wp_send_json($response);
@@ -4728,14 +4655,10 @@ if (!function_exists('idxboost_new_filter_save_search_xhr_fn')) {
                     'interval' => $notification_day,
                     'notification_types' => $notification_type,
             ];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
+            $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                    'body'    => $sendParams,
+            ));
             $response = json_decode($server_output, true);
         }
         wp_send_json($response);
@@ -4847,14 +4770,10 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
                             'interval' => $notification_day,
                             'notification_types' => $notification_type,
                     ];
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                    $server_output = curl_exec($ch);
-                    curl_close($ch);
+                    $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                            'body'    => $sendParams,
+                    ));
                     $response = json_decode($server_output, true);
                     if (($notification_day == 7) || ($notification_day == 1)) {
                         if (isset($response['success']) && $response['success'] === true) {
@@ -4874,19 +4793,15 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
                 break;
             case 'remove':
                 $sendParams['data']['type'] = 'remove';
-                $ch = curl_init();
                 $response_alerts = flex_http_request(FLEX_IDX_ALERTS_UNREGISTER, [
                         'rk' => get_option('flex_idx_alerts_keys'),
                         'wp_web_id' => get_option('flex_idx_alerts_app_id'),
                         'wp_user_id' => $token_alert,
                 ]);
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
                 $response['success'] = true;
                 $response['message'] = 'Your saved search has been removed sucessfully';
@@ -4935,14 +4850,10 @@ if (!function_exists('idxboost_filter_save_search_xhr_fn')) {
                         'interval' => $notification_day,
                         'notification_types' => $notification_type,
                 ];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_UPDATE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_UPDATE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 break;
         }
         wp_send_json($response);
@@ -5052,14 +4963,10 @@ if (!function_exists('flex_idx_save_search_xhr_fn')) {
                             'interval' => $notification_day,
                             'notification_types' => $notification_type,
                     ];
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                    $server_output = curl_exec($ch);
-                    curl_close($ch);
+                    $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                            'body'    => $sendParams,
+                    ));
                     $response = json_decode($server_output, true);
                     if (($notification_day == 7) || ($notification_day == 1)) {
                         if (isset($response['success']) && $response['success'] === true) {
@@ -5080,19 +4987,15 @@ if (!function_exists('flex_idx_save_search_xhr_fn')) {
             case 'remove':
                 // track save_search remove [start]
                 $sendParams['data']['type'] = 'remove';
-                $ch = curl_init();
                 $response_alerts = flex_http_request(FLEX_IDX_ALERTS_UNREGISTER, [
                         'rk' => get_option('flex_idx_alerts_keys'),
                         'wp_web_id' => get_option('flex_idx_alerts_app_id'),
                         'wp_user_id' => $token_alert,
                 ]);
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
                 // track save_search remove [end]
                 $response['success'] = true;
@@ -5146,14 +5049,10 @@ if (!function_exists('flex_idx_save_search_xhr_fn')) {
                         'interval' => $notification_day,
                         'notification_types' => $notification_type,
                 ];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH_UPDATE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH_UPDATE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 break;
         }
         wp_send_json($response);
@@ -5178,14 +5077,10 @@ if (!function_exists('flex_idx_favorite_comments_xhr_fn')) {
                 'comment' => $comment,
                 'type_action' => $type_action,
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITES_COMMENT);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITES_COMMENT, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5209,14 +5104,10 @@ if (!function_exists('flex_idx_favorite_rate_xhr_fn')) {
                 'count' => $count,
                 'flex_credentials' => $flex_lead_credentials,
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITES_RATE);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITES_RATE, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         // end track on cpanel
         $response['success'] = true;
@@ -5242,14 +5133,10 @@ if (!function_exists('flex_idx_favorite_comments_remove_xhr_fn')) {
                 'mls_num' => $mls,
                 'type_action' => $type_action,
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITES_COMMENT);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITES_COMMENT, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5288,14 +5175,10 @@ if (!function_exists('flex_idx_favorite_building_xhr_fn')) {
             case 'add':
                 // track favorite add [start]
                 $sendParams['data']['type'] = 'add';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
                 // track favorite add [end]
                 $response['success'] = true;
@@ -5304,14 +5187,11 @@ if (!function_exists('flex_idx_favorite_building_xhr_fn')) {
             case 'remove':
                 // track favorite add [start]
                 $sendParams['data']['type'] = 'remove';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                curl_exec($ch);
-                curl_close($ch);
+                $ch_body = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
+                $ch_body;
                 // track favorite add [end]
                 $response['success'] = true;
                 $response['message'] = 'Building removed from favorites sucessfully.';
@@ -5402,15 +5282,10 @@ if (!function_exists('flex_statistics_filter_custom_sold_xhr_fn')) {
         );
 
 
-        $ch = curl_init();
-        //curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_STATISTICS);
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_STATISTICS_CUSTOM);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_BASE_STATISTICS_CUSTOM, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
 
         wp_send_json($response);
@@ -5460,14 +5335,10 @@ if (!function_exists('flex_statistics_filter_sold_xhr_fn')) {
                 'type_property' => 3,
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BASE_STATISTICS);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_BASE_STATISTICS, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
 
         wp_send_json($response);
@@ -5507,14 +5378,10 @@ if (!function_exists('flex_favorite_sub_area_xhr_fn')) {
             case 'add':
                 // track favorite add [start]
                 $sendParams['data']['type'] = 'add';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
                 // track favorite add [end]
                 $response['success'] = true;
@@ -5523,14 +5390,11 @@ if (!function_exists('flex_favorite_sub_area_xhr_fn')) {
             case 'remove':
                 // track favorite add [start]
                 $sendParams['data']['type'] = 'remove';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                curl_exec($ch);
-                curl_close($ch);
+                $ch_body = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
+                $ch_body;
                 // track favorite add [end]
                 $response['success'] = true;
                 $response['message'] = 'Sub Area removed from favorites sucessfully.';
@@ -5558,15 +5422,11 @@ if (!function_exists('ib_hide_listing_view_xhr_fn')) {
                 'mls_num' => $mls_num
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LEAD_HIDE_LISTING);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LEAD_HIDE_LISTING, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
-        curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5636,34 +5496,26 @@ if (!function_exists('flex_idx_favorite_xhr_fn')) {
                         ),
                 );
                 $sendParams['data']['type'] = 'add';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
 
-                curl_close($ch);
                 $response = json_decode($server_output, true);
                 // track favorite add [end]
                 break;
             case 'remove':
                 // track favorite add [start]
                 $sendParams['data']['type'] = 'remove';
-                $ch = curl_init();
                 $response_alerts = flex_http_request(FLEX_IDX_ALERTS_UNREGISTER, [
                         'rk' => get_option('flex_idx_alerts_keys'),
                         'wp_web_id' => get_option('flex_idx_alerts_app_id'),
                         'wp_user_id' => $token_alert,
                 ]);
-                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_FAVORITE_SAVE);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-                $server_output = curl_exec($ch);
-                curl_close($ch);
+                $server_output = idxboost_remote_request(FLEX_IDX_API_FAVORITE_SAVE, array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                        'body'    => $sendParams,
+                ));
                 $response = json_decode($server_output, true);
                 break;
         }
@@ -5760,20 +5612,16 @@ if (!function_exists('flex_idx_request_property_form_fn')) {
             exit;
         }
 
-        $ch = curl_init();
         $endpointinquire = FLEX_IDX_API_INQUIRY_PROPERTY_FORM;
         if (!empty($flex_idx_type_form))
             if ($flex_idx_type_form == 'off_market_listing')
                 $endpointinquire = FLEX_IDX_API_INQUIRY_OFF_MARKET_LISTING_FORM;
 
-        curl_setopt($ch, CURLOPT_URL, $endpointinquire);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request($endpointinquire, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
-        curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5823,14 +5671,10 @@ if (!function_exists('flex_track_property_detail_fn')) {
                         'price' => $price,
                 ),
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_DETAIL);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_DETAIL, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5909,18 +5753,14 @@ if (!function_exists('idxboost_contact_inquiry_fn')) {
                 'access_token' => $access_token,
                 'server' => $_SERVER
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_CONTACT_FORM);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_INQUIRY_CONTACT_FORM, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         // echo $server_output;
         // exit;
 
-        curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -5989,18 +5829,14 @@ if (!function_exists('flex_idx_request_website_building_form_fn')) {
             exit;
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_INQUIRY_BUILDING_FORM);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_INQUIRY_BUILDING_FORM, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         // echo $server_output;
         // exit;
 
-        curl_close($ch);
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -6028,14 +5864,10 @@ if (!function_exists('flex_idx_search_xhr_fn')) {
                         'user_agent' => $user_agent
                 ),
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SEARCH);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_SEARCH, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -6065,15 +5897,11 @@ if (!function_exists('ib_boost_commercial_xhr_fn')) {
         );
 
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_COMMERCIAL, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
-        curl_close($ch);
         ob_start();
         wp_send_json($response);
         exit;
@@ -6104,15 +5932,11 @@ if (!function_exists('ib_boost_dinamic_data_xhr_fn')) {
         );
 
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_SOLD, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
-        curl_close($ch);
         ob_start();
         wp_send_json($response);
         exit;
@@ -6156,59 +5980,39 @@ if (!function_exists('ib_boost_dinamic_data_agent_office_xhr_fn')) {
                     "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
             ];
 
-            $curlToken = curl_init();
-            curl_setopt_array($curlToken, array(
-                    CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/x-www-form-urlencoded'
+            $curlToken_body = idxboost_remote_request(FLEX_IDX_API_SSO_TOKENS, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/x-www-form-urlencoded',
                     ),
+                    'body'    => $paramsSSO,
             ));
-            $responseToken = @json_decode(curl_exec($curlToken), true);
-            curl_close($curlToken);
+            $responseToken = @json_decode($curlToken_body, true);
             $access_token_service = (is_array($responseToken) && array_key_exists("access_token", $responseToken)) ? $responseToken["access_token"] : "";
 
 
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                    CURLOPT_URL => FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_V2_ELASTIC,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => json_encode($sendParams),
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: ' . $access_token_service
+            $response_service = idxboost_remote_request(FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS_V2_ELASTIC, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/json',
+                            'Authorization' => $access_token_service,
                     ),
+                    'body'    => json_encode($sendParams),
             ));
-
-            $response_service = curl_exec($curl);
             $response = @json_decode($response_service, true);
 
 
         } else {
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
+            $server_output = idxboost_remote_request(FLEX_IDX_API_MARKET_AGENT_OFFICE_LISTINGS, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                    'body'    => $sendParams,
+            ));
             $response = json_decode($server_output, true);
-            curl_close($ch);
         }
 
 
@@ -6238,14 +6042,10 @@ if (!function_exists('flex_look_building_xhr_fn')) {
             );
             wp_enqueue_style('flex-idx-filter-pages-css');
             wp_enqueue_script('flex-idx-filter-js');
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_LOOKUP);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
-            curl_close($ch);
+            $server_output = idxboost_remote_request(FLEX_IDX_API_BUILDING_LOOKUP, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                    'body'    => $sendParams,
+            ));
             $response = json_decode($server_output, true);
             $agent_info_name = $wpdb->get_var('SELECT `value` FROM flex_idx_settings WHERE `key` = "agent_first_name" LIMIT 1');
             $agent_last_name = $wpdb->get_var('SELECT `value` FROM flex_idx_settings WHERE `key` = "agent_last_name" LIMIT 1');
@@ -6305,14 +6105,10 @@ function filter_search_recent_sales_xhr_fn()
             'view' => isset($params['view']) ? $params['view'] : 'grid',
             'sort' => isset($params['sort']) ? $params['sort'] : 'price-desc',
     );
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_MARKET_RECENT_SALE);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-    $server_output = curl_exec($ch);
-    curl_close($ch);
+    $server_output = idxboost_remote_request(FLEX_IDX_API_MARKET_RECENT_SALE, array(
+            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+            'body'    => $sendParams,
+    ));
     $response = json_decode($server_output, true);
     wp_send_json($response);
     exit;
@@ -6330,13 +6126,10 @@ if (!function_exists('idxboost_collection_building')) {
                 'limit' => $limit,
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         return json_decode($server_output, true);
     }
 }
@@ -6368,13 +6161,10 @@ if (!function_exists('idxboost_collection_list_fn')) {
         );
 
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, ($version == "1" ? FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP_v3 : FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP));
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(($version == "1" ? FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP_v3 : FLEX_IDX_API_BUILDING_COLLECTION_LOOKUP), array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $post_building = $path_feed . 'condo_' . $building_id . '.json';
         $status = file_put_contents($post_building, $server_output);
         $response = json_decode($server_output, true);
@@ -6452,15 +6242,11 @@ if (!function_exists('idxboost_sub_area_collection_list_fn')) {
                 'flex_credentials' => $flex_lead_credentials
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_SUB_AREA_COLLECTION_LOOKUP);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_SUB_AREA_COLLECTION_LOOKUP, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
-        curl_close($ch);
         wp_send_json($response);
         exit;
     }
@@ -6502,17 +6288,12 @@ if (!function_exists('ib_slider_filter_regular_xhr_fn')) {
         } elseif ($type_filter == '1') {
             $endpointFilter = FLEX_IDX_API_MARKET_RECENT_SALE;
         }
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request($endpointFilter, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
 
-        curl_close($ch);
         echo wp_send_json($response);
         exit;
     }
@@ -6552,13 +6333,10 @@ if (!function_exists('filter_agent_office_xhr_fn')) {
                 'flex_credentials' => $flex_lead_credentials
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_AGENT_OR_OFFICE);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_AGENT_OR_OFFICE, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -6584,14 +6362,10 @@ if (!function_exists('idxboost_collection_off_market_fn')) {
                 'flex_credentials' => $flex_lead_credentials
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_LOOKUP_OFF_MARKET_LISTING_COLLECTION);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_LOOKUP_OFF_MARKET_LISTING_COLLECTION, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -6634,13 +6408,10 @@ if (!function_exists('idx_exclusive_operation_slider_xhr_fn')) {
         } elseif ($$type == '1') {
             $endpointFilter = FLEX_IDX_API_MARKET_RECENT_SALE;
         }
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
+        $server_output = idxboost_remote_request($endpointFilter, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
 
         $response = json_decode($server_output, true);
         return $response;
@@ -6703,14 +6474,10 @@ function filter_search_exclusive_listing_xhr_fn()
 
     $endpointFilter = ($idx_v == "1" ? FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS_v2 : FLEX_IDX_API_MARKET_EXCLUSIVE_LISTINGS);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-    $server_output = curl_exec($ch);
-    curl_close($ch);
+    $server_output = idxboost_remote_request($endpointFilter, array(
+            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+            'body'    => $sendParams,
+    ));
     $response = json_decode($server_output, true);
     wp_send_json($response);
     exit;
@@ -6756,17 +6523,13 @@ if (!function_exists('idxboost_get_data_slider_xhr_fn')) {
                     'flex_credentials' => $flex_lead_credentials
             );
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $endpointFilter);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-            $server_output = curl_exec($ch);
+            $server_output = idxboost_remote_request($endpointFilter, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                    'body'    => $sendParams,
+            ));
             $response_data = json_decode($server_output, true);
             $response['type'] = $type;
             $response['data'] = $response_data;
-            curl_close($ch);
         }
 
         wp_send_json($response);
@@ -6838,14 +6601,10 @@ function flex_idx_filter_page_xhr_fn()
             'sort' => isset($params['sort']) ? $params['sort'] : 'price-desc',
     );
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $enpoint);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-    $server_output = curl_exec($ch);
-    curl_close($ch);
+    $server_output = idxboost_remote_request($enpoint, array(
+            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+            'body'    => $sendParams,
+    ));
     $response = json_decode($server_output, true);
     wp_send_json($response);
     exit;
@@ -6860,14 +6619,10 @@ if (!function_exists('flex_idx_autocomplete_xhr_fn')) {
                 'lookup' => $lookup,
                 'access_token' => $access_token,
         );
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_AUTOCOMPLETE);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-        $server_output = curl_exec($ch);
-        curl_close($ch);
+        $server_output = idxboost_remote_request(FLEX_IDX_API_AUTOCOMPLETE, array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                'body'    => $sendParams,
+        ));
         $response = json_decode($server_output, true);
         wp_send_json($response);
         exit;
@@ -7308,23 +7063,16 @@ if (!function_exists('flex_idx_register_assets')) {
                     "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
             ];
 
-            $curlToken = curl_init();
-            curl_setopt_array($curlToken, array(
-                    CURLOPT_URL => FLEX_IDX_API_SSO_TOKENS,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => http_build_query($paramsSSO),
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/x-www-form-urlencoded'
+            $curlToken_body = idxboost_remote_request(FLEX_IDX_API_SSO_TOKENS, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/x-www-form-urlencoded',
                     ),
+                    'body'    => $paramsSSO,
             ));
-            $responseToken = @json_decode(curl_exec($curlToken), true);
-            curl_close($curlToken);
+            $responseToken = @json_decode($curlToken_body, true);
             $access_token_service = (is_array($responseToken) && array_key_exists("access_token", $responseToken)) ? $responseToken["access_token"] : "";
         }
 
@@ -7556,7 +7304,6 @@ if (!function_exists('flex_idx_register_assets')) {
                 'boardId' => $flex_idx_info['board_id'],
                 'social' => $flex_idx_info["social"],
                 'is_mobile' => wp_is_mobile(),
-                'socketAuthUrl' => FLEX_IDX_URI_WP . 'socket-auth.php',
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'anonymous' => ($flex_idx_lead === false) ? 'yes' : 'no',
                 'params' => $flex_idx_info['search'],
@@ -8574,13 +8321,39 @@ function insert_assets_head_new_development_collections()
 
     $content = $post->post_content;
 
+    $type = "default";
+
     if (has_shortcode($content, 'new_development_collections')) {
-        idxboost_print_vite_assets([
-                'distDir' => ib_get_idx_path() . 'react/new-developments/dist/',
-                'distUrl' => FLEX_IDX_URI . 'react/new-developments/dist/',
-                'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.min.css?ver=' .
-                        iboost_get_mod_time('react/new-developments/fonts/icons/style.min.css')
-        ]);
+        
+        //new-developments-quick-search
+        if (preg_match('/\[new_development_collections\s+([^]]+)\]/', $content, $matches)) {
+
+            if (is_array($matches) && count($matches) > 0 && preg_match('/type="([^"]+)"/', $matches[0], $coincidencias)) {
+                $type = $coincidencias[1];
+            }
+
+        }
+
+        if ($type == "quick_search") {
+
+            idxboost_print_vite_assets([
+                    'distDir' => ib_get_idx_path() . 'react/new-developments-quick-search/dist/',
+                    'distUrl' => FLEX_IDX_URI . 'react/new-developments-quick-search/dist/',
+                    'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments-quick-search/fonts/icons/style.min.css?ver=' .
+                            iboost_get_mod_time('react/new-developments-quick-search/fonts/icons/style.min.css')
+            ]);
+
+        }else{
+
+            idxboost_print_vite_assets([
+                    'distDir' => ib_get_idx_path() . 'react/new-developments/dist/',
+                    'distUrl' => FLEX_IDX_URI . 'react/new-developments/dist/',
+                    'iconCssUrl' => FLEX_IDX_URI . 'react/new-developments/fonts/icons/style.min.css?ver=' .
+                            iboost_get_mod_time('react/new-developments/fonts/icons/style.min.css')
+            ]);
+
+        }
+
     }
 }
 
@@ -9749,6 +9522,97 @@ if (!function_exists('idxboost_cms_enqueue_assets')) {
     }
 }
 
+if (!function_exists('idxboost_cms_refresh_theme_settings_cache')) {
+    /**
+     * Hace el POST real al builder-service y repuebla transient + stale.
+     * Se llama de forma sincrona solo en cold-start (sin stale que servir);
+     * en cualquier otro miss se programa via wp_schedule_single_event para
+     * que ningun visitante espere el round-trip (CMS-659, prevencion de
+     * estampida de cache).
+     *
+     * Estructura de dos niveles, igual que en api-cms (SettingService::
+     * getThemeSettings()): una sola llave global para todo lo que no sea
+     * landing page, y una llave particionada por page_id para landing pages.
+     */
+    function idxboost_cms_refresh_theme_settings_cache($page_id = '', $is_landing = false)
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = $is_landing
+            ? 'idxb_theme_landing_' . md5($reg_key . '|' . $page_id)
+            : 'idxb_theme_' . md5((string) $reg_key);
+
+        $data_service = array('registration_key' => $reg_key);
+        if ($page_id) {
+            $data_service['page_id'] = $page_id;
+        }
+
+        $response_service = idxboost_remote_request(IDX_BOOST_SPW_BUILDER_SERVICE . '/api/theme-settings', array(
+                'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                'redirection' => 10,
+                'httpversion' => '1.1',
+                'headers' => array(
+                        'Content-Type' => 'text/plain',
+                ),
+                'body'    => json_encode($data_service),
+        ));
+
+        $decoded = @json_decode($response_service, true);
+
+        if (is_array($decoded)) {
+            set_transient($tkey, $decoded, 15 * MINUTE_IN_SECONDS);
+            // Copia stale (autoload off) para servir si el API falla
+            update_option($tkey . '_stale', $decoded, false);
+        }
+
+        return $decoded;
+    }
+}
+add_action('idxboost_cms_refresh_theme_settings_cache_event', 'idxboost_cms_refresh_theme_settings_cache', 10, 2);
+
+if (!function_exists('idxboost_cms_get_theme_settings')) {
+    function idxboost_cms_get_theme_settings($page_id, $is_landing)
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = $is_landing
+            ? 'idxb_theme_landing_' . md5($reg_key . '|' . $page_id)
+            : 'idxb_theme_' . md5((string) $reg_key);
+
+        $head_json = get_transient($tkey);
+
+        if ($head_json !== false) {
+            return $head_json;
+        }
+
+        $stale = get_option($tkey . '_stale', null);
+        // Lock corto (CMS-659): atomico si el sitio tiene un object cache
+        // persistente (ej. Redis Object Cache); sin uno, no persiste entre
+        // requests y esto se degrada a "sin lock" en vez de romper nada.
+        $lock_acquired = wp_cache_add($tkey . '_lock', 1, 'idxboost_locks', 10);
+
+        if (is_array($stale)) {
+            // Se sirve lo ultimo conocido de inmediato; el refresh real
+            // queda programado en segundo plano -- ningun visitante espera
+            // el POST bloqueante al builder-service.
+            if ($lock_acquired) {
+                wp_schedule_single_event(time(), 'idxboost_cms_refresh_theme_settings_cache_event', [$page_id, $is_landing]);
+            }
+
+            return $stale;
+        }
+
+        if (!$lock_acquired) {
+            // Ya hay otro request en cold-start haciendo el fetch: se evita
+            // duplicar el POST, se cae al comportamiento por defecto.
+            return [];
+        }
+
+        // Primera vez que se pide esta combinacion: no hay stale que servir,
+        // asi que este request paga el fetch (una sola vez, protegido por
+        // el lock de estampidas concurrentes).
+        return idxboost_cms_refresh_theme_settings_cache($page_id, $is_landing) ?: [];
+    }
+}
+
 if (!function_exists('idxboost_cms_assets')) {
     function idxboost_cms_assets()
     {
@@ -9763,36 +9627,11 @@ if (!function_exists('idxboost_cms_assets')) {
         ) {
 
             $GLOBALS["crm_theme_setting"] = [];
-            $data_service = array(
-                    'registration_key' => get_option('idxboost_registration_key')
-            );
 
-            if ($idx_page_id) {
-                $data_service['page_id'] = $idx_page_id;
-            }
-
-            $payload_json = json_encode($data_service);
-
-            $curl_service = curl_init();
-            curl_setopt_array($curl_service, array(
-                    CURLOPT_URL => IDX_BOOST_SPW_BUILDER_SERVICE . '/api/theme-settings',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $payload_json,
-                    CURLOPT_HTTPHEADER => array(
-                            'Content-Type: text/plain'
-                    ),
-            ));
-
-            $response_service = curl_exec($curl_service);
-            curl_close($curl_service);
-
-            $head_json = @json_decode($response_service, true);
+            // Cache entre requests (CMS-659) -- antes de esto, cada page view
+            // hacia un POST bloqueante al builder-service en wp_head, sin
+            // ninguna proteccion de cache.
+            $head_json = idxboost_cms_get_theme_settings($idx_page_id, $idx_page_type === 'landing');
 
             // Load font setting
             if (is_array($head_json) && count($head_json) > 0) {
@@ -9859,17 +9698,19 @@ if (!function_exists('idxboost_cms_get_loader')) {
                         'registration_key' => $registration_key,
                 ])
         ));
-        $body = wp_remote_retrieve_body($response);
-        $content = json_decode($body, true);
         $loader = '';
 
-        if (!is_wp_error($response) || $content != NULL) {
-            if (
-                    isset($content['loader']['content']) &&
-                    !empty($content['loader']['content'])
-            ) {
-                $loader = trim($content['loader']['content']);
-            }
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+            return $loader;
+        }
+
+        $content = json_decode(wp_remote_retrieve_body($response), true);
+
+        if (
+                isset($content['loader']['content']) &&
+                !empty($content['loader']['content'])
+        ) {
+            $loader = trim($content['loader']['content']);
         }
 
         return $loader;
@@ -9921,32 +9762,46 @@ if (!function_exists('idxboost_cms_tripwire')) {
 
             if ($page_type || $post_id) {
 
-                $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-tripwire-linked-wp';
-                $args = array(
-                        'method' => 'POST',
-                        'timeout' => 60,
-                        'headers' => array(
-                                'Content-Type' => 'application/json',
-                        ),
-                        'body' => wp_json_encode(array(
-                                'registration_key' => get_option('idxboost_registration_key'),
-                                "post_id" => $post_id,
-                                "page_type" => $page_type
-                        ))
-                );
+                // Se cachea tambien el resultado vacio: la mayoria de paginas no tienen
+                // tripwire y sin esto seguirian haciendo el POST en cada page view.
+                $tkey = 'idxb_tw_' . md5(get_option('idxboost_registration_key') . '|' . $page_type . '|' . $post_id);
+                $tw_content = get_transient($tkey);
 
-                $response = wp_remote_post($url, $args);
-                $response_code = wp_remote_retrieve_response_code($response);
+                if ($tw_content === false) {
+                    $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-tripwire-linked-wp';
+                    $args = array(
+                            'method' => 'POST',
+                            'timeout' => 5,
+                            'headers' => array(
+                                    'Content-Type' => 'application/json',
+                            ),
+                            'body' => wp_json_encode(array(
+                                    'registration_key' => get_option('idxboost_registration_key'),
+                                    "post_id" => $post_id,
+                                    "page_type" => $page_type
+                            ))
+                    );
 
-                if (!is_wp_error($response) && $response_code === 200) {
+                    $response = wp_remote_post($url, $args);
+                    $response_code = wp_remote_retrieve_response_code($response);
+                    $tw_content = '';
 
-                    $body = json_decode(wp_remote_retrieve_body($response), true);
+                    if (!is_wp_error($response) && $response_code === 200) {
 
-                    if (isset($body['data']['content']) && !empty($body['data']['content'])) {
-                        wp_enqueue_style('carbonite-addons-tripwire');
-                        wp_enqueue_script('carbonite-addons-tripwire');
-                        echo $body['data']['content'];
+                        $body = json_decode(wp_remote_retrieve_body($response), true);
+
+                        if (isset($body['data']['content']) && !empty($body['data']['content'])) {
+                            $tw_content = $body['data']['content'];
+                        }
                     }
+
+                    set_transient($tkey, $tw_content, 10 * MINUTE_IN_SECONDS);
+                }
+
+                if (!empty($tw_content)) {
+                    wp_enqueue_style('carbonite-addons-tripwire');
+                    wp_enqueue_script('carbonite-addons-tripwire');
+                    echo $tw_content;
                 }
 
             } else {
@@ -9963,33 +9818,46 @@ if (!function_exists('idxboost_cms_tripwire')) {
 
                 if (!empty($filter_id) && !empty($type_filter)) {
 
-                    $response = wp_remote_post(
-                            FLEX_IDX_BASE_URL . '/cms/get/get_tripwires_filter',
-                            array(
-                                    'method' => 'POST',
-                                    'timeout' => 60,
-                                    'headers' => [
-                                            'Content-Type: application/x-www-form-urlencoded'
-                                    ],
-                                    'body' => array(
-                                            'registration_key' => get_option('idxboost_registration_key'),
-                                            'filter_id' => $filter_id,
-                                            'type_filter' => $type_filter
-                                    )
-                            )
-                    );
+                    $tkey = 'idxb_twf_' . md5(get_option('idxboost_registration_key') . '|' . $filter_id . '|' . $type_filter);
+                    $tw_content = get_transient($tkey);
 
-                    $body = wp_remote_retrieve_body($response);
-                    $content = @json_decode($body, true);
+                    if ($tw_content === false) {
+                        $response = wp_remote_post(
+                                FLEX_IDX_BASE_URL . '/cms/get/get_tripwires_filter',
+                                array(
+                                        'method' => 'POST',
+                                        'timeout' => 5,
+                                        'headers' => [
+                                                'Content-Type: application/x-www-form-urlencoded'
+                                        ],
+                                        'body' => array(
+                                                'registration_key' => get_option('idxboost_registration_key'),
+                                                'filter_id' => $filter_id,
+                                                'type_filter' => $type_filter
+                                        )
+                                )
+                        );
 
-                    if (
-                            is_array($content) &&
-                            count($content) > 0 &&
-                            array_key_exists("status", $content) && $content["status"]
-                    ) {
+                        $body = wp_remote_retrieve_body($response);
+                        $content = @json_decode($body, true);
+                        $tw_content = '';
+
+                        if (
+                                is_array($content) &&
+                                count($content) > 0 &&
+                                array_key_exists("status", $content) && $content["status"] &&
+                                isset($content['data']['content'])
+                        ) {
+                            $tw_content = $content['data']['content'];
+                        }
+
+                        set_transient($tkey, $tw_content, 10 * MINUTE_IN_SECONDS);
+                    }
+
+                    if (!empty($tw_content)) {
                         wp_enqueue_style('carbonite-addons-tripwire');
                         wp_enqueue_script('carbonite-addons-tripwire');
-                        echo $content['data']['content'];
+                        echo $tw_content;
                     }
                 }
 
@@ -10095,6 +9963,50 @@ if (!function_exists('idxboost_get_header_dinamic')) {
     add_action('idx_dinamic_body', 'idxboost_get_header_dinamic', 100, 1);
 }
 
+if (!function_exists('idxboost_cms_refresh_menu_cache')) {
+    /**
+     * Hace el POST real al builder-service y repuebla transient + stale.
+     * Se llama de forma sincrona solo en cold-start (sin stale que servir);
+     * en cualquier otro miss se programa via wp_schedule_single_event para
+     * que ningun visitante espere el round-trip (CMS-659, prevencion de
+     * estampida de cache).
+     */
+    function idxboost_cms_refresh_menu_cache()
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = 'idxb_menu_' . md5((string) $reg_key);
+
+        $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu';
+        $args = array(
+                'method' => 'POST',
+                'timeout' => 5,
+                'headers' => array(
+                        'Content-Type' => 'application/json',
+                ),
+                'body' => wp_json_encode(array(
+                        'registration_key' => $reg_key
+                ))
+        );
+
+        $response = wp_remote_post($url, $args);
+        $response_code = wp_remote_retrieve_response_code($response);
+        $decoded = null;
+
+        if (!is_wp_error($response) && $response_code === 200) {
+            $decoded = json_decode(wp_remote_retrieve_body($response), true);
+        }
+
+        if (is_array($decoded)) {
+            set_transient($tkey, $decoded, 15 * MINUTE_IN_SECONDS);
+            // Copia stale (autoload off) para servir si el API falla
+            update_option($tkey . '_stale', $decoded, false);
+        }
+
+        return $decoded;
+    }
+}
+add_action('idxboost_cms_refresh_menu_cache_event', 'idxboost_cms_refresh_menu_cache');
+
 if (!function_exists('idxboost_cms_get_menu')) {
     function idxboost_cms_get_menu()
     {
@@ -10102,31 +10014,88 @@ if (!function_exists('idxboost_cms_get_menu')) {
 
         // Check if we already have the response cached
         if (!isset($idxboost_cms_menu)) {
-            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/dinamic-menu';
-            $args = array(
-                    'method' => 'POST',
-                    'timeout' => 60,
-                    'headers' => array(
-                            'Content-Type' => 'application/json',
-                    ),
-                    'body' => wp_json_encode(array(
-                            'registration_key' => get_option('idxboost_registration_key')
-                    ))
-            );
+            // Cache entre requests (object cache / options). Sin esto cada page view
+            // hacia un POST bloqueante al builder-service antes del primer byte.
+            $tkey = 'idxb_menu_' . md5((string) get_option('idxboost_registration_key'));
+            $idxboost_cms_menu = get_transient($tkey);
 
-            $response = wp_remote_post($url, $args);
-            $response_code = wp_remote_retrieve_response_code($response);
+            if ($idxboost_cms_menu === false) {
+                $stale = get_option($tkey . '_stale', null);
+                // Lock corto (CMS-659): atomico si el sitio tiene un object
+                // cache persistente (ej. Redis Object Cache); sin uno, no
+                // persiste entre requests y esto se degrada a "sin lock" en
+                // vez de romper nada.
+                $lock_acquired = wp_cache_add($tkey . '_lock', 1, 'idxboost_locks', 10);
 
-            if (!is_wp_error($response) && $response_code === 200) {
-                $idxboost_cms_menu = json_decode(wp_remote_retrieve_body($response), true);
-            } else {
-                $idxboost_cms_menu = []; // Handle error case
+                if (is_array($stale)) {
+                    // Se sirve lo ultimo conocido de inmediato; el refresh
+                    // real queda programado en segundo plano -- ningun
+                    // visitante espera el POST bloqueante al builder-service.
+                    $idxboost_cms_menu = $stale;
+
+                    if ($lock_acquired) {
+                        wp_schedule_single_event(time(), 'idxboost_cms_refresh_menu_cache_event');
+                    }
+                } elseif ($lock_acquired) {
+                    // Primera vez que este sitio pide el menu: no hay stale
+                    // que servir, asi que este request paga el fetch (una
+                    // sola vez, protegido por el lock de estampidas concurrentes).
+                    $idxboost_cms_menu = idxboost_cms_refresh_menu_cache() ?: [];
+                } else {
+                    // Ya hay otro request en cold-start haciendo el fetch:
+                    // se evita duplicar el POST, se sirve vacio esta vez.
+                    $idxboost_cms_menu = [];
+                }
             }
         }
 
         return $idxboost_cms_menu;
     }
 }
+
+if (!function_exists('idxboost_cms_refresh_header_footer_cache')) {
+    /**
+     * Hace el POST real al builder-service y repuebla transient + stale.
+     * Se llama de forma sincrona solo en cold-start (sin stale que servir);
+     * en cualquier otro miss se programa via wp_schedule_single_event para
+     * que ningun visitante espere el round-trip (CMS-659, prevencion de
+     * estampida de cache).
+     */
+    function idxboost_cms_refresh_header_footer_cache()
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = 'idxb_hf_' . md5((string) $reg_key);
+
+        $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer';
+        $args = array(
+                'method' => 'POST',
+                'timeout' => 5,
+                'headers' => array(
+                        'Content-Type' => 'application/json',
+                ),
+                'body' => wp_json_encode(array(
+                        'registration_key' => $reg_key
+                ))
+        );
+
+        $response = wp_remote_post($url, $args);
+        $response_code = wp_remote_retrieve_response_code($response);
+        $decoded = null;
+
+        if (!is_wp_error($response) && $response_code === 200) {
+            $decoded = json_decode(wp_remote_retrieve_body($response), true);
+        }
+
+        if (is_array($decoded)) {
+            set_transient($tkey, $decoded, 15 * MINUTE_IN_SECONDS);
+            // Copia stale (autoload off) para servir si el API falla
+            update_option($tkey . '_stale', $decoded, false);
+        }
+
+        return $decoded;
+    }
+}
+add_action('idxboost_cms_refresh_header_footer_cache_event', 'idxboost_cms_refresh_header_footer_cache');
 
 if (!function_exists('idxboost_cms_get_header_footer')) {
     function idxboost_cms_get_header_footer()
@@ -10135,25 +10104,38 @@ if (!function_exists('idxboost_cms_get_header_footer')) {
 
         // Check if we already have the response cached
         if (!isset($idxboost_cms_header_footer)) {
-            $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/page-header-footer';
-            $args = array(
-                    'method' => 'POST',
-                    'timeout' => 60,
-                    'headers' => array(
-                            'Content-Type' => 'application/json',
-                    ),
-                    'body' => wp_json_encode(array(
-                            'registration_key' => get_option('idxboost_registration_key')
-                    ))
-            );
+            // Cache entre requests (object cache / options). Sin esto cada page view
+            // hacia un POST bloqueante al builder-service antes del primer byte.
+            $tkey = 'idxb_hf_' . md5((string) get_option('idxboost_registration_key'));
+            $idxboost_cms_header_footer = get_transient($tkey);
 
-            $response = wp_remote_post($url, $args);
-            $response_code = wp_remote_retrieve_response_code($response);
+            if ($idxboost_cms_header_footer === false) {
+                $stale = get_option($tkey . '_stale', null);
+                // Lock corto (CMS-659): atomico si el sitio tiene un object
+                // cache persistente (ej. Redis Object Cache); sin uno, no
+                // persiste entre requests y esto se degrada a "sin lock" en
+                // vez de romper nada.
+                $lock_acquired = wp_cache_add($tkey . '_lock', 1, 'idxboost_locks', 10);
 
-            if (!is_wp_error($response) && $response_code === 200) {
-                $idxboost_cms_header_footer = json_decode(wp_remote_retrieve_body($response), true);
-            } else {
-                $idxboost_cms_header_footer = []; // Handle error case
+                if (is_array($stale)) {
+                    // Se sirve lo ultimo conocido de inmediato; el refresh
+                    // real queda programado en segundo plano -- ningun
+                    // visitante espera el POST bloqueante al builder-service.
+                    $idxboost_cms_header_footer = $stale;
+
+                    if ($lock_acquired) {
+                        wp_schedule_single_event(time(), 'idxboost_cms_refresh_header_footer_cache_event');
+                    }
+                } elseif ($lock_acquired) {
+                    // Primera vez que este sitio pide header/footer: no hay
+                    // stale que servir, asi que este request paga el fetch
+                    // (una sola vez, protegido por el lock de estampidas concurrentes).
+                    $idxboost_cms_header_footer = idxboost_cms_refresh_header_footer_cache() ?: [];
+                } else {
+                    // Ya hay otro request en cold-start haciendo el fetch:
+                    // se evita duplicar el POST, se sirve vacio esta vez.
+                    $idxboost_cms_header_footer = [];
+                }
             }
         }
 
@@ -10262,7 +10244,11 @@ if (!function_exists('idx_edit_post')) {
                     IDX_BOOST_SPW_BUILDER_SERVICE . '/api/update-page-fromWp',
                     array(
                             'method' => 'POST',
-                            'timeout' => 60,
+                            'timeout' => IDXBOOST_HTTP_TIMEOUT_BULK,
+                            // Es la propagacion de un guardado de post, no una
+                            // lectura del render: se marca bulk para que no caiga
+                            // al tope de 15s si el guardado llega por REST.
+                            'idxboost_bulk' => true,
                             'headers' => [
                                     'Content-Type' => 'application/json',
                             ],
@@ -10350,7 +10336,7 @@ if (!function_exists('idxboost_integrations_head')) {
         echo <<<'IB_ATTRIBUTION'
 <!-- IDXBoost Marketing Attribution -->
 <script>
-(function () {
+(function () {  
   var COOKIE = "_ib_attr";
   var MAX_AGE = 60 * 60 * 24 * 90; // 90 días
 
@@ -10457,103 +10443,222 @@ IB_ATTRIBUTION;
 
         if ($flex_idx_info['agent']['idx_boost_crm_pixel'] != "") {
             echo '<!-- IDXBoost Pixel -->
-                <script>
-                (function() {
-                  var API_BASE = "'.IDXBOOST_CRM.'";
-                  var TOKEN = "'.$flex_idx_info['agent']['idx_boost_crm_pixel'].'";
-                  var VISITOR_KEY = "idxb_visitor_id";
-                  var SESSION_KEY = "idxb_session_id";
-                  var EMAIL_KEY = "idxb_email";
-                
-                  function uid(prefix) {
-                    return prefix + "_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-                  }
-                  function getVisitorId() {
-                    try {
-                      var v = localStorage.getItem(VISITOR_KEY);
-                      if (!v) { v = uid("v"); localStorage.setItem(VISITOR_KEY, v); }
-                      return v;
-                    } catch (e) { return uid("v"); }
-                  }
-                  function getSessionId() {
-                    try {
-                      var s = sessionStorage.getItem(SESSION_KEY);
-                      if (!s) { s = uid("s"); sessionStorage.setItem(SESSION_KEY, s); }
-                      return s;
-                    } catch (e) { return uid("s"); }
-                  }
-                  function getEmail() {
-                    try { return localStorage.getItem(EMAIL_KEY) || undefined; } catch (e) { return undefined; }
-                  }
-                
-                  function send(payload) {
-                    try {
-                        fetch(API_BASE + "/api/v1/events", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
-                        body: JSON.stringify(payload),
-                        keepalive: true
-                      }).catch(function() {});
-                    } catch (e) {}
-                  }
-                
-                        function trackPageView(extra) {
-                            var payload = {
-                                event_type: "page_view",
-                      visitor_id: getVisitorId(),
-                      session_id: getSessionId(),
-                      page_url: location.href,
-                      page_title: document.title || undefined,
-                      referrer: document.referrer || undefined,
-                      user_agent: navigator.userAgent
-                    };
-                    var email = getEmail();
-                    if (email) payload.email = email;
-                    if (extra && typeof extra === "object") payload.metadata = extra;
-                    send(payload);
-                  }
-                
-                        // SPA route changes via History API
-                        var origPush = history.pushState;
-                        var origReplace = history.replaceState;
-                        history.pushState = function() { var r = origPush.apply(this, arguments); setTimeout(trackPageView, 0); return r; };
-                        history.replaceState = function() { var r = origReplace.apply(this, arguments); setTimeout(trackPageView, 0); return r; };
-                        window.addEventListener("popstate", function() { setTimeout(trackPageView, 0); });
-                
-                        // Public API for site code:
-                        //   IDXBoost.identify("user@example.com") — links anonymous events to a known contact
-                        //   IDXBoost.track("page_view")           — manual page_view (or other event_type)
-                        window.IDXBoost = {
-                        identify: function(email) {
-                            try { if (email) localStorage.setItem(EMAIL_KEY, String(email).trim().toLowerCase()); } catch (e) {}
-                            trackPageView();
-                        },
-                    track: function(eventType, extra) {
-                            if (eventType === "page_view") return trackPageView(extra);
-                            var payload = Object.assign({
-                        event_type: eventType,
-                        visitor_id: getVisitorId(),
-                        session_id: getSessionId()
-                      }, extra || {});
-                      var email = getEmail();
-                      if (email && !payload.email) payload.email = email;
-                      send(payload);
-                    },
-                    reset: function() {
-                            try {
-                                localStorage.removeItem(VISITOR_KEY);
-                                localStorage.removeItem(EMAIL_KEY);
-                                sessionStorage.removeItem(SESSION_KEY);
-                            } catch (e) {}
+                 <script>
+                    (function() {
+                    
+                      // Evitar que el pixel se inicialice más de una vez
+                      if (window.__IDXBOOST_PIXEL_INITIALIZED__) {
+                        return;
+                      }
+                    
+                      window.__IDXBOOST_PIXEL_INITIALIZED__ = true;
+                    
+                      var API_BASE = "'.IDXBOOST_CRM.'";
+                      var TOKEN = "'.$flex_idx_info['agent']['idx_boost_crm_pixel'].'";
+                    
+                      var VISITOR_KEY = "idxb_visitor_id";
+                      var SESSION_KEY = "idxb_session_id";
+                      var EMAIL_KEY = "idxb_email";
+                    
+                      function uid(prefix) {
+                        return prefix + "_" +
+                          Date.now().toString(36) +
+                          Math.random().toString(36).slice(2, 10);
+                      }
+                    
+                      function getVisitorId() {
+                        try {
+                          var v = localStorage.getItem(VISITOR_KEY);
+                          if (!v) {
+                            v = uid("v");
+                            localStorage.setItem(VISITOR_KEY, v);
+                          }
+                          return v;
+                        } catch (e) {
+                          return uid("v");
                         }
-                  };
-                
-                  if (document.readyState === "loading") {
-                      document.addEventListener("DOMContentLoaded", function() { trackPageView(); });
-                  } else {
-                      trackPageView();
-                  }
-                })();
+                      }
+                    
+                      function getSessionId() {
+                        try {
+                          var s = sessionStorage.getItem(SESSION_KEY);
+                          if (!s) {
+                            s = uid("s");
+                            sessionStorage.setItem(SESSION_KEY, s);
+                          }
+                          return s;
+                        } catch (e) {
+                          return uid("s");
+                        }
+                      }
+                    
+                      function getEmail() {
+                        try {
+                          return localStorage.getItem(EMAIL_KEY) || undefined;
+                        } catch (e) {
+                          return undefined;
+                        }
+                      }
+                    
+                      function send(payload) {
+                        try {
+                          fetch(API_BASE + "/api/v1/events", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer " + TOKEN
+                            },
+                            body: JSON.stringify(payload),
+                            keepalive: true
+                          }).catch(function() {});
+                        } catch (e) {}
+                      }
+                    
+                      // --------------------------------------------------
+                      // DEDUPLICACIÓN AVANZADA (DEBOUNCE)
+                      // --------------------------------------------------
+                    
+                      var lastSentUrl = null;
+                      var lastSentTime = 0;
+                      var pageViewTimer = null;
+                    
+                      function trackPageView(extra) {
+                        // 1. Si entra otra petición antes de 100ms, cancelamos la anterior.
+                        if (pageViewTimer) {
+                          clearTimeout(pageViewTimer);
+                        }
+                    
+                        // 2. Retrasamos el envío 100ms para agrupar llamadas simultáneas de React
+                        pageViewTimer = setTimeout(function() {
+                          var url = location.href;
+                          var now = Date.now();
+                    
+                          // Regla A: Evitar enviar exactamente la misma URL si han pasado menos de 2 segundos.
+                          if (lastSentUrl === url && (now - lastSentTime) < 2000) {
+                            return;
+                          }
+                    
+                          // Regla B: Si la URL cambió, pero ocurrió en menos de 200ms desde el último envío,
+                          // se ignora (cubre las redirecciones automáticas/instantáneas de React Router al cargar).
+                          if (lastSentUrl !== null && (now - lastSentTime) < 200) {
+                            return;
+                          }
+                    
+                          // Actualizamos estado
+                          lastSentUrl = url;
+                          lastSentTime = now;
+                    
+                          var payload = {
+                            event_type: "page_view",
+                            visitor_id: getVisitorId(),
+                            session_id: getSessionId(),
+                            page_url: url,
+                            page_title: document.title || undefined,
+                            referrer: document.referrer || undefined,
+                            user_agent: navigator.userAgent
+                          };
+                    
+                          var email = getEmail();
+                          if (email) {
+                            payload.email = email;
+                          }
+                    
+                          if (extra && typeof extra === "object") {
+                            payload.metadata = extra;
+                          }
+                    
+                          send(payload);
+                    
+                        }, 100); // 100ms es la ventana de agrupación
+                      }
+                    
+                      // --------------------------------------------------
+                      // SPA ROUTING
+                      // --------------------------------------------------
+                    
+                      var origPush = history.pushState;
+                      var origReplace = history.replaceState;
+                    
+                      history.pushState = function() {
+                        var result = origPush.apply(this, arguments);
+                        trackPageView();
+                        return result;
+                      };
+                    
+                      history.replaceState = function() {
+                        var result = origReplace.apply(this, arguments);
+                        trackPageView();
+                        return result;
+                      };
+                    
+                      window.addEventListener("popstate", function() {
+                        trackPageView();
+                      });
+                    
+                      // --------------------------------------------------
+                      // PUBLIC API
+                      // --------------------------------------------------
+                    
+                      window.IDXBoost = {
+                    
+                        identify: function(email) {
+                          try {
+                            if (email) {
+                              localStorage.setItem(
+                                EMAIL_KEY,
+                                String(email).trim().toLowerCase()
+                              );
+                            }
+                          } catch (e) {}
+                        },
+                    
+                        track: function(eventType, extra) {
+                          if (eventType === "page_view") {
+                            trackPageView(extra);
+                            return;
+                          }
+                    
+                          var payload = Object.assign({
+                            event_type: eventType,
+                            visitor_id: getVisitorId(),
+                            session_id: getSessionId()
+                          }, extra || {});
+                    
+                          var email = getEmail();
+                          if (email && !payload.email) {
+                            payload.email = email;
+                          }
+                    
+                          send(payload);
+                        },
+                    
+                        reset: function() {
+                          try {
+                            localStorage.removeItem(VISITOR_KEY);
+                            localStorage.removeItem(EMAIL_KEY);
+                            sessionStorage.removeItem(SESSION_KEY);
+                          } catch (e) {}
+                        }
+                    
+                      };
+                    
+                      // --------------------------------------------------
+                      // INITIAL PAGE VIEW
+                      // --------------------------------------------------
+                    
+                      if (document.readyState === "loading") {
+                        document.addEventListener(
+                          "DOMContentLoaded",
+                          function() {
+                            trackPageView();
+                          },
+                          { once: true }
+                        );
+                      } else {
+                        trackPageView();
+                      }
+                    
+                    })();
                     </script>
                 <!-- End IDXBoost Pixel -->';
         }
@@ -10573,6 +10678,203 @@ IB_ATTRIBUTION;
                   })();
                 </script>";
         }
+    }
+}
+
+if (!function_exists('idxboost_cms_refresh_seo_cache')) {
+    /**
+     * Hace el POST real al builder-service y repuebla transient + stale.
+     * Se llama de forma sincrona solo en cold-start (sin stale que servir);
+     * en cualquier otro miss se programa via wp_schedule_single_event para
+     * que ningun visitante espere el round-trip (CMS-659, prevencion de
+     * estampida de cache).
+     */
+    function idxboost_cms_refresh_seo_cache($page_type, $post_id)
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = 'idxb_seo_' . md5($reg_key . '|' . $page_type . '|' . $post_id);
+
+        $response = wp_remote_post(
+                IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
+                array(
+                        'method' => 'POST',
+                        'timeout' => 5,
+                        'headers' => [
+                                'Content-Type' => 'application/json',
+                        ],
+                        'body' => wp_json_encode(array(
+                                'registration_key' => $reg_key,
+                                "page_type" => $page_type,
+                                "post_id" => $post_id
+                        ))
+                )
+        );
+
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+            // No se cachea el fallo: el caller cae a update_seo_default() como antes
+            return null;
+        }
+
+        $content = json_decode(wp_remote_retrieve_body($response), true);
+
+        if (!is_array($content)) {
+            return null;
+        }
+
+        set_transient($tkey, $content, 15 * MINUTE_IN_SECONDS);
+        // Copia stale (autoload off) para servir si el API falla
+        update_option($tkey . '_stale', $content, false);
+
+        return $content;
+    }
+}
+add_action('idxboost_cms_refresh_seo_cache_event', 'idxboost_cms_refresh_seo_cache', 10, 2);
+
+if (!function_exists('idxboost_cms_get_seo')) {
+    /**
+     * Devuelve el SEO del builder-service cacheado entre requests.
+     * custom_seo_page() corre en wp_head prio 0 en cada page view: sin cache
+     * cada vista hacia un POST bloqueante antes del primer byte.
+     */
+    function idxboost_cms_get_seo($page_type, $post_id)
+    {
+        $reg_key = get_option('idxboost_registration_key');
+        $tkey = 'idxb_seo_' . md5($reg_key . '|' . $page_type . '|' . $post_id);
+        $content = get_transient($tkey);
+
+        if ($content !== false) {
+            return $content;
+        }
+
+        $stale = get_option($tkey . '_stale', null);
+        // Lock corto (CMS-659): atomico si el sitio tiene un object cache
+        // persistente (ej. Redis Object Cache); sin uno, no persiste entre
+        // requests y esto se degrada a "sin lock" en vez de romper nada.
+        $lock_acquired = wp_cache_add($tkey . '_lock', 1, 'idxboost_locks', 10);
+
+        if (is_array($stale)) {
+            // Se sirve lo ultimo conocido de inmediato; el refresh real
+            // queda programado en segundo plano -- ningun visitante espera
+            // el POST bloqueante al builder-service.
+            if ($lock_acquired) {
+                wp_schedule_single_event(time(), 'idxboost_cms_refresh_seo_cache_event', [$page_type, $post_id]);
+            }
+
+            return $stale;
+        }
+
+        if (!$lock_acquired) {
+            // Ya hay otro request en cold-start haciendo el fetch: se evita
+            // duplicar el POST, se cae a update_seo_default() como antes.
+            return null;
+        }
+
+        // Primera vez que se pide este page_type/post_id: no hay stale que
+        // servir, asi que este request paga el fetch (una sola vez,
+        // protegido por el lock de estampidas concurrentes).
+        return idxboost_cms_refresh_seo_cache($page_type, $post_id);
+    }
+}
+
+if (!function_exists('idxboost_cms_run_pending_cache_events')) {
+    /**
+     * CMS-659: ejecuta de forma sincrona y selectiva los eventos de
+     * WP-Cron pendientes de refresh de cache (header_footer, menu, seo,
+     * theme_settings), sin pasar por wp-cron.php ni disparar ningun otro
+     * cron job ajeno que pudiera estar vencido (backups, otros plugins,
+     * tareas del core, etc).
+     *
+     * Pensado para usarse como complemento manual/bajo demanda dentro de
+     * una accion ya existente (ej. sync_cpanel_wp en post_response.php),
+     * en lugar de un loopback HTTP bloqueante a /wp-cron.php.
+     *
+     * @return array Un registro por cada evento ejecutado: hook, args y
+     *                status ('ok' o 'error' con su mensaje).
+     */
+    function idxboost_cms_run_pending_cache_events()
+    {
+        // Header/footer, menu y theme_settings (variante no-landing) son
+        // grupos verdaderamente globales -- una sola instancia por sitio,
+        // sin page_id -- asi que se refrescan de forma DIRECTA e
+        // incondicional, sin pasar por wp_cron.
+        //
+        // Motivo: el schedule de un refresh solo se crea cuando ALGUNA
+        // pagina se visita y encuentra el transient ya borrado (ver
+        // idxboost_cms_get_theme_settings() / idxboost_cms_get_seo()).
+        // Si se ejecuta esta funcion justo despues de invalidar la cache y
+        // todavia nadie visito ninguna pagina, wp_cron no tiene nada
+        // pendiente para estos hooks -- el primer "sincronizar" no hace
+        // nada util. Recien cuando alguien visita una pagina (que sirve el
+        // valor stale y ahi si programa el refresh real) un segundo
+        // "sincronizar" encuentra algo que ejecutar. Ese es el caso
+        // reportado: Custom y Contact seguian con el themeSettings viejo
+        // hasta la segunda sincronizacion. Forzar el refresh de una
+        // garantiza que estos tres grupos quedan al dia en un solo click,
+        // sin depender de que alguien haya "pisado" antes una pagina.
+        $forced = array(
+            'idxboost_cms_refresh_header_footer_cache' => 'idxboost_cms_refresh_header_footer_cache',
+            'idxboost_cms_refresh_menu_cache'          => 'idxboost_cms_refresh_menu_cache',
+            'idxboost_cms_refresh_theme_settings_cache' => 'idxboost_cms_refresh_theme_settings_cache',
+        );
+
+        $results = array();
+
+        foreach ($forced as $hook => $fn) {
+            if (!function_exists($fn)) {
+                continue;
+            }
+
+            try {
+                call_user_func($fn);
+                $results[] = array('hook' => $hook, 'args' => array(), 'status' => 'forced');
+            } catch (\Throwable $e) {
+                $results[] = array('hook' => $hook, 'args' => array(), 'status' => 'error', 'message' => $e->getMessage());
+            }
+        }
+
+        // El SEO si queda partido por (page_type, post_id) -- no hay una
+        // lista acotada de "todas las paginas" para forzar aca sin pegarle
+        // a la BD, asi que ese grupo sigue dependiendo del mecanismo de
+        // wp_cron de siempre: se ejecuta lo que ya haya quedado programado
+        // por visitas reales a las paginas.
+        $target_hooks = array(
+            'idxboost_cms_refresh_seo_cache_event',
+        );
+
+        $cron = _get_cron_array();
+
+        if (empty($cron) || !is_array($cron)) {
+            return $results;
+        }
+
+        foreach ($cron as $timestamp => $hooks) {
+            if (!is_array($hooks)) {
+                continue;
+            }
+
+            foreach ($hooks as $hook => $events) {
+                if (!in_array($hook, $target_hooks, true) || !is_array($events)) {
+                    continue;
+                }
+
+                foreach ($events as $event) {
+                    $args = isset($event['args']) && is_array($event['args']) ? $event['args'] : array();
+
+                    try {
+                        do_action_ref_array($hook, $args);
+                        $results[] = array('hook' => $hook, 'args' => $args, 'status' => 'ok');
+                    } catch (\Throwable $e) {
+                        $results[] = array('hook' => $hook, 'args' => $args, 'status' => 'error', 'message' => $e->getMessage());
+                    }
+
+                    // Se remueve del cron table: ya se ejecuto aqui, no debe
+                    // volver a dispararse luego via el dispatch normal.
+                    wp_unschedule_event($timestamp, $hook, $args);
+                }
+            }
+        }
+
+        return $results;
     }
 }
 
@@ -10634,28 +10936,11 @@ if (!function_exists('custom_seo_page')) {
                     $page_type = 'contact';
                 }
 
-                $response = wp_remote_post(
-                        IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
-                        array(
-                                'method' => 'POST',
-                                'timeout' => 60,
-                                'headers' => [
-                                        'Content-Type' => 'application/json',
-                                ],
-                                'body' => wp_json_encode(array(
-                                        'registration_key' => get_option('idxboost_registration_key'),
-                                        "page_type" => $page_type,
-                                        "post_id" => $post_id
-                                ))
-                        )
-                );
+                $content = idxboost_cms_get_seo($page_type, $post_id);
 
-                $body = wp_remote_retrieve_body($response);
-                $content = json_decode($body, true);
-
-                if (!is_wp_error($response) or $content != NULL) {
+                if (is_array($content)) {
                     // validar que se use el seo, sino usar seo por defecto
-                    if ($content['cmsSeo'] == 1) {
+                    if (isset($content['cmsSeo']) && $content['cmsSeo'] == 1) {
                         update_seo(
                                 isset($content['seo']['title']) ? $content['seo']['title'] : '',
                                 isset($content['seo']['description']) ? $content['seo']['description'] : '',
@@ -10675,24 +10960,9 @@ if (!function_exists('custom_seo_page')) {
                         $post->post_type == 'flex-idx-pages' &&
                         in_array($type_filter, ['flex_idx_building', 'flex_idx_property_detail', 'flex_idx_new_development_detail'])
                 )) {
-                    $response = wp_remote_post(
-                            IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-seo',
-                            array(
-                                    'method' => 'POST',
-                                    'timeout' => 60,
-                                    'headers' => [
-                                            'Content-Type' => 'application/json',
-                                    ],
-                                    'body' => wp_json_encode(array(
-                                            'registration_key' => get_option('idxboost_registration_key'),
-                                            "page_type" => 'home',
-                                            "post_id" => ''
-                                    ))
-                            )
-                    );
-                    $body = wp_remote_retrieve_body($response);
-                    $content = json_decode($body, true);
-                    if (!is_wp_error($response) or $content != NULL) {
+                    $content = idxboost_cms_get_seo('home', '');
+
+                    if (is_array($content) && isset($content['seo']['title'])) {
                         update_seo_all_page($content['seo']['title']);
                     } else {
                         update_seo_default();
@@ -10844,7 +11114,6 @@ if (!function_exists('idx_autologin_collections')) {
             //llamar a la ulr y redireccionar el homepage
             wp_remote_get($URL, [
                     'timeout' => 20,
-                    'sslverify' => false,
             ]);
             wp_redirect(home_url('/'));
             exit; // Siempre es buena práctica colocar un exit después de un wp_redirect en PHP
@@ -11014,14 +11283,16 @@ if (!function_exists('idx_autologin_authenticate')) {
                                         "User" => $fromUser
                                 ])
                         ];
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress');
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_exec($ch);
-                        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        curl_close($ch);
+                        $login_response = wp_remote_post(FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress', array(
+                                'timeout'     => IDXBOOST_HTTP_TIMEOUT,
+                                'redirection' => 0,
+                                'headers'     => array('Referer' => ib_get_http_referer()),
+                                'body'    => $sendParams,
+                        ));
+
+                        $httpcode = is_wp_error($login_response)
+                                ? 0
+                                : wp_remote_retrieve_response_code($login_response);
 
                         if (in_array('administrator', $userToLogin->roles)) {
                             $role = 'admin';
@@ -11058,13 +11329,11 @@ if (!function_exists('idx_autologin_authenticate')) {
                                                 "User" => $fromUser
                                         ])
                                 ];
-                                $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/loginWordpress');
-                                curl_setopt($ch, CURLOPT_POST, 1);
-                                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                curl_exec($ch);
-                                curl_close($ch);
+                                $ch_body = idxboost_remote_request(FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/loginWordpress', array(
+                                        'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                                        'body'    => $sendParams,
+                                ));
+                                $ch_body;
 
                             }
                         } else {
@@ -11096,13 +11365,11 @@ if (!function_exists('idx_autologin_authenticate')) {
                                                     "User" => $fromUser
                                             ])
                                     ];
-                                    $ch = curl_init();
-                                    curl_setopt($ch, CURLOPT_URL, FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress');
-                                    curl_setopt($ch, CURLOPT_POST, 1);
-                                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                    curl_exec($ch);
-                                    curl_close($ch);
+                                    $ch_body = idxboost_remote_request(FLEX_IDX_BACKOFFICE_CPANEL_URL . '/tgapi/api/loginWordpress', array(
+                                            'timeout' => IDXBOOST_HTTP_TIMEOUT,
+                                            'body'    => $sendParams,
+                                    ));
+                                    $ch_body;
 
                                 }
                             }
@@ -11183,7 +11450,7 @@ if (!function_exists('flex_idx_generate_schema_fn')) {
                 $data_search_filter = get_shortcode_attributes('ib_search_filter_react');
                 $arg = array(
                         'method' => 'POST',
-                        'timeout' => 60,
+                        'timeout' => 5,
                         'headers' => array(
                                 'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                         ),
@@ -11209,7 +11476,7 @@ if (!function_exists('flex_idx_generate_schema_fn')) {
 
                 $arg = array(
                         'method' => 'POST',
-                        'timeout' => 60,
+                        'timeout' => 5,
                         'headers' => array(
                                 'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                         ),
@@ -11237,7 +11504,7 @@ if (!function_exists('flex_idx_generate_schema_fn')) {
 
                 $arg = array(
                         'method' => 'POST',
-                        'timeout' => 60,
+                        'timeout' => 5,
                         'headers' => array(
                                 'Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8',
                         ),
@@ -11804,6 +12071,14 @@ function assets_idx_inserted() {
 
 }
 
+function assets_head_bundle_reactjs(){
+                idxboost_print_vite_assets([
+                        'distDir' => ib_get_idx_path() . 'react/new_search_filter/dist/',
+                        'distUrl' => FLEX_IDX_URI . 'react/new_search_filter/dist/',
+                        'iconCssUrl' => FLEX_IDX_URI . 'react/new_search_filter/fonts/icons/style.min.css?ver=' .
+                                iboost_get_mod_time('react/new_search_filter/fonts/icons/style.min.css')
+                ]);    
+}
 
 function insert_assets_head_flex_idx_filter()
 {

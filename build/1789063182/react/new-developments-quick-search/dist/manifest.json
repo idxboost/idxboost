@@ -1,0 +1,35 @@
+{
+  "_react-vendor-DuLsXX_L.js": {
+    "file": "assets/react-vendor-DuLsXX_L.js",
+    "name": "react-vendor"
+  },
+  "_state-BPT7XGAC.js": {
+    "file": "assets/state-BPT7XGAC.js",
+    "name": "state",
+    "imports": [
+      "_vendor-BzPHiCqr.js",
+      "_react-vendor-DuLsXX_L.js"
+    ]
+  },
+  "_vendor-BzPHiCqr.js": {
+    "file": "assets/vendor-BzPHiCqr.js",
+    "name": "vendor",
+    "imports": [
+      "_react-vendor-DuLsXX_L.js"
+    ]
+  },
+  "quick-search.html": {
+    "file": "assets/quick-search-BEm7Go3r.js",
+    "name": "quick-search",
+    "src": "quick-search.html",
+    "isEntry": true,
+    "imports": [
+      "_react-vendor-DuLsXX_L.js",
+      "_state-BPT7XGAC.js",
+      "_vendor-BzPHiCqr.js"
+    ],
+    "css": [
+      "assets/quick-search-DBA17JX5.css"
+    ]
+  }
+}

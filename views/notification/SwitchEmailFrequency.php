@@ -4,16 +4,12 @@
           $access_token = flex_idx_get_access_token();
           $sendParams = array('access_token'     => $access_token, 'alert_token' => $_GET['token']);
   
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN);
-          curl_setopt($ch, CURLOPT_POST, 1);
-          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($ch, CURLOPT_REFERER, ib_get_http_referer());
-          $server_output = curl_exec($ch);
-  
+          $server_output = idxboost_remote_request(FLEX_IDX_API_TRACK_PROPERTY_LOOK_TOKEN, array(
+                  'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                  'body'    => $sendParams,
+          ));
+
           $dataTokentem=json_decode($server_output,true);
-          curl_close($ch);
           $datanotifi=explode(',', $dataTokentem[0]['alert_notification_types']);
   /*OBTENCION_DATA_TOKEN*/
   wp_enqueue_script('flex-idx-alerts-js');

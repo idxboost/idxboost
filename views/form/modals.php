@@ -2108,18 +2108,6 @@ function handleCredentialResponse(token) {
                           });
                         }
 
-                        // socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                        if ("undefined" !== typeof socket) {
-                            socket.disconnect();
-
-                            socket = new Pusher(__flex_g_settings.pusher.app_key, {
-                              cluster: __flex_g_settings.pusher.app_cluster,
-                              encrypted: true,
-                              authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-                            });
-                            
-                            socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                          }
 
                         // callback [login]
 
@@ -2554,18 +2542,6 @@ function handleCredentialResponse(token) {
                           });
                         }
 
-                        // socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                        if ("undefined" !== typeof socket) {
-                            socket.disconnect();
-
-                            socket = new Pusher(__flex_g_settings.pusher.app_key, {
-                              cluster: __flex_g_settings.pusher.app_cluster,
-                              encrypted: true,
-                              authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-                            });
-                            
-                            socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                          }
 
                         // callback [login]
 
@@ -2952,18 +2928,6 @@ function fb_login() {
                               });
                             }
 
-                            //socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                            if ("undefined" !== typeof socket) {
-                              socket.disconnect();
-
-                              socket = new Pusher(__flex_g_settings.pusher.app_key, {
-                                cluster: __flex_g_settings.pusher.app_cluster,
-                                encrypted: true,
-                                authEndpoint: __flex_g_settings.socketAuthUrl + "?ib_lead_token=" + Cookies.get("ib_lead_token")
-                              });
-                              
-                              socket.subscribe(__flex_g_settings.pusher.presence_channel);
-                            }
                         
                             // updates lead list menu HTML
                             jQuery("#user-options").html(response.output);

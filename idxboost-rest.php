@@ -18,6 +18,7 @@ class IDXBoost_REST_API_Endpoints
     const API_UPDATE_PROPERTY_GROUP = '/update_property_group';
     const API_UPDATE_PROPERTY_GROUP_PARENT = '/update_property_group_parent';
     const API_DELETE_PROPERTY_GROUP = '/delete_property_group';
+    const API_INVALIDATE_CACHE = '/invalidate-cache';
 
 
     public static function registerEndpoints()
@@ -106,6 +107,12 @@ class IDXBoost_REST_API_Endpoints
             'callback' => ['IDXBoost_REST_API_Endpoints', 'replaceUrlSite'],
             'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
 
+        ));
+
+        register_rest_route($dns_api_rest_name_version, self::API_INVALIDATE_CACHE, array(
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => ['IDXBoost_REST_API_Endpoints', 'invalidateCache'],
+            'permission_callback' => ['IDXBoost_REST_API_Endpoints', 'loginJWT']
         ));
     }
 
@@ -366,6 +373,86 @@ class IDXBoost_REST_API_Endpoints
                     'status' => '200',
                     'message' => 'OK',
                 ];
+            }
+        }
+        return new WP_REST_Response($response);
+    }
+
+    public static function invalidateCache(WP_REST_Request $request)
+    {
+        $reg_key = $_POST['reg_key'];
+        $cache_group = $_POST['cache_group'];
+
+        if (!$reg_key || !$cache_group) {
+            $response = [
+                'status' => '400',
+                'message' => 'Bad Request'
+            ];
+        } else {
+            if (get_option('idxboost_registration_key') != $reg_key) {
+                $response = [
+                    'status' => '403',
+                    'message' => 'Forbidden',
+                    'data' => []
+                ];
+            } else {
+                $reg_key_hash = md5((string) get_option('idxboost_registration_key'));
+
+                $transient_keys = [
+                    'header_footer' => 'idxb_hf_' . $reg_key_hash,
+                    'menu' => 'idxb_menu_' . $reg_key_hash,
+                ];
+
+                if ($cache_group === 'seo') {
+                    // El transient de SEO se particiona por page_type/post_id
+                    // (ver idxboost_cms_get_seo() en inc/helpers_fn.php), no
+                    // por reg_key solo -- se reconstruye con la misma formula
+                    // exacta para invalidar la entrada correcta.
+                    $page_type = $_POST['page_type'] ?? '';
+                    $post_id = $_POST['post_id'] ?? '';
+
+                    delete_transient(
+                        'idxb_seo_' . md5(get_option('idxboost_registration_key') . '|' . $page_type . '|' . $post_id)
+                    );
+
+                    $response = [
+                        'status' => '200',
+                        'message' => 'OK'
+                    ];
+                } elseif ($cache_group === 'theme_settings') {
+                    // El transient de theme_settings es global (una sola
+                    // llave por sitio) para todo lo que no sea landing page;
+                    // las landing pages tienen su propia llave particionada
+                    // por page_id -- misma estructura de dos niveles que usa
+                    // api-cms internamente (ver SettingService::getThemeSettings()),
+                    // asi que un solo webhook global no necesita "barrer" N
+                    // llaves de landing por separado.
+                    $page_id = $_POST['page_id'] ?? '';
+
+                    if (!empty($page_id)) {
+                        delete_transient(
+                            'idxb_theme_landing_' . md5(get_option('idxboost_registration_key') . '|' . $page_id)
+                        );
+                    } else {
+                        delete_transient('idxb_theme_' . $reg_key_hash);
+                    }
+
+                    $response = [
+                        'status' => '200',
+                        'message' => 'OK'
+                    ];
+                } elseif (!array_key_exists($cache_group, $transient_keys)) {
+                    $response = [
+                        'status' => '400',
+                        'message' => 'Bad Request: unsupported cache_group'
+                    ];
+                } else {
+                    delete_transient($transient_keys[$cache_group]);
+                    $response = [
+                        'status' => '200',
+                        'message' => 'OK'
+                    ];
+                }
             }
         }
         return new WP_REST_Response($response);

@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology.
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 6.2
+ * Version: 6.3
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -47,6 +47,19 @@ define('FLEX_IDX_URI_WP', plugin_dir_url(__FILE__) );
 define('FLEX_IDX_URI', ib_get_assets_uri());
 define( 'UPLOAD_DIR_WP', trailingslashit( WP_CONTENT_DIR ) . 'uploads/' );
 define('IDXBOOST_OVERRIDE_DIR', get_template_directory() . DIRECTORY_SEPARATOR . 'idxboost');
+
+// Timeouts por defecto de las llamadas HTTP salientes del plugin.
+// Un endpoint lento no debe poder retener un worker php-fpm indefinidamente.
+//
+// Todos deben quedar por debajo del techo del pool php-fpm, que en produccion
+// es de 30s por dos vias (max_execution_time y request_terminate_timeout). Si
+// una llamada pide mas, el worker recibe SIGKILL a los 30s y la operacion se
+// corta a mitad de escritura, sin que PHP pueda manejar el error ni deshacer
+// lo ya insertado. Es preferible que la llamada falle limpiamente antes.
+define('IDXBOOST_HTTP_TIMEOUT', 10);          // llamadas normales
+define('IDXBOOST_HTTP_TIMEOUT_RENDER', 5);    // dentro del render de una pagina
+define('IDXBOOST_HTTP_TIMEOUT_BULK', 20);     // import / sincronizacion
+define('IDXBOOST_HTTP_CONNECT_TIMEOUT', 3);
 
 define('FLEX_IDX_BASE_URL', 'https://api.idxboost.com');
 define('FLEX_IDX_CPANEL_URL', 'https://cpanel.idxboost.com');
@@ -300,22 +313,35 @@ $IDXBoostUpdater->initialize();
 add_action('wp_footer', function () {
   global $flex_idx_info;
 
-  $site_key = '';
+  // Mismo criterio de has_enterprise_recaptcha que ya usa iboost_print_googlerecaptcha() más arriba.
+  $is_enterprise_recaptcha = !empty($flex_idx_info['agent']['has_enterprise_recaptcha']);
 
-  if (!empty($flex_idx_info['agent']['recaptcha_site_key'])) {
-      $site_key = $flex_idx_info['agent']['recaptcha_site_key'];
-  } elseif (!empty($flex_idx_info['agent']['google_captcha_public_key'])) {
-      $site_key = $flex_idx_info['agent']['google_captcha_public_key'];
+  if ($is_enterprise_recaptcha) {
+      $site_key = !empty($flex_idx_info['agent']['recaptcha_site_key']) ? $flex_idx_info['agent']['recaptcha_site_key'] : '';
+  } else {
+      $site_key = !empty($flex_idx_info['agent']['google_captcha_public_key']) ? $flex_idx_info['agent']['google_captcha_public_key'] : '';
   }
 
   if (empty($site_key)) return;
+
+  $recaptcha_script_src = $is_enterprise_recaptcha
+      ? 'https://www.google.com/recaptcha/enterprise.js'
+      : 'https://www.google.com/recaptcha/api.js';
 ?>
 <script>
+  var isEnterpriseRecaptcha = <?php echo $is_enterprise_recaptcha ? 'true' : 'false'; ?>;
+
+  function isRecaptchaLoaded() {
+    return isEnterpriseRecaptcha
+      ? (typeof grecaptcha !== "undefined" && typeof grecaptcha.enterprise !== "undefined")
+      : (typeof grecaptcha !== "undefined" && typeof grecaptcha.execute === "function");
+  }
+
   function loadRecaptchaManually() {
     if (window.recaptchaLoaded) return;
     window.recaptchaLoaded = true;
     const script = document.createElement("script");
-    script.src = "https://www.google.com/recaptcha/api.js?render=<?php echo esc_js($site_key); ?>";
+    script.src = "<?php echo esc_js($recaptcha_script_src); ?>?render=<?php echo esc_js($site_key); ?>";
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -329,7 +355,7 @@ add_action('wp_footer', function () {
   });
 
   document.addEventListener("submit", function(e) {
-    if (typeof grecaptcha === "undefined") {
+    if (!isRecaptchaLoaded()) {
       e.preventDefault();
       loadRecaptchaManually();
       setTimeout(() => {

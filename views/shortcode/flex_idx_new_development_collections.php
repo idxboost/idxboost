@@ -45,6 +45,7 @@ $search_new_developmet_collection = $wpdb->get_var("
 
 	window.developments_settings = {
 		folder_path: '<?php echo FLEX_IDX_URI . 'react' . DIRECTORY_SEPARATOR . 'new-developments' . DIRECTORY_SEPARATOR; ?>', // ruta donde se aloja el bundle
+		is_quick_search_developments: <?= json_encode($atts["type"] === "quick_search") ?>,
 		default_params: { // objeto de params por defecto
 			sort: '<?php echo $atts["sort"]; ?>'
 		},
@@ -67,9 +68,19 @@ $search_new_developmet_collection = $wpdb->get_var("
 	window.idxtoken = "<?php echo $access_token_service; ?>";
 </script>
 
+<?php if ($atts["type"] === "quick_search") { ?>
+	<div id="root-quick-search">
+		<img src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg" width="600" height="600"
+			alt="LCP Placeholder" style="display:block; max-width:100%; height:auto;" fetchpriority="high"
+			decoding="async" />
+	</div>
+<?php }else{ ?>
 <div id="root-new-developments">
 	<img src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg" width="600" height="600"
 		alt="LCP Placeholder" style="display:block; max-width:100%; height:auto;" fetchpriority="high"
 		decoding="async" />
 </div>
+<?php } ?>
+
+
 <div id="nd-contact-modal"></div>

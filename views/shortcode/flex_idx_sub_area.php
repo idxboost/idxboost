@@ -91,14 +91,10 @@
       $idx_social_mediamaps  = $flex_idx_info["agent"]["google_maps_api_key"];
   
   if ((empty($response['payload']['lat_building'])) && (empty($response['payload']['lng_building']))){
-    $chlatlong = curl_init();
-    curl_setopt($chlatlong, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($building_default_address).'&key='.$idx_social_mediamaps);
-    curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($chlatlong, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($chlatlong, CURLOPT_FRESH_CONNECT, true);
-    curl_setopt($chlatlong, CURLOPT_VERBOSE, true);
-    $outputlatlong = curl_exec($chlatlong);
-    curl_close($chlatlong);
+    $outputlatlong = idxboost_remote_request('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($building_default_address).'&key='.$idx_social_mediamaps, array(
+            'method'  => 'GET',
+            'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+    ));
   
     $outtemporali=json_decode($outputlatlong,true);
     if ($outtemporali['status']=='OK') {

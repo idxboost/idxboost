@@ -23,7 +23,7 @@ if (
     isset( $agent_registration_key ) && 
     ! empty( $agent_registration_key ) 
 ) {
-    $agent_full_info = wp_remote_get( sprintf( '%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key ), ['timeout' => 60] );
+    $agent_full_info = wp_remote_get( sprintf( '%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key ), ['timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER] );
     $agent_full_info = ( is_wp_error( $agent_full_info ) ) ? [] : wp_remote_retrieve_body( $agent_full_info );
 
     if ( ! empty( $agent_full_info ) ) {
@@ -46,27 +46,32 @@ if ( ! $agent_full_info ) {
     $payload = json_encode($data);
 
     // Prepare new cURL resource
-    $ch = curl_init(IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    $response = wp_remote_post(IDX_BOOST_SPW_BUILDER_SERVICE_AGENT_INFO, array(
+        'timeout'     => IDXBOOST_HTTP_TIMEOUT_RENDER,
+        'redirection' => 0,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'Referer'      => ib_get_http_referer(),
+        ),
+        'body'    => $payload,
+    ));
 
-    // Set HTTP Header for POST request
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($payload))
-    );
-
-    // Submit the POST request
-    $result = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    // Close cURL session handle
-    curl_close($ch);
+    $result   = is_wp_error($response) ? false : wp_remote_retrieve_body($response);
+    $httpcode = is_wp_error($response) ? 0 : wp_remote_retrieve_response_code($response);
     
     if ($httpcode == 200) {
         $jsonObj = json_decode($result);
+
+        // Evita un Fatal Error (Attempt to read property "content" on null)
+        // cuando el API responde 200 con un cuerpo vacio o JSON invalido/
+        // inesperado. Ante esa condicion se cae a la misma pantalla de
+        // "no encontrado" que ya usan el resto de los casos de esta vista.
+        if (json_last_error() !== JSON_ERROR_NONE || !is_object($jsonObj)) {
+            status_header(404);
+            nocache_headers();
+            include(get_query_template('404'));
+            die();
+        }
 
         if (
             $jsonObj->content != null && 

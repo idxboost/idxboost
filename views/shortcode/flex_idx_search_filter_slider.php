@@ -235,7 +235,10 @@ if ($disclaimer_checked == "1") {
                         ?>
                         <p>
                             <?php
-                            $tzName = $property['board_info']['tz_name'];
+                            $tzName = isset($flex_idx_info['board_info']['tz_name']) ? $flex_idx_info['board_info']['tz_name'] : '';
+                            if (empty($tzName) || !in_array($tzName, DateTimeZone::listIdentifiers())) {
+                                $tzName = 'America/New_York';
+                            }
                             $timezone = new DateTimeZone($tzName);
 
                             $dt = new DateTime('now', $timezone);

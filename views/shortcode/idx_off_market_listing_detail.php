@@ -131,14 +131,10 @@ if ( empty($property) || ( empty($property) && !is_array($property) ) || (is_arr
         
 
   if ((empty($property['lat'])) && (empty($property['lng']))){
-    $chlatlong = curl_init();
-    curl_setopt($chlatlong, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($property['address']).'&key='.$idx_social_mediamaps);
-    curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($chlatlong, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($chlatlong, CURLOPT_FRESH_CONNECT, true);
-    curl_setopt($chlatlong, CURLOPT_VERBOSE, true);
-    $outputlatlong = curl_exec($chlatlong);
-    curl_close($chlatlong);
+    $outputlatlong = idxboost_remote_request('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($property['address']).'&key='.$idx_social_mediamaps, array(
+            'method'  => 'GET',
+            'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+    ));
   
     $outtemporali=json_decode($outputlatlong,true);
     if ($outtemporali['status']=='OK') {
@@ -161,17 +157,10 @@ if ($status_school != false) {
 	    'distance' => $schoolRatio
 	  );
 	  $sendParams = array('parameter'     => $arraydata);
-	  $chlatlong = curl_init();
-	  
-	  curl_setopt($chlatlong, CURLOPT_URL, IDX_BOOTS_NICHE);
-	  curl_setopt($chlatlong, CURLOPT_POST, 1);
-	  curl_setopt($chlatlong, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-	  curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-
-    curl_setopt($chlatlong, CURLOPT_REFERER, ib_get_http_referer());
-	  
-	  $outputlatlong = curl_exec($chlatlong);
-	  curl_close($chlatlong);
+	  $outputlatlong = idxboost_remote_request(IDX_BOOTS_NICHE, array(
+	          'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+	          'body'    => $sendParams,
+	  ));
 	  $outtemporali=json_decode($outputlatlong,true);
 }
   ?>

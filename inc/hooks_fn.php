@@ -430,3 +430,7 @@ add_action('wp_footer', 'idx_autologin_collections', 25);
 // Site-wide: loader is tiny and self-gating via IntersectionObserver,
 // so paying a few KB on every page is fine.
 add_action('wp_enqueue_scripts', 'idxboost_enqueue_lead_collector_loader');
+
+// Topes de las llamadas HTTP salientes del plugin (ver inc/helpers_fn.php)
+add_filter('http_request_args', 'idxboost_http_request_args', 10, 2);
+add_action('http_api_curl', 'idxboost_http_api_curl', 10, 3);

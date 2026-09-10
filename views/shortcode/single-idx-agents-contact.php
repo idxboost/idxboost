@@ -21,14 +21,10 @@ $idx_contact_lng = isset($flex_idx_info['agent']['agent_address_lng']) ? sanitiz
 $idx_contact_address = $idx_contact_address.' '.$idx_contact_address2.', '.$idx_contact_city.', '.$idx_contact_state.' '.$idx_contact_zip_code;
 
 if ((empty($idx_contact_lat )) && (empty($idx_contact_lng ))){
-$chlatlong = curl_init();
-curl_setopt($chlatlong, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($idx_contact_address).'&key='.$flex_idx_info["agent"]["google_maps_api_key"]);
-curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($chlatlong, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($chlatlong, CURLOPT_FRESH_CONNECT, true);
-curl_setopt($chlatlong, CURLOPT_VERBOSE, true);
-$outputlatlong = curl_exec($chlatlong);
-curl_close($chlatlong);
+$outputlatlong = idxboost_remote_request('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($idx_contact_address).'&key='.$flex_idx_info["agent"]["google_maps_api_key"], array(
+        'method'  => 'GET',
+        'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+));
 
   $outtemporali=json_decode($outputlatlong,true);
   if ($outtemporali['status']=='OK') {
@@ -46,7 +42,7 @@ $agent_slugname = $post->post_name;
 $agent_permalink = implode('/' , [ site_url(), $agent_slugname ]);
 
 // Agent Information
-$agent_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => 60]);
+$agent_info = wp_remote_get(sprintf('%s/crm/agents/info/%s', FLEX_IDX_BASE_URL, $agent_registration_key), ['timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER]);
 $agent_info = (is_wp_error($agent_info)) ? [] : wp_remote_retrieve_body($agent_info);
 
 if (!empty($agent_info)) {

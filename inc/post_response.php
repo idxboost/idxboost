@@ -69,6 +69,16 @@ if ($params['action'] == 'idx_update_building') {
     exit;
 } else if ($params['action'] == 'sync_cpanel_wp') {
     $sync_data = flex_idx_connect_fn(true);
+
+    // CMS-659: ejecuta de forma sincrona y selectiva (in-process, sin
+    // loopback HTTP a wp-cron.php) los eventos de refresh de cache
+    // pendientes -- header_footer/menu/seo/theme_settings -- como
+    // complemento manual/bajo demanda a este sync de cPanel -> WordPress.
+    // No dispara ningun otro cron job ajeno que pudiera estar vencido.
+    if (function_exists('idxboost_cms_run_pending_cache_events')) {
+        idxboost_cms_run_pending_cache_events();
+    }
+
     echo json_encode($sync_data);
     exit;
 } else if (isset($params['action'])) {

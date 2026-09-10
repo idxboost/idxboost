@@ -108,67 +108,130 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
 	-->
 	<?php
-if ($responseParms != NULL) {
+	if ($responseParms != NULL) {
 
-	$resultado = processIdxSearch($responseParms);
-	$apiResponse = $resultado['api_response'];
+		$rawData = (isset($responseParms['data']) && is_array($responseParms['data'])) ? $responseParms['data'] : [];
 
-	if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
-		$jsonData = [];
+		$rawData = array_map(function ($v) {
+			return ($v === "--") ? "" : $v;
+		}, $rawData);
+
+		$searchPayload = [
+			"limit"          => "default",
+			"show"           => "all",
+			"sort"           => $rawData['sort'] ?? "price-desc",
+			"for"            => $rawData['for'] ?? "sale",
+			"type"           => $rawData['type'] ?? "",
+			"features"       => !empty($rawData['features']) ? $rawData['features'] : null,
+			"min_price"      => $rawData['min_price'] ?? "",
+			"max_price"      => $rawData['max_price'] ?? "",
+			"min_beds"       => $rawData['min_beds'] ?? "",
+			"max_beds"       => $rawData['max_beds'] ?? "",
+			"min_baths"      => $rawData['min_baths'] ?? "",
+			"max_baths"      => $rawData['max_baths'] ?? "",
+			"min_sqft"       => $rawData['min_sqft'] ?? "",
+			"max_sqft"       => $rawData['max_sqft'] ?? "",
+			"min_lotsize"    => $rawData['min_lotsize'] ?? "",
+			"max_lotsize"    => $rawData['max_lotsize'] ?? "",
+			"min_year"       => $rawData['min_year'] ?? "",
+			"max_year"       => $rawData['max_year'] ?? "",
+			"parking"        => $rawData['parking'] ?? "",
+			"wv"             => $rawData['wv'] ?? "",
+			"keyword_main"   => $rawData['keyword_main'] ?? "",
+			"polygon_arr"    => !empty($rawData['polygon_arr']) ? $rawData['polygon_arr'] : [],
+			"board_id"       => isset($rawData['board_id']) ? (int)$rawData['board_id'] : 1,
+			"extra_board_id" => $rawData['extra_board_id'] ?? "",
+			"pagination"     => "0",
+		];
+
+		$curlSchema = curl_init();
+		curl_setopt_array($curlSchema, array(
+			CURLOPT_URL => 'https://api-idx-search.idxboost.dev/displayfilter/search',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => json_encode($searchPayload),
+			CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+			CURLOPT_SSL_VERIFYPEER => false,
+		));
+
+		//echo "\n<!-- DEBUG PAYLOAD: " . json_encode($searchPayload) . " -->\n";
+
+		$searchResponse = curl_exec($curlSchema);
+		$searchErr = curl_error($curlSchema);
+		curl_close($curlSchema);
+
+		$apiResponse = $searchErr ? ["error" => $searchErr] : json_decode($searchResponse, true);
 
 		if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
-		    $jsonData = [];
-		    $baseUrl = get_site_url();
+			$jsonData = [];
+			$baseUrl = get_site_url();
 
-		    foreach ($apiResponse['items'] as $item) {
-		        $propertyType = ($item['class_id'] == 1) ? "Apartment" : "SingleFamilyResidence";
-		        
-		        $jsonData[] = [
-		            "@context" => "https://schema.org",
-		            "@type" => $propertyType,
-		            "name" => !empty($item['address_short']) ? $item['address_short'] : $item['full_address'],
-		            "accommodationCategory" => $item['style'] ?? "Condominium",
-		            "floorSize" => [
-		                "@type" => "QuantitativeValue",
-		                "value" => $item['sqft'],
-		                "unitCode" => "FTK"
-		            ],
-		            "address" => [
-		                "@type" => "PostalAddress",
-		                "streetAddress" => $item['full_address'],
-		                "addressLocality" => isset($item['city']['name']) ? $item['city']['name'] : $item['address_large'],
-		                "addressRegion" => "FL",
-		                "postalCode" => $item['zip'],
-		                "addressCountry" => "US"
-		            ],
-		            "geo" => [
-		                "@type" => "GeoCoordinates",
-		                "latitude" => $item['lat'],
-		                "longitude" => $item['lng']
-		            ],
-		            "image" => $item['imagens'][0] ?? "",
-		            "url" => $baseUrl  . '/' .  $item['slug']
-		        ];
-		    }
+			foreach ($apiResponse['items'] as $item) {
+				$propertyType = ($item['class_id'] == 1) ? "Apartment" : "SingleFamilyResidence";
 
-		    if (!empty($jsonData)) {
-		        $jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-		        echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
-		        echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
-		    }
+				$jsonData[] = [
+					"@context" => "https://schema.org",
+					"@type" => $propertyType,
+					"name" => !empty($item['address_short']) ? $item['address_short'] : $item['full_address'],
+					"accommodationCategory" => $item['style'] ?? "Condominium",
+					"floorSize" => [
+						"@type" => "QuantitativeValue",
+						"value" => $item['sqft'],
+						"unitCode" => "FTK"
+					],
+					"address" => [
+						"@type" => "PostalAddress",
+						"streetAddress" => $item['full_address'],
+						"addressLocality" => isset($item['city']['name']) ? $item['city']['name'] : $item['address_large'],
+						"addressRegion" => "FL",
+						"postalCode" => $item['zip'],
+						"addressCountry" => "US"
+					],
+					"geo" => [
+						"@type" => "GeoCoordinates",
+						"latitude" => $item['lat'],
+						"longitude" => $item['lng']
+					],
+					"image" => $item['imagens'][0] ?? "",
+					"url" => $baseUrl . '/' . $item['slug']
+				];
+			}
+
+			if (!empty($jsonData)) {
+				$jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+				echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
+				echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
+			}
+			?>
+
+			<!-- TABLE SEO PROPERTIES OF BUILDING SEARCH IDX  -->
+			<table class="listing-building-properties idxAG" style="font-size: 0;height: 0;overflow: hidden;position: absolute;left: -9999px">
+				<?php
+				$i = 0;
+				foreach ($apiResponse['items'] as $item) {
+					$i++;
+					?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><a href="<?php echo get_home_url() . '/property/' . $item['slug']; ?>"><?php echo $item['mls_num']; ?></a></td>
+						<td><a href="<?php echo get_home_url() . '/property/' . $item['slug']; ?>"><?php echo $item['full_address']; ?></a></td>
+					</tr>
+					<?php
+				}
+				?>
+			</table>
+			<!-- END TABLE DATA SEO BUILDING SEARCH IDX   -->
+
+			<?php
 		} else {
-		    echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
+			echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
 		}
-
-		if (!empty($jsonData)) {
-			$jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-			echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
-			echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
-		}
-	} else {
-		echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
 	}
-}
 	?>
 
 	<?php if ($atts["mode"] == "slider") { ?>		

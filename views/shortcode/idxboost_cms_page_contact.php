@@ -25,7 +25,7 @@ if ( ! is_wp_error( $response ) && $response_code === 200 ) {
     
     if ( isset( $body['content'] ) && ! empty( $body['content'] ) ) {
 
-        $show_map = $body['sections']['map']['isVisible'];
+        $show_map = $body['sections']['map']['isVisible'] ?? false;
 
         if ( $show_map ) {
             wp_enqueue_script('carbonite-pages-contact');

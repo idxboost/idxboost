@@ -263,16 +263,10 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
             'distance' => $schoolRatio
     );
     $sendParams = array('parameter' => $arraydata);
-    $chlatlong = curl_init();
-
-    curl_setopt($chlatlong, CURLOPT_URL, IDX_BOOTS_NICHE);
-    curl_setopt($chlatlong, CURLOPT_POST, 1);
-    curl_setopt($chlatlong, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-    curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($chlatlong, CURLOPT_REFERER, ib_get_http_referer());
-
-    $outputlatlong = curl_exec($chlatlong);
-    curl_close($chlatlong);
+    $outputlatlong = idxboost_remote_request(IDX_BOOTS_NICHE, array(
+            'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+            'body'    => $sendParams,
+    ));
     $outtemporali = json_decode($outputlatlong, true);
 
     $more_info_property = [];
@@ -3421,7 +3415,54 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
 
                 if (__flex_g_settings.hasOwnProperty("has_enterprise_recaptcha")) { // enterprise recaptcha
                     if ("1" == __flex_g_settings.has_enterprise_recaptcha) {
-                        // pending...
+
+
+                        grecaptcha.enterprise.ready(async function () {
+
+                            try {
+
+                                const token = await grecaptcha.enterprise.execute(
+                                    __flex_g_settings.google_recaptcha_public_key,
+                                    {
+                                        action: "share_property_with_friend"
+                                    }
+                                );
+
+                                console.log(token);
+
+                                //_self.find('input[name="recaptcha_response"]').remove();
+                                _self.prepend('<input type="hidden" name="recaptcha_response" value="' + token + '">');
+
+                                var formData = _self.serialize();
+                                var mlsNumber = _self.find("input[name='mls_number']:eq(0)").val();
+                                //var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(<?php echo $property["mls_num"]; ?>, mlsNumber);
+                                var shareWithFriendEndpoint = __flex_idx_filter_regular.shareWithFriendEndpoint.replace(/{{mlsNumber}}/g, mlsNumber);
+
+                                jQuery.ajax({
+                                    type: "POST",
+                                    url: shareWithFriendEndpoint,
+                                    data: {
+                                        access_token: IB_ACCESS_TOKEN,
+                                        flex_credentials: Cookies.get("ib_lead_token"),
+                                        form_data: formData
+                                    },
+                                    success: function (response) {
+                                    }
+                                });
+
+                                jQuery("#ib-email-to-friend").removeClass("ib-md-active");
+                                jQuery("#ib-email-thankyou").addClass("ib-md-active");
+                                
+
+                            } catch (error) {
+
+                                console.error("reCAPTCHA error:", error);
+
+                            }
+
+                        });                     
+
+
                     } else { // regular recaptcha
 
                         grecaptcha.ready(function () {

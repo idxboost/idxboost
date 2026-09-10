@@ -84,16 +84,10 @@
     'distance' => $schoolRatio
   );
   $sendParams = array('parameter'     => $arraydata);
-  $chlatlong = curl_init();
-  
-  curl_setopt($chlatlong, CURLOPT_URL, IDX_BOOTS_NICHE);
-  curl_setopt($chlatlong, CURLOPT_POST, 1);
-  curl_setopt($chlatlong, CURLOPT_POSTFIELDS, http_build_query($sendParams));
-  curl_setopt($chlatlong, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($chlatlong, CURLOPT_REFERER, ib_get_http_referer());
-  
-  $outputlatlong = curl_exec($chlatlong);
-  curl_close($chlatlong);
+  $outputlatlong = idxboost_remote_request(IDX_BOOTS_NICHE, array(
+          'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+          'body'    => $sendParams,
+  ));
   $outtemporali=json_decode($outputlatlong,true);
 
   echo '<!-- ';
