@@ -7274,6 +7274,7 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', '__flex_g_settings', array(
                 'site_name' => get_bloginfo('name'),
                 'registration_key' => get_option('idxboost_registration_key'),
+                'domain_ai_search' => FLEX_IDX_IA_CPANEL_URL,
                 'api_new_developments' => FLEX_IDX_API_NEW_DEVELOPMENT_DETAIL,
                 'board_info' => $board_info,
                 'version' => $idx_v,
