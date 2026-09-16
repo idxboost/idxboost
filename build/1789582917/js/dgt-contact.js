@@ -39,15 +39,12 @@
                                 _self.trigger('reset');
                                 sweetAlert(word_translate.email_sent, word_translate.your_email_was_sent_succesfully, "success");
 
-												if (
-														( response.hasOwnProperty("success") &&  response.success )&& 
-														( response.hasOwnProperty("logged_lead") && 
-														  response.logged_lead.hasOwnProperty("encode_token") &&
-														  response.logged_lead.encode_token != "" 
-														 )														
-													) {
-													idx_setSessionForced(response.logged_lead.lead_info, response.logged_lead.encode_token );
-												}
+								if (
+									( response.hasOwnProperty("success") && response.success ) && 
+									( response.hasOwnProperty("logged_lead") && response.logged_lead.hasOwnProperty("encode_token") && response.logged_lead.encode_token != "" )														
+								) {
+									idx_setSessionForced(response.logged_lead.lead_info, response.logged_lead.encode_token );
+								}
 
                             }
                         }
