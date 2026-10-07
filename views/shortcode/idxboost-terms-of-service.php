@@ -42,9 +42,11 @@
     <p><?php echo __("You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password, whether your password is with our Service or a third-party service", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
     <p><?php echo __("You agree not to disclose your password to any third party. You must notify us immediately upon becoming aware of any breach of security or unauthorized use of your account", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
 
-    <h3><?php echo __("Intellectual Property", IDXBOOST_DOMAIN_THEME_LANG); ?>:</h3>
-    <p><?php echo __("The Service and its original content, features and functionality are and will remain the exclusive property of", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $companyName; ?> <?php echo __("and its licensors", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>
-
+   <h3><?php echo __("Intellectual Property", IDXBOOST_DOMAIN_THEME_LANG); ?>:</h3>
+	  <p><?php echo $companyName; ?> <?php echo __("is responsible for the content it provides for the website, including text, images, logos, and other marketing materials.", IDXBOOST_DOMAIN_THEME_LANG); ?></p>
+    <p><?php echo __("The website’s underlying software, technology, platform, source code, features, functionality, templates, systems, and related intellectual property are provided by TREM Group LLC / IDX Boost LLC and are not owned by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $companyName; ?></p>
+	  <p><?php echo __("No ownership of the underlying technology or platform is transferred to", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $companyName; ?>.</p>
+    
     <h3><?php echo __("Links To Other Websites", IDXBOOST_DOMAIN_THEME_LANG); ?>:</h3>
     <p><?php echo __("Our Service may contain links to third-party websites or services that are not owned or controlled by", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $companyName; ?>.</p>
     <p><?php echo $companyName; ?> <?php echo __("has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party websites or services. You further acknowledge and agree that", IDXBOOST_DOMAIN_THEME_LANG); ?> <?php echo $companyName; ?> <?php echo __("shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such websites or services", IDXBOOST_DOMAIN_THEME_LANG); ?>.</p>

@@ -2271,6 +2271,7 @@ if (!function_exists('flex_idx_get_info')) {
 
             $output['agent']['has_crm'] = isset($idxboost_agent_info['has_crm']) ? (bool)$idxboost_agent_info['has_crm'] : false;
             $output['agent']['has_new_development'] = isset($idxboost_agent_info['has_new_development']) ? (bool)$idxboost_agent_info['has_new_development'] : false;
+            $output['agent']['has_collection'] = isset($idxboost_agent_info['has_collection']) ? (bool)$idxboost_agent_info['has_collection'] : false;
             $output['agent']['phone_number_required'] = isset($idxboost_agent_info['phone_number_required']) ? (bool)$idxboost_agent_info['phone_number_required'] : false;
 
             $output['agent']['company_footer_follow'] = isset($idxboost_agent_info['company_footer_follow']) ? (bool)$idxboost_agent_info['company_footer_follow'] : false;
@@ -2789,6 +2790,31 @@ if (!function_exists('flex_idx_rewrite_rules')) {
     }
 }
 
+if (!function_exists('idxboost_cms_clear_cached_settings')) {
+    /**
+     * Borra las opciones y cachés de theme settings del CMS.
+     */
+    function idxboost_cms_clear_cached_settings()
+    {
+        global $wpdb;
+
+        foreach (['cms_translate_settings', 'cms_custom_style', 'cms_cta_modal', 'cms_theme_settings'] as $option) {
+            delete_option($option);
+        }
+
+        // Llave global (también cubre object cache persistente, ej. Redis).
+        delete_transient('idxb_theme_' . md5((string) get_option('idxboost_registration_key')));
+
+        // Landing pages (llaves por page_id) y copias _stale en la tabla de opciones.
+        $wpdb->query(
+                "DELETE FROM {$wpdb->options}
+                 WHERE option_name LIKE '\\_transient\\_idxb\\_theme\\_%'
+                    OR option_name LIKE '\\_transient\\_timeout\\_idxb\\_theme\\_%'
+                    OR option_name LIKE 'idxb\\_theme\\_%\\_stale'"
+        );
+    }
+}
+
 if (!function_exists('flex_idx_on_activation')) {
     function flex_idx_on_activation()
     {
@@ -2807,6 +2833,10 @@ if (!function_exists('flex_idx_on_deactivation')) {
     function flex_idx_on_deactivation()
     {
         flush_rewrite_rules();
+
+        // Limpia el estado derivado del CMS para que al reactivar no se
+        // reutilice configuración vieja (translate, css, cta, etc.).
+        idxboost_cms_clear_cached_settings();
     }
 }
 
@@ -6957,9 +6987,21 @@ if (!function_exists('flex_idx_register_assets')) {
 
         // handlebars
         wp_register_script('handlebars', FLEX_IDX_URI . 'js/vendor/handlebars-v4.1.2.min.js', array(), iboost_get_mod_time("js/vendor/handlebars-v4.1.2.min.js"));
-        wp_register_script('flex-idx-search-filter-slider', FLEX_IDX_URI . 'js/vendor/greatslider.jquery.min.js', array(
-                'jquery'
-        ), iboost_get_mod_time("js/vendor/greatslider.jquery.min.js"));
+        // greatslider: único handle que apunta al archivo real. Antes este mismo
+        // archivo se registraba también como 'flex-idx-search-filter-slider' y se
+        // descargaba/ejecutaba dos veces en las páginas de búsqueda.
+        if (!wp_script_is('greatslider', 'registered')) {
+            wp_register_script(
+                    'greatslider',
+                    FLEX_IDX_URI . 'js/vendor/greatslider.jquery.min.js',
+                    array('jquery'),
+                    iboost_get_mod_time('js/vendor/greatslider.jquery.min.js'),
+                    true
+            );
+        }
+
+        // Alias por compatibilidad: no carga archivo propio, solo trae 'greatslider'.
+        wp_register_script('flex-idx-search-filter-slider', false, array('greatslider'));
 
         // wp_register_script('flex-idx-search-filter-slideritems', FLEX_IDX_URI . 'js/flex-idx-search-filter-slideritems.js', array(
         //     'jquery',
@@ -7255,6 +7297,9 @@ if (!function_exists('flex_idx_register_assets')) {
         wp_localize_script('flex-auth-check', 'word_translate', $translation_array);
 
         /*MAP STYLE IDXBOOST*/
+        // TODO: table idx map style deactivated (see flex_idx_admin_render_tools_page).
+        // Keep the variable defined so style_map_idxboost is always emitted as ''.
+        $descr_tools_map_style = '';
 //        $tbl_idxboost_tools = $wpdb->prefix . 'idxboost_setting';
 //        $idxboost_setting_tools_map_style = $wpdb->get_col("SELECT idx_map_style FROM {$tbl_idxboost_tools}; ");
 //        $descr_tools_map_style = '';
@@ -9395,6 +9440,19 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     true
             );
 
+            // 'greatslider' is a dependency of carbonite-sections, but greatsliderLoad()
+            // only registers it on wp_footer. Register it here (footer, same file/version)
+            // so the dependency exists when WP resolves the queue in wp_head (WP >= 6.9.1).
+            if (!wp_script_is('greatslider', 'registered')) {
+                wp_register_script(
+                        'greatslider',
+                        FLEX_IDX_URI . 'js/vendor/greatslider.jquery.min.js',
+                        array('jquery'),
+                        iboost_get_mod_time('js/vendor/greatslider.jquery.min.js'),
+                        true
+                );
+            }
+
             wp_register_script(
                     'carbonite-sections',
                     get_cms_assets_base_url() . '/assets/js/carbonite-sections.js',
@@ -9445,6 +9503,25 @@ if (!function_exists('idxboost_cms_register_assets')) {
                     true
             );
         }
+    }
+}
+
+if (!function_exists('idxboost_cms_normalize_inline_css')) {
+    /**
+     * Deja solo CSS plano para wp_add_inline_style(): quita cualquier
+     * etiqueta <style ...> / </style> (el globalCss del builder puede
+     * traerlas) y evita que el contenido cierre el <style> de WP.
+     *
+     * @param mixed $css
+     * @return string
+     */
+    function idxboost_cms_normalize_inline_css($css)
+    {
+        if (!is_string($css) || $css === '') {
+            return '';
+        }
+
+        return trim(preg_replace('#</?style\b[^>]*>#i', '', $css));
     }
 }
 
@@ -9503,22 +9580,28 @@ if (!function_exists('idxboost_cms_enqueue_assets')) {
                 $idxboost_cms_custom_style_dep = 'carbonite-pages-agent';
             }
 
-            if (get_option("cms_loader")) {
+            if ('' !== idxboost_cms_get_loader_content()) {
                 $idxboost_cms_custom_style_dep = 'carbonite-addons-loader';
                 wp_enqueue_style('carbonite-addons-loader');
                 wp_enqueue_script('carbonite-addons-loader');
             }
 
-            if (get_option("cms_translate_settings")) {
+            if (null !== idxboost_cms_get_translate_settings()) {
                 $idxboost_cms_custom_style_dep = 'carbonite-addons-translate';
                 wp_enqueue_style('carbonite-addons-translate');
                 wp_enqueue_script('carbonite-addons-translate');
             }
 
-            wp_add_inline_style(
-                    $idxboost_cms_custom_style_dep, // nombre del estilo dependiente
-                    get_option('cms_custom_style') // String con las reglas CSS que se imprimirán inline
-            );
+            // globalCss viene del builder y puede traer etiquetas <style>;
+            // wp_add_inline_style() solo acepta CSS plano (WP >= 3.7).
+            $idxboost_cms_custom_style = idxboost_cms_get_custom_style();
+
+            if ($idxboost_cms_custom_style !== '') {
+                wp_add_inline_style(
+                        $idxboost_cms_custom_style_dep, // nombre del estilo dependiente
+                        $idxboost_cms_custom_style // String con las reglas CSS que se imprimirán inline
+                );
+            }
         }
     }
 }
@@ -9570,6 +9653,45 @@ if (!function_exists('idxboost_cms_refresh_theme_settings_cache')) {
 }
 add_action('idxboost_cms_refresh_theme_settings_cache_event', 'idxboost_cms_refresh_theme_settings_cache', 10, 2);
 
+if (!function_exists('idxboost_cms_queue_background_refresh')) {
+    /**
+     * CMS-659 (fix): encola un refresh de cache para que corra DESPUES de
+     * que la respuesta ya se le mando al visitante, sin depender de que
+     * wp-cron dispare el evento agendado por wp_schedule_single_event().
+     * Hay sitios del fleet con DISABLE_WP_CRON activo donde ese evento
+     * nunca se dispara solo -- queda pendiente indefinidamente hasta que
+     * alguien pegue wp-cron.php a mano (ver PENDIENTES.md). Varias
+     * llamadas en el mismo request comparten un unico
+     * fastcgi_finish_request(), asi que el visitante nunca espera el POST
+     * bloqueante al builder-service.
+     */
+    function idxboost_cms_queue_background_refresh(callable $callback)
+    {
+        static $queue = [];
+        static $registered = false;
+
+        $queue[] = $callback;
+
+        if (!$registered) {
+            $registered = true;
+
+            add_action('shutdown', function () use (&$queue) {
+                if (function_exists('fastcgi_finish_request')) {
+                    fastcgi_finish_request();
+                }
+
+                foreach ($queue as $refresh) {
+                    try {
+                        $refresh();
+                    } catch (\Throwable $e) {
+                        // Un refresh fallido no debe interrumpir a los demas.
+                    }
+                }
+            });
+        }
+    }
+}
+
 if (!function_exists('idxboost_cms_get_theme_settings')) {
     function idxboost_cms_get_theme_settings($page_id, $is_landing)
     {
@@ -9580,7 +9702,7 @@ if (!function_exists('idxboost_cms_get_theme_settings')) {
 
         $head_json = get_transient($tkey);
 
-        if ($head_json !== false) {
+        if (is_array($head_json)) {
             return $head_json;
         }
 
@@ -9596,6 +9718,12 @@ if (!function_exists('idxboost_cms_get_theme_settings')) {
             // el POST bloqueante al builder-service.
             if ($lock_acquired) {
                 wp_schedule_single_event(time(), 'idxboost_cms_refresh_theme_settings_cache_event', [$page_id, $is_landing]);
+
+                // No depender solo de wp-cron -- ver nota en
+                // idxboost_cms_queue_background_refresh().
+                idxboost_cms_queue_background_refresh(function () use ($page_id, $is_landing) {
+                    idxboost_cms_refresh_theme_settings_cache($page_id, $is_landing);
+                });
             }
 
             return $stale;
@@ -9611,6 +9739,160 @@ if (!function_exists('idxboost_cms_get_theme_settings')) {
         // asi que este request paga el fetch (una sola vez, protegido por
         // el lock de estampidas concurrentes).
         return idxboost_cms_refresh_theme_settings_cache($page_id, $is_landing) ?: [];
+    }
+}
+
+if (!function_exists('idxboost_cms_get_current_theme_settings')) {
+    /**
+     * Theme settings del CMS para la página actual, resueltos una sola vez
+     * por request. Permite que wp_enqueue_scripts, wp_head y el footer lean
+     * la MISMA configuración, en vez de depender de opciones que se
+     * escribían en wp_head (después de encolar) y quedaban un request atrás.
+     *
+     * @return array
+     */
+    function idxboost_cms_get_current_theme_settings()
+    {
+        static $settings = null;
+
+        if (null !== $settings) {
+            return $settings;
+        }
+
+        global $post, $flex_idx_info;
+
+        // Solo sitios con CMS: evita llamar al builder-service en sitios sin CMS
+        // (idxboost_cms_translate() corre en get_footer para todos).
+        if (empty($flex_idx_info['agent']['has_cms'])) {
+            $settings = [];
+            return $settings;
+        }
+
+        $idx_page_id = '';
+        $idx_page_type = '';
+
+        if ($post instanceof WP_Post) {
+            $idx_page_id = get_post_meta($post->ID, 'idx_page_id', true);
+            $idx_page_type = get_post_meta($post->ID, 'idx_page_type', true);
+        }
+
+        $settings = idxboost_cms_get_theme_settings($idx_page_id, $idx_page_type === 'landing');
+
+        if (!is_array($settings)) {
+            $settings = [];
+        }
+
+        return $settings;
+    }
+}
+
+if (!function_exists('idxboost_cms_get_translate_settings')) {
+    /**
+     * Devuelve la configuración de traducción solo si está activa desde el
+     * editor del CMS (isVisible === true y con idiomas); si no, null.
+     *
+     * @param array|null $head_json
+     * @return array|null
+     */
+    function idxboost_cms_get_translate_settings($head_json = null)
+    {
+        if (null === $head_json) {
+            $head_json = idxboost_cms_get_current_theme_settings();
+        }
+
+        if (
+                is_array($head_json) &&
+                !empty($head_json['translate']) &&
+                is_array($head_json['translate']) &&
+                isset($head_json['translate']['isVisible']) &&
+                true === $head_json['translate']['isVisible'] &&
+                !empty($head_json['translate']['list']) &&
+                is_array($head_json['translate']['list'])
+        ) {
+            return $head_json['translate'];
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('idxboost_cms_get_loader_content')) {
+    /**
+     * HTML del loader solo si está activo desde el editor del CMS
+     * (loader.isVisible === true); '' si está desactivado.
+     *
+     * Si los theme settings no están disponibles (API caída / cold-start)
+     * o la respuesta no trae la llave 'loader', se usa la opción cms_loader
+     * (guardada en el import inicial) para no romper sitios existentes.
+     *
+     * @return string
+     */
+    function idxboost_cms_get_loader_content()
+    {
+        $head_json = idxboost_cms_get_current_theme_settings();
+
+        if (empty($head_json) || !isset($head_json['loader']) || !is_array($head_json['loader'])) {
+            return trim((string) get_option('cms_loader', ''));
+        }
+
+        $loader = $head_json['loader'];
+
+        if (!isset($loader['isVisible']) || true !== $loader['isVisible']) {
+            return '';
+        }
+
+        if (!empty($loader['content']) && is_string($loader['content'])) {
+            return trim($loader['content']);
+        }
+
+        return trim((string) get_option('cms_loader', ''));
+    }
+}
+
+if (!function_exists('idxboost_cms_get_custom_style')) {
+    /**
+     * globalCss del CMS ya normalizado (sin etiquetas <style>).
+     * Fallback a la opción cms_custom_style si no hay theme settings.
+     *
+     * @return string
+     */
+    function idxboost_cms_get_custom_style()
+    {
+        $head_json = idxboost_cms_get_current_theme_settings();
+
+        if (empty($head_json)) {
+            return idxboost_cms_normalize_inline_css(get_option('cms_custom_style'));
+        }
+
+        return idxboost_cms_normalize_inline_css(
+                isset($head_json['globalCss']) ? $head_json['globalCss'] : ''
+        );
+    }
+}
+
+if (!function_exists('idxboost_cms_get_cta_modal_content')) {
+    /**
+     * HTML del modal CTA del CMS; '' si no viene configurado.
+     * Fallback a la opción cms_cta_modal si no hay theme settings.
+     *
+     * @return string
+     */
+    function idxboost_cms_get_cta_modal_content()
+    {
+        $head_json = idxboost_cms_get_current_theme_settings();
+
+        if (empty($head_json)) {
+            return trim((string) get_option('cms_cta_modal', ''));
+        }
+
+        if (
+                isset($head_json['cta']['content']) &&
+                is_string($head_json['cta']['content'])
+        ) {
+            return trim($head_json['cta']['content']);
+        }
+
+        return '';
     }
 }
 
@@ -9632,7 +9914,7 @@ if (!function_exists('idxboost_cms_assets')) {
             // Cache entre requests (CMS-659) -- antes de esto, cada page view
             // hacia un POST bloqueante al builder-service en wp_head, sin
             // ninguna proteccion de cache.
-            $head_json = idxboost_cms_get_theme_settings($idx_page_id, $idx_page_type === 'landing');
+            $head_json = idxboost_cms_get_current_theme_settings();
 
             // Load font setting
             if (is_array($head_json) && count($head_json) > 0) {
@@ -9655,28 +9937,32 @@ if (!function_exists('idxboost_cms_assets')) {
                     update_option("cms_theme_settings", trim($head_json['style']));
                 }
 
-                // Load custom style
-                if (array_key_exists("globalCss", $head_json)) {
-                    update_option("cms_custom_style", trim($head_json['globalCss']));
+                // Las opciones cms_custom_style / cms_translate_settings / cms_cta_modal
+                // se mantienen solo como respaldo (API caída); el render lee los
+                // helpers idxboost_cms_get_*(). Si el CMS deja de mandar un valor,
+                // se borra la opción para que no quede pegado.
+                $custom_style = idxboost_cms_get_custom_style();
+
+                if ('' !== $custom_style) {
+                    update_option("cms_custom_style", $custom_style);
+                } else {
+                    delete_option("cms_custom_style");
                 }
 
-                if (
-                        array_key_exists("translate", $head_json) &&
-                        !empty($head_json['translate']) &&
-                        array_key_exists("isVisible", $head_json['translate']) &&
-                        true === $head_json['translate']['isVisible'] &&
-                        array_key_exists("list", $head_json['translate']) &&
-                        !empty($head_json['translate']['list'])
-                ) {
-                    update_option("cms_translate_settings", $head_json['translate']);
+                $translate_settings = idxboost_cms_get_translate_settings($head_json);
+
+                if (null !== $translate_settings) {
+                    update_option("cms_translate_settings", $translate_settings);
+                } else {
+                    delete_option("cms_translate_settings");
                 }
 
-                // Load cta modal
-                if (
-                        array_key_exists("cta", $head_json) &&
-                        array_key_exists("content", $head_json['cta'])
-                ) {
-                    update_option("cms_cta_modal", trim($head_json['cta']['content']));
+                $cta_modal = idxboost_cms_get_cta_modal_content();
+
+                if ('' !== $cta_modal) {
+                    update_option("cms_cta_modal", $cta_modal);
+                } else {
+                    delete_option("cms_cta_modal");
                 }
             }
 
@@ -9721,14 +10007,14 @@ if (!function_exists('idxboost_cms_get_loader')) {
 if (!function_exists('idxboost_cms_loader')) {
     function idxboost_cms_loader()
     {
-        echo get_option("cms_loader");
+        echo idxboost_cms_get_loader_content();
     }
 }
 
 if (!function_exists('idxboost_cms_cta_modal')) {
     function idxboost_cms_cta_modal()
     {
-        echo get_option("cms_cta_modal");
+        echo idxboost_cms_get_cta_modal_content();
     }
 }
 
@@ -9768,7 +10054,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
                 $tkey = 'idxb_tw_' . md5(get_option('idxboost_registration_key') . '|' . $page_type . '|' . $post_id);
                 $tw_content = get_transient($tkey);
 
-                if ($tw_content === false) {
+                if (!is_string($tw_content)) {
                     $url = IDX_BOOST_SPW_BUILDER_SERVICE . '/api/get-tripwire-linked-wp';
                     $args = array(
                             'method' => 'POST',
@@ -9822,7 +10108,7 @@ if (!function_exists('idxboost_cms_tripwire')) {
                     $tkey = 'idxb_twf_' . md5(get_option('idxboost_registration_key') . '|' . $filter_id . '|' . $type_filter);
                     $tw_content = get_transient($tkey);
 
-                    if ($tw_content === false) {
+                    if (!is_string($tw_content)) {
                         $response = wp_remote_post(
                                 FLEX_IDX_BASE_URL . '/cms/get/get_tripwires_filter',
                                 array(
@@ -9870,8 +10156,13 @@ if (!function_exists('idxboost_cms_tripwire')) {
 if (!function_exists('idxboost_cms_translate')) {
     function idxboost_cms_translate()
     {
-        if (get_option('cms_translate_settings')) {
-            $languages = get_option("cms_translate_settings")["list"];
+        $translate_settings = idxboost_cms_get_translate_settings();
+
+        if (null !== $translate_settings) {
+            // Códigos tipo "es", "pt", "zh-CN": solo letras y guion.
+            $languages = array_filter(array_map(function ($lang) {
+                return preg_replace('/[^A-Za-z-]/', '', (string) $lang);
+            }, $translate_settings['list']));
             ?>
             <div id="google_translate_element"></div>
             <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateInit" async defer></script>
@@ -10020,7 +10311,7 @@ if (!function_exists('idxboost_cms_get_menu')) {
             $tkey = 'idxb_menu_' . md5((string) get_option('idxboost_registration_key'));
             $idxboost_cms_menu = get_transient($tkey);
 
-            if ($idxboost_cms_menu === false) {
+            if (!is_array($idxboost_cms_menu)) {
                 $stale = get_option($tkey . '_stale', null);
                 // Lock corto (CMS-659): atomico si el sitio tiene un object
                 // cache persistente (ej. Redis Object Cache); sin uno, no
@@ -10036,6 +10327,10 @@ if (!function_exists('idxboost_cms_get_menu')) {
 
                     if ($lock_acquired) {
                         wp_schedule_single_event(time(), 'idxboost_cms_refresh_menu_cache_event');
+
+                        // No depender solo de wp-cron -- ver nota en
+                        // idxboost_cms_queue_background_refresh().
+                        idxboost_cms_queue_background_refresh('idxboost_cms_refresh_menu_cache');
                     }
                 } elseif ($lock_acquired) {
                     // Primera vez que este sitio pide el menu: no hay stale
@@ -10110,7 +10405,7 @@ if (!function_exists('idxboost_cms_get_header_footer')) {
             $tkey = 'idxb_hf_' . md5((string) get_option('idxboost_registration_key'));
             $idxboost_cms_header_footer = get_transient($tkey);
 
-            if ($idxboost_cms_header_footer === false) {
+            if (!is_array($idxboost_cms_header_footer)) {
                 $stale = get_option($tkey . '_stale', null);
                 // Lock corto (CMS-659): atomico si el sitio tiene un object
                 // cache persistente (ej. Redis Object Cache); sin uno, no
@@ -10126,6 +10421,10 @@ if (!function_exists('idxboost_cms_get_header_footer')) {
 
                     if ($lock_acquired) {
                         wp_schedule_single_event(time(), 'idxboost_cms_refresh_header_footer_cache_event');
+
+                        // No depender solo de wp-cron -- ver nota en
+                        // idxboost_cms_queue_background_refresh().
+                        idxboost_cms_queue_background_refresh('idxboost_cms_refresh_header_footer_cache');
                     }
                 } elseif ($lock_acquired) {
                     // Primera vez que este sitio pide header/footer: no hay
@@ -10743,7 +11042,7 @@ if (!function_exists('idxboost_cms_get_seo')) {
         $tkey = 'idxb_seo_' . md5($reg_key . '|' . $page_type . '|' . $post_id);
         $content = get_transient($tkey);
 
-        if ($content !== false) {
+        if (is_array($content)) {
             return $content;
         }
 
@@ -10759,6 +11058,12 @@ if (!function_exists('idxboost_cms_get_seo')) {
             // el POST bloqueante al builder-service.
             if ($lock_acquired) {
                 wp_schedule_single_event(time(), 'idxboost_cms_refresh_seo_cache_event', [$page_type, $post_id]);
+
+                // No depender solo de wp-cron -- ver nota en
+                // idxboost_cms_queue_background_refresh().
+                idxboost_cms_queue_background_refresh(function () use ($page_type, $post_id) {
+                    idxboost_cms_refresh_seo_cache($page_type, $post_id);
+                });
             }
 
             return $stale;
@@ -11127,6 +11432,42 @@ if (!function_exists('idx_autologin_collections')) {
             // --- DECODIFICACIÓN MANUAL ---
             $JWT = JWT::decode($token, "e672df02eeb75d7992b262439cb25363", ['HS256']);
             $decoded_array = (array)$JWT;
+
+
+            $email = $decoded_array['email'] ?? '';
+            $lead_id = $decoded_array['lead_id'] ?? null;
+
+
+            //aqui verificar si el lead existe si no existe, entonces mandarlo nullo y setar abajo
+
+            // --- NUEVO: CONSULTAR API SI EL LEAD_ID ES NULO ---
+            if (empty($lead_id) && !empty($email)) {
+                // ⚠️ IMPORTANTE: Reemplaza esta URL con el endpoint real de tu API para buscar leads por email
+                $api_search_url = FLEX_IDX_BASE_URL. '/get_leads_by_email_rk/'.get_option( 'idxboost_registration_key' ).'/' . urlencode($email);
+
+                $response = wp_remote_get($api_search_url, [
+                        'timeout' => 20,
+                ]);
+
+                if (!is_wp_error($response)) {
+                    $body = wp_remote_retrieve_body($response);
+                    $data = json_decode($body, true);
+                    if (isset($data['lead_id']) && !empty($data['lead_id'])) {
+                        $decoded_array['lead_id'] = $data['lead_id'];
+                        $lead_id = $data['lead_id'];
+                        $token = JWT::encode($decoded_array, 'e672df02eeb75d7992b262439cb25363', 'HS256');
+                    }
+                }
+            }
+
+            if(empty($lead_id)){
+                wp_redirect(home_url('/'));
+                exit;
+            }
+
+            //validar que tenga acceso a la colleccion
+
+
 
             $collection = $decoded_array['collection'] ?? '';
             $mls = $decoded_array['mls'] ?? '';
@@ -12185,5 +12526,176 @@ function insert_assets_head_flex_idx_filter()
                 'iconCssUrl' => FLEX_IDX_URI . 'react/property-modal/fonts/icons/style.css?ver=' .
                         iboost_get_mod_time('react/property-modal/fonts/icons/style.css')
         ]);
+    }
+}
+
+// PAYLOAD API 2026
+/**
+ * Helpers para construir el payload de /search a partir de $responseParms['params'].
+ */
+
+if (!function_exists('idx_param_value')) {
+    /**
+     * Normaliza un valor: deshace serialización de WP, null => '', bool => '1'/'0'.
+     */
+    function idx_param_value($value)
+    {
+        if (is_string($value) && function_exists('maybe_unserialize')) {
+            $value = maybe_unserialize($value);
+        }
+        if ($value === null || $value === false) {
+            return '';
+        }
+        if ($value === true) {
+            return '1';
+        }
+        return $value;
+    }
+}
+
+if (!function_exists('idx_build_search_payload')) {
+    /**
+     * Convierte los params del filtro guardado al formato que espera el API /search.
+     *
+     * @param array $params    $responseParms['params']
+     * @param array $overrides Valores para forzar o agregar (board_id, limit, pagination, extra_board_id...)
+     * @return array
+     */
+    function idx_build_search_payload(array $params, array $overrides = [])
+    {
+        // Mapa de tipos de propiedad (igual que en el JS)
+        $typeMap = [
+            '2'      => 'homes',
+            '1'      => 'condos',
+            'tw'     => 'townhouse',
+            'mf'     => 'multifamily',
+            'valand' => 'vacantland',
+        ];
+
+        $get = function ($key) use ($params) {
+            return idx_param_value($params[$key] ?? null);
+        };
+
+        // for: sale_type "1" = rental, cualquier otro = sale
+        $isRent = ((string) $get('sale_type')) === '1';
+        $for    = $isRent ? 'rental' : 'sale';
+
+        // type: solo los property_types marcados, mapeados y ordenados
+        $types         = [];
+        $propertyTypes = idx_param_value($params['property_types'] ?? []);
+        if (is_array($propertyTypes)) {
+            foreach ($propertyTypes as $pt) {
+                if (!is_array($pt) || empty($pt['checked'])) {
+                    continue;
+                }
+                $val     = (string) ($pt['value'] ?? '');
+                $types[] = $typeMap[$val] ?? $val;
+            }
+        }
+        $types = array_values(array_unique(array_filter($types, 'strlen')));
+        sort($types);
+
+        // features: amenities (property_status lo sobrescribe si viene, igual que el JS)
+        $features = '';
+        foreach (['amenities', 'property_status'] as $featureKey) {
+            $list = idx_param_value($params[$featureKey] ?? null);
+            if (is_string($list) && $list !== '') {
+                $list = explode(',', $list);
+            }
+            if (is_array($list) && count($list)) {
+                $list = array_values(array_filter(array_map('strval', $list), 'strlen'));
+                sort($list);
+                $features = implode(',', $list);
+            }
+        }
+
+        // Precio según venta o renta
+        $priceKey = $isRent ? 'rent' : 'sale';
+
+        $payload = [
+            //'limit'          => 'default',
+            'board_id'       => '1',
+            'sort'           => $get('sort_type'),
+            'for'            => $for,
+            'type'           => implode(',', $types),
+            'polygon'        => '',
+            //'pagination'     => '0',
+            'features'       => $features,
+            'min_price'      => $get("min_{$priceKey}_price"),
+            'max_price'      => $get("max_{$priceKey}_price"),
+            'min_beds'       => $get('min_beds'),
+            'max_beds'       => $get('max_beds'),
+            'min_baths'      => $get('min_baths'),
+            'max_baths'      => $get('max_baths'),
+            'min_sqft'       => $get('min_living_size'),
+            'max_sqft'       => $get('max_living_size'),
+            'min_lotsize'    => $get('min_lot_size'),
+            'max_lotsize'    => $get('max_lot_size'),
+            'min_year'       => $get('min_year'),
+            'max_year'       => $get('max_year'),
+            'parking'        => $get('parking_options'),
+            'wv'             => $get('waterfront_options'),
+            'dom_max'        => $get('days_on_market'),
+            'keyword'        => $get('keyword_search'),
+            'keyword_main'   => '',
+            'extra_board_id' => '',
+        ];
+
+        // Campos de comercial: solo se agregan si traen valor
+        $optional = [
+            'min_building_size' => 'min_building_sqft',
+            'max_building_size' => 'max_building_sqft',
+            'min_cap_rate'      => 'min_rate_range',
+            'max_cap_rate'      => 'max_rate_range',
+        ];
+        foreach ($optional as $from => $to) {
+            $v = $get($from);
+            if ($v !== '') {
+                $payload[$to] = $v;
+            }
+        }
+        if ((string) $get('is_commercial') === '1') {
+            $payload['is_commercial'] = '1';
+        }
+
+        // Ubicación: el polígono tiene prioridad; si no hay, se usa rect + zm
+        $polygon = $get('polygon_search');
+        if ($polygon !== '') {
+            $payload['polygon'] = $polygon;
+        } else {
+            $rect   = '';
+            $zm     = '';
+            $coords = json_decode((string) $get('gmap_coords_zoom'), true);
+            if (is_array($coords) && !empty($coords)) {
+                $rect = isset($coords['rect']) ? (string) $coords['rect'] : '';
+                $zm   = isset($coords['zoom']) ? (string) $coords['zoom'] : '';
+            } else {
+                $rect = (string) $get('rect');
+                $zm   = (string) $get('zm');
+            }
+            if ($rect !== '') {
+                $payload['rect'] = $rect;
+            }
+            if ($zm !== '') {
+                $payload['zm'] = $zm;
+            }
+        }
+
+        // Asegura que todo sea string (http_build_query omite null)
+        foreach ($payload as $k => $v) {
+            $payload[$k] = is_array($v) ? implode(',', $v) : (string) $v;
+        }
+
+        return array_merge($payload, array_map('strval', $overrides));
+    }
+}
+
+if (!function_exists('idx_build_search_query')) {
+    /**
+     * Igual que idx_build_search_payload() pero devuelve el string listo para CURLOPT_POSTFIELDS.
+     */
+    function idx_build_search_query(array $params, array $overrides = [])
+    {
+        return http_build_query(idx_build_search_payload($params, $overrides));
     }
 }

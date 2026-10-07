@@ -108,62 +108,37 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
 	-->
 	<?php
-	if ($responseParms != NULL) {
+	if ($responseParms != NULL) {		
 
-		$rawData = (isset($responseParms['data']) && is_array($responseParms['data'])) ? $responseParms['data'] : [];
+		//Si necesitas el array en lugar del string (para debug o para modificarlo antes), usa idx_build_search_payload().
+		$postFields = idx_build_search_query($responseParms['params']);
 
-		$rawData = array_map(function ($v) {
-			return ($v === "--") ? "" : $v;
-		}, $rawData);
-
-		$searchPayload = [
-			"limit"          => "default",
-			"show"           => "all",
-			"sort"           => $rawData['sort'] ?? "price-desc",
-			"for"            => $rawData['for'] ?? "sale",
-			"type"           => $rawData['type'] ?? "",
-			"features"       => !empty($rawData['features']) ? $rawData['features'] : null,
-			"min_price"      => $rawData['min_price'] ?? "",
-			"max_price"      => $rawData['max_price'] ?? "",
-			"min_beds"       => $rawData['min_beds'] ?? "",
-			"max_beds"       => $rawData['max_beds'] ?? "",
-			"min_baths"      => $rawData['min_baths'] ?? "",
-			"max_baths"      => $rawData['max_baths'] ?? "",
-			"min_sqft"       => $rawData['min_sqft'] ?? "",
-			"max_sqft"       => $rawData['max_sqft'] ?? "",
-			"min_lotsize"    => $rawData['min_lotsize'] ?? "",
-			"max_lotsize"    => $rawData['max_lotsize'] ?? "",
-			"min_year"       => $rawData['min_year'] ?? "",
-			"max_year"       => $rawData['max_year'] ?? "",
-			"parking"        => $rawData['parking'] ?? "",
-			"wv"             => $rawData['wv'] ?? "",
-			"keyword_main"   => $rawData['keyword_main'] ?? "",
-			"polygon_arr"    => !empty($rawData['polygon_arr']) ? $rawData['polygon_arr'] : [],
-			"board_id"       => isset($rawData['board_id']) ? (int)$rawData['board_id'] : 1,
-			"extra_board_id" => $rawData['extra_board_id'] ?? "",
-			"pagination"     => "0",
-		];
+		//var_dump($postFields);
 
 		$curlSchema = curl_init();
-		curl_setopt_array($curlSchema, array(
-			CURLOPT_URL => 'https://api-idx-search.idxboost.dev/displayfilter/search',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => json_encode($searchPayload),
-			CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
-			CURLOPT_SSL_VERIFYPEER => false,
-		));
+		curl_setopt_array($curlSchema, [
+		    CURLOPT_URL            => 'https://api-idx-search.idxboost.dev/search',
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_ENCODING       => '',
+		    CURLOPT_MAXREDIRS      => 10,
+		    CURLOPT_TIMEOUT        => 0,
+		    CURLOPT_FOLLOWLOCATION => true,
+		    CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+		    CURLOPT_CUSTOMREQUEST  => 'POST',
+		    CURLOPT_POSTFIELDS     => $postFields, 
+		]);
 
-		//echo "\n<!-- DEBUG PAYLOAD: " . json_encode($searchPayload) . " -->\n";
+		//echo "\n<!-- DEBUG PAYLOAD: " . $postFields . "-->\n";
 
 		$searchResponse = curl_exec($curlSchema);
-		$searchErr = curl_error($curlSchema);
+		$searchErr      = curl_error($curlSchema);
 		curl_close($curlSchema);
+
+		$apiResponse = json_decode($searchResponse, true);
+
+		if (!is_array($apiResponse)) {
+		    $apiResponse = [];
+		}
 
 		$apiResponse = $searchErr ? ["error" => $searchErr] : json_decode($searchResponse, true);
 
@@ -202,9 +177,11 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 				];
 			}
 
+			
+
 			if (!empty($jsonData)) {
 				$jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-				echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
+				echo "\n<!-- Schema SEO Generate por IDX Boost idxboost_new_search_filters -->\n";
 				echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
 			}
 			?>

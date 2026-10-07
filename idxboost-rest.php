@@ -437,6 +437,16 @@ class IDXBoost_REST_API_Endpoints
                         delete_transient('idxb_theme_' . $reg_key_hash);
                     }
 
+                    // Sin esto, el primer visitante tras un sync recibía la copia
+                    // _stale (config anterior) y el cambio "se quedaba pegado"
+                    // hasta el request siguiente. Se repuebla la caché después de
+                    // responder al webhook (no se bloquea a api-cms esperando un
+                    // POST de vuelta a sí mismo).
+                    $is_landing = !empty($page_id);
+                    idxboost_cms_queue_background_refresh(function () use ($page_id, $is_landing) {
+                        idxboost_cms_refresh_theme_settings_cache($page_id, $is_landing);
+                    });
+
                     $response = [
                         'status' => '200',
                         'message' => 'OK'
