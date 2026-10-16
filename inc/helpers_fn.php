@@ -11187,6 +11187,11 @@ if (!function_exists('idxboost_cms_run_pending_cache_events')) {
 if (!function_exists('custom_seo_page')) {
     function custom_seo_page()
     {
+        // El detalle de agente arma su propio SEO (inc/seo_agent_detail_fn.php).
+        if (function_exists('idxboost_agent_detail_owns_head') && idxboost_agent_detail_owns_head()) {
+            return;
+        }
+
         global $post;
         global $flex_idx_info;
         global $wp;

@@ -1271,8 +1271,8 @@ if (!function_exists('flex_idx_search_sc')) {
             }
 
             /*$default_property_types = array_filter($default_property_types, function($value) {
-							return is_numeric($value);
-						});*/
+                            return is_numeric($value);
+                        });*/
 
             $property_type_slug = implode('|', $default_property_types);
             $property_type_arr = $default_property_types;
@@ -1306,8 +1306,8 @@ if (!function_exists('flex_idx_search_sc')) {
                     }
 
                     /*$default_property_types = array_filter($default_property_types, function($value) {
-											return is_numeric($value);
-										});*/
+                                            return is_numeric($value);
+                                        });*/
 
                     $property_type_slug = implode('|', $default_property_types);
                     $property_type_arr = $default_property_types;
@@ -1654,8 +1654,8 @@ if (!function_exists('flex_idx_autocomplete_sc')) {
             if (count($search_params['property_types']) == 2) {
                 $flex_ac_pt_slug = 'residential';
             } else if (count($search_params['property_types']) == 3) {
-						  	$flex_ac_pt_slug = 'residential';
-						} else {
+                            $flex_ac_pt_slug = 'residential';
+                        } else {
                 $flex_ac_pt_slug = ($search_params['property_types'][0]['value'] == 1) ? 'condos' : 'SingleFamilyHomes';
             }
         }
@@ -2444,7 +2444,7 @@ if (!function_exists('flex_idx_property_detail_sc')) {
             $address_slug = str_replace(" " . $zipcodeAddress, ", $zipcodeAddress", $address_slug);
         }
 
-	    $extra_boards_raw = $flex_idx_info['agent']['extra_boards'] ?? [];
+        $extra_boards_raw = $flex_idx_info['agent']['extra_boards'] ?? [];
         $extra_boards_implode = implode(",", is_array($extra_boards_raw) ? $extra_boards_raw : []);
 
         $slug_search = "{$slug}";
@@ -5818,19 +5818,12 @@ if (!function_exists('flex_idx_detail_agents_sc')) {
 
         $wp_request = $wp->request;
         $wp_request_exp = explode('/', $wp_request);
-        list($page, $slug) = $wp_request_exp;
+        list($page, $slug) = array_pad($wp_request_exp, 2, '');
 
-        $service_agent_detail = str_replace("{{registrationKey}}",$idxboost_registration_key , FLEX_IDX_API_LOOKUP_GET_AGENTS_DETAIL);
-        $curl_body = idxboost_remote_request($service_agent_detail, array(
-                'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
-                'redirection' => 10,
-                'httpversion' => '1.1',
-                'headers' => array(
-                        'Content-Type' => 'application/json',
-                ),
-                'body'    => json_encode(["slug" => $slug]),
-        ));
-        $response = @json_decode($curl_body, true);
+        // Reutiliza la respuesta pedida en template_redirect para el SEO.
+        $response = idxboost_get_agent_detail(trim($slug));
+
+        ob_start();
 
         if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php')) {
             include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php';
