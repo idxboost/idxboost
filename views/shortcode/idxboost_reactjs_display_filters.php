@@ -47,9 +47,12 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		window.idx_main_settings = {
 			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
 			is_display_filter: true,
-			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
+			paths: '<?php echo ($atts["type_filter"]  !="default") ? FLEX_IDX_URI . 'react/display_filter_custom_for/assets/' :  FLEX_IDX_URI."react/new_search_filter/"; ?>',
 			mode: '<?php echo $atts["mode"]; ?>',
 			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
+			type_filter: '<?php echo $atts['type_filter']; ?>',
+			lookup_previous_sold: '<?php echo $atts['lookup_previous_sold']; ?>',
+			lookup_previous_sold_value: '<?php echo $atts['lookup_previous_sold_value']; ?>',			
 			oh: '<?php echo $atts["oh"]; ?>',
 			link: '<?php echo $atts["link"]; ?>',
 			title: '<?php echo $atts["title"]; ?>',
@@ -84,6 +87,30 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			$render_item =["id" => $rando_id, "filters" => [],"type" => "displayfilter","render" => "wrap-display-{$rando_id}"   ];
 
 			if ( is_array($responseParms) && count($responseParms) > 0) {
+
+				if (
+					array_key_exists("status", $responseParms)  && 
+					$responseParms["status"]  && 
+					array_key_exists("data", $responseParms)  && 
+					array_key_exists("for", $responseParms["data"])
+				) {
+				if (
+					is_numeric($atts['lookup_previous_sold_value']) &&
+					in_array($atts['lookup_previous_sold'], ["day","week","month","year"])
+				) {
+
+					$value_previous_lookup = (int) $atts['lookup_previous_sold_value'];
+					$year_search = $atts['lookup_previous_sold'];
+					$responseParms["data"]["lookup_previous_sold"] = json_encode(["type" => $year_search, "value" => $value_previous_lookup]);
+				}
+
+					
+					if (in_array($atts['type_filter'], ["sale","rental","sold"])) {
+						$responseParms["data"]["for"] =$atts['type_filter'];
+					}
+				}
+				
+
 				echo 'window.paramsDisplayFilter = '. json_encode($responseParms).';';
 				$render_item["filters"] = $responseParms;
 				echo ' var itemRand = '. json_encode($render_item);
@@ -145,7 +172,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 
 		$curlSchema = curl_init();
 		curl_setopt_array($curlSchema, array(
-			CURLOPT_URL => 'https://api-idx-search.idxboost.dev/displayfilter/search',
+			CURLOPT_URL => FLEX_IDX_API_SEARCH_FILTER_V2.'/displayfilter/search',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => '',
 			CURLOPT_MAXREDIRS => 10,

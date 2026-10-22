@@ -1,0 +1,243 @@
+<?php 
+$rando_id = rand();
+
+ if ($atts["mode"] == "gallery") { 
+ 	$atts["limit"] = "";
+ }
+
+if (is_array($responseParms) && count($responseParms) > 0) {
+	?>
+	<script>
+		var temp_mode = '<?php echo $atts["mode"]; ?>';
+		var IB_IS_SEARCH_FILTER_PAGE = temp_mode != "slider" ? true : false;
+		var IB_SEARCH_FILTER_PAGE = true;
+		var IB_SEARCH_FILTER_PAGE_TITLE = '<?php the_title(); ?>';
+		var initial_href = "";
+	
+		jQuery(function() {
+			if (true === IB_SEARCH_FILTER_PAGE) {
+				jQuery('#formRegister').append('<input type="hidden" name="source_registration_title" value="' + IB_SEARCH_FILTER_PAGE_TITLE + '">');
+				jQuery('#formRegister').append('<input type="hidden" name="source_registration_url" value="' + location.href + '">');
+				jQuery("#formRegister_ib_tags").val(IB_SEARCH_FILTER_PAGE_TITLE);
+			}
+		});
+	</script>
+	<?php
+}
+
+$idxboost_search_settings = get_option('idxboost_search_settings');
+$idxboost_search_filter_settings = get_option('idxboost_search_filter_settings');
+$idxboost_agent_info = get_option('idxboost_agent_info');
+$api_idx_access_token = flex_idx_get_access_token();
+$ia_search = (array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["ia_search"]) ) ? $flex_idx_info["agent"]["ia_search"] : '0';
+$force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
+$force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
+$signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
+	?>
+	<script>
+		// var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
+		var __flex_g_settings = {
+			propertyDetailPermalink: '<?php echo get_site_url(); ?>/property'
+		};
+
+		__flex_idx_search_filter_v2 = {
+			searchFilterPermalink : '<?php echo get_permalink(); ?>',
+		};
+
+		window.idx_main_settings = {
+			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
+			is_display_filter: true,
+			dom:  '<?php echo $atts["dom"]; ?>',
+			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
+			saveListings: '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
+			rk: '<?php echo get_option('flex_idx_alerts_keys'); ?>',
+			wp_web_id: '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
+			active_ai: '<?php echo $ia_search; ?>',
+			force_registration: Boolean(<?php echo $force_registration; ?>),
+			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
+			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
+			access_token:"<?php echo $api_idx_access_token; ?>",
+			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
+
+			search_settings: <?php
+			if ( !empty($atts["filter_id"]) )
+				echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
+			else
+				echo json_encode($idxboost_search_settings); ?>,
+			
+			additional_tags: <?php echo json_encode(empty($atts['tags']) 
+				? [] 
+				: array_map('trim', explode(',', $atts['tags']))); ?>
+		}	
+		
+		window.idxtoken = "<?php echo $access_token_service; ?>";
+		<?php 
+			$render_item =["id" => $rando_id, "filters" => [],"type" => "displayfilter","render" => "wrap-display-{$rando_id}"   ];
+
+			if ( is_array($responseParms) && count($responseParms) > 0) {
+
+				if (
+					array_key_exists("status", $responseParms)  && 
+					$responseParms["status"]  && 
+					array_key_exists("data", $responseParms)  && 
+					array_key_exists("for", $responseParms["data"])
+				) {
+					if (in_array($atts['type_filter'], ["sale","rental","sold"])) {
+						$responseParms["data"]["for"] =$atts['type_filter'];
+					}
+				}
+				
+
+				echo 'window.paramsDisplayFilter = '. json_encode($responseParms).';';
+				$render_item["filters"] = $responseParms;
+				echo ' var itemRand = '. json_encode($render_item);
+			}
+		?>
+
+		<?php if ($atts["mode"] == "slider") { ?>		
+			if (!window.filterRender) {
+			    window.filterRender = [];
+			}
+
+			window.filterRender.push(itemRand);
+							
+		<?php } ?>		
+	</script>  
+
+	<!-- 
+	<script type="module" crossorigin src="<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/assets/index-BsLADlot.js"></script>
+	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/assets/index-Ys-jX6yu.css" />
+	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/fonts/icons/style.css" />
+	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBU6VY2oHfII-RPAcZZu9qq843bpE3pLNo&libraries=drawing,marker,geometry"></script>
+	-->
+	<?php
+	if ($responseParms != NULL) {
+
+		$rawData = (isset($responseParms['data']) && is_array($responseParms['data'])) ? $responseParms['data'] : [];
+
+		$rawData = array_map(function ($v) {
+			return ($v === "--") ? "" : $v;
+		}, $rawData);
+
+		$searchPayload = [
+			"limit"          => "default",
+			"show"           => "all",
+			"sort"           => $rawData['sort'] ?? "price-desc",
+			"for"            => $rawData['for'] ?? "sale",
+			"type"           => $rawData['type'] ?? "",
+			"features"       => !empty($rawData['features']) ? $rawData['features'] : null,
+			"min_price"      => $rawData['min_price'] ?? "",
+			"max_price"      => $rawData['max_price'] ?? "",
+			"min_beds"       => $rawData['min_beds'] ?? "",
+			"max_beds"       => $rawData['max_beds'] ?? "",
+			"min_baths"      => $rawData['min_baths'] ?? "",
+			"max_baths"      => $rawData['max_baths'] ?? "",
+			"min_sqft"       => $rawData['min_sqft'] ?? "",
+			"max_sqft"       => $rawData['max_sqft'] ?? "",
+			"min_lotsize"    => $rawData['min_lotsize'] ?? "",
+			"max_lotsize"    => $rawData['max_lotsize'] ?? "",
+			"min_year"       => $rawData['min_year'] ?? "",
+			"max_year"       => $rawData['max_year'] ?? "",
+			"parking"        => $rawData['parking'] ?? "",
+			"wv"             => $rawData['wv'] ?? "",
+			"keyword_main"   => $rawData['keyword_main'] ?? "",
+			"polygon_arr"    => !empty($rawData['polygon_arr']) ? $rawData['polygon_arr'] : [],
+			"board_id"       => isset($rawData['board_id']) ? (int)$rawData['board_id'] : 1,
+			"extra_board_id" => $rawData['extra_board_id'] ?? "",
+			"pagination"     => "0",
+		];
+
+		$curlSchema = curl_init();
+		curl_setopt_array($curlSchema, array(
+			CURLOPT_URL => FLEX_IDX_API_SEARCH_FILTER_V2.'/displayfilter/search',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => json_encode($searchPayload),
+			CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+			CURLOPT_SSL_VERIFYPEER => false,
+		));
+
+		//echo "\n<!-- DEBUG PAYLOAD: " . json_encode($searchPayload) . " -->\n";
+
+		$searchResponse = curl_exec($curlSchema);
+		$searchErr = curl_error($curlSchema);
+		curl_close($curlSchema);
+
+		$apiResponse = $searchErr ? ["error" => $searchErr] : json_decode($searchResponse, true);
+
+		if (isset($apiResponse['items']) && is_array($apiResponse['items'])) {
+			$jsonData = [];
+			$baseUrl = get_site_url();
+
+			foreach ($apiResponse['items'] as $item) {
+				$propertyType = ($item['class_id'] == 1) ? "Apartment" : "SingleFamilyResidence";
+
+				$jsonData[] = [
+					"@context" => "https://schema.org",
+					"@type" => $propertyType,
+					"name" => !empty($item['address_short']) ? $item['address_short'] : $item['full_address'],
+					"accommodationCategory" => $item['style'] ?? "Condominium",
+					"floorSize" => [
+						"@type" => "QuantitativeValue",
+						"value" => $item['sqft'],
+						"unitCode" => "FTK"
+					],
+					"address" => [
+						"@type" => "PostalAddress",
+						"streetAddress" => $item['full_address'],
+						"addressLocality" => isset($item['city']['name']) ? $item['city']['name'] : $item['address_large'],
+						"addressRegion" => "FL",
+						"postalCode" => $item['zip'],
+						"addressCountry" => "US"
+					],
+					"geo" => [
+						"@type" => "GeoCoordinates",
+						"latitude" => $item['lat'],
+						"longitude" => $item['lng']
+					],
+					"image" => $item['imagens'][0] ?? "",
+					"url" => $baseUrl . '/' . $item['slug']
+				];
+			}
+
+			if (!empty($jsonData)) {
+				$jsonString = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+				echo "\n<!-- Schema SEO Generate por IDX Boost -->\n";
+				echo '<script type="application/ld+json">' . $jsonString . '</script>' . "\n";
+			}
+			?>
+
+			<!-- TABLE SEO PROPERTIES OF BUILDING SEARCH IDX  -->
+			<table class="listing-building-properties idxAG" style="font-size: 0;height: 0;overflow: hidden;position: absolute;left: -9999px">
+				<?php
+				$i = 0;
+				foreach ($apiResponse['items'] as $item) {
+					$i++;
+					?>
+					<tr>
+						<td><?php echo $i; ?></td>
+						<td><a href="<?php echo get_home_url() . '/property/' . $item['slug']; ?>"><?php echo $item['mls_num']; ?></a></td>
+						<td><a href="<?php echo get_home_url() . '/property/' . $item['slug']; ?>"><?php echo $item['full_address']; ?></a></td>
+					</tr>
+					<?php
+				}
+				?>
+			</table>
+			<!-- END TABLE DATA SEO BUILDING SEARCH IDX   -->
+
+			<?php
+		} else {
+			echo "<!-- No se encontraron propiedades para generar Schema SEO -->";
+		}
+	}
+	?>
+	
+	<div id="root-search-stat">
+	</div>
+

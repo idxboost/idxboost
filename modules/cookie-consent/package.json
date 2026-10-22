@@ -1,0 +1,11 @@
+{
+  "name": "idx-cookie-consent",
+  "private": true,
+  "description": "Build step for the inlined front-end assets. Run `npm run build` after editing assets/src.",
+  "scripts": {
+    "build": "esbuild assets/src/boot.js assets/src/main.js --minify --target=es2015 --legal-comments=none --outdir=assets/build --out-extension:.js=.min.js && esbuild assets/src/style.css --minify --legal-comments=none --outfile=assets/build/style.min.css"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0"
+  }
+}

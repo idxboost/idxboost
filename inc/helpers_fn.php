@@ -12415,7 +12415,13 @@ function assets_idx_inserted() {
         iboost_get_mod_time('react/shortcode_slider/assets/bundle.js')
 );
 
-
+    wp_enqueue_script_module(
+        'react-display-filter-stat-js',
+        FLEX_IDX_URI . 'react/stat_idx_filter/bundle.js',
+        [],
+        iboost_get_mod_time('react/stat_idx_filter/bundle.js')
+);
+    
 }
 
 function assets_head_bundle_reactjs(){

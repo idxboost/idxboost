@@ -3243,6 +3243,9 @@ if (!function_exists('flex_idx_filter_sc')) {
                     'mode' => 'default',
                     'multi_type' => 'default',
                     'type' => '0',
+                    'type_filter' => 'default',
+                    'lookup_previous_sold' => 'default',
+                    'lookup_previous_sold_value' =>'default',
                     'limit' => 'default',
                     'sale_type' => 'default',
                     'method' => '0',
@@ -3289,7 +3292,18 @@ if (!function_exists('flex_idx_filter_sc')) {
                 wp_enqueue_style('react-css-slider');
                 wp_enqueue_script('bundle-slider');
             }elseif ($atts["mode"] == "default") {
-                assets_head_bundle_reactjs();
+                if ($atts["type_filter"]  !="default") {
+                    idxboost_print_vite_assets([
+                            'distDir' => ib_get_idx_path() . 'react/display_filter_custom_for/dist/',
+                            'distUrl' => FLEX_IDX_URI . 'react/display_filter_custom_for/dist/',
+                            'iconCssUrl' => FLEX_IDX_URI . 'react/display_filter_custom_for/fonts/icons/style.min.css?ver=' .
+                                    iboost_get_mod_time('react/display_filter_custom_for/fonts/icons/style.min.css')
+                    ]);
+
+
+                }else{
+                    assets_head_bundle_reactjs();
+                }
             }
               
             $paramsSSO = [
@@ -3375,6 +3389,18 @@ if (!function_exists('flex_idx_filter_sc')) {
                         'body'    => 'filter_id='.$atts["id"].'&access_token='.$access_token,
                 ));
                 $responseParms = @json_decode($curlParams_body , true);
+
+                
+                if ( !empty($atts["type_filter"]) ) {
+                    $responseParms["data"]["for"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $atts["type_filter"] : $responseParms["data"]["for"];
+                }
+
+
+                    if (  in_array($atts["lookup_previous_sold"], ["day","week","month","year"]) )  {
+                        
+                        $responseParms["data"]["lookup_previous_sold"] = json_encode(["type" => $atts["lookup_previous_sold"], "value" =>  $atts["lookup_previous_sold_value"]]);
+                    }
+                    
 
                 $atts["version_filter"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $responseParms["data"] : [];
 
@@ -6140,4 +6166,74 @@ if (!function_exists('off_market_collection_sc')) {
     }
     add_action('wp_head', 'insert_assets_head_off_market_collection_sc', 1);
     add_shortcode('off_market_collection', 'off_market_collection_sc');
+}
+
+if (!function_exists('ib_stat_idxboost_filter')) {
+    function ib_stat_idxboost_filter($atts, $content = null)
+    {
+        global $flex_idx_info;
+
+        if (true !== $flex_idx_info['agent']['has_basic_idx']) {
+            return "";
+        }
+
+        // echo '<pre>';
+        // print_r($flex_idx_info["commercial_types"]);
+        // echo '</pre>';
+        // exit;
+
+        $atts = shortcode_atts(array(
+            'id' => '',
+            'dom' => '30'
+        ), $atts);
+
+
+        ob_start();
+
+
+        $idx_v = ( array_key_exists("idx_v", $flex_idx_info["agent"] ) && !empty($flex_idx_info["agent"]["idx_v"]) ) ? $flex_idx_info["agent"]["idx_v"] : '0';
+
+                $access_token = flex_idx_get_access_token();
+                $curlParams_body = idxboost_remote_request(FLEX_IDX_BASE_URL.'/info/displayfilters', array(
+                        'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                        'redirection' => 10,
+                        'httpversion' => '1.1',
+                        'headers' => array(
+                                'Content-Type' => 'application/x-www-form-urlencoded',
+                        ),
+                        'body'    => 'filter_id='.$atts["id"].'&access_token='.$access_token,
+                ));
+                $responseParms = @json_decode($curlParams_body , true);
+
+                wp_enqueue_script('react-display-filter-stat-js');
+                wp_enqueue_style('react-display-filter-stat-css');                
+
+            $paramsSSO = [
+                "grant_type" => "client_credentials",
+                "client_id"  => "LQJbdz84reYj5nZw9PhY5KqB9ZA2U9bt",
+                "client_secret" => "cPGfHHKp1gIxEJkvtQWTMMdPu9hZE2Ii"
+            ];
+
+            $curlToken_body = idxboost_remote_request(FLEX_IDX_API_SSO_TOKENS, array(
+                    'timeout' => IDXBOOST_HTTP_TIMEOUT_RENDER,
+                    'redirection' => 10,
+                    'httpversion' => '1.1',
+                    'headers' => array(
+                            'Content-Type' => 'application/x-www-form-urlencoded',
+                    ),
+                    'body'    => $paramsSSO,
+            ));
+            $responseToken = @json_decode($curlToken_body,true);
+            $access_token_service= (is_array($responseToken) && array_key_exists("access_token",$responseToken)) ? $responseToken["access_token"]:"";
+
+                    if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/stat_idxboost_filter_reactjs.php')) {
+                        include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/stat_idxboost_filter_reactjs.php';
+                    } else {
+                        include FLEX_IDX_PATH . '/views/shortcode/stat_idxboost_filter_reactjs.php';
+                    }
+
+        return ob_get_clean();
+    }
+
+    add_shortcode("stat_idxboost_filter", "ib_stat_idxboost_filter");
 }

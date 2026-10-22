@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDX Boost - MLS Search Technology.
  * Description: The IDX Boost WordPress plugin offers the most advanced and responsive MLS search tools available, plus user analytics and marketing automation.
- * Version: 7.3
+ * Version: 7.4
  * Plugin URI: https://www.idxboost.com
  * Author: IDX Boost
  * Author URI: https://www.idxboost.com
@@ -378,3 +378,6 @@ add_action('wp_footer', function () {
 </script>
 <?php
 }, 100);
+
+// Cookie Consent (GDPR / CCPA) module.
+require_once FLEX_IDX_PATH . 'modules/cookie-consent/cookie-consent.php';
