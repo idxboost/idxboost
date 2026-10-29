@@ -7345,6 +7345,7 @@ if (!function_exists('flex_idx_register_assets')) {
                 'force_registration_forced' => (isset($flex_idx_info["agent"]["force_registration_forced"]) && ("1" == $flex_idx_info["agent"]["force_registration_forced"])) ? "yes" : "no",
                 'has_facebook_login_enabled' => (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && ("1" == $flex_idx_info["agent"]["facebook_login_enabled"])) ? "yes" : "no",
                 'has_google_login_enabled' => (isset($flex_idx_info["agent"]["google_login_enabled"]) && ("1" == $flex_idx_info["agent"]["google_login_enabled"])) ? "yes" : "no",
+                'has_google_login_enabled' => (isset($flex_idx_info["agent"]["google_login_enabled"]) && ("1" == $flex_idx_info["agent"]["google_login_enabled"])) ? "yes" : "no",
                 'checkLeadUsername' => FLEX_IDX_API_LEADS_CHECK_USERNAME,
                 'accessToken' => flex_idx_get_access_token(),
                 'boardId' => $flex_idx_info['board_id'],

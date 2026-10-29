@@ -5952,11 +5952,15 @@ if (!function_exists('new_development_collections_sc')) {
         }
 
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php')) {
-                include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php';
-        } else {
-                include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_development_collections.php';
-        }            
+        if ($flex_idx_info["agent"]["has_new_development"]) {
+            
+            if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php')) {
+                    include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php';
+            } else {
+                    include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_development_collections.php';
+            }   
+                     
+        }      
 
 
         return ob_get_clean();
