@@ -4,6 +4,7 @@
  * Open Graph, Twitter, canonical y JSON-LD con los datos del IDX.
  * No depende de "Active SEO" del CMS. Slug inexistente → 404.
  */
+
 if (!function_exists('idxboost_agent_detail_state')) {
     function idxboost_agent_detail_state($new_state = null)
     {
@@ -142,7 +143,6 @@ if (!function_exists('idxboost_agent_detail_seo')) {
         }
 
         $state = idxboost_agent_detail_state();
-
         if (null === $state || 'not_found' === $state['status']) {
             return null;
         }
@@ -155,10 +155,14 @@ if (!function_exists('idxboost_agent_detail_seo')) {
                 return '';
             }
 
-            // \p{Cf}: caracteres de formato invisibles (p. ej. U+202C) que vienen en los datos.
-            $value = preg_replace('/[\p{Cf}]/u', '', html_entity_decode(wp_strip_all_tags((string) $agent[$key]), ENT_QUOTES, 'UTF-8'));
-
-            return trim(preg_replace('/\s+/u', ' ', $value));
+            $value = html_entity_decode(
+                wp_strip_all_tags((string) $agent[$key]),
+                ENT_QUOTES,
+                'UTF-8'
+            );
+            $value = preg_replace('/[\p{Cf}]/u', '', $value);
+            $value = preg_replace('/\s+/u', ' ', $value);
+            return trim((string) $value);
         };
 
         $first_name = $text('firstName');
@@ -167,56 +171,62 @@ if (!function_exists('idxboost_agent_detail_seo')) {
         $position = $text('title');
 
         $canonical_slug = '' !== $text('agentSlug') ? $text('agentSlug') : $state['slug'];
-        $canonical = user_trailingslashit(trailingslashit(get_permalink($state['page_id'])) . rawurlencode($canonical_slug));
+        $default_canonical = user_trailingslashit(
+            trailingslashit(get_permalink($state['page_id'])) . rawurlencode($canonical_slug)
+        );
+        $custom_canonical = idxboost_agent_detail_absolute_url($text('seoCanonicalUrl'));
+        $canonical = '' !== $custom_canonical ? $custom_canonical : $default_canonical;
 
-        if ('' === $full_name) {
-            $og_title = wp_strip_all_tags(get_the_title($state['page_id']));
-        } else {
-            $og_title = $full_name;
-        }
-
-        $title = $og_title . ('' !== $site_name ? ' | ' . $site_name : '');
+        $default_og_title = '' !== $full_name
+            ? $full_name
+            : wp_strip_all_tags(get_the_title($state['page_id']));
+        $default_title = $default_og_title . ('' !== $site_name ? ' | ' . $site_name : '');
+        $title = '' !== $text('seoTitle') ? $text('seoTitle') : $default_title;
 
         $description = '';
         if ('found' === $state['status']) {
-            $description = $text('biography');
-
-            if ('' === $description && '' !== $full_name) {
-                $description = sprintf(
-                    /* translators: 1: agent name, 2: agent position, 3: site name, 4: agent first name */
-                    __('%1$s%2$s at %3$s. Contact %4$s and browse featured listings and recently sold properties.', IDXBOOST_DOMAIN_THEME_LANG),
-                    $full_name,
-                    '' !== $position ? ', ' . $position : '',
-                    $site_name,
-                    '' !== $first_name ? $first_name : $full_name
-                );
+            $description = $text('seoDescription');
+            if ('' === $description) {
+                $description = $text('biography');
+                if ('' === $description && '' !== $full_name) {
+                    $description = sprintf(
+                        __('%1$s%2$s at %3$s. Contact %4$s and browse featured listings and recently sold properties.', IDXBOOST_DOMAIN_THEME_LANG),
+                        $full_name,
+                        '' !== $position ? ', ' . $position : '',
+                        $site_name,
+                        '' !== $first_name ? $first_name : $full_name
+                    );
+                }
+                $description = idxboost_agent_detail_truncate($description, 156);
             }
-
-            $description = idxboost_agent_detail_truncate($description, 156);
         }
 
-        $avatar = isset($agent['avatar']) ? idxboost_agent_detail_absolute_url($agent['avatar']) : '';
+        $avatar = idxboost_agent_detail_absolute_url($text('avatar'));
         $logo = idxboost_agent_detail_site_logo();
-
-        $image = '' !== $avatar ? $avatar : $logo;
+        $custom_image = idxboost_agent_detail_absolute_url($text('ogImage'));
+        $image = '' !== $custom_image ? $custom_image : ('' !== $avatar ? $avatar : $logo);
+        $image_is_logo = '' === $custom_image && '' === $avatar && '' !== $logo;
 
         $seo = array(
-            'title'       => $title,
-            'og_title'    => $og_title,
-            'description' => $description,
-            'image'       => $image,
-            'image_is_logo' => '' === $avatar && '' !== $logo,
-            'avatar'      => $avatar,
-            'logo'        => $logo,
-            'position'    => $position,
-            'canonical'   => $canonical,
-            'first_name'  => $first_name,
-            'last_name'   => $last_name,
-            'site_name'   => $site_name,
+            'title'          => $title,
+            'og_title'       => '' !== $text('ogTitle') ? $text('ogTitle') : $title,
+            'description'    => $description,
+            'og_description' => '' !== $text('ogDescription') ? $text('ogDescription') : $description,
+            'focus_keyword'  => $text('seoFocusKeyword'),
+            'noindex'        => !empty($agent['seoNoIndex']),
+            'nofollow'       => !empty($agent['seoNoFollow']),
+            'image'          => $image,
+            'image_is_logo'  => $image_is_logo,
+            'avatar'         => $avatar,
+            'logo'           => $logo,
+            'position'       => $position,
+            'canonical'      => $canonical,
+            'first_name'     => $first_name,
+            'last_name'      => $last_name,
+            'site_name'      => $site_name,
         );
 
         $seo = apply_filters('idxboost_agent_detail_seo', $seo, $agent, $state['status']);
-
         return $seo;
     }
 }
@@ -334,6 +344,14 @@ if (!function_exists('idxboost_agent_detail_print_head')) {
             return;
         }
 
+        // Robots de la API. Si WordPress ejecuta wp_robots(), el filtro usa estos mismos valores.
+        $robots_content = ($seo['noindex'] ? 'noindex' : 'index') . ', ' .
+            ($seo['nofollow'] ? 'nofollow' : 'follow');
+        // Evitar duplicación: la etiqueta se imprime aquí solo cuando wp_robots no está activo.
+        if (!has_action('wp_head', 'wp_robots')) {
+            echo '<meta name="robots" content="' . esc_attr($robots_content) . '" />' . "\n";
+        }
+
         $tags = array();
 
         if ('' !== $seo['description']) {
@@ -341,13 +359,13 @@ if (!function_exists('idxboost_agent_detail_print_head')) {
         }
 
         $tags[] = array('property', 'og:type', 'profile');
-        $tags[] = array('property', 'og:title', $seo['title']);
+        $tags[] = array('property', 'og:title', $seo['og_title']);
         $tags[] = array('property', 'og:url', $seo['canonical']);
         if ('' !== $seo['site_name']) {
             $tags[] = array('property', 'og:site_name', $seo['site_name']);
         }
-        if ('' !== $seo['description']) {
-            $tags[] = array('property', 'og:description', $seo['description']);
+        if ('' !== $seo['og_description']) {
+            $tags[] = array('property', 'og:description', $seo['og_description']);
         }
         if ('' !== $seo['image']) {
             $tags[] = array('property', 'og:image', $seo['image']);
@@ -361,9 +379,9 @@ if (!function_exists('idxboost_agent_detail_print_head')) {
         }
 
         $tags[] = array('name', 'twitter:card', '' !== $seo['image'] && !$seo['image_is_logo'] ? 'summary_large_image' : 'summary');
-        $tags[] = array('name', 'twitter:title', $seo['title']);
-        if ('' !== $seo['description']) {
-            $tags[] = array('name', 'twitter:description', $seo['description']);
+        $tags[] = array('name', 'twitter:title', $seo['og_title']);
+        if ('' !== $seo['og_description']) {
+            $tags[] = array('name', 'twitter:description', $seo['og_description']);
         }
         if ('' !== $seo['image']) {
             $tags[] = array('name', 'twitter:image', $seo['image']);
@@ -438,3 +456,25 @@ if (!function_exists('idxboost_agent_detail_not_empty')) {
         return null !== $value && '' !== $value && array() !== $value;
     }
 }
+
+if (!function_exists('idxboost_agent_detail_robots')) {
+    function idxboost_agent_detail_robots($robots)
+    {
+        $state = idxboost_agent_detail_state();
+        if (null === $state || 'found' !== $state['status']) {
+            return $robots;
+        }
+
+        $seo = idxboost_agent_detail_seo();
+        if (null === $seo) {
+            return $robots;
+        }
+
+        unset($robots['index'], $robots['noindex'], $robots['follow'], $robots['nofollow']);
+        $robots[$seo['noindex'] ? 'noindex' : 'index'] = true;
+        $robots[$seo['nofollow'] ? 'nofollow' : 'follow'] = true;
+        return $robots;
+    }
+    add_filter('wp_robots', 'idxboost_agent_detail_robots', 99);
+}
+

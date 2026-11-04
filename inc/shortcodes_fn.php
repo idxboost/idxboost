@@ -5826,41 +5826,67 @@ if (!function_exists('flex_idx_our_agents_sc')) {
 }
 
 if (!function_exists('flex_idx_detail_agents_sc')) {
+
     function flex_idx_detail_agents_sc($atts, $content = null)
     {
         $atts = shortcode_atts(array(
             "category" => "all",
-            'registration_key' => ''
+            "registration_key" => ""
         ), $atts);
 
-        $access_token = flex_idx_get_access_token();
-        $idxboost_registration_key = get_option('idxboost_registration_key');
-
         if (get_option('idxboost_client_status') != 'active') {
-            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
+            return '<div class="clidxboost-msg-info">
+                <strong>Please update your API key</strong>
+                on your IDX Boost dashboard to display live MLS data.
+                <a href="' . esc_url(FLEX_IDX_CPANEL_URL) . '" rel="nofollow">
+                    Click here to update
+                </a>
+            </div>';
         }
-        
-        global $wp,$wpdb, $flex_idx_info;
 
-        $wp_request = $wp->request;
+        global $wp;
+
+        $wp_request = trim($wp->request, '/');
         $wp_request_exp = explode('/', $wp_request);
-        list($page, $slug) = array_pad($wp_request_exp, 2, '');
 
-        // Reutiliza la respuesta pedida en template_redirect para el SEO.
-        $response = idxboost_get_agent_detail(trim($slug));
+        $slug = sanitize_title(end($wp_request_exp));
+
+        if (empty($slug)) {
+            return '';
+        }
+
+        // Esta función debe reutilizar la respuesta cacheada.
+        $response = idxboost_get_agent_detail($slug);
+
+        if (
+            !is_array($response) ||
+            empty($response["success"]) ||
+            empty($response["data"])
+        ) {
+            return '';
+        }
 
         ob_start();
 
-        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php')) {
-            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php';
+        $override = IDXBOOST_OVERRIDE_DIR .
+            '/views/shortcode/info_agent.php';
+
+        $default = FLEX_IDX_PATH .
+            '/views/shortcode/info_agent.php';
+
+        if (file_exists($override)) {
+            include $override;
         } else {
-            include FLEX_IDX_PATH . '/views/shortcode/info_agent.php';
+            include $default;
         }
 
         return ob_get_clean();
     }
 
-    add_shortcode('idxboost_detail_agent', 'flex_idx_detail_agents_sc');
+    add_shortcode(
+        'idxboost_detail_agent',
+        'flex_idx_detail_agents_sc'
+    );
 }
 
 

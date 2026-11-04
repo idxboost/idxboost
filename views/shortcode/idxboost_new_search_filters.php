@@ -33,6 +33,93 @@ $ia_search = (array_key_exists("ia_search", $flex_idx_info["agent"] ) && !empty(
 $force_registration = isset($flex_idx_info["agent"]["force_registration"]) ? $flex_idx_info["agent"]["force_registration"] : 0;
 $force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_info['force_registration_forced'] : null;
 $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
+
+$data_cms_info=idxboost_cms_get_header_footer();
+
+$footerData = [];
+
+if (is_array($data_cms_info) && count($data_cms_info) > 0 ) {
+	$data_cms = $data_cms_info["data"];
+	
+	$footer = $data_cms['footer'] ?? [];
+	$user = $data_cms['user'] ?? [];
+	$header = $data_cms['header'] ?? [];
+
+	// HTML del footer
+	$footerHtml = $footer['content'] ?? '';
+
+
+	// Crear array
+	$footerData = [
+	    'logo' => $footer['logo']['src']
+	        ?? $header['logo']['dark']
+	        ?? '',
+
+	    'phone' => $user['contact_phone']
+	        ?? $user['phone_number']
+	        ?? '',
+
+	    'email' => $user['contact_email'] ?? '',
+
+	    'address' => implode(', ', array_filter([
+	        $user['address'] ?? '',
+	        $user['address2'] ?? ''
+	    ])),
+
+	    'addressLink' => '',
+
+	    'disclaimer' => $footer['disclaimer'] ?? '',
+
+	    'realtorLogo' => $footer['associationLogo']['src'] ?? '',
+
+	    'termsLink' => obtenerEnlaceFooter(
+	        $footerHtml,
+	        'Terms & Conditions'
+	    ),
+
+	    'privacyLink' => obtenerEnlaceFooter(
+	        $footerHtml,
+	        'Privacy Policy'
+	    ),
+
+	    'accessibilityLink' => obtenerEnlaceFooter(
+	        $footerHtml,
+	        'Accessibility'
+	    ),
+
+	    'copyright' => '© ' . date('Y') . ' All Rights Reserved',
+
+	    'tremgroupLogo' => '',
+
+	    'tremgroupLink' => ''
+	];
+
+}
+
+
+// Función para extraer enlaces del HTML
+function obtenerEnlaceFooter($html, $texto)
+{
+    if (empty($html)) {
+        return '';
+    }
+    $dom = new DOMDocument();
+    $previous = libxml_use_internal_errors(true);
+    $dom->loadHTML('<?xml encoding="UTF-8">' . $html);
+    libxml_clear_errors();
+    libxml_use_internal_errors($previous);
+
+    foreach ($dom->getElementsByTagName('a') as $link) {
+        if (stripos($link->textContent, $texto) !== false) {
+            return $link->getAttribute('href');
+        }
+    }
+    return '';
+}
+
+
+
+
 	?>
 	<script>
 		// var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
@@ -75,7 +162,9 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			
 			additional_tags: <?php echo json_encode(empty($atts['tags']) 
 				? [] 
-				: array_map('trim', explode(',', $atts['tags']))); ?>
+				: array_map('trim', explode(',', $atts['tags']))); ?>,
+			footer_data: <?php echo json_encode($footerData); ?>,
+			data_cms_info: <?php echo json_encode($data_cms_info); ?>,
 		}	
 		
 		window.idxtoken = "<?php echo $access_token_service; ?>";
