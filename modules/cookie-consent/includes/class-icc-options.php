@@ -23,7 +23,7 @@ class ICC_Options {
 	private static $cache = null;
 
 	/**
-	 * EU/EEA + UK + Switzerland (default list also adds US-CA = California).
+	 * EU/EEA + UK + Switzerland (default list also adds US-CA = California and BR = Brazil).
 	 */
 	const EU_COUNTRIES = 'AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE,IS,LI,NO,GB,CH';
 
@@ -59,6 +59,7 @@ class ICC_Options {
 			'fab_position'     => 'left',
 			'fab_label'        => 'Cookie settings',
 			'necessary_head'   => '',
+			'necessary_open'   => '',
 			'necessary_body'   => '',
 			'cats'             => array(
 				'analytics'   => array(
@@ -66,6 +67,7 @@ class ICC_Options {
 					'label'   => 'Analytics',
 					'desc'    => 'Help us understand how visitors use the site so we can improve it (e.g. Google Analytics).',
 					'head'    => '',
+					'open'    => '',
 					'body'    => '',
 					'delete'  => "_ga\n_gid\n_gat\n_clck\n_clsk",
 					'zaraz'   => '',
@@ -75,6 +77,7 @@ class ICC_Options {
 					'label'   => 'Marketing',
 					'desc'    => 'Used to show relevant ads and measure campaigns (e.g. Google Ads, Meta Pixel).',
 					'head'    => '',
+					'open'    => '',
 					'body'    => '',
 					'delete'  => "_fbp\n_fbc\n_gcl\n_ttp\n_uet",
 					'zaraz'   => '',
@@ -84,6 +87,7 @@ class ICC_Options {
 					'label'   => 'Preferences',
 					'desc'    => 'Remember your choices such as language or region.',
 					'head'    => '',
+					'open'    => '',
 					'body'    => '',
 					'delete'  => '',
 					'zaraz'   => '',
@@ -94,8 +98,8 @@ class ICC_Options {
 			'gcm_passthrough'  => 0,
 			'zaraz'            => 0,
 			'handles'          => '',
-			'geo'              => 0,
-			'geo_countries'    => self::EU_COUNTRIES . ',US-CA',
+			'geo'              => 1, // Banner only in Europe, California and Brazil by default.
+			'geo_countries'    => self::EU_COUNTRIES . ',US-CA,BR',
 			'geo_tz'           => 1,
 			'geo_europe'       => 1,
 			'geo_cookie'       => 'icc_country',
@@ -109,6 +113,7 @@ class ICC_Options {
 			'idxb_compat'      => 1,
 			'idxb_crm_cat'     => 'marketing',
 			'idxb_gtm_cat'     => 'marketing',
+			'int'              => ICC_Integrations::defaults(),
 			'gpc_text'         => 'We detected a Global Privacy Control signal from your browser and have turned off the sale/sharing of your personal information (marketing cookies).',
 			'dns_text'         => 'Do Not Sell or Share My Personal Information',
 		);
@@ -128,6 +133,7 @@ class ICC_Options {
 			foreach ( self::CATS as $c ) {
 				$o['cats'][ $c ] = array_merge( $d['cats'][ $c ], isset( $saved['cats'][ $c ] ) && is_array( $saved['cats'][ $c ] ) ? $saved['cats'][ $c ] : array() );
 			}
+			$o['int'] = ICC_Integrations::merge( isset( $saved['int'] ) ? $saved['int'] : array() );
 			self::$cache = apply_filters( 'icc_options', $o );
 		}
 		return self::$cache;
@@ -228,7 +234,7 @@ class ICC_Options {
 		$out['handles'] = implode( "\n", $lines );
 
 		// Code fields: raw HTML/JS only for users allowed to post unfiltered HTML.
-		foreach ( array( 'necessary_head', 'necessary_body' ) as $k ) {
+		foreach ( array( 'necessary_head', 'necessary_open', 'necessary_body' ) as $k ) {
 			$out[ $k ] = $raw && isset( $in[ $k ] ) ? (string) $in[ $k ] : $prev[ $k ];
 		}
 
@@ -240,11 +246,14 @@ class ICC_Options {
 				'label'   => isset( $ci['label'] ) && '' !== trim( $ci['label'] ) ? sanitize_text_field( $ci['label'] ) : $d['cats'][ $c ]['label'],
 				'desc'    => isset( $ci['desc'] ) ? wp_kses_post( $ci['desc'] ) : $d['cats'][ $c ]['desc'],
 				'head'    => $raw && isset( $ci['head'] ) ? (string) $ci['head'] : $prev['cats'][ $c ]['head'],
+				'open'    => $raw && isset( $ci['open'] ) ? (string) $ci['open'] : $prev['cats'][ $c ]['open'],
 				'body'    => $raw && isset( $ci['body'] ) ? (string) $ci['body'] : $prev['cats'][ $c ]['body'],
 				'delete'  => isset( $ci['delete'] ) ? implode( "\n", array_map( static function ( $n ) { return preg_replace( '/[^A-Za-z0-9_\-.]/', '', $n ); }, self::to_list( $ci['delete'] ) ) ) : '',
 				'zaraz'   => isset( $ci['zaraz'] ) ? preg_replace( '/[^A-Za-z0-9_\-]/', '', $ci['zaraz'] ) : '',
 			);
 		}
+
+		$out['int'] = ICC_Integrations::sanitize( isset( $in['int'] ) ? $in['int'] : array() );
 
 		$out['revision'] = max( 1, (int) $prev['revision'] );
 		if ( ! empty( $_POST['icc_bump_revision'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- options.php already verified the settings nonce.

@@ -1,7 +1,7 @@
 === IDX Cookie Consent ===
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 1.5.2
+Stable tag: 1.6.1
 License: GPL-2.0-or-later
 
 Banner de consentimiento de cookies ligero (GDPR/CCPA). Sin jQuery, sin fuentes, sin AJAX en la carga y compatible con page cache.
@@ -11,6 +11,7 @@ Banner de consentimiento de cookies ligero (GDPR/CCPA). Sin jQuery, sin fuentes,
 * Toda la lógica de consentimiento y ubicación corre en el navegador: PHP no lee cookies ni cabeceras del visitante, así que el HTML es idéntico para todos y la caché (Cloudflare, WP Rocket, LiteSpeed...) no necesita excluir ninguna cookie.
 * ~4 KB gzip en total (CSS + JS), todo inline: 0 peticiones extra.
 * El banner se muestra al instante con CSS (sin setTimeout). En visitas con consentimiento, `<html class="icc-ok">` se marca desde el <head> y el banner nunca parpadea.
+* El banner trae siempre una X para cerrar: equivale a "Rechazar todo" (solo cookies necesarias) y no vuelve a aparecer.
 * El modal de preferencias vive en un <template> inerte y se crea solo al abrirlo.
 * Los scripts bloqueados se imprimen inertes (<template> o type="text/plain"): el navegador no descarga nada hasta que hay consentimiento.
 
@@ -20,16 +21,28 @@ Banner de consentimiento de cookies ligero (GDPR/CCPA). Sin jQuery, sin fuentes,
 2. Desactiva y borra "GDPR Cookie Compliance" y su Premium Add-On.
 3. Activa este plugin, revisa los textos y colores, y purga el caché (plugin de caché + Cloudflare).
 
+== Integraciones (como GDPR Cookie Compliance) ==
+
+Pestaña "Integrations": activas la herramienta, pones el Tracking ID y eliges la categoría. El código lo genera el plugin y solo carga cuando el visitante acepta esa categoría.
+* Google Analytics 4 (G-…), Google Ads (AW-…): un solo gtag.js por categoría.
+* Google Tag Manager estándar (GTM-…): bloqueado hasta aceptar la categoría.
+* Google Tag Manager Consent Mode v2: GTM carga siempre, después de los valores por defecto de Consent Mode; cada etiqueta respeta el consentimiento. Solo puede haber una implementación de GTM activa.
+* Meta Pixel, Microsoft Advertising (UET), Microsoft Clarity (envía Consent API v2 al cargar y en cada cambio).
+* Google reCAPTCHA: bloquea los scripts de reCAPTCHA encolados por formularios hasta aceptar la categoría.
+* ID inválido = no se activa (aparece un aviso). Si eliges una categoría desactivada, no se carga.
+* No dupliques: quita el mismo tag del tema, de otros plugins, de la pestaña Scripts o de la configuración del agente en IDXBoost.
+
 == Cómo bloquear scripts ==
 
 * Snippets (GA4, GTM, Meta Pixel, Clarity...): pégalos en la categoría. Se ejecutan en orden (una librería externa carga antes del inline que la usa).
+* Igual que GDPR Cookie Compliance: cada categoría tiene 3 campos — Head, después de abrir <body> (ej. noscript de GTM) y Footer (antes de </body>).
 * Scripts encolados por el tema u otros plugins: en "Block enqueued scripts" añade `handle:categoria` por línea.
 * HTML propio: `<script type="text/plain" data-icc="analytics">...</script>` o `<iframe data-icc="marketing" data-icc-src="https://...">`.
 * No se soportan snippets que usan document.write.
 
 == Regiones: Europa + California ==
 
-Por defecto el banner se pide en UE/EEE + Reino Unido + Suiza + California (US-CA).
+Por defecto la geolocalización viene activada y el banner se pide en UE/EEE + Reino Unido + Suiza + California (US-CA) + Brasil (BR).
 La lista acepta países (DE) o estados/regiones ISO 3166-2 (US-CA). Fuera de la lista no hay banner y se asume consentimiento.
 
 La ubicación se lee de la cookie `icc_country` puesta en el edge (el HTML cacheado es igual para todos). Opciones:
@@ -67,7 +80,7 @@ Geo API (recomendado para sitios sin regla de Cloudflare):
 
 Sin Cloudflare:
 * Por defecto ("Location unknown" = time zone): si no llega la cookie, se usa la zona horaria del navegador, sin peticiones extra.
-  Europe/* (y Canarias, Madeira, Azores, Islandia, Feroe) → banner. America/Los_Angeles → California → banner. Resto → sin banner.
+  Europe/* (y Canarias, Madeira, Azores, Islandia, Feroe) → banner. America/Los_Angeles → California → banner. Zonas de Brasil (America/Sao_Paulo, Manaus...) → BR → banner. Resto → sin banner.
   Es aproximado: alguien con VPN o reloj cambiado puede caer del lado equivocado; incluye algunos países europeos fuera de la UE (lado seguro).
 * Si el servidor/CDN tiene GeoIP, lo exacto y compatible con caché es que ponga la misma cookie. Ejemplo nginx con módulo geoip2:
     add_header Set-Cookie "icc_country=$geoip2_data_country_iso_code|$geoip2_data_country_iso_code-$geoip2_data_subdivision_iso_code; Path=/; Max-Age=86400; SameSite=Lax; Secure" always;

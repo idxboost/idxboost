@@ -98,7 +98,12 @@ class ICC_Admin {
 			'wp-color-picker',
 			'.icc-tabs{margin:16px 0 0}.icc-panel{display:none;background:#fff;border:1px solid #c3c4c7;border-top:0;padding:8px 20px 16px}.icc-panel.on{display:block}
 			.icc-panel textarea.large-text{min-height:90px}.icc-panel .CodeMirror{height:160px;border:1px solid #dcdcde}.icc-cat-box{border:1px solid #dcdcde;padding:4px 16px 8px;margin:16px 0;border-radius:4px}
-			.icc-note{background:#f0f6fc;border-left:4px solid #72aee6;padding:10px 14px;margin:12px 0}.icc-note code{font-size:12px}.icc-adv{margin:24px 0 8px;border:1px solid #dcdcde;border-radius:4px;padding:8px 16px;background:#f6f7f7}.icc-adv summary{cursor:pointer;font-weight:600;font-size:14px}'
+			.icc-note{background:#f0f6fc;border-left:4px solid #72aee6;padding:10px 14px;margin:12px 0}.icc-note code{font-size:12px}.icc-adv{margin:24px 0 8px;border:1px solid #dcdcde;border-radius:4px;padding:8px 16px;background:#f6f7f7}.icc-adv summary{cursor:pointer;font-weight:600;font-size:14px}
+			.icc-int{margin:12px 0}.icc-int td{vertical-align:middle;padding:12px 10px}.icc-int input.regular-text{width:100%;max-width:260px}
+			.icc-sw{position:relative;display:inline-flex;align-items:center;gap:8px;cursor:pointer}.icc-sw input{position:absolute;opacity:0;width:1px;height:1px}
+			.icc-sw span{position:relative;width:40px;height:22px;border-radius:22px;background:#d63638;transition:background .2s}.icc-sw span:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+			.icc-sw input:checked+span{background:#00a32a}.icc-sw input:checked+span:after{transform:translateX(18px)}.icc-sw input:focus-visible+span{outline:2px solid #2271b1;outline-offset:2px}
+			.icc-sw b,.icc-sw i{font-style:normal;font-weight:600;font-size:12px;text-transform:uppercase}.icc-sw b{display:none;color:#00a32a}.icc-sw i{color:#d63638}.icc-sw input:checked~b{display:inline}.icc-sw input:checked~i{display:none}'
 		);
 		wp_add_inline_script(
 			'wp-color-picker',
@@ -192,6 +197,7 @@ class ICC_Admin {
 		$this->o = ICC_Options::get();
 		$tabs    = array(
 			'icc-general'    => __( 'Banner', 'idx-cookie-consent' ),
+			'icc-int'        => __( 'Integrations', 'idx-cookie-consent' ),
 			'icc-categories' => __( 'Scripts', 'idx-cookie-consent' ),
 			'icc-settings'   => __( 'Settings', 'idx-cookie-consent' ),
 		);
@@ -199,6 +205,11 @@ class ICC_Admin {
 		?>
 <div class="wrap">
 	<h1><?php esc_html_e( 'Cookie Consent', 'idx-cookie-consent' ); ?></h1>
+	<?php
+	if ( 'options-general.php' !== get_admin_page_parent() ) {
+		settings_errors(); // Settings pages print these on their own.
+	}
+	?>
 	<p><?php esc_html_e( 'After saving, purge your page cache (and Cloudflare cache if HTML is cached there) so visitors get the new settings.', 'idx-cookie-consent' ); ?></p>
 	<nav class="nav-tab-wrapper icc-tabs">
 		<?php foreach ( $tabs as $id => $t ) : ?>
@@ -254,6 +265,8 @@ class ICC_Admin {
 			</table>
 		</div>
 
+		<?php $this->integrations_tab(); ?>
+
 		<div id="icc-categories" class="icc-panel">
 			<?php if ( ! $can_code ) : ?>
 				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Your account cannot save unfiltered HTML, so script fields are read-only and keep their current value.', 'idx-cookie-consent' ); ?></p></div>
@@ -267,7 +280,8 @@ class ICC_Admin {
 				<table class="form-table" role="presentation">
 					<?php
 					$this->textarea( __( 'Code in <head>', 'idx-cookie-consent' ), 'necessary_head', '', '', true );
-					$this->textarea( __( 'Code before </body>', 'idx-cookie-consent' ), 'necessary_body', '', '', true );
+					$this->textarea( __( 'Code after <body> opening', 'idx-cookie-consent' ), 'necessary_open', '', '', true );
+					$this->textarea( __( 'Code in footer (before </body>)', 'idx-cookie-consent' ), 'necessary_body', '', '', true );
 					?>
 				</table>
 			</div>
@@ -280,7 +294,8 @@ class ICC_Admin {
 					$this->text( __( 'Label', 'idx-cookie-consent' ), 'label', $c );
 					$this->textarea( __( 'Description', 'idx-cookie-consent' ), 'desc', $c );
 					$this->textarea( __( 'Code in <head>', 'idx-cookie-consent' ), 'head', $c, '', true );
-					$this->textarea( __( 'Code before </body>', 'idx-cookie-consent' ), 'body', $c, '', true );
+					$this->textarea( __( 'Code after <body> opening', 'idx-cookie-consent' ), 'open', $c, '', true );
+					$this->textarea( __( 'Code in footer (before </body>)', 'idx-cookie-consent' ), 'body', $c, '', true );
 					$this->textarea( __( 'Cookies to delete on withdrawal', 'idx-cookie-consent' ), 'delete', $c, __( 'One name or prefix per line (e.g. <code>_ga</code> also removes <code>_ga_XXXX</code>).', 'idx-cookie-consent' ) );
 					if ( $this->o['zaraz'] ) {
 						$this->text( __( 'Zaraz purpose ID', 'idx-cookie-consent' ), 'zaraz', $c );
@@ -302,7 +317,7 @@ class ICC_Admin {
 				<?php
 				$this->check( __( 'Geolocation', 'idx-cookie-consent' ), 'geo', '', __( 'Only ask for consent in the regions below', 'idx-cookie-consent' ), __( 'Off = the banner is shown to every visitor. On = visitors from anywhere else get no banner and all enabled categories run.', 'idx-cookie-consent' ) );
 				$this->check( __( 'All of Europe', 'idx-cookie-consent' ), 'geo_europe', '', __( 'Every visitor from Europe (continent = EU)', 'idx-cookie-consent' ) );
-				$this->textarea( __( 'Countries / regions', 'idx-cookie-consent' ), 'geo_countries', '', __( 'ISO codes separated by commas: a country (<code>DE</code>, <code>BR</code>) or a state (<code>US-CA</code> = California). Default: EU/EEA + UK + Switzerland + California.', 'idx-cookie-consent' ) );
+				$this->textarea( __( 'Countries / regions', 'idx-cookie-consent' ), 'geo_countries', '', __( 'ISO codes separated by commas: a country (<code>DE</code>, <code>BR</code>) or a state (<code>US-CA</code> = California). Default: EU/EEA + UK + Switzerland + California + Brazil.', 'idx-cookie-consent' ) );
 				?>
 			</table>
 
@@ -363,6 +378,50 @@ class ICC_Admin {
 		<?php submit_button(); ?>
 	</form>
 </div>
+		<?php
+	}
+
+	/**
+	 * Integrations tab: status, tracking ID and cookie category per tool (like GDPR Cookie Compliance).
+	 */
+	private function integrations_tab() {
+		$cats = array( 'necessary' => __( 'Strictly necessary', 'idx-cookie-consent' ) );
+		foreach ( ICC_Options::CATS as $c ) {
+			$cats[ $c ] = $this->o['cats'][ $c ]['label'] . ( empty( $this->o['cats'][ $c ]['enabled'] ) ? ' ' . __( '(disabled)', 'idx-cookie-consent' ) : '' );
+		}
+		$base = ICC_Options::KEY . '[int]';
+		?>
+		<div id="icc-int" class="icc-panel">
+			<p><?php esc_html_e( 'Connect your tracking tools to the cookie categories. Each script loads only after the visitor accepts the selected category.', 'idx-cookie-consent' ); ?><br>
+			<?php esc_html_e( 'Remove any hard-coded copy of the same tag from the theme, other plugins, the Scripts tab or the IDXBoost agent settings, so it is not loaded twice.', 'idx-cookie-consent' ); ?></p>
+			<table class="widefat striped icc-int">
+				<thead><tr><th><?php esc_html_e( 'Integration', 'idx-cookie-consent' ); ?></th><th><?php esc_html_e( 'Status', 'idx-cookie-consent' ); ?></th><th><?php esc_html_e( 'Tracking ID', 'idx-cookie-consent' ); ?></th><th><?php esc_html_e( 'Cookie category', 'idx-cookie-consent' ); ?></th></tr></thead>
+				<tbody>
+				<?php
+				foreach ( ICC_Integrations::defs() as $k => $d ) :
+					$v = $this->o['int'][ $k ];
+					$n = $base . '[' . $k . ']';
+					?>
+					<tr>
+						<td><strong><?php echo esc_html( $d[0] ); ?></strong><?php if ( $d[1] ) : ?><br><span class="description"><?php echo esc_html( $d[1] ); ?></span><?php endif; ?></td>
+						<td><label class="icc-sw"><input type="checkbox" name="<?php echo esc_attr( $n . '[on]' ); ?>" value="1"<?php checked( 1, (int) $v['on'] ); ?>><span></span><b><?php esc_html_e( 'Enabled', 'idx-cookie-consent' ); ?></b><i><?php esc_html_e( 'Disabled', 'idx-cookie-consent' ); ?></i></label></td>
+						<td><?php if ( $d[2] ) : ?><input type="text" class="regular-text" name="<?php echo esc_attr( $n . '[id]' ); ?>" value="<?php echo esc_attr( $v['id'] ); ?>" placeholder="<?php echo esc_attr( $d[3] ); ?>"><?php else : ?>&mdash;<?php endif; ?></td>
+						<td>
+						<?php if ( $d[4] ) : ?>
+							<select name="<?php echo esc_attr( $n . '[cat]' ); ?>">
+								<?php foreach ( $cats as $ck => $ct ) : ?>
+									<option value="<?php echo esc_attr( $ck ); ?>"<?php selected( $v['cat'], $ck ); ?>><?php echo esc_html( $ct ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						<?php else : ?>
+							<span class="description"><?php esc_html_e( 'Google Consent Mode (Settings → Google)', 'idx-cookie-consent' ); ?></span>
+						<?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 		<?php
 	}
 

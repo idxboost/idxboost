@@ -30,6 +30,20 @@ class ICC_Frontend {
 	private $handles = array();
 
 	/**
+	 * Whether the "after <body> opening" code was already printed.
+	 *
+	 * @var bool
+	 */
+	private $opened = false;
+
+	/**
+	 * Category that gates reCAPTCHA ('' = not blocked).
+	 *
+	 * @var string
+	 */
+	private $recaptcha = '';
+
+	/**
 	 * Hook in once the main query is known.
 	 */
 	public function __construct() {
@@ -45,6 +59,7 @@ class ICC_Frontend {
 			return;
 		}
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
+		add_action( 'wp_body_open', array( $this, 'body_open' ), 1 );
 		add_action( 'wp_footer', array( $this, 'footer' ), 1000 );
 
 		if ( ! empty( $this->o['idxb_compat'] ) && class_exists( 'ICC_IDXBoost' ) && ICC_IDXBoost::detected() ) {
@@ -52,8 +67,9 @@ class ICC_Frontend {
 		}
 
 		$this->handles = ICC_Options::parse_handles( $this->o['handles'] );
-		if ( $this->handles ) {
-			add_filter( 'script_loader_tag', array( $this, 'block_handle' ), 999, 2 );
+		$this->recaptcha = ICC_Integrations::recaptcha_cat( $this->o );
+		if ( $this->handles || $this->recaptcha ) {
+			add_filter( 'script_loader_tag', array( $this, 'block_handle' ), 999, 3 );
 		}
 	}
 
@@ -148,7 +164,7 @@ class ICC_Frontend {
 				'ck'   => $o['geo_cookie'],
 				'list' => ICC_Options::to_list( $o['geo_countries'] ),
 				'unk'  => $o['geo_unknown'],
-				'tz'   => apply_filters( 'icc_geo_timezones', array( 'America/Los_Angeles' => 'US-CA' ) ),
+				'tz'   => apply_filters( 'icc_geo_timezones', self::geo_timezones() ),
 				'tzf'  => (bool) $o['geo_tz'],
 				'api'  => self::geo_api_url(),
 				'm'    => 'POST',
@@ -159,6 +175,19 @@ class ICC_Frontend {
 		}
 
 		return apply_filters( 'icc_config', $cfg, $o );
+	}
+
+	/**
+	 * Time zone → region guesses used when the location is unknown (Pacific → California, Brazil's zones → BR).
+	 *
+	 * @return array
+	 */
+	private static function geo_timezones() {
+		$map = array( 'America/Los_Angeles' => 'US-CA' );
+		foreach ( array( 'Sao_Paulo', 'Bahia', 'Fortaleza', 'Recife', 'Maceio', 'Belem', 'Araguaina', 'Santarem', 'Manaus', 'Cuiaba', 'Campo_Grande', 'Porto_Velho', 'Boa_Vista', 'Rio_Branco', 'Eirunepe', 'Noronha' ) as $z ) {
+			$map[ 'America/' . $z ] = 'BR';
+		}
+		return $map;
 	}
 
 	/**
@@ -187,11 +216,17 @@ class ICC_Frontend {
 			}
 		}
 		echo '<script id="icc-boot">window.ICC_CFG=' . $json . ';' . self::asset( 'boot.min.js' ) . "</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput
+		echo ICC_Integrations::always( $o ); // phpcs:ignore WordPress.Security.EscapeOutput -- built from validated IDs.
 
 		if ( '' !== trim( $o['necessary_head'] ) ) {
 			echo $o['necessary_head'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- admin-provided code.
 		}
 		$this->templates( 'head' );
+
+		// Integrations (tracking ID + category).
+		foreach ( ICC_Integrations::head( $o ) as $cat => $code ) {
+			echo 'necessary' === $cat ? $code . "\n" : '<template data-icc="' . esc_attr( $cat ) . '">' . $code . "</template>\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- built from validated IDs.
+		}
 	}
 
 	/**
@@ -209,11 +244,27 @@ class ICC_Frontend {
 	}
 
 	/**
+	 * Right after <body>: "after <body> opening" code (GTM noscript, pixels...).
+	 * Themes without wp_body_open get it at the start of the footer output instead.
+	 */
+	public function body_open() {
+		if ( $this->opened ) {
+			return;
+		}
+		$this->opened = true;
+		if ( '' !== trim( $this->o['necessary_open'] ) ) {
+			echo $this->o['necessary_open'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- admin-provided code.
+		}
+		$this->templates( 'open' );
+	}
+
+	/**
 	 * Footer: body code, banner, preferences template, floating button, main script.
 	 */
 	public function footer() {
 		$o = $this->o;
 
+		$this->body_open();
 		if ( '' !== trim( $o['necessary_body'] ) ) {
 			echo $o['necessary_body'] . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput -- admin-provided code.
 		}
@@ -223,6 +274,7 @@ class ICC_Frontend {
 		$class  = 'bar' === $o['layout'] ? '' : ( 'box-right' === $o['layout'] ? ' class="icc-box icc-box-r"' : ' class="icc-box"' );
 		?>
 <div id="icc-banner"<?php echo $class; // phpcs:ignore WordPress.Security.EscapeOutput ?> role="region" aria-label="<?php echo esc_attr( $o['prefs_title'] ); ?>">
+	<button type="button" class="icc-bx" data-icc-act="reject" aria-label="<?php echo esc_attr( $o['btn_reject'] ); ?>" title="<?php echo esc_attr( $o['btn_reject'] ); ?>">&times;</button>
 	<div class="icc-in">
 		<div class="icc-msg"><?php echo wp_kses_post( $o['message'] ); ?><?php if ( $policy ) : ?> <a class="icc-l" href="<?php echo esc_url( $policy ); ?>"><?php echo esc_html( $o['policy_text'] ); ?></a><?php endif; ?></div>
 		<div class="icc-btns">
@@ -290,13 +342,17 @@ class ICC_Frontend {
 	 *
 	 * @param string $tag    Full tag HTML (includes before/after inline scripts).
 	 * @param string $handle Script handle.
+	 * @param string $src    Script URL.
 	 * @return string
 	 */
-	public function block_handle( $tag, $handle ) {
-		if ( ! isset( $this->handles[ $handle ] ) ) {
-			return $tag;
+	public function block_handle( $tag, $handle, $src = '' ) {
+		if ( isset( $this->handles[ $handle ] ) ) {
+			return self::block_html( $tag, $this->handles[ $handle ] );
 		}
-		return self::block_html( $tag, $this->handles[ $handle ] );
+		if ( $this->recaptcha && preg_match( '#(google\.com|recaptcha\.net|gstatic\.com)/recaptcha/#i', (string) $src ) ) {
+			return self::block_html( $tag, $this->recaptcha );
+		}
+		return $tag;
 	}
 
 	/**

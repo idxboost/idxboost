@@ -3,7 +3,10 @@
 #icc-banner *,#icc-prefs *{box-sizing:border-box}
 #icc-banner{position:fixed;z-index:2147483000;left:0;right:0;bottom:0;padding:16px;background:var(--icc-bg);color:var(--icc-fg);box-shadow:0 -2px 16px rgba(0,0,0,.18)}
 .icc-ok #icc-banner,.icc-wait #icc-banner{display:none}
-#icc-banner .icc-in{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;max-width:1200px;margin:0 auto}
+#icc-banner .icc-bx,#icc-banner .icc-bx:hover,#icc-banner .icc-bx:focus{position:absolute;top:6px;right:6px;width:32px;height:32px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;font:inherit;font-size:22px;line-height:1;cursor:pointer;box-shadow:none;opacity:.75}
+#icc-banner .icc-bx:hover{opacity:1}
+#icc-banner .icc-bx:focus-visible{outline:3px solid var(--icc-link);outline-offset:2px}
+#icc-banner .icc-in{padding-right:28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;max-width:1200px;margin:0 auto}
 #icc-banner .icc-msg{flex:1 1 360px;margin:0}
 #icc-banner.icc-box{left:16px;right:auto;bottom:16px;max-width:420px;border-radius:calc(var(--icc-r) * 2)}
 #icc-banner.icc-box-r{left:auto;right:16px}

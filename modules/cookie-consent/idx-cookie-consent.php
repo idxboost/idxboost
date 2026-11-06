@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       IDX Cookie Consent
  * Description:       Lightweight GDPR/CCPA cookie consent banner. No jQuery, no web fonts, no AJAX on page load, page-cache safe. Supports Google Consent Mode v2, Cloudflare geolocation and Zaraz.
- * Version:           1.5.2
+ * Version:           1.6.1
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            IDXBoost
@@ -19,11 +19,12 @@ if ( defined( 'ICC_VERSION' ) ) {
 	return;
 }
 
-define( 'ICC_VERSION', '1.5.2' );
+define( 'ICC_VERSION', '1.6.1' );
 define( 'ICC_FILE', __FILE__ );
 define( 'ICC_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once ICC_DIR . 'includes/class-icc-options.php';
+require_once ICC_DIR . 'includes/class-icc-integrations.php';
 require_once ICC_DIR . 'includes/class-icc-frontend.php';
 require_once ICC_DIR . 'includes/class-icc-admin.php';
 require_once ICC_DIR . 'includes/class-icc-idxboost.php';
