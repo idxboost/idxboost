@@ -12422,7 +12422,14 @@ function assets_idx_inserted() {
         [],
         iboost_get_mod_time('react/stat_idx_filter/bundle.js')
 );
-    
+
+        wp_register_style(
+        'react-display-filter-stat-css',
+        FLEX_IDX_URI . 'react/stat_idx_filter/bundle.css',
+        [],
+        iboost_get_mod_time('react/stat_idx_filter/bundle.css')
+    );
+
 }
 
 function assets_head_bundle_reactjs(){
