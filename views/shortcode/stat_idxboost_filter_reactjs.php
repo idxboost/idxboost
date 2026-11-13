@@ -43,37 +43,55 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		__flex_idx_search_filter_v2 = {
 			searchFilterPermalink : '<?php echo get_permalink(); ?>',
 		};
-
-		window.idx_main_settings = {
-			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
-			is_display_filter: true,
-			dom:  '<?php echo $atts["dom"]; ?>',
-			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
-			saveListings: '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
-			rk: '<?php echo get_option('flex_idx_alerts_keys'); ?>',
-			wp_web_id: '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
-			active_ai: '<?php echo $ia_search; ?>',
-			force_registration: Boolean(<?php echo $force_registration; ?>),
-			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
-			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
-			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
-			access_token:"<?php echo $api_idx_access_token; ?>",
-			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
-
-			search_settings: <?php
-			if ( !empty($atts["filter_id"]) )
-				echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
-			else
-				echo json_encode($idxboost_search_settings); ?>,
-			
-			additional_tags: <?php echo json_encode(empty($atts['tags']) 
-				? [] 
-				: array_map('trim', explode(',', $atts['tags']))); ?>
-		}	
 		
 		window.idxtoken = "<?php echo $access_token_service; ?>";
 		<?php 
-			$render_item =["id" => $rando_id, "filters" => [],"type" => "displayfilter","render" => "wrap-display-{$rando_id}"   ];
+			$render_item = [
+			    "id" => $rando_id,
+			    "filters" => [],
+			    "type" => "displayfilter",
+			    "render" => "root-search-stat-{$rando_id}",
+			    "adom" => $atts["dom"],
+			    "paths" => FLEX_IDX_URI . "react/new_search_filter/",
+			    "saveListings" => FLEX_IDX_API_SEARCH_FILTER_SAVE,
+			    "rk" => get_option('flex_idx_alerts_keys'),
+			    "wp_web_id" => get_option('flex_idx_alerts_app_id'),
+			    "active_ai" => $ia_search,
+
+			    "force_registration" => (bool) $force_registration,
+
+			    "force_registration_forced" => $force_registration == "1"
+			        ? ($force_registration_forced)
+			        : "undefined",
+
+			    "signup_left_clicks" => $force_registration == "1"
+			        ? $signup_left_clicks
+			        : "undefined",
+
+			    "agent_info" => ($idxboost_agent_info),
+			    "access_token" => $api_idx_access_token,
+
+			    "board_info" => (
+			        $idxboost_search_settings['board_info'] ?? []
+			    ),
+
+			    "search_settings" => !empty($atts["filter_id"])
+			        ? 	(
+			            array_merge(
+			                $flex_idx_info['search'] ?? [],
+			                is_array($flex_idx_info['search_filter_settings'] ?? null)
+			                    ? $flex_idx_info['search_filter_settings']
+			                    : []
+			            )
+			        )
+			        : ($idxboost_search_settings),
+
+			    "additional_tags" => (
+			        empty($atts['tags'])
+			            ? []
+			            : array_map('trim', explode(',', $atts['tags']))
+			    )
+			];
 
 			if ( is_array($responseParms) && count($responseParms) > 0) {
 
@@ -95,14 +113,12 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			}
 		?>
 
-		<?php if ($atts["mode"] == "slider") { ?>		
-			if (!window.filterRender) {
-			    window.filterRender = [];
+			if (!window.filterRenderStat) {
+			    window.filterRenderStat = [];
 			}
 
-			window.filterRender.push(itemRand);
+			window.filterRenderStat.push(itemRand);
 							
-		<?php } ?>		
 	</script>  
 
 	<!-- 
@@ -238,6 +254,6 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	}
 	?>
 	
-	<div id="root-search-stat">
+	<div id="root-search-stat-<?php echo $rando_id; ?>">
 	</div>
 

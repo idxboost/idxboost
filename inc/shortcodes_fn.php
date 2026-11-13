@@ -3239,6 +3239,8 @@ if (!function_exists('flex_idx_filter_sc')) {
                     'id' => '',
                     'title' => '',
                     'link' => '',
+                    'disclaimer'=> "false",
+                    'hasMap' => "false",
                     'name_button' => 'view more properties',
                     'mode' => 'default',
                     'multi_type' => 'default',
@@ -3264,6 +3266,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                     "dom" => "default",
                     "pending" => "default",
                     "max" => 0,
+                    "printer" => "default",
                     "county" => "",
                     "photo-res" => "high",
                     "order" => "",
@@ -5826,67 +5829,41 @@ if (!function_exists('flex_idx_our_agents_sc')) {
 }
 
 if (!function_exists('flex_idx_detail_agents_sc')) {
-
     function flex_idx_detail_agents_sc($atts, $content = null)
     {
         $atts = shortcode_atts(array(
             "category" => "all",
-            "registration_key" => ""
+            'registration_key' => ''
         ), $atts);
 
+        $access_token = flex_idx_get_access_token();
+        $idxboost_registration_key = get_option('idxboost_registration_key');
+
         if (get_option('idxboost_client_status') != 'active') {
-            return '<div class="clidxboost-msg-info">
-                <strong>Please update your API key</strong>
-                on your IDX Boost dashboard to display live MLS data.
-                <a href="' . esc_url(FLEX_IDX_CPANEL_URL) . '" rel="nofollow">
-                    Click here to update
-                </a>
-            </div>';
+            return '<div class="clidxboost-msg-info"><strong>Please update your API key</strong> on your IDX Boost dashboard to display live MLS data. <a href="' . FLEX_IDX_CPANEL_URL . '" rel="nofollow">Click here to update</a></div>';
         }
+        
+        global $wp,$wpdb, $flex_idx_info;
 
-        global $wp;
-
-        $wp_request = trim($wp->request, '/');
+        $wp_request = $wp->request;
         $wp_request_exp = explode('/', $wp_request);
+        list($page, $slug) = array_pad($wp_request_exp, 2, '');
 
-        $slug = sanitize_title(end($wp_request_exp));
-
-        if (empty($slug)) {
-            return '';
-        }
-
-        // Esta función debe reutilizar la respuesta cacheada.
-        $response = idxboost_get_agent_detail($slug);
-
-        if (
-            !is_array($response) ||
-            empty($response["success"]) ||
-            empty($response["data"])
-        ) {
-            return '';
-        }
+        // Reutiliza la respuesta pedida en template_redirect para el SEO.
+        $response = idxboost_get_agent_detail(trim($slug));
 
         ob_start();
 
-        $override = IDXBOOST_OVERRIDE_DIR .
-            '/views/shortcode/info_agent.php';
-
-        $default = FLEX_IDX_PATH .
-            '/views/shortcode/info_agent.php';
-
-        if (file_exists($override)) {
-            include $override;
+        if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php')) {
+            include IDXBOOST_OVERRIDE_DIR . '/views/shortcode/info_agent.php';
         } else {
-            include $default;
+            include FLEX_IDX_PATH . '/views/shortcode/info_agent.php';
         }
 
         return ob_get_clean();
     }
 
-    add_shortcode(
-        'idxboost_detail_agent',
-        'flex_idx_detail_agents_sc'
-    );
+    add_shortcode('idxboost_detail_agent', 'flex_idx_detail_agents_sc');
 }
 
 
@@ -5977,7 +5954,6 @@ if (!function_exists('new_development_collections_sc')) {
             $atts["sort"] = 'price-desc';
         }
 
-
         if ($flex_idx_info["agent"]["has_new_development"]) {
             
             if (file_exists(IDXBOOST_OVERRIDE_DIR . '/views/shortcode/flex_idx_new_development_collections.php')) {
@@ -5986,7 +5962,8 @@ if (!function_exists('new_development_collections_sc')) {
                     include FLEX_IDX_PATH . '/views/shortcode/flex_idx_new_development_collections.php';
             }   
                      
-        }      
+        }
+
 
 
         return ob_get_clean();

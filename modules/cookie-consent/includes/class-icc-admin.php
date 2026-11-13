@@ -236,10 +236,10 @@ class ICC_Admin {
 				$this->text( __( 'Policy link text', 'idx-cookie-consent' ), 'policy_text' );
 				$this->text( __( 'Policy URL', 'idx-cookie-consent' ), 'policy_url', '', __( 'Empty = WordPress privacy policy page (Settings → Privacy).', 'idx-cookie-consent' ), 'large-text' );
 				$this->text( __( '"Accept" button', 'idx-cookie-consent' ), 'btn_accept' );
-				$this->text( __( '"Preferences" button', 'idx-cookie-consent' ), 'btn_settings' );
-				$this->text( __( '"Reject" button', 'idx-cookie-consent' ), 'btn_reject', '', __( 'Always available inside Preferences.', 'idx-cookie-consent' ) );
-				$this->check( '', 'reject_in_banner', '', __( 'Also show "Reject" directly in the banner', 'idx-cookie-consent' ) );
-				$this->text( __( '"Save" button', 'idx-cookie-consent' ), 'btn_save' );
+				$this->text( __( '"Customize" button', 'idx-cookie-consent' ), 'btn_settings', '', __( 'Opens the preferences window.', 'idx-cookie-consent' ) );
+				$this->text( __( '"Reject" button', 'idx-cookie-consent' ), 'btn_reject', '', __( 'Shown in the banner. Only strictly necessary cookies are kept (same as closing with the X).', 'idx-cookie-consent' ) );
+				$this->text( __( '"Save" button (preferences window)', 'idx-cookie-consent' ), 'btn_save' );
+				$this->text( __( '"Cancel" button (preferences window)', 'idx-cookie-consent' ), 'btn_cancel', '', __( 'Closes the window without saving.', 'idx-cookie-consent' ) );
 				$this->text( __( 'Preferences title', 'idx-cookie-consent' ), 'prefs_title' );
 				$this->textarea( __( 'Preferences intro', 'idx-cookie-consent' ), 'prefs_intro' );
 				$this->text( __( 'Necessary: label', 'idx-cookie-consent' ), 'necessary_label' );
@@ -247,8 +247,8 @@ class ICC_Admin {
 				$this->text( __( '"Always active" text', 'idx-cookie-consent' ), 'always_active' );
 				$this->color( __( 'Background', 'idx-cookie-consent' ), 'color_bg' );
 				$this->color( __( 'Text', 'idx-cookie-consent' ), 'color_text' );
-				$this->color( __( 'Button', 'idx-cookie-consent' ), 'color_btn' );
-				$this->color( __( 'Button text', 'idx-cookie-consent' ), 'color_btn_text' );
+				$this->color( __( '"Accept" button', 'idx-cookie-consent' ), 'color_btn' );
+				$this->color( __( '"Accept" button text', 'idx-cookie-consent' ), 'color_btn_text' );
 				$this->color( __( 'Links / accents', 'idx-cookie-consent' ), 'color_link' );
 				$this->number( __( 'Corner radius (px)', 'idx-cookie-consent' ), 'radius', 0, 30 );
 				$this->check( __( 'Floating button', 'idx-cookie-consent' ), 'fab', '', __( 'Show a small button to reopen preferences after a choice', 'idx-cookie-consent' ), __( 'You can also use the shortcode <code>[icc_settings text="Cookie settings"]</code> or any link to <code>#icc-settings</code>.', 'idx-cookie-consent' ) );

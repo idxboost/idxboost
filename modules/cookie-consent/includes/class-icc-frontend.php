@@ -279,7 +279,7 @@ class ICC_Frontend {
 		<div class="icc-msg"><?php echo wp_kses_post( $o['message'] ); ?><?php if ( $policy ) : ?> <a class="icc-l" href="<?php echo esc_url( $policy ); ?>"><?php echo esc_html( $o['policy_text'] ); ?></a><?php endif; ?></div>
 		<div class="icc-btns">
 			<button type="button" class="icc-b icc-b2" data-icc-act="prefs"><?php echo esc_html( $o['btn_settings'] ); ?></button>
-			<?php if ( ! empty( $o['reject_in_banner'] ) ) : ?><button type="button" class="icc-b" data-icc-act="reject"><?php echo esc_html( $o['btn_reject'] ); ?></button><?php endif; ?>
+			<button type="button" class="icc-b icc-b2" data-icc-act="reject"><?php echo esc_html( $o['btn_reject'] ); ?></button>
 			<button type="button" class="icc-b" data-icc-act="accept"><?php echo esc_html( $o['btn_accept'] ); ?></button>
 		</div>
 	</div>
@@ -302,9 +302,8 @@ class ICC_Frontend {
 			</div>
 			<?php endforeach; ?>
 			<div class="icc-btns">
-				<button type="button" class="icc-b icc-b2" data-icc-act="reject"><?php echo esc_html( $o['btn_reject'] ); ?></button>
+				<button type="button" class="icc-b icc-b2" data-icc-act="close"><?php echo esc_html( $o['btn_cancel'] ); ?></button>
 				<button type="button" class="icc-b icc-b2" data-icc-act="save"><?php echo esc_html( $o['btn_save'] ); ?></button>
-				<button type="button" class="icc-b" data-icc-act="accept"><?php echo esc_html( $o['btn_accept'] ); ?></button>
 			</div>
 		</div>
 	</div>

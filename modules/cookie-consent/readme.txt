@@ -1,7 +1,7 @@
 === IDX Cookie Consent ===
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 1.6.1
+Stable tag: 1.6.3
 License: GPL-2.0-or-later
 
 Banner de consentimiento de cookies ligero (GDPR/CCPA). Sin jQuery, sin fuentes, sin AJAX en la carga y compatible con page cache.
@@ -12,6 +12,7 @@ Banner de consentimiento de cookies ligero (GDPR/CCPA). Sin jQuery, sin fuentes,
 * ~4 KB gzip en total (CSS + JS), todo inline: 0 peticiones extra.
 * El banner se muestra al instante con CSS (sin setTimeout). En visitas con consentimiento, `<html class="icc-ok">` se marca desde el <head> y el banner nunca parpadea.
 * El banner trae siempre una X para cerrar: equivale a "Rechazar todo" (solo cookies necesarias) y no vuelve a aparecer.
+* Botones del banner: "Customize" (abre preferencias), "Reject non-essential" y "Accept all". Solo "Accept all" usa el color de botón; el resto va con borde. La ventana de preferencias tiene "Cancel" y "Save my preferences".
 * El modal de preferencias vive en un <template> inerte y se crea solo al abrirlo.
 * Los scripts bloqueados se imprimen inertes (<template> o type="text/plain"): el navegador no descarga nada hasta que hay consentimiento.
 
@@ -106,7 +107,7 @@ Versión módulo: carpeta `modules/cookie-consent/` dentro de IDXBoost + 1 líne
 == Google Consent Mode v2 ==
 
 Por defecto: todo `denied` en el <head> (antes de GTM/gtag). Al elegir se hace `consent update`.
-Analytics → analytics_storage. Marketing → ad_storage, ad_user_data, ad_personalization. Preferences → functionality_storage, personalization_storage.
+Analytics → analytics_storage. Marketing → ad_storage, ad_user_data, ad_personalization. Preferences → functionality_storage, personalization_storage. Si la categoría Preferences está desactivada, functionality_storage y personalization_storage quedan en granted cuando el visitante acepta todo (Analytics + Marketing).
 Eventos dataLayer para GTM: `icc_consent_ready` (cada carga con consentimiento) e `icc_consent_update` (al cambiar), con `icc_analytics`, `icc_marketing`, `icc_preferences`.
 
 == API JS ==

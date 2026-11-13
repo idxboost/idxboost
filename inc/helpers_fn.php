@@ -7345,7 +7345,7 @@ if (!function_exists('flex_idx_register_assets')) {
                 'force_registration_forced' => (isset($flex_idx_info["agent"]["force_registration_forced"]) && ("1" == $flex_idx_info["agent"]["force_registration_forced"])) ? "yes" : "no",
                 'has_facebook_login_enabled' => (isset($flex_idx_info["agent"]["facebook_login_enabled"]) && ("1" == $flex_idx_info["agent"]["facebook_login_enabled"])) ? "yes" : "no",
                 'has_google_login_enabled' => (isset($flex_idx_info["agent"]["google_login_enabled"]) && ("1" == $flex_idx_info["agent"]["google_login_enabled"])) ? "yes" : "no",
-                'has_google_login_enabled' => (isset($flex_idx_info["agent"]["google_login_enabled"]) && ("1" == $flex_idx_info["agent"]["google_login_enabled"])) ? "yes" : "no",
+                'has_new_development' => (isset($flex_idx_info["agent"]["has_new_development"]) && ("1" == $flex_idx_info["agent"]["has_new_development"])) ? "yes" : "no",
                 'checkLeadUsername' => FLEX_IDX_API_LEADS_CHECK_USERNAME,
                 'accessToken' => flex_idx_get_access_token(),
                 'boardId' => $flex_idx_info['board_id'],
@@ -12423,13 +12423,13 @@ function assets_idx_inserted() {
         iboost_get_mod_time('react/stat_idx_filter/bundle.js')
 );
 
-        wp_register_style(
+    wp_register_style(
         'react-display-filter-stat-css',
         FLEX_IDX_URI . 'react/stat_idx_filter/bundle.css',
         [],
-        iboost_get_mod_time('react/stat_idx_filter/bundle.css')
-    );
-
+        iboost_get_mod_time('react/stat_idx_filter/bundle.js')
+    );    
+    
 }
 
 function assets_head_bundle_reactjs(){

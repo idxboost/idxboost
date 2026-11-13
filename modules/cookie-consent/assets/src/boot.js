@@ -16,14 +16,16 @@
 	}
 
 	function gcm(c) {
-		var g = function (v) { return v ? 'granted' : 'denied'; };
+		var g = function (v) { return v ? 'granted' : 'denied'; },
+			// Preferences category not offered: functionality/personalization follow "Accept all" (analytics + marketing).
+			pf = C.cats.indexOf('preferences') > -1 ? c.preferences : (c.analytics && c.marketing);
 		return {
 			analytics_storage: g(c.analytics),
 			ad_storage: g(c.marketing),
 			ad_user_data: g(c.marketing),
 			ad_personalization: g(c.marketing),
-			functionality_storage: g(c.preferences),
-			personalization_storage: g(c.preferences)
+			functionality_storage: g(pf),
+			personalization_storage: g(pf)
 		};
 	}
 

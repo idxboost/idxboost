@@ -40,10 +40,11 @@ class ICC_Options {
 			'policy_text'      => 'Privacy Policy',
 			'policy_url'       => '',
 			'btn_accept'       => 'Accept all',
-			'btn_reject'       => 'Reject all',
-			'btn_settings'     => 'Preferences',
-			'btn_save'         => 'Save preferences',
-			'reject_in_banner' => 0, // "Reject all" lives in Preferences; optional in the banner.
+			'btn_reject'       => 'Reject non-essential',
+			'btn_settings'     => 'Customize',
+			'btn_save'         => 'Save my preferences',
+			'btn_cancel'       => 'Cancel',
+			'reject_in_banner' => 1, // Kept for old settings; the banner always shows "Reject non-essential".
 			'prefs_title'      => 'Cookie preferences',
 			'prefs_intro'      => 'Choose which cookies you allow. Strictly necessary cookies are always active because the site cannot work without them.',
 			'necessary_label'  => 'Strictly necessary',
@@ -133,6 +134,12 @@ class ICC_Options {
 			foreach ( self::CATS as $c ) {
 				$o['cats'][ $c ] = array_merge( $d['cats'][ $c ], isset( $saved['cats'][ $c ] ) && is_array( $saved['cats'][ $c ] ) ? $saved['cats'][ $c ] : array() );
 			}
+			// Texts still at an old default follow the new default.
+			foreach ( array( 'btn_reject' => 'Reject all', 'btn_settings' => 'Preferences', 'btn_save' => 'Save preferences' ) as $k => $old ) {
+				if ( isset( $saved[ $k ] ) && $old === $saved[ $k ] ) {
+					$o[ $k ] = $d[ $k ];
+				}
+			}
 			$o['int'] = ICC_Integrations::merge( isset( $saved['int'] ) ? $saved['int'] : array() );
 			self::$cache = apply_filters( 'icc_options', $o );
 		}
@@ -191,7 +198,7 @@ class ICC_Options {
 		$raw  = current_user_can( 'unfiltered_html' );
 		$out  = array();
 
-		$text = array( 'policy_text', 'btn_accept', 'btn_reject', 'btn_settings', 'btn_save', 'prefs_title', 'necessary_label', 'always_active', 'fab_label', 'dns_text' );
+		$text = array( 'policy_text', 'btn_accept', 'btn_reject', 'btn_settings', 'btn_save', 'btn_cancel', 'prefs_title', 'necessary_label', 'always_active', 'fab_label', 'dns_text' );
 		foreach ( $text as $k ) {
 			$out[ $k ] = isset( $in[ $k ] ) ? sanitize_text_field( $in[ $k ] ) : $d[ $k ];
 		}

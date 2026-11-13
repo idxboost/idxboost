@@ -35,6 +35,12 @@ $force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_in
 $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
 	?>
 	<script>
+
+			if (!window.filterRenderDefault) {
+			    window.filterRenderDefault = [];
+			}
+
+			
 		// var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
 		var __flex_g_settings = {
 			propertyDetailPermalink: '<?php echo get_site_url(); ?>/property'
@@ -44,9 +50,32 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			searchFilterPermalink : '<?php echo get_permalink(); ?>',
 		};
 
+		<?php 
+			$render_item =["id" => $rando_id, "filters" => [],"type" => "exclusive","render" => "wrap-exclusive-{$rando_id}"   ];
+
+			if ( is_array($responseParms) && count($responseParms) > 0) {
+				echo 'window.paramsMapSearch = '. json_encode($responseParms).';';
+				$render_item["filters"] = $responseParms;
+				echo ' var itemRand = '. json_encode($render_item);
+			}
+		?>
+
+
 		window.idx_main_settings = {
 			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
+			render: "root-search-<?php echo $rando_id; ?>",
 			is_exclusive_listing: true,
+		    data: itemRand?.filters?.status === true
+		        ? (itemRand.filters.data ?? {})
+		        : {},
+
+		    extra: itemRand?.filters?.status === true
+		        ? (itemRand.filters.extra ?? {})
+		        : {},
+		     hasMap: '<?php echo $atts['has_map']; ?>',
+		     disclaimer: '<?php echo $atts['disclaimer']; ?>',
+		     printer: '<?php echo $atts['printer']; ?>',
+		    adom: '<?php echo $atts['dom']; ?>',	        		        
 			paths: '<?php echo FLEX_IDX_URI."react/new_search_filter/"; ?>',
 			mode: '<?php echo $atts["mode"]; ?>',
 			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
@@ -80,15 +109,6 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		}	
 		
 		window.idxtoken = "<?php echo $access_token_service; ?>";
-		<?php 
-			$render_item =["id" => $rando_id, "filters" => [],"type" => "exclusive","render" => "wrap-exclusive-{$rando_id}"   ];
-
-			if ( is_array($responseParms) && count($responseParms) > 0) {
-				echo 'window.paramsMapSearch = '. json_encode($responseParms).';';
-				$render_item["filters"] = $responseParms;
-				echo ' var itemRand = '. json_encode($render_item);
-			}
-		?>
 
 		<?php if ($atts["mode"] == "slider") { ?>
 			
@@ -98,7 +118,11 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 
 			window.filterRender.push(itemRand);
 							
-		<?php } ?>		
+		<?php } ?>	
+
+		<?php if ($atts["mode"] != "slider") { ?>	
+			window.filterRenderDefault.push(window.idx_main_settings);
+		<?php } ?>	
 	</script>  
 
 	<!-- 
@@ -237,7 +261,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<?php if ($atts["mode"] == "slider") { ?>		
 	<div id="wrap-exclusive-<?php echo $rando_id;?>">
 	<?php }else { ?>		
-	<div id="root-search">
+	<div id="root-search-<?php echo $rando_id;?>">
 	<?php } ?>			
 		<img 
 			src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg"

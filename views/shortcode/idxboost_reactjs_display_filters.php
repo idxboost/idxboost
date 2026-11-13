@@ -35,6 +35,12 @@ $force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_in
 $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
 	?>
 	<script>
+
+			if (!window.filterRenderDefault) {
+			    window.filterRenderDefault = [];
+			}
+
+			
 		// var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
 		var __flex_g_settings = {
 			propertyDetailPermalink: '<?php echo get_site_url(); ?>/property'
@@ -44,45 +50,6 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			searchFilterPermalink : '<?php echo get_permalink(); ?>',
 		};
 
-		window.idx_main_settings = {
-			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
-			is_display_filter: true,
-			paths: '<?php echo ($atts["type_filter"]  !="default") ? FLEX_IDX_URI . 'react/display_filter_custom_for/assets/' :  FLEX_IDX_URI."react/new_search_filter/"; ?>',
-			mode: '<?php echo $atts["mode"]; ?>',
-			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
-			type_filter: '<?php echo $atts['type_filter']; ?>',
-			lookup_previous_sold: '<?php echo $atts['lookup_previous_sold']; ?>',
-			lookup_previous_sold_value: '<?php echo $atts['lookup_previous_sold_value']; ?>',			
-			oh: '<?php echo $atts["oh"]; ?>',
-			link: '<?php echo $atts["link"]; ?>',
-			title: '<?php echo $atts["title"]; ?>',
-			gallery: '<?php echo $atts["gallery"]; ?>',
-			name_button: '<?php echo $atts["name_button"]; ?>',
-			slider_item: '<?php echo $atts["slider_item"]; ?>',
-			limit: '<?php echo $atts["limit"]; ?>',
-			saveListings: '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
-			rk: '<?php echo get_option('flex_idx_alerts_keys'); ?>',
-			wp_web_id: '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
-			active_ai: '<?php echo $ia_search; ?>',
-			force_registration: Boolean(<?php echo $force_registration; ?>),
-			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
-			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
-			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
-			access_token:"<?php echo $api_idx_access_token; ?>",
-			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
-
-			search_settings: <?php
-			if ( !empty($atts["filter_id"]) )
-				echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
-			else
-				echo json_encode($idxboost_search_settings); ?>,
-			
-			additional_tags: <?php echo json_encode(empty($atts['tags']) 
-				? [] 
-				: array_map('trim', explode(',', $atts['tags']))); ?>
-		}	
-		
-		window.idxtoken = "<?php echo $access_token_service; ?>";
 		<?php 
 			$render_item =["id" => $rando_id, "filters" => [],"type" => "displayfilter","render" => "wrap-display-{$rando_id}"   ];
 
@@ -117,6 +84,59 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			}
 		?>
 
+		window.idx_main_settings = {
+			// search_filter_settings:<?php echo json_encode($idxboost_search_filter_settings); ?>,
+			render: "root-search-<?php echo $rando_id; ?>",
+			is_display_filter: true,
+		    data: itemRand?.filters?.status === true
+		        ? (itemRand.filters.data ?? {})
+		        : {},
+
+		    extra: itemRand?.filters?.status === true
+		        ? (itemRand.filters.extra ?? {})
+		        : {},
+			paths: '<?php echo ($atts["type_filter"]  !="default") ? FLEX_IDX_URI . 'react/display_filter_custom_for/assets/' :  FLEX_IDX_URI."react/new_search_filter/"; ?>',
+			mode: '<?php echo $atts["mode"]; ?>',
+			is_commercial: '<?php echo $atts["is_commercial"]; ?>',
+			type_filter: '<?php echo $atts['type_filter']; ?>',
+			lookup_previous_sold: '<?php echo $atts['lookup_previous_sold']; ?>',
+			lookup_previous_sold_value: '<?php echo $atts['lookup_previous_sold_value']; ?>',			
+		     hasMap: '<?php echo $atts['has_map']; ?>',
+		     disclaimer: '<?php echo $atts['disclaimer']; ?>',
+		     printer: '<?php echo $atts['printer']; ?>',
+		     adom: '<?php echo $atts['dom']; ?>',	        		        
+			oh: '<?php echo $atts["oh"]; ?>',
+			link: '<?php echo $atts["link"]; ?>',
+			title: '<?php echo $atts["title"]; ?>',
+			gallery: '<?php echo $atts["gallery"]; ?>',
+			name_button: '<?php echo $atts["name_button"]; ?>',
+			slider_item: '<?php echo $atts["slider_item"]; ?>',
+			limit: '<?php echo $atts["limit"]; ?>',
+			saveListings: '<?php echo FLEX_IDX_API_SEARCH_FILTER_SAVE; ?>',
+			rk: '<?php echo get_option('flex_idx_alerts_keys'); ?>',
+			wp_web_id: '<?php echo get_option('flex_idx_alerts_app_id'); ?>',
+			active_ai: '<?php echo $ia_search; ?>',
+			force_registration: Boolean(<?php echo $force_registration; ?>),
+			force_registration_forced: <?php echo  $force_registration == "1" ? json_encode($force_registration_forced) : "undefined"; ?>,
+			signup_left_clicks: <?php echo  $force_registration == "1" ? $signup_left_clicks : "undefined"; ?>,
+			agent_info:<?php echo json_encode($idxboost_agent_info); ?>,
+			access_token:"<?php echo $api_idx_access_token; ?>",
+			board_info : <?php echo @json_encode($idxboost_search_settings['board_info']); ?>,
+
+			search_settings: <?php
+			if ( !empty($atts["filter_id"]) )
+				echo json_encode(array_merge($flex_idx_info['search'], is_array($flex_idx_info['search_filter_settings']) ? $flex_idx_info['search_filter_settings'] : []));
+			else
+				echo json_encode($idxboost_search_settings); ?>,
+			
+			additional_tags: <?php echo json_encode(empty($atts['tags']) 
+				? [] 
+				: array_map('trim', explode(',', $atts['tags']))); ?>
+		}	
+		
+		window.idxtoken = "<?php echo $access_token_service; ?>";
+
+
 		<?php if ($atts["mode"] == "slider") { ?>		
 			if (!window.filterRender) {
 			    window.filterRender = [];
@@ -125,6 +145,11 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 			window.filterRender.push(itemRand);
 							
 		<?php } ?>		
+
+		<?php if ($atts["mode"] != "slider") { ?>	
+			window.filterRenderDefault.push(window.idx_main_settings);
+		<?php } ?>	
+					
 	</script>  
 
 	<!-- 
@@ -263,7 +288,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<?php if ($atts["mode"] == "slider") { ?>		
 	<div id="wrap-display-<?php echo $rando_id;?>">
 	<?php }else { ?>		
-	<div id="root-search">
+	<div id="root-search-<?php echo $rando_id;?>">
 	<?php } ?>		
 		<img 
 			src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg"
