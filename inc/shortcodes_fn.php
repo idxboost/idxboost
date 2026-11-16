@@ -3240,7 +3240,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                     'title' => '',
                     'link' => '',
                     'disclaimer'=> "false",
-                    'hasMap' => "false",
+                    'has_map' => "yes",
                     'name_button' => 'view more properties',
                     'mode' => 'default',
                     'multi_type' => 'default',
@@ -3394,7 +3394,7 @@ if (!function_exists('flex_idx_filter_sc')) {
                 $responseParms = @json_decode($curlParams_body , true);
 
                 
-                if ( !empty($atts["type_filter"]) ) {
+                if ( !empty($atts["type_filter"]) && $atts["type_filter"] != "default" ) {
                     $responseParms["data"]["for"] = ( is_array($responseParms) && count($responseParms) > 0 && $responseParms["status"] ) ? $atts["type_filter"] : $responseParms["data"]["for"];
                 }
 

@@ -35,11 +35,11 @@ $force_registration_forced =  ($force_registration == "1") ?  $idxboost_agent_in
 $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agent"]["signup_left_clicks"]) && !empty($flex_idx_info["agent"]["signup_left_clicks"]) ? (int)$flex_idx_info["agent"]["signup_left_clicks"] : 0); 
 	?>
 	<script>
-
+/*
 			if (!window.filterRenderDefault) {
 			    window.filterRenderDefault = [];
 			}
-
+*/
 			
 		// var localURL = '<?php echo get_stylesheet_directory_uri(); ?>/shortcode/idx-search/';
 		var __flex_g_settings = {
@@ -121,7 +121,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 		<?php } ?>	
 
 		<?php if ($atts["mode"] != "slider") { ?>	
-			window.filterRenderDefault.push(window.idx_main_settings);
+			//window.filterRenderDefault.push(window.idx_main_settings);
 		<?php } ?>	
 	</script>  
 
@@ -261,7 +261,7 @@ $signup_left_clicks = ($force_registration == "1" &&  isset($flex_idx_info["agen
 	<?php if ($atts["mode"] == "slider") { ?>		
 	<div id="wrap-exclusive-<?php echo $rando_id;?>">
 	<?php }else { ?>		
-	<div id="root-search-<?php echo $rando_id;?>">
+	<div id="root-search">
 	<?php } ?>			
 		<img 
 			src="https://idxboost-spw-assets.idxboost.us/photos/white-square.jpg"
