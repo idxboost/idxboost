@@ -679,8 +679,9 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                         <button class="ms-sf-btn msContactModal btn-request">Request Information</button>
                     </div>
 
-                    <?php if ( !empty($broker_name) ) { ?>
-                        <p><b>Listing Courtesy of </b><?php echo $broker_name; ?></p>
+
+                    <?php if ( $flex_idx_info["board_id"] == "43" && !empty($broker_name) ) { ?>
+                        <!--<p><b>Listing Courtesy of </b><?php echo $broker_name; ?></p>-->
                     <?php } ?>
 
                     <?php if (in_array($flex_idx_info["board_id"], [31, 33])) {
@@ -2493,7 +2494,7 @@ if ("1" == $flex_idx_info["agent"]["force_registration"]): ?>
                                             
                                             $disclaimer = str_replace('{officeName}', $property["office_name"], (is_array($extra_board_selected) && count($extra_board_selected) > 0 ) ? $extra_board_selected["description"] :  $property['board_info']["board_disclaimer"]);
 
-                                            $disclaimer = str_replace('{office_phone}', '<a href="tel:' . $property["phone_office"] . '">' . $property["phone_office"] . '</a>', $disclaimer);
+                                            $disclaimer = str_replace('{office_phone}', $property["phone_office"], $disclaimer);
                                             
                                             $disclaimer = str_replace('{AgentPhone}', $agent_phone_property, $disclaimer);
                                             $disclaimer = str_replace('{AgentName}', $agent_name_property, $disclaimer);
